@@ -30,7 +30,6 @@ jobs:
         cd ./docs
         sphinx-apidoc -o . ..
         make html
-
     - name: Pushing to master
         uses: github-actions-x/commit@v2.6
         with:
