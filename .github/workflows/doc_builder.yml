@@ -31,9 +31,9 @@ jobs:
         sphinx-apidoc -o . ..
         make html
     - name: Pushing to master
-        uses: github-actions-x/commit@v2.6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          push-branch: master
-          commit-message: 'New doc!'
-          rebase: 'true' # pull abd rebase before commit
+      uses: github-actions-x/commit@v2.6
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        push-branch: master
+        commit-message: 'New doc!'
+        rebase: 'true' # pull abd rebase before commit
