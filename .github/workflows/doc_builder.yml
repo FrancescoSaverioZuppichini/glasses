@@ -18,6 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
+        repository: https://github.com/FrancescoSaverioZuppichini/eyes
         ref: develop
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
