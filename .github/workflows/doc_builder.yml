@@ -11,6 +11,8 @@ on:
 
 jobs:
   build:
+    runs-on: ubuntu-latest
+    strategy:
       matrix:
         python-version: [3.7]
     steps:
