@@ -5,9 +5,9 @@ name: Doc Builder
 
 on:
   push:
-    branches: [ master, develop ]
+    branches: [ develop ]
   pull_request:
-    branches: [ master ]
+    branches: [ develop ]
 
 jobs:
   build:
@@ -17,6 +17,7 @@ jobs:
         python-version: [3.7]
     steps:
     - uses: actions/checkout@v2
+      ref: 'develop'
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -30,10 +31,12 @@ jobs:
         cd ./docs
         sphinx-apidoc -o . ..
         make html
-    - name: Pushing to master
-      uses: github-actions-x/commit@v2.6
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        push-branch: master
-        commit-message: 'New doc!'
-        rebase: 'true' # pull abd rebase before commit
+    - name: Commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "Add changes" -a
+    - name: Push changes
+        uses: ad-m/github-push-action@develop
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
