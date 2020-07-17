@@ -155,61 +155,6 @@
 <h1>eyes.utils package<a class="headerlink" href="#eyes-utils-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-eyes.utils">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-eyes.utils" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="eyes.utils.Conv2dPad">
-<em class="property">class </em><code class="sig-prename descclassname">eyes.utils.</code><code class="sig-name descname">Conv2dPad</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="n">mode</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.utils.Conv2dPad" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.conv.Conv2d</span></code></p>
-<p>Replacement for nn.Conv2d with padding by default.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">conv</span> <span class="o">=</span> <span class="n">Conv2dPad</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="go">[1,1,5,5]</span>
-</pre></div>
-</div>
-<dl class="py attribute">
-<dt id="eyes.utils.Conv2dPad.MODES">
-<code class="sig-name descname">MODES</code><em class="property"> = ['auto']</em><a class="headerlink" href="#eyes.utils.Conv2dPad.MODES" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="eyes.utils.Conv2dPad.bias">
-<code class="sig-name descname">bias</code><a class="headerlink" href="#eyes.utils.Conv2dPad.bias" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="eyes.utils.Lambda">
-<em class="property">class </em><code class="sig-prename descclassname">eyes.utils.</code><code class="sig-name descname">Lambda</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lambd</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span>torch.Tensor<span class="p">]</span><span class="p">, </span>torch.Tensor<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.utils.Lambda" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>[summary]</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>lambd</strong> (<em>Callable</em><em>[</em><em>Tensor</em><em>]</em>) – A function that does something</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">add_two</span> <span class="o">=</span> <span class="n">Lambda</span><span class="p">(</span><span class="n">lambd</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">add_two</span><span class="p">(</span><span class="n">Tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">]))</span> <span class="o">//</span> <span class="mi">2</span>
-</pre></div>
-</div>
-<dl class="py method">
-<dt id="eyes.utils.Lambda.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="headerlink" href="#eyes.utils.Lambda.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 </div>
 
