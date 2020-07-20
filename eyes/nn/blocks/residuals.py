@@ -5,7 +5,9 @@ from typing import Callable
 from functools import partial
 
 class Residual(nn.Module):
-    """It applies a function on the input and the output of a `nn.Module`
+    """It applies residual connection to a `nn.Module` where the output becomes
+
+    :math:`y = F(x) + x`
 
     Examples:
         >>> block = nn.Identity() // does nothing 
