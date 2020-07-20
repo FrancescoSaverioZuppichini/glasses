@@ -19,8 +19,7 @@ class Residual(nn.Module):
         You can also pass a `shortcut` function
 
         >>> res = Residual(block, res_func=lambda x, res: x + res, shortcut=lambda x: x * 2)
-        >>> res(x)
-        >>> tensor([3])
+        >>> res(x) // tensor([3])
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/torchlego/blob/develop/doc/images/Residual_shorcut.png?raw=true
 
