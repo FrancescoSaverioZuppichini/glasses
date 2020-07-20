@@ -171,8 +171,7 @@
 <img alt="https://github.com/FrancescoSaverioZuppichini/torchlego/blob/develop/doc/images/Residual.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/torchlego/blob/develop/doc/images/Residual.png?raw=true" />
 <p>You can also pass a <cite>shortcut</cite> function</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">Residual</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">res_func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">res</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tensor</span><span class="p">([</span><span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">//</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">3</span><span class="p">])</span>
 </pre></div>
 </div>
 <img alt="https://github.com/FrancescoSaverioZuppichini/torchlego/blob/develop/doc/images/Residual_shorcut.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/torchlego/blob/develop/doc/images/Residual_shorcut.png?raw=true" />
