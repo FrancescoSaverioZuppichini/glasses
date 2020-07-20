@@ -10,7 +10,7 @@ class Residual(nn.Module):
     :math:`y = F(x) + x`
 
     Examples:
-        >>> block = nn.Identity() // does nothing 
+        >>> block = nn.Identity() // does nothing
         >>> res = Residual(block, res_func=lambda x, res: x + res)
         >>> res(x) // tensor([2])
 
