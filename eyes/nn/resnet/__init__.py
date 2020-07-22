@@ -1,4 +1,4 @@
-import torch.nn as nn
+from torch import nn
 from torch import Tensor
 from ..blocks.residuals import ResidualAdd
 from collections import OrderedDict
