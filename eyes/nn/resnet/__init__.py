@@ -14,10 +14,10 @@ class ResNetShorcut(nn.Module):
         out_features (int): features (channels) of the desidered output
     """
 
-    def __init__(self, in_features: int, out_features: int):
+    def __init__(self, in_features: int, out_features: int, stride: int = 2):
         super().__init__()
         self.conv = nn.Conv2d(in_features, out_features,
-                              kernel_size=1, stride=2, bias=False)
+                              kernel_size=1, stride=stride, bias=False)
         self.bn = nn.BatchNorm2d(out_features)
 
     def forward(self, x: Tensor) -> Tensor:
@@ -29,7 +29,7 @@ class ResNetShorcut(nn.Module):
 class ResNetBasicBlock(nn.Module):
     expansion: int = 1
 
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = nn.ReLU):
+    def __init__(self, in_features: int, out_features: int, downsampling: int = 1, activation: nn.Module = nn.ReLU):
         """Basic ResNet block composed by two 3x3 convs.
 
         Args:
@@ -43,14 +43,14 @@ class ResNetBasicBlock(nn.Module):
             nn.Sequential(
                 OrderedDict(
                     {
-                        'conv1': nn.Conv2d(in_features, out_features, kernel_size=3, stride=2 if self.should_apply_shortcut else 1, padding=1, bias=False),
+                        'conv1': nn.Conv2d(in_features, out_features, kernel_size=3, stride=downsampling, padding=1, bias=False),
                         'bn1': nn.BatchNorm2d(out_features),
                         'act1': activation(),
                         'conv2': nn.Conv2d(out_features, out_features, kernel_size=3, padding=1, bias=False),
                         'bn2': nn.BatchNorm2d(out_features),
                     }
                 )),
-            shortcut=ResNetShorcut(in_features, out_features)  if self.should_apply_shortcut  else None)
+            shortcut=ResNetShorcut(in_features, out_features, downsampling) if self.should_apply_shortcut else None)
 
         self.act = activation()
 
@@ -61,18 +61,18 @@ class ResNetBasicBlock(nn.Module):
         return x
 
     @property
-    def should_apply_shortcut(self):
-        return self.in_features != self.out_features
-
-    @property
     def expanded_channels(self):
         return self.out_features * self.expansion
+
+    @property
+    def should_apply_shortcut(self):
+        return self.in_features != self.expanded_channels
 
 
 class ResNetBottleNeckBlock(ResNetBasicBlock):
     expansion: int = 4
 
-    def __init__(self, in_features: int, out_features: int, expansion: int = 4, activation: nn.Module = nn.ReLU):
+    def __init__(self, in_features: int, out_features: int, downsampling: int = 1, expansion: int = 4, activation: nn.Module = nn.ReLU):
         """Basic ResNet block composed by two 3x3 convs.
 
         Args:
@@ -86,25 +86,27 @@ class ResNetBottleNeckBlock(ResNetBasicBlock):
             nn.Sequential(
                 OrderedDict(
                     {
-                        'conv1': nn.Conv2d(in_features, out_features, kernel_size=1, stride=2 if self.should_apply_shortcut else 1, bias=False),
+                        'conv1': nn.Conv2d(in_features, out_features, kernel_size=1, bias=False),
                         'bn1': nn.BatchNorm2d(out_features),
                         'act1': activation(),
-                        'conv2': nn.Conv2d(out_features, out_features, kernel_size=3, padding=1, bias=False),
+                        'conv2': nn.Conv2d(out_features, out_features, kernel_size=3, stride=downsampling, padding=1, bias=False),
                         'bn2': nn.BatchNorm2d(out_features),
                         'act2': activation(),
                         'conv3': nn.Conv2d(out_features, out_features * expansion, kernel_size=1, bias=False),
                         'bn3': nn.BatchNorm2d(out_features * expansion),
                     }
                 )),
-            shortcut=ResNetShorcut(in_features, out_features * expansion))
+            shortcut=ResNetShorcut(in_features, out_features * expansion, downsampling) if self.should_apply_shortcut else None)
 
 
 class ResNetLayer(nn.Module):
     def __init__(self, in_channels: int, out_channels: int, block: nn.Module = ResNetBasicBlock, n: int = 1, *args, **kwargs):
         super().__init__()
+        # 'We perform downsampling directly by convolutional layers that have a stride of 2.'
+        downsampling = 2 if in_channels != out_channels else 1
 
         self.blocks = nn.Sequential(
-            block(in_channels, out_channels, *args, **kwargs),
+            block(in_channels, out_channels, downsampling=downsampling, *args, **kwargs),
             *[block(out_channels * block.expansion,
                     out_channels, *args, **kwargs) for _ in range(n - 1)]
         )
@@ -179,6 +181,7 @@ class ResNet(nn.Module):
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
+
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = ResNetEncoder(in_channels, *args, **kwargs)
