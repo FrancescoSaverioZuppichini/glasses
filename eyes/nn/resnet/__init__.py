@@ -5,6 +5,11 @@ from collections import OrderedDict
 from typing import List
 from functools import partial
 
+
+"""Implementations of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>` 
+"""
+
+
 ReLUInPlace = partial(nn.ReLU, inplace=True)
 
 
@@ -31,15 +36,22 @@ class ResNetShorcut(nn.Module):
 
 class ResNetBasicBlock(nn.Module):
     expansion: int = 1
+    """Basic ResNet block composed by two 3x3 convs with residual connection.
 
+    .. image:: https://github.com/FrancescoSaverioZuppichini/ResNet/blob/master/images/residual.png?raw=true
+
+    The output of the layer is defined as:
+
+    :math:`x' = F(x) + x`
+
+    Args:
+        in_features (int): [description]
+        out_features (int): [description]
+        activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
+        downsampling (int, optional): [description]. Defaults to 1.
+        conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
+    """
     def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d):
-        """Basic ResNet block composed by two 3x3 convs.
-
-        Args:
-            in_features (int): features (channels) of the input
-            out_features (int): features (channels) of the desidered output
-            activation (nn.Module, optional): Activation applied between the weights. Defaults to nn.ReLU(inplace=True).
-        """
         super().__init__()
         self.in_features, self.out_features = in_features, out_features
         self.expanded_channels = self.out_features * self.expansion
@@ -73,15 +85,17 @@ class ResNetBasicBlock(nn.Module):
 class ResNetBottleNeckBlock(ResNetBasicBlock):
     expansion: int = 4
 
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, expansion: int = 4):
-        """Basic ResNet block composed by two 3x3 convs.
+    """ResNet BottleNeck block
 
         Args:
-            in_features (int): features (channels) of the input
-            out_features (int): features (channels) of the desidered output
-            expansion (int): expansion factor of the output features (channels)
-            activation (nn.Module, optional): Activation applied between the weights. Defaults to nn.ReLU(inplace=True).
-        """
+            in_features (int): [description]
+            out_features (int): [description]
+            activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
+            downsampling (int, optional): [description]. Defaults to 1.
+            conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
+            expansion (int, optional): [description]. Defaults to 4.
+    """
+    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, expansion: int = 4):
         super().__init__(in_features, out_features, activation, downsampling)
         self.block = nn.Sequential(
             OrderedDict(
@@ -173,7 +187,7 @@ class ResnetDecoder(nn.Module):
 
 
 class ResNet(nn.Module):
-    """Scalable implementation of ResNet proposed in "Deep Residual Learning for Image Recognition"(https://arxiv.org/abs/1512.03385)
+    """Implementations of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`_ 
 
     Args:
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
@@ -186,10 +200,20 @@ class ResNet(nn.Module):
         self.decoder = ResnetDecoder(
             self.encoder.blocks[-1].blocks[-1].expanded_channels, n_classes)
 
+        self.initialize()
+
     def forward(self, x):
         x = self.encoder(x)
         x = self.decoder(x)
         return x
+
+    def initialize(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight)
+            elif isinstance(m, nn.BatchNorm2d):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
 
 
 def resnet18(*args, **kwargs) -> ResNet:
