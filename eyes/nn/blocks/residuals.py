@@ -10,7 +10,7 @@ class Residual(nn.Module):
     :math:`y = F(x) + x`
 
     Examples:
-        >>> block = nn.Identity() // does nothing 
+        >>> block = nn.Identity() // does nothing
         >>> res = Residual(block, res_func=lambda x, res: x + res)
         >>> res(x) // tensor([2])
 
@@ -50,8 +50,10 @@ class Residual(nn.Module):
             x = self.res_func(x, res)
         return x
 
+def add(x: Tensor, res: Tensor) ->  Tensor:
+    return x.add_(res)
 
-ResidualAdd = partial(Residual, res_func=lambda x, res: x + res)
+ResidualAdd = partial(Residual, res_func=add)
 ResidualCat = partial(Residual, res_func=lambda x, res: torch.cat([x, res]))
 ResidualCat2d = partial(ResidualCat, res_func=lambda x,
                         res: torch.cat([x, res], dim=1))
