@@ -10,6 +10,7 @@ def test_add():
     adder = ResidualAdd(nn.Identity())
     # 1 + 1
     assert adder(x) == 2
+    x = torch.tensor(1)
     adder = ResidualAdd(nn.Identity(), shortcut=add_one)
     # 1 + 1 + 1
     assert adder(x) == 3
