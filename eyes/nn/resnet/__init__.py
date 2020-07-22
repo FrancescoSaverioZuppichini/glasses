@@ -84,7 +84,8 @@ class ResNetBasicBlockConvs(nn.Module):
 
 
 class ResNetBasicBlock(nn.Module):
-    expansion:int = 1
+    expansion: int = 1
+
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = nn.ReLU(inplace=True)):
         """Basic ResNet block composed by two 3x3 convs. 
 
@@ -114,9 +115,9 @@ class ResNetBasicBlock(nn.Module):
         return self.in_features != self.out_features
 
 
-
 class ResNetBottleNeckBlock(ResNetBasicBlock):
-    expansion:int = 4
+    expansion: int = 4
+
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = nn.ReLU(inplace=True)):
         """Basic ResNet block composed by two 3x3 convs. 
 
@@ -135,12 +136,12 @@ class ResNetBottleNeckBlock(ResNetBasicBlock):
 
 
 class ResNetLayer(nn.Module):
-    def __init__(self, in_channels: int, out_channels:int , block: nn.Module=ResNetBasicBlock, n:int=1, *args, **kwargs):
+    def __init__(self, in_channels: int, out_channels: int, block: nn.Module = ResNetBasicBlock, n: int = 1, *args, **kwargs):
         super().__init__()
-        
+
         self.blocks = nn.Sequential(
-            block(in_channels , out_channels, *args, **kwargs),
-            *[block(out_channels * block.expansion, 
+            block(in_channels, out_channels, *args, **kwargs),
+            *[block(out_channels * block.expansion,
                     out_channels, *args, **kwargs) for _ in range(n - 1)]
         )
 
