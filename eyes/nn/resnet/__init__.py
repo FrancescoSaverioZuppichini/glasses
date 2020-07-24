@@ -328,7 +328,7 @@ class ResNet(nn.Module):
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet18.png?raw=true
 
         Returns:
-            ResNet: [description]
+            ResNet: A resnet18 model
         """
         return cls(*args, **kwargs, block=block, deepths=[2, 2, 2, 2])
 
@@ -339,7 +339,7 @@ class ResNet(nn.Module):
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet34.png?raw=true
 
         Returns:
-            ResNet: [description]
+            ResNet: A resnet34 model
         """
         return cls(*args, **kwargs, block=block, deepths=[3, 4, 6, 3])
 
@@ -350,7 +350,7 @@ class ResNet(nn.Module):
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet50.png?raw=true
 
         Returns:
-            ResNet: [description]
+            ResNet: A resnet50 model
         """
         return cls(*args, **kwargs, block=block, deepths=[3, 4, 6, 3])
 
@@ -361,7 +361,7 @@ class ResNet(nn.Module):
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet101.png?raw=true
 
         Returns:
-            ResNet: [description]
+            ResNet: A resnet101 model
         """
         return cls(*args, **kwargs, block=block, deepths=[3, 4, 23, 3])
 
@@ -372,7 +372,7 @@ class ResNet(nn.Module):
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet152.png?raw=true
 
         Returns:
-            ResNet: [description]
+            ResNet: A resnet152 model
         """
         return cls(*args, **kwargs, block=block, deepths=[3, 8, 36, 3])
 
