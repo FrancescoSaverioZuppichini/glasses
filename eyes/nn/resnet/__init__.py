@@ -7,7 +7,7 @@ from typing import List
 from functools import partial
 
 
-"""Implementations of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>` 
+"""Implementations of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`
 """
 
 
@@ -38,6 +38,7 @@ class ResNetShorcut(nn.Module):
 class ResNetBasicBlock(nn.Module):
     expansion: int = 1
     """Basic ResNet block composed by two 3x3 convs with residual connection.
+
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/ResNet/blob/master/images/residual.png?raw=true
 
@@ -190,7 +191,7 @@ class ResnetDecoder(nn.Module):
 
 
 class ResNet(nn.Module):
-    """Implementations of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`_ 
+    """Implementations of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`_
 
     Args:
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
@@ -220,22 +221,57 @@ class ResNet(nn.Module):
 
     @classmethod
     def resnet18(cls, *args, **kwargs) -> ResNet:
+        """Create a resnet18 model
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet18.png?raw=true
+
+        Returns:
+            ResNet: [description]
+        """
         return cls(*args, **kwargs, block=ResNetBasicBlock, deepths=[2, 2, 2, 2])
 
     @classmethod
     def resnet34(cls, *args, **kwargs) -> ResNet:
+        """Create a resnet34 model
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet34.png?raw=true
+
+        Returns:
+            ResNet: [description]
+        """
         return cls(*args, **kwargs, block=ResNetBasicBlock, deepths=[3, 4, 6, 3])
 
     @classmethod
     def resnet50(cls, *args, **kwargs) -> ResNet:
+        """Create a resnet50 model
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet50.png?raw=true
+
+        Returns:
+            ResNet: [description]
+        """
         return cls(*args, **kwargs, block=ResNetBottleNeckBlock, deepths=[3, 4, 6, 3])
 
     @classmethod
     def resnet101(cls, *args, **kwargs) -> ResNet:
+        """Create a resnet101 model
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet101.png?raw=true
+
+        Returns:
+            ResNet: [description]
+        """
         return cls(*args, **kwargs, block=ResNetBottleNeckBlock, deepths=[3, 4, 23, 3])
 
     @classmethod
     def resnet152(cls, *args, **kwargs) -> ResNet:
+        """Create a resnet152 model
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet152.png?raw=true
+
+        Returns:
+            ResNet: [description]
+        """
         return cls(*args, **kwargs, block=ResNetBottleNeckBlock, deepths=[3, 8, 36, 3])
 
 
