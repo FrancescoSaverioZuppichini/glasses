@@ -37,10 +37,11 @@ class ResNetShorcut(nn.Module):
 
 class ResNetBasicBlock(nn.Module):
     expansion: int = 1
-    """Basic ResNet block composed by two 3x3 convs with residual connection.
+    """Basic ResNet block composed by two 3x3 convs with residual connection. 
 
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNetBasicBlock.png?raw=true
 
-    .. image:: https://github.com/FrancescoSaverioZuppichini/ResNet/blob/master/images/residual.png?raw=true
+    *The residual connection is showed as a black line*
 
     The output of the layer is defined as:
 
@@ -88,15 +89,20 @@ class ResNetBasicBlock(nn.Module):
 class ResNetBottleNeckBlock(ResNetBasicBlock):
     expansion: int = 4
 
-    """ResNet BottleNeck block
+    """ResNet BottleNeck block is composed by three convs layer. 
+    The expensive 3x3 conv is computed after a cheap 1x1 conv donwsample the input resulting in less parameters. Later, another conv 1v1 upsample the output to the correct channel size
 
-        Args:
-            in_features (int): [description]
-            out_features (int): [description]
-            activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
-            downsampling (int, optional): [description]. Defaults to 1.
-            conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
-            expansion (int, optional): [description]. Defaults to 4.
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNetBottleNeckBlock.png?raw=true
+
+    *The residual connection is showed as a black line*
+
+    Args:
+        in_features (int): [description]
+        out_features (int): [description]
+        activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
+        downsampling (int, optional): [description]. Defaults to 1.
+        conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
+        expansion (int, optional): [description]. Defaults to 4.
     """
 
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, expansion: int = 4):
@@ -273,7 +279,6 @@ class ResNet(nn.Module):
             ResNet: [description]
         """
         return cls(*args, **kwargs, block=ResNetBottleNeckBlock, deepths=[3, 8, 36, 3])
-
 
 
 ResNet.resnet18()
