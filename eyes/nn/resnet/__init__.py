@@ -154,7 +154,7 @@ class ResNetBottleNeckPreActBlock(ResNetBasicBlock):
                     'bn2': nn.BatchNorm2d(out_features),
                     'act2': activation(),
                     'conv2': conv(out_features, out_features, kernel_size=3, stride=downsampling, padding=1, bias=False),
-                    'bn3': nn.BatchNorm2d(out_features * self.expansion),
+                    'bn3': nn.BatchNorm2d(out_features),
                     'conv3': conv(out_features, out_features * self.expansion, kernel_size=1, bias=False),
                     'act3': activation(),
                 }
