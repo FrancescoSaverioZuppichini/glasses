@@ -22,9 +22,9 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'Test'
-copyright = '2020, Me'
-author = 'Me'
+project = 'Glasses'
+copyright = '2020, Francesco Saverio Zuppichini & Francesco Cicala'
+author = 'Francesco Saverio Zuppichini & Francesco Cicala'
 
 
 # -- General configuration ---------------------------------------------------
