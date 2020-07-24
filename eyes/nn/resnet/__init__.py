@@ -1,3 +1,4 @@
+from __future__ import annotations
 from torch import nn
 from torch import Tensor
 from ..blocks.residuals import ResidualAdd
@@ -51,6 +52,7 @@ class ResNetBasicBlock(nn.Module):
         downsampling (int, optional): [description]. Defaults to 1.
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
     """
+
     def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d):
         super().__init__()
         self.in_features, self.out_features = in_features, out_features
@@ -95,6 +97,7 @@ class ResNetBottleNeckBlock(ResNetBasicBlock):
             conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
             expansion (int, optional): [description]. Defaults to 4.
     """
+
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, expansion: int = 4):
         super().__init__(in_features, out_features, activation, downsampling)
         self.block = nn.Sequential(
@@ -116,7 +119,7 @@ class ResNetLayer(nn.Module):
         # 'We perform downsampling directly by convolutional layers that have a stride of 2.'
         downsampling = 2 if in_channels != out_channels else 1
 
-        self.blocks = nn.Sequential(
+        self.block = nn.Sequential(
             block(in_channels, out_channels, *args,
                   downsampling=downsampling,  **kwargs),
             *[block(out_channels * block.expansion,
@@ -124,7 +127,7 @@ class ResNetLayer(nn.Module):
         )
 
     def forward(self, x: Tensor) -> Tensor:
-        x = self.blocks(x)
+        x = self.block(x)
         return x
 
 
@@ -198,7 +201,7 @@ class ResNet(nn.Module):
         super().__init__()
         self.encoder = ResNetEncoder(in_channels, *args, **kwargs)
         self.decoder = ResnetDecoder(
-            self.encoder.blocks[-1].blocks[-1].expanded_channels, n_classes)
+            self.encoder.blocks[-1].block[-1].expanded_channels, n_classes)
 
         self.initialize()
 
@@ -215,22 +218,26 @@ class ResNet(nn.Module):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
 
+    @classmethod
+    def resnet18(cls, *args, **kwargs) -> ResNet:
+        return cls(*args, **kwargs, block=ResNetBasicBlock, deepths=[2, 2, 2, 2])
 
-def resnet18(*args, **kwargs) -> ResNet:
-    return ResNet(*args, **kwargs, block=ResNetBasicBlock, deepths=[2, 2, 2, 2])
+    @classmethod
+    def resnet34(cls, *args, **kwargs) -> ResNet:
+        return cls(*args, **kwargs, block=ResNetBasicBlock, deepths=[3, 4, 6, 3])
+
+    @classmethod
+    def resnet50(cls, *args, **kwargs) -> ResNet:
+        return cls(*args, **kwargs, block=ResNetBottleNeckBlock, deepths=[3, 4, 6, 3])
+
+    @classmethod
+    def resnet101(cls, *args, **kwargs) -> ResNet:
+        return cls(*args, **kwargs, block=ResNetBottleNeckBlock, deepths=[3, 4, 23, 3])
+
+    @classmethod
+    def resnet152(cls, *args, **kwargs) -> ResNet:
+        return cls(*args, **kwargs, block=ResNetBottleNeckBlock, deepths=[3, 8, 36, 3])
 
 
-def resnet34(*args, **kwargs) -> ResNet:
-    return ResNet(*args, **kwargs, block=ResNetBasicBlock, deepths=[3, 4, 6, 3])
 
-
-def resnet50(*args, **kwargs) -> ResNet:
-    return ResNet(*args, **kwargs, block=ResNetBottleNeckBlock, deepths=[3, 4, 6, 3])
-
-
-def resnet101(*args, **kwargs) -> ResNet:
-    return ResNet(*args, **kwargs, block=ResNetBottleNeckBlock, deepths=[3, 4, 23, 3])
-
-
-def resnet152(*args, **kwargs) -> ResNet:
-    return ResNet(*args, **kwargs, block=ResNetBottleNeckBlock, deepths=[3, 8, 36, 3])
+ResNet.resnet18()
