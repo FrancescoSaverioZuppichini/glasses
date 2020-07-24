@@ -34,6 +34,7 @@ author = 'Francesco Saverio Zuppichini & Francesco Cicala'
 # ones.
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.githubpages",
     'sphinx.ext.coverage',
     "sphinx.ext.napoleon",
     "sphinx_rtd_theme",
@@ -62,7 +63,7 @@ html_theme = "sphinx_rtd_theme"
 html_static_path = ['_static']
 
 source_parsers = {
-   '.md': 'recommonmark.parser.CommonMarkParser',
+    '.md': 'recommonmark.parser.CommonMarkParser',
 }
 
 source_suffix = ['.rst', '.md']
