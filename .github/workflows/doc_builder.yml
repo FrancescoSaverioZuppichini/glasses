@@ -4,6 +4,8 @@
 name: Doc Builder
 
 on:
+  push:
+    branches: [ master ]
   pull_request:
     branches: [ develop ]
 
