@@ -1,5 +1,5 @@
 import torch
-from eyes.utils import Conv2dPad
+from eyes.nn.blocks import Conv2dPad
 
 def test_conv2dpad():
     x = torch.rand((1, 1, 5, 5))

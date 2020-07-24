@@ -1,3 +1,4 @@
+docs/_build/
 #
 .vscode/
 # Byte-compiled / optimized / DLL files
@@ -70,8 +71,8 @@ instance/
 # Scrapy stuff:
 .scrapy
 
-# Sphinx documentation
-docs/_build/
+# # Sphinx documentation
+# docs/_build/
 
 # PyBuilder
 target/
