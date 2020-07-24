@@ -123,6 +123,15 @@ class ResNetBottleNeckBlock(ResNetBasicBlock):
 
 
 class ResNetBasicPreActBlock(ResNetBottleNeckBlock):
+    """Pre activation ResNet basic block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
+
+    Args:
+        in_features (int): [description]
+        out_features (int): [description]
+        activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
+        downsampling (int, optional): [description]. Defaults to 1.
+        conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
+    """
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, *args, **kwars):
         super().__init__(in_features, out_features, activation, downsampling, *args, **kwars)
         self.block = nn.Sequential(
@@ -141,6 +150,16 @@ class ResNetBasicPreActBlock(ResNetBottleNeckBlock):
 
 
 class ResNetBottleNeckPreActBlock(ResNetBasicBlock):
+    """Pre activation ResNet bottleneck block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
+    
+    Args:
+        in_features (int): [description]
+        out_features (int): [description]
+        activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
+        downsampling (int, optional): [description]. Defaults to 1.
+        conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
+        expansion (int, optional): [description]. Defaults to 4.
+    """
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, expansion: int = 4, *args, **kwars):
         super().__init__(in_features, out_features, activation,
                          downsampling, expansion, *args, **kwars)
