@@ -112,12 +112,55 @@ class ResNetBottleNeckBlock(ResNetBasicBlock):
                 {
                     'conv1': conv(in_features, out_features, kernel_size=1, bias=False),
                     'bn1': nn.BatchNorm2d(out_features),
+                    'act1': activation(),
                     'conv2': conv(out_features, out_features, kernel_size=3, stride=downsampling, padding=1, bias=False),
                     'bn2': nn.BatchNorm2d(out_features),
+                    'act2': activation(),
                     'conv3': conv(out_features, out_features * expansion, kernel_size=1, bias=False),
                     'bn3': nn.BatchNorm2d(out_features * expansion),
                 }
             ))
+
+
+class ResNetBasicPreActBlock(ResNetBottleNeckBlock):
+    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, *args, **kwars):
+        super().__init__(in_features, out_features, activation, downsampling, *args, **kwars)
+        self.block = nn.Sequential(
+            OrderedDict(
+                {
+                    'bn1': nn.BatchNorm2d(out_features),
+                    'act1': activation(),
+                    'conv1': conv(in_features, out_features, kernel_size=3, stride=downsampling, padding=1, bias=False),
+                    'bn2': nn.BatchNorm2d(out_features),
+                    'act2': activation(),
+                    'conv2': conv(out_features, out_features, kernel_size=3, padding=1, bias=False),
+                }
+            ))
+
+        self.act = nn.Identity()
+
+
+class ResNetBottleNeckPreActBlock(ResNetBasicBlock):
+    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, expansion: int = 4, *args, **kwars):
+        super().__init__(in_features, out_features, activation,
+                         downsampling, expansion, *args, **kwars)
+        # TODO I am not sure it is correct
+        self.block = nn.Sequential(
+            OrderedDict(
+                {
+                    'bn1': nn.BatchNorm2d(out_features),
+                    'act1': activation(),
+                    'conv1': conv(in_features, out_features, kernel_size=1, bias=False),
+                    'bn2': nn.BatchNorm2d(out_features),
+                    'act2': activation(),
+                    'conv2': conv(out_features, out_features, kernel_size=3, stride=downsampling, padding=1, bias=False),
+                    'bn3': nn.BatchNorm2d(out_features * self.expansion),
+                    'conv3': conv(out_features, out_features * self.expansion, kernel_size=1, bias=False),
+                    'act3': activation(),
+                }
+            ))
+
+        self.act = nn.Identity()
 
 
 class ResNetLayer(nn.Module):
@@ -212,7 +255,7 @@ class ResNet(nn.Module):
 
         self.initialize()
 
-    def forward(self, x):
+    def forward(self, x: Tensor) -> Tensor:
         x = self.encoder(x)
         x = self.decoder(x)
         return x
