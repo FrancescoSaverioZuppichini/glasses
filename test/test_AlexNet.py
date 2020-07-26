@@ -1,5 +1,5 @@
 import torch
-from eyes.nn.alexnet import AlexNet
+from eyes.nn.models.classification.alexnet import AlexNet
 
 
 def test_alexnet():

@@ -1,5 +1,5 @@
 import torch
-from eyes.nn.resnet import ResNet
+from eyes.nn.models.classification.resnet import ResNet
 
 
 def test_resnet():
