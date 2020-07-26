@@ -199,7 +199,6 @@ class ResNetLayer(nn.Module):
         x = self.block(x)
         return x
 
-
 class ResNetEncoder(nn.Module):
     """
     ResNet encoder composed by increasing different layers with increasing features.
