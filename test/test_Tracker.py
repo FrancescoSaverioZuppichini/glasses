@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from eyes.utils.Tracker import Tracker
+from glasses.utils.Tracker import Tracker
 
 def test_tracker():
     x = torch.rand(64, 1)
