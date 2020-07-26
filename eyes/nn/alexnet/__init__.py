@@ -4,6 +4,8 @@ from torch import Tensor
 from collections import OrderedDict
 from typing import List
 from functools import partial
+from ..resnet import ReLUInPlace
+
 
 
 """Implementations of AlexNet proposed in `ImageNet Classification with Deep Convolutional Neural Networks <https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks>`, 
@@ -11,10 +13,7 @@ according to the re-implementation in torchvision.models.
 """
 
 
-ReLUInPlace = partial(nn.ReLU, inplace=True)
-
-
-class AlexNet_BasicBlock(nn.Module):
+class AlexNetBasicBlock(nn.Module):
     """Basic AlexNet block composed by one 3x3 conv. 
 
 
@@ -43,13 +42,13 @@ class AlexNet_BasicBlock(nn.Module):
     
     
     
-class AlexNet_Encoder(nn.Module):
+class AlexNetEncoder(nn.Module):
     """
     AlexNet encoder, composed by a gate which decreases the size of the filters by means of stride and bigger kernels, and simple convolutional layers.
     """
 
     def __init__(self, in_channels: int = 3, blocks_sizes: List[int] = [192, 384, 256, 256],
-                 activation: nn.Module = ReLUInPlace, block: nn.Module = AlexNet_BasicBlock, *args, **kwargs):
+                 activation: nn.Module = ReLUInPlace, block: nn.Module = AlexNetBasicBlock, *args, **kwargs):
         super().__init__()
 
         self.blocks_sizes = blocks_sizes
@@ -85,7 +84,7 @@ class AlexNet_Encoder(nn.Module):
 
     
     
-class AlexNet_Decoder(nn.Module):
+class AlexNetDecoder(nn.Module):
     """
     This class represents the classifier of AlexNet. It converts the filters into 6x6 by means of the average pooling. Then, it maps the output to the
     correct class by means of fully connected layers. Dropout is used to decrease the overfitting.
@@ -142,8 +141,8 @@ class AlexNet(nn.Module):
 
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
-        self.encoder = AlexNet_Encoder(in_channels, *args, **kwargs)
-        self.decoder = AlexNet_Decoder(self.encoder.blocks[-1].out_features, n_classes)
+        self.encoder = AlexNetEncoder(in_channels, *args, **kwargs)
+        self.decoder = AlexNetDecoder(self.encoder.blocks[-1].out_features, n_classes)
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.encoder(x)
