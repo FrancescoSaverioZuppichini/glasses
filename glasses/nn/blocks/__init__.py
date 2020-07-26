@@ -69,7 +69,7 @@ class ConvBnAct(nn.Sequential):
                 (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
 
-    We also provides additional module built on top of this one: `ConvBn`, `ConvAct`, `Conv3x3BnAct`
+    We also provide additional modules built on top of this one: `ConvBn`, `ConvAct`, `Conv3x3BnAct`
     Args:
             in_features (int): [description]
             out_features (int): [description]
