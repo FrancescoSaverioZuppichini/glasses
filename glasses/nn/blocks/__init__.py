@@ -7,6 +7,10 @@ from typing import Callable
 from torch import Tensor
 from enum import Enum
 
+
+ReLUInPlace = partial(nn.ReLU, inplace=True)
+
+
 class Lambda(nn.Module):
     """[summary]
     
@@ -23,6 +27,7 @@ class Lambda(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         return self.lambd(x)
+
 
 class Conv2dPad(nn.Conv2d):
     """
@@ -41,3 +46,24 @@ class Conv2dPad(nn.Conv2d):
         if mode == 'auto':
             # dynamic add padding based on the kernel_size
             self.padding = (self.kernel_size[0] // 2, self.kernel_size[1] // 2)
+
+
+class ConvAct(nn.Module):
+    """Basic block composed by a convolution with adaptive padding followed by an activation function. 
+
+    Args:
+        in_features (int): [description]
+        out_features (int): [description]
+        activation (nn.Module, optional): [description]. Default is ReLUInPlace.
+        conv (nn.Module, optional): [description]. Default is Conv2dPad.
+        kernel_size (int): [description]. Default is 3.
+    """
+
+    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace, conv: nn.Module = Conv2dPad, kernel_size: int = 3, **kwargs):
+        super().__init__()
+        self.conv = conv(in_features, out_features, kernel_size=kernel_size, **kwargs)
+        self.act = activation()
+
+    def forward(self, x: Tensor) -> Tensor:
+        x = self.act(self.conv(x))
+        return x
