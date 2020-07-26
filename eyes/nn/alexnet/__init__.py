@@ -47,7 +47,7 @@ class AlexNetEncoder(nn.Module):
     AlexNet encoder, composed by a gate which decreases the size of the filters by means of stride and bigger kernels, and simple convolutional layers.
     """
 
-    def __init__(self, in_channels: int = 3, blocks_sizes: List[int] = [192, 384, 256, 256],
+    def __init__(self, in_channels: int = 3, blocks_sizes: List[int] = [64, 192, 384, 256, 256],
                  activation: nn.Module = ReLUInPlace, block: nn.Module = AlexNetBasicBlock, *args, **kwargs):
         super().__init__()
 
@@ -56,10 +56,10 @@ class AlexNetEncoder(nn.Module):
         self.gate = nn.Sequential(
             OrderedDict(
                 {
-                    'conv1': nn.Conv2d(in_channels, 64, kernel_size=(11, 11), stride=(4, 4), padding=(2, 2)),
+                    'conv1': nn.Conv2d(in_channels, blocks_sizes[0], kernel_size=(11, 11), stride=(4, 4), padding=(2, 2)),
                     'act1': activation(),
                     'pool1': nn.MaxPool2d(kernel_size=3, stride=2, padding=0),
-                    'conv2': nn.Conv2d(64, blocks_sizes[0], kernel_size=(5, 5), stride=(1, 1), padding=(2, 2)),
+                    'conv2': nn.Conv2d(blocks_sizes[0], blocks_sizes[1], kernel_size=(5, 5), stride=(1, 1), padding=(2, 2)),
                     'act2': activation(),
                     'pool2': nn.MaxPool2d(kernel_size=3, stride=2, padding=0),
                 }
@@ -67,7 +67,7 @@ class AlexNetEncoder(nn.Module):
         )
         
     
-        self.in_out_block_sizes = list(zip(blocks_sizes[:-1], blocks_sizes[1:]))
+        self.in_out_block_sizes = list(zip(blocks_sizes[1:-1], blocks_sizes[2:]))
         self.blocks = nn.ModuleList([
             *[block(in_channels, out_channels, activation=activation)
               for (in_channels, out_channels) in self.in_out_block_sizes]
