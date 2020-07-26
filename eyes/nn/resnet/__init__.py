@@ -86,10 +86,10 @@ class ResNetBasicBlock(nn.Module):
         return x
 
 
-class ResNetBottleNeckBlock(ResNetBasicBlock):
+class ResNetBottleneckBlock(ResNetBasicBlock):
     expansion: int = 4
 
-    """ResNet BottleNeck block is composed by three convs layer. 
+    """ResNet Bottleneck block is composed by three convs layer. 
     The expensive 3x3 conv is computed after a cheap 1x1 conv donwsample the input resulting in less parameters. Later, another conv 1v1 upsample the output to the correct channel size
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNetBottleNeckBlock.png?raw=true
@@ -122,7 +122,7 @@ class ResNetBottleNeckBlock(ResNetBasicBlock):
             ))
 
 
-class ResNetBasicPreActBlock(ResNetBottleNeckBlock):
+class ResNetBasicPreActBlock(ResNetBottleneckBlock):
     """Pre activation ResNet basic block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
 
     Args:
@@ -149,8 +149,8 @@ class ResNetBasicPreActBlock(ResNetBottleNeckBlock):
         self.act = nn.Identity()
 
 
-class ResNetBottleNeckPreActBlock(ResNetBasicBlock):
-    """Pre activation ResNet bottleneck block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
+class ResNetBottleneckPreActBlock(ResNetBasicBlock):
+    """Pre activation ResNet Bottleneck block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
     
     Args:
         in_features (int): [description]
@@ -344,7 +344,7 @@ class ResNet(nn.Module):
         return cls(*args, **kwargs, block=block, deepths=[3, 4, 6, 3])
 
     @classmethod
-    def resnet50(cls, *args, block=ResNetBottleNeckBlock, **kwargs) -> ResNet:
+    def resnet50(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
         """Create a resnet50 model
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet50.png?raw=true
@@ -355,7 +355,7 @@ class ResNet(nn.Module):
         return cls(*args, **kwargs, block=block, deepths=[3, 4, 6, 3])
 
     @classmethod
-    def resnet101(cls, *args, block=ResNetBottleNeckBlock, **kwargs) -> ResNet:
+    def resnet101(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
         """Create a resnet101 model
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet101.png?raw=true
@@ -366,7 +366,7 @@ class ResNet(nn.Module):
         return cls(*args, **kwargs, block=block, deepths=[3, 4, 23, 3])
 
     @classmethod
-    def resnet152(cls, *args, block=ResNetBottleNeckBlock, **kwargs) -> ResNet:
+    def resnet152(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
         """Create a resnet152 model
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet152.png?raw=true
