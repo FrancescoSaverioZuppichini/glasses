@@ -2,7 +2,7 @@ import torch
 from eyes.nn.alexnet import AlexNet
 
 
-def test_resnet():
+def test_alexnet():
     x = torch.rand(1, 3,224,224)
     model = AlexNet.eval()
     pred = model(x)
