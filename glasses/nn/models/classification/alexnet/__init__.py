@@ -5,41 +5,39 @@ from collections import OrderedDict
 from typing import List
 from functools import partial
 from ..resnet import ReLUInPlace
+from ....blocks import ConvAct
 
 
-
-"""Implementations of AlexNet proposed in `ImageNet Classification with Deep Convolutional Neural Networks <https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks>`, 
-according to the re-implementation in torchvision.models.
-"""
-
-
-class AlexNetBasicBlock(nn.Module):
-    """Basic AlexNet block composed by one 3x3 conv. 
-
-
-    Args:
-        in_features (int): [description]
-        out_features (int): [description]
-        activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
-        conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
+AlexNetBasicBlock = ConvAct
+    
+    
+class AlexNetGateBlock(nn.Module):
+    """
+    AlexNet gate, the head of the architecture, which decreases the size of the filters by means of stride and bigger kernels.
     """
 
-    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace, conv: nn.Module = nn.Conv2d):
+    out_features: int = 192
+
+    def __init__(self, in_channels: int = 3):
         super().__init__()
-        self.in_features, self.out_features = in_features, out_features
+
         self.block = nn.Sequential(
             OrderedDict(
                 {
-                    'conv': conv(in_features, out_features, kernel_size=3, padding=1, bias=False),
-                    'act': activation()
+                    'conv1': nn.Conv2d(in_channels, 64, kernel_size=(11, 11), stride=(4, 4), padding=(2, 2)),
+                    'act1': ReLUInPlace(),
+                    'pool1': nn.MaxPool2d(kernel_size=3, stride=2, padding=0),
+                    'conv2': nn.Conv2d(64, 192, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2)),
+                    'act2': ReLUInPlace(),
+                    'pool2': nn.MaxPool2d(kernel_size=3, stride=2, padding=0),
                 }
-            ))
-        self.act = activation()
+            )
+        )
+        self.out_features = 192
 
-    def forward(self, x: Tensor) -> Tensor:
+    def forward(self, x):
         x = self.block(x)
         return x
-    
     
     
 class AlexNetEncoder(nn.Module):
@@ -47,29 +45,20 @@ class AlexNetEncoder(nn.Module):
     AlexNet encoder, composed by a gate which decreases the size of the filters by means of stride and bigger kernels, and simple convolutional layers.
     """
 
-    def __init__(self, in_channels: int = 3, blocks_sizes: List[int] = [64, 192, 384, 256, 256],
+    def __init__(self, in_channels: int = 3, blocks_sizes: List[int] = [384, 256, 256],
                  activation: nn.Module = ReLUInPlace, block: nn.Module = AlexNetBasicBlock, *args, **kwargs):
         super().__init__()
 
         self.blocks_sizes = blocks_sizes
+        self.out_features = blocks_sizes[-1]
+        self.block = AlexNetBasicBlock
 
-        self.gate = nn.Sequential(
-            OrderedDict(
-                {
-                    'conv1': nn.Conv2d(in_channels, blocks_sizes[0], kernel_size=(11, 11), stride=(4, 4), padding=(2, 2)),
-                    'act1': activation(),
-                    'pool1': nn.MaxPool2d(kernel_size=3, stride=2, padding=0),
-                    'conv2': nn.Conv2d(blocks_sizes[0], blocks_sizes[1], kernel_size=(5, 5), stride=(1, 1), padding=(2, 2)),
-                    'act2': activation(),
-                    'pool2': nn.MaxPool2d(kernel_size=3, stride=2, padding=0),
-                }
-            )
-        )
+        self.gate = AlexNetGateBlock()
         
-    
-        self.in_out_block_sizes = list(zip(blocks_sizes[1:-1], blocks_sizes[2:]))
+        self.in_out_block_sizes = list(zip(blocks_sizes[:-1], blocks_sizes[1:]))
         self.blocks = nn.ModuleList([
-            *[block(in_channels, out_channels, activation=activation)
+            block(self.gate.out_features, blocks_sizes[0], activation=activation, kernel_size=3),
+            *[block(in_channels, out_channels, activation=activation, kernel_size=3)
               for (in_channels, out_channels) in self.in_out_block_sizes]
         ])
         
@@ -90,17 +79,19 @@ class AlexNetDecoder(nn.Module):
     correct class by means of fully connected layers. Dropout is used to decrease the overfitting.
     """
     filter_size: int = 6
-    def __init__(self, in_features: int, n_classes: int, widths: List[int] = [4096, 4096], 
-                 activation: nn.Module = ReLUInPlace, dropout_probability: float = 0.5):
+    def __init__(self, in_features: int, n_classes: int):
         super().__init__()
         self.avg = nn.AdaptiveAvgPool2d((self.filter_size, self.filter_size))
-        self.fc = nn.Sequential(nn.Dropout(p=dropout_probability),
-                                nn.Linear(self.filter_size * self.filter_size * in_features, widths[0]),
-                                activation(),
-                                nn.Dropout(p=dropout_probability),
-                                nn.Linear(widths[0], widths[1]),
-                                activation(),
-                                nn.Linear(widths[1], n_classes))        
+        self.fc = nn.Sequential(
+                OrderedDict({
+                    'decoder_dropout1': nn.Dropout(p=0.5),
+                    'decoder_linear1': nn.Linear(self.filter_size * self.filter_size * in_features, 4096),
+                    'decoder_relu1': ReLUInPlace(),
+                    'decoder_dropout2': nn.Dropout(p=0.5),
+                    'decoder_linear2':nn.Linear(4096, 4096),
+                    'decoder_relu2': ReLUInPlace(),
+                    'decoder_linear3': nn.Linear(4096, n_classes)
+                    }))
 
     def forward(self, x):
         x = self.avg(x)
@@ -110,7 +101,7 @@ class AlexNetDecoder(nn.Module):
     
     
 class AlexNet(nn.Module):
-    """Implementation of AlexNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`, 
+    """Implementation of AlexNet proposed in `ImageNet Classification with Deep Convolutional Neural Networks <https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf>`, 
     according to the `variation <https://pytorch.org/docs/stable/_modules/torchvision/models/alexnet.html>` implemented in torchvision.
 
     Create a default model
@@ -142,7 +133,7 @@ class AlexNet(nn.Module):
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = AlexNetEncoder(in_channels, *args, **kwargs)
-        self.decoder = AlexNetDecoder(self.encoder.blocks[-1].out_features, n_classes)
+        self.decoder = AlexNetDecoder(self.encoder.out_features, n_classes)
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.encoder(x)
