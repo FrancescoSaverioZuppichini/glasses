@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
-from eyes.utils.ModuleTransfer import ModuleTransfer
-from eyes.utils.Tracker import Tracker
+from glasses.utils.ModuleTransfer import ModuleTransfer
+from glasses.utils.Tracker import Tracker
 
 def test_ModuleTransfer():
     model_a = nn.Sequential(nn.Linear(1, 64), nn.ReLU(), nn.Linear(64,10), nn.ReLU())
