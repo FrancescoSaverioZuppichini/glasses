@@ -151,8 +151,45 @@
             
   <div class="section" id="eyes-nn-senet-package">
 <h1>eyes.nn.senet package<a class="headerlink" href="#eyes-nn-senet-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-eyes.nn.senet">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-eyes.nn.senet" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="eyes.nn.senet.SENetBasicBlock">
+<em class="property">class </em><code class="sig-prename descclassname">eyes.nn.senet.</code><code class="sig-name descname">SENetBasicBlock</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">out_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">reduction</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">16</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.nn.senet.SENetBasicBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="eyes.nn.resnet.html#eyes.nn.resnet.ResNetBasicBlock" title="eyes.nn.resnet.ResNetBasicBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">eyes.nn.resnet.ResNetBasicBlock</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="eyes.nn.senet.SENetBottleneckBlock">
+<em class="property">class </em><code class="sig-prename descclassname">eyes.nn.senet.</code><code class="sig-name descname">SENetBottleneckBlock</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">out_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">reduction</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">16</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.nn.senet.SENetBottleneckBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="eyes.nn.resnet.html#eyes.nn.resnet.ResNetBottleneckBlock" title="eyes.nn.resnet.ResNetBottleneckBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">eyes.nn.resnet.ResNetBottleneckBlock</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="eyes.nn.senet.se_resnet101">
+<code class="sig-prename descclassname">eyes.nn.senet.</code><code class="sig-name descname">se_resnet101</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="eyes.nn.resnet.html#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">eyes.nn.resnet.ResNet</a><a class="headerlink" href="#eyes.nn.senet.se_resnet101" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="eyes.nn.senet.se_resnet152">
+<code class="sig-prename descclassname">eyes.nn.senet.</code><code class="sig-name descname">se_resnet152</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="eyes.nn.resnet.html#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">eyes.nn.resnet.ResNet</a><a class="headerlink" href="#eyes.nn.senet.se_resnet152" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="eyes.nn.senet.se_resnet18">
+<code class="sig-prename descclassname">eyes.nn.senet.</code><code class="sig-name descname">se_resnet18</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="eyes.nn.resnet.html#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">eyes.nn.resnet.ResNet</a><a class="headerlink" href="#eyes.nn.senet.se_resnet18" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="eyes.nn.senet.se_resnet34">
+<code class="sig-prename descclassname">eyes.nn.senet.</code><code class="sig-name descname">se_resnet34</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="eyes.nn.resnet.html#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">eyes.nn.resnet.ResNet</a><a class="headerlink" href="#eyes.nn.senet.se_resnet34" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="eyes.nn.senet.se_resnet50">
+<code class="sig-prename descclassname">eyes.nn.senet.</code><code class="sig-name descname">se_resnet50</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="eyes.nn.resnet.html#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">eyes.nn.resnet.ResNet</a><a class="headerlink" href="#eyes.nn.senet.se_resnet50" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 </div>
 
