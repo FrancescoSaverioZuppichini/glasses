@@ -11,7 +11,7 @@ from ....blocks import ConvAct
 AlexNetBasicBlock = ConvAct
     
     
-class AlexNetGate(nn.Module):
+class AlexNetGateBlock(nn.Module):
     """
     AlexNet gate, the head of the architecture, which decreases the size of the filters by means of stride and bigger kernels.
     """
@@ -21,7 +21,7 @@ class AlexNetGate(nn.Module):
     def __init__(self, in_channels: int = 3):
         super().__init__()
 
-        self.gate = nn.Sequential(
+        self.block = nn.Sequential(
             OrderedDict(
                 {
                     'conv1': nn.Conv2d(in_channels, 64, kernel_size=(11, 11), stride=(4, 4), padding=(2, 2)),
@@ -36,7 +36,7 @@ class AlexNetGate(nn.Module):
         self.out_features = 192
 
     def forward(self, x):
-        x = self.gate(x)
+        x = self.block(x)
         return x
     
     
@@ -53,9 +53,8 @@ class AlexNetEncoder(nn.Module):
         self.out_features = blocks_sizes[-1]
         self.block = AlexNetBasicBlock
 
-        self.gate = AlexNetGate()
+        self.gate = AlexNetGateBlock()
         
-    
         self.in_out_block_sizes = list(zip(blocks_sizes[:-1], blocks_sizes[1:]))
         self.blocks = nn.ModuleList([
             block(self.gate.out_features, blocks_sizes[0], activation=activation, kernel_size=3),
