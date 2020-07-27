@@ -15,20 +15,20 @@ class SENetBottleneckBlock(ResNetBottleneckBlock):
         
 
 def se_resnet18(*args, **kwargs) -> ResNet:
-    return ResNet(*args, **kwargs, block=SENetBasicBlock, deepths=[2, 2, 2, 2])
+    return ResNet(*args, **kwargs, block=SENetBasicBlock, depths=[2, 2, 2, 2])
 
 
 def se_resnet34(*args, **kwargs) -> ResNet:
-    return ResNet(*args, **kwargs, block=SENetBasicBlock, deepths=[3, 4, 6, 3])
+    return ResNet(*args, **kwargs, block=SENetBasicBlock, depths=[3, 4, 6, 3])
 
 
 def se_resnet50(*args, **kwargs) -> ResNet:
-    return ResNet(*args, **kwargs, block=SENetBottleneckBlock, deepths=[3, 4, 6, 3])
+    return ResNet(*args, **kwargs, block=SENetBottleneckBlock, depths=[3, 4, 6, 3])
 
 
 def se_resnet101(*args, **kwargs) -> ResNet:
-    return ResNet(*args, **kwargs, block=SENetBottleneckBlock, deepths=[3, 4, 23, 3])
+    return ResNet(*args, **kwargs, block=SENetBottleneckBlock, depths=[3, 4, 23, 3])
 
 
 def se_resnet152(*args, **kwargs) -> ResNet:
-    return ResNet(*args, **kwargs, block=SENetBottleneckBlock, deepths=[3, 8, 36, 3])
+    return ResNet(*args, **kwargs, block=SENetBottleneckBlock, depths=[3, 8, 36, 3])

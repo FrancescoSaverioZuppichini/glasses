@@ -204,7 +204,7 @@ class ResNetEncoder(nn.Module):
     ResNet encoder composed by increasing different layers with increasing features.
     """
 
-    def __init__(self, in_channels: int = 3, blocks_sizes: List[int] = [64, 128, 256, 512], deepths: List[int] = [2, 2, 2, 2],
+    def __init__(self, in_channels: int = 3, blocks_sizes: List[int] = [64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2],
                  activation: nn.Module = ReLUInPlace, block: nn.Module = ResNetBasicBlock, *args, **kwargs):
         super().__init__()
 
@@ -224,12 +224,12 @@ class ResNetEncoder(nn.Module):
 
         self.in_out_block_sizes = list(zip(blocks_sizes, blocks_sizes[1:]))
         self.blocks = nn.ModuleList([
-            ResNetLayer(blocks_sizes[0], blocks_sizes[0], n=deepths[0], activation=activation,
+            ResNetLayer(blocks_sizes[0], blocks_sizes[0], n=depths[0], activation=activation,
                         block=block,  *args, **kwargs),
             *[ResNetLayer(in_channels * block.expansion,
                           out_channels, n=n, activation=activation,
                           block=block, *args, **kwargs)
-              for (in_channels, out_channels), n in zip(self.in_out_block_sizes, deepths[1:])]
+              for (in_channels, out_channels), n in zip(self.in_out_block_sizes, depths[1:])]
         ])
 
     def forward(self, x):
@@ -329,7 +329,7 @@ class ResNet(nn.Module):
         Returns:
             ResNet: A resnet18 model
         """
-        return cls(*args, **kwargs, block=block, deepths=[2, 2, 2, 2])
+        return cls(*args, **kwargs, block=block, depths=[2, 2, 2, 2])
 
     @classmethod
     def resnet34(cls, *args,  block=ResNetBasicBlock, **kwargs) -> ResNet:
@@ -340,7 +340,7 @@ class ResNet(nn.Module):
         Returns:
             ResNet: A resnet34 model
         """
-        return cls(*args, **kwargs, block=block, deepths=[3, 4, 6, 3])
+        return cls(*args, **kwargs, block=block, depths=[3, 4, 6, 3])
 
     @classmethod
     def resnet50(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
@@ -351,7 +351,7 @@ class ResNet(nn.Module):
         Returns:
             ResNet: A resnet50 model
         """
-        return cls(*args, **kwargs, block=block, deepths=[3, 4, 6, 3])
+        return cls(*args, **kwargs, block=block, depths=[3, 4, 6, 3])
 
     @classmethod
     def resnet101(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
@@ -362,7 +362,7 @@ class ResNet(nn.Module):
         Returns:
             ResNet: A resnet101 model
         """
-        return cls(*args, **kwargs, block=block, deepths=[3, 4, 23, 3])
+        return cls(*args, **kwargs, block=block, depths=[3, 4, 23, 3])
 
     @classmethod
     def resnet152(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
@@ -373,5 +373,5 @@ class ResNet(nn.Module):
         Returns:
             ResNet: A resnet152 model
         """
-        return cls(*args, **kwargs, block=block, deepths=[3, 8, 36, 3])
+        return cls(*args, **kwargs, block=block, depths=[3, 8, 36, 3])
 
