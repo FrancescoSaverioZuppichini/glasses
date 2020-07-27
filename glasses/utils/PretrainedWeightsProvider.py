@@ -6,8 +6,9 @@ from functools import partial
 from typing import Dict
 from torch import Tensor
 from .ModuleTransfer import ModuleTransfer
-from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet152
+from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet152, densenet121, densenet161, densenet169, densenet201
 from ..nn.models.classification.resnet import ResNet
+from ..nn.models.classification.densenet import DenseNet
 from tqdm.autonotebook import tqdm
 from pathlib import Path
 
@@ -23,6 +24,11 @@ class PretrainedWeightsProvider:
         'resnet50': 'https://download.pytorch.org/models/resnet50-19c8e357.pth',
         'resnet101': 'https://download.pytorch.org/models/resnet101-5d3b4d8f.pth',
         'resnet152': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
+
+        'densenet121': 'https://download.pytorch.org/models/densenet121-a639ec97.pth',
+        'densenet169': 'https://download.pytorch.org/models/densenet169-b2777c0a.pth',
+        'densenet201': 'https://download.pytorch.org/models/densenet201-c1103571.pth',
+        'densenet161': 'https://download.pytorch.org/models/densenet161-8d451a50.pth',
     }
 
     zoo_models_mapping = {
@@ -31,10 +37,16 @@ class PretrainedWeightsProvider:
         'resnet50': [partial(resnet50, pretrained=False), ResNet.resnet50],
         'resnet101': [partial(resnet101, pretrained=False), ResNet.resnet101],
         'resnet152': [partial(resnet152, pretrained=False), ResNet.resnet152],
+
+        'densenet121': [partial(densenet121, pretrained=False), DenseNet.densenet121],
+        'densenet169': [partial(densenet169, pretrained=False), DenseNet.densenet169],
+        'densenet201': [partial(densenet121, pretrained=False), DenseNet.densenet201],
+        'densenet161': [partial(densenet161, pretrained=False), DenseNet.densenet161],
     }
+    
 
     save_dir: Path = Path('./')
-    chunk_size: int = 1024 
+    chunk_size: int = 1024
 
     def download_weight(self, url: str, save_path: Path) -> Path:
         r = requests.get(url, stream=True)
@@ -71,7 +83,8 @@ class PretrainedWeightsProvider:
 
     def __getitem__(self, key: str) -> nn.Module:
         if key not in self:
-            raise ValueError(f'Available models are {",".join(list(self.zoo.keys()))}')
+            raise ValueError(
+                f'No weights for model "{key}". Available models are {",".join(list(self.zoo.keys()))}')
         url = self.zoo[key]
         save_path = self.save_dir / Path(key + '.pth')
         self.download_weight(url, save_path)
