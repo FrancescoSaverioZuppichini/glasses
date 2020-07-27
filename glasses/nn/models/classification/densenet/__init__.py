@@ -82,7 +82,7 @@ class DenseNetEncoder(ResNetEncoder):
     """
 
     def __init__(self, in_channels: int = 3, start_features: int = 64,  grow_rate: int = 32,
-                 deepths: List[int] = [4, 4, 4, 4],
+                 depths: List[int] = [4, 4, 4, 4],
                  activation: nn.Module = ReLUInPlace, block: nn.Module = DenseNetBasicBlock, *args, **kwargs):
         super().__init__(in_channels, [64])
 
@@ -90,15 +90,15 @@ class DenseNetEncoder(ResNetEncoder):
 
         in_features = start_features
 
-        for deepth in deepths[:-1]:
+        for deepth in depths[:-1]:
             self.blocks.append(DenseLayer(
                 in_features, grow_rate, deepth, block=block, *args, **kwargs))
             in_features += deepth * grow_rate
             in_features //= 2
 
         self.blocks.append(DenseLayer(
-            in_features, grow_rate, deepths[-1], block=block, *args, transition=False, **kwargs))
-        self.out_features = in_features + deepths[-1] * grow_rate
+            in_features, grow_rate, depths[-1], block=block, *args, transition=False, **kwargs))
+        self.out_features = in_features + depths[-1] * grow_rate
         self.bn = nn.BatchNorm2d(self.out_features)
 
     def forward(self, x):
@@ -124,16 +124,16 @@ class DenseNet(nn.Module):
 
     @classmethod
     def densenet121(cls, in_channels: int = 3,  n_classes: int = 1000, **kwargs):
-        return DenseNet(in_channels, grow_rate=32, deepths=[6, 12, 24, 16], n_classes=n_classes, block=DenseBottleNeckBlock, **kwargs)
+        return DenseNet(in_channels, grow_rate=32, depths=[6, 12, 24, 16], n_classes=n_classes, block=DenseBottleNeckBlock, **kwargs)
 
     @classmethod
     def densenet161(cls, in_channels: int = 3,  n_classes: int = 1000, **kwargs):
-        return DenseNet(in_channels, grow_rate=48, deepths=[6, 12, 36, 24], n_classes=n_classes, block=DenseBottleNeckBlock, **kwargs)
+        return DenseNet(in_channels, grow_rate=48, depths=[6, 12, 36, 24], n_classes=n_classes, block=DenseBottleNeckBlock, **kwargs)
 
     @classmethod
     def densenet169(cls, in_channels: int = 3,  n_classes: int = 1000, **kwargs):
-        return DenseNet(in_channels, grow_rate=32, deepths=[6, 12, 32, 32], n_classes=n_classes, block=DenseBottleNeckBlock, **kwargs)
+        return DenseNet(in_channels, grow_rate=32, depths=[6, 12, 32, 32], n_classes=n_classes, block=DenseBottleNeckBlock, **kwargs)
 
     @classmethod
     def densenet201(cls, in_channels: int = 3,  n_classes: int = 1000, **kwargs):
-        return DenseNet(in_channels, grow_rate=32, deepths=[6, 12, 48, 32], n_classes=n_classes, block=DenseBottleNeckBlock, **kwargs)
+        return DenseNet(in_channels, grow_rate=32, depths=[6, 12, 48, 32], n_classes=n_classes, block=DenseBottleNeckBlock, **kwargs)
