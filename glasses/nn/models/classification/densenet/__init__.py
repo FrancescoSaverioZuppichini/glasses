@@ -107,7 +107,7 @@ class DenseNetEncoder(ResNetEncoder):
         for block in self.blocks:
             x = block(x)
         x = self.bn(x)
-        x = self.act()
+        x = self.act(x)
         return x
 
 

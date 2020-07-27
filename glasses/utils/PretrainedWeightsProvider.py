@@ -32,18 +32,16 @@ class PretrainedWeightsProvider:
     }
 
     zoo_models_mapping = {
-        'resnet18': [partial(resnet18, pretrained=False), ResNet.resnet18],
-        'resnet34': [partial(resnet34, pretrained=False), ResNet.resnet34],
-        'resnet50': [partial(resnet50, pretrained=False), ResNet.resnet50],
-        'resnet101': [partial(resnet101, pretrained=False), ResNet.resnet101],
-        'resnet152': [partial(resnet152, pretrained=False), ResNet.resnet152],
-
-        'densenet121': [partial(densenet121, pretrained=False), DenseNet.densenet121],
-        'densenet169': [partial(densenet169, pretrained=False), DenseNet.densenet169],
-        'densenet201': [partial(densenet121, pretrained=False), DenseNet.densenet201],
-        'densenet161': [partial(densenet161, pretrained=False), DenseNet.densenet161],
+        'resnet18': [partial(resnet18, pretrained=True), ResNet.resnet18],
+        'resnet34': [partial(resnet34, pretrained=True), ResNet.resnet34],
+        'resnet50': [partial(resnet50, pretrained=True), ResNet.resnet50],
+        'resnet101': [partial(resnet101, pretrained=True), ResNet.resnet101],
+        'resnet152': [partial(resnet152, pretrained=True), ResNet.resnet152],
+        'densenet121': [partial(densenet121, pretrained=True), DenseNet.densenet121],
+        'densenet169': [partial(densenet169, pretrained=True), DenseNet.densenet169],
+        'densenet201': [partial(densenet121, pretrained=True), DenseNet.densenet201],
+        'densenet161': [partial(densenet161, pretrained=True), DenseNet.densenet161],
     }
-    
 
     save_dir: Path = Path('./')
     chunk_size: int = 1024
@@ -64,7 +62,7 @@ class PretrainedWeightsProvider:
         src_def, dst_def = self.zoo_models_mapping[key]
         src = src_def().eval()
         dst = dst_def().eval()
-        src.load_state_dict(torch.load(save_path))
+        # src.load_state_dict(torch.load(save_path))
 
         x = torch.rand((1, 3, 224, 224))
         a = src(x)
@@ -87,7 +85,10 @@ class PretrainedWeightsProvider:
                 f'No weights for model "{key}". Available models are {",".join(list(self.zoo.keys()))}')
         url = self.zoo[key]
         save_path = self.save_dir / Path(key + '.pth')
-        self.download_weight(url, save_path)
+        # should_download = not save_path.exists()
+
+        # if should_download: 
+        #     self.download_weight(url, save_path)
         model = self.clone_model(key, save_path)
         return model
 
