@@ -107,6 +107,7 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
 
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, expansion: int = 4):
         super().__init__(in_features, out_features, activation, downsampling)
+        self.expansion = expansion
         self.block = nn.Sequential(
             OrderedDict(
                 {
