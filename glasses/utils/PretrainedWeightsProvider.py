@@ -17,6 +17,14 @@ StateDict = Dict[str, Tensor]
 
 @dataclass
 class PretrainedWeightsProvider:
+    """
+    This class allows to retrieve pretrained models.
+
+    Example:
+        >>> provider = PretrainedWeightsProvider()
+        >>> provider['resnet18'] # get a pre-trained resnet18 model
+
+    """
 
     zoo = {
         'resnet18': 'https://download.pytorch.org/models/resnet18-5c106cde.pth',
