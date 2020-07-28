@@ -100,13 +100,14 @@ class DenseNetEncoder(ResNetEncoder):
             in_features, grow_rate, depths[-1], block=block, *args, transition=False, **kwargs))
         self.out_features = in_features + depths[-1] * grow_rate
         self.bn = nn.BatchNorm2d(self.out_features)
+        self.act = activation()
 
     def forward(self, x):
         x = self.gate(x)
         for block in self.blocks:
             x = block(x)
-
         x = self.bn(x)
+        x = self.act(x)
         return x
 
 

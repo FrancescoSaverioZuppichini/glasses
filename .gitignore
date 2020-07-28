@@ -1,5 +1,6 @@
 docs/_build/
 #
+*.pth
 .vscode/
 # Byte-compiled / optimized / DLL files
 __pycache__/
