@@ -323,7 +323,7 @@ class ResNet(nn.Module):
 
     @classmethod
     def resnet18(cls, *args,  block=ResNetBasicBlock, **kwargs) -> ResNet:
-        """Create a resnet18 model
+        """Creates a resnet18 model
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet18.png?raw=true
 
@@ -334,7 +334,7 @@ class ResNet(nn.Module):
 
     @classmethod
     def resnet34(cls, *args,  block=ResNetBasicBlock, **kwargs) -> ResNet:
-        """Create a resnet34 model
+        """Creates a resnet34 model
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet34.png?raw=true
 
@@ -345,7 +345,7 @@ class ResNet(nn.Module):
 
     @classmethod
     def resnet50(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
-        """Create a resnet50 model
+        """Creates a resnet50 model
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet50.png?raw=true
 
@@ -356,7 +356,7 @@ class ResNet(nn.Module):
 
     @classmethod
     def resnet101(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
-        """Create a resnet101 model
+        """Creates a resnet101 model
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet101.png?raw=true
 
@@ -367,7 +367,7 @@ class ResNet(nn.Module):
 
     @classmethod
     def resnet152(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
-        """Create a resnet152 model
+        """Creates a resnet152 model
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet152.png?raw=true
 
