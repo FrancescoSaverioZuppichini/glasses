@@ -214,6 +214,7 @@ class DenseNet(nn.Module):
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
+
     def __init__(self, in_channels: int = 3,  n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = DenseNetEncoder(in_channels, *args, **kwargs)
@@ -227,7 +228,7 @@ class DenseNet(nn.Module):
 
     @classmethod
     def densenet121(cls, *args, **kwargs) -> DenseNet:
-        """Create a densenet121 model
+        """Creates a densenet121 model. *Grow rate* is set to 32
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNet121.png?raw=true
 
@@ -237,13 +238,34 @@ class DenseNet(nn.Module):
         return DenseNet(*args, grow_rate=32, depths=[6, 12, 24, 16], **kwargs)
 
     @classmethod
-    def densenet161(cls, *args, **kwargs)-> DenseNet:
+    def densenet161(cls, *args, **kwargs) -> DenseNet:
+        """Creates a densenet161 model. *Grow rate* is set to 48
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNet161.png?raw=true
+
+        Returns:
+            DenseNet: A densenet161 model
+        """
         return DenseNet(*args, grow_rate=48, depths=[6, 12, 36, 24], **kwargs)
 
     @classmethod
-    def densenet169(cls, *args, **kwargs)-> DenseNet:
+    def densenet169(cls, *args, **kwargs) -> DenseNet:
+        """Creates a densenet169 model. *Grow rate* is set to 32
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNet169.png?raw=true
+
+        Returns:
+            DenseNet: A densenet169 model
+        """
         return DenseNet(*args, grow_rate=32, depths=[6, 12, 32, 32], **kwargs)
 
     @classmethod
-    def densenet201(cls, *args, **kwargs)-> DenseNet:
+    def densenet201(cls, *args, **kwargs) -> DenseNet:
+        """Creates a densenet201 model. *Grow rate* is set to 32
+
+         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNet201.png?raw=true
+
+         Returns:
+             DenseNet: A densenet201 model
+         """
         return DenseNet(*args, grow_rate=32, depths=[6, 12, 48, 32], **kwargs)
