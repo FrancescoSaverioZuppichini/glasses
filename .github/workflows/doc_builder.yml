@@ -27,7 +27,6 @@ jobs:
         pip install sphinx sphinx_rtd_theme recommonmark torch torchvision
     - name: Build doc
       run: |
-        git pull origin master
         cd ./docs
         sphinx-apidoc -f -o . ..
         make clean
