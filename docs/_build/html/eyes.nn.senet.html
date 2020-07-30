@@ -1,0 +1,243 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>eyes.nn.senet package &mdash; Glasses  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Glasses
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">eyes</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Glasses</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>eyes.nn.senet package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/eyes.nn.senet.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="eyes-nn-senet-package">
+<h1>eyes.nn.senet package<a class="headerlink" href="#eyes-nn-senet-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-eyes.nn.senet">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-eyes.nn.senet" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="eyes.nn.senet.SENetBasicBlock">
+<em class="property">class </em><code class="sig-prename descclassname">eyes.nn.senet.</code><code class="sig-name descname">SENetBasicBlock</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">out_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">reduction</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">16</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.nn.senet.SENetBasicBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="eyes.nn.resnet.html#eyes.nn.resnet.ResNetBasicBlock" title="eyes.nn.resnet.ResNetBasicBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">eyes.nn.resnet.ResNetBasicBlock</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="eyes.nn.senet.SENetBottleNeckBlock">
+<em class="property">class </em><code class="sig-prename descclassname">eyes.nn.senet.</code><code class="sig-name descname">SENetBottleNeckBlock</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">out_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">reduction</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">16</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.nn.senet.SENetBottleNeckBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="eyes.nn.resnet.html#eyes.nn.resnet.ResNetBottleNeckBlock" title="eyes.nn.resnet.ResNetBottleNeckBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">eyes.nn.resnet.ResNetBottleNeckBlock</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="eyes.nn.senet.se_resnet101">
+<code class="sig-prename descclassname">eyes.nn.senet.</code><code class="sig-name descname">se_resnet101</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="eyes.nn.resnet.html#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">eyes.nn.resnet.ResNet</a><a class="headerlink" href="#eyes.nn.senet.se_resnet101" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="eyes.nn.senet.se_resnet152">
+<code class="sig-prename descclassname">eyes.nn.senet.</code><code class="sig-name descname">se_resnet152</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="eyes.nn.resnet.html#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">eyes.nn.resnet.ResNet</a><a class="headerlink" href="#eyes.nn.senet.se_resnet152" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="eyes.nn.senet.se_resnet18">
+<code class="sig-prename descclassname">eyes.nn.senet.</code><code class="sig-name descname">se_resnet18</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="eyes.nn.resnet.html#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">eyes.nn.resnet.ResNet</a><a class="headerlink" href="#eyes.nn.senet.se_resnet18" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="eyes.nn.senet.se_resnet34">
+<code class="sig-prename descclassname">eyes.nn.senet.</code><code class="sig-name descname">se_resnet34</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="eyes.nn.resnet.html#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">eyes.nn.resnet.ResNet</a><a class="headerlink" href="#eyes.nn.senet.se_resnet34" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="eyes.nn.senet.se_resnet50">
+<code class="sig-prename descclassname">eyes.nn.senet.</code><code class="sig-name descname">se_resnet50</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="eyes.nn.resnet.html#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">eyes.nn.resnet.ResNet</a><a class="headerlink" href="#eyes.nn.senet.se_resnet50" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 import torch
-from glasses.nn.models.classification.resnet import ResNet
+from eyes.nn.resnet import ResNet
 
 
 def test_resnet():
