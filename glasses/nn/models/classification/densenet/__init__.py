@@ -70,25 +70,25 @@ class DenseBottleNeckBlock(DenseNetBasicBlock):
 
 
 class TransitionBlock(nn.Module):
-    """A transition block is used to downsample the output using 1x1 conv followed by 2x2 average pooling.
+    """A transition block is used to downsample the output using 1x1 conv followed by 2x2 average pooling. The output's features are further reduced by half.
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNetTransitionBlock.png.png?raw=true
 
     Args:
         in_features (int): [description]
-        out_features (int): [description]
+        factor (int, optional): Reduction factor. Defaults to 2.
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
     """
 
-    def __init__(self, in_features: int, out_features: int, conv: nn.Module = nn.Conv2d, activation: nn.Module = ReLUInPlace):
+    def __init__(self, in_features: int, factor: int = 2, conv: nn.Module = nn.Conv2d, activation: nn.Module = ReLUInPlace):
         super().__init__()
         self.block = nn.Sequential(
             OrderedDict(
                 {
                     'bn': nn.BatchNorm2d(in_features),
                     'act': activation(),
-                    'conv': conv(in_features, out_features,
+                    'conv': conv(in_features, in_features // factor,
                                  kernel_size=1, bias=False),
                     'pool': nn.AvgPool2d(kernel_size=2, stride=2)
                 }
@@ -101,6 +101,7 @@ class TransitionBlock(nn.Module):
 
 class DenseNetLayer(nn.Module):
     """A DenseNet layer is composed by `n` `blocks` stacked together followed by a transition to downsample the output features.
+    To disable the transition block simply pass `None`.
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNetLayer.png.png?raw=true
 
@@ -109,18 +110,18 @@ class DenseNetLayer(nn.Module):
         grow_rate (int, optional): [description]. Defaults to 32.
         n (int, optional): [description]. Defaults to 4.
         block (nn.Module, optional): [description]. Defaults to DenseNetBasicBlock.
-        transition (bool, optional): [description]. Defaults to True.
+        transition_block (nn.Module, optional): [description]. Defaults to TransitionBlock.
     """
 
-    def __init__(self, in_features: int, grow_rate: int = 32, n: int = 4, block: nn.Module = DenseBottleNeckBlock, transition: bool = True, *args, **kwargs):
+    def __init__(self, in_features: int, grow_rate: int = 32, n: int = 4, block: nn.Module = DenseBottleNeckBlock, transition_block: nn.Module = TransitionBlock, *args, **kwargs):
         super().__init__()
         self.out_features = grow_rate * n + in_features
         self.block = nn.Sequential(
             *[block(grow_rate * i + in_features, grow_rate, *args, **kwargs)
               for i in range(n)],
-            # reduce the output features by a factor of 2
-            TransitionBlock(self.out_features, self.out_features //
-                            2, *args, **kwargs) if transition else nn.Identity()
+            # reduce the output's features
+            transition_block(self.out_features, *args, **
+                             kwargs) if transition_block else nn.Identity()
         )
 
     def forward(self, x: Tensor) -> Tensor:
@@ -134,11 +135,11 @@ class DenseNetEncoder(ResNetEncoder):
 
     Args:
         in_channels (int, optional): [description]. Defaults to 3.
-        start_features (int, optional): [description]. Defaults to 64.
-        grow_rate (int, optional): [description]. Defaults to 32.
-        depths (List[int], optional): [description]. Defaults to [4, 4, 4, 4].
-        activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
-        block (nn.Module, optional): [description]. Defaults to DenseNetBasicBlock.
+        start_features (int, optional): Initial gate features size. Defaults to 64.
+        grow_rate (int, optional): Number of features in each conv block. Defaults to 32.
+        depths (List[int], optional): List of layer's depth, each number is the number of blocks in the i-th layer. Defaults to [4, 4, 4, 4].
+        activation (nn.Module, optional): Activation function used. Defaults to ReLUInPlace.
+        block (nn.Module, optional): Block used. Defaults to DenseNetBasicBlock.
     """
 
     def __init__(self, in_channels: int = 3, start_features: int = 64,  grow_rate: int = 32,
@@ -156,17 +157,17 @@ class DenseNetEncoder(ResNetEncoder):
             # in each layer the in_features are equal the features we have so far + the number of layer multiplied by the grow rate
             in_features += deepth * grow_rate
             in_features //= 2
-
+        # last layer does not have a transiction block
         self.blocks.append(DenseNetLayer(
-            in_features, grow_rate, depths[-1], block=block, *args, transition=False, **kwargs))
+            in_features, grow_rate, depths[-1], block=block, transition_block=None, *args, **kwargs))
         self.out_features = in_features + depths[-1] * grow_rate
+        # TODO should the bast `bn` be in the `Encoder?`
         self.bn = nn.BatchNorm2d(self.out_features)
 
     def forward(self, x):
         x = self.gate(x)
         for block in self.blocks:
             x = block(x)
-
         x = self.bn(x)
         return x
 
