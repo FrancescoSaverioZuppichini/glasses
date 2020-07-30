@@ -245,7 +245,7 @@ class DenseNet(nn.Module):
         Returns:
             DenseNet: A densenet161 model
         """
-        return DenseNet(*args, grow_rate=48, depths=[6, 12, 36, 24], **kwargs)
+        return DenseNet(*args, start_features=96, grow_rate=48, depths=[6, 12, 36, 24], **kwargs)
 
     @classmethod
     def densenet169(cls, *args, **kwargs) -> DenseNet:
