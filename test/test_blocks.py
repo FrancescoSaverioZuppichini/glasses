@@ -4,6 +4,7 @@ from torch import nn
 from glasses.nn.blocks import Conv2dPad, ConvBnAct, Lambda
 import pytest
 
+
 def test_Conv2dPad():
     x = torch.rand((1, 1, 5, 5))
     block = Conv2dPad(1, 5, kernel_size=3)
@@ -24,6 +25,7 @@ def test_Lambda():
     x = add_two(Tensor([0]))
     assert x == 2
 
+
 def test_ConvBnAct():
     conv = ConvBnAct(32, 64, kernel_size=3)
     assert conv.conv != None
@@ -40,15 +42,14 @@ def test_ConvBnAct():
     with pytest.raises(AttributeError):
         conv.act
 
-
     conv = ConvBnAct(32, 64, kernel_size=3, normalization=None)
     assert type(conv.conv) is Conv2dPad
     assert type(conv.act) is nn.ReLU
     with pytest.raises(AttributeError):
         conv.bn
 
-    conv = ConvBnAct(32, 64, kernel_size=3, conv=nn.Conv2d, activation=nn.SELU, normalization=nn.Identity)
+    conv = ConvBnAct(32, 64, kernel_size=3, conv=nn.Conv2d,
+                     activation=nn.SELU, normalization=nn.Identity)
     assert type(conv.conv) is nn.Conv2d
     assert type(conv.act) is nn.SELU
     assert type(conv.bn) is nn.Identity
-
