@@ -163,12 +163,14 @@ class DenseNetEncoder(ResNetEncoder):
         self.out_features = in_features + depths[-1] * grow_rate
         # TODO should the bast `bn` be in the `Encoder?`
         self.bn = nn.BatchNorm2d(self.out_features)
+        self.act = activation()
 
     def forward(self, x):
         x = self.gate(x)
         for block in self.blocks:
             x = block(x)
         x = self.bn(x)
+        x = self.act(x)
         return x
 
 

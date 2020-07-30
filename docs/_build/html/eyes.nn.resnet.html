@@ -94,7 +94,7 @@
 <li class="toctree-l4"><a class="reference internal" href="eyes.utils.html">eyes.utils package</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="eyes.html#module-contents">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="eyes.html#module-eyes">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -172,8 +172,348 @@
             
   <div class="section" id="eyes-nn-resnet-package">
 <h1>eyes.nn.resnet package<a class="headerlink" href="#eyes-nn-resnet-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-eyes.nn.resnet">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-eyes.nn.resnet" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="eyes.nn.resnet.ResNet">
+<em class="property">class </em><code class="sig-prename descclassname">eyes.nn.resnet.</code><code class="sig-name descname">ResNet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.nn.resnet.ResNet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Implementations of ResNet proposed in <a class="reference external" href="https://arxiv.org/abs/1512.03385">Deep Residual Learning for Image Recognition</a></p>
+<p>Create a default model</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet34</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet101</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet152</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Customization</p>
+<p>You can easily customize your resnet</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the initial convolution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store each feature</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
+<span class="go">    &gt;&gt;&gt; x = block(x)</span>
+<span class="go">    &gt;&gt;&gt; features.append(x)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># [torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7])]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</p></li>
+<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of classes. Defaults to 1000.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="eyes.nn.resnet.ResNet.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="headerlink" href="#eyes.nn.resnet.ResNet.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="eyes.nn.resnet.ResNet.initialize">
+<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eyes.nn.resnet.ResNet.initialize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="eyes.nn.resnet.ResNet.resnet101">
+<em class="property">classmethod </em><code class="sig-name descname">resnet101</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">block=&lt;class 'eyes.nn.resnet.ResNetBottleNeckBlock'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">eyes.nn.resnet.ResNet</a><a class="headerlink" href="#eyes.nn.resnet.ResNet.resnet101" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a resnet101 model</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet101.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet101.png?raw=true" />
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A resnet101 model</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">ResNet</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="eyes.nn.resnet.ResNet.resnet152">
+<em class="property">classmethod </em><code class="sig-name descname">resnet152</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">block=&lt;class 'eyes.nn.resnet.ResNetBottleNeckBlock'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">eyes.nn.resnet.ResNet</a><a class="headerlink" href="#eyes.nn.resnet.ResNet.resnet152" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a resnet152 model</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet152.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet152.png?raw=true" />
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A resnet152 model</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">ResNet</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="eyes.nn.resnet.ResNet.resnet18">
+<em class="property">classmethod </em><code class="sig-name descname">resnet18</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">block=&lt;class 'eyes.nn.resnet.ResNetBasicBlock'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">eyes.nn.resnet.ResNet</a><a class="headerlink" href="#eyes.nn.resnet.ResNet.resnet18" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a resnet18 model</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet18.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet18.png?raw=true" />
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A resnet18 model</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">ResNet</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="eyes.nn.resnet.ResNet.resnet34">
+<em class="property">classmethod </em><code class="sig-name descname">resnet34</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">block=&lt;class 'eyes.nn.resnet.ResNetBasicBlock'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">eyes.nn.resnet.ResNet</a><a class="headerlink" href="#eyes.nn.resnet.ResNet.resnet34" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a resnet34 model</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet34.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet34.png?raw=true" />
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A resnet34 model</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">ResNet</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="eyes.nn.resnet.ResNet.resnet50">
+<em class="property">classmethod </em><code class="sig-name descname">resnet50</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">block=&lt;class 'eyes.nn.resnet.ResNetBottleNeckBlock'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">eyes.nn.resnet.ResNet</a><a class="headerlink" href="#eyes.nn.resnet.ResNet.resnet50" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a resnet50 model</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet50.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet50.png?raw=true" />
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A resnet50 model</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#eyes.nn.resnet.ResNet" title="eyes.nn.resnet.ResNet">ResNet</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="eyes.nn.resnet.ResNetBasicBlock">
+<em class="property">class </em><code class="sig-prename descclassname">eyes.nn.resnet.</code><code class="sig-name descname">ResNetBasicBlock</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">inplace=True)</em>, <em class="sig-param">downsampling: int = 1</em>, <em class="sig-param">conv: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.conv.Conv2d'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.nn.resnet.ResNetBasicBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<dl class="py attribute">
+<dt id="eyes.nn.resnet.ResNetBasicBlock.expansion">
+<code class="sig-name descname">expansion</code><em class="property">: int</em><em class="property"> = 1</em><a class="headerlink" href="#eyes.nn.resnet.ResNetBasicBlock.expansion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Basic ResNet block composed by two 3x3 convs with residual connection.</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNetBasicBlock.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNetBasicBlock.png?raw=true" />
+<p><em>The residual connection is showed as a black line</em></p>
+<p>The output of the layer is defined as:</p>
+<p><span class="math notranslate nohighlight">\(x' = F(x) + x\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to ReLUInPlace.</p></li>
+<li><p><strong>downsampling</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
+<li><p><strong>conv</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to nn.Conv2d.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="eyes.nn.resnet.ResNetBasicBlock.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="headerlink" href="#eyes.nn.resnet.ResNetBasicBlock.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="eyes.nn.resnet.ResNetBasicPreActBlock">
+<em class="property">class </em><code class="sig-prename descclassname">eyes.nn.resnet.</code><code class="sig-name descname">ResNetBasicPreActBlock</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">inplace=True)</em>, <em class="sig-param">downsampling: int = 1</em>, <em class="sig-param">conv: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.conv.Conv2d'&gt;</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwars</em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.nn.resnet.ResNetBasicPreActBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#eyes.nn.resnet.ResNetBottleNeckBlock" title="eyes.nn.resnet.ResNetBottleNeckBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">eyes.nn.resnet.ResNetBottleNeckBlock</span></code></a></p>
+<p>Pre activation ResNet basic block proposed in <cite>Identity Mappings in Deep Residual Networks &lt;https://arxiv.org/pdf/1603.05027.pdf&gt;</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to ReLUInPlace.</p></li>
+<li><p><strong>downsampling</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
+<li><p><strong>conv</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to nn.Conv2d.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="eyes.nn.resnet.ResNetBottleNeckBlock">
+<em class="property">class </em><code class="sig-prename descclassname">eyes.nn.resnet.</code><code class="sig-name descname">ResNetBottleNeckBlock</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">inplace=True)</em>, <em class="sig-param">downsampling: int = 1</em>, <em class="sig-param">conv: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.conv.Conv2d'&gt;</em>, <em class="sig-param">expansion: int = 4</em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.nn.resnet.ResNetBottleNeckBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#eyes.nn.resnet.ResNetBasicBlock" title="eyes.nn.resnet.ResNetBasicBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">eyes.nn.resnet.ResNetBasicBlock</span></code></a></p>
+<dl class="py attribute">
+<dt id="eyes.nn.resnet.ResNetBottleNeckBlock.expansion">
+<code class="sig-name descname">expansion</code><em class="property">: int</em><em class="property"> = 4</em><a class="headerlink" href="#eyes.nn.resnet.ResNetBottleNeckBlock.expansion" title="Permalink to this definition">¶</a></dt>
+<dd><p>ResNet BottleNeck block is composed by three convs layer.
+The expensive 3x3 conv is computed after a cheap 1x1 conv donwsample the input resulting in less parameters. Later, another conv 1v1 upsample the output to the correct channel size</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNetBottleNeckBlock.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNetBottleNeckBlock.png?raw=true" />
+<p><em>The residual connection is showed as a black line</em></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to ReLUInPlace.</p></li>
+<li><p><strong>downsampling</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
+<li><p><strong>conv</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to nn.Conv2d.</p></li>
+<li><p><strong>expansion</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 4.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="eyes.nn.resnet.ResNetBottleNeckPreActBlock">
+<em class="property">class </em><code class="sig-prename descclassname">eyes.nn.resnet.</code><code class="sig-name descname">ResNetBottleNeckPreActBlock</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">inplace=True)</em>, <em class="sig-param">downsampling: int = 1</em>, <em class="sig-param">conv: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.conv.Conv2d'&gt;</em>, <em class="sig-param">expansion: int = 4</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwars</em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.nn.resnet.ResNetBottleNeckPreActBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#eyes.nn.resnet.ResNetBasicBlock" title="eyes.nn.resnet.ResNetBasicBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">eyes.nn.resnet.ResNetBasicBlock</span></code></a></p>
+<p>Pre activation ResNet bottleneck block proposed in <cite>Identity Mappings in Deep Residual Networks &lt;https://arxiv.org/pdf/1603.05027.pdf&gt;</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to ReLUInPlace.</p></li>
+<li><p><strong>downsampling</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
+<li><p><strong>conv</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to nn.Conv2d.</p></li>
+<li><p><strong>expansion</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 4.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="eyes.nn.resnet.ResNetEncoder">
+<em class="property">class </em><code class="sig-prename descclassname">eyes.nn.resnet.</code><code class="sig-name descname">ResNetEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, blocks_sizes: List[int] = [64, 128, 256, 512], deepths: List[int] = [2, 2, 2, 2], activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;, inplace=True), block: torch.nn.modules.module.Module = &lt;class 'eyes.nn.resnet.ResNetBasicBlock'&gt;, *args, **kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.nn.resnet.ResNetEncoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>ResNet encoder composed by increasing different layers with increasing features.</p>
+<dl class="py method">
+<dt id="eyes.nn.resnet.ResNetEncoder.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.nn.resnet.ResNetEncoder.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="eyes.nn.resnet.ResNetLayer">
+<em class="property">class </em><code class="sig-prename descclassname">eyes.nn.resnet.</code><code class="sig-name descname">ResNetLayer</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int</em>, <em class="sig-param">out_channels: int</em>, <em class="sig-param">block: torch.nn.modules.module.Module = &lt;class 'eyes.nn.resnet.ResNetBasicBlock'&gt;</em>, <em class="sig-param">n: int = 1</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.nn.resnet.ResNetLayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<dl class="py method">
+<dt id="eyes.nn.resnet.ResNetLayer.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="headerlink" href="#eyes.nn.resnet.ResNetLayer.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="eyes.nn.resnet.ResNetShorcut">
+<em class="property">class </em><code class="sig-prename descclassname">eyes.nn.resnet.</code><code class="sig-name descname">ResNetShorcut</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">out_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">stride</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.nn.resnet.ResNetShorcut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Shorcut function applied by ResNet to upsample the channel
+when residual and output features do not match</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<em>int</em>) – features (channels) of the input</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – features (channels) of the desidered output</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="eyes.nn.resnet.ResNetShorcut.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="headerlink" href="#eyes.nn.resnet.ResNetShorcut.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="eyes.nn.resnet.ResnetDecoder">
+<em class="property">class </em><code class="sig-prename descclassname">eyes.nn.resnet.</code><code class="sig-name descname">ResnetDecoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.nn.resnet.ResnetDecoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>This class represents the tail of ResNet. It performs a global pooling and maps the output to the
+correct class by using a fully connected layer.</p>
+<dl class="py method">
+<dt id="eyes.nn.resnet.ResnetDecoder.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#eyes.nn.resnet.ResnetDecoder.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
