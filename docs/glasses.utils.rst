@@ -1,0 +1,30 @@
+glasses.utils package
+=====================
+
+Submodules
+----------
+
+glasses.utils.ModuleTransfer module
+-----------------------------------
+
+.. automodule:: glasses.utils.ModuleTransfer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+glasses.utils.Tracker module
+----------------------------
+
+.. automodule:: glasses.utils.Tracker
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: glasses.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:

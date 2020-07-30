@@ -5,9 +5,9 @@ name: Test Runner
 
 on:
   push:
-    branches: [ master, develop ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master, develop]
 
 jobs:
   build:
@@ -25,7 +25,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pytest  torch torchvision
+        pip install flake8 pytest  torch torchvision coverage
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
@@ -35,4 +35,6 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with unittest
       run: |
-        python -m pytest
+        coverage run --source=. -m py.test
+    - name: Upload coverage
+      uses: codecov/codecov-action@v1
