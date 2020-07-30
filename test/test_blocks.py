@@ -1,7 +1,9 @@
 import torch
-from glasses.nn.blocks import Conv2dPad
+from torch import Tensor
+from torch import nn
+from glasses.nn.blocks import Conv2dPad, ConvAct, Lambda
 
-def test_conv2dpad():
+def test_Conv2dPad():
     x = torch.rand((1, 1, 5, 5))
     block = Conv2dPad(1, 5, kernel_size=3)
     res = block(x)
@@ -14,3 +16,9 @@ def test_conv2dpad():
     assert x.shape[-2] != res.shape[-2]
     assert res.shape[-1] == 3
     assert res.shape[-2] == 3
+
+
+def test_Lambda():
+    add_two = Lambda(lambda x: x + 2)
+    x = add_two(Tensor([0]))
+    assert x == 2
