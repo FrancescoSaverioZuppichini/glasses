@@ -1,7 +1,8 @@
 import torch
 from torch import Tensor
 from torch import nn
-from glasses.nn.blocks import Conv2dPad, ConvAct, Lambda
+from glasses.nn.blocks import Conv2dPad, ConvBnAct, Lambda
+import pytest
 
 def test_Conv2dPad():
     x = torch.rand((1, 1, 5, 5))
@@ -22,3 +23,32 @@ def test_Lambda():
     add_two = Lambda(lambda x: x + 2)
     x = add_two(Tensor([0]))
     assert x == 2
+
+def test_ConvBnAct():
+    conv = ConvBnAct(32, 64, kernel_size=3)
+    assert conv.conv != None
+    assert conv.bn != None
+    assert conv.act != None
+
+    assert type(conv.conv) is Conv2dPad
+    assert type(conv.bn) is nn.BatchNorm2d
+    assert type(conv.act) is nn.ReLU
+
+    conv = ConvBnAct(32, 64, kernel_size=3, activation=None)
+    assert type(conv.conv) is Conv2dPad
+    assert type(conv.bn) is nn.BatchNorm2d
+    with pytest.raises(AttributeError):
+        conv.act
+
+
+    conv = ConvBnAct(32, 64, kernel_size=3, normalization=None)
+    assert type(conv.conv) is Conv2dPad
+    assert type(conv.act) is nn.ReLU
+    with pytest.raises(AttributeError):
+        conv.bn
+
+    conv = ConvBnAct(32, 64, kernel_size=3, conv=nn.Conv2d, activation=nn.SELU, normalization=nn.Identity)
+    assert type(conv.conv) is nn.Conv2d
+    assert type(conv.act) is nn.SELU
+    assert type(conv.bn) is nn.Identity
+
