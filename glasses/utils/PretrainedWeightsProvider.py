@@ -47,7 +47,7 @@ class PretrainedWeightsProvider:
         'resnet152': [partial(resnet152, pretrained=True), ResNet.resnet152],
         'densenet121': [partial(densenet121, pretrained=True), DenseNet.densenet121],
         'densenet169': [partial(densenet169, pretrained=True), DenseNet.densenet169],
-        'densenet201': [partial(densenet121, pretrained=True), DenseNet.densenet201],
+        'densenet201': [partial(densenet201, pretrained=True), DenseNet.densenet201],
         'densenet161': [partial(densenet161, pretrained=True), DenseNet.densenet161],
     }
 
@@ -89,7 +89,7 @@ class PretrainedWeightsProvider:
 
     def __getitem__(self, key: str) -> nn.Module:
         if key not in self:
-            raise ValueError(
+            raise KeyError(
                 f'No weights for model "{key}". Available models are {",".join(list(self.zoo.keys()))}')
         url = self.zoo[key]
         save_path = self.save_dir / Path(key + '.pth')
