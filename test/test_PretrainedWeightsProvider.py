@@ -3,7 +3,8 @@ import torch.nn as nn
 from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
 from glasses.nn.models.classification.resnet import ResNet
 import pytest
-
+from pathlib import Path
+import os
 def test_PretrainedWeightsProvider():
     provider = PretrainedWeightsProvider()
 
@@ -26,5 +27,17 @@ def test_PretrainedWeightsProvider():
     #     assert str(mod) ==  str(mod_prov)
 
     
+
+
+def test_PretrainedWeightsProvider_download_weight():
+    provider = PretrainedWeightsProvider()
+
+    save_path = Path('./resnet.pth')
+    assert not save_path.exists()
+
+    provider.download_weight(PretrainedWeightsProvider.zoo['resnet18'], save_path=save_path)
+    assert save_path.exists()
+
+    os.remove(save_path)
 
     
