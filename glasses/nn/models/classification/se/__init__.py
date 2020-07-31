@@ -5,7 +5,9 @@ from torch import Tensor
 
 class SEModule(nn.Module):
     """Implementation of Squeeze and Excitation Module proposed in `Squeeze-and-Excitation Networks <https://arxiv.org/abs/1709.01507>`_
-    The idea is to apply learned an channel-wise attention. The authors reported a bigger performance increased where the number of features are higher.
+    The idea is to apply learned an channel-wise attention. 
+    
+    The authors reported a bigger performance increase where the number of features are higher.
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/se.png?raw=true
 
