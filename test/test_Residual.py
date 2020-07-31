@@ -1,8 +1,8 @@
 import unittest
 import torch
 import torch.nn as nn
-from eyes.nn.blocks.residuals import ResidualAdd, ResidualCat
-from eyes.nn.blocks import Lambda
+from glasses.nn.blocks.residuals import ResidualAdd, ResidualCat
+from glasses.nn.blocks import Lambda
 
 def test_add():
     x = torch.tensor(1)

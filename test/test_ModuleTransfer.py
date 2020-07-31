@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from glasses.utils.ModuleTransfer import ModuleTransfer
 from glasses.utils.Tracker import Tracker
+import pytest
 
 def test_ModuleTransfer():
     model_a = nn.Sequential(nn.Linear(1, 64), nn.ReLU(), nn.Linear(64,10), nn.ReLU())
@@ -21,3 +22,9 @@ def test_ModuleTransfer():
         for key in src_m.state_dict().keys():
             for a, b in zip(src_m.state_dict()[key], dest_m.state_dict()[key]):
                 assert torch.equal(a, b)
+
+    # let's do it again with a wrong src
+    model_a = nn.Sequential(nn.Linear(1, 64))
+    trans = ModuleTransfer(src=model_a, dest=model_b, verbose=1)
+    with pytest.raises(Exception):
+        trans(x)
