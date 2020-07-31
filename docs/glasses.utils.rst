@@ -12,6 +12,14 @@ glasses.utils.ModuleTransfer module
    :undoc-members:
    :show-inheritance:
 
+glasses.utils.PretrainedWeightsProvider module
+----------------------------------------------
+
+.. automodule:: glasses.utils.PretrainedWeightsProvider
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 glasses.utils.Tracker module
 ----------------------------
 

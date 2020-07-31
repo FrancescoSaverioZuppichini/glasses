@@ -1,7 +1,7 @@
-eyes
-====
+torcheyes
+=========
 
 .. toctree::
    :maxdepth: 4
 
-   eyes
+   glasses
