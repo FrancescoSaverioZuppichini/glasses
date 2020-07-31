@@ -143,7 +143,7 @@ class DenseNetEncoder(ResNetEncoder):
     def __init__(self, in_channels: int = 3, start_features: int = 64,  grow_rate: int = 32,
                  depths: List[int] = [4, 4, 4, 4],
                  activation: nn.Module = ReLUInPlace, block: nn.Module = DenseBottleNeckBlock, *args, **kwargs):
-        super().__init__(in_channels, [64])
+        super().__init__(in_channels, [start_features])
 
         self.blocks = nn.ModuleList([])
 
