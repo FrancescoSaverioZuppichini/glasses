@@ -76,19 +76,19 @@ class TransitionBlock(nn.Module):
 
     Args:
         in_features (int): [description]
-        out_features (int): [description]
+        factor (int, optional): Reduction factor applied on the in_features. Defaults to 2
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
     """
 
-    def __init__(self, in_features: int, out_features: int, conv: nn.Module = nn.Conv2d, activation: nn.Module = ReLUInPlace):
+    def __init__(self, in_features: int, factor: int = 2, conv: nn.Module = nn.Conv2d, activation: nn.Module = ReLUInPlace):
         super().__init__()
         self.block = nn.Sequential(
             OrderedDict(
                 {
                     'bn': nn.BatchNorm2d(in_features),
                     'act': activation(),
-                    'conv': conv(in_features, out_features,
+                    'conv': conv(in_features, in_features // factor,
                                  kernel_size=1, bias=False),
                     'pool': nn.AvgPool2d(kernel_size=2, stride=2)
                 }
@@ -109,18 +109,17 @@ class DenseNetLayer(nn.Module):
         grow_rate (int, optional): [description]. Defaults to 32.
         n (int, optional): [description]. Defaults to 4.
         block (nn.Module, optional): [description]. Defaults to DenseNetBasicBlock.
-        transition (bool, optional): [description]. Defaults to True.
+        transition_block (nn.Module, optional): A module applied after the block(s). Defaults to TransitionBlock.
     """
 
-    def __init__(self, in_features: int, grow_rate: int = 32, n: int = 4, block: nn.Module = DenseBottleNeckBlock, transition: bool = True, *args, **kwargs):
+    def __init__(self, in_features: int, grow_rate: int = 32, n: int = 4, block: nn.Module = DenseBottleNeckBlock, transition_block: nn.Module = TransitionBlock, *args, **kwargs):
         super().__init__()
         self.out_features = grow_rate * n + in_features
         self.block = nn.Sequential(
             *[block(grow_rate * i + in_features, grow_rate, *args, **kwargs)
               for i in range(n)],
             # reduce the output features by a factor of 2
-            TransitionBlock(self.out_features, self.out_features //
-                            2, *args, **kwargs) if transition else nn.Identity()
+            transition_block(self.out_features, *args, **kwargs) if transition_block else nn.Identity()
         )
 
     def forward(self, x: Tensor) -> Tensor:
@@ -158,7 +157,7 @@ class DenseNetEncoder(ResNetEncoder):
             in_features //= 2
 
         self.blocks.append(DenseNetLayer(
-            in_features, grow_rate, depths[-1], block=block, *args, transition=False, **kwargs))
+            in_features, grow_rate, depths[-1], block=block, *args, transition_block=None, **kwargs))
         self.out_features = in_features + depths[-1] * grow_rate
         self.bn = nn.BatchNorm2d(self.out_features)
         self.act = activation()
@@ -246,7 +245,7 @@ class DenseNet(nn.Module):
         Returns:
             DenseNet: A densenet161 model
         """
-        return DenseNet(*args, grow_rate=48, depths=[6, 12, 36, 24], **kwargs)
+        return DenseNet(*args, start_features=96, grow_rate=48, depths=[6, 12, 36, 24], **kwargs)
 
     @classmethod
     def densenet169(cls, *args, **kwargs) -> DenseNet:
