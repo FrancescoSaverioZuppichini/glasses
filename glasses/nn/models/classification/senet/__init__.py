@@ -1,34 +1,38 @@
+from __future__ import annotations
 from ..resnet import ResNetBasicBlock, ResNetBottleneckBlock, ResNet
 from ..se import SEModule
 
+
 class SENetBasicBlock(ResNetBasicBlock):
-    def __init__(self, in_features: int, out_features: int, reduction: int =16, *args, **kwargs):
+    def __init__(self, in_features: int, out_features: int, reduction: int = 16, *args, **kwargs):
         super().__init__(in_features, out_features, *args, **kwargs)
         self.block.add_module('se', SEModule(out_features))
-        
 
 
 class SENetBottleneckBlock(ResNetBottleneckBlock):
-    def __init__(self, in_features: int, out_features: int, reduction: int =16, *args, **kwargs):
+    def __init__(self, in_features: int, out_features: int, reduction: int = 16, *args, **kwargs):
         super().__init__(in_features, out_features, *args, **kwargs)
-        self.block.add_module('se', SEModule(out_features))
-        
-
-def se_resnet18(*args, **kwargs) -> ResNet:
-    return ResNet(*args, **kwargs, block=SENetBasicBlock, depths=[2, 2, 2, 2])
+        self.block.add_module('se', SEModule(self.expanded_features))
 
 
-def se_resnet34(*args, **kwargs) -> ResNet:
-    return ResNet(*args, **kwargs, block=SENetBasicBlock, depths=[3, 4, 6, 3])
+class SEResNet(ResNet):
 
+    @classmethod
+    def resnet18(cls, *args, **kwargs) -> SEResNet:
+        return ResNet.resnet18(*args, block=SENetBasicBlock, **kwargs)
 
-def se_resnet50(*args, **kwargs) -> ResNet:
-    return ResNet(*args, **kwargs, block=SENetBottleneckBlock, depths=[3, 4, 6, 3])
+    @classmethod
+    def resnet34(cls, *args, **kwargs) -> SEResNet:
+        return ResNet.resnet34(*args, block=SENetBasicBlock, **kwargs)
 
+    @classmethod
+    def resnet50(cls, *args, **kwargs) -> SEResNet:
+        return ResNet.resnet50(*args, block=SENetBottleneckBlock, **kwargs)
 
-def se_resnet101(*args, **kwargs) -> ResNet:
-    return ResNet(*args, **kwargs, block=SENetBottleneckBlock, depths=[3, 4, 23, 3])
+    @classmethod
+    def resnet101(cls, *args, **kwargs) -> SEResNet:
+        return ResNet.resnet101(*args, block=SENetBottleneckBlock, **kwargs)
 
-
-def se_resnet152(*args, **kwargs) -> ResNet:
-    return ResNet(*args, **kwargs, block=SENetBottleneckBlock, depths=[3, 8, 36, 3])
+    @classmethod
+    def resnet152(cls, *args, **kwargs) -> SEResNet:
+        return ResNet.resnet152(*args, block=SENetBottleneckBlock, **kwargs)
