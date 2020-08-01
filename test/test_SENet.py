@@ -1,25 +1,25 @@
 import torch
-from glasses.nn.models.classification.resnet import ResNet
+from glasses.nn.models.classification.senet import SEResNet
 
 
-def test_resnet():
+def test_seresnet():
     x = torch.rand(1, 3, 224, 224)
-    model = ResNet.resnet18().eval()
+    model = SEResNet.resnet18().eval()
     pred = model(x)
     assert pred.shape[-1] == 1000
 
-    model = ResNet.resnet34().eval()
+    model = SEResNet.resnet34().eval()
     pred = model(x)
     assert pred.shape[-1] == 1000
 
-    model = ResNet.resnet50().eval()
+    model = SEResNet.resnet50().eval()
     pred = model(x)
     assert pred.shape[-1] == 1000
 
-    model = ResNet.resnet101().eval()
+    model = SEResNet.resnet101().eval()
     pred = model(x)
     assert pred.shape[-1] == 1000
 
-    model = ResNet.resnet152().eval()
+    model = SEResNet.resnet152().eval()
     pred = model(x)
     assert pred.shape[-1] == 1000

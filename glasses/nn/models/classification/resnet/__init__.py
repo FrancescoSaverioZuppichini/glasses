@@ -58,8 +58,8 @@ class ResNetBasicBlock(nn.Module):
     def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d):
         super().__init__()
         self.in_features, self.out_features = in_features, out_features
-        self.expanded_channels = self.out_features * self.expansion
-        self.should_apply_shortcut = self.in_features != self.expanded_channels
+        self.expanded_features = self.out_features * self.expansion
+        self.should_apply_shortcut = self.in_features != self.expanded_features
 
         self.block = nn.Sequential(
             OrderedDict(
@@ -107,6 +107,7 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
 
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, expansion: int = 4):
         super().__init__(in_features, out_features, activation, downsampling)
+        self.expansion = expansion
         self.block = nn.Sequential(
             OrderedDict(
                 {
@@ -303,7 +304,7 @@ class ResNet(nn.Module):
         super().__init__()
         self.encoder = ResNetEncoder(in_channels, *args, **kwargs)
         self.decoder = ResnetDecoder(
-            self.encoder.blocks[-1].block[-1].expanded_channels, n_classes)
+            self.encoder.blocks[-1].block[-1].expanded_features, n_classes)
 
         self.initialize()
 
@@ -322,7 +323,7 @@ class ResNet(nn.Module):
 
     @classmethod
     def resnet18(cls, *args,  block=ResNetBasicBlock, **kwargs) -> ResNet:
-        """Create a resnet18 model
+        """Creates a resnet18 model
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet18.png?raw=true
 
@@ -333,7 +334,7 @@ class ResNet(nn.Module):
 
     @classmethod
     def resnet34(cls, *args,  block=ResNetBasicBlock, **kwargs) -> ResNet:
-        """Create a resnet34 model
+        """Creates a resnet34 model
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet34.png?raw=true
 
@@ -344,7 +345,7 @@ class ResNet(nn.Module):
 
     @classmethod
     def resnet50(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
-        """Create a resnet50 model
+        """Creates a resnet50 model
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet50.png?raw=true
 
@@ -355,7 +356,7 @@ class ResNet(nn.Module):
 
     @classmethod
     def resnet101(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
-        """Create a resnet101 model
+        """Creates a resnet101 model
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet101.png?raw=true
 
@@ -366,7 +367,7 @@ class ResNet(nn.Module):
 
     @classmethod
     def resnet152(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
-        """Create a resnet152 model
+        """Creates a resnet152 model
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet152.png?raw=true
 
