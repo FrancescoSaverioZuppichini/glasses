@@ -80,7 +80,6 @@ class VGGDecoder(nn.Module):
         in_features (int): [description]
         n_classes (int): [description]
     """
-    filter_size: int = 6
 
     def __init__(self, in_features: int, n_classes: int):
         super().__init__()
@@ -107,7 +106,8 @@ class VGGDecoder(nn.Module):
 
 
 class VGG(nn.Module):
-    """VGG.
+    """Implementations of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition <https://arxiv.org/pdf/1409.1556.pdf>`_
+
     """
 
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
@@ -133,3 +133,19 @@ class VGG(nn.Module):
             elif isinstance(m, nn.Linear):
                 nn.init.normal_(m.weight, 0, 0.01)
                 nn.init.constant_(m.bias, 0)
+
+    @classmethod
+    def vgg11(cls, *args, **kwargs) -> VGG:
+        return VGG(*args, **kwargs)
+
+    @classmethod
+    def vgg13(cls, *args, **kwargs) -> VGG:
+        return VGG(*args, depths=[2, 2, 2, 2, 2], **kwargs)
+
+    @classmethod
+    def vgg16(cls, *args, **kwargs) -> VGG:
+        return VGG(*args, depths=[2, 2, 3, 3, 3], **kwargs)
+
+    @classmethod
+    def vgg19(cls, *args, **kwargs) -> VGG:
+        return VGG(*args, depths=[2, 2, 4, 4, 4], **kwargs)
