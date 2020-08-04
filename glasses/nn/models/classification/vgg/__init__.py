@@ -15,14 +15,19 @@ class VGGLayer(nn.Module):
     """ VGG layer.
 
     Args:
-        nn ([type]): [description]
+        in_channels (int): [description]
+        out_channels (int): [description]
+        block (nn.Module, optional): [description]. Defaults to VGGBasicBlock.
+        n (int, optional): [description]. Defaults to 1.
+        maxpool (nn.Module, optional): [description]. Defaults to nn.MaxPool2d.
     """
-    def __init__(self, in_channels: int, out_channels: int, block: nn.Module = VGGBasicBlock, n: int = 1, maxpool: nn.Module = nn.MaxPool2d, *args, **kwargs): 
+
+    def __init__(self, in_features: int, out_features: int, block: nn.Module = VGGBasicBlock, n: int = 1, maxpool: nn.Module = nn.MaxPool2d, *args, **kwargs):
         super().__init__()
         self.block = nn.Sequential(
-            block(in_channels, out_channels, kernel_size=3, *args, **kwargs),
-            *[block(out_channels,
-                    out_channels, kernel_size=3, *args, **kwargs) for _ in range(n - 1)]
+            block(in_features, out_features, kernel_size=3, *args, **kwargs),
+            *[block(out_features,
+                    out_features, kernel_size=3, *args, **kwargs) for _ in range(n - 1)]
         )
 
         if maxpool is not None:
@@ -32,63 +37,77 @@ class VGGLayer(nn.Module):
         x = self.block(x)
         return x
 
-    
+
 class VGGEncoder(nn.Module):
-    """VGG encoder.
+    """VGG encoder
+
+    Args:
+        in_channels (int, optional): [description]. Defaults to 3.
+        blocks_sizes (List[int], optional): [description]. Defaults to [64, 128, 256, 512, 512].
+        depths (List[int], optional): [description]. Defaults to [1, 1, 2, 2, 2].
+        activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
+        block (nn.Module, optional): [description]. Defaults to VGGBasicBlock.
     """
 
     def __init__(self, in_channels: int = 3, blocks_sizes: List[int] = [64, 128, 256, 512, 512], depths: List[int] = [1, 1, 2, 2, 2],
                  activation: nn.Module = ReLUInPlace, block: nn.Module = VGGBasicBlock, *args, **kwargs):
+
         super().__init__()
 
         self.blocks_sizes = blocks_sizes
-        self.out_features = blocks_sizes[-1]        
-        self.in_out_block_sizes = list(zip(blocks_sizes[:-1], blocks_sizes[1:]))
+        self.out_features = blocks_sizes[-1]
+        self.in_out_block_sizes = list(
+            zip(blocks_sizes[:-1], blocks_sizes[1:]))
 
         self.blocks = nn.ModuleList([
-            VGGLayer(in_channels, blocks_sizes[0], activation=activation, block=block, n=depths[0], *args, **kwargs),
+            VGGLayer(in_channels, blocks_sizes[0], activation=activation,
+                     block=block, n=depths[0], *args, **kwargs),
             *[VGGLayer(in_channels, out_channels, activation=activation, block=block, n=n, *args, **kwargs)
               for (in_channels, out_channels), n in zip(self.in_out_block_sizes, depths[1:])]
         ])
-        
-    def forward(self, x):
+
+    def forward(self, x: Tensor) -> Tensor:
         for block in self.blocks:
             x = block(x)
         return x
 
-    
+
 class VGGDecoder(nn.Module):
     """This class represents the classifier of VGG. It converts the filters into 6x6 by means of the average pooling. Then, it maps the output to the
     correct class by means of fully connected layers. Dropout is used to decrease the overfitting.
+
+        Args:
+        in_features (int): [description]
+        n_classes (int): [description]
     """
-    filter_size: int = 6
+
     def __init__(self, in_features: int, n_classes: int):
         super().__init__()
         self.avg = nn.AdaptiveAvgPool2d((7, 7))
         self.block = nn.Sequential(
             OrderedDict(
                 {
-                'decoder_linear1': nn.Linear(in_features * 7 * 7, 4096),
-                'decoder_act1': nn.ReLU(True),
-                'decoder_dropout1': nn.Dropout(),
-                'decoder_linear2': nn.Linear(4096, 4096),
-                'decoder_act2': nn.ReLU(True),
-                'decoder_dropout2': nn.Dropout(),
-                'decoder_linear3': nn.Linear(4096, n_classes)
+                    'fc1': nn.Linear(in_features * 7 * 7, 4096),
+                    'act1': nn.ReLU(True),
+                    'drop1': nn.Dropout(),
+                    'fc2': nn.Linear(4096, 4096),
+                    'act2': nn.ReLU(True),
+                    'drop2': nn.Dropout(),
+                    'fc3': nn.Linear(4096, n_classes)
                 }
             )
         )
 
-
-    def forward(self, x):
+    def forward(self, x: Tensor) -> Tensor:
         x = self.avg(x)
         x = x.view(x.size(0), -1)
         x = self.block(x)
         return x
-    
-    
+
+
 class VGG(nn.Module):
-    """VGG.
+    """Implementations of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition <https://arxiv.org/pdf/1409.1556.pdf>`_
+
     """
 
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
@@ -114,3 +133,19 @@ class VGG(nn.Module):
             elif isinstance(m, nn.Linear):
                 nn.init.normal_(m.weight, 0, 0.01)
                 nn.init.constant_(m.bias, 0)
+
+    @classmethod
+    def vgg11(cls, *args, **kwargs) -> VGG:
+        return VGG(*args, **kwargs)
+
+    @classmethod
+    def vgg13(cls, *args, **kwargs) -> VGG:
+        return VGG(*args, depths=[2, 2, 2, 2, 2], **kwargs)
+
+    @classmethod
+    def vgg16(cls, *args, **kwargs) -> VGG:
+        return VGG(*args, depths=[2, 2, 3, 3, 3], **kwargs)
+
+    @classmethod
+    def vgg19(cls, *args, **kwargs) -> VGG:
+        return VGG(*args, depths=[2, 2, 4, 4, 4], **kwargs)

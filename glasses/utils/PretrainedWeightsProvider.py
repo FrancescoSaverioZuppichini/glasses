@@ -6,9 +6,13 @@ from functools import partial
 from typing import Dict
 from torch import Tensor
 from .ModuleTransfer import ModuleTransfer
-from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet152, densenet121, densenet161, densenet169, densenet201
+from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet152
+from torchvision.models import densenet121, densenet161, densenet169, densenet201
+from torchvision.models import vgg11, vgg13, vgg16, vgg19
 from ..nn.models.classification.resnet import ResNet
 from ..nn.models.classification.densenet import DenseNet
+from ..nn.models.classification.vgg import VGG
+
 from tqdm.autonotebook import tqdm
 from pathlib import Path
 
@@ -37,6 +41,11 @@ class PretrainedWeightsProvider:
         'densenet169': 'https://download.pytorch.org/models/densenet169-b2777c0a.pth',
         'densenet201': 'https://download.pytorch.org/models/densenet201-c1103571.pth',
         'densenet161': 'https://download.pytorch.org/models/densenet161-8d451a50.pth',
+
+        'vgg11': 'https://download.pytorch.org/models/vgg11-bbd30ac9.pth',
+        'vgg13': 'https://download.pytorch.org/models/vgg13-c768596a.pth',
+        'vgg16': 'https://download.pytorch.org/models/vgg16-397923af.pth',
+        'vgg19': 'https://download.pytorch.org/models/vgg19-dcbb9e9d.pth',
     }
 
     zoo_models_mapping = {
@@ -49,6 +58,10 @@ class PretrainedWeightsProvider:
         'densenet169': [partial(densenet169, pretrained=True), DenseNet.densenet169],
         'densenet201': [partial(densenet201, pretrained=True), DenseNet.densenet201],
         'densenet161': [partial(densenet161, pretrained=True), DenseNet.densenet161],
+        'vgg11': [partial(vgg11, pretrained=True), VGG.vgg11],
+        'vgg13': [partial(vgg13, pretrained=True), VGG.vgg13],
+        'vgg16': [partial(vgg16, pretrained=True), VGG.vgg16],
+        'vgg19': [partial(vgg19, pretrained=True), VGG.vgg19],
     }
 
     save_dir: Path = Path('./')
@@ -95,7 +108,7 @@ class PretrainedWeightsProvider:
         save_path = self.save_dir / Path(key + '.pth')
         # should_download = not save_path.exists()
 
-        # if should_download: 
+        # if should_download:
         #     self.download_weight(url, save_path)
         model = self.clone_model(key, save_path)
         return model
