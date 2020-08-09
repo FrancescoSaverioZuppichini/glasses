@@ -61,7 +61,7 @@ ResidualCat2d = partial(ResidualCat, res_func=lambda x,
 
 class InputForward(nn.Module):
     """
-    Pass the input to multiple modules and apply a aggregation function on the result
+    This module passes the input to multiple modules and applies a aggregation function on the result
     """
 
     def __init__(self, blocks: nn.Module, aggr_func: Callable[[Tensor], Tensor]):
@@ -78,7 +78,7 @@ class InputForward(nn.Module):
 
 Cat = partial(InputForward, aggr_func=lambda x: torch.cat(x, dim=1))
 
-"""Concatenates each output of `blocks`. 
+"""Pass the input to multiple modules and concatenates the output. 
 
 Example:
     >>> blocks = nn.ModuleList([nn.Conv2d(32, 64, kernel_size=3), nn.Conv2d(32, 64, kernel_size=3)])
