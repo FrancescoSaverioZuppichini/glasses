@@ -61,7 +61,9 @@ ResidualCat2d = partial(ResidualCat, res_func=lambda x,
 
 class InputForward(nn.Module):
     """
-    This module passes the input to multiple modules and applies a aggregation function on the result
+    This module passes the input to multiple modules and applies a aggregation function on the result.
+
+    .. image:: https://raw.githubusercontent.com/FrancescoSaverioZuppichini/torchlego/develop/doc/images/Cat.png
     """
 
     def __init__(self, blocks: nn.Module, aggr_func: Callable[[Tensor], Tensor]):
