@@ -57,3 +57,32 @@ ResidualAdd = partial(Residual, res_func=add)
 ResidualCat = partial(Residual, res_func=lambda x, res: torch.cat([x, res]))
 ResidualCat2d = partial(ResidualCat, res_func=lambda x,
                         res: torch.cat([x, res], dim=1))
+
+
+class InputForward(nn.Module):
+    """
+    Pass the input to multiple modules and apply a aggregation function on the result
+    """
+
+    def __init__(self, blocks: nn.Module, aggr_func: Callable[[Tensor], Tensor]):
+        super().__init__()
+        self.blocks = blocks
+        self.aggr_func = aggr_func
+
+    def forward(self, x: Tensor) -> Tensor:
+        out = None
+        for block in self.blocks:
+            block_out = block(x)
+            out = block_out if out is None else self.aggr_func([block_out, out])
+        return out
+
+Cat = partial(InputForward, aggr_func=lambda x: torch.cat(x, dim=1))
+
+"""Concatenates each output of `blocks`. 
+
+Example:
+    >>> blocks = nn.ModuleList([nn.Conv2d(32, 64, kernel_size=3), nn.Conv2d(32, 64, kernel_size=3)])
+    >>> x = torch.rand(1, 32, 48, 48)
+    >>> Cat(blocks)(x).shape 
+    # torch.Size([1, 128, 46, 46])
+"""
