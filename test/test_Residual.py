@@ -6,7 +6,7 @@ from glasses.nn.blocks import Lambda
 
 def test_add():
     x = torch.tensor(1)
-    add_one = Lambda(lambda x: x + 1)
+    add_one = lambda x: x + 1
     adder = ResidualAdd(nn.Identity())
     # 1 + 1
     assert adder(x) == 2
