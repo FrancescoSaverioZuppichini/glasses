@@ -61,8 +61,8 @@ class ResNetBasicBlock(nn.Module):
         self.expanded_features = self.out_features * self.expansion
         self.should_apply_shortcut = self.in_features != self.expanded_features
 
-        self.block = ResidualAdd(
-            nn.Sequential(OrderedDict(
+        self.block = ResidualAdd(nn.Sequential(
+            OrderedDict(
                 {
                     'conv1': conv(in_features, out_features, kernel_size=3, stride=downsampling, padding=1, bias=False),
                     'bn1': nn.BatchNorm2d(out_features),
@@ -71,14 +71,12 @@ class ResNetBasicBlock(nn.Module):
                     'bn2': nn.BatchNorm2d(out_features),
                 }
             )), shortcut=ResNetShorcut(
-                in_features, out_features * self.expansion, downsampling) if self.should_apply_shortcut else None
-        )
+            in_features, out_features * self.expansion, downsampling) if self.should_apply_shortcut else None)
 
         self.act = activation()
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.block(x)
-        # activation is applied after the residual
         x = self.act(x)
         return x
 
@@ -105,7 +103,6 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, expansion: int = 4):
         super().__init__(in_features, out_features, activation, downsampling)
         self.expansion = expansion
-        # ovveride the block in the ResidualAdd of ResNetBasicBlock
         self.block.block = nn.Sequential(
             OrderedDict(
                 {
@@ -150,7 +147,8 @@ class ResNetBasicPreActBlock(ResNetBottleneckBlock):
 
 
 class ResNetBottleneckPreActBlock(ResNetBasicBlock):
-    """Pre activation ResNet Bottleneck block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
+
+    """Pre activation ResNet basic block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
 
     Args:
         in_features (int): [description]
@@ -158,14 +156,13 @@ class ResNetBottleneckPreActBlock(ResNetBasicBlock):
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
         downsampling (int, optional): [description]. Defaults to 1.
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
-        expansion (int, optional): [description]. Defaults to 4.
     """
 
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, expansion: int = 4, *args, **kwars):
         super().__init__(in_features, out_features, activation,
                          downsampling, expansion, *args, **kwars)
         # TODO I am not sure it is correct
-        self.block = nn.Sequential(
+        self.block.block = nn.Sequential(
             OrderedDict(
                 {
                     'bn1': nn.BatchNorm2d(out_features),
@@ -197,6 +194,7 @@ class ResNetLayer(nn.Module):
         )
 
     def forward(self, x: Tensor) -> Tensor:
+
         x = self.block(x)
         return x
 

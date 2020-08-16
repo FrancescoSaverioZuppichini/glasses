@@ -44,9 +44,9 @@ class Residual(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         res = x
+        x = self.block(x)
         if self.shortcut is not None:
             res = self.shortcut(res)
-        x = self.block(x)
         if self.res_func is not None:
             x = self.res_func(x, res)
         return x
