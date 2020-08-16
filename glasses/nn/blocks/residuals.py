@@ -83,7 +83,8 @@ class InputForward(nn.Module):
         return out
 
 
-Cat = partial(InputForward, aggr_func=lambda x: torch.cat(x, dim=1))
+Cat = partial(InputForward, aggr_func=lambda x: torch.cat(x, dim=0))
+Cat2d = partial(InputForward, aggr_func=lambda x: torch.cat(x, dim=1))
 
 """Pass the input to multiple modules and concatenates the output. 
 

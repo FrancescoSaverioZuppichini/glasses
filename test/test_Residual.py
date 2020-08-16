@@ -1,7 +1,7 @@
 import unittest
 import torch
 import torch.nn as nn
-from glasses.nn.blocks.residuals import ResidualAdd, ResidualCat
+from glasses.nn.blocks.residuals import ResidualAdd, ResidualCat, Cat
 from glasses.nn.blocks import Lambda
 
 def test_add():
@@ -20,3 +20,9 @@ def test_concat():
     catter = ResidualCat(nn.Identity())
     assert catter(x).sum() == 2
 
+
+def test_cat():
+    x = torch.tensor([1])
+    catter = Cat(nn.ModuleList([nn.Identity(), nn.Identity()]))
+    print(catter(x))
+    assert catter(x).sum() == 2
