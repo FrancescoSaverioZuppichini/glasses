@@ -86,13 +86,14 @@ class InputForward(nn.Module):
 Cat = partial(InputForward, aggr_func=lambda x: torch.cat(x, dim=0))
 Cat2d = partial(InputForward, aggr_func=lambda x: torch.cat(x, dim=1))
 
-"""Pass the input to multiple modules and concatenates the output. 
+"""Pass the input to multiple modules and concatenates the output, for 1D input you can use `Cat`, while for 2D inputs, such as images, you can use `Cat2d`.
 
 .. image:: https://raw.githubusercontent.com/FrancescoSaverioZuppichini/torchlego/develop/doc/images/Cat.png
 
-Example:
+Examples:
+
     >>> blocks = nn.ModuleList([nn.Conv2d(32, 64, kernel_size=3), nn.Conv2d(32, 64, kernel_size=3)])
     >>> x = torch.rand(1, 32, 48, 48)
-    >>> Cat(blocks)(x).shape 
+    >>> Cat2d(blocks)(x).shape 
     # torch.Size([1, 128, 46, 46])
 """
