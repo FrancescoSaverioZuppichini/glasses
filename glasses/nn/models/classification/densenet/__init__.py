@@ -7,6 +7,7 @@ from collections import OrderedDict
 from typing import List
 from functools import partial
 from ..resnet import ReLUInPlace
+from ....blocks.residuals import ResidualCat2d
 
 
 class DenseNetBasicBlock(nn.Module):
@@ -24,16 +25,16 @@ class DenseNetBasicBlock(nn.Module):
 
     def __init__(self, in_features: int, out_features: int, conv: nn.Module = nn.Conv2d, activation: nn.Module = ReLUInPlace, *args, **kwargs):
         super().__init__()
-        self.block = nn.Sequential(OrderedDict({
+        self.block = ResidualCat2d(
+            nn.Sequential(OrderedDict({
             'bn': nn.BatchNorm2d(in_features),
             'act': activation(),
             'conv': conv(in_features, out_features, kernel_size=3, padding=1, *args, **kwargs)
-        }))
+        })))
 
     def forward(self, x: Tensor) -> Tensor:
         res = x
         x = self.block(x)
-        x = torch.cat([res, x], dim=1)
         return x
 
 
@@ -59,7 +60,7 @@ class DenseBottleNeckBlock(DenseNetBasicBlock):
         self.expansion = expansion
         self.expanded_features = out_features * self.expansion
 
-        self.block = nn.Sequential(OrderedDict({
+        self.block.block = nn.Sequential(OrderedDict({
             'bn1': nn.BatchNorm2d(in_features),
             'act1': activation(),
             'conv1': conv(in_features, self.expanded_features, kernel_size=1, bias=False, *args, **kwargs),
@@ -119,7 +120,8 @@ class DenseNetLayer(nn.Module):
             *[block(grow_rate * i + in_features, grow_rate, *args, **kwargs)
               for i in range(n)],
             # reduce the output features by a factor of 2
-            transition_block(self.out_features, *args, **kwargs) if transition_block else nn.Identity()
+            transition_block(self.out_features, *args, **
+                             kwargs) if transition_block else nn.Identity()
         )
 
     def forward(self, x: Tensor) -> Tensor:

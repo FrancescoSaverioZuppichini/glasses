@@ -55,11 +55,9 @@ class Residual(nn.Module):
 def add(x: Tensor, res: Tensor) -> Tensor:
     return x.add_(res)
 
-
 ResidualAdd = partial(Residual, res_func=add)
 ResidualCat = partial(Residual, res_func=lambda x, res: torch.cat([x, res]))
-ResidualCat2d = partial(ResidualCat, res_func=lambda x,
-                        res: torch.cat([x, res], dim=1))
+ResidualCat2d = partial(Residual, res_func=lambda x, res: torch.cat([x, res], dim=1))
 
 
 class InputForward(nn.Module):
