@@ -1,4 +1,5 @@
 import sphinx_rtd_theme
+import pytorch_sphinx_theme
 import os
 import sys
 # Configuration file for the Sphinx documentation builder.
@@ -37,7 +38,7 @@ extensions = [
     "sphinx.ext.githubpages",
     'sphinx.ext.coverage',
     "sphinx.ext.napoleon",
-    "sphinx_rtd_theme",
+    "pytorch_sphinx_theme",
     "recommonmark"
 ]
 

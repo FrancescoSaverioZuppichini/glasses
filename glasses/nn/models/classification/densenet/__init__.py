@@ -27,10 +27,10 @@ class DenseNetBasicBlock(nn.Module):
         super().__init__()
         self.block = ResidualCat2d(
             nn.Sequential(OrderedDict({
-            'bn': nn.BatchNorm2d(in_features),
-            'act': activation(),
-            'conv': conv(in_features, out_features, kernel_size=3, padding=1, *args, **kwargs)
-        })))
+                'bn': nn.BatchNorm2d(in_features),
+                'act': activation(),
+                'conv': conv(in_features, out_features, kernel_size=3, padding=1, *args, **kwargs)
+            })))
 
     def forward(self, x: Tensor) -> Tensor:
         res = x
