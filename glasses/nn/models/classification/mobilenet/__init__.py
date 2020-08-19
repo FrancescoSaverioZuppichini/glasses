@@ -40,8 +40,9 @@ class MobileNetBasicBlock(nn.Module):
             Conv2dPad(self.expanded_features, out_features, kernel_size=1),
             nn.BatchNorm2d(out_features)
         )
-        # do not apply residual when downsamping
-        self.block = ResidualAdd(weights) if downsampling == 1 else weights
+        # do not apply residual when downsamping and when features are different
+        # in mobilenet we do not use a shortcut
+        self.block = ResidualAdd(weights) if downsampling == 1 and in_features == out_features else weights
 
     
     def forward(self, x: Tensor) -> Tensor:
@@ -122,7 +123,7 @@ class MobileNetDecoder(nn.Module):
         return x
 
 
-class ResNet(nn.Module):
+class MobileNet(nn.Module):
     """Implementations of MobileNet v2 proposed in `MobileNetV2: Inverted Residuals and Linear Bottlenecks <https://arxiv.org/pdf/1801.04381.pdf>`_
 
     Create a default model
