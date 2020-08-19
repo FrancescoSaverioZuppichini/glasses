@@ -69,7 +69,7 @@ class PretrainedWeightsProvider:
 
     def download_weight(self, url: str, save_path: Path) -> Path:
         r = requests.get(url, stream=True)
-
+        
         with open(save_path, 'wb') as f:
             total_length = int(r.headers.get('content-length'))
             bar = tqdm(r.iter_content(chunk_size=self.chunk_size),

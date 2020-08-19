@@ -1,4 +1,5 @@
 import sphinx_rtd_theme
+import pytorch_sphinx_theme
 import os
 import sys
 # Configuration file for the Sphinx documentation builder.
@@ -37,9 +38,10 @@ extensions = [
     "sphinx.ext.githubpages",
     'sphinx.ext.coverage',
     "sphinx.ext.napoleon",
-    "sphinx_rtd_theme",
+    "pytorch_sphinx_theme",
     "recommonmark"
 ]
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -56,6 +58,13 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # a list of builtin themes.
 #
 html_theme = "sphinx_rtd_theme"
+# html_theme_options = {
+#     'pytorch_project': 'docs',
+#     'canonical_url': 'https://pytorch.org/docs/stable/',
+#     'collapse_navigation': False,
+#     'display_version': True,
+#     'logo_only': True,
+# }
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
