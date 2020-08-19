@@ -44,9 +44,9 @@ class Residual(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         res = x
+        x = self.block(x)
         if self.shortcut is not None:
             res = self.shortcut(res)
-        x = self.block(x)
         if self.res_func is not None:
             x = self.res_func(x, res)
         return x
@@ -58,8 +58,7 @@ def add(x: Tensor, res: Tensor) -> Tensor:
 
 ResidualAdd = partial(Residual, res_func=add)
 ResidualCat = partial(Residual, res_func=lambda x, res: torch.cat([x, res]))
-ResidualCat2d = partial(ResidualCat, res_func=lambda x,
-                        res: torch.cat([x, res], dim=1))
+ResidualCat2d = partial(Residual, res_func=lambda x, res: torch.cat([x, res], dim=1))
 
 
 class InputForward(nn.Module):
@@ -83,15 +82,17 @@ class InputForward(nn.Module):
         return out
 
 
-Cat = partial(InputForward, aggr_func=lambda x: torch.cat(x, dim=1))
+Cat = partial(InputForward, aggr_func=lambda x: torch.cat(x, dim=0))
+Cat2d = partial(InputForward, aggr_func=lambda x: torch.cat(x, dim=1))
 
-"""Pass the input to multiple modules and concatenates the output. 
+"""Pass the input to multiple modules and concatenates the output, for 1D input you can use `Cat`, while for 2D inputs, such as images, you can use `Cat2d`.
 
 .. image:: https://raw.githubusercontent.com/FrancescoSaverioZuppichini/torchlego/develop/doc/images/Cat.png
 
-Example:
+Examples:
+
     >>> blocks = nn.ModuleList([nn.Conv2d(32, 64, kernel_size=3), nn.Conv2d(32, 64, kernel_size=3)])
     >>> x = torch.rand(1, 32, 48, 48)
-    >>> Cat(blocks)(x).shape 
+    >>> Cat2d(blocks)(x).shape 
     # torch.Size([1, 128, 46, 46])
 """
