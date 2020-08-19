@@ -1,5 +1,5 @@
 import sphinx_rtd_theme
-import pytorch_sphinx_theme
+# import pytorch_sphinx_theme
 import os
 import sys
 # Configuration file for the Sphinx documentation builder.
