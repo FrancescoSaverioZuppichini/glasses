@@ -38,7 +38,7 @@ extensions = [
     "sphinx.ext.githubpages",
     'sphinx.ext.coverage',
     "sphinx.ext.napoleon",
-    "pytorch_sphinx_theme",
+    # "pytorch_sphinx_theme",
     "recommonmark"
 ]
 
