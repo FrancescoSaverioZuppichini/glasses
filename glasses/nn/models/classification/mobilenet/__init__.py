@@ -21,33 +21,55 @@ class DeepthWiseConv2d(Conv2dPad):
         super().__init__(in_channels, out_channels, *args, groups=in_channels, **kwargs)
 
 
-class MobileNetBasicBlock(nn.Module):
-    expansion = 6
+class InvertedResidualBlock(nn.Module):
+    """This block use a deepth wise and point wise convolution to reduce computation cost. 
+    First the input is upsample (if needed), then a deepth wise 3x3 conv and point wise conv are applied.
 
-    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = nn.ReLU6, downsampling: int = 1):
+    ReLU6 is the default activation because it was found to be more robust when used with low-precision computation.
+
+    Residual connections are only applied when input and output's dimensions matches (stride == 1).
+
+    Args:
+        in_features (int): [description]
+        out_features (int): [description]
+        activation (nn.Module, optional): [description]. Defaults to nn.ReLU6.
+        downsampling (int, optional): [description]. Defaults to 1.
+    """
+
+    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = nn.ReLU6, downsampling: int = 1, expansion: int = 6):
         super().__init__()
         self.in_features, self.out_features = in_features, out_features
+        self.expansion = expansion
         self.expanded_features = in_features * self.expansion
 
-        weights = nn.Sequential(
-            ConvBnAct(in_features,  self.expanded_features,
-                      activation=activation, kernel_size=1),
-            ConvBnAct(self.expanded_features, self.expanded_features,
-                      conv=DeepthWiseConv2d,
-                      activation=activation,
-                      kernel_size=3,
-                      stride=downsampling),
-            Conv2dPad(self.expanded_features, out_features, kernel_size=1),
-            nn.BatchNorm2d(out_features)
-        )
+        weights = nn.Sequential()
+        # we need to expandn the input only if expansion is greater than one
+        if expansion > 1:
+            weights.add_module('exp', ConvBnAct(in_features,  self.expanded_features,
+                                                activation=activation, kernel_size=1))
+        # add the depth wise and point wise conv
+        weights.add_module('conv',
+                           nn.Sequential(ConvBnAct(self.expanded_features, self.expanded_features,
+                                                   conv=DeepthWiseConv2d,
+                                                   activation=activation,
+                                                   kernel_size=3,
+                                                   stride=downsampling),
+                                         Conv2dPad(self.expanded_features,
+                                                   out_features, kernel_size=1),
+                                         nn.BatchNorm2d(out_features))
+                           )
         # do not apply residual when downsamping and when features are different
         # in mobilenet we do not use a shortcut
-        self.block = ResidualAdd(weights) if downsampling == 1 and in_features == out_features else weights
+        self.block = ResidualAdd(
+            weights) if downsampling == 1 and in_features == out_features else weights
 
-    
     def forward(self, x: Tensor) -> Tensor:
         x = self.block(x)
         return x
+
+
+MobileNetBasicBlock = InvertedResidualBlock
+
 
 class MobileNetLayer(nn.Module):
     def __init__(self, in_channels: int, out_channels: int, block: nn.Module = MobileNetBasicBlock, n: int = 1, downsampling: int = 1, *args, **kwargs):
@@ -65,43 +87,58 @@ class MobileNetLayer(nn.Module):
         x = self.block(x)
         return x
 
+
 class MobileNetEncoder(ResNetEncoder):
     """
-    MobileNet encoder composed by increasing different layers with increasing features.
+    MobileNet encoder composed by increasing different layers with increasing features. 
+    Please refer to Table 2 in the original paper for an overview of the current architecture
+
+
+    Args:
+            in_channels (int, optional): [description]. Defaults to 3.
+            blocks_sizes (List[int], optional): Number of features for each layer, called `c` in the paper. Defaults to [32, 16, 24, 32, 64, 96, 160, 320].
+            depths (List[int], optional): Number of blocks at each layer, called `n` in the paper. Defaults to [1, 1, 2, 3, 4, 3, 3, 1].
+            strides (List[int], optional): Number of stride for each layer, called `s` in the paper. Defaults to [2, 1, 2, 2, 2, 1, 2, 1].
+            expansions (List[int], optional): Expansion for each block in each layer, called `t` in the paper. Defaults to [1, 6, 6, 6, 6, 6, 6].
+            activation (nn.Module, optional): [description]. Defaults to nn.ReLU6.
+            block (nn.Module, optional): [description]. Defaults to MobileNetBasicBlock.
     """
 
-    def __init__(self, in_channels: int = 3, blocks_sizes: List[int] = [16, 24, 32, 64, 96, 160, 320],
-                 depths: List[int] = [1, 2, 3, 4, 3, 3, 1],
-                 strides: List[int] = [1, 2, 2, 2, 1, 2, 1, 1],
+    def __init__(self, in_channels: int = 3, blocks_sizes: List[int] = [32, 16, 24, 32, 64, 96, 160, 320, 1280],
+                 depths: List[int] = [1, 1, 2, 3, 4, 3, 3, 1],
+                 strides: List[int] = [2, 1, 2, 2, 2, 1, 2, 1],
+                 expansions: List[int] = [1, 6, 6, 6, 6, 6, 6],
                  activation: nn.Module = nn.ReLU6, block: nn.Module = MobileNetBasicBlock, *args, **kwargs):
         super().__init__()
         # TODO mostly copied from resnet, we should find a way to re use the resnet one!
         self.blocks_sizes = blocks_sizes
 
         self.gate = nn.Sequential(
-            ConvBnAct(in_channels, 32, activation=activation,
-                              kernel_size=3, stride=2),
-                            
-            ConvBnAct(32, 32,
-                      conv=DeepthWiseConv2d,
-                      activation=activation,
-                      kernel_size=3),
-            Conv2dPad(32,  blocks_sizes[0], kernel_size=1),
+            ConvBnAct(in_channels, blocks_sizes[0], activation=activation,
+                      kernel_size=3, stride=strides[0]),
         )
 
-        self.in_out_block_sizes = list(zip(blocks_sizes, blocks_sizes[1:]))
+        self.in_out_block_sizes = list(zip(blocks_sizes, blocks_sizes[1:-1]))
 
         self.blocks = nn.ModuleList([
             *[MobileNetLayer(in_channels,
-                          out_channels, n=n, downsampling=s, activation=activation,
-                          block=block, *args, **kwargs)
-              for (in_channels, out_channels), n, s in zip(self.in_out_block_sizes, depths[1:], strides[1:])]
+                             out_channels, n=n, downsampling=s, activation=activation,
+                             block=block, *args,  expansion=t, **kwargs)
+              for (in_channels, out_channels), n, s, t in zip(self.in_out_block_sizes, depths[1:], strides[1:], expansions)]
         ])
+
+        self.blocks.append(nn.Sequential(
+            ConvBnAct(blocks_sizes[-2], blocks_sizes[-1], activation=nn.ReLU6, kernel_size=1, bias=False),
+            # nn.AvgPool2d(kernel_size=7),
+            # Conv2dPad(blocks_sizes[-1, blocks_sizes[0]], kernel_size=1),
+
+            ))
 
     def forward(self, x):
         x = self.gate(x)
         for block in self.blocks:
             x = block(x)
+
         return x
 
 
