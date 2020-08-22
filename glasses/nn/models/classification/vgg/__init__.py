@@ -131,8 +131,8 @@ class VGG(nn.Module):
         >>> # change number of classes (default is 1000 )
         >>> VGG.vgg11(n_classes=100)
         >>> # pass a different block
-        >>> from glasses.nn.blocks import SENetBasicBlock
-        >>> VGG.vgg11(block=SENetBasicBlock)
+        >>> from glasses.nn.blocks import ConvBnAct
+        >>> VGG.vgg11(block=ConvBnAct)
         >>> # store the features tensor after every block
         >>> x = torch.rand((1, 3, 224, 224))
         >>> model = VGG.vgg11()
