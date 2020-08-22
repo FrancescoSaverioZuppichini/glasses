@@ -187,6 +187,8 @@ class VGG(nn.Module):
     def vgg13(cls, *args, **kwargs) -> VGG:
         """Creates a vgg13 model
 
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/VGG13.png?raw=true
+
         Returns:
             VGG: A vgg13 model
         """
@@ -196,6 +198,8 @@ class VGG(nn.Module):
     def vgg16(cls, *args, **kwargs) -> VGG:
         """Creates a vgg16 model
 
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/VGG16.png?raw=true
+
         Returns:
             VGG: A vgg16 model
         """
@@ -204,6 +208,8 @@ class VGG(nn.Module):
     @classmethod
     def vgg19(cls, *args, **kwargs) -> VGG:
         """Creates a vgg19 model
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/VGG19.png?raw=true
 
         Returns:
             VGG: A vgg19 model
