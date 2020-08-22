@@ -34,7 +34,7 @@ def test_PretrainedWeightsProvider_download_weight():
 
     save_path = Path('./resnet.pth')
     assert not save_path.exists()
-
+    
     provider.download_weight(PretrainedWeightsProvider.zoo['resnet18'], save_path=save_path)
     assert save_path.exists()
 
