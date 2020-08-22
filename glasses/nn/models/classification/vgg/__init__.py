@@ -11,7 +11,7 @@ from ....blocks import ConvAct
 """Implementations of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition <https://arxiv.org/pdf/1409.1556.pdf>`_
 """
 
-VGGBasicBlock = ConvAct
+VGGBasicBlock = partial(ConvAct, kernel_size=3)
 
 
 class VGGLayer(nn.Module):
@@ -29,9 +29,9 @@ class VGGLayer(nn.Module):
     def __init__(self, in_features: int, out_features: int, block: nn.Module = VGGBasicBlock, n: int = 1, maxpool: nn.Module = nn.MaxPool2d, *args, **kwargs):
         super().__init__()
         self.block = nn.Sequential(
-            block(in_features, out_features, kernel_size=3, *args, **kwargs),
+            block(in_features, out_features, *args, **kwargs),
             *[block(out_features,
-                    out_features, kernel_size=3, *args, **kwargs) for _ in range(n - 1)]
+                    out_features, *args, **kwargs) for _ in range(n - 1)]
         )
 
         if maxpool is not None:
