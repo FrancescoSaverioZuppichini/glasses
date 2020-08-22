@@ -185,12 +185,27 @@ class VGG(nn.Module):
 
     @classmethod
     def vgg13(cls, *args, **kwargs) -> VGG:
+        """Creates a vgg13 model
+
+        Returns:
+            VGG: A vgg13 model
+        """
         return VGG(*args, depths=[2, 2, 2, 2, 2], **kwargs)
 
     @classmethod
     def vgg16(cls, *args, **kwargs) -> VGG:
+        """Creates a vgg16 model
+
+        Returns:
+            VGG: A vgg16 model
+        """
         return VGG(*args, depths=[2, 2, 3, 3, 3], **kwargs)
 
     @classmethod
     def vgg19(cls, *args, **kwargs) -> VGG:
+        """Creates a vgg19 model
+
+        Returns:
+            VGG: A vgg19 model
+        """
         return VGG(*args, depths=[2, 2, 4, 4, 4], **kwargs)
