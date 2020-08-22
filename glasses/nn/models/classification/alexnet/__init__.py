@@ -84,13 +84,13 @@ class AlexNetDecoder(nn.Module):
         self.avg = nn.AdaptiveAvgPool2d((self.filter_size, self.filter_size))
         self.block = nn.Sequential(
                 OrderedDict({
-                    'decoder_dropout1': nn.Dropout(p=0.5),
-                    'decoder_linear1': nn.Linear(self.filter_size * self.filter_size * in_features, 4096),
-                    'decoder_relu1': ReLUInPlace(),
-                    'decoder_dropout2': nn.Dropout(p=0.5),
-                    'decoder_linear2':nn.Linear(4096, 4096),
-                    'decoder_relu2': ReLUInPlace(),
-                    'decoder_linear3': nn.Linear(4096, n_classes)
+                    'drop1': nn.Dropout(p=0.5),
+                    'fc1': nn.Linear(self.filter_size * self.filter_size * in_features, 4096),
+                    'act1': ReLUInPlace(),
+                    'drop2': nn.Dropout(p=0.5),
+                    'fc2':nn.Linear(4096, 4096),
+                    'act2': ReLUInPlace(),
+                    'fc3': nn.Linear(4096, n_classes)
                     }))
 
     def forward(self, x):

@@ -4,6 +4,7 @@ from torch import Tensor
 from typing import Callable
 from functools import partial
 
+
 class Residual(nn.Module):
     """It applies residual connection to a `nn.Module` where the output becomes
 
@@ -43,17 +44,54 @@ class Residual(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         res = x
+        x = self.block(x)
         if self.shortcut is not None:
             res = self.shortcut(res)
-        x = self.block(x)
         if self.res_func is not None:
             x = self.res_func(x, res)
         return x
 
-def add(x: Tensor, res: Tensor) ->  Tensor:
+
+def add(x: Tensor, res: Tensor) -> Tensor:
     return x.add_(res)
 
 ResidualAdd = partial(Residual, res_func=add)
 ResidualCat = partial(Residual, res_func=lambda x, res: torch.cat([x, res]))
-ResidualCat2d = partial(ResidualCat, res_func=lambda x,
-                        res: torch.cat([x, res], dim=1))
+ResidualCat2d = partial(Residual, res_func=lambda x, res: torch.cat([x, res], dim=1))
+
+
+class InputForward(nn.Module):
+    """
+    This module passes the input to multiple modules and applies a aggregation function on the result.
+
+    .. image:: https://raw.githubusercontent.com/FrancescoSaverioZuppichini/torchlego/develop/doc/images/InputForward.png
+    """
+
+    def __init__(self, blocks: nn.Module, aggr_func: Callable[[Tensor], Tensor]):
+        super().__init__()
+        self.blocks = blocks
+        self.aggr_func = aggr_func
+
+    def forward(self, x: Tensor) -> Tensor:
+        out = None
+        for block in self.blocks:
+            block_out = block(x)
+            out = block_out if out is None else self.aggr_func(
+                [block_out, out])
+        return out
+
+
+Cat = partial(InputForward, aggr_func=lambda x: torch.cat(x, dim=0))
+Cat2d = partial(InputForward, aggr_func=lambda x: torch.cat(x, dim=1))
+
+"""Pass the input to multiple modules and concatenates the output, for 1D input you can use `Cat`, while for 2D inputs, such as images, you can use `Cat2d`.
+
+.. image:: https://raw.githubusercontent.com/FrancescoSaverioZuppichini/torchlego/develop/doc/images/Cat.png
+
+Examples:
+
+    >>> blocks = nn.ModuleList([nn.Conv2d(32, 64, kernel_size=3), nn.Conv2d(32, 64, kernel_size=3)])
+    >>> x = torch.rand(1, 32, 48, 48)
+    >>> Cat2d(blocks)(x).shape 
+    # torch.Size([1, 128, 46, 46])
+"""

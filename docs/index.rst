@@ -5,10 +5,14 @@
 
 Welcome to Glasses' documentation!
 =====================================
+.. toctree::
+   :maxdepth: 1
+   :caption: Tutorials:
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :glob:
+   :maxdepth: 1
+   :caption: Package Reference
 
    modules
 

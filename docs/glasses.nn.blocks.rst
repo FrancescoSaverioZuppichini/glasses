@@ -12,7 +12,6 @@ glasses.nn.blocks.residuals module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 
