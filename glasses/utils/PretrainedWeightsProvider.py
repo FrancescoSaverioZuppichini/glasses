@@ -65,7 +65,7 @@ class PretrainedWeightsProvider:
         'vgg13': [partial(vgg13, pretrained=True), VGG.vgg13],
         'vgg16': [partial(vgg16, pretrained=True), VGG.vgg16],
         'vgg19': [partial(vgg19, pretrained=True), VGG.vgg19],
-        'mobilenet_v2': [partial(mobilenet_v2, pretrained=True), MobileNet]
+        'mobilenet_v2': [partial(mobilenet_v2, pretrained=True), MobileNetV2]
     }
 
     save_dir: Path = Path('./')
