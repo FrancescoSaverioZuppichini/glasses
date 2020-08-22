@@ -8,11 +8,15 @@ from ..resnet import ReLUInPlace
 from ....blocks import ConvAct
 
 
-VGGBasicBlock = ConvAct
+"""Implementations of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition <https://arxiv.org/pdf/1409.1556.pdf>`_
+"""
+
+VGGBasicBlock = partial(ConvAct, kernel_size=3)
 
 
 class VGGLayer(nn.Module):
-    """ VGG layer.
+    """ This class implements a VGG layer, which is composed by a number of blocks (default is VGGBasicBlock, which is a simple 
+    convolution-activation transformation) eventually followed by maxpooling.
 
     Args:
         in_channels (int): [description]
@@ -25,9 +29,9 @@ class VGGLayer(nn.Module):
     def __init__(self, in_features: int, out_features: int, block: nn.Module = VGGBasicBlock, n: int = 1, maxpool: nn.Module = nn.MaxPool2d, *args, **kwargs):
         super().__init__()
         self.block = nn.Sequential(
-            block(in_features, out_features, kernel_size=3, *args, **kwargs),
+            block(in_features, out_features, *args, **kwargs),
             *[block(out_features,
-                    out_features, kernel_size=3, *args, **kwargs) for _ in range(n - 1)]
+                    out_features, *args, **kwargs) for _ in range(n - 1)]
         )
 
         if maxpool is not None:
@@ -39,7 +43,7 @@ class VGGLayer(nn.Module):
 
 
 class VGGEncoder(nn.Module):
-    """VGG encoder
+    """VGG encoder, composed by default by a sequence of VGGLayer modules with an increasing number of output features.
 
     Args:
         in_channels (int, optional): [description]. Defaults to 3.
@@ -108,6 +112,40 @@ class VGGDecoder(nn.Module):
 class VGG(nn.Module):
     """Implementations of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition <https://arxiv.org/pdf/1409.1556.pdf>`_
 
+    Create a default model
+
+    Examples:
+        >>> VGG.vgg11()
+        >>> VGG.vgg13()
+        >>> VGG.vgg16()
+        >>> VGG.vgg19()
+
+
+    Customization
+
+    You can easily create your custom VGG-like model
+
+    Examples:
+        >>> # change activation
+        >>> VGG.vgg11(activation = nn.SELU)
+        >>> # change number of classes (default is 1000 )
+        >>> VGG.vgg11(n_classes=100)
+        >>> # pass a different block
+        >>> from nn.models.classification.senet import SENetBasicBlock
+        >>> VGG.vgg11(block=SENetBasicBlock)
+        >>> # store the features tensor after every block
+        >>> x = torch.rand((1, 3, 224, 224))
+        >>> model = VGG.vgg11()
+        >>> features = []
+        >>> for block in model.encoder.blocks:
+            >>> x = block(x)
+            >>> features.append(x)
+        >>> print([x.shape for x in features])
+        >>> # [torch.Size([1, 64, 112, 112]), torch.Size([1, 128, 56, 56]), torch.Size([1, 256, 28, 28]), torch.Size([1, 512, 14, 14]), torch.Size([1, 512, 7, 7])]
+
+    Args:
+        in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
+        n_classes (int, optional): Number of classes. Defaults to 1000.
     """
 
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
@@ -132,20 +170,49 @@ class VGG(nn.Module):
                 nn.init.constant_(m.bias, 0)
             elif isinstance(m, nn.Linear):
                 nn.init.normal_(m.weight, 0, 0.01)
-                nn.init.constant_(m.bias, 0)
+                if m.bias is not None:
+                    nn.init.constant_(m.bias, 0)
 
     @classmethod
     def vgg11(cls, *args, **kwargs) -> VGG:
+        """Creates a vgg11 model
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/VGG11.png?raw=true
+
+        Returns:
+            VGG: A vgg11 model
+        """
         return VGG(*args, **kwargs)
 
     @classmethod
     def vgg13(cls, *args, **kwargs) -> VGG:
+        """Creates a vgg13 model
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/VGG13.png?raw=true
+
+        Returns:
+            VGG: A vgg13 model
+        """
         return VGG(*args, depths=[2, 2, 2, 2, 2], **kwargs)
 
     @classmethod
     def vgg16(cls, *args, **kwargs) -> VGG:
+        """Creates a vgg16 model
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/VGG16.png?raw=true
+
+        Returns:
+            VGG: A vgg16 model
+        """
         return VGG(*args, depths=[2, 2, 3, 3, 3], **kwargs)
 
     @classmethod
     def vgg19(cls, *args, **kwargs) -> VGG:
+        """Creates a vgg19 model
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/VGG19.png?raw=true
+
+        Returns:
+            VGG: A vgg19 model
+        """
         return VGG(*args, depths=[2, 2, 4, 4, 4], **kwargs)
