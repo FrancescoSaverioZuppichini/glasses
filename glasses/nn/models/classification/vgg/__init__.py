@@ -131,8 +131,8 @@ class VGG(nn.Module):
         >>> # change number of classes (default is 1000 )
         >>> VGG.vgg11(n_classes=100)
         >>> # pass a different block
-        >>> from glasses.nn.blocks import ConvBnAct
-        >>> VGG.vgg11(block=ConvBnAct)
+        >>> from nn.models.classification.senet import SENetBasicBlock
+        >>> VGG.vgg11(block=SENetBasicBlock)
         >>> # store the features tensor after every block
         >>> x = torch.rand((1, 3, 224, 224))
         >>> model = VGG.vgg11()
@@ -170,7 +170,8 @@ class VGG(nn.Module):
                 nn.init.constant_(m.bias, 0)
             elif isinstance(m, nn.Linear):
                 nn.init.normal_(m.weight, 0, 0.01)
-                nn.init.constant_(m.bias, 0)
+                if m.bias is not None:
+                    nn.init.constant_(m.bias, 0)
 
     @classmethod
     def vgg11(cls, *args, **kwargs) -> VGG:
