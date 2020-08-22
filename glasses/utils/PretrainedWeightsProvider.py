@@ -9,10 +9,11 @@ from .ModuleTransfer import ModuleTransfer
 from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet152
 from torchvision.models import densenet121, densenet161, densenet169, densenet201
 from torchvision.models import vgg11, vgg13, vgg16, vgg19
+from torchvision.models import mobilenet_v2
 from ..nn.models.classification.resnet import ResNet
 from ..nn.models.classification.densenet import DenseNet
 from ..nn.models.classification.vgg import VGG
-
+from ..nn.models.classification import MobileNetV2
 from tqdm.autonotebook import tqdm
 from pathlib import Path
 
@@ -46,6 +47,8 @@ class PretrainedWeightsProvider:
         'vgg13': 'https://download.pytorch.org/models/vgg13-c768596a.pth',
         'vgg16': 'https://download.pytorch.org/models/vgg16-397923af.pth',
         'vgg19': 'https://download.pytorch.org/models/vgg19-dcbb9e9d.pth',
+
+        'mobilenet_v2': 'https://download.pytorch.org/models/mobilenet_v2-b0353104.pth'
     }
 
     zoo_models_mapping = {
@@ -62,6 +65,7 @@ class PretrainedWeightsProvider:
         'vgg13': [partial(vgg13, pretrained=True), VGG.vgg13],
         'vgg16': [partial(vgg16, pretrained=True), VGG.vgg16],
         'vgg19': [partial(vgg19, pretrained=True), VGG.vgg19],
+        'mobilenet_v2': [partial(mobilenet_v2, pretrained=True), MobileNetV2]
     }
 
     save_dir: Path = Path('./')
