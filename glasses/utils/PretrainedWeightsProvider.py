@@ -6,9 +6,14 @@ from functools import partial
 from typing import Dict
 from torch import Tensor
 from .ModuleTransfer import ModuleTransfer
-from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet152, densenet121, densenet161, densenet169, densenet201
+from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet152
+from torchvision.models import densenet121, densenet161, densenet169, densenet201
+from torchvision.models import vgg11, vgg13, vgg16, vgg19
+from torchvision.models import mobilenet_v2
 from ..nn.models.classification.resnet import ResNet
 from ..nn.models.classification.densenet import DenseNet
+from ..nn.models.classification.vgg import VGG
+from ..nn.models.classification import MobileNetV2
 from tqdm.autonotebook import tqdm
 from pathlib import Path
 
@@ -37,6 +42,13 @@ class PretrainedWeightsProvider:
         'densenet169': 'https://download.pytorch.org/models/densenet169-b2777c0a.pth',
         'densenet201': 'https://download.pytorch.org/models/densenet201-c1103571.pth',
         'densenet161': 'https://download.pytorch.org/models/densenet161-8d451a50.pth',
+
+        'vgg11': 'https://download.pytorch.org/models/vgg11-bbd30ac9.pth',
+        'vgg13': 'https://download.pytorch.org/models/vgg13-c768596a.pth',
+        'vgg16': 'https://download.pytorch.org/models/vgg16-397923af.pth',
+        'vgg19': 'https://download.pytorch.org/models/vgg19-dcbb9e9d.pth',
+
+        'mobilenet_v2': 'https://download.pytorch.org/models/mobilenet_v2-b0353104.pth'
     }
 
     zoo_models_mapping = {
@@ -47,8 +59,13 @@ class PretrainedWeightsProvider:
         'resnet152': [partial(resnet152, pretrained=True), ResNet.resnet152],
         'densenet121': [partial(densenet121, pretrained=True), DenseNet.densenet121],
         'densenet169': [partial(densenet169, pretrained=True), DenseNet.densenet169],
-        'densenet201': [partial(densenet121, pretrained=True), DenseNet.densenet201],
+        'densenet201': [partial(densenet201, pretrained=True), DenseNet.densenet201],
         'densenet161': [partial(densenet161, pretrained=True), DenseNet.densenet161],
+        'vgg11': [partial(vgg11, pretrained=True), VGG.vgg11],
+        'vgg13': [partial(vgg13, pretrained=True), VGG.vgg13],
+        'vgg16': [partial(vgg16, pretrained=True), VGG.vgg16],
+        'vgg19': [partial(vgg19, pretrained=True), VGG.vgg19],
+        'mobilenet_v2': [partial(mobilenet_v2, pretrained=True), MobileNetV2]
     }
 
     save_dir: Path = Path('./')
@@ -56,7 +73,7 @@ class PretrainedWeightsProvider:
 
     def download_weight(self, url: str, save_path: Path) -> Path:
         r = requests.get(url, stream=True)
-
+        
         with open(save_path, 'wb') as f:
             total_length = int(r.headers.get('content-length'))
             bar = tqdm(r.iter_content(chunk_size=self.chunk_size),
@@ -89,13 +106,13 @@ class PretrainedWeightsProvider:
 
     def __getitem__(self, key: str) -> nn.Module:
         if key not in self:
-            raise ValueError(
+            raise KeyError(
                 f'No weights for model "{key}". Available models are {",".join(list(self.zoo.keys()))}')
         url = self.zoo[key]
         save_path = self.save_dir / Path(key + '.pth')
         # should_download = not save_path.exists()
 
-        # if should_download: 
+        # if should_download:
         #     self.download_weight(url, save_path)
         model = self.clone_model(key, save_path)
         return model

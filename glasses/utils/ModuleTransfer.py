@@ -24,7 +24,8 @@ class ModuleTransfer:
         >>> x = torch.ones(1, 1)
         >>> trans = ModuleTransfer(src=model_a, dest=model_b)
         >>> trans(x)
-    # now module_b has the same weight of model_a
+
+        # now module_b has the same weight of model_a
     
     """
     src: nn.Module

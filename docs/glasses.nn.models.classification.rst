@@ -12,6 +12,7 @@ Subpackages
    glasses.nn.models.classification.resnet
    glasses.nn.models.classification.se
    glasses.nn.models.classification.senet
+   glasses.nn.models.classification.vgg
 
 Module contents
 ---------------
