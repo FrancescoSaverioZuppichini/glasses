@@ -5,10 +5,11 @@ Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    glasses.nn.models.classification.alexnet
    glasses.nn.models.classification.densenet
+   glasses.nn.models.classification.mobilenet
    glasses.nn.models.classification.resnet
    glasses.nn.models.classification.se
    glasses.nn.models.classification.senet

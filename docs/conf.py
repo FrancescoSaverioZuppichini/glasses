@@ -36,12 +36,16 @@ author = 'Francesco Saverio Zuppichini & Francesco Cicala'
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.githubpages",
+    'sphinx.ext.autosummary',
     'sphinx.ext.coverage',
     "sphinx.ext.napoleon",
     # "pytorch_sphinx_theme",
+        'sphinx.ext.viewcode',
+
     "recommonmark"
 ]
 
+autosummary_generate = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -66,6 +70,9 @@ html_theme = "sphinx_rtd_theme"
 #     'logo_only': True,
 # }
 
+source_parsers = {
+    '.md': 'recommonmark.parser.CommonMarkParser',
+}
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
@@ -76,3 +83,17 @@ source_parsers = {
 }
 
 source_suffix = ['.rst', '.md']
+
+
+def setup(app):
+    def skip(app, what, name, obj, skip, options):
+        members = [
+            '__init__',
+            '__repr__',
+            '__weakref__',
+            '__dict__',
+            '__module__',
+        ]
+        return True if name in members else skip
+
+    app.connect('autodoc-skip-member', skip)

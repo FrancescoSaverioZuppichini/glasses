@@ -5,9 +5,10 @@ Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    glasses.nn.models.classification
+   glasses.nn.models.segmentation
 
 Module contents
 ---------------
