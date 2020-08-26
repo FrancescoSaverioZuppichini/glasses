@@ -28,9 +28,9 @@ jobs:
     - name: Build doc
       run: |
         cd ./docs
-        sphinx-apidoc -f -o . ..
+        sphinx-apidoc .. -o . -d 1 -H glasses -f
         make clean
-        make github
+        make html
 
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@3.5.9
