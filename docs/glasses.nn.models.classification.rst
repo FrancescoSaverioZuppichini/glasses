@@ -5,7 +5,7 @@ Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    glasses.nn.models.classification.alexnet
    glasses.nn.models.classification.densenet

@@ -23,6 +23,7 @@ Glasses is a Deep Learning Computer Vision library for `PyTorch <https://pytorch
 
    modules
    glasses.nn
+   glasses.nn.models
    glasses.utils
    glasses.data
    glasses.interpretability
