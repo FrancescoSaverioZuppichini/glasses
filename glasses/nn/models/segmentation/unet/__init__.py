@@ -51,6 +51,9 @@ class UpBlock(nn.Module):
 
 
 class UnetEncoder(nn.Module):
+    """Unet Encoder composed of several layer of convolutions aimed to increased the features space and decrease the resolution.
+    """
+
     def __init__(self, in_channels: int,  blocks_sizes: List[int] = [64, 128, 256, 512, 1024],
                  block: nn.Module = DownBlock, *args, **kwargs):
         super().__init__()
@@ -67,8 +70,7 @@ class UnetEncoder(nn.Module):
 
 class UnetDecoder(nn.Module):
     """
-    This class represents the tail of ResNet. It performs a global pooling and maps the output to the
-    correct class by using a fully connected layer.
+    Unet Decoder composed of several layer of upsampling layers aimed to decrease the features space and increase the resolution.
     """
 
     def __init__(self, blocks_sizes: List[int], block: nn.Module = DownBlock, *args, **kwargs):
@@ -77,16 +79,17 @@ class UnetDecoder(nn.Module):
         self.in_out_block_sizes = list(zip(blocks_sizes, blocks_sizes[1:]))
 
         self.blocks = nn.ModuleList([
-            UpBlock(in_features, 
-                        out_features, *args, **kwargs)
-              for (in_features, out_features) in self.in_out_block_sizes
+            UpBlock(in_features,
+                    out_features, *args, **kwargs)
+            for (in_features, out_features) in self.in_out_block_sizes
         ])
-
 
 
 class Unet(nn.Module):
     """Implementations of ResNet proposed in `U-Net: Convolutional Networks for Biomedical Image Segmentation
  <https://arxiv.org/abs/1505.04597>`_
+
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/Unet.png?raw=true
 
     Create a default model
 
@@ -101,15 +104,16 @@ class Unet(nn.Module):
     Examples:
 
     Args:
-        in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
+        in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 1.
         n_classes (int, optional): Number of classes. Defaults to 2.
     """
 
-    def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
+    def __init__(self, in_channels: int = 1, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = UnetEncoder(in_channels, *args, **kwargs)
-        self.decoder = UnetDecoder(
-            self.encoder.blocks_sizes[::-1], n_classes)
+        self.decoder = UnetDecoder(self.encoder.blocks_sizes[::-1], n_classes)
+        self.tail = nn.Conv2d(
+            self.encoder.blocks_sizes[0], n_classes, kernel_size=1)
 
     def forward(self, x: Tensor) -> Tensor:
         self.residuals = []
@@ -120,4 +124,6 @@ class Unet(nn.Module):
         self.residuals = self.residuals[::-1][1:]
         for block, res in zip(self.decoder.blocks, self.residuals):
             x = block(x, res)
+
+        x = self.tail(x)
         return x
