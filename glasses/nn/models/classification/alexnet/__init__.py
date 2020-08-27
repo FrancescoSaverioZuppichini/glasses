@@ -101,8 +101,8 @@ class AlexNetDecoder(nn.Module):
     
     
 class AlexNet(nn.Module):
-    """Implementation of AlexNet proposed in `ImageNet Classification with Deep Convolutional Neural Networks <https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf>`, 
-    according to the `variation <https://pytorch.org/docs/stable/_modules/torchvision/models/alexnet.html>` implemented in torchvision.
+    """Implementation of AlexNet proposed in `ImageNet Classification with Deep Convolutional Neural Networks <https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf>`_, 
+    according to the `variation <https://pytorch.org/docs/stable/_modules/torchvision/models/alexnet.html>`_ implemented in torchvision.
 
     Create a default model
 
