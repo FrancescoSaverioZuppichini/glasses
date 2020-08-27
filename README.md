@@ -4,4 +4,3 @@
 
 Compact, concise and customizable 
 deep learning computer vision library 
-built on top of PyTorch
