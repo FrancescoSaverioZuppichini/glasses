@@ -54,13 +54,13 @@ class EfficientNetEncoder(MobileNetEncoder):
     
 
         self.blocks = nn.ModuleList([
-            EfficientNetLayer(self.blocks_sizes[1], self.blocks_sizes[2], downsampling=1),
-            EfficientNetLayer(self.blocks_sizes[2], self.blocks_sizes[3]),
-            EfficientNetLayer(self.blocks_sizes[3], self.blocks_sizes[4], kernel_size=5),
-            EfficientNetLayer(self.blocks_sizes[4], self.blocks_sizes[5]),
+            EfficientNetLayer(self.blocks_sizes[0], self.blocks_sizes[1], downsampling=1),
+            EfficientNetLayer(self.blocks_sizes[1], self.blocks_sizes[2]),
+            EfficientNetLayer(self.blocks_sizes[2], self.blocks_sizes[3], kernel_size=5),
+            EfficientNetLayer(self.blocks_sizes[3], self.blocks_sizes[4]),
+            EfficientNetLayer(self.blocks_sizes[4], self.blocks_sizes[5], kernel_size=5),
             EfficientNetLayer(self.blocks_sizes[5], self.blocks_sizes[6], kernel_size=5),
-            EfficientNetLayer(self.blocks_sizes[6], self.blocks_sizes[7], kernel_size=5),
-            EfficientNetLayer(self.blocks_sizes[7], self.blocks_sizes[8], kernel_size=3),
+            EfficientNetLayer(self.blocks_sizes[6], self.blocks_sizes[7], kernel_size=3),
         ])
 
     def forward(self, x):
