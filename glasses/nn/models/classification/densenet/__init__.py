@@ -113,7 +113,8 @@ class DenseNetLayer(nn.Module):
         transition_block (nn.Module, optional): A module applied after the block(s). Defaults to TransitionBlock.
     """
 
-    def __init__(self, in_features: int, grow_rate: int = 32, n: int = 4, block: nn.Module = DenseBottleNeckBlock, transition_block: nn.Module = TransitionBlock, *args, **kwargs):
+    def __init__(self, in_features: int, grow_rate: int = 32, n: int = 4,
+                 block: nn.Module = DenseBottleNeckBlock, transition_block: nn.Module = TransitionBlock, *args, **kwargs):
         super().__init__()
         self.out_features = grow_rate * n + in_features
         self.block = nn.Sequential(

@@ -89,13 +89,13 @@ class UNetEncoder(nn.Module):
     """UNet Encoder composed of several layers of convolutions aimed to increased the features space and decrease the resolution.
     """
 
-    def __init__(self, in_channels: int,  blocks_sizes: List[int] = [64, 128, 256, 512, 1024], *args, **kwargs):
+    def __init__(self, in_channels: int,  widths: List[int] = [64, 128, 256, 512, 1024], *args, **kwargs):
         super().__init__()
 
-        self.in_out_block_sizes = list(zip(blocks_sizes, blocks_sizes[1:]))
-        self.blocks_sizes = blocks_sizes
+        self.in_out_block_sizes = list(zip(widths, widths[1:]))
+        self.widths = widths
         self.blocks = nn.ModuleList([
-            DownLayer(in_channels, blocks_sizes[0],
+            DownLayer(in_channels, widths[0],
                       donwsample=False, *args, **kwargs),
             *[DownLayer(in_features,
                         out_features, *args, **kwargs)
@@ -108,10 +108,10 @@ class UNetDecoder(nn.Module):
     UNet Decoder composed of several layer of upsampling layers aimed to decrease the features space and increase the resolution.
     """
 
-    def __init__(self, blocks_sizes: List[int], *args, **kwargs):
+    def __init__(self, widths: List[int], *args, **kwargs):
         super().__init__()
 
-        self.in_out_block_sizes = list(zip(blocks_sizes, blocks_sizes[1:]))
+        self.in_out_block_sizes = list(zip(widths, widths[1:]))
 
         self.blocks = nn.ModuleList([
             UpLayer(in_features,
@@ -147,7 +147,7 @@ class UNet(nn.Module):
         >>> resnet34 = ResNet.resnet34()
         >>> # we need to change the first conv in order to accept a gray image
         >>> resnet34.encoder.blocks[0].block[0].block.block.conv1 = Conv2dPad(1, 64, kernel_size=1)
-        >>> unet = UNet(1, n_classes=2, blocks_sizes=resnet34.encoder.blocks_sizes)
+        >>> unet = UNet(1, n_classes=2, widths=resnet34.encoder.widths)
         >>> unet.encoder.blocks = resnet34.encoder.blocks 
 
 
@@ -156,14 +156,14 @@ class UNet(nn.Module):
         n_classes (int, optional): Number of classes. Defaults to 2.
     """
 
-    def __init__(self, in_channels: int = 1, n_classes: int = 2, down_block: nn.Module = DownBlock, up_block: nn.Module = UpBlock, blocks_sizes: List[int] = [64, 128, 256, 512, 1024], *args, **kwargs):
+    def __init__(self, in_channels: int = 1, n_classes: int = 2, down_block: nn.Module = DownBlock, up_block: nn.Module = UpBlock, widths: List[int] = [64, 128, 256, 512, 1024], *args, **kwargs):
         super().__init__()
         self.encoder = UNetEncoder(
-            in_channels, blocks_sizes, block=down_block, *args, **kwargs)
+            in_channels, widths, block=down_block, *args, **kwargs)
         self.decoder = UNetDecoder(
-            self.encoder.blocks_sizes[::-1], block=up_block, *args, **kwargs)
+            self.encoder.widths[::-1], block=up_block, *args, **kwargs)
         self.tail = nn.Conv2d(
-            self.encoder.blocks_sizes[0], n_classes, kernel_size=1)
+            self.encoder.widths[0], n_classes, kernel_size=1)
 
     def forward(self, x: Tensor) -> Tensor:
         self.residuals = []
