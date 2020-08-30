@@ -134,22 +134,6 @@ class MobileNetEncoder(nn.Module):
                       activation=nn.ReLU6, kernel_size=1, bias=False),
         ))
 
-        self.initialize()
-
-    def initialize(self):
-        # weight initialization
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight, mode='fan_out')
-                if m.bias is not None:
-                    nn.init.zeros_(m.bias)
-            elif isinstance(m, (nn.BatchNorm2d, nn.GroupNorm)):
-                nn.init.ones_(m.weight)
-                nn.init.zeros_(m.bias)
-            elif isinstance(m, nn.Linear):
-                nn.init.normal_(m.weight, 0, 0.01)
-                nn.init.zeros_(m.bias)
-
     def forward(self, x):
         x = self.gate(x)
         for block in self.blocks:
@@ -157,6 +141,24 @@ class MobileNetEncoder(nn.Module):
 
         return x
 
+class MobileNetDecoder(nn.Module):
+    """
+    This class represents the tail of MobileNet. It performs a global pooling, dropout and maps the output to the
+    correct class by using a fully connected layer.
+    """
+
+    def __init__(self, in_features: int, n_classes: int):
+        super().__init__()
+        self.avg = nn.AdaptiveAvgPool2d((1, 1))
+        self.drop = nn.Dropout2d(0.2)
+        self.fc = nn.Linear(in_features, n_classes)
+
+    def forward(self, x):
+        x = self.avg(x)
+        x = x.view(x.size(0), -1)
+        x = self.drop(x)
+        x = self.fc(x)
+        return x
 
 class MobileNetV2(nn.Module):
     """Implementations of MobileNet v2 proposed in `MobileNetV2: Inverted Residuals and Linear Bottlenecks <https://arxiv.org/pdf/1801.04381.pdf>`_
@@ -205,7 +207,7 @@ class MobileNetV2(nn.Module):
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = MobileNetEncoder(in_channels, *args, **kwargs)
-        self.decoder = ResnetDecoder(
+        self.decoder = MobileNetDecoder(
             self.encoder.blocks_sizes[-1], n_classes)
 
         self.initialize()
