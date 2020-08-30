@@ -1,7 +1,7 @@
 from __future__ import annotations
 from torch import nn
 from torch import Tensor
-from ....blocks.residuals import ResidualAdd
+from ....blocks.residuals import ResidualAdd, Residual
 from ....blocks import Conv2dPad, ConvBnAct
 from collections import OrderedDict
 from ..resnet import ResnetDecoder
@@ -41,14 +41,14 @@ class InvertedResidualBlock(nn.Module):
         downsampling (int, optional): [description]. Defaults to 1.
     """
 
-    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = nn.ReLU6, downsampling: int = 1, expansion: int = 6):
+    def __init__(self, in_features: int, out_features: int,  downsampling: int = 1, expansion: int = 6, activation: nn.Module = nn.ReLU6, kernel_size: int = 3):
         super().__init__()
         self.in_features, self.out_features = in_features, out_features
         self.expansion = expansion
         self.expanded_features = in_features * self.expansion
 
         weights = nn.Sequential()
-        # we need to expandn the input only if expansion is greater than one
+        # we need to expand the input only if expansion is greater than one
         if expansion > 1:
             weights.add_module('exp', ConvBnAct(in_features,  self.expanded_features,
                                                 activation=activation, kernel_size=1, bias=False))
@@ -57,7 +57,7 @@ class InvertedResidualBlock(nn.Module):
                            nn.Sequential(ConvBnAct(self.expanded_features, self.expanded_features,
                                                    conv=DepthWiseConv2d,
                                                    activation=activation,
-                                                   kernel_size=3,
+                                                   kernel_size=kernel_size,
                                                    stride=downsampling, bias=False),
                                          Conv2dPad(self.expanded_features,
                                                    out_features, kernel_size=1, bias=False),
@@ -66,7 +66,7 @@ class InvertedResidualBlock(nn.Module):
         # do not apply residual when downsamping and when features are different
         # in mobilenet we do not use a shortcut
         self.block = ResidualAdd(
-            weights) if downsampling == 1 and in_features == out_features else weights
+            weights) if downsampling == 1 and in_features == out_features else Residual(weights)
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.block(x)

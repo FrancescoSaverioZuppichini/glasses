@@ -1,235 +1,66 @@
 from __future__ import annotations
+import torch
 from torch import nn
 from torch import Tensor
 from ....blocks.residuals import ResidualAdd
 from collections import OrderedDict
 from typing import List
 from functools import partial
+from ..mobilenet import InvertedResidualBlock, DepthWiseConv2d, MobileNetEncoder
+from ....blocks import Conv2dPad, ConvBnAct
+from ..se import SEModuleConv
 
 
-"""Implementations of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`
-"""
+class Swish(nn.Module):
+    def forward(self, x):
+        return x * torch.sigmoid(x)
 
 
-ReLUInPlace = partial(nn.ReLU, inplace=True)
+class SEInvertedResidualBlock(InvertedResidualBlock):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        se = SEModuleConv(self.expanded_features, self.expanded_features)
+        # squeeze and excitation is applied after the depth wise conv
+        self.block.block.conv[1] = nn.Sequential(
+            se,
+            self.block.block.conv[1]
+        )
 
 
-class ResNetShorcut(nn.Module):
-    """Shorcut function applied by ResNet to upsample the channel
-    when residual and output features do not match
-
-    Args:
-        in_features (int): features (channels) of the input
-        out_features (int): features (channels) of the desidered output
-    """
-
-    def __init__(self, in_features: int, out_features: int, stride: int = 2):
+class EfficientNetLayer(nn.Module):
+    def __init__(self, in_features: int, out_features: int, block: nn.Module = SEInvertedResidualBlock,
+                 n: int = 1, downsampling: int = 2, *args, **kwargs):
         super().__init__()
-        self.conv = nn.Conv2d(in_features, out_features,
-                              kernel_size=1, stride=stride, bias=False)
-        self.bn = nn.BatchNorm2d(out_features)
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.conv(x)
-        x = self.bn(x)
-        return x
-
-
-class ResNetBasicBlock(nn.Module):
-    expansion: int = 1
-    """Basic ResNet block composed by two 3x3 convs with residual connection. 
-
-    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNetBasicBlock.png?raw=true
-
-    *The residual connection is showed as a black line*
-
-    The output of the layer is defined as:
-
-    :math:`x' = F(x) + x`
-
-    Args:
-        in_features (int): [description]
-        out_features (int): [description]
-        activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
-        downsampling (int, optional): [description]. Defaults to 1.
-        conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
-    """
-
-    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d):
-        super().__init__()
-        self.in_features, self.out_features = in_features, out_features
-        self.expanded_features = self.out_features * self.expansion
-        self.should_apply_shortcut = self.in_features != self.expanded_features
-
-        self.block = ResidualAdd(nn.Sequential(
-            OrderedDict(
-                {
-                    'conv1': conv(in_features, out_features, kernel_size=3, stride=downsampling, padding=1, bias=False),
-                    'bn1': nn.BatchNorm2d(out_features),
-                    'act1': activation(),
-                    'conv2': conv(out_features, out_features, kernel_size=3, padding=1, bias=False),
-                    'bn2': nn.BatchNorm2d(out_features),
-                }
-            )), shortcut=ResNetShorcut(
-            in_features, out_features * self.expansion, downsampling) if self.should_apply_shortcut else None)
-
-        self.act = activation()
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.block(x)
-        x = self.act(x)
-        return x
-
-
-class ResNetBottleneckBlock(ResNetBasicBlock):
-    expansion: int = 4
-
-    """ResNet Bottleneck block is composed by three convs layer. 
-    The expensive 3x3 conv is computed after a cheap 1x1 conv donwsample the input resulting in less parameters. Later, another conv 1v1 upsample the output to the correct channel size
-
-    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNetBottleNeckBlock.png?raw=true
-
-    *The residual connection is showed as a black line*
-
-    Args:
-        in_features (int): [description]
-        out_features (int): [description]
-        activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
-        downsampling (int, optional): [description]. Defaults to 1.
-        conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
-        expansion (int, optional): [description]. Defaults to 4.
-    """
-
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, expansion: int = 4):
-        super().__init__(in_features, out_features, activation, downsampling)
-        self.expansion = expansion
-        self.block.block = nn.Sequential(
-            OrderedDict(
-                {
-                    'conv1': conv(in_features, out_features, kernel_size=1, bias=False),
-                    'bn1': nn.BatchNorm2d(out_features),
-                    'act1': activation(),
-                    'conv2': conv(out_features, out_features, kernel_size=3, stride=downsampling, padding=1, bias=False),
-                    'bn2': nn.BatchNorm2d(out_features),
-                    'act2': activation(),
-                    'conv3': conv(out_features, out_features * expansion, kernel_size=1, bias=False),
-                    'bn3': nn.BatchNorm2d(out_features * expansion),
-                }
-            ))
-
-
-class ResNetBasicPreActBlock(ResNetBottleneckBlock):
-    """Pre activation ResNet basic block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
-
-    Args:
-        in_features (int): [description]
-        out_features (int): [description]
-        activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
-        downsampling (int, optional): [description]. Defaults to 1.
-        conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
-    """
-
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, *args, **kwars):
-        super().__init__(in_features, out_features, activation, downsampling, *args, **kwars)
-        self.block.block = nn.Sequential(
-            OrderedDict(
-                {
-                    'bn1': nn.BatchNorm2d(out_features),
-                    'act1': activation(),
-                    'conv1': conv(in_features, out_features, kernel_size=3, stride=downsampling, padding=1, bias=False),
-                    'bn2': nn.BatchNorm2d(out_features),
-                    'act2': activation(),
-                    'conv2': conv(out_features, out_features, kernel_size=3, padding=1, bias=False),
-                }
-            ))
-
-        self.act = nn.Identity()
-
-
-class ResNetBottleneckPreActBlock(ResNetBasicBlock):
-
-    """Pre activation ResNet basic block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
-
-    Args:
-        in_features (int): [description]
-        out_features (int): [description]
-        activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
-        downsampling (int, optional): [description]. Defaults to 1.
-        conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
-    """
-
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, expansion: int = 4, *args, **kwars):
-        super().__init__(in_features, out_features, activation,
-                         downsampling, expansion, *args, **kwars)
-        # TODO I am not sure it is correct
-        self.block.block = nn.Sequential(
-            OrderedDict(
-                {
-                    'bn1': nn.BatchNorm2d(out_features),
-                    'act1': activation(),
-                    'conv1': conv(in_features, out_features, kernel_size=1, bias=False),
-                    'bn2': nn.BatchNorm2d(out_features),
-                    'act2': activation(),
-                    'conv2': conv(out_features, out_features, kernel_size=3, stride=downsampling, padding=1, bias=False),
-                    'bn3': nn.BatchNorm2d(out_features),
-                    'conv3': conv(out_features, out_features * self.expansion, kernel_size=1, bias=False),
-                    'act3': activation(),
-                }
-            ))
-
-        self.act = nn.Identity()
-
-
-class ResNetLayer(nn.Module):
-    def __init__(self, in_channels: int, out_channels: int, block: nn.Module = ResNetBasicBlock, n: int = 1, *args, **kwargs):
-        super().__init__()
-        # 'We perform downsampling directly by convolutional layers that have a stride of 2.'
-        downsampling = 2 if in_channels != out_channels else 1
-
         self.block = nn.Sequential(
-            block(in_channels, out_channels, *args,
+            block(in_features, out_features, *args,
                   downsampling=downsampling,  **kwargs),
-            *[block(out_channels * block.expansion,
-                    out_channels, *args, **kwargs) for _ in range(n - 1)]
+            *[block(out_features,
+                    out_features, *args, **kwargs) for _ in range(n - 1)]
         )
 
     def forward(self, x: Tensor) -> Tensor:
-
         x = self.block(x)
         return x
 
 
-class ResNetEncoder(nn.Module):
+class EfficientNetEncoder(MobileNetEncoder):
     """
     ResNet encoder composed by increasing different layers with increasing features.
     """
 
-    def __init__(self, in_channels: int = 3, blocks_sizes: List[int] = [64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2],
-                 activation: nn.Module = ReLUInPlace, block: nn.Module = ResNetBasicBlock, *args, **kwargs):
-        super().__init__()
+    def __init__(self, in_channels: int = 3, *args, **kwargs):
+        super().__init__(in_channels, activation=Swish, *args, **kwargs)
 
-        self.blocks_sizes = blocks_sizes
+    
 
-        self.gate = nn.Sequential(
-            OrderedDict(
-                {
-                    'conv': nn.Conv2d(
-                        in_channels, self.blocks_sizes[0], kernel_size=7, stride=2, padding=3, bias=False),
-                    'bn': nn.BatchNorm2d(self.blocks_sizes[0]),
-                    'act': activation(),
-                    'pool': nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
-                }
-            )
-        )
-
-        self.in_out_block_sizes = list(zip(blocks_sizes, blocks_sizes[1:]))
         self.blocks = nn.ModuleList([
-            ResNetLayer(blocks_sizes[0], blocks_sizes[0], n=depths[0], activation=activation,
-                        block=block,  *args, **kwargs),
-            *[ResNetLayer(in_channels * block.expansion,
-                          out_channels, n=n, activation=activation,
-                          block=block, *args, **kwargs)
-              for (in_channels, out_channels), n in zip(self.in_out_block_sizes, depths[1:])]
+            EfficientNetLayer(self.blocks_sizes[1], self.blocks_sizes[2], downsampling=1),
+            EfficientNetLayer(self.blocks_sizes[2], self.blocks_sizes[3]),
+            EfficientNetLayer(self.blocks_sizes[3], self.blocks_sizes[4], kernel_size=5),
+            EfficientNetLayer(self.blocks_sizes[4], self.blocks_sizes[5]),
+            EfficientNetLayer(self.blocks_sizes[5], self.blocks_sizes[6], kernel_size=5),
+            EfficientNetLayer(self.blocks_sizes[6], self.blocks_sizes[7], kernel_size=5),
+            EfficientNetLayer(self.blocks_sizes[7], self.blocks_sizes[8], kernel_size=3),
         ])
 
     def forward(self, x):
@@ -274,7 +105,7 @@ class ResNet(nn.Module):
     You can easily customize your resnet
 
     Examples:
-       
+
 
     Args:
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
@@ -301,4 +132,3 @@ class ResNet(nn.Module):
             elif isinstance(m, nn.BatchNorm2d):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
-
