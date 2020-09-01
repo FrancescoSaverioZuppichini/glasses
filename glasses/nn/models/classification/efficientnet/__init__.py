@@ -6,7 +6,7 @@ from ....blocks.residuals import ResidualAdd
 from collections import OrderedDict
 from typing import List
 from functools import partial
-from ..mobilenet import InvertedResidualBlock, DepthWiseConv2d, MobileNetEncoder
+from ..mobilenet import InvertedResidualBlock, DepthWiseConv2d, MobileNetEncoder, MobileNetDecoder
 from ....blocks import Conv2dPad, ConvBnAct
 from ..se import SEModuleConv
 
@@ -15,11 +15,33 @@ class Swish(nn.Module):
     def forward(self, x):
         return x * torch.sigmoid(x)
 
+# A memory-efficient implementation of Swish function
+
+
+class SwishImplementation(torch.autograd.Function):
+    @staticmethod
+    def forward(ctx, i):
+        result = i * torch.sigmoid(i)
+        ctx.save_for_backward(i)
+        return result
+
+    @staticmethod
+    def backward(ctx, grad_output):
+        i = ctx.saved_tensors[0]
+        sigmoid_i = torch.sigmoid(i)
+        return grad_output * (sigmoid_i * (1 + i * (1 - sigmoid_i)))
+
+
+class MemoryEfficientSwish(nn.Module):
+    def forward(self, x):
+        return SwishImplementation.apply(x)
+
 
 class SEInvertedResidualBlock(InvertedResidualBlock):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        se = SEModuleConv(self.expanded_features, self.expanded_features)
+        super().__init__(*args, activation=Swish, **kwargs)
+        se = SEModuleConv(self.expanded_features,
+                          self.expanded_features, activation=Swish)
         # squeeze and excitation is applied after the depth wise conv
         self.block.block.conv[1] = nn.Sequential(
             se,
@@ -29,13 +51,13 @@ class SEInvertedResidualBlock(InvertedResidualBlock):
 
 class EfficientNetLayer(nn.Module):
     def __init__(self, in_features: int, out_features: int, block: nn.Module = SEInvertedResidualBlock,
-                 n: int = 1, downsampling: int = 2, *args, **kwargs):
+                 depth: int = 1, downsampling: int = 2, *args, **kwargs):
         super().__init__()
         self.block = nn.Sequential(
             block(in_features, out_features, *args,
                   downsampling=downsampling,  **kwargs),
             *[block(out_features,
-                    out_features, *args, **kwargs) for _ in range(n - 1)]
+                    out_features, *args, **kwargs) for _ in range(depth - 1)]
         )
 
     def forward(self, x: Tensor) -> Tensor:
@@ -43,25 +65,43 @@ class EfficientNetLayer(nn.Module):
         return x
 
 
-class EfficientNetEncoder(MobileNetEncoder):
+class EfficientNetEncoder(nn.Module):
     """
     ResNet encoder composed by increasing different layers with increasing features.
     """
 
-    def __init__(self, in_channels: int = 3, *args, **kwargs):
-        super().__init__(in_channels, activation=Swish, *args, **kwargs)
+    def __init__(self, in_channels: int = 3,
+                 blocks_sizes: List[int] = [
+                     32, 16, 24, 40, 80, 112, 192, 320, 1280],
+                 depths: List[int] = [1, 2, 2, 3, 3, 4, 1],
+                 strides: List[int] = [1, 2, 2, 2, 2, 1, 2],
+                 expansions: List[int] = [1, 6, 6, 6, 6, 6, 6],
+                 kernels_sizes: List[int] = [3, 3, 5, 3, 5, 5, 3],
+                 activation: nn.Module = Swish, *args, **kwargs):
+        super().__init__()
 
-    
+        self.blocks_sizes = blocks_sizes
+
+        self.gate = nn.Sequential(OrderedDict({
+            'conv': Conv2dPad(in_channels, self.blocks_sizes[0], kernel_size=3, stride=2, bias=False),
+            'bn': nn.BatchNorm2d(self.blocks_sizes[0])
+        }))
+
+        self.in_out_block_sizes = list(zip(blocks_sizes, blocks_sizes[1:-1]))
+
+        print(self.in_out_block_sizes)
 
         self.blocks = nn.ModuleList([
-            EfficientNetLayer(self.blocks_sizes[0], self.blocks_sizes[1], downsampling=1),
-            EfficientNetLayer(self.blocks_sizes[1], self.blocks_sizes[2]),
-            EfficientNetLayer(self.blocks_sizes[2], self.blocks_sizes[3], kernel_size=5),
-            EfficientNetLayer(self.blocks_sizes[3], self.blocks_sizes[4]),
-            EfficientNetLayer(self.blocks_sizes[4], self.blocks_sizes[5], kernel_size=5),
-            EfficientNetLayer(self.blocks_sizes[5], self.blocks_sizes[6], kernel_size=5),
-            EfficientNetLayer(self.blocks_sizes[6], self.blocks_sizes[7], kernel_size=3),
+            *[EfficientNetLayer(in_channels,
+                                out_channels, depth=n, downsampling=s, *args,  expansion=t, kernel_size=k, **kwargs)
+              for (in_channels, out_channels), n, s, t, k
+                in zip(self.in_out_block_sizes, depths, strides, expansions, kernels_sizes)]
         ])
+
+        self.blocks.append(
+            ConvBnAct(self.blocks_sizes[-2], self.blocks_sizes[-1],
+                      activation=Swish, kernel_size=1, bias=False),
+        )
 
     def forward(self, x):
         x = self.gate(x)
@@ -70,25 +110,7 @@ class EfficientNetEncoder(MobileNetEncoder):
         return x
 
 
-class ResnetDecoder(nn.Module):
-    """
-    This class represents the tail of ResNet. It performs a global pooling and maps the output to the
-    correct class by using a fully connected layer.
-    """
-
-    def __init__(self, in_features: int, n_classes: int):
-        super().__init__()
-        self.avg = nn.AdaptiveAvgPool2d((1, 1))
-        self.fc = nn.Linear(in_features, n_classes)
-
-    def forward(self, x):
-        x = self.avg(x)
-        x = x.view(x.size(0), -1)
-        x = self.fc(x)
-        return x
-
-
-class ResNet(nn.Module):
+class EfficientNet(nn.Module):
     """Implementations of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`_
 
     Create a default model
@@ -114,9 +136,9 @@ class ResNet(nn.Module):
 
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
-        self.encoder = ResNetEncoder(in_channels, *args, **kwargs)
-        self.decoder = ResnetDecoder(
-            self.encoder.blocks[-1].block[-1].expanded_features, n_classes)
+        self.encoder = EfficientNetEncoder(in_channels, *args, **kwargs)
+        self.decoder = MobileNetDecoder(
+            self.encoder.blocks_sizes[-1], n_classes)
 
         self.initialize()
 
