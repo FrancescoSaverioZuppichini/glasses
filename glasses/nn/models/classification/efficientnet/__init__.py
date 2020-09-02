@@ -38,10 +38,11 @@ class MemoryEfficientSwish(nn.Module):
 
 
 class SEInvertedResidualBlock(InvertedResidualBlock):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, activation=Swish, **kwargs)
+    def __init__(self, in_features: int, *args, activation: nn.Module = Swish,  **kwargs):
+        super().__init__(in_features, *args, activation=activation, **kwargs)
+        reduced_features = in_features // 4
         se = SEModuleConv(self.expanded_features,
-                          self.expanded_features, activation=Swish)
+                          reduced_features, activation=activation)
         # squeeze and excitation is applied after the depth wise conv
         self.block.block.conv[1] = nn.Sequential(
             se,
@@ -89,7 +90,6 @@ class EfficientNetEncoder(nn.Module):
 
         self.in_out_block_sizes = list(zip(blocks_sizes, blocks_sizes[1:-1]))
 
-        print(self.in_out_block_sizes)
 
         self.blocks = nn.ModuleList([
             *[EfficientNetLayer(in_channels,
@@ -154,3 +154,14 @@ class EfficientNet(nn.Module):
             elif isinstance(m, nn.BatchNorm2d):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
+
+        # 'efficientnet-b0': (1.0, 1.0, 224, 0.2),
+        # 'efficientnet-b1': (1.0, 1.1, 240, 0.2),
+        # 'efficientnet-b2': (1.1, 1.2, 260, 0.3),
+        # 'efficientnet-b3': (1.2, 1.4, 300, 0.3),
+        # 'efficientnet-b4': (1.4, 1.8, 380, 0.4),
+        # 'efficientnet-b5': (1.6, 2.2, 456, 0.4),
+        # 'efficientnet-b6': (1.8, 2.6, 528, 0.5),
+        # 'efficientnet-b7': (2.0, 3.1, 600, 0.5),
+        # 'efficientnet-b8': (2.2, 3.6, 672, 0.5),
+        # 'efficientnet-l2': (4.3, 5.3, 800, 0.5),

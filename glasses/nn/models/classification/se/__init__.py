@@ -80,14 +80,17 @@ class SEModuleConv(SEModule):
     Args:
         features (int): Number of features
         reduction (int, optional): Reduction ratio used to downsample the input. Defaults to 16.
+        reduced_features (int, optional): If passed, use it instead of calculating the reduced features using `reduction`. Defaults to None.
+
     """
 
-    def __init__(self, features: int, reduction: int = 16,  activation: nn.Module = ReLUInPlace):
+    def __init__(self, features: int, reduction: int = 16, reduced_features: int = None, activation: nn.Module = ReLUInPlace):
         super().__init__(features, reduction, activation)
+        reduced_features = features // reduction if reduced_features is None else reduced_features
         self.att = nn.Sequential(
-            nn.Conv2d(features, features // reduction, kernel_size=1, bias=False),
+            nn.Conv2d(features, reduced_features, kernel_size=1, bias=False),
             activation(),
-            nn.Conv2d(features // reduction, features, kernel_size=1, bias=False),
+            nn.Conv2d(reduced_features, features, kernel_size=1, bias=False),
             nn.Sigmoid()
         )
 
