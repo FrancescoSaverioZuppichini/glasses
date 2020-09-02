@@ -41,7 +41,7 @@ class SEInvertedResidualBlock(InvertedResidualBlock):
     def __init__(self, in_features: int, *args, activation: nn.Module = Swish,  **kwargs):
         super().__init__(in_features, *args, activation=activation, **kwargs)
         reduced_features = in_features // 4
-        print(reduced_features)
+
         se = SEModuleConv(self.expanded_features,
                           reduced_features=reduced_features, activation=activation)
         # squeeze and excitation is applied after the depth wise conv
@@ -101,7 +101,7 @@ class EfficientNetEncoder(nn.Module):
 
         self.blocks.append(
             ConvBnAct(self.blocks_sizes[-2], self.blocks_sizes[-1],
-                      activation=Swish, kernel_size=1, bias=False),
+                      activation=activation, kernel_size=1, bias=False),
         )
 
     def forward(self, x):
@@ -153,8 +153,8 @@ class EfficientNet(nn.Module):
             if isinstance(m, nn.Conv2d):
                 nn.init.kaiming_normal_(m.weight)
             elif isinstance(m, nn.BatchNorm2d):
-                nn.init.constant_(m.weight, 1)
-                nn.init.constant_(m.bias, 0)
+                m.eps = 1e-3
+                m.momentum = 0.99
 
         # 'efficientnet-b0': (1.0, 1.0, 224, 0.2),
         # 'efficientnet-b1': (1.0, 1.1, 240, 0.2),
