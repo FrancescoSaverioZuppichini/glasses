@@ -40,9 +40,9 @@ class SEModule(nn.Module):
         super().__init__()
         self.avg_pool = nn.AdaptiveAvgPool2d(1)
         self.att = nn.Sequential(
-            nn.Linear(features, features // reduction, bias=False),
+            nn.Linear(features, features // reduction),
             activation(),
-            nn.Linear(features // reduction, features, bias=False),
+            nn.Linear(features // reduction, features),
             nn.Sigmoid()
         )
 
