@@ -65,8 +65,9 @@ class InvertedResidualBlock(nn.Module):
                            )
         # do not apply residual when downsamping and when features are different
         # in mobilenet we do not use a shortcut
+        self.should_apply_residual = downsampling == 1 and in_features == out_features
         self.block = ResidualAdd(
-            weights) if downsampling == 1 and in_features == out_features else Residual(weights)
+            weights) if self.should_apply_residual else Residual(weights)
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.block(x)

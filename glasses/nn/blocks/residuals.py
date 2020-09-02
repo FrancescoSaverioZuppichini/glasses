@@ -55,7 +55,11 @@ class Residual(nn.Module):
 def add(x: Tensor, res: Tensor) -> Tensor:
     return x.add_(res)
 
-ResidualAdd = partial(Residual, res_func=add)
+class ResidualAdd(Residual):
+    def __init__(self, *args, **kwags):
+        super().__init__(*args, res_func=add, **kwags)
+
+# ResidualAdd = partial(Residual, res_func=add)
 ResidualCat = partial(Residual, res_func=lambda x, res: torch.cat([x, res]))
 ResidualCat2d = partial(Residual, res_func=lambda x, res: torch.cat([x, res], dim=1))
 

@@ -9,6 +9,7 @@ from functools import partial
 from ..mobilenet import InvertedResidualBlock, DepthWiseConv2d, MobileNetEncoder, MobileNetDecoder
 from ....blocks import Conv2dPad, ConvBnAct
 from ..se import SEModuleConv
+from efficientnet_pytorch import EfficientNet
 
 
 class Swish(nn.Module):
@@ -19,17 +20,19 @@ class Swish(nn.Module):
 
 
 class SwishImplementation(torch.autograd.Function):
+    # from https://github.com/lukemelas/EfficientNet-PyTorch/blob/8a84723405223bb368862e3817f1b673652aa71f/efficientnet_pytorch/utils.py
     @staticmethod
     def forward(ctx, i):
-        result = i * torch.sigmoid(i)
-        ctx.save_for_backward(i)
+        sigmoid_i = i.sigmoid()
+        result = i * sigmoid_i
+        if i.requires_grad:
+            ctx.save_for_backward(sigmoid_i + result * (1 - sigmoid_i))
         return result
 
     @staticmethod
     def backward(ctx, grad_output):
-        i = ctx.saved_tensors[0]
-        sigmoid_i = torch.sigmoid(i)
-        return grad_output * (sigmoid_i * (1 + i * (1 - sigmoid_i)))
+        grad, = ctx.saved_tensors
+        return grad_output * grad
 
 
 class MemoryEfficientSwish(nn.Module):
@@ -37,8 +40,8 @@ class MemoryEfficientSwish(nn.Module):
         return SwishImplementation.apply(x)
 
 
-class SEInvertedResidualBlock(InvertedResidualBlock):
-    def __init__(self, in_features: int, *args, activation: nn.Module = Swish,  **kwargs):
+class EfficientNetBasicBlock(InvertedResidualBlock):
+    def __init__(self, in_features: int, *args, activation: nn.Module = Swish, drop_rate=0.2, **kwargs):
         super().__init__(in_features, *args, activation=activation, **kwargs)
         reduced_features = in_features // 4
 
@@ -49,10 +52,11 @@ class SEInvertedResidualBlock(InvertedResidualBlock):
             se,
             self.block.block.conv[1]
         )
-
+        if self.should_apply_residual: 
+            self.block.block.add_module('drop', nn.Dropout2d(drop_rate))
 
 class EfficientNetLayer(nn.Module):
-    def __init__(self, in_features: int, out_features: int, block: nn.Module = SEInvertedResidualBlock,
+    def __init__(self, in_features: int, out_features: int, block: nn.Module = EfficientNetBasicBlock,
                  depth: int = 1, downsampling: int = 2, *args, **kwargs):
         super().__init__()
         self.block = nn.Sequential(
@@ -83,18 +87,14 @@ class EfficientNetEncoder(nn.Module):
         super().__init__()
 
         self.blocks_sizes = blocks_sizes
-
-        self.gate = nn.Sequential(OrderedDict({
-            'conv': Conv2dPad(in_channels, self.blocks_sizes[0], kernel_size=3, stride=2, bias=False),
-            'bn': nn.BatchNorm2d(self.blocks_sizes[0])
-        }))
+        self.gate = ConvBnAct(in_channels, self.blocks_sizes[0],  activation=activation, kernel_size = 3, stride=2, bias=False)
 
         self.in_out_block_sizes = list(zip(blocks_sizes, blocks_sizes[1:-1]))
 
 
         self.blocks = nn.ModuleList([
             *[EfficientNetLayer(in_channels,
-                                out_channels, depth=n, downsampling=s, *args,  expansion=t, kernel_size=k, **kwargs)
+                                out_channels, *args, depth=n, downsampling=s,  expansion=t, kernel_size=k, activation=activation, **kwargs)
               for (in_channels, out_channels), n, s, t, k
                 in zip(self.in_out_block_sizes, depths, strides, expansions, kernels_sizes)]
         ])
@@ -126,7 +126,7 @@ class EfficientNet(nn.Module):
     Customization
 
     You can easily customize your resnet
-
+0.010
     Examples:
 
 
@@ -150,11 +150,11 @@ class EfficientNet(nn.Module):
 
     def initialize(self):
         for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight)
-            elif isinstance(m, nn.BatchNorm2d):
+            # if isinstance(m, nn.Conv2d):
+            #     nn.init.kaiming_normal_(m.weight)
+            if isinstance(m, nn.BatchNorm2d):
                 m.eps = 1e-3
-                m.momentum = 0.99
+                m.momentum =  1e-2
 
         # 'efficientnet-b0': (1.0, 1.0, 224, 0.2),
         # 'efficientnet-b1': (1.0, 1.1, 240, 0.2),
