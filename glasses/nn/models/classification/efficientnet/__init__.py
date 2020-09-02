@@ -41,8 +41,9 @@ class SEInvertedResidualBlock(InvertedResidualBlock):
     def __init__(self, in_features: int, *args, activation: nn.Module = Swish,  **kwargs):
         super().__init__(in_features, *args, activation=activation, **kwargs)
         reduced_features = in_features // 4
+        print(reduced_features)
         se = SEModuleConv(self.expanded_features,
-                          reduced_features, activation=activation)
+                          reduced_features=reduced_features, activation=activation)
         # squeeze and excitation is applied after the depth wise conv
         self.block.block.conv[1] = nn.Sequential(
             se,

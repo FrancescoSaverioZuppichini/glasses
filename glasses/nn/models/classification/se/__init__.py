@@ -88,9 +88,9 @@ class SEModuleConv(SEModule):
         super().__init__(features, reduction, activation)
         reduced_features = features // reduction if reduced_features is None else reduced_features
         self.att = nn.Sequential(
-            nn.Conv2d(features, reduced_features, kernel_size=1, bias=False),
+            nn.Conv2d(features, reduced_features, kernel_size=1),
             activation(),
-            nn.Conv2d(reduced_features, features, kernel_size=1, bias=False),
+            nn.Conv2d(reduced_features, features, kernel_size=1),
             nn.Sigmoid()
         )
 
