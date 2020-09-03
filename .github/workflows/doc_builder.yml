@@ -30,7 +30,7 @@ jobs:
         cd ./docs
         sphinx-apidoc .. -o . -d 1 -H glasses -f
         make clean
-        make html
+        make github
 
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@3.5.9
