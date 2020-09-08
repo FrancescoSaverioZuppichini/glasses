@@ -22,16 +22,16 @@ class SSEModule(nn.Module):
 
         Add `SSEModule` to your own model is very simple. 
 
-        >>> nn.Sequantial(
+        >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
-        >>>    nn.SSEModule(64, reduction=4)
+        >>>    SSEModule(64, reduction=4)
         >>>    nn.ReLU(),
         >>> )
 
         You can also direcly specify the number of features inside the module
-        >>> nn.Sequantial(
+        >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
-        >>>    nn.SSEModule(64, reduced_features=10)
+        >>>    SSEModule(64, reduced_features=10)
         >>>    nn.ReLU(),
         >>> )
 
@@ -84,15 +84,15 @@ Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>
     Examples:
         To add `CSEModule` to your own model is very simple. 
 
-        >>> nn.Sequantial(
+        >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
-        >>>    nn.CSEModule(64, reduction=4)
+        >>>    CSEModule(64, reduction=4)
         >>>    nn.ReLU(),
         >>> )
         You can also direcly specify the number of features inside the module
-        >>> nn.Sequantial(
+        >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
-        >>>    nn.CSEModule(64, reduced_features=10)
+        >>>    CSEModule(64, reduced_features=10)
         >>>    nn.ReLU(),
         >>> )
 
@@ -127,17 +127,17 @@ Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/SpatialAndChannelSE.png?raw=true
 
     Examples:
-        To add `SeModule` to your own model is very simple. 
+        To add `SCSEModule` to your own model is very simple. 
 
-        >>> nn.Sequantial(
+        >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
-        >>>    nn.SEModuleConv(64, reduction=4)
+        >>>    SCSEModule(64, reduction=4)
         >>>    nn.ReLU(),
         >>> )
         You can also direcly specify the number of features inside the module
-        >>> nn.Sequantial(
+        >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
-        >>>    nn.SEModuleConv(64, reduced_features=10)
+        >>>    SCSEModule(64, reduced_features=10)
         >>>    nn.ReLU(),
         >>> )
     Args:
