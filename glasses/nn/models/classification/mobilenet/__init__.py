@@ -35,8 +35,8 @@ class InvertedResidualBlock(nn.Module):
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/MobileNetBasicBlockNoRes.png?raw=true
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        out_features (int): Number of input features
+        out_features (int): Number of output features
         activation (nn.Module, optional): [description]. Defaults to nn.ReLU6.
         downsampling (int, optional): [description]. Defaults to 1.
     """
@@ -45,7 +45,7 @@ class InvertedResidualBlock(nn.Module):
         super().__init__()
         self.in_features, self.out_features = in_features, out_features
         self.expansion = expansion
-        self.expanded_features = in_features * self.expansion
+        self.expanded_features = in_features * self.expansione
 
         weights = nn.Sequential()
         # we need to expand the input only if expansion is greater than one
