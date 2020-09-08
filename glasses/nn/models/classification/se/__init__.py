@@ -7,7 +7,7 @@ class SEModule(nn.Module):
     """Implementation of Squeeze and Excitation Module proposed in `Squeeze-and-Excitation Networks <https://arxiv.org/abs/1709.01507>`_
     The idea is to apply learned an channel-wise attention. 
     
-    The authors reported a bigger performance increase where the number of features are higher.
+    The authors reported a bigger performance increase where the number of features is higher.
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/se.png?raw=true
 
@@ -60,9 +60,9 @@ class SEModuleConv(SEModule):
     """Modified implement of Squeeze and Excitation Module proposed in `Squeeze-and-Excitation Networks <https://arxiv.org/abs/1709.01507>`_
     The idea is to apply learned an channel-wise attention. 
     
-    Here we used two 1x1 convs to first reduce the inputs' channels and then to learn the weight funtion.
+    Here we use two 1x1 convs. The first reduce the inputs' channels, then  the second learns the scaling funtion.
 
-    The authors reported a bigger performance increase where the number of features are higher.
+    The authors reported a bigger performance increase where the number of features is higher.
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/se.png?raw=true
 
@@ -73,6 +73,15 @@ class SEModuleConv(SEModule):
         >>> nn.Sequantial(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
         >>>    nn.SEModuleConv(64, reduction=4)
+        >>>    nn.ReLU(),
+        >>> )
+
+        You can also direcly specify the number of features inside the module
+
+
+        >>> nn.Sequantial(
+        >>>    nn.Conv2d(32, 64, kernel_size=3),
+        >>>    nn.SEModuleConv(64, reduced_features=10)
         >>>    nn.ReLU(),
         >>> )
 
