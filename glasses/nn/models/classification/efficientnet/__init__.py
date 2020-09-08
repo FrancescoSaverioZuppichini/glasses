@@ -85,7 +85,7 @@ class EfficientNetEncoder(nn.Module):
                  activation: nn.Module = Swish, *args, **kwargs):
         super().__init__()
 
-        self.widths, self.depths = widths, self.depths
+        self.widths, self.depths = widths, depths
         self.gate = ConvBnAct(in_channels, self.widths[0],  activation=activation, kernel_size = 3, stride=2, bias=False)
 
         self.in_out_block_sizes = list(zip(widths, widths[1:-1]))
@@ -125,7 +125,6 @@ class EfficientNet(nn.Module):
     Customization
 
     You can easily customize your resnet
-0.010
     Examples:
 
 

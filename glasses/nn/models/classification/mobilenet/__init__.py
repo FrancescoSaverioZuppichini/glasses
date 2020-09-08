@@ -45,7 +45,7 @@ class InvertedResidualBlock(nn.Module):
         super().__init__()
         self.in_features, self.out_features = in_features, out_features
         self.expansion = expansion
-        self.expanded_features = in_features * self.expansione
+        self.expanded_features = in_features * self.expansion
 
         weights = nn.Sequential()
         # we need to expand the input only if expansion is greater than one
