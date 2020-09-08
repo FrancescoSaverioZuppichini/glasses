@@ -12,7 +12,7 @@ def test_tracker():
 
     se = SSEModule(x.shape[1], reduced_features=10)
 
-    assert se.att[0].out_features == 10
+    assert se.att.fc1.out_features == 10
 
     se = CSEModule(x.shape[1])
     res = se(x)
