@@ -9,7 +9,6 @@ from functools import partial
 from ..mobilenet import InvertedResidualBlock, DepthWiseConv2d, MobileNetEncoder, MobileNetDecoder
 from ....blocks import Conv2dPad, ConvBnAct
 from ..se import SEModuleConv
-from efficientnet_pytorch import EfficientNet
 
 
 class Swish(nn.Module):
@@ -77,7 +76,7 @@ class EfficientNetEncoder(nn.Module):
     """
 
     def __init__(self, in_channels: int = 3,
-                 blocks_sizes: List[int] = [
+                 widths: List[int] = [
                      32, 16, 24, 40, 80, 112, 192, 320, 1280],
                  depths: List[int] = [1, 2, 2, 3, 3, 4, 1],
                  strides: List[int] = [1, 2, 2, 2, 2, 1, 2],
@@ -86,10 +85,10 @@ class EfficientNetEncoder(nn.Module):
                  activation: nn.Module = Swish, *args, **kwargs):
         super().__init__()
 
-        self.blocks_sizes = blocks_sizes
-        self.gate = ConvBnAct(in_channels, self.blocks_sizes[0],  activation=activation, kernel_size = 3, stride=2, bias=False)
+        self.widths, self.depths = widths, self.depths
+        self.gate = ConvBnAct(in_channels, self.widths[0],  activation=activation, kernel_size = 3, stride=2, bias=False)
 
-        self.in_out_block_sizes = list(zip(blocks_sizes, blocks_sizes[1:-1]))
+        self.in_out_block_sizes = list(zip(widths, widths[1:-1]))
 
 
         self.blocks = nn.ModuleList([
@@ -100,7 +99,7 @@ class EfficientNetEncoder(nn.Module):
         ])
 
         self.blocks.append(
-            ConvBnAct(self.blocks_sizes[-2], self.blocks_sizes[-1],
+            ConvBnAct(self.widths[-2], self.widths[-1],
                       activation=activation, kernel_size=1, bias=False),
         )
 
@@ -139,7 +138,7 @@ class EfficientNet(nn.Module):
         super().__init__()
         self.encoder = EfficientNetEncoder(in_channels, *args, **kwargs)
         self.decoder = MobileNetDecoder(
-            self.encoder.blocks_sizes[-1], n_classes)
+            self.encoder.widths[-1], n_classes)
 
         self.initialize()
 
