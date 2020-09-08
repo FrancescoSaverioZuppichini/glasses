@@ -204,27 +204,27 @@ class ResNetEncoder(nn.Module):
     ResNet encoder composed by increasing different layers with increasing features.
     """
 
-    def __init__(self, in_channels: int = 3, blocks_sizes: List[int] = [64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2],
+    def __init__(self, in_channels: int = 3, widths: List[int] = [64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2],
                  activation: nn.Module = ReLUInPlace, block: nn.Module = ResNetBasicBlock, *args, **kwargs):
         super().__init__()
 
-        self.blocks_sizes = blocks_sizes
+        self.widths = widths
 
         self.gate = nn.Sequential(
             OrderedDict(
                 {
                     'conv': nn.Conv2d(
-                        in_channels, self.blocks_sizes[0], kernel_size=7, stride=2, padding=3, bias=False),
-                    'bn': nn.BatchNorm2d(self.blocks_sizes[0]),
+                        in_channels, self.widths[0], kernel_size=7, stride=2, padding=3, bias=False),
+                    'bn': nn.BatchNorm2d(self.widths[0]),
                     'act': activation(),
                     'pool': nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
                 }
             )
         )
 
-        self.in_out_block_sizes = list(zip(blocks_sizes, blocks_sizes[1:]))
+        self.in_out_block_sizes = list(zip(widths, widths[1:]))
         self.blocks = nn.ModuleList([
-            ResNetLayer(blocks_sizes[0], blocks_sizes[0], n=depths[0], activation=activation,
+            ResNetLayer(widths[0], widths[0], n=depths[0], activation=activation,
                         block=block,  *args, **kwargs),
             *[ResNetLayer(in_channels * block.expansion,
                           out_channels, n=n, activation=activation,
