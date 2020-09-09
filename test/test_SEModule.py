@@ -10,7 +10,7 @@ def test_tracker():
 
     assert res.shape == x.shape
 
-    se = SpatialChannelSE(x.shape[1], reduced_features=10)
+    se = SpatialSE(x.shape[1], reduced_features=10)
 
     assert se.att.fc1.out_features == 10
 
