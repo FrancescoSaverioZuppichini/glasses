@@ -4,7 +4,7 @@ from torch import Tensor
 from collections import OrderedDict
 
 
-class SSEModule(nn.Module):
+class SpatialSE(nn.Module):
     """Implementation of Squeeze and Excitation Module proposed in `Squeeze-and-Excitation Networks <https://arxiv.org/abs/1709.01507>`_
     The idea is to apply learned an channel-wise attention.
 
@@ -21,18 +21,18 @@ class SSEModule(nn.Module):
 
     Examples:
 
-        Add `SSEModule` to your own model is very simple.
+        Add `SpatialSE` to your own model is very simple.
 
         >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
-        >>>    SSEModule(64, reduction=4)
+        >>>    SpatialSE(64, reduction=4)
         >>>    nn.ReLU(),
         >>> )
 
         You can also direcly specify the number of features inside the module
         >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
-        >>>    SSEModule(64, reduced_features=10)
+        >>>    SpatialSE(64, reduced_features=10)
         >>>    nn.ReLU(),
         >>> )
 
@@ -42,7 +42,7 @@ class SSEModule(nn.Module):
         >>>     def __init__(self, in_features: int, out_features: int, reduction: int =16, *args, **kwargs):
         >>>        super().__init__(in_features, out_features, *args, **kwargs)
         >>>        # add se to the `.block`
-        >>>        self.block.add_module('se', SSEModule(out_features))
+        >>>        self.block.add_module('se', SpatialSE(out_features))
 
 
     Args:
@@ -75,7 +75,7 @@ class SSEModule(nn.Module):
         return x * y.expand_as(x)
 
 
-class CSEModule(SSEModule):
+class ChannelSE(SpatialSE):
     """Modified implement of Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze &
 Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>`_
 
@@ -85,17 +85,17 @@ Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ChannelSE.png?raw=true
 
     Examples:
-        To add `CSEModule` to your own model is very simple.
+        To add `ChannelSE` to your own model is very simple.
 
         >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
-        >>>    CSEModule(64, reduction=4)
+        >>>    ChannelSE(64, reduction=4)
         >>>    nn.ReLU(),
         >>> )
         You can also direcly specify the number of features inside the module
         >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
-        >>>    CSEModule(64, reduced_features=10)
+        >>>    ChannelSE(64, reduced_features=10)
         >>>    nn.ReLU(),
         >>> )
 
@@ -122,7 +122,7 @@ Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>
         return x * y
 
 
-class SCSEModule(nn.Module):
+class SpatialChannelSE(nn.Module):
     """Implement of Spatial and Channel Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze &
 Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>`_
 
@@ -131,17 +131,17 @@ Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/SpatialAndChannelSE.png?raw=true
 
     Examples:
-        To add `SCSEModule` to your own model is very simple.
+        To add `SpatialChannelSE` to your own model is very simple.
 
         >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
-        >>>    SCSEModule(64, reduction=4)
+        >>>    SpatialChannelSE(64, reduction=4)
         >>>    nn.ReLU(),
         >>> )
         You can also direcly specify the number of features inside the module
         >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
-        >>>    SCSEModule(64, reduced_features=10)
+        >>>    SpatialChannelSE(64, reduced_features=10)
         >>>    nn.ReLU(),
         >>> )
     Args:
@@ -152,8 +152,8 @@ Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>
 
     def __init__(self, *args, **kwargs):
         super().__init__()
-        self.spatial_se = SSEModule(*args, **kwargs)
-        self.channel_se = CSEModule(*args, **kwargs)
+        self.spatial_se = SpatialSE(*args, **kwargs)
+        self.channel_se = ChannelSE(*args, **kwargs)
 
     def forward(self, x: Tensor) -> Tensor:
         s_se = self.spatial_se(x)
