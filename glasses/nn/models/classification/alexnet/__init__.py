@@ -13,7 +13,7 @@ AlexNetBasicBlock = ConvAct
     
 class AlexNetGateBlock(nn.Module):
     """
-    AlexNet gate, the head of the architecture, which decreases the size of the filters by means of stride and bigger kernels.
+    AlexNet gate, the head of the architecture, which decreases the resolution of the filters by means of stride and bigger kernels.
     """
 
     out_features: int = 192
@@ -45,19 +45,18 @@ class AlexNetEncoder(nn.Module):
     AlexNet encoder, composed by a gate which decreases the size of the filters by means of stride and bigger kernels, and simple convolutional layers.
     """
 
-    def __init__(self, in_channels: int = 3, blocks_sizes: List[int] = [384, 256, 256],
+    def __init__(self, in_channels: int = 3, widths: List[int] = [384, 256, 256],
                  activation: nn.Module = ReLUInPlace, block: nn.Module = AlexNetBasicBlock, *args, **kwargs):
         super().__init__()
 
-        self.blocks_sizes = blocks_sizes
-        self.out_features = blocks_sizes[-1]
-        self.block = AlexNetBasicBlock
+        self.widths = widths
+        self.out_features = widths[-1]
 
         self.gate = AlexNetGateBlock()
         
-        self.in_out_block_sizes = list(zip(blocks_sizes[:-1], blocks_sizes[1:]))
+        self.in_out_block_sizes = list(zip(widths[:-1], widths[1:]))
         self.blocks = nn.ModuleList([
-            block(self.gate.out_features, blocks_sizes[0], activation=activation, kernel_size=3),
+            block(self.gate.out_features, widths[0], activation=activation, kernel_size=3),
             *[block(in_channels, out_channels, activation=activation, kernel_size=3)
               for (in_channels, out_channels) in self.in_out_block_sizes]
         ])

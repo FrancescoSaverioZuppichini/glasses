@@ -99,7 +99,7 @@ class MobileNetEncoder(nn.Module):
 
     Args:
             in_channels (int, optional): [description]. Defaults to 3.
-            blocks_sizes (List[int], optional): Number of features for each layer, called `c` in the paper. Defaults to [32, 16, 24, 32, 64, 96, 160, 320].
+            widths (List[int], optional): Number of features for each layer, called `c` in the paper. Defaults to [32, 16, 24, 32, 64, 96, 160, 320].
             depths (List[int], optional): Number of blocks at each layer, called `n` in the paper. Defaults to [1, 1, 2, 3, 4, 3, 3, 1].
             strides (List[int], optional): Number of stride for each layer, called `s` in the paper. Defaults to [2, 1, 2, 2, 2, 1, 2, 1].
             expansions (List[int], optional): Expansion for each block in each layer, called `t` in the paper. Defaults to [1, 6, 6, 6, 6, 6, 6].
@@ -107,21 +107,21 @@ class MobileNetEncoder(nn.Module):
             block (nn.Module, optional): [description]. Defaults to MobileNetBasicBlock.
     """
 
-    def __init__(self, in_channels: int = 3, blocks_sizes: List[int] = [32, 16, 24, 32, 64, 96, 160, 320, 1280],
+    def __init__(self, in_channels: int = 3, widths: List[int] = [32, 16, 24, 32, 64, 96, 160, 320, 1280],
                  depths: List[int] = [1, 1, 2, 3, 4, 3, 3, 1],
                  strides: List[int] = [2, 1, 2, 2, 2, 1, 2, 1],
                  expansions: List[int] = [1, 6, 6, 6, 6, 6, 6],
                  activation: nn.Module = nn.ReLU6, block: nn.Module = MobileNetBasicBlock, *args, **kwargs):
         super().__init__()
         # TODO mostly copied from resnet, we should find a way to re use the resnet one!
-        self.blocks_sizes = blocks_sizes
+        self.widths = widths
 
         self.gate = nn.Sequential(
-            ConvBnAct(in_channels, blocks_sizes[0], activation=activation,
+            ConvBnAct(in_channels, widths[0], activation=activation,
                       kernel_size=3, stride=strides[0], bias=False),
         )
 
-        self.in_out_block_sizes = list(zip(blocks_sizes, blocks_sizes[1:-1]))
+        self.in_out_block_sizes = list(zip(widths, widths[1:-1]))
 
         self.blocks = nn.ModuleList([
             *[MobileNetLayer(in_channels,
@@ -131,7 +131,7 @@ class MobileNetEncoder(nn.Module):
         ])
 
         self.blocks.append(nn.Sequential(
-            ConvBnAct(blocks_sizes[-2], blocks_sizes[-1],
+            ConvBnAct(widths[-2], widths[-1],
                       activation=nn.ReLU6, kernel_size=1, bias=False),
         ))
 
@@ -209,7 +209,7 @@ class MobileNetV2(nn.Module):
         super().__init__()
         self.encoder = MobileNetEncoder(in_channels, *args, **kwargs)
         self.decoder = MobileNetDecoder(
-            self.encoder.blocks_sizes[-1], n_classes)
+            self.encoder.widths[-1], n_classes)
 
         self.initialize()
 
