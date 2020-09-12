@@ -30,6 +30,7 @@ class SpatialSE(nn.Module):
         >>> )
 
         You can also direcly specify the number of features inside the module
+
         >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
         >>>    SpatialSE(64, reduced_features=10)
@@ -85,19 +86,22 @@ Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ChannelSE.png?raw=true
 
     Examples:
-        To add `ChannelSE` to your own model is very simple.
+        Add `ChannelSE` to your own model is very simple.
 
         >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
         >>>    ChannelSE(64, reduction=4)
         >>>    nn.ReLU(),
         >>> )
+
         You can also direcly specify the number of features inside the module
+
         >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
         >>>    ChannelSE(64, reduced_features=10)
         >>>    nn.ReLU(),
         >>> )
+
 
     Args:
         features (int): Number of features
@@ -131,25 +135,29 @@ Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/SpatialAndChannelSE.png?raw=true
 
     Examples:
-        To add `SpatialChannelSE` to your own model is very simple.
+        Add `SpatialChannelSE` to your own model is very simple.
 
         >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
         >>>    SpatialChannelSE(64, reduction=4)
         >>>    nn.ReLU(),
         >>> )
+
         You can also direcly specify the number of features inside the module
+
         >>> nn.Sequential(
         >>>    nn.Conv2d(32, 64, kernel_size=3),
         >>>    SpatialChannelSE(64, reduced_features=10)
         >>>    nn.ReLU(),
         >>> )
+
+
     Args:
         features (int): Number of features
         reduction (int, optional): Reduction ratio used to downsample the input. Defaults to 16.
         reduced_features (int, optional): If passed, use it instead of calculating the reduced features using `reduction`. Defaults to None.
     """
-
+    
     def __init__(self, *args, **kwargs):
         super().__init__()
         self.spatial_se = SpatialSE(*args, **kwargs)

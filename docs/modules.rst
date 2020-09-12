@@ -5,3 +5,4 @@ glasses
    :maxdepth: 1
 
    glasses
+   setup
