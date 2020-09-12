@@ -73,7 +73,7 @@ class DenseBottleNeckBlock(DenseNetBasicBlock):
 class TransitionBlock(nn.Module):
     """A transition block is used to downsample the output using 1x1 conv followed by 2x2 average pooling.
 
-    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNetTransitionBlock.png.png?raw=true
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNetTransitionBlock.png?raw=true
 
     Args:
         in_features (int): [description]
@@ -103,7 +103,7 @@ class TransitionBlock(nn.Module):
 class DenseNetLayer(nn.Module):
     """A DenseNet layer is composed by `n` `blocks` stacked together followed by a transition to downsample the output features.
 
-    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNetLayer.png.png?raw=true
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNetLayer.png?raw=true
 
     Args:
         in_features (int): [description]
@@ -210,7 +210,6 @@ class DenseNet(nn.Module):
         >>> print([x.shape for x in features])
         # [torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7]), torch.Size([1, 1024, 7, 7])]
 
-        >>>
 
     Args:
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
