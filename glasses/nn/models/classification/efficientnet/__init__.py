@@ -9,7 +9,7 @@ from functools import partial
 from ..mobilenet import InvertedResidualBlock, DepthWiseConv2d, MobileNetEncoder, MobileNetDecoder
 from ....blocks import Conv2dPad, ConvBnAct
 from ..se import ChannelSE
-
+import math
 
 class Swish(nn.Module):
     def forward(self, x):
@@ -133,6 +133,10 @@ class EfficientNet(nn.Module):
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
 
+    depths: List[int] = [1, 2, 2, 3, 3, 4, 1]
+    widths: List[int] = [
+        32, 16, 24, 40, 80, 112, 192, 320, 1280]
+
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = EfficientNetEncoder(in_channels, *args, **kwargs)
@@ -146,14 +150,66 @@ class EfficientNet(nn.Module):
         x = self.decoder(x)
         return x
 
+
     def initialize(self):
         for m in self.modules():
-            # if isinstance(m, nn.Conv2d):
-            #     nn.init.kaiming_normal_(m.weight)
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight)
             if isinstance(m, nn.BatchNorm2d):
                 m.eps = 1e-3
                 m.momentum =  1e-2
 
+    @classmethod
+    def b0(cls, *args, **kwargs) -> EfficientNet:
+        depths, widths = CompoundScaler()(*scaling_params['b0'], cls.depths, cls.widths)
+        return EfficientNet(*args, **kwargs, depths=depths, widths=widths)
+
+    @classmethod
+    def b1(cls, *args, **kwargs) -> EfficientNet:
+        depths, widths = CompoundScaler()(*scaling_params['b1'], cls.depths, cls.widths)
+        return EfficientNet(*args, **kwargs, depths=depths, widths=widths)
+
+    @classmethod
+    def b2(cls, *args, **kwargs) -> EfficientNet:
+        depths, widths = CompoundScaler()(*scaling_params['b2'], cls.depths, cls.widths)
+        return EfficientNet(*args, **kwargs, depths=depths, widths=widths)
+
+    @classmethod
+    def b3(cls, *args, **kwargs) -> EfficientNet:
+        depths, widths = CompoundScaler()(*scaling_params['b3'], cls.depths, cls.widths)
+        return EfficientNet(*args, **kwargs, depths=depths, widths=widths)
+
+    @classmethod
+    def b4(cls, *args, **kwargs) -> EfficientNet:
+        depths, widths = CompoundScaler()(*scaling_params['b4'], cls.depths, cls.widths)
+        return EfficientNet(*args, **kwargs, depths=depths, widths=widths)
+
+
+    @classmethod
+    def b5(cls, *args, **kwargs) -> EfficientNet:
+        depths, widths = CompoundScaler()(*scaling_params['b5'], cls.depths, cls.widths)
+        return EfficientNet(*args, **kwargs, depths=depths, widths=widths)
+
+    @classmethod
+    def b6(cls, *args, **kwargs) -> EfficientNet:
+        depths, widths = CompoundScaler()(*scaling_params['b6'], cls.depths, cls.widths)
+        return EfficientNet(*args, **kwargs, depths=depths, widths=widths)
+
+    @classmethod
+    def b7(cls, *args, **kwargs) -> EfficientNet:
+        depths, widths = CompoundScaler()(*scaling_params['b7'], cls.depths, cls.widths)
+        return EfficientNet(*args, **kwargs, depths=depths, widths=widths)
+
+    @classmethod
+    def b8(cls, *args, **kwargs) -> EfficientNet:
+        depths, widths = CompoundScaler()(*scaling_params['b8'], cls.depths, cls.widths)
+        return EfficientNet(*args, **kwargs, depths=depths, widths=widths)
+
+    @classmethod
+    def l2(cls, *args, **kwargs) -> EfficientNet:
+        depths, widths = CompoundScaler()(*scaling_params['l2'], cls.depths, cls.widths)
+        return EfficientNet(*args, **kwargs, depths=depths, widths=widths)
+        
         # 'efficientnet-b0': (1.0, 1.0, 224, 0.2),
         # 'efficientnet-b1': (1.0, 1.1, 240, 0.2),
         # 'efficientnet-b2': (1.1, 1.2, 260, 0.3),
@@ -164,3 +220,40 @@ class EfficientNet(nn.Module):
         # 'efficientnet-b7': (2.0, 3.1, 600, 0.5),
         # 'efficientnet-b8': (2.2, 3.6, 672, 0.5),
         # 'efficientnet-l2': (4.3, 5.3, 800, 0.5),
+
+scaling_params = {
+    # name : (alpha, beta)
+    'b0': (1.0, 1.0),
+    'b1': (1.1, 1.0),
+    'b2': (1.2, 1.1),
+    'b3': (1.4, 1.2),
+    'b4': (1.8, 1.4),
+    'b5': (2.2, 1.6),
+    'b6': (2.6, 1.8),
+    'b7': (3.1, 2.0),
+    'b8': (3.6, 2.2),
+    'l2': (5.3, 4.3)
+}
+
+class CompoundScaler:
+    
+    def make_divisible(self, value, divisor=8):
+        new_value = max(divisor, int(value + divisor / 2) // divisor * divisor)
+        if new_value < 0.9 * value:
+            new_value += divisor
+        return new_value
+
+    def width_scaling(self, width, width_multi):
+        scaled = width if width == 1 else int(self.make_divisible(width * width_multi))
+        return scaled
+
+    def depth_scaling(self, depth, depth_multi):
+        scaled = depth if depth_multi == 1 else int(math.ceil(depth_multi * depth))
+        return scaled
+
+    def __call__(self, alpha, beta, depths, widths):
+        
+        depths = [self.depth_scaling(d, alpha) for d in depths]
+        widths = [self.width_scaling(w, beta) for w in widths]
+        
+        return depths, widths
