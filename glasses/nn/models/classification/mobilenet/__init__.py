@@ -53,16 +53,16 @@ class InvertedResidualBlock(nn.Module):
             weights.add_module('exp', ConvBnAct(in_features,  self.expanded_features,
                                                 activation=activation, kernel_size=1, bias=False))
         # add the depth wise and point wise conv
-        weights.add_module('conv',
-                           nn.Sequential(ConvBnAct(self.expanded_features, self.expanded_features,
+        weights.add_module('depth', ConvBnAct(self.expanded_features, self.expanded_features,
                                                    conv=DepthWiseConv2d,
                                                    activation=activation,
                                                    kernel_size=kernel_size,
-                                                   stride=downsampling, bias=False),
-                                         Conv2dPad(self.expanded_features,
-                                                   out_features, kernel_size=1, bias=False),
-                                         nn.BatchNorm2d(out_features))
+                                                   stride=downsampling, bias=False)
                            )
+
+        weights.add_module('point',  nn.Sequential(Conv2dPad(self.expanded_features,
+                                                   out_features, kernel_size=1, bias=False),
+                                         nn.BatchNorm2d(out_features)))
         # do not apply residual when downsamping and when features are different
         # in mobilenet we do not use a shortcut
         self.should_apply_residual = downsampling == 1 and in_features == out_features

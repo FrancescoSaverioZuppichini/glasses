@@ -8,7 +8,7 @@ from typing import List
 from functools import partial
 from ..mobilenet import InvertedResidualBlock, DepthWiseConv2d, MobileNetEncoder, MobileNetDecoder
 from ....blocks import Conv2dPad, ConvBnAct
-from ..se import SEModuleConv
+from ..se import ChannelSE
 
 
 class Swish(nn.Module):
@@ -44,12 +44,12 @@ class EfficientNetBasicBlock(InvertedResidualBlock):
         super().__init__(in_features, *args, activation=activation, **kwargs)
         reduced_features = in_features // 4
 
-        se = SEModuleConv(self.expanded_features,
+        se = ChannelSE(self.expanded_features,
                           reduced_features=reduced_features, activation=activation)
         # squeeze and excitation is applied after the depth wise conv
-        self.block.block.conv[1] = nn.Sequential(
+        self.block.block.point = nn.Sequential(
             se,
-            self.block.block.conv[1]
+            self.block.block.point
         )
         if self.should_apply_residual: 
             self.block.block.add_module('drop', nn.Dropout2d(drop_rate))
