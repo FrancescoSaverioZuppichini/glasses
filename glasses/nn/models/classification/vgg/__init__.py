@@ -81,7 +81,7 @@ class VGGDecoder(nn.Module):
     correct class by means of fully connected layers. Dropout is used to decrease the overfitting.
 
         Args:
-        in_features (int): [description]
+        out_features (int): Number of input features
         n_classes (int): [description]
     """
 

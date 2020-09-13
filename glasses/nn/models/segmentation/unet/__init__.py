@@ -33,8 +33,8 @@ class DownLayer(nn.Module):
     """UNet down layer (left side). 
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        out_features (int): Number of input features
+        out_features (int): Number of output features
         donwsample (bool, optional): If true maxpoll will be used to reduce the resolution of the input. Defaults to True.
         block (nn.Module, optional): Block used. Defaults to DownBlock.
 
@@ -56,8 +56,8 @@ class UpLayer(nn.Module):
     """UNet up layer (right side). 
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        out_features (int): Number of input features
+        out_features (int): Number of output features
         block (nn.Module, optional): Block used. Defaults to UpBlock.
 
     """

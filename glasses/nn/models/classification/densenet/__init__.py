@@ -17,8 +17,8 @@ class DenseNetBasicBlock(nn.Module):
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNetBasicBlock.png?raw=true
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        out_features (int): Number of input features
+        out_features (int): Number of output features
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
     """
@@ -47,8 +47,8 @@ class DenseBottleNeckBlock(DenseNetBasicBlock):
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNetBottleneckBlock.png?raw=true
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        out_features (int): Number of input features
+        out_features (int): Number of output features
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
         expansion (int, optional): [description]. Defaults to 4.
@@ -76,7 +76,7 @@ class TransitionBlock(nn.Module):
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNetTransitionBlock.png?raw=true
 
     Args:
-        in_features (int): [description]
+        out_features (int): Number of input features
         factor (int, optional): Reduction factor applied on the in_features. Defaults to 2
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
@@ -106,7 +106,7 @@ class DenseNetLayer(nn.Module):
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNetLayer.png?raw=true
 
     Args:
-        in_features (int): [description]
+        out_features (int): Number of input features
         grow_rate (int, optional): [description]. Defaults to 32.
         n (int, optional): [description]. Defaults to 4.
         block (nn.Module, optional): [description]. Defaults to DenseNetBasicBlock.

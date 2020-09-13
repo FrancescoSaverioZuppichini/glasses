@@ -48,14 +48,16 @@ class ResNetBasicBlock(nn.Module):
     :math:`x' = F(x) + x`
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        out_features (int): Number of input features
+        out_features (int): Number of output features
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
         downsampling (int, optional): [description]. Defaults to 1.
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
     """
 
-    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d):
+    def __init__(self, in_features: int, out_features: int,
+                 activation: nn.Module = ReLUInPlace,
+                 downsampling: int = 1, conv: nn.Module = nn.Conv2d):
         super().__init__()
         self.in_features, self.out_features = in_features, out_features
         self.expanded_features = self.out_features * self.expansion
@@ -92,8 +94,8 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
     *The residual connection is showed as a black line*
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        out_features (int): Number of input features
+        out_features (int): Number of output features
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
         downsampling (int, optional): [description]. Defaults to 1.
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
@@ -122,8 +124,8 @@ class ResNetBasicPreActBlock(ResNetBottleneckBlock):
     """Pre activation ResNet basic block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        out_features (int): Number of input features
+        out_features (int): Number of output features
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
         downsampling (int, optional): [description]. Defaults to 1.
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
@@ -151,8 +153,8 @@ class ResNetBottleneckPreActBlock(ResNetBasicBlock):
     """Pre activation ResNet basic block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        out_features (int): Number of input features
+        out_features (int): Number of output features
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
         downsampling (int, optional): [description]. Defaults to 1.
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.

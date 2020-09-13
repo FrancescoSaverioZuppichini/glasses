@@ -1,7 +1,7 @@
 from __future__ import annotations
 from torch import nn
 from torch import Tensor
-from ....blocks.residuals import ResidualAdd
+from ....blocks.residuals import ResidualAdd, Residual
 from ....blocks import Conv2dPad, ConvBnAct
 from collections import OrderedDict
 from ..resnet import ResnetDecoder
@@ -30,43 +30,46 @@ class InvertedResidualBlock(nn.Module):
 
     ReLU6 is the default activation because it was found to be more robust when used with low-precision computation.
 
-    Residual connections are not applied when input and output's dimensions matches (stride > 1).
+    Residual connections are applied when there the input and output features number are the same.
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/MobileNetBasicBlockNoRes.png?raw=true
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        out_features (int): Number of input features
+        out_features (int): Number of output features
         activation (nn.Module, optional): [description]. Defaults to nn.ReLU6.
         downsampling (int, optional): [description]. Defaults to 1.
     """
 
-    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = nn.ReLU6, downsampling: int = 1, expansion: int = 6):
+    def __init__(self, in_features: int, out_features: int,  downsampling: int = 1, expansion: int = 6, activation: nn.Module = nn.ReLU6, kernel_size: int = 3):
         super().__init__()
         self.in_features, self.out_features = in_features, out_features
         self.expansion = expansion
         self.expanded_features = in_features * self.expansion
 
         weights = nn.Sequential()
-        # we need to expandn the input only if expansion is greater than one
+        # we need to expand the input only if expansion is greater than one
         if expansion > 1:
             weights.add_module('exp', ConvBnAct(in_features,  self.expanded_features,
                                                 activation=activation, kernel_size=1, bias=False))
         # add the depth wise and point wise conv
-        weights.add_module('conv',
-                           nn.Sequential(ConvBnAct(self.expanded_features, self.expanded_features,
-                                                   conv=DepthWiseConv2d,
-                                                   activation=activation,
-                                                   kernel_size=3,
-                                                   stride=downsampling, bias=False),
-                                         Conv2dPad(self.expanded_features,
-                                                   out_features, kernel_size=1, bias=False),
-                                         nn.BatchNorm2d(out_features))
+        weights.add_module('depth', ConvBnAct(self.expanded_features, self.expanded_features,
+                                              conv=DepthWiseConv2d,
+                                              activation=activation,
+                                              kernel_size=kernel_size,
+                                              stride=downsampling, bias=False)
                            )
+
+        weights.add_module('point',  nn.Sequential(OrderedDict({
+            'conv': Conv2dPad(self.expanded_features,
+                                                   out_features, kernel_size=1, bias=False),
+            'bn': nn.BatchNorm2d(out_features)
+        })))
         # do not apply residual when downsamping and when features are different
         # in mobilenet we do not use a shortcut
+        self.should_apply_residual = downsampling == 1 and in_features == out_features
         self.block = ResidualAdd(
-            weights) if downsampling == 1 and in_features == out_features else weights
+            weights) if self.should_apply_residual else Residual(weights)
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.block(x)
@@ -141,6 +144,7 @@ class MobileNetEncoder(nn.Module):
 
         return x
 
+
 class MobileNetDecoder(nn.Module):
     """
     This class represents the tail of MobileNet. It performs a global pooling, dropout and maps the output to the
@@ -160,6 +164,7 @@ class MobileNetDecoder(nn.Module):
         x = self.fc(x)
         return x
 
+
 class MobileNetV2(nn.Module):
     """Implementations of MobileNet v2 proposed in `MobileNetV2: Inverted Residuals and Linear Bottlenecks <https://arxiv.org/pdf/1801.04381.pdf>`_
 
@@ -172,7 +177,7 @@ class MobileNetV2(nn.Module):
 
     Customization
 
-    You can easily customize your mobilenet
+    You can easily customize your model
 
     Examples:
         >>> MobileNetV2(activation = nn.SELU)
