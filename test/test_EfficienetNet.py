@@ -1,4 +1,4 @@
-from glasses.nn.models.classification.efficientnet import EfficientNet
+from glasses.nn.models.classification.efficientnet import EfficientNet, Swish
 import torch
 import torch.nn as nn
 
@@ -64,3 +64,10 @@ def test_EfficientNetb7():
     model = EfficientNet.b7()
     pred = model(x)
     assert pred.shape[-1] == 1000
+
+
+def test_Swish():
+    x = torch.rand(1,32,8,8)
+    out = Swish()(x)
+
+    assert out.shape == x.shape

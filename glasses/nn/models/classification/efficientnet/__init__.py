@@ -121,17 +121,17 @@ class EfficientNet(nn.Module):
     """Implementations of EfficientNet proposed in `EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks
  <https://arxiv.org/abs/1905.11946>`_
     
-    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/EfficientNet.png?raw=true
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNet.png?raw=true
 
     The basic architecture is similar to MobileNetV2 as was computed by using  `Progressive Neural Architecture Search <https://arxiv.org/abs/1905.11946>`_ . 
     
     The following table shows the basic architecture (EfficientNet-b0):
 
-    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/EfficientNetModelsTable.jpeg?raw=true
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetModelsTable.jpeg?raw=true
 
     Then, the architecture is scaled up from `-b0` to `-b7` using compound scaling. 
 
-    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/EfficientNetScaling.jpg?raw=true
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetScaling.jpg?raw=true
 
     Create a default model
 
