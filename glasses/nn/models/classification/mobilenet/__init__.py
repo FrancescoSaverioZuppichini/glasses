@@ -54,15 +54,17 @@ class InvertedResidualBlock(nn.Module):
                                                 activation=activation, kernel_size=1, bias=False))
         # add the depth wise and point wise conv
         weights.add_module('depth', ConvBnAct(self.expanded_features, self.expanded_features,
-                                                   conv=DepthWiseConv2d,
-                                                   activation=activation,
-                                                   kernel_size=kernel_size,
-                                                   stride=downsampling, bias=False)
+                                              conv=DepthWiseConv2d,
+                                              activation=activation,
+                                              kernel_size=kernel_size,
+                                              stride=downsampling, bias=False)
                            )
 
-        weights.add_module('point',  nn.Sequential(Conv2dPad(self.expanded_features,
+        weights.add_module('point',  nn.Sequential(OrderedDict({
+            'conv': Conv2dPad(self.expanded_features,
                                                    out_features, kernel_size=1, bias=False),
-                                         nn.BatchNorm2d(out_features)))
+            'bn': nn.BatchNorm2d(out_features)
+        })))
         # do not apply residual when downsamping and when features are different
         # in mobilenet we do not use a shortcut
         self.should_apply_residual = downsampling == 1 and in_features == out_features
@@ -142,6 +144,7 @@ class MobileNetEncoder(nn.Module):
 
         return x
 
+
 class MobileNetDecoder(nn.Module):
     """
     This class represents the tail of MobileNet. It performs a global pooling, dropout and maps the output to the
@@ -160,6 +163,7 @@ class MobileNetDecoder(nn.Module):
         x = self.drop(x)
         x = self.fc(x)
         return x
+
 
 class MobileNetV2(nn.Module):
     """Implementations of MobileNet v2 proposed in `MobileNetV2: Inverted Residuals and Linear Bottlenecks <https://arxiv.org/pdf/1801.04381.pdf>`_
