@@ -55,7 +55,9 @@ class ResNetBasicBlock(nn.Module):
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
     """
 
-    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d):
+    def __init__(self, in_features: int, out_features: int,
+                 activation: nn.Module = ReLUInPlace,
+                 downsampling: int = 1, conv: nn.Module = nn.Conv2d):
         super().__init__()
         self.in_features, self.out_features = in_features, out_features
         self.expanded_features = self.out_features * self.expansion

@@ -18,7 +18,11 @@ class Swish(nn.Module):
         return x * torch.sigmoid(x)
 
 class EfficientNetBasicBlock(InvertedResidualBlock):
-    """EfficientNet basic block. It is an inverted residual block from `MobileNetV2` but with `ChannelSE` after the depth-wise conv.
+    """EfficientNet basic block. It is an inverted residual block from `MobileNetV2` but with `ChannelSE` after the depth-wise conv. 
+    Residual connections are applied when there the input and output features number are the same.
+
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetBasicBlock.png?raw=true
+
 
     Args:
         in_features (int): [description]
@@ -69,13 +73,13 @@ class EfficientNetEncoder(nn.Module):
     EfficientNet encoder composed by increasing different layers with increasing features.
 
     Args:
-    in_channels (int, optional): [description]. Defaults to 3.
-    widths (List[int], optional): [description]. Defaults to [ 32, 16, 24, 40, 80, 112, 192, 320, 1280].
-    depths (List[int], optional): [description]. Defaults to [1, 2, 2, 3, 3, 4, 1].
-    strides (List[int], optional): [description]. Defaults to [1, 2, 2, 2, 2, 1, 2].
-    expansions (List[int], optional): [description]. Defaults to [1, 6, 6, 6, 6, 6, 6].
-    kernels_sizes (List[int], optional): [description]. Defaults to [3, 3, 5, 3, 5, 5, 3].
-    activation (nn.Module, optional): [description]. Defaults to Swish.
+        in_channels (int, optional): [description]. Defaults to 3.
+        widths (List[int], optional): [description]. Defaults to [ 32, 16, 24, 40, 80, 112, 192, 320, 1280].
+        depths (List[int], optional): [description]. Defaults to [1, 2, 2, 3, 3, 4, 1].
+        strides (List[int], optional): [description]. Defaults to [1, 2, 2, 2, 2, 1, 2].
+        expansions (List[int], optional): [description]. Defaults to [1, 6, 6, 6, 6, 6, 6].
+        kernels_sizes (List[int], optional): [description]. Defaults to [3, 3, 5, 3, 5, 5, 3].
+        activation (nn.Module, optional): [description]. Defaults to Swish.
     """
 
     def __init__(self, in_channels: int = 3,
@@ -116,6 +120,18 @@ class EfficientNetEncoder(nn.Module):
 class EfficientNet(nn.Module):
     """Implementations of EfficientNet proposed in `EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks
  <https://arxiv.org/abs/1905.11946>`_
+    
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/EfficientNet.png?raw=true
+
+    The basic architecture is similar to MobileNetV2 as was computed by using  `Progressive Neural Architecture Search <https://arxiv.org/abs/1905.11946>`_ . 
+    
+    The following table shows the basic architecture (EfficientNet-b0):
+
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/EfficientNetModelsTable.jpeg?raw=true
+
+    Then, the architecture is scaled up from `-b0` to `-b7` using compound scaling. 
+
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/EfficientNetScaling.jpg?raw=true
 
     Create a default model
 
@@ -129,17 +145,63 @@ class EfficientNet(nn.Module):
         >>> EfficientNet.b6()
         >>> EfficientNet.b7()
 
+
     Customization
 
     You can easily customize your model
     
     Examples:
 
+        >>> EfficientNet.b0(activation = nn.SELU)
+        >>> # change number of classes (default is 1000 )
+        >>> EfficientNet.b0(n_classes=100)
+        >>> # pass a different block
+        >>> EfficientNet.b0(block=...)
+        >>> # change the initial convolution
+        >>> model = EfficientNet.b0()
+        >>> model.encoder.gate.conv = nn.Conv2d(3, 32, kernel_size=7)
+        >>> # store each feature
+        >>> x = torch.rand((1, 3, 224, 224))
+        >>> model = EfficientNet.b0()
+        >>> features = []
+        >>> x = model.encoder.gate(x)
+        >>> for block in model.encoder.blocks:
+        >>>     x = block(x)
+        >>>     features.append(x)
+        >>> print([x.shape for x in features])
+        >>> EfficientNet.b0(activation = nn.SELU)
+        >>> # [torch.Size([1, 16, 112, 112]), torch.Size([1, 24, 56, 56]), torch.Size([1, 40, 28, 28]), torch.Size([1, 80, 14, 14]), torch.Size([1, 112, 7, 7]), torch.Size([1, 192, 7, 7]), torch.Size([1, 320, 4, 4]), torch.Size([1, 1280, 4, 4])]
+​
+        You can access the network configuration (used for scaling) by
+
+        >>> EfficientNet.config
+        >>> # output:
+        >>> #  {'b0': (1.0, 1.0, 224, 0.2),
+        >>> #   'b1': (1.0, 1.1, 240, 0.2),
+        >>> #   'b2': (1.1, 1.2, 260, 0.3),
+        >>> #   'b3': (1.2, 1.4, 300, 0.3),
+        >>> #   'b4': (1.4, 1.8, 380, 0.4),
+        >>> #   'b5': (1.6, 2.2, 456, 0.4),
+        >>> #   'b6': (1.8, 2.6, 528, 0.5),
+        >>> #   'b7': (2.0, 3.1, 600, 0.5)}
+
 
     Args:
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
+
+    config = {
+        # name : width_factor, depth_factor, input_size, dropout_rate
+        'b0': (1.0, 1.0, 224, 0.2),
+        'b1': (1.0, 1.1, 240, 0.2),
+        'b2': (1.1, 1.2, 260, 0.3),
+        'b3': (1.2, 1.4, 300, 0.3),
+        'b4': (1.4, 1.8, 380, 0.4),
+        'b5': (1.6, 2.2, 456, 0.4),
+        'b6': (1.8, 2.6, 528, 0.5),
+        'b7': (2.0, 3.1, 600, 0.5),
+    }
 
     default_depths: List[int] = [1, 2, 2, 3, 3, 4, 1]
     default_widths: List[int] = [
@@ -159,12 +221,19 @@ class EfficientNet(nn.Module):
         return x
 
     def initialize(self):
+        # initialization copied from MobileNetV2
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight)
-            if isinstance(m, nn.BatchNorm2d):
-                m.eps = 1e-3
-                m.momentum = 1e-2
+                nn.init.kaiming_normal_(m.weight, mode='fan_out')
+                if m.bias is not None:
+                    nn.init.zeros_(m.bias)
+            elif isinstance(m, (nn.BatchNorm2d, nn.GroupNorm)):
+                nn.init.ones_(m.weight)
+                nn.init.zeros_(m.bias)
+            elif isinstance(m, nn.Linear):
+                nn.init.normal_(m.weight, 0, 0.01)
+                if m.bias is not None:
+                    nn.init.zeros_(m.bias)
 
     @classmethod
     def from_config(cls, config, key, *args, **kwargs) -> EfficientNet:
@@ -174,58 +243,46 @@ class EfficientNet(nn.Module):
 
     @classmethod
     def b0(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(config, 'b0', *args, **kwargs)
+        return cls.from_config(cls.config, 'b0', *args, **kwargs)
     
     @classmethod
     def b1(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(config, 'b1', *args, **kwargs)
+        return cls.from_config(cls.config, 'b1', *args, **kwargs)
 
 
     @classmethod
     def b2(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(config, 'b2',*args, **kwargs)
+        return cls.from_config(cls.config, 'b2',*args, **kwargs)
 
 
     @classmethod
     def b3(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(config, 'b3',*args, **kwargs)
+        return cls.from_config(cls.config, 'b3',*args, **kwargs)
 
 
     @classmethod
     def b4(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(config, 'b4',*args, **kwargs)
+        return cls.from_config(cls.config, 'b4',*args, **kwargs)
 
 
     @classmethod
     def b5(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(config, 'b5',*args, **kwargs)
+        return cls.from_config(cls.config, 'b5',*args, **kwargs)
 
 
     @classmethod
     def b6(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(config, 'b6',*args, **kwargs)
+        return cls.from_config(cls.config, 'b6',*args, **kwargs)
 
     @classmethod
     def b7(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(config, 'b7',*args, **kwargs)
+        return cls.from_config(cls.config, 'b7',*args, **kwargs)
 
     @classmethod
     def b8(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(config, 'b8',*args, **kwargs)
+        return cls.from_config(cls.config, 'b8',*args, **kwargs)
 
 
     @classmethod
     def l2(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(config, 'l2')
-
-config = {
-    # arch width_multi depth_multi input_h dropout_rate
-    'b0': (1.0, 1.0, 224, 0.2),
-    'b1': (1.0, 1.1, 240, 0.2),
-    'b2': (1.1, 1.2, 260, 0.3),
-    'b3': (1.2, 1.4, 300, 0.3),
-    'b4': (1.4, 1.8, 380, 0.4),
-    'b5': (1.6, 2.2, 456, 0.4),
-    'b6': (1.8, 2.6, 528, 0.5),
-    'b7': (2.0, 3.1, 600, 0.5),
-}
+        return cls.from_config(cls.config, 'l2')

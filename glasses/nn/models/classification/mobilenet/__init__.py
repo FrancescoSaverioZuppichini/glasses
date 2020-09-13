@@ -30,7 +30,7 @@ class InvertedResidualBlock(nn.Module):
 
     ReLU6 is the default activation because it was found to be more robust when used with low-precision computation.
 
-    Residual connections are not applied when input and output's dimensions matches (stride > 1).
+    Residual connections are applied when there the input and output features number are the same.
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/MobileNetBasicBlockNoRes.png?raw=true
 
@@ -177,7 +177,7 @@ class MobileNetV2(nn.Module):
 
     Customization
 
-    You can easily customize your mobilenet
+    You can easily customize your model
 
     Examples:
         >>> MobileNetV2(activation = nn.SELU)
