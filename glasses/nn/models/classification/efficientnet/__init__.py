@@ -118,8 +118,7 @@ class EfficientNetEncoder(nn.Module):
 
 
 class EfficientNet(nn.Module):
-    """Implementations of EfficientNet proposed in `EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks
- <https://arxiv.org/abs/1905.11946>`_
+    """Implementations of EfficientNet proposed in `EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks <https://arxiv.org/abs/1905.11946>`_
     
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNet.png?raw=true
 
