@@ -7,7 +7,7 @@ from typing import List
 from functools import partial
 
 
-"""Implementations of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`
+"""Implementation of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`
 """
 
 
@@ -121,6 +121,7 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
 
 
 class ResNetBasicPreActBlock(ResNetBottleneckBlock):
+    expansion: int = 1
     """Pre activation ResNet basic block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
 
     Args:
@@ -136,7 +137,7 @@ class ResNetBasicPreActBlock(ResNetBottleneckBlock):
         self.block.block = nn.Sequential(
             OrderedDict(
                 {
-                    'bn1': nn.BatchNorm2d(out_features),
+                    'bn1': nn.BatchNorm2d(in_features),
                     'act1': activation(),
                     'conv1': conv(in_features, out_features, kernel_size=3, stride=downsampling, padding=1, bias=False),
                     'bn2': nn.BatchNorm2d(out_features),
@@ -149,8 +150,9 @@ class ResNetBasicPreActBlock(ResNetBottleneckBlock):
 
 
 class ResNetBottleneckPreActBlock(ResNetBasicBlock):
+    expansion: int = 4
 
-    """Pre activation ResNet basic block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
+    """Pre activation ResNet bottleneck block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
 
     Args:
         out_features (int): Number of input features
@@ -160,14 +162,13 @@ class ResNetBottleneckPreActBlock(ResNetBasicBlock):
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
     """
 
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, expansion: int = 4, *args, **kwars):
-        super().__init__(in_features, out_features, activation,
-                         downsampling, expansion, *args, **kwars)
+    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, expansion: int = 4):
+        super().__init__(in_features, out_features, activation, downsampling)
         # TODO I am not sure it is correct
         self.block.block = nn.Sequential(
             OrderedDict(
                 {
-                    'bn1': nn.BatchNorm2d(out_features),
+                    'bn1': nn.BatchNorm2d(in_features),
                     'act1': activation(),
                     'conv1': conv(in_features, out_features, kernel_size=1, bias=False),
                     'bn2': nn.BatchNorm2d(out_features),
@@ -260,7 +261,7 @@ class ResnetDecoder(nn.Module):
 
 
 class ResNet(nn.Module):
-    """Implementations of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`_
+    """Implementation of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`_
 
     Create a default model
 
