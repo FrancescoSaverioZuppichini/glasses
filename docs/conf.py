@@ -39,8 +39,10 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.coverage',
     "sphinx.ext.napoleon",
+    'sphinx.ext.mathjax',
+
     # "pytorch_sphinx_theme",
-        'sphinx.ext.viewcode',
+    'sphinx.ext.viewcode',
 
     "recommonmark"
 ]
@@ -83,6 +85,8 @@ source_parsers = {
 }
 
 source_suffix = ['.rst', '.md']
+
+latex_engine = 'xelatex'
 
 
 def setup(app):

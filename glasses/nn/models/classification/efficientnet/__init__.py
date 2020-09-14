@@ -10,12 +10,7 @@ from ..mobilenet import InvertedResidualBlock, DepthWiseConv2d, MobileNetEncoder
 from ....blocks import Conv2dPad, ConvBnAct
 from ..se import ChannelSE
 from ....utils.scaler import CompoundScaler
-
-class Swish(nn.Module):
-    """Swish function
-    """
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return x * torch.sigmoid(x)
+from ....activation import Swish
 
 class EfficientNetBasicBlock(InvertedResidualBlock):
     """EfficientNet basic block. It is an inverted residual block from `MobileNetV2` but with `ChannelSE` after the depth-wise conv. 
@@ -168,7 +163,6 @@ class EfficientNet(nn.Module):
         >>>     x = block(x)
         >>>     features.append(x)
         >>> print([x.shape for x in features])
-        >>> EfficientNet.b0(activation = nn.SELU)
         >>> # [torch.Size([1, 16, 112, 112]), torch.Size([1, 24, 56, 56]), torch.Size([1, 40, 28, 28]), torch.Size([1, 80, 14, 14]), torch.Size([1, 112, 7, 7]), torch.Size([1, 192, 7, 7]), torch.Size([1, 320, 4, 4]), torch.Size([1, 1280, 4, 4])]
 ​
         You can access the network configuration (used for scaling) by
