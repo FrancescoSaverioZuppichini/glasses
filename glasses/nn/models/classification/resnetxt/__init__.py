@@ -13,6 +13,15 @@ ReLUInPlace = partial(nn.ReLU, inplace=True)
 
 class ResNetXtBottleNeckBlock(ResNetBottleneckBlock):
     def __init__(self, in_features: int, out_features: int, groups: int = 32, base_width: int = 4, **kwargs):
+        """Basic ResNetXt block build on top of ResNetBottleneckBlock. 
+        It uses `base_width` to compute the inner features of the 3x3 conv.
+
+        Args:
+            in_features (int): [description]
+            out_features (int): [description]
+            groups (int, optional): [description]. Defaults to 32.
+            base_width (int, optional): width factor uses to compute the inner features in the 3x3 conv. Defaults to 4.
+        """
         features = (int(out_features * (base_width / 64.)) * groups)
         super().__init__(in_features, out_features, **
                          kwargs, features=features, groups=groups)
@@ -41,11 +50,11 @@ class ResNetXt(ResNet):
         >>> # pass a different block
         >>> ResNetXt.resnext50_32x4d(block=SENetBasicBlock)
         >>> # change the initial convolution
-        >>> model = ResNet.resnext50_32x4d
+        >>> model = ResNetXt.resnext50_32x4d
         >>> model.encoder.gate.conv1 = nn.Conv2d(3, 64, kernel_size=3)
         >>> # store each feature
         >>> x = torch.rand((1, 3, 224, 224))
-        >>> model = ResNet.resnext50_32x4d()
+        >>> model = ResNetXt.resnext50_32x4d()
         >>> features = []
         >>> x = model.encoder.gate(x)
         >>> for block in model.encoder.blocks:

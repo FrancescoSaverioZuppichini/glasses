@@ -22,7 +22,7 @@ class WideResnetBottleNeckBlock(ResNetBottleneckBlock):
             super().__init__(in_features, out_features, **kwargs, features=features)
 
 class WideResNet(ResNet):
-    """Implementation of WideResNet proposed in `"Wide Residual Networks" <https://arxiv.org/pdf/1605.07146.pdf>`_
+    """Implementation of Wide ResNet proposed in `"Wide Residual Networks" <https://arxiv.org/pdf/1605.07146.pdf>`_
 
     Create a default model
 
@@ -44,11 +44,11 @@ class WideResNet(ResNet):
         >>> # pass a different block
         >>> WideResNet.resnext50_32x4d(block=SENetBasicBlock)
         >>> # change the initial convolution
-        >>> model = ResNet.resnext50_32x4d
+        >>> model = WideResNet.resnext50_32x4d
         >>> model.encoder.gate.conv1 = nn.Conv2d(3, 64, kernel_size=3)
         >>> # store each feature
         >>> x = torch.rand((1, 3, 224, 224))
-        >>> model = ResNet.resnext50_32x4d()
+        >>> model = WideResNet.resnext50_32x4d()
         >>> features = []
         >>> x = model.encoder.gate(x)
         >>> for block in model.encoder.blocks:

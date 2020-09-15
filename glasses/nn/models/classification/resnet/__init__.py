@@ -137,7 +137,7 @@ class ResNetBasicPreActBlock(ResNetBottleneckBlock):
     """
 
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, stride=1, **kwars):
-        super().__init__(in_features, out_features, activation, stride, **kwars)
+        super().__init__(in_features, out_features, activation, stride=stride, **kwars)
         self.block.block = nn.Sequential(
             OrderedDict(
                 {
@@ -167,7 +167,7 @@ class ResNetBottleneckPreActBlock(ResNetBasicBlock):
     """
 
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, expansion: int = 4, stride=1, **kwars):
-        super().__init__(in_features, out_features, activation, stride)
+        super().__init__(in_features, out_features, activation, stride=stride)
         # TODO I am not sure it is correct
         self.block.block = nn.Sequential(
             OrderedDict(
@@ -382,11 +382,3 @@ class ResNet(nn.Module):
         """
         return cls(*args, **kwargs, block=block, depths=[3, 8, 36, 3])
 
-    @classmethod
-    def resnext50_32x4d(cls, *args, **kwargs) -> ResNet:
-        """Creates a resnext50_32x4d model
-
-        Returns:
-            ResNet: A resnext50_32x4d model
-        """
-        return cls.resnet50(*args, **kwargs, block=ResNetXtBottleNeckBlock)
