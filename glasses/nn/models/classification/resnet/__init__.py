@@ -2,6 +2,7 @@ from __future__ import annotations
 from torch import nn
 from torch import Tensor
 from ....blocks.residuals import ResidualAdd
+from ....blocks import Conv2dPad
 from collections import OrderedDict
 from typing import List
 from functools import partial
@@ -25,7 +26,7 @@ class ResNetShorcut(nn.Module):
 
     def __init__(self, in_features: int, out_features: int, stride: int = 2):
         super().__init__()
-        self.conv = nn.Conv2d(in_features, out_features,
+        self.conv = Conv2dPad(in_features, out_features,
                               kernel_size=1, stride=stride, bias=False)
         self.bn = nn.BatchNorm2d(out_features)
 
@@ -51,13 +52,13 @@ class ResNetBasicBlock(nn.Module):
         out_features (int): Number of input features
         out_features (int): Number of output features
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
-        downsampling (int, optional): [description]. Defaults to 1.
+        stride (int, optional): [description]. Defaults to 1.
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
     """
 
     def __init__(self, in_features: int, out_features: int,
                  activation: nn.Module = ReLUInPlace,
-                 downsampling: int = 1, conv: nn.Module = nn.Conv2d):
+                 stride: int = 1, *args, **kwargs):
         super().__init__()
         self.in_features, self.out_features = in_features, out_features
         self.expanded_features = self.out_features * self.expansion
@@ -66,14 +67,14 @@ class ResNetBasicBlock(nn.Module):
         self.block = ResidualAdd(nn.Sequential(
             OrderedDict(
                 {
-                    'conv1': conv(in_features, out_features, kernel_size=3, stride=downsampling, padding=1, bias=False),
+                    'conv1': Conv2dPad(in_features, out_features, kernel_size=3, stride=stride, bias=False, *args, **kwargs),
                     'bn1': nn.BatchNorm2d(out_features),
                     'act1': activation(),
-                    'conv2': conv(out_features, out_features, kernel_size=3, padding=1, bias=False),
+                    'conv2': Conv2dPad(out_features, out_features, kernel_size=3, bias=False),
                     'bn2': nn.BatchNorm2d(out_features),
                 }
             )), shortcut=ResNetShorcut(
-            in_features, out_features * self.expansion, downsampling) if self.should_apply_shortcut else None)
+            in_features, out_features * self.expansion, stride) if self.should_apply_shortcut else None)
 
         self.act = activation()
 
@@ -89,6 +90,8 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
     """ResNet Bottleneck block is composed by three convs layer. 
     The expensive 3x3 conv is computed after a cheap 1x1 conv donwsample the input resulting in less parameters. Later, another conv 1v1 upsample the output to the correct channel size
 
+    The stride is applied into the 3x3 conv, `this improves https://ngc.nvidia.com/catalog/model-scripts/nvidia:resnet_50_v1_5_for_pytorch`
+
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNetBottleNeckBlock.png?raw=true
 
     *The residual connection is showed as a black line*
@@ -97,28 +100,29 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
         out_features (int): Number of input features
         out_features (int): Number of output features
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
-        downsampling (int, optional): [description]. Defaults to 1.
+        stride (int, optional): [description]. Defaults to 1.
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
         expansion (int, optional): [description]. Defaults to 4.
     """
 
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, expansion: int = 4):
-        super().__init__(in_features, out_features, activation, downsampling)
+    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, expansion: int = 4, features: int = None, stride=1, **kwargs):
+        super().__init__(in_features, out_features, activation, stride)
         self.expansion = expansion
+        features = out_features if features is None else features
+
         self.block.block = nn.Sequential(
             OrderedDict(
                 {
-                    'conv1': conv(in_features, out_features, kernel_size=1, bias=False),
-                    'bn1': nn.BatchNorm2d(out_features),
+                    'conv1': Conv2dPad(in_features, features, kernel_size=1, bias=False),
+                    'bn1': nn.BatchNorm2d(features),
                     'act1': activation(),
-                    'conv2': conv(out_features, out_features, kernel_size=3, stride=downsampling, padding=1, bias=False),
-                    'bn2': nn.BatchNorm2d(out_features),
+                    'conv2': Conv2dPad(features, features, kernel_size=3, bias=False, stride=stride, **kwargs),
+                    'bn2': nn.BatchNorm2d(features),
                     'act2': activation(),
-                    'conv3': conv(out_features, out_features * expansion, kernel_size=1, bias=False),
+                    'conv3': Conv2dPad(features, out_features * expansion, kernel_size=1, bias=False),
                     'bn3': nn.BatchNorm2d(out_features * expansion),
                 }
             ))
-
 
 class ResNetBasicPreActBlock(ResNetBottleneckBlock):
     expansion: int = 1
@@ -128,21 +132,21 @@ class ResNetBasicPreActBlock(ResNetBottleneckBlock):
         out_features (int): Number of input features
         out_features (int): Number of output features
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
-        downsampling (int, optional): [description]. Defaults to 1.
+        stride (int, optional): [description]. Defaults to 1.
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
     """
 
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, *args, **kwars):
-        super().__init__(in_features, out_features, activation, downsampling, *args, **kwars)
+    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, stride=1, **kwars):
+        super().__init__(in_features, out_features, activation, stride, **kwars)
         self.block.block = nn.Sequential(
             OrderedDict(
                 {
                     'bn1': nn.BatchNorm2d(in_features),
                     'act1': activation(),
-                    'conv1': conv(in_features, out_features, kernel_size=3, stride=downsampling, padding=1, bias=False),
+                    'conv1': Conv2dPad(in_features, out_features, kernel_size=3, bias=False, stride=stride, **kwars),
                     'bn2': nn.BatchNorm2d(out_features),
                     'act2': activation(),
-                    'conv2': conv(out_features, out_features, kernel_size=3, padding=1, bias=False),
+                    'conv2': Conv2dPad(out_features, out_features, kernel_size=3, bias=False),
                 }
             ))
 
@@ -158,24 +162,24 @@ class ResNetBottleneckPreActBlock(ResNetBasicBlock):
         out_features (int): Number of input features
         out_features (int): Number of output features
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
-        downsampling (int, optional): [description]. Defaults to 1.
+        stride (int, optional): [description]. Defaults to 1.
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
     """
 
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, downsampling: int = 1, conv: nn.Module = nn.Conv2d, expansion: int = 4):
-        super().__init__(in_features, out_features, activation, downsampling)
+    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, expansion: int = 4, stride=1, **kwars):
+        super().__init__(in_features, out_features, activation, stride)
         # TODO I am not sure it is correct
         self.block.block = nn.Sequential(
             OrderedDict(
                 {
                     'bn1': nn.BatchNorm2d(in_features),
                     'act1': activation(),
-                    'conv1': conv(in_features, out_features, kernel_size=1, bias=False),
+                    'conv1': Conv2dPad(in_features, out_features, kernel_size=1, bias=False),
                     'bn2': nn.BatchNorm2d(out_features),
                     'act2': activation(),
-                    'conv2': conv(out_features, out_features, kernel_size=3, stride=downsampling, padding=1, bias=False),
+                    'conv2': Conv2dPad(out_features, out_features, kernel_size=3, bias=False, stride=stride, **kwars),
                     'bn3': nn.BatchNorm2d(out_features),
-                    'conv3': conv(out_features, out_features * self.expansion, kernel_size=1, bias=False),
+                    'conv3': Conv2dPad(out_features, out_features * self.expansion, kernel_size=1, bias=False),
                     'act3': activation(),
                 }
             ))
@@ -186,12 +190,12 @@ class ResNetBottleneckPreActBlock(ResNetBasicBlock):
 class ResNetLayer(nn.Module):
     def __init__(self, in_channels: int, out_channels: int, block: nn.Module = ResNetBasicBlock, n: int = 1, *args, **kwargs):
         super().__init__()
-        # 'We perform downsampling directly by convolutional layers that have a stride of 2.'
-        downsampling = 2 if in_channels != out_channels else 1
+        # 'We perform stride directly by convolutional layers that have a stride of 2.'
+        stride = 2 if in_channels != out_channels else 1
 
         self.block = nn.Sequential(
             block(in_channels, out_channels, *args,
-                  downsampling=downsampling,  **kwargs),
+                  stride=stride,  **kwargs),
             *[block(out_channels * block.expansion,
                     out_channels, *args, **kwargs) for _ in range(n - 1)]
         )
@@ -216,8 +220,8 @@ class ResNetEncoder(nn.Module):
         self.gate = nn.Sequential(
             OrderedDict(
                 {
-                    'conv': nn.Conv2d(
-                        in_channels, self.widths[0], kernel_size=7, stride=2, padding=3, bias=False),
+                    'conv': Conv2dPad(
+                        in_channels, self.widths[0], kernel_size=7, stride=2, bias=False),
                     'bn': nn.BatchNorm2d(self.widths[0]),
                     'act': activation(),
                     'pool': nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
@@ -274,7 +278,7 @@ class ResNet(nn.Module):
 
     Customization
 
-    You can easily customize your resnet
+    You can easily customize your model
 
     Examples:
         >>> # change activation
@@ -292,8 +296,8 @@ class ResNet(nn.Module):
         >>> features = []
         >>> x = model.encoder.gate(x)
         >>> for block in model.encoder.blocks:
-            >>> x = block(x)
-            >>> features.append(x)
+        >>>     x = block(x)
+        >>>     features.append(x)
         >>> print([x.shape for x in features])
         >>> # [torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7])]
 
@@ -377,3 +381,12 @@ class ResNet(nn.Module):
             ResNet: A resnet152 model
         """
         return cls(*args, **kwargs, block=block, depths=[3, 8, 36, 3])
+
+    @classmethod
+    def resnext50_32x4d(cls, *args, **kwargs) -> ResNet:
+        """Creates a resnext50_32x4d model
+
+        Returns:
+            ResNet: A resnext50_32x4d model
+        """
+        return cls.resnet50(*args, **kwargs, block=ResNetXtBottleNeckBlock)
