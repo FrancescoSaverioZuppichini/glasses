@@ -33,7 +33,6 @@ class DenseNetBasicBlock(nn.Module):
             })))
 
     def forward(self, x: Tensor) -> Tensor:
-        res = x
         x = self.block(x)
         return x
 
@@ -149,7 +148,7 @@ class DenseNetEncoder(ResNetEncoder):
         super().__init__(in_channels, [start_features])
 
         self.blocks = nn.ModuleList([])
-
+        self.widths = []
         in_features = start_features
 
         for deepth in depths[:-1]:
@@ -158,11 +157,14 @@ class DenseNetEncoder(ResNetEncoder):
             # in each layer the in_features are equal the features we have so far + the number of layer multiplied by the grow rate
             in_features += deepth * grow_rate
             in_features //= 2
+            self.widths.append(in_features)
 
         self.blocks.append(DenseNetLayer(
             in_features, grow_rate, depths[-1], block=block, *args, transition_block=None, **kwargs))
-        self.out_features = in_features + depths[-1] * grow_rate
-        self.bn = nn.BatchNorm2d(self.out_features)
+
+        self.widths.append(in_features + depths[-1] * grow_rate)
+
+        self.bn = nn.BatchNorm2d(self.widths[-1])
         self.act = activation()
 
     def forward(self, x):
@@ -220,7 +222,7 @@ class DenseNet(nn.Module):
         super().__init__()
         self.encoder = DenseNetEncoder(in_channels, *args, **kwargs)
         self.decoder = ResnetDecoder(
-            self.encoder.out_features, n_classes)
+            self.encoder.widths[-1], n_classes)
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.encoder(x)

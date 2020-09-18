@@ -188,16 +188,16 @@ class ResNetBottleneckPreActBlock(ResNetBasicBlock):
 
 
 class ResNetLayer(nn.Module):
-    def __init__(self, in_channels: int, out_channels: int, block: nn.Module = ResNetBasicBlock, n: int = 1, *args, **kwargs):
+    def __init__(self, in_features: int, out_features: int, block: nn.Module = ResNetBasicBlock, n: int = 1, *args, **kwargs):
         super().__init__()
         # 'We perform stride directly by convolutional layers that have a stride of 2.'
-        stride = 2 if in_channels != out_channels else 1
+        stride = 2 if in_features != out_features else 1
 
         self.block = nn.Sequential(
-            block(in_channels, out_channels, *args,
+            block(in_features, out_features, *args,
                   stride=stride,  **kwargs),
-            *[block(out_channels * block.expansion,
-                    out_channels, *args, **kwargs) for _ in range(n - 1)]
+            *[block(out_features * block.expansion,
+                    out_features, *args, **kwargs) for _ in range(n - 1)]
         )
 
     def forward(self, x: Tensor) -> Tensor:
@@ -214,29 +214,30 @@ class ResNetEncoder(nn.Module):
     def __init__(self, in_channels: int = 3, widths: List[int] = [64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2],
                  activation: nn.Module = ReLUInPlace, block: nn.Module = ResNetBasicBlock, *args, **kwargs):
         super().__init__()
-
-        self.widths = widths
-
+        # store the actuall width of each layer
+        self.widths = [w * block.expansion for w in widths]
+        
         self.gate = nn.Sequential(
             OrderedDict(
                 {
                     'conv': Conv2dPad(
-                        in_channels, self.widths[0], kernel_size=7, stride=2, bias=False),
-                    'bn': nn.BatchNorm2d(self.widths[0]),
+                        in_channels, widths[0], kernel_size=7, stride=2, bias=False),
+                    'bn': nn.BatchNorm2d(widths[0]),
                     'act': activation(),
                     'pool': nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
                 }
             )
         )
 
-        self.in_out_block_sizes = list(zip(widths, widths[1:]))
+        self.in_out_widths = list(zip(widths, widths[1:]))
+
         self.blocks = nn.ModuleList([
             ResNetLayer(widths[0], widths[0], n=depths[0], activation=activation,
                         block=block,  *args, **kwargs),
-            *[ResNetLayer(in_channels * block.expansion,
-                          out_channels, n=n, activation=activation,
+            *[ResNetLayer(in_features * block.expansion,
+                          out_features, n=n, activation=activation,
                           block=block, *args, **kwargs)
-              for (in_channels, out_channels), n in zip(self.in_out_block_sizes, depths[1:])]
+              for (in_features, out_features), n in zip(self.in_out_widths, depths[1:])]
         ])
 
     def forward(self, x):
@@ -246,7 +247,7 @@ class ResNetEncoder(nn.Module):
         return x
 
 
-class ResnetDecoder(nn.Module):
+class ResnetDecoder(nn.Sequential):
     """
     This class represents the tail of ResNet. It performs a global pooling and maps the output to the
     correct class by using a fully connected layer.
@@ -254,14 +255,9 @@ class ResnetDecoder(nn.Module):
 
     def __init__(self, in_features: int, n_classes: int):
         super().__init__()
-        self.avg = nn.AdaptiveAvgPool2d((1, 1))
-        self.fc = nn.Linear(in_features, n_classes)
-
-    def forward(self, x):
-        x = self.avg(x)
-        x = x.view(x.size(0), -1)
-        x = self.fc(x)
-        return x
+        self.add_module('pool', nn.AdaptiveAvgPool2d((1, 1)))
+        self.add_module('flat', nn.Flatten())
+        self.add_module('fc', nn.Linear(in_features, n_classes))
 
 
 class ResNet(nn.Module):

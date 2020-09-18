@@ -72,14 +72,7 @@ class UpLayer(nn.Module):
 
     def forward(self, x: Tensor, res: Tensor) -> Tensor:
         x = self.up(x)
-        # we need to pad the input in order to have the same dimensions
-        diffX = x.size()[2] - res.size()[2]
-        diffY = x.size()[3] - res.size()[3]
-        pad = (diffX // 2, int(diffX / 2), diffY // 2, int(diffY / 2))
-        res = F.pad(res, pad)
-
         x = torch.cat([res, x], dim=1)
-
         out = self.block(x)
 
         return out
@@ -108,11 +101,9 @@ class UNetDecoder(nn.Module):
     UNet Decoder composed of several layer of upsampling layers aimed to decrease the features space and increase the resolution.
     """
 
-    def __init__(self, widths: List[int], *args, **kwargs):
+    def __init__(self, widths: List[int] = [64, 128, 256, 512, 1024], *args, **kwargs):
         super().__init__()
-
         self.in_out_block_sizes = list(zip(widths, widths[1:]))
-
         self.blocks = nn.ModuleList([
             UpLayer(in_features,
                     out_features, *args, **kwargs)
@@ -144,17 +135,7 @@ class UNet(nn.Module):
         >>> # pass a different block
         >>> UNet(encoder=partial(UNetEncoder, block=SENetBasicBlock))
         >>> # change the encoder
-        >>> resnet34 = ResNet.resnet34(in_channels=1)
-        >>> unet = UNet(1, n_classes=2, widths=resnet.encoder.widths)
-        >>> unet.encoder = resnet.encoder
-        >>> # using resnet34 as encoder means that the middle layer will have 512, you can also directly expand the encoder deepth
-        >>> encoder = ResNetEncoder(in_channels=1, widths=[64,128,256,512,1024], depths=[2,2,2,2,2])
-        >>> unet = UNet(1, n_classes=2, widths=encoder.widths)
-        >>> unet.encoder = encoder
-
-    .. warning::
-        Currently you cannot use `blocks` with `.expansion` parameters. 
-
+        >>>   unet = UNet(encoder=partial(ResNetEncoder, block=ResNetBottleneckBlock, depths=[2,2,2,2]))
 
     Args:
             in_channels (int, optional): [description]. Defaults to 1.
@@ -165,13 +146,13 @@ class UNet(nn.Module):
         """
 
     def __init__(self, in_channels: int = 1, n_classes: int = 2, encoder: nn.Module = UNetEncoder,
-                 decoder: nn.Module = UNetDecoder, widths: List[int] = [64, 128, 256, 512, 1024], *args, **kwargs):
+                 decoder: nn.Module = UNetDecoder, *args, **kwargs):
 
         super().__init__()
         self.encoder = encoder(
-            in_channels, widths=widths,  *args, **kwargs)
+            in_channels, *args, **kwargs)
         self.decoder = decoder(
-            self.encoder.widths[::-1], *args, **kwargs)
+            widths=self.encoder.widths[::-1], *args, **kwargs)
         self.tail = nn.Conv2d(
             self.encoder.widths[0], n_classes, kernel_size=1)
 
