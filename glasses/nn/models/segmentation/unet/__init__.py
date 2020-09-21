@@ -71,15 +71,7 @@ class UpLayer(nn.Module):
         self.block = block(out_features * 2, out_features, *args, **kwargs)
 
     def forward(self, x: Tensor, res: Tensor) -> Tensor:
-        print(x.shape, res.shape)
         x = self.up(x)
-        # we need to pad the input in order to have the same dimensions
-        diffX = x.size()[2] - res.size()[2]
-        diffY = x.size()[3] - res.size()[3]
-        pad = (diffX // 2, int(diffX / 2), diffY // 2, int(diffY / 2))
-        res = F.pad(res, pad)
-        print(f'res {res.shape} pad, {pad}')
-        print(f'up {x.shape}')
         x = torch.cat([res, x], dim=1)
         out = self.block(x)
 
