@@ -6,14 +6,14 @@ from functools import partial
 from typing import Dict
 from torch import Tensor
 from .ModuleTransfer import ModuleTransfer
-from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet152
+from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet152, resnext50_32x4d, resnext101_32x8d, wide_resnet50_2, wide_resnet101_2
 from torchvision.models import densenet121, densenet161, densenet169, densenet201
 from torchvision.models import vgg11, vgg13, vgg16, vgg19
 from torchvision.models import mobilenet_v2
 from ..nn.models.classification.resnet import ResNet
 from ..nn.models.classification.densenet import DenseNet
 from ..nn.models.classification.vgg import VGG
-from ..nn.models.classification import MobileNetV2
+from ..nn.models.classification import MobileNetV2, ResNetXt, WideResNet
 from tqdm.autonotebook import tqdm
 from pathlib import Path
 
@@ -38,6 +38,11 @@ class PretrainedWeightsProvider:
         'resnet101': 'https://download.pytorch.org/models/resnet101-5d3b4d8f.pth',
         'resnet152': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
 
+        'resnext50_32x4d': 'https://download.pytorch.org/models/resnext50_32x4d-7cdf4587.pth',
+        'resnext101_32x8d': 'https://download.pytorch.org/models/resnext101_32x8d-8ba56ff5.pth',
+        'wide_resnet50_2': 'https://download.pytorch.org/models/wide_resnet50_2-95faca4d.pth',
+        'wide_resnet101_2': 'https://download.pytorch.org/models/wide_resnet101_2-32ee1156.pth',
+
         'densenet121': 'https://download.pytorch.org/models/densenet121-a639ec97.pth',
         'densenet169': 'https://download.pytorch.org/models/densenet169-b2777c0a.pth',
         'densenet201': 'https://download.pytorch.org/models/densenet201-c1103571.pth',
@@ -57,6 +62,13 @@ class PretrainedWeightsProvider:
         'resnet50': [partial(resnet50, pretrained=True), ResNet.resnet50],
         'resnet101': [partial(resnet101, pretrained=True), ResNet.resnet101],
         'resnet152': [partial(resnet152, pretrained=True), ResNet.resnet152],
+
+
+        'resnext50_32x4d': [partial(resnext50_32x4d, pretrained=True), ResNetXt.resnext50_32x4d],
+        'resnext101_32x8d': [partial(resnext101_32x8d, pretrained=True), ResNetXt.resnext101_32x8d],
+        'wide_resnet50_2': [partial(wide_resnet50_2, pretrained=True), WideResNet.wide_resnet50_2],
+        'wide_resnet101_2': [partial(wide_resnet101_2, pretrained=True), WideResNet.wide_resnet101_2],
+
         'densenet121': [partial(densenet121, pretrained=True), DenseNet.densenet121],
         'densenet169': [partial(densenet169, pretrained=True), DenseNet.densenet169],
         'densenet201': [partial(densenet201, pretrained=True), DenseNet.densenet201],
@@ -65,6 +77,7 @@ class PretrainedWeightsProvider:
         'vgg13': [partial(vgg13, pretrained=True), VGG.vgg13],
         'vgg16': [partial(vgg16, pretrained=True), VGG.vgg16],
         'vgg19': [partial(vgg19, pretrained=True), VGG.vgg19],
+        
         'mobilenet_v2': [partial(mobilenet_v2, pretrained=True), MobileNetV2]
     }
 

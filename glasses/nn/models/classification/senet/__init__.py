@@ -1,18 +1,18 @@
 from __future__ import annotations
 from ..resnet import ResNetBasicBlock, ResNetBottleneckBlock, ResNet
-from ..se import SEModule
+from ..se import SpatialSE
 
 
 class SENetBasicBlock(ResNetBasicBlock):
     def __init__(self, in_features: int, out_features: int, reduction: int = 16, *args, **kwargs):
         super().__init__(in_features, out_features, *args, **kwargs)
-        self.block.block.add_module('se', SEModule(out_features))
+        self.block.block.add_module('se', SpatialSE(out_features))
 
 
 class SENetBottleneckBlock(ResNetBottleneckBlock):
     def __init__(self, in_features: int, out_features: int, reduction: int = 16, *args, **kwargs):
         super().__init__(in_features, out_features, *args, **kwargs)
-        self.block.block.add_module('se', SEModule(self.expanded_features))
+        self.block.block.add_module('se', SpatialSE(self.expanded_features))
 
 
 class SEResNet(ResNet):

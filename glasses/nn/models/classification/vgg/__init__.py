@@ -47,24 +47,24 @@ class VGGEncoder(nn.Module):
 
     Args:
         in_channels (int, optional): [description]. Defaults to 3.
-        blocks_sizes (List[int], optional): [description]. Defaults to [64, 128, 256, 512, 512].
+        widths (List[int], optional): [description]. Defaults to [64, 128, 256, 512, 512].
         depths (List[int], optional): [description]. Defaults to [1, 1, 2, 2, 2].
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
         block (nn.Module, optional): [description]. Defaults to VGGBasicBlock.
     """
 
-    def __init__(self, in_channels: int = 3, blocks_sizes: List[int] = [64, 128, 256, 512, 512], depths: List[int] = [1, 1, 2, 2, 2],
+    def __init__(self, in_channels: int = 3, widths: List[int] = [64, 128, 256, 512, 512], depths: List[int] = [1, 1, 2, 2, 2],
                  activation: nn.Module = ReLUInPlace, block: nn.Module = VGGBasicBlock, *args, **kwargs):
 
         super().__init__()
 
-        self.blocks_sizes = blocks_sizes
-        self.out_features = blocks_sizes[-1]
+        self.widths = widths
+        self.out_features = widths[-1]
         self.in_out_block_sizes = list(
-            zip(blocks_sizes[:-1], blocks_sizes[1:]))
+            zip(widths[:-1], widths[1:]))
 
         self.blocks = nn.ModuleList([
-            VGGLayer(in_channels, blocks_sizes[0], activation=activation,
+            VGGLayer(in_channels, widths[0], activation=activation,
                      block=block, n=depths[0], *args, **kwargs),
             *[VGGLayer(in_channels, out_channels, activation=activation, block=block, n=n, *args, **kwargs)
               for (in_channels, out_channels), n in zip(self.in_out_block_sizes, depths[1:])]
@@ -81,7 +81,7 @@ class VGGDecoder(nn.Module):
     correct class by means of fully connected layers. Dropout is used to decrease the overfitting.
 
         Args:
-        in_features (int): [description]
+        out_features (int): Number of input features
         n_classes (int): [description]
     """
 

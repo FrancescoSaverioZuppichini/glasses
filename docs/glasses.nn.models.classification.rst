@@ -9,6 +9,7 @@ Subpackages
 
    glasses.nn.models.classification.alexnet
    glasses.nn.models.classification.densenet
+   glasses.nn.models.classification.efficientnet
    glasses.nn.models.classification.mobilenet
    glasses.nn.models.classification.resnet
    glasses.nn.models.classification.se

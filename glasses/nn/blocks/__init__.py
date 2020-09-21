@@ -71,8 +71,8 @@ class ConvBnAct(nn.Sequential):
 
     We also provide additional modules built on top of this one: `ConvBn`, `ConvAct`, `Conv3x3BnAct`
     Args:
-            in_features (int): [description]
-            out_features (int): [description]
+            out_features (int): Number of input features
+            out_features (int): Number of output features
             conv (nn.Module, optional): Convolution layer. Defaults to Conv2dPad.
             normalization (nn.Module, optional): Normalization layer. Defaults to nn.BatchNorm2d.
             activation (nn.Module, optional): Activation function. Defaults to nn.ReLU.

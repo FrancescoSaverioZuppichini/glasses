@@ -1,0 +1,22 @@
+glasses.nn.activation package
+=============================
+
+Submodules
+----------
+
+glasses.nn.activation.Swish module
+----------------------------------
+
+.. automodule:: glasses.nn.activation.Swish
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: glasses.nn.activation
+   :members:
+   :undoc-members:
+   :show-inheritance:

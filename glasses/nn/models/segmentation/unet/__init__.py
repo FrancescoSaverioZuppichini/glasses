@@ -33,8 +33,8 @@ class DownLayer(nn.Module):
     """UNet down layer (left side). 
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        out_features (int): Number of input features
+        out_features (int): Number of output features
         donwsample (bool, optional): If true maxpoll will be used to reduce the resolution of the input. Defaults to True.
         block (nn.Module, optional): Block used. Defaults to DownBlock.
 
@@ -56,8 +56,8 @@ class UpLayer(nn.Module):
     """UNet up layer (right side). 
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        out_features (int): Number of input features
+        out_features (int): Number of output features
         block (nn.Module, optional): Block used. Defaults to UpBlock.
 
     """
@@ -72,14 +72,7 @@ class UpLayer(nn.Module):
 
     def forward(self, x: Tensor, res: Tensor) -> Tensor:
         x = self.up(x)
-        # we need to pad the input in order to have the same dimensions
-        diffX = x.size()[2] - res.size()[2]
-        diffY = x.size()[3] - res.size()[3]
-        pad = (diffX // 2, int(diffX / 2), diffY // 2, int(diffY / 2))
-        res = F.pad(res, pad)
-
         x = torch.cat([res, x], dim=1)
-
         out = self.block(x)
 
         return out
@@ -89,13 +82,13 @@ class UNetEncoder(nn.Module):
     """UNet Encoder composed of several layers of convolutions aimed to increased the features space and decrease the resolution.
     """
 
-    def __init__(self, in_channels: int,  blocks_sizes: List[int] = [64, 128, 256, 512, 1024], *args, **kwargs):
+    def __init__(self, in_channels: int,  widths: List[int] = [64, 128, 256, 512, 1024], *args, **kwargs):
         super().__init__()
-
-        self.in_out_block_sizes = list(zip(blocks_sizes, blocks_sizes[1:]))
-        self.blocks_sizes = blocks_sizes
+        self.gate = nn.Identity()
+        self.in_out_block_sizes = list(zip(widths, widths[1:]))
+        self.widths = widths
         self.blocks = nn.ModuleList([
-            DownLayer(in_channels, blocks_sizes[0],
+            DownLayer(in_channels, widths[0],
                       donwsample=False, *args, **kwargs),
             *[DownLayer(in_features,
                         out_features, *args, **kwargs)
@@ -108,11 +101,9 @@ class UNetDecoder(nn.Module):
     UNet Decoder composed of several layer of upsampling layers aimed to decrease the features space and increase the resolution.
     """
 
-    def __init__(self, blocks_sizes: List[int], *args, **kwargs):
+    def __init__(self, widths: List[int] = [64, 128, 256, 512, 1024], *args, **kwargs):
         super().__init__()
-
-        self.in_out_block_sizes = list(zip(blocks_sizes, blocks_sizes[1:]))
-
+        self.in_out_block_sizes = list(zip(widths, widths[1:]))
         self.blocks = nn.ModuleList([
             UpLayer(in_features,
                     out_features, *args, **kwargs)
@@ -142,31 +133,33 @@ class UNet(nn.Module):
         >>> # change number of classes (default is 2 )
         >>> UNet(n_classes=2)
         >>> # pass a different block
-        >>> UNet(down_block=SENetBasicBlock, up_block=SENetBasicBlock)
+        >>> UNet(encoder=partial(UNetEncoder, block=SENetBasicBlock))
         >>> # change the encoder
-        >>> resnet34 = ResNet.resnet34()
-        >>> # we need to change the first conv in order to accept a gray image
-        >>> resnet34.encoder.blocks[0].block[0].block.block.conv1 = Conv2dPad(1, 64, kernel_size=1)
-        >>> unet = UNet(1, n_classes=2, blocks_sizes=resnet34.encoder.blocks_sizes)
-        >>> unet.encoder.blocks = resnet34.encoder.blocks 
+        >>> unet = UNet(encoder=partial(ResNetEncoder, block=ResNetBottleneckBlock, depths=[2,2,2,2]))
 
 
     Args:
-        in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 1.
-        n_classes (int, optional): Number of classes. Defaults to 2.
-    """
+            in_channels (int, optional): [description]. Defaults to 1.
+            n_classes (int, optional): [description]. Defaults to 2.
+            encoder (nn.Module, optional): Model's encoder (left part). It have a `.gate` and `.block : nn.ModuleList` fields. Defaults to UNetEncoder.
+            decoder (nn.Module, optional): Model's decoder (left part). It must have a `.blocks : nn.ModuleList` field. Defaults to UNetDecoder.
+            widths (List[int], optional): [description]. Defaults to [64, 128, 256, 512, 1024].
+        """
 
-    def __init__(self, in_channels: int = 1, n_classes: int = 2, down_block: nn.Module = DownBlock, up_block: nn.Module = UpBlock, blocks_sizes: List[int] = [64, 128, 256, 512, 1024], *args, **kwargs):
+    def __init__(self, in_channels: int = 1, n_classes: int = 2, encoder: nn.Module = UNetEncoder,
+                 decoder: nn.Module = UNetDecoder, *args, **kwargs):
+
         super().__init__()
-        self.encoder = UNetEncoder(
-            in_channels, blocks_sizes, block=down_block, *args, **kwargs)
-        self.decoder = UNetDecoder(
-            self.encoder.blocks_sizes[::-1], block=up_block, *args, **kwargs)
+        self.encoder = encoder(
+            in_channels, *args, **kwargs)
+        self.decoder = decoder(
+            widths=self.encoder.widths[::-1], *args, **kwargs)
         self.tail = nn.Conv2d(
-            self.encoder.blocks_sizes[0], n_classes, kernel_size=1)
+            self.encoder.widths[0], n_classes, kernel_size=1)
 
     def forward(self, x: Tensor) -> Tensor:
         self.residuals = []
+        x = self.encoder.gate(x)
         for block in self.encoder.blocks:
             x = block(x)
             self.residuals.append(x)
