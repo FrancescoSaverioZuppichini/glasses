@@ -62,7 +62,7 @@ class ResNetBasicBlock(nn.Module):
         super().__init__()
         self.in_features, self.out_features = in_features, out_features
         self.expanded_features = self.out_features * self.expansion
-        self.should_apply_shortcut = self.in_features != self.expanded_features
+        self.should_apply_shortcut = self.in_features != self.out_features
 
         self.block = ResidualAdd(nn.Sequential(
             OrderedDict(
@@ -74,7 +74,7 @@ class ResNetBasicBlock(nn.Module):
                     'bn2': nn.BatchNorm2d(out_features),
                 }
             )), shortcut=ResNetShorcut(
-            in_features, out_features * self.expansion, stride) if self.should_apply_shortcut else None)
+            in_features, out_features, stride) if self.should_apply_shortcut else None)
 
         self.act = activation()
 
@@ -105,10 +105,10 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
         expansion (int, optional): [description]. Defaults to 4.
     """
 
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, expansion: int = 4, features: int = None, stride=1, **kwargs):
+    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, reduction: int = 4, features: int = None, stride=1, **kwargs):
         super().__init__(in_features, out_features, activation, stride)
-        self.expansion = expansion
-        features = out_features if features is None else features
+        self.reduction = reduction
+        features = out_features // reduction
 
         self.block.block = nn.Sequential(
             OrderedDict(
@@ -119,10 +119,11 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
                     'conv2': Conv2dPad(features, features, kernel_size=3, bias=False, stride=stride, **kwargs),
                     'bn2': nn.BatchNorm2d(features),
                     'act2': activation(),
-                    'conv3': Conv2dPad(features, out_features * expansion, kernel_size=1, bias=False),
-                    'bn3': nn.BatchNorm2d(out_features * expansion),
+                    'conv3': Conv2dPad(features, out_features, kernel_size=1, bias=False),
+                    'bn3': nn.BatchNorm2d(out_features),
                 }
             ))
+
 
 class ResNetBasicPreActBlock(ResNetBottleneckBlock):
     expansion: int = 1
@@ -188,20 +189,20 @@ class ResNetBottleneckPreActBlock(ResNetBasicBlock):
 
 
 class ResNetLayer(nn.Module):
-    def __init__(self, in_features: int, out_features: int, block: nn.Module = ResNetBasicBlock, n: int = 1, *args, **kwargs):
+    def __init__(self, in_features: int, out_features: int,
+                 block: nn.Module = ResNetBasicBlock, n: int = 1, downsample: bool = True, *args, **kwargs):
         super().__init__()
         # 'We perform stride directly by convolutional layers that have a stride of 2.'
-        stride = 2 if in_features != out_features else 1
+        stride = 2 if downsample else 1
 
         self.block = nn.Sequential(
             block(in_features, out_features, *args,
                   stride=stride,  **kwargs),
-            *[block(out_features * block.expansion,
+            *[block(out_features,
                     out_features, *args, **kwargs) for _ in range(n - 1)]
         )
 
     def forward(self, x: Tensor) -> Tensor:
-
         x = self.block(x)
         return x
 
@@ -211,18 +212,17 @@ class ResNetEncoder(nn.Module):
     ResNet encoder composed by increasing different layers with increasing features.
     """
 
-    def __init__(self, in_channels: int = 3, widths: List[int] = [64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2],
+    def __init__(self, in_channels: int = 3, start_width: int = 64, widths: List[int] = [64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2],
                  activation: nn.Module = ReLUInPlace, block: nn.Module = ResNetBasicBlock, *args, **kwargs):
         super().__init__()
         # store the actuall width of each layer
-        self.widths = [w * block.expansion for w in widths]
-        
+        self.widths = widths
         self.gate = nn.Sequential(
             OrderedDict(
                 {
                     'conv': Conv2dPad(
-                        in_channels, widths[0], kernel_size=7, stride=2, bias=False),
-                    'bn': nn.BatchNorm2d(widths[0]),
+                        in_channels, start_width, kernel_size=7, stride=2, bias=False),
+                    'bn': nn.BatchNorm2d(start_width),
                     'act': activation(),
                     'pool': nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
                 }
@@ -232,9 +232,9 @@ class ResNetEncoder(nn.Module):
         self.in_out_widths = list(zip(widths, widths[1:]))
 
         self.blocks = nn.ModuleList([
-            ResNetLayer(widths[0], widths[0], n=depths[0], activation=activation,
+            ResNetLayer(start_width, widths[0], n=depths[0], downsample=False, activation=activation,
                         block=block,  *args, **kwargs),
-            *[ResNetLayer(in_features * block.expansion,
+            *[ResNetLayer(in_features,
                           out_features, n=n, activation=activation,
                           block=block, *args, **kwargs)
               for (in_features, out_features), n in zip(self.in_out_widths, depths[1:])]
@@ -305,8 +305,7 @@ class ResNet(nn.Module):
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = ResNetEncoder(in_channels, *args, **kwargs)
-        self.decoder = ResnetDecoder(
-            self.encoder.blocks[-1].block[-1].expanded_features, n_classes)
+        self.decoder = ResnetDecoder(self.encoder.widths[-1], n_classes)
 
         self.initialize()
 
@@ -354,7 +353,7 @@ class ResNet(nn.Module):
         Returns:
             ResNet: A resnet50 model
         """
-        return cls(*args, **kwargs, block=block, depths=[3, 4, 6, 3])
+        return cls(*args, **kwargs, block=block, depths=[3, 4, 6, 3], widths=[256, 512, 1024, 2048])
 
     @classmethod
     def resnet101(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
@@ -365,7 +364,7 @@ class ResNet(nn.Module):
         Returns:
             ResNet: A resnet101 model
         """
-        return cls(*args, **kwargs, block=block, depths=[3, 4, 23, 3])
+        return cls(*args, **kwargs, block=block, depths=[3, 4, 23, 3], widths=[256, 512, 1024, 2048])
 
     @classmethod
     def resnet152(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
@@ -376,5 +375,4 @@ class ResNet(nn.Module):
         Returns:
             ResNet: A resnet152 model
         """
-        return cls(*args, **kwargs, block=block, depths=[3, 8, 36, 3])
-
+        return cls(*args, **kwargs, block=block, depths=[3, 8, 36, 3], widths=[256, 512, 1024, 2048])
