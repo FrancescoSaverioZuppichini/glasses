@@ -108,18 +108,18 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, reduction: int = 4, features: int = None, stride=1, **kwargs):
         super().__init__(in_features, out_features, activation, stride)
         self.reduction = reduction
-        features = out_features // reduction
+        self.features = int(out_features / reduction)
 
         self.block.block = nn.Sequential(
             OrderedDict(
                 {
-                    'conv1': Conv2dPad(in_features, features, kernel_size=1, bias=False),
-                    'bn1': nn.BatchNorm2d(features),
+                    'conv1': Conv2dPad(in_features, self.features, kernel_size=1, bias=False),
+                    'bn1': nn.BatchNorm2d(self.features),
                     'act1': activation(),
-                    'conv2': Conv2dPad(features, features, kernel_size=3, bias=False, stride=stride, **kwargs),
-                    'bn2': nn.BatchNorm2d(features),
+                    'conv2': Conv2dPad(self.features, self.features, kernel_size=3, bias=False, stride=stride, **kwargs),
+                    'bn2': nn.BatchNorm2d(self.features),
                     'act2': activation(),
-                    'conv3': Conv2dPad(features, out_features, kernel_size=1, bias=False),
+                    'conv3': Conv2dPad(self.features, out_features, kernel_size=1, bias=False),
                     'bn3': nn.BatchNorm2d(out_features),
                 }
             ))
@@ -154,7 +154,7 @@ class ResNetBasicPreActBlock(ResNetBottleneckBlock):
         self.act = nn.Identity()
 
 
-class ResNetBottleneckPreActBlock(ResNetBasicBlock):
+class ResNetBottleneckPreActBlock(ResNetBottleneckBlock):
     expansion: int = 4
 
     """Pre activation ResNet bottleneck block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
@@ -167,20 +167,20 @@ class ResNetBottleneckPreActBlock(ResNetBasicBlock):
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
     """
 
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, expansion: int = 4, stride=1, **kwars):
-        super().__init__(in_features, out_features, activation, stride=stride)
+    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, stride=1, **kwars):
+        super().__init__(in_features, out_features, activation, stride=stride, **kwars)
         # TODO I am not sure it is correct
         self.block.block = nn.Sequential(
             OrderedDict(
                 {
                     'bn1': nn.BatchNorm2d(in_features),
                     'act1': activation(),
-                    'conv1': Conv2dPad(in_features, out_features, kernel_size=1, bias=False),
-                    'bn2': nn.BatchNorm2d(out_features),
+                    'conv1': Conv2dPad(in_features, self.features, kernel_size=1, bias=False),
+                    'bn2': nn.BatchNorm2d(self.features),
                     'act2': activation(),
-                    'conv2': Conv2dPad(out_features, out_features, kernel_size=3, bias=False, stride=stride, **kwars),
-                    'bn3': nn.BatchNorm2d(out_features),
-                    'conv3': Conv2dPad(out_features, out_features * self.expansion, kernel_size=1, bias=False),
+                    'conv2': Conv2dPad(self.features, self.features, kernel_size=3, bias=False, stride=stride, **kwars),
+                    'bn3': nn.BatchNorm2d(self.features),
+                    'conv3': Conv2dPad(self.features, out_features, kernel_size=1, bias=False),
                     'act3': activation(),
                 }
             ))
