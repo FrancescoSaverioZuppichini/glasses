@@ -108,7 +108,7 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, reduction: int = 4, features: int = None, stride=1, **kwargs):
         super().__init__(in_features, out_features, activation, stride)
         self.reduction = reduction
-        self.features = int(in_features / reduction)
+        self.features = int(out_features / reduction)
 
         self.block.block = nn.Sequential(
             OrderedDict(
