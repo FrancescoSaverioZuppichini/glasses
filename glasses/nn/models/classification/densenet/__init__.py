@@ -54,9 +54,8 @@ class DenseBottleNeckBlock(DenseNetBasicBlock):
 
     """
 
-    def __init__(self, in_features: int, out_features: int, conv: nn.Module = nn.Conv2d, activation: nn.Module = ReLUInPlace, expansion: int = 4, *args, **kwargs):
+    def __init__(self, in_features: int, out_features: int, conv: nn.Module = nn.Conv2d, activation: nn.Module = ReLUInPlace, reduction: int = 4, *args, **kwargs):
         super().__init__(in_features, out_features, conv, activation, *args, **kwargs)
-        self.expansion = expansion
         self.expanded_features = out_features * self.expansion
 
         self.block.block = nn.Sequential(OrderedDict({
@@ -145,7 +144,7 @@ class DenseNetEncoder(ResNetEncoder):
     def __init__(self, in_channels: int = 3, start_features: int = 64,  grow_rate: int = 32,
                  depths: List[int] = [4, 4, 4, 4],
                  activation: nn.Module = ReLUInPlace, block: nn.Module = DenseBottleNeckBlock, *args, **kwargs):
-        super().__init__(in_channels, [start_features])
+        super().__init__(in_channels, start_features)
 
         self.blocks = nn.ModuleList([])
         self.widths = []
