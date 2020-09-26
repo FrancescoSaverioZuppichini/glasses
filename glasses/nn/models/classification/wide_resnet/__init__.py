@@ -17,9 +17,9 @@ class WideResnetBottleNeckBlock(ResNetBottleneckBlock):
         out_features ([type]): [description]
         width_factor (int, optional): Scales the 3x3 conv features in the bottle neck block. Defaults to 2.
     """
-    def __init__(self, in_features: int, out_features: int , width_factor: int = 2, reduction: int = 4, **kwargs):
-            # width factor increase the number of middle features, so it decrease the reduction of the bottleneck layer
-            super().__init__(in_features, out_features,  reduction=reduction / width_factor, **kwargs,)
+    def __init__(self, in_features: int, out_features: int , width_factor: int = 2, **kwargs):
+            features = out_features * width_factor
+            super().__init__(in_features, out_features, **kwargs, features=features)
 
 class WideResNet(ResNet):
     """Implementation of Wide ResNet proposed in `"Wide Residual Networks" <https://arxiv.org/pdf/1605.07146.pdf>`_
@@ -74,9 +74,9 @@ class WideResNet(ResNet):
 
     @classmethod
     def wide_resnet101_2(cls, *args, **kwargs) -> WideResNet:
-        """Creates a wide_resnet101_2 model
+        """Creates a wide_resnet50_2 model
 
         Returns:
-            ResNet: A wide_resnet101_2 model
+            ResNet: A wide_resnet50_2 model
         """
         return cls.resnet101(*args, **kwargs, block=WideResnetBottleNeckBlock)

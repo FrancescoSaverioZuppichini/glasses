@@ -3,10 +3,49 @@ from torch import nn
 from torch import Tensor
 from ....blocks.residuals import ResidualAdd
 from ....blocks import Conv2dPad, ConvBnAct
+from ..resnet import ResNetShorcut
 from collections import OrderedDict
 from typing import List
 from functools import partial
 from ..resnet import ResNetBottleneckBlock, ReLUInPlace, ResNetEncoder
+
+
+class FishNetBottleNeck(nn.Module):
+    """FishNetBottleNeck Bottleneck block based on a correct interpretation of the original resnet paper.
+
+    Args:
+        out_features (int): Number of input features
+        out_features (int): Number of output features
+        activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
+        stride (int, optional): [description]. Defaults to 1.
+        conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
+        expansion (int, optional): [description]. Defaults to 4.
+    """
+
+    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, reduction: int = 4, stride=1, **kwargs):
+        super().__init__()
+        self.reduction = reduction
+        features = in_features // reduction
+
+        self.block = nn.Sequential(ConvBnAct(in_features, features, activation=activation, kernel_size=1, bias=False),
+                                   ConvBnAct(features, features, activation=activation,
+                                             kernel_size=3, bias=False, stride=stride, **kwargs),
+                                   ConvBnAct(
+                                       features, out_features, activation=activation, kernel_size=1, bias=False)
+                                   )
+
+        self.shortcut = ResNetShorcut(
+            in_features, out_features) if in_features != out_features else None
+        self.act = activation()
+
+    def forward(self, x: Tensor) -> Tensor:
+        res = x
+        if self.shortcut is not None:
+            res = self.shortcut(res)
+        x = self.block(x)
+        x += res
+        x = self.act(x)
+        return x
 
 
 class FishNetURBlock(nn.Module):
@@ -84,7 +123,8 @@ class FishNetEncoder(nn.Module):
                       activation=activation,  kernel_size=3),
             nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         )
-        self.tail = FishNetTail(widths=widths, depths=[1, 1, 1, 1], * args, **kwargs)
+        self.tail = FishNetTail(widths=widths, depths=[
+                                1, 1, 1, 1], * args, **kwargs)
         self.bridge = None
         # self.body = FishNetBody(widths, *args, **kwargs)
         # self.head = FishNetHead(widths, *args, **kwargs)
