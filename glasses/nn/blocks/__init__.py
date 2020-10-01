@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 from functools import partial
 from collections import OrderedDict
-from typing import Callable
+from typing import Callable, Union
 from torch import Tensor
 from enum import Enum
 
@@ -37,13 +37,18 @@ class Conv2dPad(nn.Conv2d):
         >>> print(conv(x).shape) 
         [1,1,5,5]
     """
-    MODES = ['auto']
 
-    def __init__(self, *args, mode: str = 'auto', **kwargs):
+    def __init__(self, *args, padding: int = None, **kwargs):
         super().__init__(*args, **kwargs)
-        if mode == 'auto':
-            # dynamic add padding based on the kernel_size
-            self.padding = (self.kernel_size[0] // 2, self.kernel_size[1] // 2)
+        # dynamic add padding based on the kernel_size
+        if padding is not None and type(padding) == int:
+            padding = self._get_padding(padding)
+
+        self.padding = (
+            self.kernel_size[0] // 2, self.kernel_size[1] // 2) if padding is None else padding
+
+    def _get_padding(self, padding: int) -> Union[int]:
+        return (padding, padding)
 
 
 class ConvBnAct(nn.Sequential):
@@ -77,11 +82,12 @@ class ConvBnAct(nn.Sequential):
             normalization (nn.Module, optional): Normalization layer. Defaults to nn.BatchNorm2d.
             activation (nn.Module, optional): Activation function. Defaults to nn.ReLU.
     """
-    def __init__(self, in_features: int, out_features: int, conv: nn.Module = Conv2dPad, normalization: nn.Module = nn.BatchNorm2d, activation: nn.Module = nn.ReLU, *args, **kwargs):
 
+    def __init__(self, in_features: int, out_features: int, conv: nn.Module = Conv2dPad,
+                 normalization: nn.Module = nn.BatchNorm2d, activation: nn.Module = nn.ReLU, *args, **kwargs):
         super().__init__()
         self.add_module('conv', conv(
-            in_features, out_features, *args, **kwargs))
+            in_features, out_features, bias=False, *args, **kwargs))
         if normalization:
             self.add_module('bn', normalization(out_features))
         if activation:
