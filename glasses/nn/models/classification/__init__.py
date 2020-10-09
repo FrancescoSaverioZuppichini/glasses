@@ -10,5 +10,6 @@ from .se import SpatialSE, ChannelSE, SpatialChannelSE
 from .mobilenet import MobileNetV2
 from .alexnet import AlexNet
 from .efficientnet import EfficientNet
+from .fishnet import FishNet
 
-__all__ = ['ResNet', 'DenseNet', 'ResNetXt', 'WideResNet', 'SpatialSE', 'ChannelSE', 'SpatialChannelSE', 'SEResNet', 'VGG', 'MobileNetV2', 'AlexNet',  'EfficientNet']
+__all__ = ['ResNet', 'DenseNet', 'ResNetXt', 'WideResNet', 'FishNet', 'SpatialSE', 'ChannelSE', 'SpatialChannelSE', 'SEResNet', 'VGG', 'MobileNetV2', 'AlexNet',  'EfficientNet']

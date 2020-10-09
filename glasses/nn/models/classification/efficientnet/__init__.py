@@ -89,7 +89,7 @@ class EfficientNetEncoder(nn.Module):
 
         self.widths, self.depths = widths, depths
         self.gate = ConvBnAct(
-            in_channels, self.widths[0],  activation=activation, kernel_size=3, stride=2, bias=False)
+            in_channels, self.widths[0],  activation=activation, kernel_size=3, stride=2)
 
         self.in_out_block_sizes = list(zip(widths, widths[1:-1]))
 
@@ -102,7 +102,7 @@ class EfficientNetEncoder(nn.Module):
 
         self.blocks.append(
             ConvBnAct(self.widths[-2], self.widths[-1],
-                      activation=activation, kernel_size=1, bias=False),
+                      activation=activation, kernel_size=1),
         )
 
     def forward(self, x):

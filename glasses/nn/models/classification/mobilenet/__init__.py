@@ -51,13 +51,13 @@ class InvertedResidualBlock(nn.Module):
         # we need to expand the input only if expansion is greater than one
         if expansion > 1:
             weights.add_module('exp', ConvBnAct(in_features,  self.expanded_features,
-                                                activation=activation, kernel_size=1, bias=False))
+                                                activation=activation, kernel_size=1))
         # add the depth wise and point wise conv
         weights.add_module('depth', ConvBnAct(self.expanded_features, self.expanded_features,
                                               conv=DepthWiseConv2d,
                                               activation=activation,
                                               kernel_size=kernel_size,
-                                              stride=downsampling, bias=False)
+                                              stride=downsampling)
                            )
 
         weights.add_module('point',  nn.Sequential(OrderedDict({
@@ -120,7 +120,7 @@ class MobileNetEncoder(nn.Module):
 
         self.gate = nn.Sequential(
             ConvBnAct(in_channels, widths[0], activation=activation,
-                      kernel_size=3, stride=strides[0], bias=False),
+                      kernel_size=3, stride=strides[0]),
         )
 
         self.in_out_block_sizes = list(zip(widths, widths[1:-1]))
@@ -134,7 +134,7 @@ class MobileNetEncoder(nn.Module):
 
         self.blocks.append(nn.Sequential(
             ConvBnAct(widths[-2], widths[-1],
-                      activation=nn.ReLU6, kernel_size=1, bias=False),
+                      activation=nn.ReLU6, kernel_size=1),
         ))
 
     def forward(self, x):

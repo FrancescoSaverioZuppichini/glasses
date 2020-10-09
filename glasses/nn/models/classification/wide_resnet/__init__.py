@@ -48,7 +48,7 @@ class WideResNet(ResNet):
         >>> model.encoder.gate.conv1 = nn.Conv2d(3, 64, kernel_size=3)
         >>> # store each feature
         >>> x = torch.rand((1, 3, 224, 224))
-        >>> model = WideResNet.resnext50_32x4d()
+        >>> model = WideResNet.wide_resnet50_2()
         >>> features = []
         >>> x = model.encoder.gate(x)
         >>> for block in model.encoder.blocks:

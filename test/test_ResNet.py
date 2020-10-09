@@ -57,4 +57,4 @@ def test_wide_resnet():
 
     block = WideResnetBottleNeckBlock(32, 32, width_factor=3)
 
-    assert block.block.block.conv2.in_channels ==  32  * 3
+    assert block.block.block.conv2.in_channels ==  32  * 3 

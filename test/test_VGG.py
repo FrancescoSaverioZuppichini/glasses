@@ -17,7 +17,7 @@ def test_vgg():
     pred = model(x)
     assert pred.shape[-1] == 1000
 
-    model = VGG().vgg13()
+    model = VGG().vgg16()
     pred = model(x)
     assert pred.shape[-1] == 1000
 

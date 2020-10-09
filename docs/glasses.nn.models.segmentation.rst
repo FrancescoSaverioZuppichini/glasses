@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 1
 
    glasses.nn.models.segmentation.unet
+   glasses.nn.models.segmentation.wide_resnet
 
 Module contents
 ---------------
