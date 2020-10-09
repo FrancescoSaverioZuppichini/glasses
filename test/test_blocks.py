@@ -12,7 +12,7 @@ def test_Conv2dPad():
     assert x.shape[-1] == res.shape[-1]
     assert x.shape[-2] == res.shape[-2]
     # no padding
-    block = Conv2dPad(1, 5, kernel_size=3, mode=None)
+    block = Conv2dPad(1, 5, kernel_size=3, padding=None)
     res = block(x)
     assert x.shape[-1] != res.shape[-1]
     assert x.shape[-2] != res.shape[-2]
