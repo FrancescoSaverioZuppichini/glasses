@@ -84,10 +84,10 @@ class ConvBnAct(nn.Sequential):
     """
 
     def __init__(self, in_features: int, out_features: int, conv: nn.Module = Conv2dPad,
-                 normalization: nn.Module = nn.BatchNorm2d, activation: nn.Module = nn.ReLU, *args, **kwargs):
+                 normalization: nn.Module = nn.BatchNorm2d, activation: nn.Module = nn.ReLU, *args, bias: bool = False, **kwargs):
         super().__init__()
         self.add_module('conv', conv(
-            in_features, out_features, bias=False, *args, **kwargs))
+            in_features, out_features, bias=bias, *args, **kwargs))
         if normalization:
             self.add_module('bn', normalization(out_features))
         if activation:
@@ -95,5 +95,5 @@ class ConvBnAct(nn.Sequential):
 
 
 ConvBn = partial(ConvBnAct, activation=None)
-ConvAct = partial(ConvBnAct, normalization=None)
+ConvAct = partial(ConvBnAct, normalization=None, bias=True)
 Conv3x3BnAct = partial(ConvBnAct, kernel_size=3)
