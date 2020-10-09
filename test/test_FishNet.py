@@ -5,14 +5,14 @@ from glasses.nn.models.classification.fishnet import FishNet, FishNetBottleNeck
 from glasses.nn.models.classification import SpatialSE
 
 def test_fishnet():
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cpu')
     x = torch.rand(1, 3,224,224)
     # test fishnet99
     model = FishNet.fishnet99().eval()
     pred = model(x)
     assert pred.shape[-1] == 1000
 
-    n_params, _ = summary(model.to(device), (3, 224, 224))
+    n_params, _ = summary(model.to(device), (3, 224, 224), device=device)
     # we know the correct number of paramters of fishnet
     assert n_params.item() == 16628904
 
@@ -21,7 +21,7 @@ def test_fishnet():
     pred = model(x)
     assert pred.shape[-1] == 1000
 
-    n_params, _ = summary(model.to(device), (3, 224, 224))
+    n_params, _ = summary(model.to(device), (3, 224, 224), device=device)
     # we know the correct number of paramters of fishnet
     assert n_params.item() == 24959400
 
