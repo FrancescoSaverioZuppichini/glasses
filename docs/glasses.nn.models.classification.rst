@@ -10,11 +10,14 @@ Subpackages
    glasses.nn.models.classification.alexnet
    glasses.nn.models.classification.densenet
    glasses.nn.models.classification.efficientnet
+   glasses.nn.models.classification.fishnet
    glasses.nn.models.classification.mobilenet
    glasses.nn.models.classification.resnet
+   glasses.nn.models.classification.resnetxt
    glasses.nn.models.classification.se
    glasses.nn.models.classification.senet
    glasses.nn.models.classification.vgg
+   glasses.nn.models.classification.wide_resnet
 
 Module contents
 ---------------
