@@ -12,17 +12,6 @@ from ..resnet import ResNetBottleneckBlock, ReLUInPlace, ResNetEncoder, ResNetSh
 from ..se import ChannelSE
 
 
-class GrowModuleList(nn.ModuleList):
-    def __init__(self, block: nn.Module, start_features: int = 64, depth: int = 4, *args, **kwargs):
-        widths = [start_features]
-        for _ in range(depth):
-            widths.append(widths[-1] * 2)
-        self.in_out_widths = list(zip(widths, widths[1:]))
-        blocks = [block(in_f, out_f, *args, **kwargs)
-                  for in_f, out_f in self.in_out_widths]
-        super().__init__(blocks)
-
-
 class BnActConv(nn.Sequential):
     """A Sequential layer composed by a normalization, an activation and a convolution layer. This is usually known as a 'Preactivation Block'
 
