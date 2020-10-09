@@ -7,6 +7,10 @@ from glasses.nn.models.classification import SpatialSE
 def test_fishnet():
     device = torch.device('cpu')
     x = torch.rand(1, 3,224,224)
+
+    model = FishNet().eval()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
     # test fishnet99
     model = FishNet.fishnet99().eval()
     pred = model(x)
