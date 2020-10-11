@@ -18,21 +18,21 @@ class SENetBottleneckBlock(ResNetBottleneckBlock):
 class SEResNet(ResNet):
 
     @classmethod
-    def resnet18(cls, *args, **kwargs) -> SEResNet:
+    def se_resnet18(cls, *args, **kwargs) -> SEResNet:
         return ResNet.resnet18(*args, block=SENetBasicBlock, **kwargs)
 
     @classmethod
-    def resnet34(cls, *args, **kwargs) -> SEResNet:
+    def se_resnet34(cls, *args, **kwargs) -> SEResNet:
         return ResNet.resnet34(*args, block=SENetBasicBlock, **kwargs)
 
     @classmethod
-    def resnet50(cls, *args, **kwargs) -> SEResNet:
+    def se_resnet50(cls, *args, **kwargs) -> SEResNet:
         return ResNet.resnet50(*args, block=SENetBottleneckBlock, **kwargs)
 
     @classmethod
-    def resnet101(cls, *args, **kwargs) -> SEResNet:
+    def se_resnet101(cls, *args, **kwargs) -> SEResNet:
         return ResNet.resnet101(*args, block=SENetBottleneckBlock, **kwargs)
 
     @classmethod
-    def resnet152(cls, *args, **kwargs) -> SEResNet:
+    def se_resnet152(cls, *args, **kwargs) -> SEResNet:
         return ResNet.resnet152(*args, block=SENetBottleneckBlock, **kwargs)

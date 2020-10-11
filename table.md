@@ -1,21 +1,4 @@
-# Glasses 😎
-
-![alt](https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/background.png?raw=true)
-
-[![codecov](https://codecov.io/gh/FrancescoSaverioZuppichini/glasses/branch/develop/graph/badge.svg)](https://codecov.io/gh/FrancescoSaverioZuppichini/glasses)
-
-Compact, concise and customizable 
-deep learning computer vision library 
-
-## Installation
-
-You can install `glasses` using pip by runing
-
-```
-pip install git+https://github.com/FrancescoSaverioZuppichini/glasses
-```
-
-|    | name             |   total_params |   param_size (MB) |   total_size (MB) |
+|    | name             |   total_params |   param_size |   total_size |
 |---:|:-----------------|---------------:|-------------:|-------------:|
 |  0 | resnet18         |       11689512 |      44.5919 |      118.115 |
 |  1 | resnet34         |       21797672 |      83.1515 |      194.956 |
@@ -38,11 +21,11 @@ pip install git+https://github.com/FrancescoSaverioZuppichini/glasses
 | 18 | MobileNetV2      |        3504872 |      13.37   |      174.397 |
 | 19 | fishnet99        |       16628904 |      63.4342 |      505.402 |
 | 20 | fishnet150       |       24959400 |      95.2126 |      736.722 |
-| 21 | efficienet-b0               |        5288548 |      20.1742 |      182.442 |
-| 22 | efficienet-b1               |        7794184 |      29.7325 |      256.924 |
-| 23 | efficienet-b2               |        9109994 |      34.7519 |      272.03  |
-| 24 | efficienet-b3               |       12233232 |      46.6661 |      360.648 |
-| 25 | efficienet-b4               |       19341616 |      73.7824 |      482.991 |
-| 26 | efficienet-b5               |       30389784 |     115.928  |      682.92  |
-| 27 | efficienet-b6               |       43040704 |     164.187  |      891.508 |
-| 28 | efficienet-b7               |       66347960 |     253.097  |     1221.29  |
+| 21 | b0               |        5288548 |      20.1742 |      182.442 |
+| 22 | b1               |        7794184 |      29.7325 |      256.924 |
+| 23 | b2               |        9109994 |      34.7519 |      272.03  |
+| 24 | b3               |       12233232 |      46.6661 |      360.648 |
+| 25 | b4               |       19341616 |      73.7824 |      482.991 |
+| 26 | b5               |       30389784 |     115.928  |      682.92  |
+| 27 | b6               |       43040704 |     164.187  |      891.508 |
+| 28 | b7               |       66347960 |     253.097  |     1221.29  |
