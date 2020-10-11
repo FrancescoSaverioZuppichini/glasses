@@ -3,10 +3,11 @@ import pandas as pd
 from argparse import ArgumentParser
 from torchsummary import summary
 from glasses.nn.models import ResNet, ResNetXt, WideResNet, SEResNet, DenseNet, EfficientNet, MobileNetV2, FishNet
-
+# from torchvision.models import *
+# from efficientnet_pytorch import EfficientNet
 
 parser = ArgumentParser()
-parser.add_argument('-o', default='./table.d')
+parser.add_argument('-o', default='./table.md')
 
 args = parser.parse_args()
 
@@ -25,8 +26,8 @@ def row(model_factory):
     return {
         'name': model_factory.__name__,
         'total_params': total_params.item(),
-        'param_size': param_size.item(),
-        'total_size': total_size.item()
+        'param_size': int(param_size.item()),
+        'total_size': int(total_size.item())
     }
 
 
@@ -36,8 +37,11 @@ models = [ResNet.resnet18, ResNet.resnet34, ResNet.resnet50, ResNet.resnet101, R
           DenseNet.densenet121, DenseNet.densenet161, DenseNet.densenet169, DenseNet.densenet201,
           MobileNetV2, FishNet.fishnet99, FishNet.fishnet150,
           EfficientNet.b0, EfficientNet.b1, EfficientNet.b2, EfficientNet.b3, EfficientNet.b4, EfficientNet.b5, EfficientNet.b6, EfficientNet.b7,
-          
           ]
+
+# models = [resnet18, resnet34, resnet50, resnet101, resnet152,
+# resnext50_32x4d, resnext101_32x8d, wide_resnet50_2, wide_resnet101_2
+#           ]
 
 res = list(map(row, models))
 
