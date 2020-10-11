@@ -25,9 +25,9 @@ def row(model_factory):
     
     return {
         'name': model_factory.__name__,
-        'total_params': total_params.item(),
-        'param_size': int(param_size.item()),
-        'total_size': int(total_size.item())
+        'Parameters': total_params.item(),
+        'Parameters Size (MB)': int(param_size.item()),
+        'Total Size (MB)': int(total_size.item())
     }
 
 
@@ -48,7 +48,7 @@ res = list(map(row, models))
 df = pd.DataFrame.from_records(res)
 print(df)
 
-mk = df.to_markdown()
+mk = df.set_index('name', drop=True).to_markdown()
 
 with open(args.o, 'w') as f:
-    f.write(mk + '.md')
+    f.write(mk)

@@ -1,0 +1,2 @@
+ignore:
+  - "models_table.py"  # ignore table builder
