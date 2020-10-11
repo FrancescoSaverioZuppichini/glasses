@@ -23,8 +23,7 @@ class ResNetXtBottleNeckBlock(ResNetBottleneckBlock):
             base_width (int, optional): width factor uses to compute the inner features in the 3x3 conv. Defaults to 4.
         """
         features = (int(out_features * (base_width / 64.)) * groups)
-        super().__init__(in_features, out_features, **
-                         kwargs, features=features, groups=groups)
+        super().__init__(in_features, out_features, features=features, groups=groups, **kwargs)
 
 
 class ResNetXt(ResNet):

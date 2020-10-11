@@ -8,7 +8,7 @@ from typing import List
 from functools import partial
 from ..resnet import ReLUInPlace
 from ....blocks.residuals import ResidualCat2d
-
+from ....blocks import Conv2dPad
 
 class DenseNetBasicBlock(nn.Module):
     """Basic DenseNet block composed by one 3x3 convs with residual connection.
@@ -23,13 +23,13 @@ class DenseNetBasicBlock(nn.Module):
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
     """
 
-    def __init__(self, in_features: int, out_features: int, conv: nn.Module = nn.Conv2d, activation: nn.Module = ReLUInPlace, *args, **kwargs):
+    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace, *args, **kwargs):
         super().__init__()
         self.block = ResidualCat2d(
             nn.Sequential(OrderedDict({
                 'bn': nn.BatchNorm2d(in_features),
                 'act': activation(),
-                'conv': conv(in_features, out_features, kernel_size=3, padding=1, *args, **kwargs)
+                'conv': Conv2dPad(in_features, out_features, kernel_size=3, *args, **kwargs)
             })))
 
     def forward(self, x: Tensor) -> Tensor:
@@ -54,18 +54,18 @@ class DenseBottleNeckBlock(DenseNetBasicBlock):
 
     """
 
-    def __init__(self, in_features: int, out_features: int, conv: nn.Module = nn.Conv2d, activation: nn.Module = ReLUInPlace, expansion: int = 4, *args, **kwargs):
-        super().__init__(in_features, out_features, conv, activation, *args, **kwargs)
+    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace, expansion: int = 4, *args, **kwargs):
+        super().__init__(in_features, out_features,  activation, *args, **kwargs)
         self.expansion = expansion
         self.expanded_features = out_features * self.expansion
 
         self.block.block = nn.Sequential(OrderedDict({
             'bn1': nn.BatchNorm2d(in_features),
             'act1': activation(),
-            'conv1': conv(in_features, self.expanded_features, kernel_size=1, bias=False, *args, **kwargs),
+            'conv1': Conv2dPad(in_features, self.expanded_features, kernel_size=1, bias=False, *args, **kwargs),
             'bn2': nn.BatchNorm2d(self.expanded_features),
             'act2': activation(),
-            'conv2': conv(self.expanded_features, out_features, kernel_size=3, padding=1,  bias=False, *args, **kwargs)
+            'conv2': Conv2dPad(self.expanded_features, out_features, kernel_size=3, bias=False, *args, **kwargs)
         }))
 
 
@@ -81,14 +81,14 @@ class TransitionBlock(nn.Module):
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
     """
 
-    def __init__(self, in_features: int, factor: int = 2, conv: nn.Module = nn.Conv2d, activation: nn.Module = ReLUInPlace):
+    def __init__(self, in_features: int, factor: int = 2, activation: nn.Module = ReLUInPlace):
         super().__init__()
         self.block = nn.Sequential(
             OrderedDict(
                 {
                     'bn': nn.BatchNorm2d(in_features),
                     'act': activation(),
-                    'conv': conv(in_features, in_features // factor,
+                    'conv': Conv2dPad(in_features, in_features // factor,
                                  kernel_size=1, bias=False),
                     'pool': nn.AvgPool2d(kernel_size=2, stride=2)
                 }
@@ -117,6 +117,7 @@ class DenseNetLayer(nn.Module):
         super().__init__()
         self.out_features = grow_rate * n + in_features
         self.block = nn.Sequential(
+            # in each block, the number of features is equal to the input size + the outputs of all the previos layers (grow_rate * i)
             *[block(grow_rate * i + in_features, grow_rate, *args, **kwargs)
               for i in range(n)],
             # reduce the output features by a factor of 2
@@ -145,7 +146,7 @@ class DenseNetEncoder(ResNetEncoder):
     def __init__(self, in_channels: int = 3, start_features: int = 64,  grow_rate: int = 32,
                  depths: List[int] = [4, 4, 4, 4],
                  activation: nn.Module = ReLUInPlace, block: nn.Module = DenseBottleNeckBlock, *args, **kwargs):
-        super().__init__(in_channels, [start_features])
+        super().__init__(in_channels, start_features=start_features)
 
         self.blocks = nn.ModuleList([])
         self.widths = []

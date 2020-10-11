@@ -18,8 +18,8 @@ class WideResnetBottleNeckBlock(ResNetBottleneckBlock):
         width_factor (int, optional): Scales the 3x3 conv features in the bottle neck block. Defaults to 2.
     """
     def __init__(self, in_features: int, out_features: int , width_factor: int = 2, **kwargs):
-            features = out_features * width_factor
-            super().__init__(in_features, out_features, **kwargs, features=features)
+            features = int(out_features * width_factor // self.reduction)
+            super().__init__(in_features, out_features, features=features,  **kwargs)
 
 class WideResNet(ResNet):
     """Implementation of Wide ResNet proposed in `"Wide Residual Networks" <https://arxiv.org/pdf/1605.07146.pdf>`_

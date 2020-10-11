@@ -93,6 +93,25 @@ class ConvBnAct(nn.Sequential):
         if activation:
             self.add_module('act', activation())
 
+ReLUInPlace = partial(nn.ReLU, inplace=True)
+
+class BnActConv(nn.Sequential):
+    """A Sequential layer composed by a normalization, an activation and a convolution layer. This is usually known as a 'Preactivation Block'
+
+    Args:
+        in_features (int): [description]
+        out_features (int): [description]
+        conv (nn.Module, optional): [description]. Defaults to Conv2dPad.
+        normalization (nn.Module, optional): [description]. Defaults to nn.BatchNorm2d.
+        activation (nn.Module, optional): [description]. Defaults to nn.ReLU.
+    """
+    def __init__(self, in_features: int, out_features: int, conv: nn.Module = Conv2dPad,
+                 normalization: nn.Module = nn.BatchNorm2d, activation: nn.Module = ReLUInPlace, *args, **kwargs):
+        super().__init__()
+        self.add_module('bn', normalization(in_features))
+        self.add_module('act', activation())
+        self.add_module('conv', conv(
+            in_features, out_features, *args, **kwargs))
 
 ConvBn = partial(ConvBnAct, activation=None)
 ConvAct = partial(ConvBnAct, normalization=None, bias=True)

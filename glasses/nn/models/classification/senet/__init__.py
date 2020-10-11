@@ -12,7 +12,7 @@ class SENetBasicBlock(ResNetBasicBlock):
 class SENetBottleneckBlock(ResNetBottleneckBlock):
     def __init__(self, in_features: int, out_features: int, squeeze: int = 16, *args, **kwargs):
         super().__init__(in_features, out_features, *args, **kwargs)
-        self.block.block.add_module('se', SpatialSE(self.expanded_features, reduction=squeeze))
+        self.block.block.add_module('se', SpatialSE(out_features, reduction=squeeze))
 
 
 class SEResNet(ResNet):
