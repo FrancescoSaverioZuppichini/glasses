@@ -25,9 +25,9 @@ def row(model_factory):
     
     return {
         'name': model_factory.__name__,
-        'Parameters': total_params.item(),
-        'Parameters Size (MB)': int(param_size.item()),
-        'Total Size (MB)': int(total_size.item())
+        'Parameters': f"{total_params.item():,}",
+        'Size (MB)': int(param_size.item()),
+        # 'Total Size (MB)': int(total_size.item())
     }
 
 
@@ -46,6 +46,7 @@ models = [ResNet.resnet18, ResNet.resnet34, ResNet.resnet50, ResNet.resnet101, R
 res = list(map(row, models))
 
 df = pd.DataFrame.from_records(res)
+print(df['name'].values)
 print(df)
 
 mk = df.set_index('name', drop=True).to_markdown()
