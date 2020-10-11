@@ -26,8 +26,8 @@ def row(model_factory):
     return {
         'name': model_factory.__name__,
         'Parameters': f"{total_params.item():,}",
-        'Parameters Size (MB)': int(param_size.item()),
-        'Total Size (MB)': int(total_size.item())
+        'Size (MB)': int(param_size.item()),
+        # 'Total Size (MB)': int(total_size.item())
     }
 
 
