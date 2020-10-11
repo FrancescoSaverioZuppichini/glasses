@@ -90,12 +90,6 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
 
     Even if the paper says that the first conv1x1 compresses the features. We followed the original implementation that expands the `out_features` by a factor equal to `reduction`.
 
-    So, the block will always output a vector of `out_features * reduction`. Why? No idea. The weird thing is in most cases the input is not even compressed.
-
-    Since research in this field suck, it is not uncommon to see the actual implementation being different from the paper.
-
-    A correct implementation can be found in `FishNetBottleNeck` where the input gets correctly compressed.
-
     The stride is applied into the 3x3 conv, `this improves https://ngc.nvidia.com/catalog/model-scripts/nvidia:resnet_50_v1_5_for_pytorch`
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNetBottleNeckBlock.png?raw=true
