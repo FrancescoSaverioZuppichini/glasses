@@ -55,6 +55,6 @@ def test_wide_resnet():
     assert pred.shape[-1] == 1000
 
 
-    block = WideResnetBottleNeckBlock(32, 32, width_factor=3)
+    block = WideResnetBottleNeckBlock(32, 256, width_factor=2)
 
-    assert block.block.block.conv2.in_channels ==  32  * 3 
+    assert block.block.block.conv2.in_channels ==  128

@@ -3,32 +3,13 @@ import torch
 from torch import nn
 from torch import Tensor
 from ....blocks.residuals import ResidualAdd
-from ....blocks import Conv2dPad, ConvBnAct
+from ....blocks import Conv2dPad, ConvBnAct, BnActConv
 from ..resnet import ResNetShorcut, ResNetLayer
 from collections import OrderedDict
 from typing import List
 from functools import partial
-from ..resnet import ResNetBottleneckBlock, ReLUInPlace, ResNetEncoder, ResNetShorcut
+from ..resnet import ResNetBottleneckBlock, ReLUInPlace, ResNetEncoder, ResNetShorcut, ResNetBottleneckPreActBlock
 from ..se import ChannelSE
-
-
-class BnActConv(nn.Sequential):
-    """A Sequential layer composed by a normalization, an activation and a convolution layer. This is usually known as a 'Preactivation Block'
-
-    Args:
-        in_features (int): [description]
-        out_features (int): [description]
-        conv (nn.Module, optional): [description]. Defaults to Conv2dPad.
-        normalization (nn.Module, optional): [description]. Defaults to nn.BatchNorm2d.
-        activation (nn.Module, optional): [description]. Defaults to nn.ReLU.
-    """
-    def __init__(self, in_features: int, out_features: int, conv: nn.Module = Conv2dPad,
-                 normalization: nn.Module = nn.BatchNorm2d, activation: nn.Module = ReLUInPlace, *args, **kwargs):
-        super().__init__()
-        self.add_module('bn', normalization(in_features))
-        self.add_module('act', activation())
-        self.add_module('conv', conv(
-            in_features, out_features, *args, **kwargs))
 
 
 FishNetShortCut = partial(BnActConv, kernel_size=1, bias=False)
@@ -54,41 +35,42 @@ class FishNetChannelReductionShortcut(nn.Module):
         x_red = x.view(depth, c // self.k, self.k, h, w).sum(2)
         return x_red
 
+FishNetBottleNeck = partial(ResNetBottleneckPreActBlock, shortcut=FishNetShortCut)
 
-class FishNetBottleNeck(nn.Module):
-    """FishNetBottleNeck Bottleneck block based on a correct interpretation of the original resnet paper.
+# class FishNetBottleNeck(nn.Module):
+#     """FishNetBottleNeck Bottleneck block based on a correct interpretation of the original resnet paper.
 
-    Args:
-        out_features (int): Number of input features
-        out_features (int): Number of output features
-        activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
-        stride (int, optional): [description]. Defaults to 1.
-        conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
-        expansion (int, optional): [description]. Defaults to 4.
-    """
+#     Args:
+#         out_features (int): Number of input features
+#         out_features (int): Number of output features
+#         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
+#         stride (int, optional): [description]. Defaults to 1.
+#         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
+#         expansion (int, optional): [description]. Defaults to 4.
+#     """
 
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, reduction: int = 4, stride=1, shortcut: nn.Module = FishNetShortCut, **kwargs):
-        super().__init__()
-        self.reduction = reduction
-        features = out_features // reduction
+#     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, reduction: int = 4, stride=1, shortcut: nn.Module = FishNetShortCut, **kwargs):
+#         super().__init__()
+#         self.reduction = reduction
+#         features = out_features // reduction
 
-        self.block = nn.Sequential(BnActConv(in_features, features, activation=activation, kernel_size=1, bias=False),
-                                   BnActConv(features, features, activation=activation, bias=False,
-                                             kernel_size=3, stride=stride, **kwargs),
-                                   BnActConv(
-                                       features, out_features, activation=activation, bias=False, kernel_size=1)
-                                   )
+#         self.block = nn.Sequential(BnActConv(in_features, features, activation=activation, kernel_size=1, bias=False),
+#                                    BnActConv(features, features, activation=activation, bias=False,
+#                                              kernel_size=3, stride=stride, **kwargs),
+#                                    BnActConv(
+#                                        features, out_features, activation=activation, bias=False, kernel_size=1)
+#                                    )
 
-        self.shortcut = shortcut(
-            in_features, out_features, activation=activation, stride=stride) if in_features != out_features else None
+#         self.shortcut = shortcut(
+#             in_features, out_features, activation=activation, stride=stride) if in_features != out_features else None
 
-    def forward(self, x: Tensor) -> Tensor:
-        res = x
-        if self.shortcut is not None:
-            res = self.shortcut(res)
-        x = self.block(x)
-        x += res
-        return x
+#     def forward(self, x: Tensor) -> Tensor:
+#         res = x
+#         if self.shortcut is not None:
+#             res = self.shortcut(res)
+#         x = self.block(x)
+#         x += res
+#         return x
 
 
 class FishNetBodyBlock(nn.Module):
