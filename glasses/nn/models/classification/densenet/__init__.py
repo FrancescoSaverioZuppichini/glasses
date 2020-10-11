@@ -25,16 +25,16 @@ class DenseNetBasicBlock(nn.Module):
 
     def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace, *args, **kwargs):
         super().__init__()
-        self.block = ResidualCat2d(
-            nn.Sequential(OrderedDict({
+        self.block =  nn.Sequential(OrderedDict({
                 'bn': nn.BatchNorm2d(in_features),
                 'act': activation(),
                 'conv': Conv2dPad(in_features, out_features, kernel_size=3, *args, **kwargs)
-            })))
+            }))
 
     def forward(self, x: Tensor) -> Tensor:
+        res = x
         x = self.block(x)
-        return x
+        return torch.cat([res, x], dim = 1)
 
 
 class DenseBottleNeckBlock(DenseNetBasicBlock):
@@ -59,7 +59,7 @@ class DenseBottleNeckBlock(DenseNetBasicBlock):
         self.expansion = expansion
         self.expanded_features = out_features * self.expansion
 
-        self.block.block = nn.Sequential(OrderedDict({
+        self.block = nn.Sequential(OrderedDict({
             'bn1': nn.BatchNorm2d(in_features),
             'act1': activation(),
             'conv1': Conv2dPad(in_features, self.expanded_features, kernel_size=1, bias=False, *args, **kwargs),

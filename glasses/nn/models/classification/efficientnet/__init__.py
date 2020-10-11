@@ -271,11 +271,11 @@ class EfficientNet(nn.Module):
     def b7(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.config, 'b7',*args, **kwargs)
 
-    @classmethod
-    def b8(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.config, 'b8',*args, **kwargs)
+    # @classmethod
+    # def b8(cls, *args, **kwargs) -> EfficientNet:
+    #     return cls.from_config(cls.config, 'b8',*args, **kwargs)
 
 
-    @classmethod
-    def l2(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.config, 'l2')
+    # @classmethod
+    # def l2(cls, *args, **kwargs) -> EfficientNet:
+    #     return cls.from_config(cls.config, 'l2')
