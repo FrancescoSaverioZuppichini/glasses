@@ -48,7 +48,7 @@ res = list(map(row, models))
 df = pd.DataFrame.from_records(res)
 print(df)
 
-mk = df.to_markdown()
+mk = df.set_index('name', drop=True).to_markdown()
 
 with open(args.o, 'w') as f:
-    f.write(mk + '.md')
+    f.write(mk)
