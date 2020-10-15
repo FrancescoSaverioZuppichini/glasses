@@ -24,8 +24,8 @@ class EfficientNetBasicBlock(InvertedResidualBlock):
         activation (nn.Module, optional): [description]. Defaults to Swish.
         drop_rate (float, optional): [description]. Defaults to 0.2.
     """
-    def __init__(self, in_features: int, *args, activation: nn.Module = Swish, drop_rate=0.2, **kwargs):
-        super().__init__(in_features, *args, activation=activation, **kwargs)
+    def __init__(self, in_features: int, out_features: int, activation: nn.Module = Swish, drop_rate=0.2, **kwargs):
+        super().__init__(in_features, out_features, activation=activation, **kwargs)
         reduced_features = in_features // 4
         se = ChannelSE(self.expanded_features,
                        reduced_features=reduced_features, activation=activation)
@@ -49,13 +49,14 @@ class EfficientNetLayer(nn.Module):
         downsampling (int, optional): [description]. Defaults to 2.
     """
     def __init__(self, in_features: int, out_features: int, block: nn.Module = EfficientNetBasicBlock,
-                 depth: int = 1, downsampling: int = 2, *args, **kwargs):
+                 depth: int = 1, downsampling: int = 2,  **kwargs):
         super().__init__()
+        print(kwargs)
         self.block = nn.Sequential(
-            block(in_features, out_features, *args,
-                  downsampling=downsampling,  **kwargs),
+            block(in_features, out_features,**kwargs,
+                  downsampling=downsampling ),
             *[block(out_features,
-                    out_features, *args, **kwargs) for _ in range(depth - 1)]
+                    out_features, **kwargs) for _ in range(depth - 1)]
         )
 
     def forward(self, x: Tensor) -> Tensor:
@@ -84,7 +85,7 @@ class EfficientNetEncoder(nn.Module):
                  strides: List[int] = [1, 2, 2, 2, 2, 1, 2],
                  expansions: List[int] = [1, 6, 6, 6, 6, 6, 6],
                  kernels_sizes: List[int] = [3, 3, 5, 3, 5, 5, 3],
-                 activation: nn.Module = Swish, *args, **kwargs):
+                 activation: nn.Module = Swish, **kwargs):
         super().__init__()
 
         self.widths, self.depths = widths, depths
@@ -95,7 +96,7 @@ class EfficientNetEncoder(nn.Module):
 
         self.blocks = nn.ModuleList([
             *[EfficientNetLayer(in_channels,
-                                out_channels, *args, depth=n, downsampling=s,  expansion=t, kernel_size=k, activation=activation, **kwargs)
+                                out_channels,  depth=n, downsampling=s,  expansion=t, kernel_size=k, activation=activation, **kwargs)
               for (in_channels, out_channels), n, s, t, k
                 in zip(self.in_out_block_sizes, depths, strides, expansions, kernels_sizes)]
         ])
