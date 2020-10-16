@@ -1,2 +1,3 @@
 ignore:
   - "models_table.py"  # ignore table builder
+  - "transfer_weights.py"  # ignore table builder
