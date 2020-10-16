@@ -107,7 +107,7 @@ class AWSSTorage:
 
         obj = self.s3.Object('cv-glasses', f'{key}.pt')
 
-        obj.upload_fileobj(buffer)
+        obj.upload_fileobj(buffer, ExtraArgs={'ACL': 'public-read'})
 
 
 if __name__ == '__main__':
