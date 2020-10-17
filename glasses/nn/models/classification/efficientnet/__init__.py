@@ -131,7 +131,7 @@ class EfficientNet(nn.Module):
     Create a default model
 
     Examples:
-        >>> EfficientNet.b0()
+        >>> EfficientNet.efficientnet_b0()
         >>> EfficientNet.b1()
         >>> EfficientNet.b2()
         >>> EfficientNet.b3()

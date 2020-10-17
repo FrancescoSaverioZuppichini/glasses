@@ -101,20 +101,22 @@ class AWSSTorage:
     def __init__(self):
         self.s3 = boto3.resource('s3')
 
-    def __call__(self, key: str, model: nn.Module):
+    def __call__(self, key: str, model: nn.Module, bar: tqdm):
         buffer = BytesIO()
-        torch.save(cloned, buffer)
+        torch.save(cloned.state_dict(), buffer)
+        buffer.seek(0)
 
+        bar.reset(total=buffer.getbuffer().nbytes)
+        bar.set_description('📤')
         obj = self.s3.Object('cv-glasses', f'{key}.pt')
 
-        obj.upload_fileobj(buffer, ExtraArgs={'ACL': 'public-read'})
-
+        obj.upload_fileobj(buffer, ExtraArgs={'ACL': 'public-read'}, Callback=lambda x: bar.update(x))
 
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--storage', type=str, choices=['local', 'aws'], default='aws')
     parser.add_argument('-o', type=Path)
-
+ 
     args = parser.parse_args()
 
     logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
@@ -127,11 +129,12 @@ if __name__ == '__main__':
     storage =  LocalStorage(root=Path('./models')) if args.storage == 'local' else AWSSTorage()
 
     bar = tqdm(zoo_models_mapping.items())
-
+    uploading_bar = tqdm()
     for key, mapping in bar:
         bar.set_description(key)
 
         src_def, dst_def = mapping
         cloned = clone_model(src_def(), dst_def())
 
-        storage(key, cloned)
+        storage(key, cloned, uploading_bar)
+        # uploading_bar.update(0)
