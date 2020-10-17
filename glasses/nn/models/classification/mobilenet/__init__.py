@@ -38,10 +38,10 @@ class InvertedResidualBlock(nn.Module):
         out_features (int): Number of input features
         out_features (int): Number of output features
         activation (nn.Module, optional): [description]. Defaults to nn.ReLU6.
-        downsampling (int, optional): [description]. Defaults to 1.
+        stride (int, optional): [description]. Defaults to 1.
     """
 
-    def __init__(self, in_features: int, out_features: int,  downsampling: int = 1, expansion: int = 6, activation: nn.Module = nn.ReLU6, kernel_size: int = 3):
+    def __init__(self, in_features: int, out_features: int,  stride: int = 1, expansion: int = 6, activation: nn.Module = nn.ReLU6, kernel_size: int = 3):
         super().__init__()
         self.in_features, self.out_features = in_features, out_features
         self.expansion = expansion
@@ -57,7 +57,7 @@ class InvertedResidualBlock(nn.Module):
                                               conv=DepthWiseConv2d,
                                               activation=activation,
                                               kernel_size=kernel_size,
-                                              stride=downsampling)
+                                              stride=stride)
                            )
 
         weights.add_module('point',  nn.Sequential(OrderedDict({
@@ -67,7 +67,7 @@ class InvertedResidualBlock(nn.Module):
         })))
         # do not apply residual when downsamping and when features are different
         # in mobilenet we do not use a shortcut
-        self.should_apply_residual = downsampling == 1 and in_features == out_features
+        self.should_apply_residual = stride == 1 and in_features == out_features
         self.block = ResidualAdd(
             weights) if self.should_apply_residual else Residual(weights)
 
@@ -80,11 +80,11 @@ MobileNetBasicBlock = InvertedResidualBlock
 
 
 class MobileNetLayer(nn.Module):
-    def __init__(self, in_features: int, out_features: int, block: nn.Module = MobileNetBasicBlock, n: int = 1, downsampling: int = 1, *args, **kwargs):
+    def __init__(self, in_features: int, out_features: int, block: nn.Module = MobileNetBasicBlock, n: int = 1, stride: int = 1, *args, **kwargs):
         super().__init__()
         self.block = nn.Sequential(
             block(in_features, out_features, *args,
-                  downsampling=downsampling,  **kwargs),
+                  stride=stride,  **kwargs),
             *[block(out_features,
                     out_features, *args, **kwargs) for _ in range(n - 1)]
         )
@@ -127,7 +127,7 @@ class MobileNetEncoder(nn.Module):
 
         self.blocks = nn.ModuleList([
             *[MobileNetLayer(in_channels,
-                             out_channels, n=n, downsampling=s, activation=activation,
+                             out_channels, n=n, stride=s, activation=activation,
                              block=block, *args,  expansion=t, **kwargs)
               for (in_channels, out_channels), n, s, t in zip(self.in_out_block_sizes, depths[1:], strides[1:], expansions)]
         ])

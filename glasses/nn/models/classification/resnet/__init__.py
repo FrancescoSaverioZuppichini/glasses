@@ -6,7 +6,8 @@ from ....blocks import Conv2dPad, BnActConv
 from collections import OrderedDict
 from typing import List
 from functools import partial
-
+from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
+from ..VisionModule import VisionModule
 
 """Implementation of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`
 """
@@ -130,10 +131,8 @@ class ResNetBasicPreActBlock(ResNetBasicBlock):
 
     Args:
         out_features (int): Number of input features
-        out_features (int): Number of output features
-        activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
-        stride (int, optional): [description]. Defaults to 1.
-        conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
+        out_features (int): Number of ouimport inspect
+escription]. Defaults to nn.Conv2d.
     """
 
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, stride: int = 1, shortcut: nn.Module = ResNetShorcut, **kwargs):
@@ -258,7 +257,7 @@ class ResnetDecoder(nn.Sequential):
         self.add_module('fc', nn.Linear(in_features, n_classes))
 
 
-class ResNet(nn.Module):
+class ResNet(VisionModule):
     """Implementation of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`_
 
     Create a default model
@@ -300,6 +299,8 @@ class ResNet(nn.Module):
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
 
+    pretrained_keys = ['resnet18', 'resnet50', 'resnet101', 'resnet152']
+
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = ResNetEncoder(in_channels, *args, **kwargs)
@@ -330,7 +331,9 @@ class ResNet(nn.Module):
         Returns:
             ResNet: A resnet18 model
         """
-        return cls(*args, **kwargs, block=block, depths=[2, 2, 2, 2])
+        model = cls(*args, **kwargs, block=block, depths=[2, 2, 2, 2])
+
+        return model
 
     @classmethod
     def resnet34(cls, *args,  block=ResNetBasicBlock, **kwargs) -> ResNet:

@@ -8,14 +8,14 @@ import os
 def test_PretrainedWeightsProvider():
     provider = PretrainedWeightsProvider()
 
-    with pytest.raises(KeyError):
-        provider['does_not_exist']
+    # with pytest.raises(KeyError):
+    #     provider['does_not_exist']
 
-    resnet18 = ResNet.resnet18()
-    resnet18_prov = provider['resnet18']
+    resnet18_state = ResNet.resnet18().state_dict()
+    resnet18_prov_state = provider['resnet18']
 
-    for mod, mod_prov in zip(resnet18.modules(), resnet18_prov.modules()):
-        assert str(mod) ==  str(mod_prov)
+    for mod, mod_prov in zip(resnet18_state.keys(), resnet18_prov_state.keys()):
+        assert str(mod) == str(mod_prov)
 
     # this test will take too much time!
     # for key, models in PretrainedWeightsProvider.zoo_models_mapping.items():
@@ -32,12 +32,14 @@ def test_PretrainedWeightsProvider():
 def test_PretrainedWeightsProvider_download_weight():
     provider = PretrainedWeightsProvider()
 
-    save_path = Path('./resnet.pth')
+    save_path = Path('/tmp/resnet18.pt')
     assert not save_path.exists()
     
-    provider.download_weight(PretrainedWeightsProvider.zoo['resnet18'], save_path=save_path)
+    provider = PretrainedWeightsProvider()
+    provider.download_weight(PretrainedWeightsProvider.BASE_URL + '/resnet18.pt', save_path=save_path)
     assert save_path.exists()
 
     os.remove(save_path)
 
+    
     

@@ -1,21 +1,24 @@
 import torch
 import requests
+import sys
 from torch import nn
 from dataclasses import dataclass
 from functools import partial
 from typing import Dict
 from torch import Tensor
 from .ModuleTransfer import ModuleTransfer
-from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet152, resnext50_32x4d, resnext101_32x8d, wide_resnet50_2, wide_resnet101_2
-from torchvision.models import densenet121, densenet161, densenet169, densenet201
-from torchvision.models import vgg11, vgg13, vgg16, vgg19
-from torchvision.models import mobilenet_v2
-from ..nn.models.classification.resnet import ResNet
-from ..nn.models.classification.densenet import DenseNet
-from ..nn.models.classification.vgg import VGG
-from ..nn.models.classification import MobileNetV2, ResNetXt, WideResNet
+# from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet152, resnext50_32x4d, resnext101_32x8d, wide_resnet50_2, wide_resnet101_2
+# from torchvision.models import densenet121, densenet161, densenet169, densenet201
+# from torchvision.models import vgg11, vgg13, vgg16, vgg19
+# from torchvision.models import mobilenet_v2
+# from ..nn.models.classification.resnet import ResNet
+# from ..nn.models.classification.densenet import DenseNet
+# from ..nn.models.classification.vgg import VGG
+# from ..nn.models.classification import MobileNetV2, ResNetXt, WideResNet
+# from ..nn.models.classification import EfficientNet
 from tqdm.autonotebook import tqdm
 from pathlib import Path
+# from efficientnet_pytorch import EfficientNet as EfficientNetPytorch
 
 StateDict = Dict[str, Tensor]
 
@@ -28,107 +31,85 @@ class PretrainedWeightsProvider:
     Example:
         >>> provider = PretrainedWeightsProvider()
         >>> provider['resnet18'] # get a pre-trained resnet18 model
-
+        >>> provider = PretrainedWeightsProvider(verbose=1) # see all the outputs
+        >>> provider = PretrainedWeightsProvider(save_dir=Path('./awesome/')) # change save dir
+        >>> provider = PretrainedWeightsProvider(override=True) # override model even if already downloaded
     """
 
-    zoo = {
-        'resnet18': 'https://download.pytorch.org/models/resnet18-5c106cde.pth',
-        'resnet34': 'https://download.pytorch.org/models/resnet34-333f7ec4.pth',
-        'resnet50': 'https://download.pytorch.org/models/resnet50-19c8e357.pth',
-        'resnet101': 'https://download.pytorch.org/models/resnet101-5d3b4d8f.pth',
-        'resnet152': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
-
-        'resnext50_32x4d': 'https://download.pytorch.org/models/resnext50_32x4d-7cdf4587.pth',
-        'resnext101_32x8d': 'https://download.pytorch.org/models/resnext101_32x8d-8ba56ff5.pth',
-        'wide_resnet50_2': 'https://download.pytorch.org/models/wide_resnet50_2-95faca4d.pth',
-        'wide_resnet101_2': 'https://download.pytorch.org/models/wide_resnet101_2-32ee1156.pth',
-
-        'densenet121': 'https://download.pytorch.org/models/densenet121-a639ec97.pth',
-        'densenet169': 'https://download.pytorch.org/models/densenet169-b2777c0a.pth',
-        'densenet201': 'https://download.pytorch.org/models/densenet201-c1103571.pth',
-        'densenet161': 'https://download.pytorch.org/models/densenet161-8d451a50.pth',
-
-        'vgg11': 'https://download.pytorch.org/models/vgg11-bbd30ac9.pth',
-        'vgg13': 'https://download.pytorch.org/models/vgg13-c768596a.pth',
-        'vgg16': 'https://download.pytorch.org/models/vgg16-397923af.pth',
-        'vgg19': 'https://download.pytorch.org/models/vgg19-dcbb9e9d.pth',
-
-        'mobilenet_v2': 'https://download.pytorch.org/models/mobilenet_v2-b0353104.pth'
-    }
-
-    zoo_models_mapping = {
-        'resnet18': [partial(resnet18, pretrained=True), ResNet.resnet18],
-        'resnet34': [partial(resnet34, pretrained=True), ResNet.resnet34],
-        'resnet50': [partial(resnet50, pretrained=True), ResNet.resnet50],
-        'resnet101': [partial(resnet101, pretrained=True), ResNet.resnet101],
-        'resnet152': [partial(resnet152, pretrained=True), ResNet.resnet152],
+    # zoo = {
+    # 'resnet18':ResNet.resnet18,
+    # 'resnet34':ResNet.resnet34,
+    # 'resnet50':ResNet.resnet50,
+    # 'resnet101': ResNet.resnet101,
+    # 'resnet152': ResNet.resnet152,
 
 
-        'resnext50_32x4d': [partial(resnext50_32x4d, pretrained=True), ResNetXt.resnext50_32x4d],
-        'resnext101_32x8d': [partial(resnext101_32x8d, pretrained=True), ResNetXt.resnext101_32x8d],
-        'wide_resnet50_2': [partial(wide_resnet50_2, pretrained=True), WideResNet.wide_resnet50_2],
-        'wide_resnet101_2': [partial(wide_resnet101_2, pretrained=True), WideResNet.wide_resnet101_2],
+    # 'resnext50_32x4d': ResNetXt.resnext50_32x4d,
+    # 'resnext101_32x8d': ResNetXt.resnext101_32x8d,
+    # 'wide_resnet50_2': WideResNet.wide_resnet50_2,
+    # 'wide_resnet101_2': WideResNet.wide_resnet101_2,
 
-        'densenet121': [partial(densenet121, pretrained=True), DenseNet.densenet121],
-        'densenet169': [partial(densenet169, pretrained=True), DenseNet.densenet169],
-        'densenet201': [partial(densenet201, pretrained=True), DenseNet.densenet201],
-        'densenet161': [partial(densenet161, pretrained=True), DenseNet.densenet161],
-        'vgg11': [partial(vgg11, pretrained=True), VGG.vgg11],
-        'vgg13': [partial(vgg13, pretrained=True), VGG.vgg13],
-        'vgg16': [partial(vgg16, pretrained=True), VGG.vgg16],
-        'vgg19': [partial(vgg19, pretrained=True), VGG.vgg19],
-        
-        'mobilenet_v2': [partial(mobilenet_v2, pretrained=True), MobileNetV2]
-    }
+    # 'densenet121': DenseNet.densenet121,
+    # 'densenet169': DenseNet.densenet169,
+    # 'densenet201': DenseNet.densenet201,
+    # 'densenet161': DenseNet.densenet161,
+    # 'vgg11': VGG.vgg11,
+    # 'vgg13':  VGG.vgg13,
+    # 'vgg16': VGG.vgg16,
+    # 'vgg19':  VGG.vgg19,
 
-    save_dir: Path = Path('./')
+    # 'mobilenet_v2': MobileNetV2,
+
+    # 'efficientnet-b0': EfficientNet.b0,
+    # 'efficientnet-b1': EfficientNet.b1,
+    # 'efficientnet-b2': EfficientNet.b2,
+    # 'efficientnet-b3': EfficientNet.b3,
+    # 'efficientnet-b4': EfficientNet.b4,
+    # 'efficientnet-b5': EfficientNet.b5,
+    # 'efficientnet-b6': EfficientNet.b6,
+    # 'efficientnet-b7': EfficientNet.b7,
+
+    # }
+    
+
+    BASE_URL = 'https://cv-glasses.s3.eu-central-1.amazonaws.com'
+    BASE_DIR = Path('./glasses/models')
+    save_dir: Path = BASE_DIR
     chunk_size: int = 1024
+    verbose: int = 0
+    override: bool = False
+
+    def __post_init__(self):
+        self.save_dir.mkdir(exist_ok=True)
 
     def download_weight(self, url: str, save_path: Path) -> Path:
         r = requests.get(url, stream=True)
-        
+
         with open(save_path, 'wb') as f:
-            total_length = int(r.headers.get('content-length'))
+            total_length = sys.getsizeof(r.content)
             bar = tqdm(r.iter_content(chunk_size=self.chunk_size),
-                       total=total_length/self.chunk_size)
+                       total=total_length // self.chunk_size)
             for chunk in bar:
                 if chunk:
                     f.write(chunk)
                     f.flush()
 
-    def clone_model(self, key: str, save_path: Path) -> nn.Module:
-        src_def, dst_def = self.zoo_models_mapping[key]
-        src = src_def().eval()
-        dst = dst_def().eval()
-        # src.load_state_dict(torch.load(save_path))
-
-        x = torch.rand((1, 3, 224, 224))
-        a = src(x)
-        b = dst(x)
-
-        assert not torch.equal(a, b)
-
-        ModuleTransfer(src, dst)(x)
-
-        a = src(x)
-        b = dst(x)
-
-        assert torch.equal(a, b)
-
-        return dst
-
     def __getitem__(self, key: str) -> nn.Module:
-        if key not in self:
-            raise KeyError(
-                f'No weights for model "{key}". Available models are {",".join(list(self.zoo.keys()))}')
-        url = self.zoo[key]
-        save_path = self.save_dir / Path(key + '.pth')
-        # should_download = not save_path.exists()
+        # if key not in self.zoo:
+        #     raise KeyError(
+        #         f'No weights for model "{key}". Available models are {",".join(list(self.zoo_models_mapping.keys()))}')
 
-        # if should_download:
-        #     self.download_weight(url, save_path)
-        model = self.clone_model(key, save_path)
-        return model
+        save_path = self.save_dir / f'{key}.pt'
+
+        should_download = not save_path.exists()
+
+        if should_download or self.override:
+            url = f'{self.BASE_URL}/{key}.pt'
+            self.download_weight(url, save_path)
+
+        weights = torch.load(save_path)
+
+        return weights
 
     def __contains__(self, key: str) -> bool:
         return key in self.zoo.keys()
