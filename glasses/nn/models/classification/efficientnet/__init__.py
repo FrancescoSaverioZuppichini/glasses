@@ -46,15 +46,15 @@ class EfficientNetLayer(nn.Module):
         out_features (int): [description]
         block (nn.Module, optional): [description]. Defaults to EfficientNetBasicBlock.
         depth (int, optional): [description]. Defaults to 1.
-        downsampling (int, optional): [description]. Defaults to 2.
+        stride (int, optional): [description]. Defaults to 2.
     """
     def __init__(self, in_features: int, out_features: int, block: nn.Module = EfficientNetBasicBlock,
-                 depth: int = 1, downsampling: int = 2,  **kwargs):
+                 depth: int = 1, stride: int = 2,  **kwargs):
         super().__init__()
         print(kwargs)
         self.block = nn.Sequential(
             block(in_features, out_features,**kwargs,
-                  downsampling=downsampling ),
+                  stride=stride ),
             *[block(out_features,
                     out_features, **kwargs) for _ in range(depth - 1)]
         )
@@ -96,7 +96,7 @@ class EfficientNetEncoder(nn.Module):
 
         self.blocks = nn.ModuleList([
             *[EfficientNetLayer(in_channels,
-                                out_channels,  depth=n, downsampling=s,  expansion=t, kernel_size=k, activation=activation, **kwargs)
+                                out_channels,  depth=n, stride=s,  expansion=t, kernel_size=k, activation=activation, **kwargs)
               for (in_channels, out_channels), n, s, t, k
                 in zip(self.in_out_block_sizes, depths, strides, expansions, kernels_sizes)]
         ])
@@ -131,7 +131,7 @@ class EfficientNet(nn.Module):
     Create a default model
 
     Examples:
-        >>> EfficientNet.efficientnet_b0()
+        >>> EfficientNet.b0()
         >>> EfficientNet.b1()
         >>> EfficientNet.b2()
         >>> EfficientNet.b3()
