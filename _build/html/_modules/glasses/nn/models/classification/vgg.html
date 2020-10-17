@@ -1,0 +1,426 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>glasses.nn.models.classification.vgg &mdash; Glasses  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home" alt="Documentation Home"> Glasses
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials/installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules.html">glasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../glasses.nn.html">glasses.nn package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../glasses.nn.models.html">glasses.nn.models package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../glasses.utils.html">glasses.utils package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../glasses.data.html">glasses.data package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../glasses.interpretability.html">glasses.interpretability package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Glasses</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>glasses.nn.models.classification.vgg</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for glasses.nn.models.classification.vgg</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ReLUInPlace</span>
+<span class="kn">from</span> <span class="nn">....blocks</span> <span class="kn">import</span> <span class="n">ConvAct</span>
+
+
+<span class="sd">&quot;&quot;&quot;Implementations of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition &lt;https://arxiv.org/pdf/1409.1556.pdf&gt;`_</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">VGGBasicBlock</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">ConvAct</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="VGGLayer"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.vgg.html#glasses.nn.models.classification.VGGLayer">[docs]</a><span class="k">class</span> <span class="nc">VGGLayer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This class implements a VGG layer, which is composed by a number of blocks (default is VGGBasicBlock, which is a simple </span>
+<span class="sd">    convolution-activation transformation) eventually followed by maxpooling.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        in_channels (int): [description]</span>
+<span class="sd">        out_channels (int): [description]</span>
+<span class="sd">        block (nn.Module, optional): [description]. Defaults to VGGBasicBlock.</span>
+<span class="sd">        n (int, optional): [description]. Defaults to 1.</span>
+<span class="sd">        maxpool (nn.Module, optional): [description]. Defaults to nn.MaxPool2d.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">VGGBasicBlock</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">maxpool</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">block</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+            <span class="o">*</span><span class="p">[</span><span class="n">block</span><span class="p">(</span><span class="n">out_features</span><span class="p">,</span>
+                    <span class="n">out_features</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">maxpool</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s1">&#39;maxpool&#39;</span><span class="p">,</span> <span class="n">maxpool</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+
+<div class="viewcode-block" id="VGGLayer.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.vgg.html#glasses.nn.models.classification.VGGLayer.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span></div></div>
+
+
+<div class="viewcode-block" id="VGGEncoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.vgg.html#glasses.nn.models.classification.VGGEncoder">[docs]</a><span class="k">class</span> <span class="nc">VGGEncoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;VGG encoder, composed by default by a sequence of VGGLayer modules with an increasing number of output features.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        in_channels (int, optional): [description]. Defaults to 3.</span>
+<span class="sd">        widths (List[int], optional): [description]. Defaults to [64, 128, 256, 512, 512].</span>
+<span class="sd">        depths (List[int], optional): [description]. Defaults to [1, 1, 2, 2, 2].</span>
+<span class="sd">        activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.</span>
+<span class="sd">        block (nn.Module, optional): [description]. Defaults to VGGBasicBlock.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">widths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">],</span> <span class="n">depths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                 <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ReLUInPlace</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">VGGBasicBlock</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">widths</span> <span class="o">=</span> <span class="n">widths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_features</span> <span class="o">=</span> <span class="n">widths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">in_out_block_sizes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">zip</span><span class="p">(</span><span class="n">widths</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">widths</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
+            <span class="n">VGGLayer</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">widths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
+                     <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">depths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+            <span class="o">*</span><span class="p">[</span><span class="n">VGGLayer</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+              <span class="k">for</span> <span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">),</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">in_out_block_sizes</span><span class="p">,</span> <span class="n">depths</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
+        <span class="p">])</span>
+
+<div class="viewcode-block" id="VGGEncoder.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.vgg.html#glasses.nn.models.classification.VGGEncoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span></div></div>
+
+
+<div class="viewcode-block" id="VGGDecoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.vgg.html#glasses.nn.models.classification.VGGDecoder">[docs]</a><span class="k">class</span> <span class="nc">VGGDecoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This class represents the classifier of VGG. It converts the filters into 6x6 by means of the average pooling. Then, it maps the output to the</span>
+<span class="sd">    correct class by means of fully connected layers. Dropout is used to decrease the overfitting.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">        out_features (int): Number of input features</span>
+<span class="sd">        n_classes (int): [description]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">avg</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">((</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">OrderedDict</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s1">&#39;fc1&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">*</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4096</span><span class="p">),</span>
+                    <span class="s1">&#39;act1&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="kc">True</span><span class="p">),</span>
+                    <span class="s1">&#39;drop1&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(),</span>
+                    <span class="s1">&#39;fc2&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4096</span><span class="p">,</span> <span class="mi">4096</span><span class="p">),</span>
+                    <span class="s1">&#39;act2&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="kc">True</span><span class="p">),</span>
+                    <span class="s1">&#39;drop2&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(),</span>
+                    <span class="s1">&#39;fc3&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4096</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="VGGDecoder.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.vgg.html#glasses.nn.models.classification.VGGDecoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">avg</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span></div></div>
+
+
+<div class="viewcode-block" id="VGG"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.vgg.html#glasses.nn.models.classification.VGG">[docs]</a><span class="k">class</span> <span class="nc">VGG</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Implementations of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition &lt;https://arxiv.org/pdf/1409.1556.pdf&gt;`_</span>
+
+<span class="sd">    Create a default model</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; VGG.vgg11()</span>
+<span class="sd">        &gt;&gt;&gt; VGG.vgg13()</span>
+<span class="sd">        &gt;&gt;&gt; VGG.vgg16()</span>
+<span class="sd">        &gt;&gt;&gt; VGG.vgg19()</span>
+
+
+<span class="sd">    Customization</span>
+
+<span class="sd">    You can easily create your custom VGG-like model</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; # change activation</span>
+<span class="sd">        &gt;&gt;&gt; VGG.vgg11(activation = nn.SELU)</span>
+<span class="sd">        &gt;&gt;&gt; # change number of classes (default is 1000 )</span>
+<span class="sd">        &gt;&gt;&gt; VGG.vgg11(n_classes=100)</span>
+<span class="sd">        &gt;&gt;&gt; # pass a different block</span>
+<span class="sd">        &gt;&gt;&gt; from nn.models.classification.senet import SENetBasicBlock</span>
+<span class="sd">        &gt;&gt;&gt; VGG.vgg11(block=SENetBasicBlock)</span>
+<span class="sd">        &gt;&gt;&gt; # store the features tensor after every block</span>
+<span class="sd">        &gt;&gt;&gt; x = torch.rand((1, 3, 224, 224))</span>
+<span class="sd">        &gt;&gt;&gt; model = VGG.vgg11()</span>
+<span class="sd">        &gt;&gt;&gt; features = []</span>
+<span class="sd">        &gt;&gt;&gt; for block in model.encoder.blocks:</span>
+<span class="sd">            &gt;&gt;&gt; x = block(x)</span>
+<span class="sd">            &gt;&gt;&gt; features.append(x)</span>
+<span class="sd">        &gt;&gt;&gt; print([x.shape for x in features])</span>
+<span class="sd">        &gt;&gt;&gt; # [torch.Size([1, 64, 112, 112]), torch.Size([1, 128, 56, 56]), torch.Size([1, 256, 28, 28]), torch.Size([1, 512, 14, 14]), torch.Size([1, 512, 7, 7])]</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</span>
+<span class="sd">        n_classes (int, optional): Number of classes. Defaults to 1000.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">VGGEncoder</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decoder</span> <span class="o">=</span> <span class="n">VGGDecoder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">out_features</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+
+<div class="viewcode-block" id="VGG.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.vgg.html#glasses.nn.models.classification.VGG.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span></div>
+
+<div class="viewcode-block" id="VGG.initialize"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.vgg.html#glasses.nn.models.classification.VGG.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">):</span>
+                <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">kaiming_normal_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">bias</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">):</span>
+                <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">):</span>
+                <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">bias</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VGG.vgg11"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.vgg.html#glasses.nn.models.classification.VGG.vgg11">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">vgg11</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VGG</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Creates a vgg11 model</span>
+
+<span class="sd">        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/VGG11.png?raw=true</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            VGG: A vgg11 model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">VGG</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VGG.vgg13"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.vgg.html#glasses.nn.models.classification.VGG.vgg13">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">vgg13</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VGG</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Creates a vgg13 model</span>
+
+<span class="sd">        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/VGG13.png?raw=true</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            VGG: A vgg13 model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">VGG</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VGG.vgg16"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.vgg.html#glasses.nn.models.classification.VGG.vgg16">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">vgg16</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VGG</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Creates a vgg16 model</span>
+
+<span class="sd">        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/VGG16.png?raw=true</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            VGG: A vgg16 model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">VGG</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VGG.vgg19"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.vgg.html#glasses.nn.models.classification.VGG.vgg19">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">vgg19</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VGG</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Creates a vgg19 model</span>
+
+<span class="sd">        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/VGG19.png?raw=true</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            VGG: A vgg19 model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">VGG</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

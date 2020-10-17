@@ -96,14 +96,14 @@
 <li class="toctree-l3 current"><a class="reference internal" href="glasses.nn.models.classification.html">glasses.nn.models.classification package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="glasses.nn.models.classification.html#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="glasses.nn.models.classification.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="glasses.nn.models.classification.html#glasses-nn-models-classification-visionmodule-module">glasses.nn.models.classification.VisionModule module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="glasses.nn.models.classification.html#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.nn.models.classification.html#module-glasses.nn.models.classification.VisionModule">glasses.nn.models.classification.VisionModule module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.nn.models.classification.html#module-glasses.nn.models.classification">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.segmentation.html">glasses.nn.models.segmentation package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
@@ -186,8 +186,207 @@
             
   <div class="section" id="glasses-nn-models-classification-vgg-package">
 <h1>glasses.nn.models.classification.vgg package<a class="headerlink" href="#glasses-nn-models-classification-vgg-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-glasses.nn.models.classification.vgg">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.nn.models.classification.vgg" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="glasses.nn.models.classification.vgg.VGG">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.vgg.</code><code class="sig-name descname">VGG</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Implementations of VGG proposed in <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">Very Deep Convolutional Networks For Large-Scale Image Recognition</a></p>
+<p>Create a default model</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg13</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg16</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg19</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Customization</p>
+<p>You can easily create your custom VGG-like model</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nn.models.classification.senet</span> <span class="kn">import</span> <span class="n">SENetBasicBlock</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store the features tensor after every block</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
+<span class="go">    &gt;&gt;&gt; x = block(x)</span>
+<span class="go">    &gt;&gt;&gt; features.append(x)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># [torch.Size([1, 64, 112, 112]), torch.Size([1, 128, 56, 56]), torch.Size([1, 256, 28, 28]), torch.Size([1, 512, 14, 14]), torch.Size([1, 512, 7, 7])]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</p></li>
+<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of classes. Defaults to 1000.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.vgg.VGG.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGG.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGG.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.vgg.VGG.initialize">
+<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGG.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGG.initialize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.vgg.VGG.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGG.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.vgg.VGG.vgg11">
+<em class="property">classmethod </em><code class="sig-name descname">vgg11</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.nn.models.classification.vgg.VGG" title="glasses.nn.models.classification.vgg.VGG">glasses.nn.models.classification.vgg.VGG</a><a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGG.vgg11"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGG.vgg11" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a vgg11 model</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/VGG11.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/VGG11.png?raw=true" />
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A vgg11 model</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="glasses.nn.models.classification.html#glasses.nn.models.classification.VGG" title="glasses.nn.models.classification.VGG">VGG</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.vgg.VGG.vgg13">
+<em class="property">classmethod </em><code class="sig-name descname">vgg13</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.nn.models.classification.vgg.VGG" title="glasses.nn.models.classification.vgg.VGG">glasses.nn.models.classification.vgg.VGG</a><a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGG.vgg13"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGG.vgg13" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a vgg13 model</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/VGG13.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/VGG13.png?raw=true" />
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A vgg13 model</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="glasses.nn.models.classification.html#glasses.nn.models.classification.VGG" title="glasses.nn.models.classification.VGG">VGG</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.vgg.VGG.vgg16">
+<em class="property">classmethod </em><code class="sig-name descname">vgg16</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.nn.models.classification.vgg.VGG" title="glasses.nn.models.classification.vgg.VGG">glasses.nn.models.classification.vgg.VGG</a><a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGG.vgg16"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGG.vgg16" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a vgg16 model</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/VGG16.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/VGG16.png?raw=true" />
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A vgg16 model</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="glasses.nn.models.classification.html#glasses.nn.models.classification.VGG" title="glasses.nn.models.classification.VGG">VGG</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.vgg.VGG.vgg19">
+<em class="property">classmethod </em><code class="sig-name descname">vgg19</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.nn.models.classification.vgg.VGG" title="glasses.nn.models.classification.vgg.VGG">glasses.nn.models.classification.vgg.VGG</a><a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGG.vgg19"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGG.vgg19" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a vgg19 model</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/VGG19.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/VGG19.png?raw=true" />
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A vgg19 model</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="glasses.nn.models.classification.html#glasses.nn.models.classification.VGG" title="glasses.nn.models.classification.VGG">VGG</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.vgg.VGGDecoder">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.vgg.</code><code class="sig-name descname">VGGDecoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGGDecoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGGDecoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>This class represents the classifier of VGG. It converts the filters into 6x6 by means of the average pooling. Then, it maps the output to the
+correct class by means of fully connected layers. Dropout is used to decrease the overfitting.</p>
+<blockquote>
+<div><p>Args:
+out_features (int): Number of input features
+n_classes (int): [description]</p>
+</div></blockquote>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.vgg.VGGDecoder.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGGDecoder.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGGDecoder.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.vgg.VGGDecoder.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGGDecoder.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.vgg.VGGEncoder">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.vgg.</code><code class="sig-name descname">VGGEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, widths: List[int] = [64, 128, 256, 512, 512], depths: List[int] = [1, 1, 2, 2, 2], activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;, inplace=True), block: torch.nn.modules.module.Module = functools.partial(&lt;class 'glasses.nn.blocks.ConvBnAct'&gt;, normalization=None, bias=True, kernel_size=3), *args, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGGEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGGEncoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>VGG encoder, composed by default by a sequence of VGGLayer modules with an increasing number of output features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 3.</p></li>
+<li><p><strong>widths</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [64, 128, 256, 512, 512].</p></li>
+<li><p><strong>depths</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [1, 1, 2, 2, 2].</p></li>
+<li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to ReLUInPlace.</p></li>
+<li><p><strong>block</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to VGGBasicBlock.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.vgg.VGGEncoder.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGGEncoder.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGGEncoder.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.vgg.VGGEncoder.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGGEncoder.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.vgg.VGGLayer">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.vgg.</code><code class="sig-name descname">VGGLayer</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">block: torch.nn.modules.module.Module = functools.partial(&lt;class 'glasses.nn.blocks.ConvBnAct'&gt;</em>, <em class="sig-param">normalization=None</em>, <em class="sig-param">bias=True</em>, <em class="sig-param">kernel_size=3)</em>, <em class="sig-param">n: int = 1</em>, <em class="sig-param">maxpool: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.pooling.MaxPool2d'&gt;</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGGLayer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGGLayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>This class implements a VGG layer, which is composed by a number of blocks (default is VGGBasicBlock, which is a simple
+convolution-activation transformation) eventually followed by maxpooling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>out_channels</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>block</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to VGGBasicBlock.</p></li>
+<li><p><strong>n</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
+<li><p><strong>maxpool</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to nn.MaxPool2d.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.vgg.VGGLayer.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGGLayer.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGGLayer.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.vgg.VGGLayer.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGGLayer.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 

@@ -1,0 +1,378 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>glasses.nn.models.classification.se &mdash; Glasses  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home" alt="Documentation Home"> Glasses
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials/installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules.html">glasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../glasses.nn.html">glasses.nn package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../glasses.nn.models.html">glasses.nn.models package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../glasses.utils.html">glasses.utils package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../glasses.data.html">glasses.data package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../glasses.interpretability.html">glasses.interpretability package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">Glasses</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>glasses.nn.models.classification.se</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for glasses.nn.models.classification.se</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+
+
+<div class="viewcode-block" id="SpatialSE"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.se.html#glasses.nn.models.classification.SpatialSE">[docs]</a><span class="k">class</span> <span class="nc">SpatialSE</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Implementation of Squeeze and Excitation Module proposed in `Squeeze-and-Excitation Networks &lt;https://arxiv.org/abs/1709.01507&gt;`_</span>
+<span class="sd">    The idea is to apply learned an channel-wise attention.</span>
+
+<span class="sd">    It squeezes spatially and excitates channel-wise.</span>
+
+<span class="sd">    The authors reported a bigger performance increase where the number of features are higher.</span>
+
+<span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/se.png?raw=true</span>
+
+<span class="sd">    Further visualisation from `Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks &lt;https://arxiv.org/abs/1803.02579&gt;`_</span>
+
+<span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/SpatialSE.png?raw=true</span>
+
+
+<span class="sd">    Examples:</span>
+
+<span class="sd">        Add `SpatialSE` to your own model is very simple.</span>
+
+<span class="sd">        &gt;&gt;&gt; nn.Sequential(</span>
+<span class="sd">        &gt;&gt;&gt;    nn.Conv2d(32, 64, kernel_size=3),</span>
+<span class="sd">        &gt;&gt;&gt;    SpatialSE(64, reduction=4)</span>
+<span class="sd">        &gt;&gt;&gt;    nn.ReLU(),</span>
+<span class="sd">        &gt;&gt;&gt; )</span>
+
+<span class="sd">        You can also direcly specify the number of features inside the module</span>
+
+<span class="sd">        &gt;&gt;&gt; nn.Sequential(</span>
+<span class="sd">        &gt;&gt;&gt;    nn.Conv2d(32, 64, kernel_size=3),</span>
+<span class="sd">        &gt;&gt;&gt;    SpatialSE(64, reduced_features=10)</span>
+<span class="sd">        &gt;&gt;&gt;    nn.ReLU(),</span>
+<span class="sd">        &gt;&gt;&gt; )</span>
+
+<span class="sd">        The following example shows a more advance scenarion where we add Squeeze ad Excitation to a `ResNetBasicBlock`.</span>
+
+<span class="sd">        &gt;&gt;&gt; class SENetBasicBlock(ResNetBasicBlock):</span>
+<span class="sd">        &gt;&gt;&gt;     def __init__(self, in_features: int, out_features: int, reduction: int =16, *args, **kwargs):</span>
+<span class="sd">        &gt;&gt;&gt;        super().__init__(in_features, out_features, *args, **kwargs)</span>
+<span class="sd">        &gt;&gt;&gt;        # add se to the `.block`</span>
+<span class="sd">        &gt;&gt;&gt;        self.block.add_module(&#39;se&#39;, SpatialSE(out_features))</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        features (int): Number of features</span>
+<span class="sd">        reduction (int, optional): Reduction ratio used to downsample the input. Defaults to 16.</span>
+<span class="sd">        reduced_features (int, optional): If passed, use it instead of calculating the reduced features using `reduction`. Defaults to None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">reduction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="n">reduced_features</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reduced_features</span> <span class="o">=</span> <span class="n">features</span> <span class="o">//</span> <span class="n">reduction</span> <span class="k">if</span> <span class="n">reduced_features</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">reduced_features</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">avg_pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">att</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;fc1&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduced_features</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                <span class="s1">&#39;act1&#39;</span><span class="p">:</span> <span class="n">activation</span><span class="p">(),</span>
+                <span class="s1">&#39;fc2&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reduced_features</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                <span class="s1">&#39;act2&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+            <span class="p">}</span>
+        <span class="p">))</span>
+
+<div class="viewcode-block" id="SpatialSE.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.se.html#glasses.nn.models.classification.SpatialSE.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">avg_pool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="c1"># y has shape [B, C]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">att</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="c1"># resphape to [B, C, 1, 1]  to match the space dims of x</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="n">expand_as</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ChannelSE"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.se.html#glasses.nn.models.classification.ChannelSE">[docs]</a><span class="k">class</span> <span class="nc">ChannelSE</span><span class="p">(</span><span class="n">SpatialSE</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Modified implement of Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze &amp;</span>
+<span class="sd">Excitation’ in Fully Convolutional Networks &lt;https://arxiv.org/abs/1803.02579&gt;`_</span>
+
+<span class="sd">    It squeezes channel-wise and excitates spatially.</span>
+
+
+<span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ChannelSE.png?raw=true</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        Add `ChannelSE` to your own model is very simple.</span>
+
+<span class="sd">        &gt;&gt;&gt; nn.Sequential(</span>
+<span class="sd">        &gt;&gt;&gt;    nn.Conv2d(32, 64, kernel_size=3),</span>
+<span class="sd">        &gt;&gt;&gt;    ChannelSE(64, reduction=4)</span>
+<span class="sd">        &gt;&gt;&gt;    nn.ReLU(),</span>
+<span class="sd">        &gt;&gt;&gt; )</span>
+
+<span class="sd">        You can also direcly specify the number of features inside the module</span>
+
+<span class="sd">        &gt;&gt;&gt; nn.Sequential(</span>
+<span class="sd">        &gt;&gt;&gt;    nn.Conv2d(32, 64, kernel_size=3),</span>
+<span class="sd">        &gt;&gt;&gt;    ChannelSE(64, reduced_features=10)</span>
+<span class="sd">        &gt;&gt;&gt;    nn.ReLU(),</span>
+<span class="sd">        &gt;&gt;&gt; )</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        features (int): Number of features</span>
+<span class="sd">        reduction (int, optional): Reduction ratio used to downsample the input. Defaults to 16.</span>
+<span class="sd">        reduced_features (int, optional): If passed, use it instead of calculating the reduced features using `reduction`. Defaults to None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>  <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">att</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">({</span>
+            <span class="s1">&#39;conv1&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduced_features</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="s1">&#39;act1&#39;</span><span class="p">:</span> <span class="n">activation</span><span class="p">(),</span>
+            <span class="s1">&#39;conv2&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reduced_features</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="s1">&#39;act2&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+        <span class="p">})</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="ChannelSE.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.se.html#glasses.nn.models.classification.ChannelSE.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">avg_pool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">att</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span></div></div>
+
+
+<div class="viewcode-block" id="SpatialChannelSE"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.se.html#glasses.nn.models.classification.SpatialChannelSE">[docs]</a><span class="k">class</span> <span class="nc">SpatialChannelSE</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Implement of Spatial and Channel Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze &amp;</span>
+<span class="sd">Excitation’ in Fully Convolutional Networks &lt;https://arxiv.org/abs/1803.02579&gt;`_</span>
+
+<span class="sd">    This module combines booth Spatial and Channel Squeeze and Excitation</span>
+
+<span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/SpatialAndChannelSE.png?raw=true</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        Add `SpatialChannelSE` to your own model is very simple.</span>
+
+<span class="sd">        &gt;&gt;&gt; nn.Sequential(</span>
+<span class="sd">        &gt;&gt;&gt;    nn.Conv2d(32, 64, kernel_size=3),</span>
+<span class="sd">        &gt;&gt;&gt;    SpatialChannelSE(64, reduction=4)</span>
+<span class="sd">        &gt;&gt;&gt;    nn.ReLU(),</span>
+<span class="sd">        &gt;&gt;&gt; )</span>
+
+<span class="sd">        You can also direcly specify the number of features inside the module</span>
+
+<span class="sd">        &gt;&gt;&gt; nn.Sequential(</span>
+<span class="sd">        &gt;&gt;&gt;    nn.Conv2d(32, 64, kernel_size=3),</span>
+<span class="sd">        &gt;&gt;&gt;    SpatialChannelSE(64, reduced_features=10)</span>
+<span class="sd">        &gt;&gt;&gt;    nn.ReLU(),</span>
+<span class="sd">        &gt;&gt;&gt; )</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        features (int): Number of features</span>
+<span class="sd">        reduction (int, optional): Reduction ratio used to downsample the input. Defaults to 16.</span>
+<span class="sd">        reduced_features (int, optional): If passed, use it instead of calculating the reduced features using `reduction`. Defaults to None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spatial_se</span> <span class="o">=</span> <span class="n">SpatialSE</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channel_se</span> <span class="o">=</span> <span class="n">ChannelSE</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SpatialChannelSE.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.se.html#glasses.nn.models.classification.SpatialChannelSE.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">s_se</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spatial_se</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">c_se</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_se</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">s_se</span> <span class="o">+</span> <span class="n">c_se</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
