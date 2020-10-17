@@ -18,7 +18,7 @@ from .ModuleTransfer import ModuleTransfer
 # from ..nn.models.classification import EfficientNet
 from tqdm.autonotebook import tqdm
 from pathlib import Path
-from efficientnet_pytorch import EfficientNet as EfficientNetPytorch
+# from efficientnet_pytorch import EfficientNet as EfficientNetPytorch
 
 StateDict = Dict[str, Tensor]
 
