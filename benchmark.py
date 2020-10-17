@@ -137,7 +137,9 @@ def benchmark(model: nn.Module):
     return top1.avg, top5.avg
 
 
-def benchmark_all():
+def benchmark_all() -> pd.DataFrame:
+    save_path = Path('./benchmark.pkl')
+    
     records = []
     for key, (original_model_func, glasses_model_func) in zoo_models_mapping.items():
         data = {}
@@ -156,6 +158,10 @@ def benchmark_all():
         records.append(data)
     pprint(records)
 
+
+    df = pd.DataFrame(records)
+    print(df)
+    df.to_pickle(save_path)
     # pd.DataFrame.
 
     # # model = provider['resnet34'].to(device)
