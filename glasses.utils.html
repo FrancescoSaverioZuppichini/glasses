@@ -95,7 +95,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">glasses.utils package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-glasses.utils.ModuleTransfer">glasses.utils.ModuleTransfer module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#glasses-utils-pretrainedweightsprovider-module">glasses.utils.PretrainedWeightsProvider module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-glasses.utils.PretrainedWeightsProvider">glasses.utils.PretrainedWeightsProvider module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-glasses.utils.Tracker">glasses.utils.Tracker module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-glasses.utils">Module contents</a></li>
 </ul>
@@ -220,8 +220,58 @@ they have the same set of operations but they were defined in a different way.</
 </dd></dl>
 
 </div>
-<div class="section" id="glasses-utils-pretrainedweightsprovider-module">
-<h2>glasses.utils.PretrainedWeightsProvider module<a class="headerlink" href="#glasses-utils-pretrainedweightsprovider-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-glasses.utils.PretrainedWeightsProvider">
+<span id="glasses-utils-pretrainedweightsprovider-module"></span><h2>glasses.utils.PretrainedWeightsProvider module<a class="headerlink" href="#module-glasses.utils.PretrainedWeightsProvider" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.utils.PretrainedWeightsProvider.</code><code class="sig-name descname">PretrainedWeightsProvider</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">save_dir</span><span class="p">:</span> <span class="n">pathlib.Path</span> <span class="o">=</span> <span class="default_value">PosixPath('glasses/models')</span></em>, <em class="sig-param"><span class="n">chunk_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1024</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">override</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/PretrainedWeightsProvider.html#PretrainedWeightsProvider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class allows to retrieve pretrained models.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">provider</span> <span class="o">=</span> <span class="n">PretrainedWeightsProvider</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">provider</span><span class="p">[</span><span class="s1">&#39;resnet18&#39;</span><span class="p">]</span> <span class="c1"># get a pre-trained resnet18 model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">provider</span> <span class="o">=</span> <span class="n">PretrainedWeightsProvider</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># see all the outputs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">provider</span> <span class="o">=</span> <span class="n">PretrainedWeightsProvider</span><span class="p">(</span><span class="n">save_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;./awesome/&#39;</span><span class="p">))</span> <span class="c1"># change save dir</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">provider</span> <span class="o">=</span> <span class="n">PretrainedWeightsProvider</span><span class="p">(</span><span class="n">override</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># override model even if already downloaded</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt id="glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.BASE_DIR">
+<code class="sig-name descname">BASE_DIR</code><em class="property"> = PosixPath('glasses/models')</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.BASE_DIR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.BASE_URL">
+<code class="sig-name descname">BASE_URL</code><em class="property"> = 'https://cv-glasses.s3.eu-central-1.amazonaws.com'</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.BASE_URL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.chunk_size">
+<code class="sig-name descname">chunk_size</code><em class="property">: int</em><em class="property"> = 1024</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.chunk_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.download_weight">
+<code class="sig-name descname">download_weight</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">save_path</span><span class="p">:</span> <span class="n">pathlib.Path</span></em><span class="sig-paren">)</span> &#x2192; pathlib.Path<a class="reference internal" href="_modules/glasses/utils/PretrainedWeightsProvider.html#PretrainedWeightsProvider.download_weight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.download_weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.override">
+<code class="sig-name descname">override</code><em class="property">: bool</em><em class="property"> = False</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.override" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.save_dir">
+<code class="sig-name descname">save_dir</code><em class="property">: pathlib.Path</em><em class="property"> = PosixPath('glasses/models')</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.save_dir" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.verbose">
+<code class="sig-name descname">verbose</code><em class="property">: int</em><em class="property"> = 0</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.verbose" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-glasses.utils.Tracker">
 <span id="glasses-utils-tracker-module"></span><h2>glasses.utils.Tracker module<a class="headerlink" href="#module-glasses.utils.Tracker" title="Permalink to this headline">¶</a></h2>
