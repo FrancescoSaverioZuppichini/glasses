@@ -6,7 +6,7 @@ from torchsummary import summary
 from ....utils.PretrainedWeightsProvider import PretrainedWeightsProvider
 
 class VisionModule(nn.Module):
-    def summary(self, input_shape=(3, 224, 224)):
+    def summary(self, input_shape=(3, 224, 224), device: torch.device = None):
         """Useful method to run `torchsummary` directly from the model
 
         Args:
@@ -15,8 +15,8 @@ class VisionModule(nn.Module):
         Returns:
             [type]: [description]
         """
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        return summary(self.to(device), input_shape)
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') if device is None else device
+        return summary(self.to(device), input_shape, device=device)
 
     @classmethod
     def from_pretrained(cls, name: str, save_dir: Path = PretrainedWeightsProvider.BASE_DIR) -> nn.Module:
