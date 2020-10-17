@@ -7,6 +7,8 @@ def test_resnet():
     x = torch.rand(1, 3, 224, 224)
     model = ResNet.resnet18().eval()
     model.summary(device=torch.device('cpu'))
+    model.from_pretrained('resnet18')
+
     pred = model(x)
     assert pred.shape[-1] == 1000
 
