@@ -111,5 +111,5 @@ class PretrainedWeightsProvider:
 
         return weights
 
-    def __contains__(self, key: str) -> bool:
-        return key in self.zoo.keys()
+    # def __contains__(self, key: str) -> bool:
+    #     return key in self.zoo.keys()
