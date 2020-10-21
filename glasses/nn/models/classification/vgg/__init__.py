@@ -34,8 +34,7 @@ class VGGLayer(nn.Module):
                     out_features, *args, **kwargs) for _ in range(n - 1)]
         )
 
-        if maxpool is not None:
-            self.block.add_module('maxpool', maxpool(kernel_size=2, stride=2))
+        self.block.add_module('maxpool', maxpool(kernel_size=2, stride=2))
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.block(x)

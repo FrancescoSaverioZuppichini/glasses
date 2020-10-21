@@ -134,7 +134,7 @@ class MobileNetEncoder(nn.Module):
 
         self.blocks.append(nn.Sequential(
             ConvBnAct(widths[-2], widths[-1],
-                      activation=nn.ReLU6, kernel_size=1),
+                      activation=activation, kernel_size=1),
         ))
 
     def forward(self, x):
@@ -151,10 +151,10 @@ class MobileNetDecoder(nn.Module):
     correct class by using a fully connected layer.
     """
 
-    def __init__(self, in_features: int, n_classes: int):
+    def __init__(self, in_features: int, n_classes: int, drop_rate: float = 0.2):
         super().__init__()
         self.avg = nn.AdaptiveAvgPool2d((1, 1))
-        self.drop = nn.Dropout2d(0.2)
+        self.drop = nn.Dropout2d(drop_rate)
         self.fc = nn.Linear(in_features, n_classes)
 
     def forward(self, x):

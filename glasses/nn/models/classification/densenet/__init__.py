@@ -9,6 +9,8 @@ from functools import partial
 from ..resnet import ReLUInPlace
 from ....blocks.residuals import ResidualCat2d
 from ....blocks import Conv2dPad
+from ..VisionModule import VisionModule
+from glasses.utils.PretrainedWeightsProvider import Config
 
 class DenseNetBasicBlock(nn.Module):
     """Basic DenseNet block composed by one 3x3 convs with residual connection.
@@ -177,7 +179,7 @@ class DenseNetEncoder(ResNetEncoder):
         return x
 
 
-class DenseNet(nn.Module):
+class DenseNet(VisionModule):
     """Implementations of DenseNet proposed in `Densely Connected Convolutional Networks <https://arxiv.org/abs/1608.06993>`_
 
     Create a default model
@@ -218,6 +220,14 @@ class DenseNet(nn.Module):
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
+
+    configs = {
+        'densenet121': Config(),
+        'densenet161': Config(),
+        'densenet169': Config(),
+        'densenet201': Config(),
+    }
+
 
     def __init__(self, in_channels: int = 3,  n_classes: int = 1000, *args, **kwargs):
         super().__init__()

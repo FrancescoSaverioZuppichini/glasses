@@ -84,3 +84,5 @@ class ResNetXt(ResNet):
             ResNet: A resnext101_32x8d model
         """
         return cls.resnet101(*args, **kwargs, block=ResNetXtBottleNeckBlock, groups=32, base_width=8)
+
+    

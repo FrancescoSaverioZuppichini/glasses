@@ -2,7 +2,7 @@ import torch
 from torch import nn
 from torch import Tensor
 from collections import OrderedDict
-
+from ..resnet import ReLUInPlace
 
 class SpatialSE(nn.Module):
     """Implementation of Squeeze and Excitation Module proposed in `Squeeze-and-Excitation Networks <https://arxiv.org/abs/1709.01507>`_
@@ -52,7 +52,7 @@ class SpatialSE(nn.Module):
         reduced_features (int, optional): If passed, use it instead of calculating the reduced features using `reduction`. Defaults to None.
     """
 
-    def __init__(self, features: int, reduction: int = 16, reduced_features: int = None, activation: nn.Module = nn.ReLU):
+    def __init__(self, features: int, reduction: int = 16, reduced_features: int = None, activation: nn.Module = ReLUInPlace):
         super().__init__()
         self.reduced_features = features // reduction if reduced_features is None else reduced_features
 
@@ -109,7 +109,7 @@ Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>
         reduced_features (int, optional): If passed, use it instead of calculating the reduced features using `reduction`. Defaults to None.
     """
 
-    def __init__(self, features: int,  *args, activation: nn.Module = nn.ReLU, **kwargs):
+    def __init__(self, features: int,  *args, activation: nn.Module = ReLUInPlace, **kwargs):
         super().__init__(features, *args, activation=activation, **kwargs)
         self.att = nn.Sequential(OrderedDict({
             'conv1': nn.Conv2d(features, self.reduced_features, kernel_size=1),

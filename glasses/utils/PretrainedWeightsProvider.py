@@ -18,10 +18,53 @@ from .ModuleTransfer import ModuleTransfer
 # from ..nn.models.classification import EfficientNet
 from tqdm.autonotebook import tqdm
 from pathlib import Path
-# from efficientnet_pytorch import EfficientNet as EfficientNetPytorch
+from efficientnet_pytorch import EfficientNet as EfficientNetPytorch
+import torchvision.transforms as T
+import torch.nn as nn
+from PIL import Image
+from typing import Tuple
+import logging
+
+logging.basicConfig( level=logging.INFO)
+
+IMAGENET_DEFAULT_MEAN = (0.485, 0.456, 0.406)
+IMAGENET_DEFAULT_STD = (0.229, 0.224, 0.225)
+
+
+@dataclass
+class Config:
+    input_size: int = 224
+    resize: int = 256
+    mean: Tuple[float] = IMAGENET_DEFAULT_MEAN
+    std: Tuple[float] = IMAGENET_DEFAULT_STD
+    interpolation: str = 'bilinear'
+
+    @property
+    def transform(self):
+        interpolations = {
+            'bilinear': Image.BILINEAR,
+            'bicubic': Image.BICUBIC
+        }
+        return T.Compose([
+            T.Resize(self.resize, interpolations[self.interpolation]),
+            T.CenterCrop(self.input_size),
+            T.ToTensor(),
+            T.Normalize(mean=self.mean, std=self.std)
+        ])
+
 
 StateDict = Dict[str, Tensor]
 
+
+def pretrained(func):
+    name = func.__name__
+    provider = PretrainedWeightsProvider()
+    def wrapper(*args,  pretrained=False, **kwargs):
+        model = func(*args, **kwargs)
+        if pretrained:
+            model.load_state_dict(provider[name])
+        return model
+    return wrapper
 
 @dataclass
 class PretrainedWeightsProvider:
@@ -42,7 +85,6 @@ class PretrainedWeightsProvider:
     # 'resnet50':ResNet.resnet50,
     # 'resnet101': ResNet.resnet101,
     # 'resnet152': ResNet.resnet152,
-
 
     # 'resnext50_32x4d': ResNetXt.resnext50_32x4d,
     # 'resnext101_32x8d': ResNetXt.resnext101_32x8d,
@@ -70,10 +112,9 @@ class PretrainedWeightsProvider:
     # 'efficientnet-b7': EfficientNet.b7,
 
     # }
-    
 
     BASE_URL = 'https://cv-glasses.s3.eu-central-1.amazonaws.com'
-    BASE_DIR = Path('./glasses/models')
+    BASE_DIR = Path('/home/zuppif/Documents/models_weights')
     save_dir: Path = BASE_DIR
     chunk_size: int = 1024
     verbose: int = 0
@@ -99,16 +140,16 @@ class PretrainedWeightsProvider:
         #     raise KeyError(
         #         f'No weights for model "{key}". Available models are {",".join(list(self.zoo_models_mapping.keys()))}')
 
-        save_path = self.save_dir / f'{key}.pt'
+        save_path = self.save_dir / f'{key}.pth'
 
         should_download = not save_path.exists()
 
         if should_download or self.override:
-            url = f'{self.BASE_URL}/{key}.pt'
+            url = f'{self.BASE_URL}/{key}.pth'
             self.download_weight(url, save_path)
 
         weights = torch.load(save_path)
-
+        logging.info(f'Loaded {key} pretrained weights.')
         return weights
 
     # def __contains__(self, key: str) -> bool:

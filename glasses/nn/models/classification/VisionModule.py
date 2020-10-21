@@ -4,8 +4,12 @@ import inspect
 from pathlib import Path
 from torchsummary import summary
 from ....utils.PretrainedWeightsProvider import PretrainedWeightsProvider
+from typing import Dict
+from ....utils.PretrainedWeightsProvider import Config
 
 class VisionModule(nn.Module):
+    configs: Dict[str, Config] = {}
+    
     def summary(self, input_shape=(3, 224, 224), device: torch.device = None):
         """Useful method to run `torchsummary` directly from the model
 
@@ -36,7 +40,7 @@ class VisionModule(nn.Module):
         Returns:
             nn.Module: The pretrained model
         """
-        if name not in cls.pretrained_keys:
+        if name not in cls.configs:
             raise KeyError(f'model "{name}"" not found. Available models are {cls.pretrained_keys}')
         
         name_to_method = { el[0]: el[1] for el in inspect.getmembers(cls, predicate=inspect.ismethod)}
