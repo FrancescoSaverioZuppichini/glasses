@@ -7,6 +7,7 @@ from collections import OrderedDict
 from ..resnet import ResnetDecoder
 from typing import List
 from functools import partial
+from ..VisionModule import VisionModule
 
 
 """Implementations of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`
@@ -165,7 +166,7 @@ class MobileNetDecoder(nn.Module):
         return x
 
 
-class MobileNetV2(nn.Module):
+class MobileNetV2(VisionModule):
     """Implementations of MobileNet v2 proposed in `MobileNetV2: Inverted Residuals and Linear Bottlenecks <https://arxiv.org/pdf/1801.04381.pdf>`_
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/MobileNet.png?raw=true

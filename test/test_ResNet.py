@@ -67,7 +67,7 @@ def test_wide_resnet():
 
     block = WideResnetBottleNeckBlock(32, 256, width_factor=2)
 
-    assert block.block.block.conv2.in_channels ==  128
+    assert block.block.conv2.in_channels ==  128
 
 def test_resnet_pretrain():
     pass

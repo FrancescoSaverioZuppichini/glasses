@@ -38,15 +38,16 @@ class Conv2dPad(nn.Conv2d):
             mode (str, optional): [description]. Defaults to 'auto'.
     """
 
-    def __init__(self, *args, mode: str = 'auto', **kwargs):
+    def __init__(self, *args, mode: str = 'auto', padding:int = 0, **kwargs):
 
         super().__init__(*args, **kwargs)
         self.mode = mode
         # dynamic add padding based on the kernel_size
         if self.mode == 'auto':
-            self.padding = (
-                self.kernel_size[0] // 2, self.kernel_size[1] // 2)
-
+            self.padding = self._get_padding(padding) if padding != 0 else (self.kernel_size[0] // 2, self.kernel_size[1] // 2)
+          
+    def _get_padding(self, padding: int) -> Union[int]:
+        return (padding, padding)
     
     def forward(self, x: Tensor) -> Tensor:
         if self.mode == 'same':

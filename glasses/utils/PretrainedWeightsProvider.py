@@ -24,6 +24,7 @@ import torch.nn as nn
 from PIL import Image
 from typing import Tuple
 import logging
+from typing import Callable
 
 logging.basicConfig( level=logging.INFO)
 
@@ -56,15 +57,26 @@ class Config:
 StateDict = Dict[str, Tensor]
 
 
-def pretrained(func):
-    name = func.__name__
-    provider = PretrainedWeightsProvider()
-    def wrapper(*args,  pretrained=False, **kwargs):
-        model = func(*args, **kwargs)
-        if pretrained:
-            model.load_state_dict(provider[name])
-        return model
-    return wrapper
+def pretrained(name: str = None) -> Callable:
+    _name = name
+    def decorator(func: Callable) -> Callable:
+        """Decorator to fetch the pretrained model. 
+
+        Args:
+            func ([Callable]): [description]
+
+        Returns:
+            [Callable]: [description]
+        """
+        name = func.__name__ if _name is None else _name
+        provider = PretrainedWeightsProvider()
+        def wrapper(*args,  pretrained: bool = False, **kwargs) -> Callable:
+            model = func(*args, **kwargs)
+            if pretrained:
+                model.load_state_dict(provider[name])
+            return model
+        return wrapper
+    return decorator
 
 @dataclass
 class PretrainedWeightsProvider:
@@ -123,17 +135,17 @@ class PretrainedWeightsProvider:
     def __post_init__(self):
         self.save_dir.mkdir(exist_ok=True)
 
-    def download_weight(self, url: str, save_path: Path) -> Path:
-        r = requests.get(url, stream=True)
+    # def download_weight(self, url: str, save_path: Path) -> Path:
+    #     r = requests.get(url, stream=True)
 
-        with open(save_path, 'wb') as f:
-            total_length = sys.getsizeof(r.content)
-            bar = tqdm(r.iter_content(chunk_size=self.chunk_size),
-                       total=total_length // self.chunk_size)
-            for chunk in bar:
-                if chunk:
-                    f.write(chunk)
-                    f.flush()
+    #     with open(save_path, 'wb') as f:
+    #         total_length = sys.getsizeof(r.content)
+    #         bar = tqdm(r.iter_content(chunk_size=self.chunk_size),
+    #                    total=total_length // self.chunk_size)
+    #         for chunk in bar:
+    #             if chunk:
+    #                 f.write(chunk)
+    #                 f.flush()
 
     def __getitem__(self, key: str) -> nn.Module:
         # if key not in self.zoo:

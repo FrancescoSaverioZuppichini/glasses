@@ -119,7 +119,7 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
                     'conv1': Conv2dPad(in_features, self.features, kernel_size=1, bias=False),
                     'bn1': nn.BatchNorm2d(self.features),
                     'act1': activation(),
-                    'conv2': Conv2dPad(self.features, self.features, kernel_size=3, bias=False, stride=stride, padding=1, **kwargs),
+                    'conv2': Conv2dPad(self.features, self.features, kernel_size=3, bias=False, stride=stride, **kwargs),
                     'bn2': nn.BatchNorm2d(self.features),
                     'act2': activation(),
                     'conv3': Conv2dPad(self.features, out_features, kernel_size=1, bias=False),
@@ -335,7 +335,7 @@ class ResNet(VisionModule):
 
     
     @classmethod
-    @pretrained
+    @pretrained()
     def resnet18(cls, *args,  block=ResNetBasicBlock, **kwargs) -> ResNet:
         """Creates a resnet18 model
 
@@ -350,7 +350,7 @@ class ResNet(VisionModule):
 
     
     @classmethod
-    @pretrained
+    @pretrained()
     def resnet26(cls, *args,  block=ResNetBottleneckBlock, **kwargs) -> ResNet:
         """Creates a resnet26 model
 
@@ -362,7 +362,7 @@ class ResNet(VisionModule):
         return model
 
     @classmethod
-    @pretrained
+    @pretrained()
     def resnet34(cls, *args,  block=ResNetBasicBlock, **kwargs) -> ResNet:
         """Creates a resnet34 model
 
@@ -374,7 +374,7 @@ class ResNet(VisionModule):
         return cls(*args, **kwargs, block=block, depths=[3, 4, 6, 3])
 
     @classmethod
-    @pretrained
+    @pretrained()
     def resnet50(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
         """Creates a resnet50 model
 
@@ -386,7 +386,7 @@ class ResNet(VisionModule):
         return cls(*args, **kwargs, block=block, widths=[256, 512, 1024, 2048], depths=[3, 4, 6, 3])
 
     @classmethod
-    @pretrained
+    @pretrained()
     def resnet101(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
         """Creates a resnet101 model
 
@@ -399,7 +399,7 @@ class ResNet(VisionModule):
 
     
     @classmethod
-    @pretrained
+    @pretrained()
     def resnet152(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
         """Creates a resnet152 model
 
