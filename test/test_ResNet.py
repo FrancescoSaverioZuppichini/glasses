@@ -6,7 +6,7 @@ from glasses.nn.models.classification.wide_resnet import WideResNet, WideResnetB
 def test_resnet():
     x = torch.rand(1, 3, 224, 224)
     model = ResNet.resnet18().eval()
-    model.summary(device=torch.device('cpu'))
+    # model.summary(device=torch.device('cpu'))
 
     pred = model(x)
     assert pred.shape[-1] == 1000
