@@ -1,6 +1,7 @@
 import torch
 import requests
 import sys
+import os
 from torch import nn
 from dataclasses import dataclass
 from functools import partial
@@ -126,7 +127,7 @@ class PretrainedWeightsProvider:
     # }
 
     BASE_URL = 'https://cv-glasses.s3.eu-central-1.amazonaws.com'
-    BASE_DIR = Path('/home/zuppif/Documents/models_weights')
+    BASE_DIR = Path(f"{os.environ['HOME']}/models_weights")
     save_dir: Path = BASE_DIR
     chunk_size: int = 1024
     verbose: int = 0
