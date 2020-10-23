@@ -25,7 +25,7 @@ import torch.nn as nn
 from PIL import Image
 from typing import Tuple
 import logging
-from typing import Callable
+
 
 logging.basicConfig( level=logging.INFO)
 
@@ -82,7 +82,7 @@ def pretrained(name: str = None) -> Callable:
 @dataclass
 class PretrainedWeightsProvider:
     """
-    This class allows to retrieve pretrained models.
+    This class allows to retrieve pretrained models weights (state dict).
 
     Example:
         >>> provider = PretrainedWeightsProvider()
@@ -148,7 +148,7 @@ class PretrainedWeightsProvider:
                     f.write(chunk)
                     f.flush()
 
-    def __getitem__(self, key: str) -> nn.Module:
+    def __getitem__(self, key: str) -> dict:
         # if key not in self.zoo:
         #     raise KeyError(
         #         f'No weights for model "{key}". Available models are {",".join(list(self.zoo_models_mapping.keys()))}')
