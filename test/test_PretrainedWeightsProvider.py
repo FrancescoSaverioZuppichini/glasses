@@ -9,11 +9,12 @@ from PIL import Image
 
 def test_PretrainedWeightsProvider():
     provider = PretrainedWeightsProvider()
-    provider.BASE_DIR = './'
+    provider.BASE_DIR = Path('./test/')
 
     provider.BASE_URL = 'https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/test/resnet18.pth?raw=true'
     provider.download_weight('https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/test/resnet18.pth?raw=true',
                              save_path=provider.BASE_DIR / Path('resnet18.pth'))
+                             
     # with pytest.raises(KeyError):
     #     provider['does_not_exist']
 

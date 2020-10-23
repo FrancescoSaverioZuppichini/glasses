@@ -2,30 +2,20 @@ import torch
 import requests
 import sys
 import os
+import logging
+import torchvision.transforms as T
+import torch.nn as nn
 from torch import nn
 from dataclasses import dataclass
 from functools import partial
 from typing import Dict
 from torch import Tensor
 from .ModuleTransfer import ModuleTransfer
-# from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet152, resnext50_32x4d, resnext101_32x8d, wide_resnet50_2, wide_resnet101_2
-# from torchvision.models import densenet121, densenet161, densenet169, densenet201
-# from torchvision.models import vgg11, vgg13, vgg16, vgg19
-# from torchvision.models import mobilenet_v2
-# from ..nn.models.classification.resnet import ResNet
-# from ..nn.models.classification.densenet import DenseNet
-# from ..nn.models.classification.vgg import VGG
-# from ..nn.models.classification import MobileNetV2, ResNetXt, WideResNet
-# from ..nn.models.classification import EfficientNet
 from tqdm.autonotebook import tqdm
 from pathlib import Path
-from efficientnet_pytorch import EfficientNet as EfficientNetPytorch
-import torchvision.transforms as T
-import torch.nn as nn
 from PIL import Image
 from typing import Tuple
-import logging
-
+from typing import Callable
 
 logging.basicConfig( level=logging.INFO)
 
