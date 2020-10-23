@@ -6,7 +6,8 @@ from collections import OrderedDict
 from typing import Callable, Union
 from torch import Tensor
 from enum import Enum
-
+import math
+from torch.nn import functional as F
 
 class Lambda(nn.Module):
     """[summary]
@@ -28,27 +29,40 @@ class Lambda(nn.Module):
 
 
 class Conv2dPad(nn.Conv2d):
-    """
-    Replacement for nn.Conv2d with padding by default.
+    """2D Convolutions with different padding modes. 
 
-    Examples:
-        >>> conv = Conv2dPad(1, 5, kernel_size=3)
-        >>> x = torch.rand((1, 1, 5, 5))
-        >>> print(conv(x).shape) 
-        [1,1,5,5]
+        'auto' will use the kernel_size to calculate the padding
+        'same' same padding as TensorFLow. It will dynamically pad the image based on its size
+
+        Args:
+            mode (str, optional): [description]. Defaults to 'auto'.
     """
 
-    def __init__(self, *args, padding: int = None, **kwargs):
+    def __init__(self, *args, mode: str = 'auto', padding:int = 0, **kwargs):
+
         super().__init__(*args, **kwargs)
+        self.mode = mode
         # dynamic add padding based on the kernel_size
-        if padding is not None and type(padding) == int:
-            padding = self._get_padding(padding)
-
-        self.padding = (
-            self.kernel_size[0] // 2, self.kernel_size[1] // 2) if padding is None else padding
-
+        if self.mode == 'auto':
+            self.padding = self._get_padding(padding) if padding != 0 else (self.kernel_size[0] // 2, self.kernel_size[1] // 2)
+          
     def _get_padding(self, padding: int) -> Union[int]:
         return (padding, padding)
+    
+    def forward(self, x: Tensor) -> Tensor:
+        if self.mode == 'same':
+            ih, iw = x.size()[-2:]
+            kh, kw = self.weight.size()[-2:]
+            sh, sw = self.stride
+            oh, ow = math.ceil(ih / sh), math.ceil(iw / sw) # change the output size according to stride ! ! !
+            pad_h = max((oh - 1) * self.stride[0] + (kh - 1) * self.dilation[0] + 1 - ih, 0)
+            pad_w = max((ow - 1) * self.stride[1] + (kw - 1) * self.dilation[1] + 1 - iw, 0)
+            if pad_h > 0 or pad_w > 0:
+                x = F.pad(x, [pad_w // 2, pad_w - pad_w // 2, pad_h // 2, pad_h - pad_h // 2])
+            return F.conv2d(x, self.weight, self.bias, self.stride, self.padding, self.dilation, self.groups)
+        
+        else:
+            return super().forward(x)
 
 
 class ConvBnAct(nn.Sequential):

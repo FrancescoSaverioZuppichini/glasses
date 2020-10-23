@@ -9,6 +9,9 @@ from functools import partial
 from ..resnet import ReLUInPlace
 from ....blocks.residuals import ResidualCat2d
 from ....blocks import Conv2dPad
+from ..VisionModule import VisionModule
+from glasses.utils.PretrainedWeightsProvider import Config
+from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 
 class DenseNetBasicBlock(nn.Module):
     """Basic DenseNet block composed by one 3x3 convs with residual connection.
@@ -177,7 +180,7 @@ class DenseNetEncoder(ResNetEncoder):
         return x
 
 
-class DenseNet(nn.Module):
+class DenseNet(VisionModule):
     """Implementations of DenseNet proposed in `Densely Connected Convolutional Networks <https://arxiv.org/abs/1608.06993>`_
 
     Create a default model
@@ -219,6 +222,14 @@ class DenseNet(nn.Module):
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
 
+    configs = {
+        'densenet121': Config(),
+        'densenet161': Config(),
+        'densenet169': Config(),
+        'densenet201': Config(),
+    }
+
+
     def __init__(self, in_channels: int = 3,  n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = DenseNetEncoder(in_channels, *args, **kwargs)
@@ -231,6 +242,7 @@ class DenseNet(nn.Module):
         return x
 
     @classmethod
+    @pretrained()
     def densenet121(cls, *args, **kwargs) -> DenseNet:
         """Creates a densenet121 model. *Grow rate* is set to 32
 
@@ -242,6 +254,7 @@ class DenseNet(nn.Module):
         return DenseNet(*args, grow_rate=32, depths=[6, 12, 24, 16], **kwargs)
 
     @classmethod
+    @pretrained()
     def densenet161(cls, *args, **kwargs) -> DenseNet:
         """Creates a densenet161 model. *Grow rate* is set to 48
 
@@ -253,6 +266,7 @@ class DenseNet(nn.Module):
         return DenseNet(*args, start_features=96, grow_rate=48, depths=[6, 12, 36, 24], **kwargs)
 
     @classmethod
+    @pretrained()
     def densenet169(cls, *args, **kwargs) -> DenseNet:
         """Creates a densenet169 model. *Grow rate* is set to 32
 
@@ -264,6 +278,7 @@ class DenseNet(nn.Module):
         return DenseNet(*args, grow_rate=32, depths=[6, 12, 32, 32], **kwargs)
 
     @classmethod
+    @pretrained()
     def densenet201(cls, *args, **kwargs) -> DenseNet:
         """Creates a densenet201 model. *Grow rate* is set to 32
 

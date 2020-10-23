@@ -5,13 +5,15 @@ from collections import OrderedDict
 from typing import List
 from functools import partial
 from ..resnet import ReLUInPlace
-from ....blocks import ConvAct
+from ....blocks import ConvAct, ConvBnAct
+from glasses.utils.PretrainedWeightsProvider import Config, pretrained
+from ..VisionModule import VisionModule
 
 
 """Implementations of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition <https://arxiv.org/pdf/1409.1556.pdf>`_
 """
 
-VGGBasicBlock = partial(ConvAct, kernel_size=3)
+VGGBasicBlock = partial(ConvAct, kernel_size=3, bias=True)
 
 
 class VGGLayer(nn.Module):
@@ -34,8 +36,7 @@ class VGGLayer(nn.Module):
                     out_features, *args, **kwargs) for _ in range(n - 1)]
         )
 
-        if maxpool is not None:
-            self.block.add_module('maxpool', maxpool(kernel_size=2, stride=2))
+        self.block.add_module('maxpool', maxpool(kernel_size=2, stride=2))
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.block(x)
@@ -76,7 +77,7 @@ class VGGEncoder(nn.Module):
         return x
 
 
-class VGGDecoder(nn.Module):
+class VGGDecoder(nn.Sequential):
     """This class represents the classifier of VGG. It converts the filters into 6x6 by means of the average pooling. Then, it maps the output to the
     correct class by means of fully connected layers. Dropout is used to decrease the overfitting.
 
@@ -86,30 +87,20 @@ class VGGDecoder(nn.Module):
     """
 
     def __init__(self, in_features: int, n_classes: int):
-        super().__init__()
-        self.avg = nn.AdaptiveAvgPool2d((7, 7))
-        self.block = nn.Sequential(
-            OrderedDict(
-                {
-                    'fc1': nn.Linear(in_features * 7 * 7, 4096),
-                    'act1': nn.ReLU(True),
-                    'drop1': nn.Dropout(),
-                    'fc2': nn.Linear(4096, 4096),
-                    'act2': nn.ReLU(True),
-                    'drop2': nn.Dropout(),
-                    'fc3': nn.Linear(4096, n_classes)
-                }
-            )
+        super().__init__(
+            nn.AdaptiveAvgPool2d((7, 7)),
+            nn.Flatten(),
+            nn.Linear(in_features * 7 * 7, 4096),
+            nn.ReLU(True),
+            nn.Dropout(),
+            nn.Linear(4096, 4096),
+            nn.ReLU(True),
+            nn.Dropout(),
+            nn.Linear(4096, n_classes)
         )
 
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.avg(x)
-        x = x.view(x.size(0), -1)
-        x = self.block(x)
-        return x
 
-
-class VGG(nn.Module):
+class VGG(VisionModule):
     """Implementations of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition <https://arxiv.org/pdf/1409.1556.pdf>`_
 
     Create a default model
@@ -119,7 +110,13 @@ class VGG(nn.Module):
         >>> VGG.vgg13()
         >>> VGG.vgg16()
         >>> VGG.vgg19()
+        >>> VGG.vgg11_bn()
+        >>> VGG.vgg13_bn()
+        >>> VGG.vgg16_bn()
+        >>> VGG.vgg19_bn()
 
+    Please be awere that the `bn` models uses BatchNorm but they are very old and people back then don't know the bias is superfluous 
+    in a conv followed by a batchnorm.
 
     Customization
 
@@ -174,6 +171,7 @@ class VGG(nn.Module):
                     nn.init.constant_(m.bias, 0)
 
     @classmethod
+    @pretrained()
     def vgg11(cls, *args, **kwargs) -> VGG:
         """Creates a vgg11 model
 
@@ -185,6 +183,7 @@ class VGG(nn.Module):
         return VGG(*args, **kwargs)
 
     @classmethod
+    @pretrained()
     def vgg13(cls, *args, **kwargs) -> VGG:
         """Creates a vgg13 model
 
@@ -196,6 +195,7 @@ class VGG(nn.Module):
         return VGG(*args, depths=[2, 2, 2, 2, 2], **kwargs)
 
     @classmethod
+    @pretrained()
     def vgg16(cls, *args, **kwargs) -> VGG:
         """Creates a vgg16 model
 
@@ -207,6 +207,7 @@ class VGG(nn.Module):
         return VGG(*args, depths=[2, 2, 3, 3, 3], **kwargs)
 
     @classmethod
+    @pretrained()
     def vgg19(cls, *args, **kwargs) -> VGG:
         """Creates a vgg19 model
 
@@ -216,3 +217,51 @@ class VGG(nn.Module):
             VGG: A vgg19 model
         """
         return VGG(*args, depths=[2, 2, 4, 4, 4], **kwargs)
+
+    @classmethod
+    @pretrained()
+    def vgg11_bn(cls, *args, **kwargs) -> VGG:
+        """Creates a vgg11 model with batchnorm
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/VGG13.png?raw=true
+
+        Returns:
+            VGG: A vgg13 model
+        """
+        return VGG(*args, block=ConvBnAct,  kernel_size=3, bias=True, **kwargs)
+
+    @classmethod
+    @pretrained()
+    def vgg13_bn(cls, *args, **kwargs) -> VGG:
+        """Creates a vgg13 model with batchnorm
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/VGG13.png?raw=true
+
+        Returns:
+            VGG: A vgg13 model
+        """
+        return VGG(*args, block=ConvBnAct, depths=[2, 2, 2, 2, 2], kernel_size=3, bias=True, **kwargs)
+
+    @classmethod
+    @pretrained()
+    def vgg16_bn(cls, *args, **kwargs) -> VGG:
+        """Creates a vgg16 model with batchnorm
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/VGG16.png?raw=true
+
+        Returns:
+            VGG: A vgg16 model
+        """
+        return VGG(*args, block=ConvBnAct, depths=[2, 2, 3, 3, 3], kernel_size=3, bias=True, **kwargs)
+
+    @classmethod
+    @pretrained()
+    def vgg19_bn(cls, *args, **kwargs) -> VGG:
+        """Creates a vgg19 model with batchnorm
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/VGG19.png?raw=true
+
+        Returns:
+            VGG: A vgg19 model
+        """
+        return VGG(*args,  block=ConvBnAct, depths=[2, 2, 4, 4, 4], kernel_size=3, bias=True, **kwargs)

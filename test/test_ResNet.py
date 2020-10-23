@@ -6,9 +6,12 @@ from glasses.nn.models.classification.wide_resnet import WideResNet, WideResnetB
 def test_resnet():
     x = torch.rand(1, 3, 224, 224)
     model = ResNet.resnet18().eval()
-    model.summary(device=torch.device('cpu'))
-    model.from_pretrained('resnet18')
+    # model.summary(device=torch.device('cpu'))
 
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+    
+    model = ResNet.resnet26().eval()
     pred = model(x)
     assert pred.shape[-1] == 1000
 
@@ -25,6 +28,10 @@ def test_resnet():
     assert pred.shape[-1] == 1000
 
     model = ResNet.resnet152().eval()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+
+    model = ResNet.resnet200().eval()
     pred = model(x)
     assert pred.shape[-1] == 1000
 
@@ -60,4 +67,7 @@ def test_wide_resnet():
 
     block = WideResnetBottleNeckBlock(32, 256, width_factor=2)
 
-    assert block.block.block.conv2.in_channels ==  128
+    assert block.block.conv2.in_channels ==  128
+
+def test_resnet_pretrain():
+    pass

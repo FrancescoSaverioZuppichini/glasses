@@ -10,9 +10,10 @@ from typing import List
 from functools import partial
 from ..resnet import ResNetBottleneckBlock, ReLUInPlace, ResNetEncoder, ResNetShorcut, ResNetBottleneckPreActBlock
 from ..se import ChannelSE
+from ..VisionModule import VisionModule
 
 
-FishNetShortCut = partial(BnActConv, kernel_size=1, bias=False)
+FishNetShortCut = partial(BnActConv, kernel_size=1)
 
 
 class FishNetChannelReductionShortcut(nn.Module):
@@ -36,42 +37,6 @@ class FishNetChannelReductionShortcut(nn.Module):
         return x_red
 
 FishNetBottleNeck = partial(ResNetBottleneckPreActBlock, shortcut=FishNetShortCut)
-
-# class FishNetBottleNeck(nn.Module):
-#     """FishNetBottleNeck Bottleneck block based on a correct interpretation of the original resnet paper.
-
-#     Args:
-#         out_features (int): Number of input features
-#         out_features (int): Number of output features
-#         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
-#         stride (int, optional): [description]. Defaults to 1.
-#         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
-#         expansion (int, optional): [description]. Defaults to 4.
-#     """
-
-#     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, reduction: int = 4, stride=1, shortcut: nn.Module = FishNetShortCut, **kwargs):
-#         super().__init__()
-#         self.reduction = reduction
-#         features = out_features // reduction
-
-#         self.block = nn.Sequential(BnActConv(in_features, features, activation=activation, kernel_size=1, bias=False),
-#                                    BnActConv(features, features, activation=activation, bias=False,
-#                                              kernel_size=3, stride=stride, **kwargs),
-#                                    BnActConv(
-#                                        features, out_features, activation=activation, bias=False, kernel_size=1)
-#                                    )
-
-#         self.shortcut = shortcut(
-#             in_features, out_features, activation=activation, stride=stride) if in_features != out_features else None
-
-#     def forward(self, x: Tensor) -> Tensor:
-#         res = x
-#         if self.shortcut is not None:
-#             res = self.shortcut(res)
-#         x = self.block(x)
-#         x += res
-#         return x
-
 
 class FishNetBodyBlock(nn.Module):
     """FishNet body block, called the Up-sampling & Refinement block in the paper.
@@ -342,7 +307,7 @@ class FishNetDecoder(nn.Sequential):
         )
 
 
-class FishNet(nn.Module):
+class FishNet(VisionModule):
     """Implementation of ResNet proposed in `FishNet: A Versatile Backbone for Image, Region, and Pixel Level Prediction <https://arxiv.org/abs/1901.03495>`_
 
     Honestly, this model it is very weird and it has some mistakes in the paper that nobody ever cared to correct. It is a nice idea, but it could have been described better and definitly implemented better.

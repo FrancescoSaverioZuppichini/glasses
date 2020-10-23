@@ -7,6 +7,7 @@ from collections import OrderedDict
 from typing import List
 from functools import partial
 from ..resnet import ResNet, ResNetBottleneckBlock
+from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 
 ReLUInPlace = partial(nn.ReLU, inplace=True)
 
@@ -23,7 +24,8 @@ class ResNetXtBottleNeckBlock(ResNetBottleneckBlock):
             base_width (int, optional): width factor uses to compute the inner features in the 3x3 conv. Defaults to 4.
         """
         features = (int(out_features * (base_width / 64) / reduction) * groups)
-        super().__init__(in_features, out_features, features=features, groups=groups, **kwargs)
+        super().__init__(in_features, out_features,
+                         features=features, groups=groups, **kwargs)
 
 
 class ResNetXt(ResNet):
@@ -68,15 +70,17 @@ class ResNetXt(ResNet):
     """
 
     @classmethod
+    @pretrained('resnext50_32x4d')
     def resnext50_32x4d(cls, *args, **kwargs) -> ResNetXt:
         """Creates a resnext50_32x4d model
 
         Returns:
             ResNet: A resnext50_32x4d model
         """
-        return cls.resnet50(*args, **kwargs, block=ResNetXtBottleNeckBlock)
+        return cls.resnet50(*args, block=ResNetXtBottleNeckBlock, **kwargs)
 
     @classmethod
+    @pretrained('resnext101_32x8d')
     def resnext101_32x8d(cls, *args, **kwargs) -> ResNetXt:
         """Creates a resnext101_32x8d model
 

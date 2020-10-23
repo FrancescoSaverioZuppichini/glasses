@@ -8,9 +8,16 @@ def test_conv2dpad():
     assert x.shape[-1] == res.shape[-1]
     assert x.shape[-2] == res.shape[-2]
     # no padding
-    block = Conv2dPad(1, 5, kernel_size=3, padding=0)
+    block = Conv2dPad(1, 5, kernel_size=3, mode=None)
     res = block(x)
     assert x.shape[-1] != res.shape[-1]
     assert x.shape[-2] != res.shape[-2]
     assert res.shape[-1] == 3
     assert res.shape[-2] == 3
+
+
+     # no padding
+    block = Conv2dPad(1, 5, kernel_size=3, mode='same')
+    res = block(x)
+    assert x.shape[-1] == res.shape[-1]
+    assert x.shape[-2] == res.shape[-2]
