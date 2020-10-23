@@ -136,17 +136,17 @@ class PretrainedWeightsProvider:
     def __post_init__(self):
         self.save_dir.mkdir(exist_ok=True)
 
-    # def download_weight(self, url: str, save_path: Path) -> Path:
-    #     r = requests.get(url, stream=True)
+    def download_weight(self, url: str, save_path: Path) -> Path:
+        r = requests.get(url, stream=True)
 
-    #     with open(save_path, 'wb') as f:
-    #         total_length = sys.getsizeof(r.content)
-    #         bar = tqdm(r.iter_content(chunk_size=self.chunk_size),
-    #                    total=total_length // self.chunk_size)
-    #         for chunk in bar:
-    #             if chunk:
-    #                 f.write(chunk)
-    #                 f.flush()
+        with open(save_path, 'wb') as f:
+            total_length = sys.getsizeof(r.content)
+            bar = tqdm(r.iter_content(chunk_size=self.chunk_size),
+                       total=total_length // self.chunk_size)
+            for chunk in bar:
+                if chunk:
+                    f.write(chunk)
+                    f.flush()
 
     def __getitem__(self, key: str) -> nn.Module:
         # if key not in self.zoo:
