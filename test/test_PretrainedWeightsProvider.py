@@ -1,11 +1,11 @@
 import torch
 import torch.nn as nn
-from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
+from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider, Config
 from glasses.nn.models.classification.resnet import ResNet
 import pytest
 from pathlib import Path
 import os
-
+from PIL import Image
 
 def test_PretrainedWeightsProvider():
     provider = PretrainedWeightsProvider()
@@ -22,6 +22,18 @@ def test_PretrainedWeightsProvider():
 
     for mod, mod_prov in zip(resnet18_state.keys(), resnet18_prov_state.keys()):
         assert str(mod) == str(mod_prov)
+
+    model = ResNet.resnet18(pretrained=True)
+
+    assert type(model) is ResNet
+
+    cfg = Config(interpolation='bilinear')
+    
+    assert cfg.transform.transforms[0].interpolation == Image.BILINEAR
+
+    cfg = Config(interpolation='bicubic')
+
+    assert cfg.transform.transforms[0].interpolation == Image.BICUBIC
 
     # this test will take too much time!
     # for key, models in PretrainedWeightsProvider.zoo_models_mapping.items():

@@ -13,6 +13,7 @@ from ....utils.scaler import CompoundScaler
 from ....activation import Swish
 from glasses.utils.PretrainedWeightsProvider import Config
 from ..VisionModule import VisionModule
+from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 
 class EfficientNetBasicBlock(InvertedResidualBlock):
     """EfficientNet basic block. It is an inverted residual block from `MobileNetV2` but with `ChannelSE` after the depth-wise conv. 
@@ -241,20 +242,24 @@ class EfficientNet(VisionModule):
         return EfficientNet(*args, **kwargs, depths=depths, widths=widths, drop_rate=drop_rate)
 
     @classmethod
+    @pretrained()
     def efficientnet_b0(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, 'efficientnet_b0', *args, **kwargs)
     
     @classmethod
+    @pretrained()
     def efficientnet_b1(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, 'efficientnet_b1', *args, **kwargs)
 
 
     @classmethod
+    @pretrained()
     def efficientnet_b2(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, 'efficientnet_b2',*args, **kwargs)
 
 
     @classmethod
+    @pretrained()
     def efficientnet_b3(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, 'efficientnet_b3',*args, **kwargs)
 
