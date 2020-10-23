@@ -17,7 +17,6 @@ from tqdm.autonotebook import tqdm
 from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
 from functools import partial
 from pathlib import Path
-from efficientnet_pytorch import EfficientNet as EfficientNetPytorch
 from glasses.utils.ModuleTransfer import ModuleTransfer
 from sotabencheval.image_classification import ImageNetEvaluator
 

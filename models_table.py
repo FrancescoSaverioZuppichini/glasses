@@ -4,7 +4,6 @@ from argparse import ArgumentParser
 from torchsummary import summary
 from glasses.nn.models import ResNet, ResNetXt, WideResNet, SEResNet, DenseNet, EfficientNet, MobileNetV2, FishNet
 # from torchvision.models import *
-# from efficientnet_pytorch import EfficientNet
 
 parser = ArgumentParser()
 parser.add_argument('-o', default='./table.md')

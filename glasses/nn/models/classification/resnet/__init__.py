@@ -79,6 +79,7 @@ class ResNetBasicBlock(nn.Sequential):
         self.act = activation()
 
     def forward(self, x: Tensor) -> Tensor:
+        
         res = x
         x = self.block(x)
         res = self.shortcut(res)
@@ -130,12 +131,11 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
 
 class ResNetBasicPreActBlock(ResNetBasicBlock):
     reduction: int = 1
-    """Pre activation ResNet basic block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
+    """Pre activation ResNet basic block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`_
 
     Args:
         out_features (int): Number of input features
         out_features (int): Number of ouimport inspect
-escription]. Defaults to nn.Conv2d.
     """
 
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, stride: int = 1, shortcut: nn.Module = ResNetShorcut, **kwargs):
@@ -159,7 +159,7 @@ escription]. Defaults to nn.Conv2d.
 class ResNetBottleneckPreActBlock(ResNetBottleneckBlock):
     reduction: int = 4
 
-    """Pre activation ResNet bottleneck block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
+    """Pre activation ResNet bottleneck block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`_
 
     Args:
         out_features (int): Number of input features

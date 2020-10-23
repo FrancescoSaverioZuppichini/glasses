@@ -14,7 +14,6 @@ from torchvision.models import mobilenet_v2
 from glasses.nn.models import *
 from tqdm.autonotebook import tqdm
 from pathlib import Path
-from efficientnet_pytorch import EfficientNet as EfficientNetPytorch
 import boto3
 from boto3.s3.transfer import TransferConfig
 from io import BytesIO
