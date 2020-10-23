@@ -223,10 +223,46 @@ they have the same set of operations but they were defined in a different way.</
 <div class="section" id="module-glasses.utils.PretrainedWeightsProvider">
 <span id="glasses-utils-pretrainedweightsprovider-module"></span><h2>glasses.utils.PretrainedWeightsProvider module<a class="headerlink" href="#module-glasses.utils.PretrainedWeightsProvider" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.utils.PretrainedWeightsProvider.</code><code class="sig-name descname">PretrainedWeightsProvider</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">save_dir</span><span class="p">:</span> <span class="n">pathlib.Path</span> <span class="o">=</span> <span class="default_value">PosixPath('glasses/models')</span></em>, <em class="sig-param"><span class="n">chunk_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1024</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">override</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/PretrainedWeightsProvider.html#PretrainedWeightsProvider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider" title="Permalink to this definition">¶</a></dt>
+<dt id="glasses.utils.PretrainedWeightsProvider.Config">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.utils.PretrainedWeightsProvider.</code><code class="sig-name descname">Config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">224</span></em>, <em class="sig-param"><span class="n">resize</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">256</span></em>, <em class="sig-param"><span class="n">mean</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.485, 0.456, 0.406</span></em>, <em class="sig-param"><span class="n">std</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.229, 0.224, 0.225</span></em>, <em class="sig-param"><span class="n">interpolation</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'bilinear'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/PretrainedWeightsProvider.html#Config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.Config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This class allows to retrieve pretrained models.</p>
+<dl class="py attribute">
+<dt id="glasses.utils.PretrainedWeightsProvider.Config.input_size">
+<code class="sig-name descname">input_size</code><em class="property">: int</em><em class="property"> = 224</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.Config.input_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.utils.PretrainedWeightsProvider.Config.interpolation">
+<code class="sig-name descname">interpolation</code><em class="property">: str</em><em class="property"> = 'bilinear'</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.Config.interpolation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.utils.PretrainedWeightsProvider.Config.mean">
+<code class="sig-name descname">mean</code><em class="property">: Tuple<span class="p">[</span>float<span class="p">]</span></em><em class="property"> = (0.485, 0.456, 0.406)</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.Config.mean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.utils.PretrainedWeightsProvider.Config.resize">
+<code class="sig-name descname">resize</code><em class="property">: int</em><em class="property"> = 256</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.Config.resize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.utils.PretrainedWeightsProvider.Config.std">
+<code class="sig-name descname">std</code><em class="property">: Tuple<span class="p">[</span>float<span class="p">]</span></em><em class="property"> = (0.229, 0.224, 0.225)</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.Config.std" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.utils.PretrainedWeightsProvider.Config.transform">
+<em class="property">property </em><code class="sig-name descname">transform</code><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.Config.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.utils.PretrainedWeightsProvider.</code><code class="sig-name descname">PretrainedWeightsProvider</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">save_dir</span><span class="p">:</span> <span class="n">pathlib.Path</span> <span class="o">=</span> <span class="default_value">PosixPath('/home/runner/models_weights')</span></em>, <em class="sig-param"><span class="n">chunk_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1024</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">override</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/PretrainedWeightsProvider.html#PretrainedWeightsProvider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class allows to retrieve pretrained models weights (state dict).</p>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">provider</span> <span class="o">=</span> <span class="n">PretrainedWeightsProvider</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">provider</span><span class="p">[</span><span class="s1">&#39;resnet18&#39;</span><span class="p">]</span> <span class="c1"># get a pre-trained resnet18 model</span>
@@ -237,7 +273,7 @@ they have the same set of operations but they were defined in a different way.</
 </div>
 <dl class="py attribute">
 <dt id="glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.BASE_DIR">
-<code class="sig-name descname">BASE_DIR</code><em class="property"> = PosixPath('glasses/models')</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.BASE_DIR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">BASE_DIR</code><em class="property"> = PosixPath('/home/runner/models_weights')</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.BASE_DIR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -262,7 +298,7 @@ they have the same set of operations but they were defined in a different way.</
 
 <dl class="py attribute">
 <dt id="glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.save_dir">
-<code class="sig-name descname">save_dir</code><em class="property">: pathlib.Path</em><em class="property"> = PosixPath('glasses/models')</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.save_dir" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">save_dir</code><em class="property">: pathlib.Path</em><em class="property"> = PosixPath('/home/runner/models_weights')</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.save_dir" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -271,6 +307,11 @@ they have the same set of operations but they were defined in a different way.</
 <dd></dd></dl>
 
 </dd></dl>
+
+<dl class="py function">
+<dt id="glasses.utils.PretrainedWeightsProvider.pretrained">
+<code class="sig-prename descclassname">glasses.utils.PretrainedWeightsProvider.</code><code class="sig-name descname">pretrained</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Callable<a class="reference internal" href="_modules/glasses/utils/PretrainedWeightsProvider.html#pretrained"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.pretrained" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-glasses.utils.Tracker">

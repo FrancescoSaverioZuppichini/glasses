@@ -289,7 +289,7 @@ First the input is expansed (if needed) by a 1x1 conv, then a depth wise 3x3 con
 
 <dl class="py class">
 <dt id="glasses.nn.models.classification.mobilenet.MobileNetDecoder">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.mobilenet.</code><code class="sig-name descname">MobileNetDecoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#MobileNetDecoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetDecoder" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.mobilenet.</code><code class="sig-name descname">MobileNetDecoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">drop_rate</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#MobileNetDecoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetDecoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>This class represents the tail of MobileNet. It performs a global pooling, dropout and maps the output to the
 correct class by using a fully connected layer.</p>
@@ -355,7 +355,7 @@ Please refer to Table 2 in the original paper for an overview of the current arc
 <dl class="py class">
 <dt id="glasses.nn.models.classification.mobilenet.MobileNetV2">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.mobilenet.</code><code class="sig-name descname">MobileNetV2</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#MobileNetV2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetV2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.classification.html#glasses.nn.models.classification.VisionModule.VisionModule" title="glasses.nn.models.classification.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.classification.VisionModule.VisionModule</span></code></a></p>
 <p>Implementations of MobileNet v2 proposed in <a class="reference external" href="https://arxiv.org/pdf/1801.04381.pdf">MobileNetV2: Inverted Residuals and Linear Bottlenecks</a></p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/MobileNet.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/MobileNet.png?raw=true" />
 <p>Create a default model</p>
@@ -407,11 +407,6 @@ Please refer to Table 2 in the original paper for an overview of the current arc
 <dl class="py method">
 <dt id="glasses.nn.models.classification.mobilenet.MobileNetV2.initialize">
 <code class="sig-name descname">initialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#MobileNetV2.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetV2.initialize" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="glasses.nn.models.classification.mobilenet.MobileNetV2.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetV2.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

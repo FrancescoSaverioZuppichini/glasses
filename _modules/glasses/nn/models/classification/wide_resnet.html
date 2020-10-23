@@ -166,6 +166,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
+<span class="kn">from</span> <span class="nn">glasses.utils.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">pretrained</span>
 
 <span class="n">ReLUInPlace</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -222,23 +223,25 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="WideResNet.wide_resnet50_2"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.wide_resnet.html#glasses.nn.models.classification.WideResNet.wide_resnet50_2">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="nd">@classmethod</span>
+    <span class="nd">@pretrained</span><span class="p">(</span><span class="s1">&#39;wide_resnet50_2&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wide_resnet50_2</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WideResNet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a wide_resnet50_2 model</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            ResNet: A wide_resnet50_2 model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">WideResnetBottleNeckBlock</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">WideResnetBottleNeckBlock</span><span class="p">)</span>
 
-<div class="viewcode-block" id="WideResNet.wide_resnet101_2"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.wide_resnet.html#glasses.nn.models.classification.WideResNet.wide_resnet101_2">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="nd">@classmethod</span>
+    <span class="nd">@pretrained</span><span class="p">(</span><span class="s1">&#39;wide_resnet101_2&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wide_resnet101_2</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WideResNet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a wide_resnet50_2 model</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            ResNet: A wide_resnet50_2 model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">WideResnetBottleNeckBlock</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">WideResnetBottleNeckBlock</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

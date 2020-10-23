@@ -169,9 +169,10 @@
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">ReLUInPlace</span><span class="p">,</span> <span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">ResNetShorcut</span><span class="p">,</span> <span class="n">ResNetBottleneckPreActBlock</span>
 <span class="kn">from</span> <span class="nn">..se</span> <span class="kn">import</span> <span class="n">ChannelSE</span>
+<span class="kn">from</span> <span class="nn">..VisionModule</span> <span class="kn">import</span> <span class="n">VisionModule</span>
 
 
-<span class="n">FishNetShortCut</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">BnActConv</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">FishNetShortCut</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">BnActConv</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="FishNetChannelReductionShortcut"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetChannelReductionShortcut">[docs]</a><span class="k">class</span> <span class="nc">FishNetChannelReductionShortcut</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -195,42 +196,6 @@
         <span class="k">return</span> <span class="n">x_red</span></div></div>
 
 <span class="n">FishNetBottleNeck</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">ResNetBottleneckPreActBlock</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">FishNetShortCut</span><span class="p">)</span>
-
-<span class="c1"># class FishNetBottleNeck(nn.Module):</span>
-<span class="c1">#     &quot;&quot;&quot;FishNetBottleNeck Bottleneck block based on a correct interpretation of the original resnet paper.</span>
-
-<span class="c1">#     Args:</span>
-<span class="c1">#         out_features (int): Number of input features</span>
-<span class="c1">#         out_features (int): Number of output features</span>
-<span class="c1">#         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.</span>
-<span class="c1">#         stride (int, optional): [description]. Defaults to 1.</span>
-<span class="c1">#         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.</span>
-<span class="c1">#         expansion (int, optional): [description]. Defaults to 4.</span>
-<span class="c1">#     &quot;&quot;&quot;</span>
-
-<span class="c1">#     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, reduction: int = 4, stride=1, shortcut: nn.Module = FishNetShortCut, **kwargs):</span>
-<span class="c1">#         super().__init__()</span>
-<span class="c1">#         self.reduction = reduction</span>
-<span class="c1">#         features = out_features // reduction</span>
-
-<span class="c1">#         self.block = nn.Sequential(BnActConv(in_features, features, activation=activation, kernel_size=1, bias=False),</span>
-<span class="c1">#                                    BnActConv(features, features, activation=activation, bias=False,</span>
-<span class="c1">#                                              kernel_size=3, stride=stride, **kwargs),</span>
-<span class="c1">#                                    BnActConv(</span>
-<span class="c1">#                                        features, out_features, activation=activation, bias=False, kernel_size=1)</span>
-<span class="c1">#                                    )</span>
-
-<span class="c1">#         self.shortcut = shortcut(</span>
-<span class="c1">#             in_features, out_features, activation=activation, stride=stride) if in_features != out_features else None</span>
-
-<span class="c1">#     def forward(self, x: Tensor) -&gt; Tensor:</span>
-<span class="c1">#         res = x</span>
-<span class="c1">#         if self.shortcut is not None:</span>
-<span class="c1">#             res = self.shortcut(res)</span>
-<span class="c1">#         x = self.block(x)</span>
-<span class="c1">#         x += res</span>
-<span class="c1">#         return x</span>
-
 
 <div class="viewcode-block" id="FishNetBodyBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetBodyBlock">[docs]</a><span class="k">class</span> <span class="nc">FishNetBodyBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;FishNet body block, called the Up-sampling &amp; Refinement block in the paper.</span>
@@ -501,7 +466,7 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="FishNet"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNet">[docs]</a><span class="k">class</span> <span class="nc">FishNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="FishNet"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNet">[docs]</a><span class="k">class</span> <span class="nc">FishNet</span><span class="p">(</span><span class="n">VisionModule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implementation of ResNet proposed in `FishNet: A Versatile Backbone for Image, Region, and Pixel Level Prediction &lt;https://arxiv.org/abs/1901.03495&gt;`_</span>
 
 <span class="sd">    Honestly, this model it is very weird and it has some mistakes in the paper that nobody ever cared to correct. It is a nice idea, but it could have been described better and definitly implemented better.</span>

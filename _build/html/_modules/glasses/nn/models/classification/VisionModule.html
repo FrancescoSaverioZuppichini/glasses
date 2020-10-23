@@ -163,8 +163,12 @@
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">torchsummary</span> <span class="kn">import</span> <span class="n">summary</span>
 <span class="kn">from</span> <span class="nn">....utils.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">PretrainedWeightsProvider</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">....utils.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">Config</span>
 
 <div class="viewcode-block" id="VisionModule"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.html#glasses.nn.models.classification.VisionModule.VisionModule">[docs]</a><span class="k">class</span> <span class="nc">VisionModule</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="n">configs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Config</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    
 <div class="viewcode-block" id="VisionModule.summary"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.html#glasses.nn.models.classification.VisionModule.VisionModule.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">),</span> <span class="n">device</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Useful method to run `torchsummary` directly from the model</span>
 
@@ -175,34 +179,8 @@
 <span class="sd">            [type]: [description]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">device</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">device</span>
-        <span class="k">return</span> <span class="n">summary</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">summary</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="VisionModule.from_pretrained"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.html#glasses.nn.models.classification.VisionModule.VisionModule.from_pretrained">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_pretrained</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">save_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">PretrainedWeightsProvider</span><span class="o">.</span><span class="n">BASE_DIR</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;This method returns a pretrained model using `name` as an identifier. </span>
-
-<span class="sd">        It use the class field `pretrained_keys` to know if a pretrained model is available with the given name.</span>
-<span class="sd">        If yes, we first create the model then we use `PretrainedWeightsProvider` to get the correct weights and </span>
-<span class="sd">        finally we load them into the model.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name (str): [description]</span>
-<span class="sd">            save_dir (Path, optional): [description]. Defaults to PretrainedWeightsProvider.BASE_DIR.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            KeyError: Raise `if a model with the given name is not available</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            nn.Module: The pretrained model</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">pretrained_keys</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;model &quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;&quot; not found. Available models are </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">pretrained_keys</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        
-        <span class="n">name_to_method</span> <span class="o">=</span> <span class="p">{</span> <span class="n">el</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">el</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">inspect</span><span class="o">.</span><span class="n">ismethod</span><span class="p">)}</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">name_to_method</span><span class="p">[</span><span class="n">name</span><span class="p">]()</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">PretrainedWeightsProvider</span><span class="p">(</span><span class="n">save_dir</span><span class="o">=</span><span class="n">save_dir</span><span class="p">)[</span><span class="n">name</span><span class="p">])</span>
-
-        <span class="k">return</span> <span class="n">model</span></div></div>
 </pre></div>
 
            </div>
