@@ -4,7 +4,6 @@ from argparse import ArgumentParser
 from torchsummary import summary
 from glasses.nn.models import ResNet, ResNetXt, WideResNet, SEResNet, DenseNet, EfficientNet, MobileNetV2, FishNet
 # from torchvision.models import *
-# from efficientnet_pytorch import EfficientNet
 
 parser = ArgumentParser()
 parser.add_argument('-o', default='./table.md')
@@ -22,26 +21,24 @@ def row(model_factory):
         model.to(device), (3, 224, 224))
 
     del model
-    
+
     return {
         'name': model_factory.__name__,
         'Parameters': f"{total_params.item():,}",
-        'Size (MB)': int(param_size.item()),
+        'Size (MB)': f"{param_size.item():.2f}",
         # 'Total Size (MB)': int(total_size.item())
     }
 
 
-models = [ResNet.resnet18, ResNet.resnet34, ResNet.resnet50, ResNet.resnet101, ResNet.resnet152,
+models = [ResNet.resnet18, ResNet.resnet26, ResNet.resnet34, ResNet.resnet50, ResNet.resnet101, ResNet.resnet152,  ResNet.resnet200,
           ResNetXt.resnext50_32x4d, ResNetXt.resnext101_32x8d, WideResNet.wide_resnet50_2, WideResNet.wide_resnet101_2, 
           SEResNet.se_resnet18, SEResNet.se_resnet34, SEResNet.se_resnet50, SEResNet.se_resnet101, SEResNet.se_resnet152,
           DenseNet.densenet121, DenseNet.densenet161, DenseNet.densenet169, DenseNet.densenet201,
           MobileNetV2, FishNet.fishnet99, FishNet.fishnet150,
-          EfficientNet.b0, EfficientNet.b1, EfficientNet.b2, EfficientNet.b3, EfficientNet.b4, EfficientNet.b5, EfficientNet.b6, EfficientNet.b7,
+          EfficientNet.efficientnet_b0, EfficientNet.efficientnet_b1, EfficientNet.efficientnet_b2, EfficientNet.efficientnet_b3, 
+          EfficientNet.efficientnet_b4, EfficientNet.efficientnet_b5, EfficientNet.efficientnet_b6, EfficientNet.efficientnet_b7,
+           EfficientNet.efficientnet_b8,  EfficientNet.efficientnet_l2
           ]
-
-# models = [resnet18, resnet34, resnet50, resnet101, resnet152,
-# resnext50_32x4d, resnext101_32x8d, wide_resnet50_2, wide_resnet101_2
-#           ]
 
 res = list(map(row, models))
 

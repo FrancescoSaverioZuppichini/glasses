@@ -4,7 +4,6 @@ from torch import Tensor
 from ....blocks.residuals import ResidualAdd, Residual
 from ....blocks import Conv2dPad, ConvBnAct
 from collections import OrderedDict
-from ..resnet import ResnetDecoder
 from typing import List
 from functools import partial
 from ..VisionModule import VisionModule

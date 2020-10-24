@@ -79,6 +79,7 @@ class ResNetBasicBlock(nn.Sequential):
         self.act = activation()
 
     def forward(self, x: Tensor) -> Tensor:
+        
         res = x
         x = self.block(x)
         res = self.shortcut(res)
@@ -130,12 +131,11 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
 
 class ResNetBasicPreActBlock(ResNetBasicBlock):
     reduction: int = 1
-    """Pre activation ResNet basic block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
+    """Pre activation ResNet basic block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`_
 
     Args:
         out_features (int): Number of input features
         out_features (int): Number of ouimport inspect
-escription]. Defaults to nn.Conv2d.
     """
 
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, stride: int = 1, shortcut: nn.Module = ResNetShorcut, **kwargs):
@@ -159,7 +159,7 @@ escription]. Defaults to nn.Conv2d.
 class ResNetBottleneckPreActBlock(ResNetBottleneckBlock):
     reduction: int = 4
 
-    """Pre activation ResNet bottleneck block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`
+    """Pre activation ResNet bottleneck block proposed in `Identity Mappings in Deep Residual Networks <https://arxiv.org/pdf/1603.05027.pdf>`_
 
     Args:
         out_features (int): Number of input features
@@ -245,7 +245,7 @@ class ResNetEncoder(nn.Module):
         return x
 
 
-class ResnetDecoder(nn.Sequential):
+class ResNetDecoder(nn.Sequential):
     """
     This class represents the tail of ResNet. It performs a global pooling and maps the output to the
     correct class by using a fully connected layer.
@@ -315,7 +315,7 @@ class ResNet(VisionModule):
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = ResNetEncoder(in_channels, *args, **kwargs)
-        self.decoder = ResnetDecoder(
+        self.decoder = ResNetDecoder(
             self.encoder.widths[-1], n_classes)
 
         self.initialize()

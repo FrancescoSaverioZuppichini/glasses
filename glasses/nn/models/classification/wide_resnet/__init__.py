@@ -11,7 +11,7 @@ from glasses.utils.PretrainedWeightsProvider import pretrained
 
 ReLUInPlace = partial(nn.ReLU, inplace=True)
 
-class WideResnetBottleNeckBlock(ResNetBottleneckBlock):
+class WideResNetBottleNeckBlock(ResNetBottleneckBlock):
     """Wide resnet bottle neck block, you can control the width of the inner features with the width_factor parameter
     Args:
         in_features ([type]): [description]
@@ -31,7 +31,7 @@ class WideResNet(ResNet):
         >>> WideResNet.wide_resnet50_2()
         >>> WideResNet.wide_resnet101_2()
         >>> # create a wide_resnet18_4
-        >>> WideResNet.resnet18(block=WideResnetBottleNeckBlock, width_factor=4)
+        >>> WideResNet.resnet18(block=WideResNetBottleNeckBlock, width_factor=4)
 
     Customization
 
@@ -72,7 +72,7 @@ class WideResNet(ResNet):
         Returns:
             ResNet: A wide_resnet50_2 model
         """
-        return cls.resnet50(*args, **kwargs, block=WideResnetBottleNeckBlock)
+        return cls.resnet50(*args, **kwargs, block=WideResNetBottleNeckBlock)
 
     @classmethod
     @pretrained('wide_resnet101_2')
@@ -82,4 +82,4 @@ class WideResNet(ResNet):
         Returns:
             ResNet: A wide_resnet50_2 model
         """
-        return cls.resnet101(*args, **kwargs, block=WideResnetBottleNeckBlock)
+        return cls.resnet101(*args, **kwargs, block=WideResNetBottleNeckBlock)

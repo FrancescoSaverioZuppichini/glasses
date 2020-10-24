@@ -16,7 +16,7 @@ from pathlib import Path
 from PIL import Image
 from typing import Tuple
 from typing import Callable
-
+from functools import wraps
 logging.basicConfig( level=logging.INFO)
 
 IMAGENET_DEFAULT_MEAN = (0.485, 0.456, 0.406)
@@ -61,6 +61,7 @@ def pretrained(name: str = None) -> Callable:
         """
         name = func.__name__ if _name is None else _name
         provider = PretrainedWeightsProvider()
+        @wraps(func)
         def wrapper(*args,  pretrained: bool = False, **kwargs) -> Callable:
             model = func(*args, **kwargs)
             if pretrained:
