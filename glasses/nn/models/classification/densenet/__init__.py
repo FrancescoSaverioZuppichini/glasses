@@ -233,7 +233,7 @@ class DenseNet(VisionModule):
     def __init__(self, in_channels: int = 3,  n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = DenseNetEncoder(in_channels, *args, **kwargs)
-        self.decoder = ResnetDecoder(
+        self.decoder = ResNetDecoder(
             self.encoder.widths[-1], n_classes)
 
     def forward(self, x: Tensor) -> Tensor:

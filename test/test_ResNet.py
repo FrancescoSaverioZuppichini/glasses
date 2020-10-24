@@ -1,8 +1,7 @@
 import torch
 from glasses.nn.models.classification.resnet import ResNet, ResNetBasicPreActBlock, ResNetBottleneckPreActBlock
 from glasses.nn.models.classification.resnetxt import ResNetXt
-from glasses.nn.models.classification.wide_resnet import WideResNet, WideResnetBottleNeckBlock
-
+from glasses.nn.models.classification.wide_resnet import WideResNet, WideResNetBottleNeckBlock
 def test_resnet():
     x = torch.rand(1, 3, 224, 224)
     model = ResNet.resnet18().eval()
