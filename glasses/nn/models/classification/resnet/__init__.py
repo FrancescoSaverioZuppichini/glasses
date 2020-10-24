@@ -245,7 +245,7 @@ class ResNetEncoder(nn.Module):
         return x
 
 
-class ResnetDecoder(nn.Sequential):
+class ResNetDecoder(nn.Sequential):
     """
     This class represents the tail of ResNet. It performs a global pooling and maps the output to the
     correct class by using a fully connected layer.
@@ -315,7 +315,7 @@ class ResNet(VisionModule):
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = ResNetEncoder(in_channels, *args, **kwargs)
-        self.decoder = ResnetDecoder(
+        self.decoder = ResNetDecoder(
             self.encoder.widths[-1], n_classes)
 
         self.initialize()

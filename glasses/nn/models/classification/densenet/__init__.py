@@ -2,7 +2,7 @@ from __future__ import annotations
 import torch
 from torch import nn
 from torch import Tensor
-from ..resnet import ResNetEncoder, ResnetDecoder, ResNet
+from ..resnet import ResNetEncoder, ResNetDecoder, ResNet
 from collections import OrderedDict
 from typing import List
 from functools import partial
