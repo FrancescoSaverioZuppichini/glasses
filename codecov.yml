@@ -1,0 +1,5 @@
+ignore:
+  - "models_table.py"  # ignore table builder
+  - "transfer_weights.py"  # ignore transfer weights script
+  - "benchmark.py"  # ignore benchmark script
+

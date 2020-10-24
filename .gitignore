@@ -1,6 +1,5 @@
 docs/_build/
 #
-*.pth
 .vscode/
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -131,3 +130,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+table-torchvision.md

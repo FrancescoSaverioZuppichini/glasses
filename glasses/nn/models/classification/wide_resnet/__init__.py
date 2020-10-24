@@ -7,10 +7,11 @@ from collections import OrderedDict
 from typing import List
 from functools import partial
 from ..resnet import ResNet, ResNetBottleneckBlock
+from glasses.utils.PretrainedWeightsProvider import pretrained
 
 ReLUInPlace = partial(nn.ReLU, inplace=True)
 
-class WideResnetBottleNeckBlock(ResNetBottleneckBlock):
+class WideResNetBottleNeckBlock(ResNetBottleneckBlock):
     """Wide resnet bottle neck block, you can control the width of the inner features with the width_factor parameter
     Args:
         in_features ([type]): [description]
@@ -18,8 +19,8 @@ class WideResnetBottleNeckBlock(ResNetBottleneckBlock):
         width_factor (int, optional): Scales the 3x3 conv features in the bottle neck block. Defaults to 2.
     """
     def __init__(self, in_features: int, out_features: int , width_factor: int = 2, **kwargs):
-            features = out_features * width_factor
-            super().__init__(in_features, out_features, **kwargs, features=features)
+            features = int(out_features * width_factor // self.reduction)
+            super().__init__(in_features, out_features, features=features,  **kwargs)
 
 class WideResNet(ResNet):
     """Implementation of Wide ResNet proposed in `"Wide Residual Networks" <https://arxiv.org/pdf/1605.07146.pdf>`_
@@ -30,7 +31,7 @@ class WideResNet(ResNet):
         >>> WideResNet.wide_resnet50_2()
         >>> WideResNet.wide_resnet101_2()
         >>> # create a wide_resnet18_4
-        >>> WideResNet.resnet18(block=WideResnetBottleNeckBlock, width_factor=4)
+        >>> WideResNet.resnet18(block=WideResNetBottleNeckBlock, width_factor=4)
 
     Customization
 
@@ -48,7 +49,7 @@ class WideResNet(ResNet):
         >>> model.encoder.gate.conv1 = nn.Conv2d(3, 64, kernel_size=3)
         >>> # store each feature
         >>> x = torch.rand((1, 3, 224, 224))
-        >>> model = WideResNet.resnext50_32x4d()
+        >>> model = WideResNet.wide_resnet50_2()
         >>> features = []
         >>> x = model.encoder.gate(x)
         >>> for block in model.encoder.blocks:
@@ -64,19 +65,21 @@ class WideResNet(ResNet):
 
 
     @classmethod
+    @pretrained('wide_resnet50_2')
     def wide_resnet50_2(cls, *args, **kwargs) -> WideResNet:
         """Creates a wide_resnet50_2 model
 
         Returns:
             ResNet: A wide_resnet50_2 model
         """
-        return cls.resnet50(*args, **kwargs, block=WideResnetBottleNeckBlock)
+        return cls.resnet50(*args, **kwargs, block=WideResNetBottleNeckBlock)
 
     @classmethod
+    @pretrained('wide_resnet101_2')
     def wide_resnet101_2(cls, *args, **kwargs) -> WideResNet:
         """Creates a wide_resnet50_2 model
 
         Returns:
             ResNet: A wide_resnet50_2 model
         """
-        return cls.resnet101(*args, **kwargs, block=WideResnetBottleNeckBlock)
+        return cls.resnet101(*args, **kwargs, block=WideResNetBottleNeckBlock)

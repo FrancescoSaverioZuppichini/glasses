@@ -2,13 +2,16 @@ from __future__ import annotations
 import torch
 from torch import nn
 from torch import Tensor
-from ..resnet import ResNetEncoder, ResnetDecoder, ResNet
+from ..resnet import ResNetEncoder, ResNetDecoder, ResNet
 from collections import OrderedDict
 from typing import List
 from functools import partial
 from ..resnet import ReLUInPlace
 from ....blocks.residuals import ResidualCat2d
-
+from ....blocks import Conv2dPad
+from ..VisionModule import VisionModule
+from glasses.utils.PretrainedWeightsProvider import Config
+from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 
 class DenseNetBasicBlock(nn.Module):
     """Basic DenseNet block composed by one 3x3 convs with residual connection.
@@ -23,18 +26,18 @@ class DenseNetBasicBlock(nn.Module):
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
     """
 
-    def __init__(self, in_features: int, out_features: int, conv: nn.Module = nn.Conv2d, activation: nn.Module = ReLUInPlace, *args, **kwargs):
+    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace, *args, **kwargs):
         super().__init__()
-        self.block = ResidualCat2d(
-            nn.Sequential(OrderedDict({
+        self.block =  nn.Sequential(OrderedDict({
                 'bn': nn.BatchNorm2d(in_features),
                 'act': activation(),
-                'conv': conv(in_features, out_features, kernel_size=3, padding=1, *args, **kwargs)
-            })))
+                'conv': Conv2dPad(in_features, out_features, kernel_size=3, *args, **kwargs)
+            }))
 
     def forward(self, x: Tensor) -> Tensor:
+        res = x
         x = self.block(x)
-        return x
+        return torch.cat([res, x], dim = 1)
 
 
 class DenseBottleNeckBlock(DenseNetBasicBlock):
@@ -54,18 +57,18 @@ class DenseBottleNeckBlock(DenseNetBasicBlock):
 
     """
 
-    def __init__(self, in_features: int, out_features: int, conv: nn.Module = nn.Conv2d, activation: nn.Module = ReLUInPlace, expansion: int = 4, *args, **kwargs):
-        super().__init__(in_features, out_features, conv, activation, *args, **kwargs)
+    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace, expansion: int = 4, *args, **kwargs):
+        super().__init__(in_features, out_features,  activation, *args, **kwargs)
         self.expansion = expansion
         self.expanded_features = out_features * self.expansion
 
-        self.block.block = nn.Sequential(OrderedDict({
+        self.block = nn.Sequential(OrderedDict({
             'bn1': nn.BatchNorm2d(in_features),
             'act1': activation(),
-            'conv1': conv(in_features, self.expanded_features, kernel_size=1, bias=False, *args, **kwargs),
+            'conv1': Conv2dPad(in_features, self.expanded_features, kernel_size=1, bias=False, *args, **kwargs),
             'bn2': nn.BatchNorm2d(self.expanded_features),
             'act2': activation(),
-            'conv2': conv(self.expanded_features, out_features, kernel_size=3, padding=1,  bias=False, *args, **kwargs)
+            'conv2': Conv2dPad(self.expanded_features, out_features, kernel_size=3, bias=False, *args, **kwargs)
         }))
 
 
@@ -81,14 +84,14 @@ class TransitionBlock(nn.Module):
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
     """
 
-    def __init__(self, in_features: int, factor: int = 2, conv: nn.Module = nn.Conv2d, activation: nn.Module = ReLUInPlace):
+    def __init__(self, in_features: int, factor: int = 2, activation: nn.Module = ReLUInPlace):
         super().__init__()
         self.block = nn.Sequential(
             OrderedDict(
                 {
                     'bn': nn.BatchNorm2d(in_features),
                     'act': activation(),
-                    'conv': conv(in_features, in_features // factor,
+                    'conv': Conv2dPad(in_features, in_features // factor,
                                  kernel_size=1, bias=False),
                     'pool': nn.AvgPool2d(kernel_size=2, stride=2)
                 }
@@ -117,6 +120,7 @@ class DenseNetLayer(nn.Module):
         super().__init__()
         self.out_features = grow_rate * n + in_features
         self.block = nn.Sequential(
+            # in each block, the number of features is equal to the input size + the outputs of all the previos layers (grow_rate * i)
             *[block(grow_rate * i + in_features, grow_rate, *args, **kwargs)
               for i in range(n)],
             # reduce the output features by a factor of 2
@@ -145,7 +149,7 @@ class DenseNetEncoder(ResNetEncoder):
     def __init__(self, in_channels: int = 3, start_features: int = 64,  grow_rate: int = 32,
                  depths: List[int] = [4, 4, 4, 4],
                  activation: nn.Module = ReLUInPlace, block: nn.Module = DenseBottleNeckBlock, *args, **kwargs):
-        super().__init__(in_channels, [start_features])
+        super().__init__(in_channels, start_features=start_features)
 
         self.blocks = nn.ModuleList([])
         self.widths = []
@@ -176,7 +180,7 @@ class DenseNetEncoder(ResNetEncoder):
         return x
 
 
-class DenseNet(nn.Module):
+class DenseNet(VisionModule):
     """Implementations of DenseNet proposed in `Densely Connected Convolutional Networks <https://arxiv.org/abs/1608.06993>`_
 
     Create a default model
@@ -218,10 +222,18 @@ class DenseNet(nn.Module):
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
 
+    configs = {
+        'densenet121': Config(),
+        'densenet161': Config(),
+        'densenet169': Config(),
+        'densenet201': Config(),
+    }
+
+
     def __init__(self, in_channels: int = 3,  n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = DenseNetEncoder(in_channels, *args, **kwargs)
-        self.decoder = ResnetDecoder(
+        self.decoder = ResNetDecoder(
             self.encoder.widths[-1], n_classes)
 
     def forward(self, x: Tensor) -> Tensor:
@@ -230,6 +242,7 @@ class DenseNet(nn.Module):
         return x
 
     @classmethod
+    @pretrained()
     def densenet121(cls, *args, **kwargs) -> DenseNet:
         """Creates a densenet121 model. *Grow rate* is set to 32
 
@@ -241,6 +254,7 @@ class DenseNet(nn.Module):
         return DenseNet(*args, grow_rate=32, depths=[6, 12, 24, 16], **kwargs)
 
     @classmethod
+    @pretrained()
     def densenet161(cls, *args, **kwargs) -> DenseNet:
         """Creates a densenet161 model. *Grow rate* is set to 48
 
@@ -252,6 +266,7 @@ class DenseNet(nn.Module):
         return DenseNet(*args, start_features=96, grow_rate=48, depths=[6, 12, 36, 24], **kwargs)
 
     @classmethod
+    @pretrained()
     def densenet169(cls, *args, **kwargs) -> DenseNet:
         """Creates a densenet169 model. *Grow rate* is set to 32
 
@@ -263,6 +278,7 @@ class DenseNet(nn.Module):
         return DenseNet(*args, grow_rate=32, depths=[6, 12, 32, 32], **kwargs)
 
     @classmethod
+    @pretrained()
     def densenet201(cls, *args, **kwargs) -> DenseNet:
         """Creates a densenet201 model. *Grow rate* is set to 32
 
