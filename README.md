@@ -21,7 +21,7 @@ pip install git+https://github.com/FrancescoSaverioZuppichini/glasses
 
 ### Motivation
 
-All the existing implementation of the most famous model are writting with very bad cod practice, what today is called *research code*. I struggled myself to understand some of the implementation that in the end were just few lines of code. 
+All the existing implementation of the most famous model are written with very bad coding practices, what today is called *research code*. I struggled myself to understand some of the implementation that in the end were just few lines of code. 
 
 Most of them are missing a global structure, they used tons of code repetition, they are not easily customizable and not tested. Since I do computer vision for living, so I needed a way to make my life easier.
 
