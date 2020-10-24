@@ -228,7 +228,7 @@
 <span class="sd">        n_classes (int, optional): Number of classes. Defaults to 1000.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResNetXt.resnext50_32x4d"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnetxt.html#glasses.nn.models.classification.ResNetXt.resnext50_32x4d">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@pretrained</span><span class="p">(</span><span class="s1">&#39;resnext50_32x4d&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">resnext50_32x4d</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNetXt</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a resnext50_32x4d model</span>
@@ -236,9 +236,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            ResNet: A resnext50_32x4d model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetXtBottleNeckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetXtBottleNeckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResNetXt.resnext101_32x8d"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnetxt.html#glasses.nn.models.classification.ResNetXt.resnext101_32x8d">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@pretrained</span><span class="p">(</span><span class="s1">&#39;resnext101_32x8d&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">resnext101_32x8d</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNetXt</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a resnext101_32x8d model</span>
@@ -246,7 +246,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            ResNet: A resnext101_32x8d model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetXtBottleNeckBlock</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">base_width</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetXtBottleNeckBlock</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">base_width</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

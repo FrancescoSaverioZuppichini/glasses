@@ -170,7 +170,7 @@
 
 <span class="n">ReLUInPlace</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<div class="viewcode-block" id="WideResnetBottleNeckBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.wide_resnet.html#glasses.nn.models.classification.WideResnetBottleNeckBlock">[docs]</a><span class="k">class</span> <span class="nc">WideResnetBottleNeckBlock</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">):</span>
+<div class="viewcode-block" id="WideResNetBottleNeckBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.wide_resnet.html#glasses.nn.models.classification.WideResNetBottleNeckBlock">[docs]</a><span class="k">class</span> <span class="nc">WideResNetBottleNeckBlock</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Wide resnet bottle neck block, you can control the width of the inner features with the width_factor parameter</span>
 <span class="sd">    Args:</span>
 <span class="sd">        in_features ([type]): [description]</span>
@@ -190,7 +190,7 @@
 <span class="sd">        &gt;&gt;&gt; WideResNet.wide_resnet50_2()</span>
 <span class="sd">        &gt;&gt;&gt; WideResNet.wide_resnet101_2()</span>
 <span class="sd">        &gt;&gt;&gt; # create a wide_resnet18_4</span>
-<span class="sd">        &gt;&gt;&gt; WideResNet.resnet18(block=WideResnetBottleNeckBlock, width_factor=4)</span>
+<span class="sd">        &gt;&gt;&gt; WideResNet.resnet18(block=WideResNetBottleNeckBlock, width_factor=4)</span>
 
 <span class="sd">    Customization</span>
 
@@ -223,7 +223,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 
-    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="WideResNet.wide_resnet50_2"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.wide_resnet.html#glasses.nn.models.classification.WideResNet.wide_resnet50_2">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@pretrained</span><span class="p">(</span><span class="s1">&#39;wide_resnet50_2&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wide_resnet50_2</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WideResNet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a wide_resnet50_2 model</span>
@@ -231,9 +231,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            ResNet: A wide_resnet50_2 model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">WideResnetBottleNeckBlock</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">WideResNetBottleNeckBlock</span><span class="p">)</span></div>
 
-    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="WideResNet.wide_resnet101_2"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.wide_resnet.html#glasses.nn.models.classification.WideResNet.wide_resnet101_2">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@pretrained</span><span class="p">(</span><span class="s1">&#39;wide_resnet101_2&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wide_resnet101_2</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WideResNet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a wide_resnet50_2 model</span>
@@ -241,7 +241,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            ResNet: A wide_resnet50_2 model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">WideResnetBottleNeckBlock</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">WideResNetBottleNeckBlock</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>
