@@ -95,14 +95,14 @@
 <li class="toctree-l2 current"><a class="reference internal" href="glasses.nn.models.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">glasses.nn.models.classification package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-glasses.nn.models.classification.VisionModule">glasses.nn.models.classification.VisionModule module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-glasses.nn.models.classification">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.segmentation.html">glasses.nn.models.segmentation package</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models.VisionModule">glasses.nn.models.VisionModule module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models">Module contents</a></li>
 </ul>
 </li>
@@ -202,47 +202,13 @@
 </ul>
 </div>
 </div>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-glasses.nn.models.classification.VisionModule">
-<span id="glasses-nn-models-classification-visionmodule-module"></span><h2>glasses.nn.models.classification.VisionModule module<a class="headerlink" href="#module-glasses.nn.models.classification.VisionModule" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="glasses.nn.models.classification.VisionModule.VisionModule">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.VisionModule.</code><code class="sig-name descname">VisionModule</code><a class="reference internal" href="_modules/glasses/nn/models/classification/VisionModule.html#VisionModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.VisionModule.VisionModule" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<dl class="py attribute">
-<dt id="glasses.nn.models.classification.VisionModule.VisionModule.configs">
-<code class="sig-name descname">configs</code><em class="property">: Dict<span class="p">[</span>str<span class="p">, </span><a class="reference internal" href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.Config" title="glasses.utils.PretrainedWeightsProvider.Config">glasses.utils.PretrainedWeightsProvider.Config</a><span class="p">]</span></em><em class="property"> = {}</em><a class="headerlink" href="#glasses.nn.models.classification.VisionModule.VisionModule.configs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="glasses.nn.models.classification.VisionModule.VisionModule.summary">
-<code class="sig-name descname">summary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_shape</span><span class="o">=</span><span class="default_value">3, 224, 224</span></em>, <em class="sig-param"><span class="n">device</span><span class="p">:</span> <span class="n">torch.device</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/VisionModule.html#VisionModule.summary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.VisionModule.VisionModule.summary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Useful method to run <cite>torchsummary</cite> directly from the model</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>input_shape</strong> (<em>tuple</em><em>, </em><em>optional</em>) – [description]. Defaults to (3, 224, 224).</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>[description]</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>[type]</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</div>
 <div class="section" id="module-glasses.nn.models.classification">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.nn.models.classification" title="Permalink to this headline">¶</a></h2>
 <p>Classification models</p>
 <dl class="py class">
 <dt id="glasses.nn.models.classification.AlexNet">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.</code><code class="sig-name descname">AlexNet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/alexnet.html#AlexNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.AlexNet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#glasses.nn.models.classification.VisionModule.VisionModule" title="glasses.nn.models.classification.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.classification.VisionModule.VisionModule</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.html#glasses.nn.models.VisionModule.VisionModule" title="glasses.nn.models.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.VisionModule.VisionModule</span></code></a></p>
 <p>Implementation of AlexNet proposed in <a class="reference external" href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf">ImageNet Classification with Deep Convolutional Neural Networks</a>,
 according to the <a class="reference external" href="https://pytorch.org/docs/stable/_modules/torchvision/models/alexnet.html">variation</a> implemented in torchvision.</p>
 <p>Create a default model</p>
@@ -327,7 +293,7 @@ reduced_features (int, optional): If passed, use it instead of calculating the r
 <dl class="py class">
 <dt id="glasses.nn.models.classification.DenseNet">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.</code><code class="sig-name descname">DenseNet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/densenet.html#DenseNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.DenseNet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#glasses.nn.models.classification.VisionModule.VisionModule" title="glasses.nn.models.classification.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.classification.VisionModule.VisionModule</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.html#glasses.nn.models.VisionModule.VisionModule" title="glasses.nn.models.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.VisionModule.VisionModule</span></code></a></p>
 <p>Implementations of DenseNet proposed in <a class="reference external" href="https://arxiv.org/abs/1608.06993">Densely Connected Convolutional Networks</a></p>
 <p>Create a default model</p>
 <p class="rubric">Examples</p>
@@ -444,7 +410,7 @@ reduced_features (int, optional): If passed, use it instead of calculating the r
 <dl class="py class">
 <dt id="glasses.nn.models.classification.EfficientNet">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.</code><code class="sig-name descname">EfficientNet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/efficientnet.html#EfficientNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.EfficientNet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#glasses.nn.models.classification.VisionModule.VisionModule" title="glasses.nn.models.classification.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.classification.VisionModule.VisionModule</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.html#glasses.nn.models.VisionModule.VisionModule" title="glasses.nn.models.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.VisionModule.VisionModule</span></code></a></p>
 <p>Implementations of EfficientNet proposed in <a class="reference external" href="https://arxiv.org/abs/1905.11946">EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks</a></p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNet.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNet.png?raw=true" />
 <p>The basic architecture is similar to MobileNetV2 as was computed by using  <a class="reference external" href="https://arxiv.org/abs/1905.11946">Progressive Neural Architecture Search</a> .</p>
@@ -587,7 +553,7 @@ reduced_features (int, optional): If passed, use it instead of calculating the r
 <dl class="py class">
 <dt id="glasses.nn.models.classification.FishNet">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.</code><code class="sig-name descname">FishNet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.FishNet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#glasses.nn.models.classification.VisionModule.VisionModule" title="glasses.nn.models.classification.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.classification.VisionModule.VisionModule</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.html#glasses.nn.models.VisionModule.VisionModule" title="glasses.nn.models.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.VisionModule.VisionModule</span></code></a></p>
 <p>Implementation of ResNet proposed in <a class="reference external" href="https://arxiv.org/abs/1901.03495">FishNet: A Versatile Backbone for Image, Region, and Pixel Level Prediction</a></p>
 <p>Honestly, this model it is very weird and it has some mistakes in the paper that nobody ever cared to correct. It is a nice idea, but it could have been described better and definitly implemented better.
 The author’s code is just terrible, I have based mostly of my implemente on this amazing repo <a class="reference external" href="https://github.com/zsef123/Fishnet-PyTorch">Fishnet-PyTorch</a>.</p>
@@ -661,7 +627,7 @@ The author’s code is just terrible, I have based mostly of my implemente on th
 <dl class="py class">
 <dt id="glasses.nn.models.classification.MobileNetV2">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.</code><code class="sig-name descname">MobileNetV2</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#MobileNetV2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.MobileNetV2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#glasses.nn.models.classification.VisionModule.VisionModule" title="glasses.nn.models.classification.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.classification.VisionModule.VisionModule</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.html#glasses.nn.models.VisionModule.VisionModule" title="glasses.nn.models.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.VisionModule.VisionModule</span></code></a></p>
 <p>Implementations of MobileNet v2 proposed in <a class="reference external" href="https://arxiv.org/pdf/1801.04381.pdf">MobileNetV2: Inverted Residuals and Linear Bottlenecks</a></p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/MobileNet.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/MobileNet.png?raw=true" />
 <p>Create a default model</p>
@@ -720,7 +686,7 @@ The author’s code is just terrible, I have based mostly of my implemente on th
 <dl class="py class">
 <dt id="glasses.nn.models.classification.ResNet">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.</code><code class="sig-name descname">ResNet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/resnet.html#ResNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.ResNet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#glasses.nn.models.classification.VisionModule.VisionModule" title="glasses.nn.models.classification.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.classification.VisionModule.VisionModule</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.html#glasses.nn.models.VisionModule.VisionModule" title="glasses.nn.models.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.VisionModule.VisionModule</span></code></a></p>
 <p>Implementation of ResNet proposed in <a class="reference external" href="https://arxiv.org/abs/1512.03385">Deep Residual Learning for Image Recognition</a></p>
 <p>Create a default model</p>
 <p class="rubric">Examples</p>
@@ -1231,7 +1197,7 @@ The idea is to apply learned an channel-wise attention.</p>
 <dl class="py class">
 <dt id="glasses.nn.models.classification.VGG">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.</code><code class="sig-name descname">VGG</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.VGG" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#glasses.nn.models.classification.VisionModule.VisionModule" title="glasses.nn.models.classification.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.classification.VisionModule.VisionModule</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.html#glasses.nn.models.VisionModule.VisionModule" title="glasses.nn.models.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.VisionModule.VisionModule</span></code></a></p>
 <p>Implementations of VGG proposed in <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">Very Deep Convolutional Networks For Large-Scale Image Recognition</a></p>
 <p>Create a default model</p>
 <p class="rubric">Examples</p>
