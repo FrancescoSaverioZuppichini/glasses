@@ -3,11 +3,12 @@ import torch.nn as nn
 import inspect
 from pathlib import Path
 from torchsummary import summary
-from ....utils.PretrainedWeightsProvider import PretrainedWeightsProvider
-from typing import Dict
-from ....utils.PretrainedWeightsProvider import Config
+from glasses.utils.PretrainedWeightsProvider import Config
+from .utils.protocols import Freezable
 
-class VisionModule(nn.Module):
+from typing import Dict
+
+class VisionModule(nn.Module, Freezable):
     configs: Dict[str, Config] = {}
     
     def summary(self, input_shape=(3, 224, 224), device: torch.device = None):

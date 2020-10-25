@@ -27,6 +27,8 @@ Most of them are missing a global structure, they used tons of code repetition, 
 
 ## Getting started
 
+The API are shared across **all** models!
+
 
 ```python
 import torch
@@ -35,18 +37,18 @@ from torch import nn
 
 model = ResNet.resnet18(pretrained=True)
 model.summary() #thanks to torchsummary
-```
-
-
-```python
 # change activation
 ResNet.resnet18(activation = nn.SELU)
 # change number of classes
 ResNet.resnet18(n_classes=100)
 # freeze only the convolution weights
 model = ResNet.resnet18(pretrained=True)
-for param in model.decoder.parameters():
-     param.requires_grad = False
+model.freeze(who=model.encoder)
+# get the last layer, usuful to hook to it if you want to get the embeeded vector
+model.encoder.blocks[-1]
+# what about resnet with inverted residuals?
+from glasses.nn.models.classification.mobilenet import InvertedResidualBlock
+ResNet.resnet18(block = InvertedResidualBlock)
 ```
 
 
@@ -72,8 +74,8 @@ model(x).shape #torch.Size([1, 1000])
 All models is composed by 4 parts:
 - `Block`
 - `Layer`
-- `Decoder`
 - `Encoder`
+- `Decoder`
 
 ### Block
 

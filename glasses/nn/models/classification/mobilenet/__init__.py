@@ -6,7 +6,9 @@ from ....blocks import Conv2dPad, ConvBnAct
 from collections import OrderedDict
 from typing import List
 from functools import partial
-from ..VisionModule import VisionModule
+from ....models.VisionModule import VisionModule
+
+
 
 
 """Implementations of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`

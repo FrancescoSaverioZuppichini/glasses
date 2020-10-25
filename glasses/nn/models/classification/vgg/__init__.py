@@ -7,7 +7,9 @@ from functools import partial
 from ..resnet import ReLUInPlace
 from ....blocks import ConvAct, ConvBnAct
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
-from ..VisionModule import VisionModule
+from ....models.VisionModule import VisionModule
+
+
 
 
 """Implementations of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition <https://arxiv.org/pdf/1409.1556.pdf>`_

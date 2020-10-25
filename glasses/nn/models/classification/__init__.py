@@ -11,6 +11,5 @@ from .mobilenet import MobileNetV2
 from .alexnet import AlexNet
 from .efficientnet import EfficientNet
 from .fishnet import FishNet
-from .VisionModule import VisionModule
 
 __all__ = ['ResNet', 'DenseNet', 'ResNetXt', 'WideResNet', 'FishNet', 'SpatialSE', 'ChannelSE', 'SpatialChannelSE', 'SEResNet', 'VGG', 'MobileNetV2', 'AlexNet',  'EfficientNet']
