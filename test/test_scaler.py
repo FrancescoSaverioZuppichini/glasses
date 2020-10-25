@@ -1,4 +1,4 @@
-from glasses.nn.utils.scaler import CompoundScaler
+from glasses.nn.models.utils.scaler import CompoundScaler
 
 
 def test_scaler():

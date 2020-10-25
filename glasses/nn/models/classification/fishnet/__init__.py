@@ -10,7 +10,7 @@ from typing import List
 from functools import partial
 from ..resnet import ResNetBottleneckBlock, ReLUInPlace, ResNetEncoder, ResNetShorcut, ResNetBottleneckPreActBlock
 from ..se import ChannelSE
-from ..VisionModule import VisionModule
+from ....models.VisionModule import VisionModule
 
 
 FishNetShortCut = partial(BnActConv, kernel_size=1)
@@ -28,15 +28,20 @@ class FishNetChannelReductionShortcut(nn.Module):
         in_features (int): [description]
         out_features (int): [description]
     """
+
     def __init__(self, in_features: int, out_features: int, *args, **kwargs):
         super().__init__()
         self.k = in_features // out_features
+
     def forward(self, x: Tensor) -> Tensor:
         depth, c, h, w = x.size()
         x_red = x.view(depth, c // self.k, self.k, h, w).sum(2)
         return x_red
 
-FishNetBottleNeck = partial(ResNetBottleneckPreActBlock, shortcut=FishNetShortCut)
+
+FishNetBottleNeck = partial(
+    ResNetBottleneckPreActBlock, shortcut=FishNetShortCut)
+
 
 class FishNetBodyBlock(nn.Module):
     """FishNet body block, called the Up-sampling & Refinement block in the paper.
@@ -49,6 +54,7 @@ class FishNetBodyBlock(nn.Module):
         depth (int, optional): [description]. Defaults to 1.
         trans_depth (int, optional): [description]. Defaults to 1.
     """
+
     def __init__(self, in_features: int, out_features: int, trans_features: int, block: nn.Module = FishNetBottleNeck, depth: int = 1, trans_depth: int = 1, *args, **kwargs):
         super().__init__()
 
@@ -59,9 +65,8 @@ class FishNetBodyBlock(nn.Module):
             block(in_features,  out_features,
                   shortcut=FishNetChannelReductionShortcut, *args, **kwargs),
             *[block(out_features, out_features, *args, **kwargs)
-              for _ in range(depth-1)], 
-               nn.Upsample(scale_factor=2))
-
+              for _ in range(depth-1)],
+            nn.Upsample(scale_factor=2))
 
     def forward(self, x: Tensor, res: Tensor) -> Tensor:
         x = self.block(x)
@@ -81,6 +86,7 @@ class FishNetHeadBlock(FishNetBodyBlock):
         depth (int, optional): [description]. Defaults to 1.
         trans_depth (int, optional): [description]. Defaults to 1.
     """
+
     def __init__(self, in_features: int, out_features: int, trans_features: int, block: nn.Module = FishNetBottleNeck, depth: int = 1,  trans_depth: int = 1, *args, **kwargs):
         super().__init__(in_features, out_features,
                          trans_features, block, depth, trans_depth, *args, **kwargs)
@@ -142,6 +148,7 @@ class FishNetTailBlock(nn.Module):
         depth (int, optional): [description]. Defaults to 1.
         block (nn.Module, optional): [description]. Defaults to FishNetBottleNeck.
     """
+
     def __init__(self, in_features: int, out_features: int, depth: int = 1,
                  block: nn.Module = FishNetBottleNeck, *args, **kwargs):
         super().__init__()
@@ -184,6 +191,7 @@ class FishNetEncoder(nn.Module):
         block (nn.Module, optional): [description]. Defaults to FishNetBottleNeck.
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
     """
+
     def __init__(self, in_channels: int = 3, start_features: int = 64,
                  tail_depths: List[int] = [1, 1, 1],
                  body_depths: List[int] = [1, 1, 1],
@@ -209,7 +217,8 @@ class FishNetEncoder(nn.Module):
             start_features, len(tail_depths))
 
         self.tail = nn.ModuleList([
-            FishNetTailBlock(in_features, out_features, depth=depth, block=block, activation=activation, **kwargs)
+            FishNetTailBlock(in_features, out_features, depth=depth,
+                             block=block, activation=activation, **kwargs)
             for (in_features, out_features), depth in zip(self.tail_widths, tail_depths)]
         )
 
