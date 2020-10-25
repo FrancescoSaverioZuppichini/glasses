@@ -9,7 +9,9 @@ from functools import partial
 from ..resnet import ReLUInPlace
 from ....blocks.residuals import ResidualCat2d
 from ....blocks import Conv2dPad
-from ..VisionModule import VisionModule
+from ....models.VisionModule import VisionModule
+
+
 from glasses.utils.PretrainedWeightsProvider import Config
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 

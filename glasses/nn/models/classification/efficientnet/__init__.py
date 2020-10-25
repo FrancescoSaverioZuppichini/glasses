@@ -9,10 +9,12 @@ from functools import partial
 from ..mobilenet import InvertedResidualBlock, DepthWiseConv2d, MobileNetEncoder, MobileNetDecoder
 from ....blocks import Conv2dPad, ConvBnAct
 from ..se import ChannelSE
-from ....utils.scaler import CompoundScaler
+from ....models.utils.scaler import CompoundScaler
 from ....activation import Swish
 from glasses.utils.PretrainedWeightsProvider import Config
-from ..VisionModule import VisionModule
+from ....models.VisionModule import VisionModule
+
+
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 
 class EfficientNetBasicBlock(InvertedResidualBlock):
