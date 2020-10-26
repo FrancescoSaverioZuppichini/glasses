@@ -25,8 +25,6 @@ def test_vgg():
     pred = model(x)
     assert pred.shape[-1] == 1000
 
-    provider = PretrainedWeightsProvider()
-
     # model = VGG().vgg11()
     # model.load_state_dict(provider['vgg11'])
     # pred = model(x)
