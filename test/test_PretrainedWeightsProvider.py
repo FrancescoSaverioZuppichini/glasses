@@ -24,9 +24,9 @@ def test_PretrainedWeightsProvider():
     for mod, mod_prov in zip(resnet18_state.keys(), resnet18_prov_state.keys()):
         assert str(mod) == str(mod_prov)
     
-    # model = ResNet.resnet18(pretrained=True)
+    model = ResNet.resnet18(pretrained=True)
 
-    # assert type(model) is ResNet
+    assert type(model) is ResNet
 
     cfg = Config(interpolation='bilinear')
     
