@@ -16,7 +16,7 @@ Doc is [here](https://francescosaveriozuppichini.github.io/glasses/index.html)
 You can install `glasses` using pip by running
 
 ```
-pip install git+https://github.com/FrancescoSaverioZuppichini/glasses
+pip install glasses
 ```
 
 ### Motivation
