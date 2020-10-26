@@ -6,13 +6,12 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.7]
     steps:
       - name: Prepare repo
         uses: actions/checkout@master
-
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
       - name: Test
         uses: onichandame/python-test-action@master
         
