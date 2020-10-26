@@ -17,7 +17,7 @@ from PIL import Image
 from typing import Tuple
 from typing import Callable
 from functools import wraps
-logging.basicConfig( level=logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
 IMAGENET_DEFAULT_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_DEFAULT_STD = (0.229, 0.224, 0.225)
@@ -50,6 +50,7 @@ StateDict = Dict[str, Tensor]
 
 def pretrained(name: str = None) -> Callable:
     _name = name
+
     def decorator(func: Callable) -> Callable:
         """Decorator to fetch the pretrained model. 
 
@@ -70,6 +71,7 @@ def pretrained(name: str = None) -> Callable:
         return wrapper
     return decorator
 
+
 @dataclass
 class PretrainedWeightsProvider:
     """
@@ -83,46 +85,16 @@ class PretrainedWeightsProvider:
         >>> provider = PretrainedWeightsProvider(override=True) # override model even if already downloaded
     """
 
-    # zoo = {
-    # 'resnet18':ResNet.resnet18,
-    # 'resnet34':ResNet.resnet34,
-    # 'resnet50':ResNet.resnet50,
-    # 'resnet101': ResNet.resnet101,
-    # 'resnet152': ResNet.resnet152,
-
-    # 'resnext50_32x4d': ResNetXt.resnext50_32x4d,
-    # 'resnext101_32x8d': ResNetXt.resnext101_32x8d,
-    # 'wide_resnet50_2': WideResNet.wide_resnet50_2,
-    # 'wide_resnet101_2': WideResNet.wide_resnet101_2,
-
-    # 'densenet121': DenseNet.densenet121,
-    # 'densenet169': DenseNet.densenet169,
-    # 'densenet201': DenseNet.densenet201,
-    # 'densenet161': DenseNet.densenet161,
-    # 'vgg11': VGG.vgg11,
-    # 'vgg13':  VGG.vgg13,
-    # 'vgg16': VGG.vgg16,
-    # 'vgg19':  VGG.vgg19,
-
-    # 'mobilenet_v2': MobileNetV2,
-
-    # 'efficientnet-b0': EfficientNet.b0,
-    # 'efficientnet-b1': EfficientNet.b1,
-    # 'efficientnet-b2': EfficientNet.b2,
-    # 'efficientnet-b3': EfficientNet.b3,
-    # 'efficientnet-b4': EfficientNet.b4,
-    # 'efficientnet-b5': EfficientNet.b5,
-    # 'efficientnet-b6': EfficientNet.b6,
-    # 'efficientnet-b7': EfficientNet.b7,
-
-    # }
-
     BASE_URL = 'https://cv-glasses.s3.eu-central-1.amazonaws.com'
-    BASE_DIR = Path(f"{os.environ['HOME']}/models_weights")
+    BASE_DIR = Path(torch.hub.get_dir()) / Path('glasses')
     save_dir: Path = BASE_DIR
     chunk_size: int = 1024
     verbose: int = 0
     override: bool = False
+
+    weights_zoo = {
+        
+    }
 
     def __post_init__(self):
         self.save_dir.mkdir(exist_ok=True)
