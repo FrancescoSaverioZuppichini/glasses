@@ -2,7 +2,10 @@ name: Publish
 on:
   push:
     branches:
-      - develop
+      - master
+  pull_request:
+    branches: [master]
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -12,9 +15,6 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: '3.7'
-      # - name: Test
-      #   uses: onichandame/python-test-action@master
-        
       - name: Upload
         uses: onichandame/pip-upload-action@master
         with:
