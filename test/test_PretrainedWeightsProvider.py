@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider, Config
+from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider, Config, GoogleDriveUrlHandler    
 from glasses.nn.models.classification.resnet import ResNet
 import pytest
 from pathlib import Path
@@ -8,13 +8,13 @@ import os
 from PIL import Image
 
 def test_PretrainedWeightsProvider():
-    provider = PretrainedWeightsProvider()
-    provider.BASE_DIR = Path('./test/')
+    google_handler = GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id='19wLg526wenvhJMPSLPYMlnMgCS6n6jVA')
+    save_path = Path('./test.jpg')
+    google_handler(save_path=Path('./test.jpg'))
+    assert save_path.exists()
 
-    provider.BASE_URL = 'https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/test/resnet18.pth?raw=true'
-    provider.download_weight('https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/test/resnet18.pth?raw=true',
-                             save_path=provider.BASE_DIR / Path('resnet18.pth'))
-                             
+    provider = PretrainedWeightsProvider(Path('.'))
+                        
     # with pytest.raises(KeyError):
     #     provider['does_not_exist']
 
@@ -23,7 +23,7 @@ def test_PretrainedWeightsProvider():
 
     for mod, mod_prov in zip(resnet18_state.keys(), resnet18_prov_state.keys()):
         assert str(mod) == str(mod_prov)
-
+    
     model = ResNet.resnet18(pretrained=True)
 
     assert type(model) is ResNet
