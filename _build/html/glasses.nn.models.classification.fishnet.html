@@ -95,15 +95,16 @@
 <li class="toctree-l2 current"><a class="reference internal" href="glasses.nn.models.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="glasses.nn.models.classification.html">glasses.nn.models.classification package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="glasses.nn.models.classification.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="glasses.nn.models.classification.html#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.nn.models.classification.html#module-glasses.nn.models.classification">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.segmentation.html">glasses.nn.models.segmentation package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.utils.html">glasses.nn.models.utils package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#glasses-nn-models-visionmodule-module">glasses.nn.models.VisionModule module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models.VisionModule">glasses.nn.models.VisionModule module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
@@ -186,8 +187,289 @@
             
   <div class="section" id="glasses-nn-models-classification-fishnet-package">
 <h1>glasses.nn.models.classification.fishnet package<a class="headerlink" href="#glasses-nn-models-classification-fishnet-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-glasses.nn.models.classification.fishnet">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.nn.models.classification.fishnet" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="glasses.nn.models.classification.fishnet.FishNet">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.fishnet.</code><code class="sig-name descname">FishNet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.html#glasses.nn.models.VisionModule.VisionModule" title="glasses.nn.models.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.VisionModule.VisionModule</span></code></a></p>
+<p>Implementation of ResNet proposed in <a class="reference external" href="https://arxiv.org/abs/1901.03495">FishNet: A Versatile Backbone for Image, Region, and Pixel Level Prediction</a></p>
+<p>Honestly, this model it is very weird and it has some mistakes in the paper that nobody ever cared to correct. It is a nice idea, but it could have been described better and definitly implemented better.
+The author’s code is just terrible, I have based mostly of my implemente on this amazing repo <a class="reference external" href="https://github.com/zsef123/Fishnet-PyTorch">Fishnet-PyTorch</a>.</p>
+<p>The following image is taken from the paper and shows the architecture detail.</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/FishNet.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/FishNet.png?raw=true" />
+<p>Create a default model</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet150</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Customization</p>
+<p>You can easily customize your model</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">block</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">FishNetBottleNeck</span><span class="p">(</span><span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">),</span> <span class="n">SpatialSE</span><span class="p">(</span><span class="n">out_ch</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</p></li>
+<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of classes. Defaults to 1000.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.fishnet.FishNet.fishnet150">
+<em class="property">classmethod </em><code class="sig-name descname">fishnet150</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.nn.models.classification.fishnet.FishNet" title="glasses.nn.models.classification.fishnet.FishNet">glasses.nn.models.classification.fishnet.FishNet</a><a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNet.fishnet150"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNet.fishnet150" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a fishnet150 model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>[description]</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="glasses.nn.models.classification.html#glasses.nn.models.classification.FishNet" title="glasses.nn.models.classification.FishNet">FishNet</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.fishnet.FishNet.fishnet99">
+<em class="property">classmethod </em><code class="sig-name descname">fishnet99</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.nn.models.classification.fishnet.FishNet" title="glasses.nn.models.classification.fishnet.FishNet">glasses.nn.models.classification.fishnet.FishNet</a><a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNet.fishnet99"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNet.fishnet99" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a fishnet99 model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>[description]</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="glasses.nn.models.classification.html#glasses.nn.models.classification.FishNet" title="glasses.nn.models.classification.FishNet">FishNet</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.fishnet.FishNet.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNet.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNet.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.fishnet.FishNet.initialize">
+<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNet.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNet.initialize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.fishnet.FishNetBodyBlock">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.fishnet.</code><code class="sig-name descname">FishNetBodyBlock</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">trans_features: int</em>, <em class="sig-param">block: torch.nn.modules.module.Module = functools.partial(&lt;class 'glasses.nn.models.classification.resnet.ResNetBottleneckPreActBlock'&gt;</em>, <em class="sig-param">shortcut=functools.partial(&lt;class 'glasses.nn.blocks.BnActConv'&gt;</em>, <em class="sig-param">kernel_size=1))</em>, <em class="sig-param">depth: int = 1</em>, <em class="sig-param">trans_depth: int = 1</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNetBodyBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetBodyBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>FishNet body block, called the Up-sampling &amp; Refinement block in the paper.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>trans_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>block</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to FishNetBottleNeck.</p></li>
+<li><p><strong>depth</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
+<li><p><strong>trans_depth</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.fishnet.FishNetBodyBlock.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em>, <em class="sig-param"><span class="n">res</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNetBodyBlock.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetBodyBlock.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.fishnet.FishNetBodyBlock.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetBodyBlock.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.fishnet.FishNetBrigde">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.fishnet.</code><code class="sig-name descname">FishNetBrigde</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">block: torch.nn.modules.module.Module = functools.partial(&lt;class 'glasses.nn.models.classification.resnet.ResNetBottleneckPreActBlock'&gt;</em>, <em class="sig-param">shortcut=functools.partial(&lt;class 'glasses.nn.blocks.BnActConv'&gt;</em>, <em class="sig-param">kernel_size=1))</em>, <em class="sig-param">depth: int = 1</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">inplace=True)</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNetBrigde"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetBrigde" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.fishnet.FishNetBrigde.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNetBrigde.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetBrigde.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.fishnet.FishNetBrigde.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetBrigde.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.fishnet.FishNetChannelReductionShortcut">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.fishnet.</code><code class="sig-name descname">FishNetChannelReductionShortcut</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">out_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNetChannelReductionShortcut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetChannelReductionShortcut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Channel reduction output <span class="math notranslate nohighlight">\(r(x)\)</span> is computed as follows:</p>
+<p><span class="math notranslate nohighlight">\(r(x)=\hat{x}=\left[\hat{x}(1), \hat{x}(2), \ldots, \hat{x}\left(c_{o u t}\right)\right], \quad \hat{x}(n)=\sum_{j=0}^{k} x(k \cdot n+j), n \in\left\{0,1, \ldots, c_{o u t}\right\}\)</span></p>
+<p>Where <span class="math notranslate nohighlight">\(k = \frac{c_{in}}{c_{ou}}\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.fishnet.FishNetChannelReductionShortcut.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNetChannelReductionShortcut.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetChannelReductionShortcut.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.fishnet.FishNetChannelReductionShortcut.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetChannelReductionShortcut.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.fishnet.FishNetDecoder">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.fishnet.</code><code class="sig-name descname">FishNetDecoder</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">n_classes: int</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.activation.ReLU'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNetDecoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetDecoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
+<p>FishNet Decoder composed by 1x1 convs.</p>
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.fishnet.FishNetDecoder.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetDecoder.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.fishnet.FishNetEncoder">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.fishnet.</code><code class="sig-name descname">FishNetEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, start_features: int = 64, tail_depths: List[int] = [1, 1, 1], body_depths: List[int] = [1, 1, 1], body_trans_depths: List[int] = [1, 1, 1], head_depths: List[int] = [1, 1, 1], head_trans_depths: List[int] = [1, 1, 1], bridge_depth: int = 1, block: torch.nn.modules.module.Module = functools.partial(&lt;class 'glasses.nn.models.classification.resnet.ResNetBottleneckPreActBlock'&gt;, shortcut=functools.partial(&lt;class 'glasses.nn.blocks.BnActConv'&gt;, kernel_size=1)), activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;, inplace=True), *args, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNetEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetEncoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>FishNetEncoder encoder composed by a tail, body and head.</p>
+<p>The following image is taken from the paper and shows the architecture detail.</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/FishNetEncoder.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/FishNetEncoder.png?raw=true" />
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 3.</p></li>
+<li><p><strong>start_features</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 64.</p></li>
+<li><p><strong>tail_depths</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [1, 1, 1].</p></li>
+<li><p><strong>body_depths</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [1, 1, 1].</p></li>
+<li><p><strong>body_trans_depths</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [1, 1, 1].</p></li>
+<li><p><strong>head_depths</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [1, 1, 1].</p></li>
+<li><p><strong>head_trans_depths</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [1, 1, 1].</p></li>
+<li><p><strong>bridge_depth</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
+<li><p><strong>block</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to FishNetBottleNeck.</p></li>
+<li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to ReLUInPlace.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.fishnet.FishNetEncoder.find_widths">
+<em class="property">static </em><code class="sig-name descname">find_widths</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start_features</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">64</span></em>, <em class="sig-param"><span class="n">depth</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>int<span class="p">]</span><a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNetEncoder.find_widths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetEncoder.find_widths" title="Permalink to this definition">¶</a></dt>
+<dd><p>This code iteratively computes the correnct number of in and out features for each FishNet layer.</p>
+<p>Code copied from <a class="reference external" href="https://github.com/zsef123/Fishnet-PyTorch">Fishnet-PyTorch</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_features</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 64.</p></li>
+<li><p><strong>depth</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 3.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[description]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.fishnet.FishNetEncoder.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNetEncoder.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetEncoder.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.fishnet.FishNetEncoder.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetEncoder.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.fishnet.FishNetHead">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.fishnet.</code><code class="sig-name descname">FishNetHead</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">block: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.classification.fishnet.FishNetBodyBlock'&gt;</em>, <em class="sig-param">depth: int = 1</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNetHead"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetHead" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.fishnet.FishNetHead.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNetHead.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetHead.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.fishnet.FishNetHead.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetHead.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.fishnet.FishNetHeadBlock">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.fishnet.</code><code class="sig-name descname">FishNetHeadBlock</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">trans_features: int</em>, <em class="sig-param">block: torch.nn.modules.module.Module = functools.partial(&lt;class 'glasses.nn.models.classification.resnet.ResNetBottleneckPreActBlock'&gt;</em>, <em class="sig-param">shortcut=functools.partial(&lt;class 'glasses.nn.blocks.BnActConv'&gt;</em>, <em class="sig-param">kernel_size=1))</em>, <em class="sig-param">depth: int = 1</em>, <em class="sig-param">trans_depth: int = 1</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNetHeadBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetHeadBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#glasses.nn.models.classification.fishnet.FishNetBodyBlock" title="glasses.nn.models.classification.fishnet.FishNetBodyBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.classification.fishnet.FishNetBodyBlock</span></code></a></p>
+<p>FishNet head block, called the Down-sampling &amp; Refinement block in the paper.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>trans_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>block</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to FishNetBottleNeck.</p></li>
+<li><p><strong>depth</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
+<li><p><strong>trans_depth</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.fishnet.FishNetHeadBlock.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetHeadBlock.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.fishnet.FishNetTailBlock">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.fishnet.</code><code class="sig-name descname">FishNetTailBlock</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">depth: int = 1</em>, <em class="sig-param">block: torch.nn.modules.module.Module = functools.partial(&lt;class 'glasses.nn.models.classification.resnet.ResNetBottleneckPreActBlock'&gt;</em>, <em class="sig-param">shortcut=functools.partial(&lt;class 'glasses.nn.blocks.BnActConv'&gt;</em>, <em class="sig-param">kernel_size=1))</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNetTailBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetTailBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>FishNet Tail Block, simi</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>depth</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
+<li><p><strong>block</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to FishNetBottleNeck.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.fishnet.FishNetTailBlock.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/fishnet.html#FishNetTailBlock.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetTailBlock.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.fishnet.FishNetTailBlock.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.fishnet.FishNetTailBlock.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 

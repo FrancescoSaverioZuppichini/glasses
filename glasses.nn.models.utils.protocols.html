@@ -1,0 +1,291 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>glasses.nn.models.utils.protocols package &mdash; Glasses  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="glasses.utils package" href="glasses.utils.html" />
+    <link rel="prev" title="glasses.nn.models.utils package" href="glasses.nn.models.utils.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Glasses
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Package Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">glasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="glasses.nn.models.html">glasses.nn.models package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="glasses.nn.models.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.classification.html">glasses.nn.models.classification package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.segmentation.html">glasses.nn.models.segmentation package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="glasses.nn.models.utils.html">glasses.nn.models.utils package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="glasses.nn.models.utils.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.nn.models.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.nn.models.utils.html#module-glasses.nn.models.utils.scaler">glasses.nn.models.utils.scaler module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.nn.models.utils.html#module-glasses.nn.models.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models.VisionModule">glasses.nn.models.VisionModule module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasses.data.html">glasses.data package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasses.interpretability.html">glasses.interpretability package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Glasses</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">glasses</a> &raquo;</li>
+        
+          <li><a href="glasses.html">glasses package</a> &raquo;</li>
+        
+          <li><a href="glasses.nn.html">glasses.nn package</a> &raquo;</li>
+        
+          <li><a href="glasses.nn.models.html">glasses.nn.models package</a> &raquo;</li>
+        
+          <li><a href="glasses.nn.models.utils.html">glasses.nn.models.utils package</a> &raquo;</li>
+        
+      <li>glasses.nn.models.utils.protocols package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/glasses.nn.models.utils.protocols.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="glasses-nn-models-utils-protocols-package">
+<h1>glasses.nn.models.utils.protocols package<a class="headerlink" href="#glasses-nn-models-utils-protocols-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-glasses.nn.models.utils.protocols">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.nn.models.utils.protocols" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="glasses.nn.models.utils.protocols.Freezable">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.utils.protocols.</code><code class="sig-name descname">Freezable</code><a class="reference internal" href="_modules/glasses/nn/models/utils/protocols.html#Freezable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.utils.protocols.Freezable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A protocol that allows to freeze and unfreeze weights of the class that uses it</p>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Freezable</span><span class="o">.</span><span class="n">set_requires_grad</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">Freezable</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>      <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">MyModel</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">freeze</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">unfreeze</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># freeze only one specific layer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">freeze</span><span class="p">(</span><span class="n">model</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="glasses.nn.models.utils.protocols.Freezable.freeze">
+<code class="sig-name descname">freeze</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">who</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/utils/protocols.html#Freezable.freeze"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.utils.protocols.Freezable.freeze" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.utils.protocols.Freezable.set_requires_grad">
+<em class="property">static </em><code class="sig-name descname">set_requires_grad</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">module</span></em>, <em class="sig-param"><span class="n">to</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/utils/protocols.html#Freezable.set_requires_grad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.utils.protocols.Freezable.set_requires_grad" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.utils.protocols.Freezable.unfreeze">
+<code class="sig-name descname">unfreeze</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">who</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/utils/protocols.html#Freezable.unfreeze"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.utils.protocols.Freezable.unfreeze" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="glasses.utils.html" class="btn btn-neutral float-right" title="glasses.utils package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="glasses.nn.models.utils.html" class="btn btn-neutral float-left" title="glasses.nn.models.utils package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

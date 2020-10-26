@@ -96,14 +96,15 @@
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.classification.html">glasses.nn.models.classification package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">glasses.nn.models.segmentation package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-glasses.nn.models.segmentation">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.utils.html">glasses.nn.models.utils package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#glasses-nn-models-visionmodule-module">glasses.nn.models.VisionModule module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models.VisionModule">glasses.nn.models.VisionModule module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
@@ -192,8 +193,57 @@
 </ul>
 </div>
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-glasses.nn.models.segmentation">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.nn.models.segmentation" title="Permalink to this headline">¶</a></h2>
+<p>Segmantation models</p>
+<dl class="py class">
+<dt id="glasses.nn.models.segmentation.UNet">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.segmentation.</code><code class="sig-name descname">UNet</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 1</em>, <em class="sig-param">n_classes: int = 2</em>, <em class="sig-param">encoder: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.segmentation.unet.UNetEncoder'&gt;</em>, <em class="sig-param">decoder: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.segmentation.unet.UNetDecoder'&gt;</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.UNet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Implementation of Unet proposed in <a class="reference external" href="https://arxiv.org/abs/1505.04597">U-Net: Convolutional Networks for Biomedical Image Segmentation</a></p>
+<blockquote>
+<div><img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/UNet.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/UNet.png?raw=true" />
+<p>Create a default model</p>
+<dl>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Customization</p>
+<p>You can easily customize your model</p>
+<p>Examples:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">(</span><span class="n">activation</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 2 )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">UNetEncoder</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the encoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unet</span> <span class="o">=</span> <span class="n">UNet</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>Args:</dt><dd><p>in_channels (int, optional): [description]. Defaults to 1.
+n_classes (int, optional): [description]. Defaults to 2.
+encoder (nn.Module, optional): Model’s encoder (left part). It have a <cite>.gate</cite> and <cite>.block : nn.ModuleList</cite> fields. Defaults to UNetEncoder.
+decoder (nn.Module, optional): Model’s decoder (left part). It must have a <cite>.blocks : nn.ModuleList</cite> field. Defaults to UNetDecoder.
+widths (List[int], optional): [description]. Defaults to [64, 128, 256, 512, 1024].</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py method">
+<dt id="glasses.nn.models.segmentation.UNet.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UNet.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.UNet.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.segmentation.UNet.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.segmentation.UNet.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 

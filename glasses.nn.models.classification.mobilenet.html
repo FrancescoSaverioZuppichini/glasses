@@ -95,15 +95,16 @@
 <li class="toctree-l2 current"><a class="reference internal" href="glasses.nn.models.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="glasses.nn.models.classification.html">glasses.nn.models.classification package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="glasses.nn.models.classification.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="glasses.nn.models.classification.html#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.nn.models.classification.html#module-glasses.nn.models.classification">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.segmentation.html">glasses.nn.models.segmentation package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.utils.html">glasses.nn.models.utils package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#glasses-nn-models-visionmodule-module">glasses.nn.models.VisionModule module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models.VisionModule">glasses.nn.models.VisionModule module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
@@ -186,8 +187,231 @@
             
   <div class="section" id="glasses-nn-models-classification-mobilenet-package">
 <h1>glasses.nn.models.classification.mobilenet package<a class="headerlink" href="#glasses-nn-models-classification-mobilenet-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-glasses.nn.models.classification.mobilenet">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.nn.models.classification.mobilenet" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="glasses.nn.models.classification.mobilenet.DepthWiseConv2d">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.mobilenet.</code><code class="sig-name descname">DepthWiseConv2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span></em>, <em class="sig-param"><span class="n">out_channels</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#DepthWiseConv2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.DepthWiseConv2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.nn.blocks.html#glasses.nn.blocks.Conv2dPad" title="glasses.nn.blocks.Conv2dPad"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.blocks.Conv2dPad</span></code></a></p>
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.mobilenet.DepthWiseConv2d.bias">
+<code class="sig-name descname">bias</code><em class="property">: Optional<span class="p">[</span>torch.Tensor<span class="p">]</span></em><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.DepthWiseConv2d.bias" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.mobilenet.DepthWiseConv2d.dilation">
+<code class="sig-name descname">dilation</code><em class="property">: Tuple<span class="p">[</span>int<span class="p">, </span><span class="p">…</span><span class="p">]</span></em><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.DepthWiseConv2d.dilation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.mobilenet.DepthWiseConv2d.groups">
+<code class="sig-name descname">groups</code><em class="property">: int</em><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.DepthWiseConv2d.groups" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.mobilenet.DepthWiseConv2d.kernel_size">
+<code class="sig-name descname">kernel_size</code><em class="property">: Tuple<span class="p">[</span>int<span class="p">, </span><span class="p">…</span><span class="p">]</span></em><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.DepthWiseConv2d.kernel_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.mobilenet.DepthWiseConv2d.out_channels">
+<code class="sig-name descname">out_channels</code><em class="property">: int</em><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.DepthWiseConv2d.out_channels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.mobilenet.DepthWiseConv2d.output_padding">
+<code class="sig-name descname">output_padding</code><em class="property">: Tuple<span class="p">[</span>int<span class="p">, </span><span class="p">…</span><span class="p">]</span></em><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.DepthWiseConv2d.output_padding" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.mobilenet.DepthWiseConv2d.padding">
+<code class="sig-name descname">padding</code><em class="property">: Tuple<span class="p">[</span>int<span class="p">, </span><span class="p">…</span><span class="p">]</span></em><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.DepthWiseConv2d.padding" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.mobilenet.DepthWiseConv2d.padding_mode">
+<code class="sig-name descname">padding_mode</code><em class="property">: str</em><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.DepthWiseConv2d.padding_mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.mobilenet.DepthWiseConv2d.stride">
+<code class="sig-name descname">stride</code><em class="property">: Tuple<span class="p">[</span>int<span class="p">, </span><span class="p">…</span><span class="p">]</span></em><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.DepthWiseConv2d.stride" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.mobilenet.DepthWiseConv2d.transposed">
+<code class="sig-name descname">transposed</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.DepthWiseConv2d.transposed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.mobilenet.DepthWiseConv2d.weight">
+<code class="sig-name descname">weight</code><em class="property">: torch.Tensor</em><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.DepthWiseConv2d.weight" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.mobilenet.InvertedResidualBlock">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.mobilenet.</code><code class="sig-name descname">InvertedResidualBlock</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">stride: int = 1</em>, <em class="sig-param">expansion: int = 6</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.activation.ReLU6'&gt;</em>, <em class="sig-param">kernel_size: int = 3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#InvertedResidualBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.InvertedResidualBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>This block use a depth wise and point wise convolution to reduce computation cost.
+First the input is expansed (if needed) by a 1x1 conv, then a depth wise 3x3 conv and point wise conv are applied.</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/MobileNetBasicBlock.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/MobileNetBasicBlock.png?raw=true" />
+<p>ReLU6 is the default activation because it was found to be more robust when used with low-precision computation.</p>
+<p>Residual connections are applied when there the input and output features number are the same.</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/MobileNetBasicBlockNoRes.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/MobileNetBasicBlockNoRes.png?raw=true" />
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>out_features</strong> (<em>int</em>) – Number of input features</p></li>
+<li><p><strong>out_features</strong> – Number of output features</p></li>
+<li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to nn.ReLU6.</p></li>
+<li><p><strong>stride</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.mobilenet.InvertedResidualBlock.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#InvertedResidualBlock.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.InvertedResidualBlock.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.mobilenet.InvertedResidualBlock.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.InvertedResidualBlock.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.mobilenet.MobileNetBasicBlock">
+<code class="sig-prename descclassname">glasses.nn.models.classification.mobilenet.</code><code class="sig-name descname">MobileNetBasicBlock</code><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetBasicBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#glasses.nn.models.classification.mobilenet.InvertedResidualBlock" title="glasses.nn.models.classification.mobilenet.InvertedResidualBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.classification.mobilenet.InvertedResidualBlock</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.mobilenet.MobileNetDecoder">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.mobilenet.</code><code class="sig-name descname">MobileNetDecoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">drop_rate</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#MobileNetDecoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetDecoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>This class represents the tail of MobileNet. It performs a global pooling, dropout and maps the output to the
+correct class by using a fully connected layer.</p>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.mobilenet.MobileNetDecoder.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#MobileNetDecoder.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetDecoder.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.mobilenet.MobileNetDecoder.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetDecoder.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.mobilenet.MobileNetEncoder">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.mobilenet.</code><code class="sig-name descname">MobileNetEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, widths: List[int] = [32, 16, 24, 32, 64, 96, 160, 320, 1280], depths: List[int] = [1, 1, 2, 3, 4, 3, 3, 1], strides: List[int] = [2, 1, 2, 2, 2, 1, 2, 1], expansions: List[int] = [1, 6, 6, 6, 6, 6, 6], activation: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.activation.ReLU6'&gt;, block: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.classification.mobilenet.InvertedResidualBlock'&gt;, *args, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#MobileNetEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetEncoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>MobileNet encoder composed by different layers with increasing features size.
+Please refer to Table 2 in the original paper for an overview of the current architecture</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 3.</p></li>
+<li><p><strong>widths</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – Number of features for each layer, called <cite>c</cite> in the paper. Defaults to [32, 16, 24, 32, 64, 96, 160, 320].</p></li>
+<li><p><strong>depths</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – Number of blocks at each layer, called <cite>n</cite> in the paper. Defaults to [1, 1, 2, 3, 4, 3, 3, 1].</p></li>
+<li><p><strong>strides</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – Number of stride for each layer, called <cite>s</cite> in the paper. Defaults to [2, 1, 2, 2, 2, 1, 2, 1].</p></li>
+<li><p><strong>expansions</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – Expansion for each block in each layer, called <cite>t</cite> in the paper. Defaults to [1, 6, 6, 6, 6, 6, 6].</p></li>
+<li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to nn.ReLU6.</p></li>
+<li><p><strong>block</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to MobileNetBasicBlock.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.mobilenet.MobileNetEncoder.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#MobileNetEncoder.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetEncoder.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.mobilenet.MobileNetEncoder.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetEncoder.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.mobilenet.MobileNetLayer">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.mobilenet.</code><code class="sig-name descname">MobileNetLayer</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">block: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.classification.mobilenet.InvertedResidualBlock'&gt;</em>, <em class="sig-param">n: int = 1</em>, <em class="sig-param">stride: int = 1</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#MobileNetLayer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetLayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.mobilenet.MobileNetLayer.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#MobileNetLayer.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetLayer.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.mobilenet.MobileNetLayer.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetLayer.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.mobilenet.MobileNetV2">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.mobilenet.</code><code class="sig-name descname">MobileNetV2</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#MobileNetV2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetV2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.html#glasses.nn.models.VisionModule.VisionModule" title="glasses.nn.models.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.VisionModule.VisionModule</span></code></a></p>
+<p>Implementations of MobileNet v2 proposed in <a class="reference external" href="https://arxiv.org/pdf/1801.04381.pdf">MobileNetV2: Inverted Residuals and Linear Bottlenecks</a></p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/MobileNet.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/MobileNet.png?raw=true" />
+<p>Create a default model</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">MobileNetV2</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Customization</p>
+<p>You can easily customize your model</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">MobileNetV2</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">MobileNetV2</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">SEInvertedResidualBlock</span><span class="p">(</span><span class="n">InvertedResidualBlock</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s1">&#39;se&#39;</span><span class="p">,</span> <span class="n">SEModule</span><span class="p">(</span><span class="n">out_features</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># now mobile net has squeeze and excitation!</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">MobileNetV2</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SEInvertedResidualBlock</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the initial convolution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">MobileNetV2</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store each feature</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span><span class="n">MobileNetV2</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">x</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">112</span><span class="p">,</span> <span class="mi">112</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">56</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">14</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">14</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">])]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</p></li>
+<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of classes. Defaults to 1000.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.mobilenet.MobileNetV2.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#MobileNetV2.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetV2.forward" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.mobilenet.MobileNetV2.initialize">
+<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/mobilenet.html#MobileNetV2.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.mobilenet.MobileNetV2.initialize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
