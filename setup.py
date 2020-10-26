@@ -6,7 +6,7 @@ with open("./README.md", "r") as fh:
 
 setup(
     name="glasses", 
-    version="0.0.1",
+    version="0.0.2",
     author="Francesco Saverio Zuppichini & Francesco Cicala",
     author_email="francesco.zuppichini@gmail.com",
     description="Compact, concise and customizable deep learning computer vision",
