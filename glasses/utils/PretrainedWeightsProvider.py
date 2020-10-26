@@ -174,9 +174,9 @@ class PretrainedWeightsProvider:
         try:
             self.save_dir.mkdir(exist_ok=True)
         except FileNotFoundError:
-            self.save_dir = Path(os.environ['$HOME']) / Path('.glasses/')
+            self.save_dir = Path(os.environ['HOME']) / Path('.glasses/')
             self.save_dir.mkdir(exist_ok=True)
-            
+
     def __getitem__(self, key: str) -> dict:
         if key not in self.weights_zoo:
             raise KeyError(
