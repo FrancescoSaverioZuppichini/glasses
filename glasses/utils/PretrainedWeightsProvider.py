@@ -88,7 +88,7 @@ class PretrainedWeightsProvider:
     BASE_URL = 'https://cv-glasses.s3.eu-central-1.amazonaws.com'
     BASE_DIR = Path(torch.hub.get_dir()) / Path('glasses')
     save_dir: Path = BASE_DIR
-    chunk_size: int = 1024
+    chunk_size: int = 1024 * 4
     verbose: int = 0
     override: bool = False
 
