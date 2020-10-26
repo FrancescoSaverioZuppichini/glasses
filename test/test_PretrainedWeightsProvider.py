@@ -13,7 +13,7 @@ def test_PretrainedWeightsProvider():
     google_handler(save_path=Path('./test.jpg'))
     assert save_path.exists()
 
-    provider = PretrainedWeightsProvider(Path('.'))
+    provider = PretrainedWeightsProvider(BASE_DIR=Path('.'))
                         
     # with pytest.raises(KeyError):
     #     provider['does_not_exist']

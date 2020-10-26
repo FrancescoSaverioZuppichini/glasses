@@ -130,8 +130,8 @@ class PretrainedWeightsProvider:
         >>> provider = PretrainedWeightsProvider(override=True) # override model even if already downloaded
     """
 
-    BASE_URL = 'https://cv-glasses.s3.eu-central-1.amazonaws.com'
-    BASE_DIR = Path(torch.hub.get_dir()) / Path('glasses')
+    BASE_URL: str = 'https://cv-glasses.s3.eu-central-1.amazonaws.com'
+    BASE_DIR: Path = Path(torch.hub.get_dir()) / Path('glasses')
     save_dir: Path = BASE_DIR
     chunk_size: int = 1024 * 1
     verbose: int = 0
