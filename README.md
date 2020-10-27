@@ -16,7 +16,7 @@ Doc is [here](https://francescosaveriozuppichini.github.io/glasses/index.html)
 You can install `glasses` using pip by running
 
 ```
-pip install glasses
+pip install git+https://github.com/FrancescoSaverioZuppichini/glasses
 ```
 
 ### Motivation
@@ -67,6 +67,64 @@ model.decoder = my_decoder
 
 x = torch.rand((1,3,224,224))
 model(x).shape #torch.Size([1, 1000])
+```
+
+## Pretrained Models
+
+This is a list of all the pretrained models available so far!. They are all trained on *ImageNet*
+
+|                  |    top1 |    top5 |     time |
+|:-----------------|--------:|--------:|---------:|
+| efficientnet_b3  | 0.8204  | 0.96044 | 233.535  |
+| cse_resnet50     | 0.80236 | 0.9507  | 103.796  |
+| efficientnet_b2  | 0.8011  | 0.95118 | 143.739  |
+| resnext101_32x8d | 0.79312 | 0.94526 | 332.005  |
+| wide_resnet101_2 | 0.78848 | 0.94284 | 234.597  |
+| wide_resnet50_2  | 0.78468 | 0.94086 | 146.662  |
+| efficientnet_b1  | 0.78338 | 0.94078 | 109.463  |
+| resnet152        | 0.78312 | 0.94046 | 207.622  |
+| resnext50_32x4d  | 0.77618 | 0.93698 | 135.172  |
+| resnet101        | 0.77374 | 0.93546 | 151.992  |
+| efficientnet_b0  | 0.77364 | 0.9356  |  74.3195 |
+| densenet161      | 0.77138 | 0.9356  | 201.173  |
+| densenet201      | 0.76896 | 0.9337  | 143.988  |
+| resnet50         | 0.7613  | 0.92862 |  92.408  |
+| densenet169      | 0.756   | 0.92806 | 115.986  |
+| resnet26         | 0.75292 | 0.9257  |  65.2226 |
+| resnet34         | 0.75112 | 0.92288 |  61.9156 |
+| densenet121      | 0.74434 | 0.91972 |  95.5099 |
+| vgg19_bn         | 0.74218 | 0.91842 | 172.343  |
+| vgg16_bn         | 0.7336  | 0.91516 | 152.662  |
+| vgg19            | 0.72376 | 0.90876 | 160.982  |
+| mobilenet_v2     | 0.71878 | 0.90286 |  53.3237 |
+| vgg16            | 0.71592 | 0.90382 | 141.572  |
+| vgg13_bn         | 0.71586 | 0.90374 | 129.88   |
+| vgg11_bn         | 0.7037  | 0.8981  |  91.5699 |
+| vgg13            | 0.69928 | 0.89246 | 119.631  |
+| resnet18         | 0.69758 | 0.89078 |  46.7778 |
+| vgg11            | 0.6902  | 0.88628 |  84.9438 |
+
+Assuming you want to load `efficientnet_b1`
+
+
+```python
+from glasses.nn.models import EfficientNet
+
+model = EfficientNet.efficientnet_b1(pretrained=True)
+# you may also need to get the correct transformation that must be applied on the input
+cfg = EfficientNet.configs['efficientnet_b1']
+transform = cfg.transform
+```
+
+In this case, `transform` is 
+
+```
+Compose(
+    Resize(size=240, interpolation=PIL.Image.BICUBIC)
+    CenterCrop(size=(240, 240))
+    ToTensor()
+    Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))
+)
 ```
 
 ## Deep Customization

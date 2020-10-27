@@ -22,94 +22,49 @@ from sotabencheval.image_classification import ImageNetEvaluator
 
 
 models = {
+     'vgg11':   VGG.vgg11,
+    'vgg13': VGG.vgg13,
+    'vgg16': VGG.vgg16,
+    'vgg19': VGG.vgg19,
+    'vgg11_bn':   VGG.vgg11_bn,
+    'vgg13_bn': VGG.vgg13_bn,
+    'vgg16_bn': VGG.vgg16_bn,
+    'vgg19_bn': VGG.vgg19_bn,
     'resnet18':  ResNet.resnet18,
     'resnet26':  ResNet.resnet26,
     'resnet34':ResNet.resnet34,
     'resnet50': ResNet.resnet50,
+    'cse_resnet50': SEResNet.cse_resnet50,
     'resnet101': ResNet.resnet101,
     'resnet152': ResNet.resnet152,
-}
-
-# zoo_models_mapping = {
-#     # 'resnet18': [partial(resnet18, pretrained=True), ResNet.resnet18],
-#     # 'resnet34': [partial(resnet34, pretrained=True), ResNet.resnet34],
-#     # 'resnet50': [partial(resnet50, pretrained=True), ResNet.resnet50],
-#     # 'resnet101': [partial(resnet101, pretrained=True), ResNet.resnet101],
-#     # 'resnet152': [partial(resnet152, pretrained=True), ResNet.resnet152],
 
 
-#     # 'resnext50_32x4d': [partial(resnext50_32x4d, pretrained=True), ResNetXt.resnext50_32x4d],
-#     # 'resnext101_32x8d': [partial(resnext101_32x8d, pretrained=True), ResNetXt.resnext101_32x8d],
-#     # 'wide_resnet50_2': [partial(wide_resnet50_2, pretrained=True), WideResNet.wide_resnet50_2],
-#     # 'wide_resnet101_2': [partial(wide_resnet101_2, pretrained=True), WideResNet.wide_resnet101_2],
+    'resnext50_32x4d': ResNetXt.resnext50_32x4d,
+    'resnext101_32x8d':ResNetXt.resnext101_32x8d,
+    'wide_resnet50_2': WideResNet.wide_resnet50_2,
+    'wide_resnet101_2': WideResNet.wide_resnet101_2,
 
-#     # 'densenet121': [partial(densenet121, pretrained=True), DenseNet.densenet121],
-#     # 'densenet169': [partial(densenet169, pretrained=True), DenseNet.densenet169],
-#     # 'densenet201': [partial(densenet201, pretrained=True), DenseNet.densenet201],
-#     # 'densenet161': [partial(densenet161, pretrained=True), DenseNet.densenet161],
-#     # 'vgg11': [partial(vgg11, pretrained=True), VGG.vgg11],
-#     # 'vgg13': [partial(vgg13, pretrained=True), VGG.vgg13],
-#     # 'vgg16': [partial(vgg16, pretrained=True), VGG.vgg16],
-#     # 'vgg19': [partial(vgg19, pretrained=True), VGG.vgg19],
+    'densenet121': DenseNet.densenet121,
+    'densenet169': DenseNet.densenet169,
+    'densenet201': DenseNet.densenet201,
+    'densenet161': DenseNet.densenet161,
+    'mobilenet_v2': MobileNetV2,
 
-#     # 'mobilenet_v2': [partial(mobilenet_v2, pretrained=True), MobileNetV2],
-
-#     'efficientnet_b0': [partial(EfficientNetPytorch.from_pretrained, 'efficientnet_b0'), EfficientNet.efficientnet_b0],
-#     'efficientnet_b1': [partial(EfficientNetPytorch.from_pretrained, 'efficientnet_b1'), EfficientNet.efficientnet_b1],
-#     'efficientnet_b2': [partial(EfficientNetPytorch.from_pretrained, 'efficientnet_b2'), EfficientNet.efficientnet_b2],
-#     'efficientnet_b3': [partial(EfficientNetPytorch.from_pretrained, 'efficientnet_b3'), EfficientNet.efficientnet_b3],
-#     'efficientnet_b4': [partial(EfficientNetPytorch.from_pretrained, 'efficientnet_b4'), EfficientNet.efficientnet_b4],
-#     'efficientnet_b5': [partial(EfficientNetPytorch.from_pretrained, 'efficientnet_b5'), EfficientNet.efficientnet_b5],
-#     'efficientnet_b6': [partial(EfficientNetPytorch.from_pretrained, 'efficientnet_b6'), EfficientNet.efficientnet_b6],
-#     'efficientnet_b7': [partial(EfficientNetPytorch.from_pretrained, 'efficientnet_b7'), EfficientNet.efficientnet_b7],
-
-# }
-
-resize_size = {
-    # 'resnet18': [partial(resnet18, pretrained=True), ResNet.resnet18],
-    # 'resnet34': [partial(resnet34, pretrained=True), ResNet.resnet34],
-    # 'resnet50': [partial(resnet50, pretrained=True), ResNet.resnet50],
-    # 'resnet101': [partial(resnet101, pretrained=True), ResNet.resnet101],
-    # 'resnet152': [partial(resnet152, pretrained=True), ResNet.resnet152],
-
-
-    # 'resnext50_32x4d': [partial(resnext50_32x4d, pretrained=True), ResNetXt.resnext50_32x4d],
-    # 'resnext101_32x8d': [partial(resnext101_32x8d, pretrained=True), ResNetXt.resnext101_32x8d],
-    # 'wide_resnet50_2': [partial(wide_resnet50_2, pretrained=True), WideResNet.wide_resnet50_2],
-    # 'wide_resnet101_2': [partial(wide_resnet101_2, pretrained=True), WideResNet.wide_resnet101_2],
-
-    # 'densenet121': [partial(densenet121, pretrained=True), DenseNet.densenet121],
-    # 'densenet169': [partial(densenet169, pretrained=True), DenseNet.densenet169],
-    # 'densenet201': [partial(densenet201, pretrained=True), DenseNet.densenet201],
-    # 'densenet161': [partial(densenet161, pretrained=True), DenseNet.densenet161],
-    # 'vgg11': [partial(vgg11, pretrained=True), VGG.vgg11],
-    # 'vgg13': [partial(vgg13, pretrained=True), VGG.vgg13],
-    # 'vgg16': [partial(vgg16, pretrained=True), VGG.vgg16],
-    # 'vgg19': [partial(vgg19, pretrained=True), VGG.vgg19],
-
-    # 'mobilenet_v2': [partial(mobilenet_v2, pretrained=True), MobileNetV2],
-
-    'efficientnet-b0': 224,
-    'efficientnet-b1': 240,
-    'efficientnet-b2': 260,
-    'efficientnet-b3': 300,
-    'efficientnet-b4': 380,
-    'efficientnet-b5': 456,
-    'efficientnet-b6': 528,
-    'efficientnet-b7': 600,
+    'efficientnet_b0': EfficientNet.efficientnet_b0,
+    'efficientnet_b1': EfficientNet.efficientnet_b1,
+    'efficientnet_b2':EfficientNet.efficientnet_b2,
+    'efficientnet_b3': EfficientNet.efficientnet_b3,
 
 }
+
 
 batch_sizes = {
      'efficientnet-b0': 256,
     'efficientnet-b1': 128,
     'efficientnet-b2': 64,
-    'efficientnet-b3': 64,
-    'efficientnet-b4': 64,
-    'efficientnet-b5': 32,
-    'efficientnet-b6': 32,
-    'efficientnet-b7': 16,
+    'efficientnet-b3': 64
 }
+
 
 
 provider = PretrainedWeightsProvider()
@@ -159,51 +114,65 @@ def benchmark(model: nn.Module, transform, batch_size=64):
 
 def benchmark_all() -> pd.DataFrame:
     save_path = Path('./benchmark.pkl')
+    df = None
+    if save_path.exists():
+        df = pd.read_pickle(str(save_path))
+    
     index = []
     records = []
 
     bar = tqdm(models.items())
 
     for key, model_def in bar:
-        model = model_def()
-        cfg = model.configs[key]
-        tr = cfg.transform
+        if key not in df.index:
+            model = model_def()
+            try:
+                cfg = model.configs[key]
+            except KeyError:
+                # default one
+                cfg = ResNet.configs['resnet18']
+            tr = cfg.transform
 
-        batch_size = 64
+            batch_size = 64
 
-        if key in batch_sizes:
-            batch_size = batch_sizes[key] 
+            if key in batch_sizes:
+                batch_size = batch_sizes[key] 
 
-        bar.set_description(f'{key}, size={cfg.input_size}, batch_size={batch_size}')
-                                   
-        data = {}
+            bar.set_description(f'{key}, size={cfg.input_size}, batch_size={batch_size}')
+                                    
+            data = {}
 
-        # original_model = original_model_func()
-        # glasses_model = glasses_model_func()
+            # original_model = original_model_func()
+            # glasses_model = glasses_model_func()
 
-        model.load_state_dict(provider[key])
+            model.load_state_dict(provider[key])
 
-        glasses_top1, glasses_top5, glasses_time = benchmark(model.to(device), tr, batch_size)
-        # original_top1, original_top5, original_time = benchmark(original_model.to(device), valid_loader)
-        index.append(key)
+            glasses_top1, glasses_top5, glasses_time = benchmark(model.to(device), tr, batch_size)
+            # original_top1, original_top5, original_time = benchmark(original_model.to(device), valid_loader)
+            index.append(key)
 
-        data = {
-            # 'original_top1': original_top1,
-            # 'original_top5': original_top5,
-            # 'original_time': original_time,
-            'glasses_top1': glasses_top1,
-            'glasses_top5': glasses_top5,
-            'glasses_time': glasses_time
-        }
+            data = {
+                # 'original_top1': original_top1,
+                # 'original_top5': original_top5,
+                # 'original_time': original_time,
+                'top1': glasses_top1,
+                'top5': glasses_top5,
+                'time': glasses_time
+            }
 
-        records.append(data)
+            records.append(data)
 
-        df = pd.DataFrame.from_records(records, index=index)
-        df.to_pickle(str(save_path))
-        pprint(records)
+            new_df = pd.DataFrame.from_records(records, index=index)
+            
+            if df is not None:
+                df = pd.concat([df, new_df])
+            else: 
+                df = new_df
+            df.to_pickle(str(save_path))
+            pprint(records)
     # pd.DataFrame.
 
     print(df)
 
-if __name__ == '__name__':
-    sbenchmark_all()
+# if __name__ == '__name__':
+benchmark_all()
