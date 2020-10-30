@@ -76,7 +76,7 @@ model(x).shape #torch.Size([1, 1000])
 import requests
 from PIL import Image
 from io import BytesIO
-from glasses.interpretability.GradCam import GradCam
+from glasses.interpretability import GradCam, SaliencyMap
 from torchvision.transforms import Normalize
 # get one image
 r = requests.get('https://i.insider.com/5df126b679d7570ad2044f3e?width=700&format=jpeg&auto=webp')
