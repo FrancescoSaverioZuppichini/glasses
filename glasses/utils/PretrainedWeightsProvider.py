@@ -5,6 +5,7 @@ import os
 import logging
 import torchvision.transforms as T
 import torch.nn as nn
+import numpy as np
 from torch import nn
 from dataclasses import dataclass
 from functools import partial
@@ -19,18 +20,23 @@ from typing import Callable
 from functools import wraps
 logging.basicConfig(level=logging.INFO)
 
-IMAGENET_DEFAULT_MEAN = (0.485, 0.456, 0.406)
-IMAGENET_DEFAULT_STD = (0.229, 0.224, 0.225)
+IMAGENET_DEFAULT_MEAN = torch.Tensor([0.485, 0.456, 0.406])
+IMAGENET_DEFAULT_STD = torch.Tensor([0.229, 0.224, 0.225])
 
 
 @dataclass
 class Config:
+    """Describe one configuration for a pretrained model.
+
+    Returns:
+        [type]: [description]
+    """
     input_size: int = 224
     resize: int = 256
     mean: Tuple[float] = IMAGENET_DEFAULT_MEAN
     std: Tuple[float] = IMAGENET_DEFAULT_STD
     interpolation: str = 'bilinear'
-
+    
     @property
     def transform(self):
         interpolations = {
@@ -67,6 +73,7 @@ def pretrained(name: str = None) -> Callable:
             model = func(*args, **kwargs)
             if pretrained:
                 model.load_state_dict(provider[name])
+                model.eval()
             return model
         return wrapper
     return decorator
