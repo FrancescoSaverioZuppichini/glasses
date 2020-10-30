@@ -1,5 +1,6 @@
+import torch
 from torch import nn
-
+from glasses.interpretability import Interpretability
 
 class Freezable:
     """
@@ -31,3 +32,11 @@ class Freezable:
     def unfreeze(self, who: nn.Module = None):
         who = self if who is None else who
         self.set_requires_grad(who, to=True)
+
+
+class Interpretable:
+    """Protocol that allows the clas that subclass it to interpret an input using and instance of `Interpretability`
+    """
+
+    def interpret(self, x : torch.Tensor, using: Interpretability(), *args, **kwargs):
+        return using(x, self, *args, **kwargs)

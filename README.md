@@ -69,6 +69,33 @@ x = torch.rand((1,3,224,224))
 model(x).shape #torch.Size([1, 1000])
 ```
 
+### Interpretability 
+
+
+```python
+import requests
+from PIL import Image
+from io import BytesIO
+from glasses.interpretability.GradCam import GradCam
+from torchvision.transforms import Normalize
+# get one image
+r = requests.get('https://i.insider.com/5df126b679d7570ad2044f3e?width=700&format=jpeg&auto=webp')
+im = Image.open(BytesIO(r.content))
+# create the model
+model = ResNet.resnet18(pretrained=True)
+# get the config for resnet18
+cfg = ResNet.configs['resnet18']
+# get the correct transformation
+transform = cfg.transform
+# un normalize when done
+postprocessing = Normalize(-cfg.mean / cfg.std, (1.0 / cfg.std))
+# apply preprocessing
+x = transform(im).unsqueeze(0)
+_ = model.interpret(x, using=GradCam(), postprocessing=postprocessing).show()
+```
+
+![alt](https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/grad_cam.png?raw=true)
+
 ## Pretrained Models
 
 This is a list of all the pretrained models available so far!. They are all trained on *ImageNet*
