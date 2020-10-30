@@ -17,6 +17,8 @@ def test_storage():
     layer = cnn[0]
     
     storage = ForwardModuleStorage(cnn, [layer])
+
+    print(storage)
     # check if layer is a correct key
     assert layer in storage.state
     storage(x)
@@ -35,6 +37,8 @@ def test_storage():
     assert layer in storage['b']
     assert layer1 in storage['b']
     assert type(storage['b'][layer]) is torch.Tensor
+
+    storage.clear()
 
 
     storage = BackwardModuleStorage([layer])

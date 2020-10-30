@@ -6,6 +6,7 @@ import pytest
 from pathlib import Path
 import os
 from PIL import Image
+from pytest import raises
 
 def test_PretrainedWeightsProvider():
     google_handler = GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id='19wLg526wenvhJMPSLPYMlnMgCS6n6jVA')
@@ -14,7 +15,8 @@ def test_PretrainedWeightsProvider():
     assert save_path.exists()
 
     provider = PretrainedWeightsProvider(BASE_DIR=Path('.'))
-                        
+    with pytest.raises(KeyError):
+        provider['IDontExists']           
     # with pytest.raises(KeyError):
     #     provider['does_not_exist']
 
