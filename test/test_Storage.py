@@ -1,8 +1,13 @@
 import torch
 from torch import nn
-from glasses.utils.Storage import ForwardModuleStorage, BackwardModuleStorage
+from glasses.utils.Storage import ForwardModuleStorage, BackwardModuleStorage, MutipleKeysDict
 
 def test_storage():
+
+    d = MutipleKeysDict({ 'a' : 1, 'b' : 2, 'c' : 3})
+    out = d[['a', 'b']]
+
+    assert len(out) == 2
     x = torch.rand(1,3,224,224)
     y = torch.rand(1,3,224,224)
 
