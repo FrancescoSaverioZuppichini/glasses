@@ -157,8 +157,9 @@
            <div itemprop="articleBody">
             
   <h1>Source code for glasses.nn.models.utils.protocols</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
-
+<span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">glasses.interpretability</span> <span class="kn">import</span> <span class="n">Interpretability</span>
 
 <div class="viewcode-block" id="Freezable"><a class="viewcode-back" href="../../../../../glasses.nn.models.utils.protocols.html#glasses.nn.models.utils.protocols.Freezable">[docs]</a><span class="k">class</span> <span class="nc">Freezable</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -190,6 +191,14 @@
 <div class="viewcode-block" id="Freezable.unfreeze"><a class="viewcode-back" href="../../../../../glasses.nn.models.utils.protocols.html#glasses.nn.models.utils.protocols.Freezable.unfreeze">[docs]</a>    <span class="k">def</span> <span class="nf">unfreeze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">who</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">who</span> <span class="o">=</span> <span class="bp">self</span> <span class="k">if</span> <span class="n">who</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">who</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_requires_grad</span><span class="p">(</span><span class="n">who</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Interpretable"><a class="viewcode-back" href="../../../../../glasses.nn.models.utils.protocols.html#glasses.nn.models.utils.protocols.Interpretable">[docs]</a><span class="k">class</span> <span class="nc">Interpretable</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Protocol that allows the clas that subclass it to interpret an input using and instance of `Interpretability`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Interpretable.interpret"><a class="viewcode-back" href="../../../../../glasses.nn.models.utils.protocols.html#glasses.nn.models.utils.protocols.Interpretable.interpret">[docs]</a>    <span class="k">def</span> <span class="nf">interpret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span> <span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">using</span><span class="p">:</span> <span class="n">Interpretability</span><span class="p">(),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">using</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

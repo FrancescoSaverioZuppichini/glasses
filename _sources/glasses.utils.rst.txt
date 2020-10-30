@@ -20,6 +20,14 @@ glasses.utils.PretrainedWeightsProvider module
    :undoc-members:
    :show-inheritance:
 
+glasses.utils.Storage module
+----------------------------
+
+.. automodule:: glasses.utils.Storage
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 glasses.utils.Tracker module
 ----------------------------
 

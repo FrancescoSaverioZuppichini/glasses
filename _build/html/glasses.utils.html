@@ -96,6 +96,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-glasses.utils.ModuleTransfer">glasses.utils.ModuleTransfer module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-glasses.utils.PretrainedWeightsProvider">glasses.utils.PretrainedWeightsProvider module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-glasses.utils.Storage">glasses.utils.Storage module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-glasses.utils.Tracker">glasses.utils.Tracker module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-glasses.utils">Module contents</a></li>
 </ul>
@@ -240,8 +241,17 @@ they have the same set of operations but they were defined in a different way.</
 
 <dl class="py class">
 <dt id="glasses.utils.PretrainedWeightsProvider.Config">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.utils.PretrainedWeightsProvider.</code><code class="sig-name descname">Config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">224</span></em>, <em class="sig-param"><span class="n">resize</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">256</span></em>, <em class="sig-param"><span class="n">mean</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.485, 0.456, 0.406</span></em>, <em class="sig-param"><span class="n">std</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.229, 0.224, 0.225</span></em>, <em class="sig-param"><span class="n">interpolation</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'bilinear'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/PretrainedWeightsProvider.html#Config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.Config" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.utils.PretrainedWeightsProvider.</code><code class="sig-name descname">Config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">224</span></em>, <em class="sig-param"><span class="n">resize</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">256</span></em>, <em class="sig-param"><span class="n">mean</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">tensor([0.485, 0.456, 0.406])</span></em>, <em class="sig-param"><span class="n">std</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">tensor([0.229, 0.224, 0.225])</span></em>, <em class="sig-param"><span class="n">interpolation</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'bilinear'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/PretrainedWeightsProvider.html#Config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.Config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Describe one configuration for a pretrained model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>[description]</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>[type]</p>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt id="glasses.utils.PretrainedWeightsProvider.Config.input_size">
 <code class="sig-name descname">input_size</code><em class="property">: int</em><em class="property"> = 224</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.Config.input_size" title="Permalink to this definition">¶</a></dt>
@@ -254,7 +264,7 @@ they have the same set of operations but they were defined in a different way.</
 
 <dl class="py attribute">
 <dt id="glasses.utils.PretrainedWeightsProvider.Config.mean">
-<code class="sig-name descname">mean</code><em class="property">: Tuple<span class="p">[</span>float<span class="p">]</span></em><em class="property"> = (0.485, 0.456, 0.406)</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.Config.mean" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">mean</code><em class="property">: Tuple<span class="p">[</span>float<span class="p">]</span></em><em class="property"> = tensor([0.4850, 0.4560, 0.4060])</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.Config.mean" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -264,7 +274,7 @@ they have the same set of operations but they were defined in a different way.</
 
 <dl class="py attribute">
 <dt id="glasses.utils.PretrainedWeightsProvider.Config.std">
-<code class="sig-name descname">std</code><em class="property">: Tuple<span class="p">[</span>float<span class="p">]</span></em><em class="property"> = (0.229, 0.224, 0.225)</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.Config.std" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">std</code><em class="property">: Tuple<span class="p">[</span>float<span class="p">]</span></em><em class="property"> = tensor([0.2290, 0.2240, 0.2250])</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.Config.std" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -349,6 +359,72 @@ they have the same set of operations but they were defined in a different way.</
 <dt id="glasses.utils.PretrainedWeightsProvider.pretrained">
 <code class="sig-prename descclassname">glasses.utils.PretrainedWeightsProvider.</code><code class="sig-name descname">pretrained</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Callable<a class="reference internal" href="_modules/glasses/utils/PretrainedWeightsProvider.html#pretrained"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.pretrained" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+</div>
+<div class="section" id="module-glasses.utils.Storage">
+<span id="glasses-utils-storage-module"></span><h2>glasses.utils.Storage module<a class="headerlink" href="#module-glasses.utils.Storage" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="glasses.utils.Storage.BackwardModuleStorage">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.utils.Storage.</code><code class="sig-name descname">BackwardModuleStorage</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Storage.html#BackwardModuleStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.Storage.BackwardModuleStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#glasses.utils.Storage.ModuleStorage" title="glasses.utils.Storage.ModuleStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.utils.Storage.ModuleStorage</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.utils.Storage.ForwardModuleStorage">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.utils.Storage.</code><code class="sig-name descname">ForwardModuleStorage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">module</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Storage.html#ForwardModuleStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.Storage.ForwardModuleStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#glasses.utils.Storage.ModuleStorage" title="glasses.utils.Storage.ModuleStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.utils.Storage.ModuleStorage</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.utils.Storage.ModuleStorage">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.utils.Storage.</code><code class="sig-name descname">ModuleStorage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">where2layers</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Storage.html#ModuleStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.Storage.ModuleStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="glasses.utils.Storage.ModuleStorage.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Storage.html#ModuleStorage.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.Storage.ModuleStorage.clear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.utils.Storage.ModuleStorage.hook">
+<code class="sig-name descname">hook</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">m</span></em>, <em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">o</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Storage.html#ModuleStorage.hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.Storage.ModuleStorage.hook" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.utils.Storage.ModuleStorage.keys">
+<code class="sig-name descname">keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Storage.html#ModuleStorage.keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.Storage.ModuleStorage.keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.utils.Storage.ModuleStorage.layers">
+<em class="property">property </em><code class="sig-name descname">layers</code><a class="headerlink" href="#glasses.utils.Storage.ModuleStorage.layers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flat all the layers in the same array</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="glasses.utils.Storage.ModuleStorage.names">
+<em class="property">property </em><code class="sig-name descname">names</code><a class="headerlink" href="#glasses.utils.Storage.ModuleStorage.names" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.utils.Storage.ModuleStorage.register_hooks">
+<code class="sig-name descname">register_hooks</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">how</span><span class="o">=</span><span class="default_value">'forward'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Storage.html#ModuleStorage.register_hooks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.Storage.ModuleStorage.register_hooks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loop in all the layers and register a hook. There is ONLY one hook per layer to improve
+performance.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.utils.Storage.MutipleKeysDict">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.utils.Storage.</code><code class="sig-name descname">MutipleKeysDict</code><a class="reference internal" href="_modules/glasses/utils/Storage.html#MutipleKeysDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.Storage.MutipleKeysDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.OrderedDict</span></code></p>
+<p>Allow to get values from multiple keys. Example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">d</span> <span class="pre">=</span> <span class="pre">MutipleKeysDict({</span> <span class="pre">'a'</span> <span class="pre">:</span> <span class="pre">1,</span> <span class="pre">'b'</span> <span class="pre">:</span> <span class="pre">2,</span> <span class="pre">'c'</span> <span class="pre">:</span> <span class="pre">3})</span>
+<span class="pre">d[['a',</span> <span class="pre">'b']]</span>
+<span class="pre">#</span> <span class="pre">out</span> <span class="pre">[1,2]</span>
+<span class="pre">`</span></code></p>
+</dd></dl>
 
 </div>
 <div class="section" id="module-glasses.utils.Tracker">
