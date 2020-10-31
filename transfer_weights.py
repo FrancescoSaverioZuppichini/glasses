@@ -25,8 +25,12 @@ import pretrainedmodels
 zoo_models_mapping = {
     'resnet18': [partial(resnet18, pretrained=True), ResNet.resnet18],
     'resnet26': [partial(timm.create_model, 'resnet26', pretrained=True), ResNet.resnet26],
+    'resnet26d': [partial(timm.create_model, 'resnet26d', pretrained=True), ResNet.resnet26d],
+
     'resnet34': [partial(timm.create_model, 'resnet34', pretrained=True), ResNet.resnet34],
     'resnet50': [partial(resnet50, pretrained=True), ResNet.resnet50],
+    'resnet50d': [partial(timm.create_model, 'resnet50d', pretrained=True), ResNet.resnet50d],
+
     'resnet101': [partial(resnet101, pretrained=True), ResNet.resnet101],
     'resnet152': [partial(resnet152, pretrained=True), ResNet.resnet152],
     'cse_resnet50': [partial(timm.create_model, 'seresnet50', pretrained=True), SEResNet.cse_resnet50],
@@ -43,7 +47,7 @@ zoo_models_mapping = {
     'vgg13': [partial(vgg13, pretrained=True), VGG.vgg13],
     'vgg16': [partial(vgg16, pretrained=True), VGG.vgg16],
     'vgg19': [partial(vgg19, pretrained=True), VGG.vgg19],
-        'vgg11_bn':[pretrainedmodels.__dict__['vgg11_bn'], VGG.vgg11_bn],
+    'vgg11_bn':[pretrainedmodels.__dict__['vgg11_bn'], VGG.vgg11_bn],
     'vgg13_bn':[pretrainedmodels.__dict__['vgg13_bn'], VGG.vgg13_bn],
     'vgg16_bn':[pretrainedmodels.__dict__['vgg16_bn'], VGG.vgg16_bn],
     'vgg19_bn':[pretrainedmodels.__dict__['vgg19_bn'], VGG.vgg19_bn],

@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
-from glasses.nn.models.classification.se import SpatialChannelSE, ChannelSE, SpatialSE
+from glasses.nn.att import SpatialChannelSE, ChannelSE, SpatialSE, ECAModule
 
-def test_tracker():
+def test_att():
     x = torch.rand(1,48,8,8)
 
     se = SpatialSE(x.shape[1])
@@ -24,4 +24,9 @@ def test_tracker():
 
     assert res.shape == x.shape
  
+
+    eca = ECAModule(x.shape[1])
+
+    res = se(x)
+    assert res.shape == x.shape
     

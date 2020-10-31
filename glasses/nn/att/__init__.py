@@ -2,7 +2,11 @@ import torch
 from torch import nn
 from torch import Tensor
 from collections import OrderedDict
-from ..resnet import ReLUInPlace
+from functools import partial
+import math
+
+ReLUInPlace = partial(nn.ReLU, inplace=True)
+
 
 class SpatialSE(nn.Module):
     """Implementation of Squeeze and Excitation Module proposed in `Squeeze-and-Excitation Networks <https://arxiv.org/abs/1709.01507>`_
@@ -157,7 +161,7 @@ Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>
         reduction (int, optional): Reduction ratio used to downsample the input. Defaults to 16.
         reduced_features (int, optional): If passed, use it instead of calculating the reduced features using `reduction`. Defaults to None.
     """
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__()
         self.spatial_se = SpatialSE(*args, **kwargs)
@@ -168,3 +172,53 @@ Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>
         c_se = self.channel_se(x)
 
         return x * (s_se + c_se)
+
+
+class ECAModule(nn.Module):
+    """Implement of Efficient Channel Attention proposed in `ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks <https://arxiv.org/pdf/1910.03151.pdf>`_
+
+    Args:
+        features (int, optional): [description]. Defaults to None.
+        kernel_size (int, optional): [description]. Defaults to 3.
+        gamma (int, optional): [description]. Defaults to 2.
+        beta (int, optional): [description]. Defaults to 1.
+    """
+
+    def __init__(self, features: int = None, kernel_size: int = 3, gamma: int = 2, beta: int = 1):
+
+        super().__init__()
+        assert kernel_size % 2 == 1
+        if features:
+            t = int(abs(math.log(features, 2) + beta) / gamma)
+            k = t if t % 2 else t + 1
+
+        self.pool = nn.AdaptiveAvgPool2d(1)
+        self.conv = nn.Conv1d(1, 1, kernel_size=k, padding=k // 2, bias=False)
+        self.act = nn.Sigmoid()
+
+    def forward(self, x: Tensor) -> Tensor:
+        y = self.pool(x)
+        y = self.conv(y.squeeze(-1).transpose(-1, -2))
+        y = y.transpose(-1, -2).unsqueeze(-1)
+        return x * y.expand_as(x)
+
+
+class WithAtt:
+    """Utility class that adds an attention module after `.block`. 
+
+    :Usage:
+
+        >>> WithAtt(ResNetBottleneckBlock, att=SpatialSE)
+        >>> WithAtt(ResNetBottleneckBlock, att=ECAModule)
+        >>> from functools import partial 
+        >>> WithAtt(ResNetBottleneckBlock, att=partial(SpatialSE, reduction=8))
+    """
+    def __init__(self, block: nn.Module, att: nn.Module = SpatialSE):
+        self.block = block
+        self.att = att
+
+    def __call__(self, in_features: int, out_features: int, *args, **kwargs) -> nn.Module:
+        b = self.block(in_features, out_features, *args, **kwargs)
+        b.block.add_module('se', self.att(out_features))
+        return b
+

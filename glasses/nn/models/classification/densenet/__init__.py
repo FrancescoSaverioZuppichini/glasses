@@ -11,8 +11,6 @@ from ....blocks.residuals import ResidualCat2d
 from ....blocks import Conv2dPad
 from ....models.VisionModule import VisionModule
 
-
-from glasses.utils.PretrainedWeightsProvider import Config
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 
 class DenseNetBasicBlock(nn.Module):
@@ -174,7 +172,7 @@ class DenseNetEncoder(ResNetEncoder):
         self.act = activation()
 
     def forward(self, x):
-        x = self.gate(x)
+        x = self.stem(x)
         for block in self.blocks:
             x = block(x)
         x = self.bn(x)
