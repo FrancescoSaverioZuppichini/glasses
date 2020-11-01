@@ -8,9 +8,8 @@ from typing import List, Union
 from functools import partial
 from ..mobilenet import InvertedResidualBlock, DepthWiseConv2d, MobileNetEncoder, MobileNetDecoder
 from ....blocks import Conv2dPad, ConvBnAct
-from ..se import ChannelSE
+from glasses.nn.att import ChannelSE
 from ....models.utils.scaler import CompoundScaler
-from ....activation import Swish
 from glasses.utils.PretrainedWeightsProvider import Config
 from ....models.VisionModule import VisionModule
 
@@ -26,10 +25,10 @@ class EfficientNetBasicBlock(InvertedResidualBlock):
 
     Args:
         in_features (int): [description]
-        activation (nn.Module, optional): [description]. Defaults to Swish.
+        activation (nn.Module, optional): [description]. Defaults to nn.SiLU.
         drop_rate (float, optional): [description]. Defaults to 0.2.
     """
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = Swish, drop_rate: float =0.2, **kwargs):
+    def __init__(self, in_features: int, out_features: int, activation: nn.Module = nn.SiLU, drop_rate: float =0.2, **kwargs):
         super().__init__(in_features, out_features, activation=activation, **kwargs)
         reduced_features = in_features // 4
         se = ChannelSE(self.expanded_features,
@@ -79,7 +78,7 @@ class EfficientNetEncoder(nn.Module):
         strides (List[int], optional): [description]. Defaults to [1, 2, 2, 2, 2, 1, 2].
         expansions (List[int], optional): [description]. Defaults to [1, 6, 6, 6, 6, 6, 6].
         kernels_sizes (List[int], optional): [description]. Defaults to [3, 3, 5, 3, 5, 5, 3].
-        activation (nn.Module, optional): [description]. Defaults to Swish.
+        activation (nn.Module, optional): [description]. Defaults to nn.SiLU.
     """
 
     def __init__(self, in_channels: int = 3,
@@ -89,7 +88,7 @@ class EfficientNetEncoder(nn.Module):
                  strides: List[int] = [1, 2, 2, 2, 1, 2, 1],
                  expansions: List[int] = [1, 6, 6, 6, 6, 6, 6],
                  kernels_sizes: List[int] = [3, 3, 5, 3, 5, 5, 3],
-                 activation: nn.Module = Swish, **kwargs):
+                 activation: nn.Module = nn.SiLU, **kwargs):
         super().__init__()
 
         self.widths, self.depths = widths, depths

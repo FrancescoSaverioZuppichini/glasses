@@ -9,6 +9,19 @@ Subpackages
 
    glasses.nn.models.classification
    glasses.nn.models.segmentation
+   glasses.nn.models.utils
+
+Submodules
+----------
+
+glasses.nn.models.VisionModule module
+-------------------------------------
+
+.. automodule:: glasses.nn.models.VisionModule
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 
 Module contents
 ---------------

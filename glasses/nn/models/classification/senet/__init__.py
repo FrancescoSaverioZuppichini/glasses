@@ -1,24 +1,14 @@
 from __future__ import annotations
 from torch import nn
 from ..resnet import ResNetBasicBlock, ResNetBottleneckBlock, ResNet
-from ..se import SpatialSE, ChannelSE
+from glasses.nn.att import SpatialSE, ChannelSE, WithAtt
 from glasses.utils.PretrainedWeightsProvider import Config
 
-class WithSE:
-    def __init__(self, block: nn.Module, se: nn.Module = SpatialSE):
-        self.block = block
-        self.se = se
+SENetBasicBlock = WithAtt(ResNetBasicBlock, att=SpatialSE)
+SENetBottleneckBlock = WithAtt(ResNetBottleneckBlock, att=SpatialSE)
 
-    def __call__(self, in_features: int, out_features: int, squeeze: int = 16, *args, **kwargs) -> nn.Module:
-        b = self.block(in_features, out_features, *args, **kwargs)
-        b.block.add_module('se', self.se(out_features, reduction=squeeze))
-        return b
-
-SENetBasicBlock = WithSE(ResNetBasicBlock, se=SpatialSE)
-SENetBottleneckBlock = WithSE(ResNetBottleneckBlock, se=SpatialSE)
-
-CSENetBasicBlock = WithSE(ResNetBasicBlock, se=ChannelSE)
-CSENetBottleneckBlock = WithSE(ResNetBottleneckBlock, se=ChannelSE)
+CSENetBasicBlock = WithAtt(ResNetBasicBlock, att=ChannelSE)
+CSENetBottleneckBlock = WithAtt(ResNetBottleneckBlock, att=ChannelSE)
 
 class SEResNet(ResNet):
     """Implementation of Squeeze and Excitation ResNet using booth the original spatial se 

@@ -9,7 +9,7 @@ from collections import OrderedDict
 from typing import List
 from functools import partial
 from ..resnet import ResNetBottleneckBlock, ReLUInPlace, ResNetEncoder, ResNetShorcut, ResNetBottleneckPreActBlock
-from ..se import ChannelSE
+from glasses.nn.att import ChannelSE
 from ....models.VisionModule import VisionModule
 
 

@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 1
 
    glasses.nn.activation
+   glasses.nn.att
    glasses.nn.blocks
    glasses.nn.models
 
