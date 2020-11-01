@@ -246,7 +246,40 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            ResNet: A resnext101_32x8d model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetXtBottleNeckBlock</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">base_width</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetXtBottleNeckBlock</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">base_width</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ResNetXt.resnext101_32x16d"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnetxt.html#glasses.nn.models.classification.ResNetXt.resnext101_32x16d">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="c1"># @pretrained(&#39;resnext101_32x16d&#39;)</span>
+    <span class="k">def</span> <span class="nf">resnext101_32x16d</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNetXt</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Creates a resnext101_32x16d model</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ResNet: A resnext101_32x16d model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetXtBottleNeckBlock</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">base_width</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ResNetXt.resnext101_32x32d"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnetxt.html#glasses.nn.models.classification.ResNetXt.resnext101_32x32d">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="c1"># @pretrained(&#39;resnext101_32x32d&#39;)</span>
+    <span class="k">def</span> <span class="nf">resnext101_32x32d</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNetXt</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Creates a resnext101_32x32d model</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ResNet: A resnext101_32x32d model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetXtBottleNeckBlock</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">base_width</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ResNetXt.resnext101_32x48d"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnetxt.html#glasses.nn.models.classification.ResNetXt.resnext101_32x48d">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="c1"># @pretrained(&#39;resnext101_32x48d&#39;)</span>
+    <span class="k">def</span> <span class="nf">resnext101_32x48d</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNetXt</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Creates a resnext101_32x48d model</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ResNet: A resnext101_32x48d model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetXtBottleNeckBlock</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">base_width</span><span class="o">=</span><span class="mi">48</span><span class="p">)</span></div></div>
+
 </pre></div>
 
            </div>
