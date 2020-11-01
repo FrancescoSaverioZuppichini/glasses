@@ -343,7 +343,7 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py class">
 <dt id="glasses.nn.models.classification.efficientnet.EfficientNetBasicBlock">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.efficientnet.</code><code class="sig-name descname">EfficientNetBasicBlock</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = &lt;class 'glasses.nn.activation.Swish.Swish'&gt;</em>, <em class="sig-param">drop_rate: float = 0.2</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/efficientnet.html#EfficientNetBasicBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.efficientnet.EfficientNetBasicBlock" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.efficientnet.</code><code class="sig-name descname">EfficientNetBasicBlock</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.activation.SiLU'&gt;</em>, <em class="sig-param">drop_rate: float = 0.2</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/efficientnet.html#EfficientNetBasicBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.efficientnet.EfficientNetBasicBlock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.nn.models.classification.mobilenet.html#glasses.nn.models.classification.mobilenet.InvertedResidualBlock" title="glasses.nn.models.classification.mobilenet.InvertedResidualBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.classification.mobilenet.InvertedResidualBlock</span></code></a></p>
 <p>EfficientNet basic block. It is an inverted residual block from <cite>MobileNetV2</cite> but with <cite>ChannelSE</cite> after the depth-wise conv.
 Residual connections are applied when there the input and output features number are the same.</p>
@@ -352,7 +352,7 @@ Residual connections are applied when there the input and output features number
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
-<li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to Swish.</p></li>
+<li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to nn.SiLU.</p></li>
 <li><p><strong>drop_rate</strong> (<em>float</em><em>, </em><em>optional</em>) – [description]. Defaults to 0.2.</p></li>
 </ul>
 </dd>
@@ -366,7 +366,7 @@ Residual connections are applied when there the input and output features number
 
 <dl class="py class">
 <dt id="glasses.nn.models.classification.efficientnet.EfficientNetEncoder">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.efficientnet.</code><code class="sig-name descname">EfficientNetEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, widths: List[int] = [32, 16, 24, 40, 80, 112, 192, 320, 1280], depths: List[int] = [1, 2, 2, 3, 3, 4, 1], strides: List[int] = [1, 2, 2, 2, 1, 2, 1], expansions: List[int] = [1, 6, 6, 6, 6, 6, 6], kernels_sizes: List[int] = [3, 3, 5, 3, 5, 5, 3], activation: torch.nn.modules.module.Module = &lt;class 'glasses.nn.activation.Swish.Swish'&gt;, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/efficientnet.html#EfficientNetEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.efficientnet.EfficientNetEncoder" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.efficientnet.</code><code class="sig-name descname">EfficientNetEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, widths: List[int] = [32, 16, 24, 40, 80, 112, 192, 320, 1280], depths: List[int] = [1, 2, 2, 3, 3, 4, 1], strides: List[int] = [1, 2, 2, 2, 1, 2, 1], expansions: List[int] = [1, 6, 6, 6, 6, 6, 6], kernels_sizes: List[int] = [3, 3, 5, 3, 5, 5, 3], activation: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.activation.SiLU'&gt;, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/efficientnet.html#EfficientNetEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.efficientnet.EfficientNetEncoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>EfficientNet encoder composed by increasing different layers with increasing features.</p>
 <dl class="field-list simple">
@@ -378,7 +378,7 @@ Residual connections are applied when there the input and output features number
 <li><p><strong>strides</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [1, 2, 2, 2, 2, 1, 2].</p></li>
 <li><p><strong>expansions</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [1, 6, 6, 6, 6, 6, 6].</p></li>
 <li><p><strong>kernels_sizes</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [3, 3, 5, 3, 5, 5, 3].</p></li>
-<li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to Swish.</p></li>
+<li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to nn.SiLU.</p></li>
 </ul>
 </dd>
 </dl>

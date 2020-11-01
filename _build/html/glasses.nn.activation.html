@@ -37,7 +37,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="glasses.nn.blocks package" href="glasses.nn.blocks.html" />
+    <link rel="next" title="glasses.nn.att package" href="glasses.nn.att.html" />
     <link rel="prev" title="glasses.nn package" href="glasses.nn.html" /> 
 </head>
 
@@ -93,11 +93,10 @@
 <li class="toctree-l1 current"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="glasses.nn.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">glasses.nn.activation package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-glasses.nn.activation.Swish">glasses.nn.activation.Swish module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-glasses.nn.activation">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.nn.att.html">glasses.nn.att package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.blocks.html">glasses.nn.blocks package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.html">glasses.nn.models package</a></li>
 </ul>
@@ -182,94 +181,8 @@
             
   <div class="section" id="glasses-nn-activation-package">
 <h1>glasses.nn.activation package<a class="headerlink" href="#glasses-nn-activation-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-glasses.nn.activation.Swish">
-<span id="glasses-nn-activation-swish-module"></span><h2>glasses.nn.activation.Swish module<a class="headerlink" href="#module-glasses.nn.activation.Swish" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="glasses.nn.activation.Swish.Swish">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.activation.Swish.</code><code class="sig-name descname">Swish</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inplace</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/activation/Swish.html#Swish"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.activation.Swish.Swish" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>Swish function proposed in <a class="reference external" href="https://arxiv.org/pdf/1710.05941v1.pdf">SWISH: A SELF-GATED ACTIVATION FUNCTION</a></p>
-<div class="math notranslate nohighlight">
-\[{\displaystyle \operatorname {swish} (x):=x\times \operatorname {sigmoid} (\beta x)={\frac {x}{1+e^{-\beta x}}}.}\]</div>
-<dl class="field-list">
-<dt class="field-odd">Usage</dt>
-<dd class="field-odd"><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">swish</span> <span class="o">=</span> <span class="n">Swish</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">swish</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd>
-<dt class="field-even">Parameters</dt>
-<dd class="field-even"><p><strong>inplace</strong> (<em>bool</em><em>, </em><em>optional</em>) – Perform the computation in-place. Defaults to False.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt id="glasses.nn.activation.Swish.Swish.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/activation/Swish.html#Swish.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.activation.Swish.Swish.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="glasses.nn.activation.Swish.Swish.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.activation.Swish.Swish.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
 <div class="section" id="module-glasses.nn.activation">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.nn.activation" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="glasses.nn.activation.Swish">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.activation.</code><code class="sig-name descname">Swish</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inplace</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/activation/Swish.html#Swish"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.activation.Swish" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>Swish function proposed in <a class="reference external" href="https://arxiv.org/pdf/1710.05941v1.pdf">SWISH: A SELF-GATED ACTIVATION FUNCTION</a></p>
-<div class="math notranslate nohighlight">
-\[{\displaystyle \operatorname {swish} (x):=x\times \operatorname {sigmoid} (\beta x)={\frac {x}{1+e^{-\beta x}}}.}\]</div>
-<dl class="field-list">
-<dt class="field-odd">Usage</dt>
-<dd class="field-odd"><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">swish</span> <span class="o">=</span> <span class="n">Swish</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">swish</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd>
-<dt class="field-even">Parameters</dt>
-<dd class="field-even"><p><strong>inplace</strong> (<em>bool</em><em>, </em><em>optional</em>) – Perform the computation in-place. Defaults to False.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt id="glasses.nn.activation.Swish.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/activation/Swish.html#Swish.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.activation.Swish.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="glasses.nn.activation.Swish.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.activation.Swish.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </div>
 </div>
 
@@ -281,7 +194,7 @@ registered hooks while the latter silently ignores them.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="glasses.nn.blocks.html" class="btn btn-neutral float-right" title="glasses.nn.blocks package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="glasses.nn.att.html" class="btn btn-neutral float-right" title="glasses.nn.att package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="glasses.nn.html" class="btn btn-neutral float-left" title="glasses.nn package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

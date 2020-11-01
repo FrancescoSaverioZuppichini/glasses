@@ -261,7 +261,7 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>in_channels (int, optional): [description]. Defaults to 1.
 n_classes (int, optional): [description]. Defaults to 2.
-encoder (nn.Module, optional): Model’s encoder (left part). It have a <cite>.gate</cite> and <cite>.block : nn.ModuleList</cite> fields. Defaults to UNetEncoder.
+encoder (nn.Module, optional): Model’s encoder (left part). It have a <cite>.stem</cite> and <cite>.block : nn.ModuleList</cite> fields. Defaults to UNetEncoder.
 decoder (nn.Module, optional): Model’s decoder (left part). It must have a <cite>.blocks : nn.ModuleList</cite> field. Defaults to UNetDecoder.
 widths (List[int], optional): [description]. Defaults to [64, 128, 256, 512, 1024].</p>
 </dd>
