@@ -22,11 +22,19 @@ def test_resnet():
     pred = model(x)
     assert pred.shape[-1] == 1000
 
+    model = ResNet.resnet26d().eval()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+
     model = ResNet.resnet34().eval()
     pred = model(x)
     assert pred.shape[-1] == 1000
 
     model = ResNet.resnet50().eval()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+
+    model = ResNet.resnet50d().eval()
     pred = model(x)
     assert pred.shape[-1] == 1000
 
@@ -60,6 +68,19 @@ def test_resnetxt():
     model = ResNetXt.resnext101_32x8d().eval()
     pred = model(x)
     assert pred.shape[-1] == 1000
+
+    model = ResNetXt.resnext101_32x16d().eval()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+
+    model = ResNetXt.resnext101_32x32d().eval()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+
+    # too big
+    # model = ResNetXt.resnext101_32x48d().eval()
+    # pred = model(x)
+    # assert pred.shape[-1] == 1000
 
 def test_wide_resnet():
     x = torch.rand(1, 3, 224, 224)
