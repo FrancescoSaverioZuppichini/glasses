@@ -269,6 +269,14 @@ from glasses.nn.models.classification.resnet import ResNetDecoder
 ResNetDecoder(512, n_classes=1000)
 ```
 
+```
+ResNetDecoder(
+  (pool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (flat): Flatten(start_dim=1, end_dim=-1)
+  (fc): Linear(in_features=512, out_features=1000, bias=True)
+)
+```
+
 **This object oriented structure allows to reuse most of the code across the models**
 
 ### Models
@@ -276,41 +284,55 @@ ResNetDecoder(512, n_classes=1000)
 The models so far
 
 
-| name             | Parameters   |   Size (MB) |
-|:-----------------|:-------------|------------:|
-| resnet18         | 11,689,512   |       44.59 |
-| resnet26         | 15,995,176   |       61.02 |
-| resnet34         | 21,797,672   |       83.15 |
-| resnet50         | 25,557,032   |       97.49 |
-| resnet101        | 44,549,160   |      169.94 |
-| resnet152        | 60,192,808   |      229.62 |
-| resnet200        | 64,673,832   |      246.71 |
-| resnext50_32x4d  | 25,028,904   |       95.48 |
-| resnext101_32x8d | 88,791,336   |      338.71 |
-| wide_resnet50_2  | 68,883,240   |      262.77 |
-| wide_resnet101_2 | 126,886,696  |      484.03 |
-| se_resnet18      | 11,776,552   |       44.92 |
-| se_resnet34      | 21,954,856   |       83.75 |
-| se_resnet50      | 28,071,976   |      107.09 |
-| se_resnet101     | 49,292,328   |      188.04 |
-| se_resnet152     | 66,770,984   |      254.71 |
-| densenet121      | 7,978,856    |       30.44 |
-| densenet161      | 28,681,000   |      109.41 |
-| densenet169      | 14,149,480   |       53.98 |
-| densenet201      | 20,013,928   |       76.35 |
-| MobileNetV2      | 3,504,872    |       13.37 |
-| fishnet99        | 16,630,312   |       63.44 |
-| fishnet150       | 24,960,808   |       95.22 |
-| efficientnet_b0  | 5,288,548    |       20.17 |
-| efficientnet_b1  | 7,794,184    |       29.73 |
-| efficientnet_b2  | 9,109,994    |       34.75 |
-| efficientnet_b3  | 12,233,232   |       46.67 |
-| efficientnet_b4  | 19,341,616   |       73.78 |
-| efficientnet_b5  | 30,389,784   |      115.93 |
-| efficientnet_b6  | 43,040,704   |      164.19 |
-| efficientnet_b7  | 66,347,960   |      253.1  |
-| efficientnet_b8  | 87,413,142   |      333.45 |
-| efficientnet_l2  | 480,309,308  |     1832.23 |
+| name              | Parameters   |   Size (MB) |
+|:------------------|:-------------|------------:|
+| AlexNet           | 61,100,840   |      233.08 |
+| vgg11             | 132,863,336  |      506.83 |
+| vgg11_bn          | 132,868,840  |      506.85 |
+| vgg13             | 133,047,848  |      507.54 |
+| vgg13_bn          | 133,053,736  |      507.56 |
+| vgg16             | 138,357,544  |      527.79 |
+| vgg16_bn          | 138,365,992  |      527.82 |
+| vgg19             | 143,667,240  |      548.05 |
+| vgg19_bn          | 143,678,248  |      548.09 |
+| resnet18          | 11,689,512   |       44.59 |
+| resnet26          | 15,995,176   |       61.02 |
+| resnet34          | 21,797,672   |       83.15 |
+| resnet50          | 25,557,032   |       97.49 |
+| resnet101         | 44,549,160   |      169.94 |
+| resnet152         | 60,192,808   |      229.62 |
+| resnet200         | 64,673,832   |      246.71 |
+| resnet26d         | 16,014,408   |       61.09 |
+| resnet50d         | 25,576,264   |       97.57 |
+| resnext50_32x4d   | 25,028,904   |       95.48 |
+| resnext101_32x8d  | 88,791,336   |      338.71 |
+| resnext101_32x16d | 194,026,792  |      740.15 |
+| resnext101_32x32d | 468,530,472  |     1787.3  |
+| resnext101_32x48d | 828,411,176  |     3160.14 |
+| wide_resnet50_2   | 68,883,240   |      262.77 |
+| wide_resnet101_2  | 126,886,696  |      484.03 |
+| se_resnet18       | 11,776,552   |       44.92 |
+| se_resnet34       | 21,954,856   |       83.75 |
+| se_resnet50       | 28,071,976   |      107.09 |
+| se_resnet101      | 49,292,328   |      188.04 |
+| se_resnet152      | 66,770,984   |      254.71 |
+| densenet121       | 7,978,856    |       30.44 |
+| densenet161       | 28,681,000   |      109.41 |
+| densenet169       | 14,149,480   |       53.98 |
+| densenet201       | 20,013,928   |       76.35 |
+| MobileNetV2       | 3,504,872    |       13.37 |
+| fishnet99         | 16,630,312   |       63.44 |
+| fishnet150        | 24,960,808   |       95.22 |
+| efficientnet_b0   | 5,288,548    |       20.17 |
+| efficientnet_b1   | 7,794,184    |       29.73 |
+| efficientnet_b2   | 9,109,994    |       34.75 |
+| efficientnet_b3   | 12,233,232   |       46.67 |
+| efficientnet_b4   | 19,341,616   |       73.78 |
+| efficientnet_b5   | 30,389,784   |      115.93 |
+| efficientnet_b6   | 43,040,704   |      164.19 |
+| efficientnet_b7   | 66,347,960   |      253.1  |
+| efficientnet_b8   | 87,413,142   |      333.45 |
+| efficientnet_l2   | 480,309,308  |     1832.23 |
 
 ## Credits
 

@@ -2,7 +2,8 @@ import torch
 import pandas as pd
 from argparse import ArgumentParser
 from torchsummary import summary
-from glasses.nn.models import ResNet, ResNetXt, WideResNet, SEResNet, DenseNet, EfficientNet, MobileNetV2, FishNet
+from glasses.nn.models import*
+
 # from torchvision.models import *
 
 parser = ArgumentParser()
@@ -30,16 +31,19 @@ def row(model_factory):
     }
 
 
-models = [ResNet.resnet18, ResNet.resnet26, ResNet.resnet34, ResNet.resnet50, ResNet.resnet101, ResNet.resnet152,  ResNet.resnet200,
-ResNet.resnet26d, ResNet.resnet50d,
-          ResNetXt.resnext50_32x4d, ResNetXt.resnext101_32x8d, WideResNet.wide_resnet50_2, WideResNet.wide_resnet101_2, 
-          SEResNet.se_resnet18, SEResNet.se_resnet34, SEResNet.se_resnet50, SEResNet.se_resnet101, SEResNet.se_resnet152,
-          DenseNet.densenet121, DenseNet.densenet161, DenseNet.densenet169, DenseNet.densenet201,
-          MobileNetV2, FishNet.fishnet99, FishNet.fishnet150,
-          EfficientNet.efficientnet_b0, EfficientNet.efficientnet_b1, EfficientNet.efficientnet_b2, EfficientNet.efficientnet_b3, 
-          EfficientNet.efficientnet_b4, EfficientNet.efficientnet_b5, EfficientNet.efficientnet_b6, EfficientNet.efficientnet_b7,
-           EfficientNet.efficientnet_b8,  EfficientNet.efficientnet_l2
-          ]
+models = [
+    AlexNet, VGG.vgg11, VGG.vgg11_bn, VGG.vgg13, VGG.vgg13_bn, VGG.vgg16, VGG.vgg16_bn, VGG.vgg19, VGG.vgg19_bn,
+    ResNet.resnet18, ResNet.resnet26, ResNet.resnet34, ResNet.resnet50, ResNet.resnet101, ResNet.resnet152,  ResNet.resnet200,
+    ResNet.resnet26d, ResNet.resnet50d,
+    ResNetXt.resnext50_32x4d, ResNetXt.resnext101_32x8d,  ResNetXt.resnext101_32x16d,  ResNetXt.resnext101_32x32d,  ResNetXt.resnext101_32x48d,
+    WideResNet.wide_resnet50_2, WideResNet.wide_resnet101_2,
+    SEResNet.se_resnet18, SEResNet.se_resnet34, SEResNet.se_resnet50, SEResNet.se_resnet101, SEResNet.se_resnet152,
+    DenseNet.densenet121, DenseNet.densenet161, DenseNet.densenet169, DenseNet.densenet201,
+    MobileNetV2, FishNet.fishnet99, FishNet.fishnet150,
+    EfficientNet.efficientnet_b0, EfficientNet.efficientnet_b1, EfficientNet.efficientnet_b2, EfficientNet.efficientnet_b3,
+    EfficientNet.efficientnet_b4, EfficientNet.efficientnet_b5, EfficientNet.efficientnet_b6, EfficientNet.efficientnet_b7,
+    EfficientNet.efficientnet_b8,  EfficientNet.efficientnet_l2
+]
 
 res = list(map(row, models))
 
