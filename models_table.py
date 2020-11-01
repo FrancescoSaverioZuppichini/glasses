@@ -31,6 +31,7 @@ def row(model_factory):
 
 
 models = [ResNet.resnet18, ResNet.resnet26, ResNet.resnet34, ResNet.resnet50, ResNet.resnet101, ResNet.resnet152,  ResNet.resnet200,
+ResNet.resnet26d, ResNet.resnet50d,
           ResNetXt.resnext50_32x4d, ResNetXt.resnext101_32x8d, WideResNet.wide_resnet50_2, WideResNet.wide_resnet101_2, 
           SEResNet.se_resnet18, SEResNet.se_resnet34, SEResNet.se_resnet50, SEResNet.se_resnet101, SEResNet.se_resnet152,
           DenseNet.densenet121, DenseNet.densenet161, DenseNet.densenet169, DenseNet.densenet201,

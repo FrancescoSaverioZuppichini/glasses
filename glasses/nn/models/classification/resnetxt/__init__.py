@@ -88,3 +88,36 @@ class ResNetXt(ResNet):
             ResNet: A resnext101_32x8d model
         """
         return cls.resnet101(*args, **kwargs, block=ResNetXtBottleNeckBlock, groups=32, base_width=8)
+
+
+    @classmethod
+    @pretrained('resnext101_32x16d')
+    def resnext101_32x16d(cls, *args, **kwargs) -> ResNetXt:
+        """Creates a resnext101_32x16d model
+
+        Returns:
+            ResNet: A resnext101_32x16d model
+        """
+        return cls.resnet101(*args, **kwargs, block=ResNetXtBottleNeckBlock, groups=32, base_width=16)
+
+
+    @classmethod
+    @pretrained('resnext101_32x32d')
+    def resnext101_32x32d(cls, *args, **kwargs) -> ResNetXt:
+        """Creates a resnext101_32x32d model
+
+        Returns:
+            ResNet: A resnext101_32x32d model
+        """
+        return cls.resnet101(*args, **kwargs, block=ResNetXtBottleNeckBlock, groups=32, base_width=32)
+
+    @classmethod
+    @pretrained('resnext101_32x48d')
+    def resnext101_32x48d(cls, *args, **kwargs) -> ResNetXt:
+        """Creates a resnext101_32x48d model
+
+        Returns:
+            ResNet: A resnext101_32x48d model
+        """
+        return cls.resnet101(*args, **kwargs, block=ResNetXtBottleNeckBlock, groups=32, base_width=48)
+
