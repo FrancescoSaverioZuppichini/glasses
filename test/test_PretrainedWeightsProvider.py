@@ -20,15 +20,15 @@ def test_PretrainedWeightsProvider():
     # with pytest.raises(KeyError):
     #     provider['does_not_exist']
 
-    # resnet18_state = ResNet.resnet18().state_dict()
-    # resnet18_prov_state = provider['resnet18']
+    resnet18_state = ResNet.resnet18().state_dict()
+    resnet18_prov_state = provider['resnet18']
 
-    # for mod, mod_prov in zip(resnet18_state.keys(), resnet18_prov_state.keys()):
-    #     assert str(mod) == str(mod_prov)
+    for mod, mod_prov in zip(resnet18_state.keys(), resnet18_prov_state.keys()):
+        assert str(mod) == str(mod_prov)
     
-    # model = ResNet.resnet18(pretrained=True)
+    model = ResNet.resnet18(pretrained=True)
 
-    # assert type(model) is ResNet
+    assert type(model) is ResNet
 
     cfg = Config(interpolation='bilinear')
     
