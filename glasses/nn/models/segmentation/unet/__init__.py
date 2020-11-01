@@ -84,7 +84,7 @@ class UNetEncoder(nn.Module):
 
     def __init__(self, in_channels: int,  widths: List[int] = [64, 128, 256, 512, 1024], *args, **kwargs):
         super().__init__()
-        self.gate = nn.Identity()
+        self.stem = nn.Identity()
         self.in_out_block_sizes = list(zip(widths, widths[1:]))
         self.widths = widths
         self.blocks = nn.ModuleList([
@@ -141,7 +141,7 @@ class UNet(nn.Module):
     Args:
             in_channels (int, optional): [description]. Defaults to 1.
             n_classes (int, optional): [description]. Defaults to 2.
-            encoder (nn.Module, optional): Model's encoder (left part). It have a `.gate` and `.block : nn.ModuleList` fields. Defaults to UNetEncoder.
+            encoder (nn.Module, optional): Model's encoder (left part). It have a `.stem` and `.block : nn.ModuleList` fields. Defaults to UNetEncoder.
             decoder (nn.Module, optional): Model's decoder (left part). It must have a `.blocks : nn.ModuleList` field. Defaults to UNetDecoder.
             widths (List[int], optional): [description]. Defaults to [64, 128, 256, 512, 1024].
         """
@@ -159,7 +159,7 @@ class UNet(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         self.residuals = []
-        x = self.encoder.gate(x)
+        x = self.encoder.stem(x)
         for block in self.encoder.blocks:
             x = block(x)
             self.residuals.append(x)

@@ -50,6 +50,12 @@ class SpatialSE(nn.Module):
         >>>        self.block.add_module('se', SpatialSE(out_features))
 
 
+        Creating the original seresnet50
+
+        >>> from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock
+        >>> from glasses.nn.att import EfficientChannelAtt, WithAtt
+        >>> se_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=SpatialSE))
+        >>> se_resnet50.summary()
     Args:
         features (int): Number of features
         reduction (int, optional): Reduction ratio used to downsample the input. Defaults to 16.
@@ -107,6 +113,13 @@ Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>
         >>> )
 
 
+        Creating the cseresnet50
+
+        >>> from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock
+        >>> from glasses.nn.att import EfficientChannelAtt, WithAtt
+        >>> se_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=ChannelSE))
+        >>> se_resnet50.summary()
+
     Args:
         features (int): Number of features
         reduction (int, optional): Reduction ratio used to downsample the input. Defaults to 16.
@@ -155,6 +168,13 @@ Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>
         >>>    nn.ReLU(),
         >>> )
 
+        Creating scseresnet50
+
+        >>> from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock
+        >>> from glasses.nn.att import EfficientChannelAtt, WithAtt
+        >>> se_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=SpatialChannelSE))
+        >>> se_resnet50.summary()
+
 
     Args:
         features (int): Number of features
@@ -174,8 +194,18 @@ Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>
         return x * (s_se + c_se)
 
 
-class ECAModule(nn.Module):
+class EfficientChannelAtt(nn.Module):
     """Implement of Efficient Channel Attention proposed in `ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks <https://arxiv.org/pdf/1910.03151.pdf>`_
+
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true
+
+    :Usage:
+
+        >>> # create ecaresnet50
+        >>> from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock
+        >>> from glasses.nn.att import EfficientChannelAtt, WithAtt
+        >>> eca_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=EfficientChannelAtt))
+        >>> eca_resnet50.summary()
 
     Args:
         features (int, optional): [description]. Defaults to None.
@@ -209,7 +239,7 @@ class WithAtt:
     :Usage:
 
         >>> WithAtt(ResNetBottleneckBlock, att=SpatialSE)
-        >>> WithAtt(ResNetBottleneckBlock, att=ECAModule)
+        >>> WithAtt(ResNetBottleneckBlock, att=EfficientChannelAtt)
         >>> from functools import partial 
         >>> WithAtt(ResNetBottleneckBlock, att=partial(SpatialSE, reduction=8))
     """
