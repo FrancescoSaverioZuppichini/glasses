@@ -81,8 +81,7 @@ class ResNetBasicBlock(nn.Module):
                  activation: nn.Module = ReLUInPlace,
                  stride: int = 1, shortcut: nn.Module = ResNetShorcut, **kwargs):
         super().__init__()
-        self.in_features, self.out_features = in_features, out_features
-        self.should_apply_shortcut = self.in_features != self.out_features
+        self.should_apply_shortcut = in_features != out_features
 
         self.block = nn.Sequential(
             OrderedDict(

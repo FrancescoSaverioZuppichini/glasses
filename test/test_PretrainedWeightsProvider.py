@@ -17,8 +17,8 @@ def test_PretrainedWeightsProvider():
     provider = PretrainedWeightsProvider(BASE_DIR=Path('.'))
     with pytest.raises(KeyError):
         provider['IDontExists']           
-    # with pytest.raises(KeyError):
-    #     provider['does_not_exist']
+    with pytest.raises(KeyError):
+        provider['does_not_exist']
 
     resnet18_state = ResNet.resnet18().state_dict()
     resnet18_prov_state = provider['resnet18']
