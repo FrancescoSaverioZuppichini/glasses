@@ -81,8 +81,7 @@ class ResNetBasicBlock(nn.Module):
                  activation: nn.Module = ReLUInPlace,
                  stride: int = 1, shortcut: nn.Module = ResNetShorcut, **kwargs):
         super().__init__()
-        self.in_features, self.out_features = in_features, out_features
-        self.should_apply_shortcut = self.in_features != self.out_features
+        self.should_apply_shortcut = in_features != out_features
 
         self.block = nn.Sequential(
             OrderedDict(
@@ -194,7 +193,6 @@ class ResNetBottleneckPreActBlock(ResNetBottleneckBlock):
         super().__init__(in_features, out_features, features,
                          activation, stride=stride, shortcut=shortcut, **kwargs)
         # TODO I am not sure it is correct
-        features = out_features // reduction
         self.block = nn.Sequential(
             BnActConv(in_features, self.features, activation=activation,
                       kernel_size=1, bias=False),
@@ -285,7 +283,7 @@ class ResNetEncoder(nn.Module):
 
         self.in_out_widths = list(zip(widths, widths[1:]))
 
-        self.blocks = nn.ModuleList([
+        self.layers = nn.ModuleList([
             ResNetLayer(start_features, widths[0], n=depths[0], activation=activation,
                         block=block, downsampling=False, **kwargs),
             *[ResNetLayer(in_features,
@@ -296,8 +294,8 @@ class ResNetEncoder(nn.Module):
 
     def forward(self, x):
         x = self.stem(x)
-        for block in self.blocks:
-            x = block(x)
+        for layer in self.layers:
+            x = layer(x)
         return x
 
 
