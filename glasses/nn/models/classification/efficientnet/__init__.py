@@ -16,6 +16,7 @@ from ....models.VisionModule import VisionModule
 
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 
+
 class EfficientNetBasicBlock(InvertedResidualBlock):
     """EfficientNet basic block. It is an inverted residual block from `MobileNetV2` but with `ChannelSE` after the depth-wise conv. 
     Residual connections are applied when there the input and output features number are the same.
@@ -28,19 +29,19 @@ class EfficientNetBasicBlock(InvertedResidualBlock):
         activation (nn.Module, optional): [description]. Defaults to nn.SiLU.
         drop_rate (float, optional): [description]. Defaults to 0.2.
     """
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = nn.SiLU, drop_rate: float =0.2, **kwargs):
+
+    def __init__(self, in_features: int, out_features: int, activation: nn.Module = nn.SiLU, drop_rate: float = 0.2, **kwargs):
         super().__init__(in_features, out_features, activation=activation, **kwargs)
         reduced_features = in_features // 4
-
 
         self.block = nn.Sequential(OrderedDict({
             'exp': self.block.exp,
             'depth':  self.block.depth,
             # apply se after depth-wise
             'att':  ChannelSE(self.expanded_features,
-                       reduced_features=reduced_features, activation=activation),
+                              reduced_features=reduced_features, activation=activation),
             'point': nn.Sequential(ConvBnAct(self.expanded_features,
-                                                   out_features, kernel_size=1, activation=None)),
+                                             out_features, kernel_size=1, activation=None)),
             'drop': nn.Dropout2d(drop_rate) if self.should_apply_residual else nn.Identity()
         }))
 
@@ -55,12 +56,13 @@ class EfficientNetLayer(nn.Module):
         depth (int, optional): [description]. Defaults to 1.
         stride (int, optional): [description]. Defaults to 2.
     """
+
     def __init__(self, in_features: int, out_features: int, block: nn.Module = EfficientNetBasicBlock,
                  depth: int = 1, stride: int = 2,  **kwargs):
         super().__init__()
         self.block = nn.Sequential(
-            block(in_features, out_features,**kwargs,
-                  stride=stride ),
+            block(in_features, out_features, **kwargs,
+                  stride=stride),
             *[block(out_features,
                     out_features, **kwargs) for _ in range(depth - 1)]
         )
@@ -121,11 +123,11 @@ class EfficientNetEncoder(nn.Module):
 
 class EfficientNet(VisionModule):
     """Implementations of EfficientNet proposed in `EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks <https://arxiv.org/abs/1905.11946>`_
-    
+
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNet.png?raw=true
 
     The basic architecture is similar to MobileNetV2 as was computed by using  `Progressive Neural Architecture Search <https://arxiv.org/abs/1905.11946>`_ . 
-    
+
     The following table shows the basic architecture (EfficientNet-efficientnet_b0):
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetModelsTable.jpeg?raw=true
@@ -152,7 +154,7 @@ class EfficientNet(VisionModule):
     Customization
 
     You can easily customize your model
-    
+
     Examples:
 
         >>> EfficientNet.efficientnet_b0(activation = nn.SELU)
@@ -191,7 +193,6 @@ class EfficientNet(VisionModule):
         'efficientnet_b8':  Config(resize=672, input_size=672, interpolation='bicubic'),
         'efficientnet_l2':  Config(resize=800, input_size=800, interpolation='bicubic')
     }
-
 
     models_config = {
         # name : width_factor, depth_factor, dropout_rate
@@ -242,55 +243,50 @@ class EfficientNet(VisionModule):
     @classmethod
     def from_config(cls, config, key, *args, **kwargs) -> EfficientNet:
         width_factor, depth_factor, drop_rate = config[key]
-        widths, depths = CompoundScaler()(width_factor, depth_factor,  cls.default_widths, cls.default_depths)
+        widths, depths = CompoundScaler()(width_factor, depth_factor,
+                                          cls.default_widths, cls.default_depths)
         return EfficientNet(*args, **kwargs, depths=depths, widths=widths, drop_rate=drop_rate)
 
     @classmethod
     @pretrained()
     def efficientnet_b0(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, 'efficientnet_b0', *args, **kwargs)
-    
+
     @classmethod
     @pretrained()
     def efficientnet_b1(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, 'efficientnet_b1', *args, **kwargs)
 
-
     @classmethod
     @pretrained()
     def efficientnet_b2(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_b2',*args, **kwargs)
-
+        return cls.from_config(cls.models_config, 'efficientnet_b2', *args, **kwargs)
 
     @classmethod
     @pretrained()
     def efficientnet_b3(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_b3',*args, **kwargs)
-
+        return cls.from_config(cls.models_config, 'efficientnet_b3', *args, **kwargs)
 
     @classmethod
     def efficientnet_b4(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_b4',*args, **kwargs)
-
+        return cls.from_config(cls.models_config, 'efficientnet_b4', *args, **kwargs)
 
     @classmethod
     def efficientnet_b5(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_b5',*args, **kwargs)
-
+        return cls.from_config(cls.models_config, 'efficientnet_b5', *args, **kwargs)
 
     @classmethod
     def efficientnet_b6(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_b6',*args, **kwargs)
+        return cls.from_config(cls.models_config, 'efficientnet_b6', *args, **kwargs)
 
     @classmethod
     def efficientnet_b7(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_b7',*args, **kwargs)
+        return cls.from_config(cls.models_config, 'efficientnet_b7', *args, **kwargs)
 
     @classmethod
-    def  efficientnet_b8(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_b8',*args, **kwargs)
-
+    def efficientnet_b8(cls, *args, **kwargs) -> EfficientNet:
+        return cls.from_config(cls.models_config, 'efficientnet_b8', *args, **kwargs)
 
     @classmethod
-    def  efficientnet_l2(cls, *args, **kwargs) -> EfficientNet:
+    def efficientnet_l2(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, 'efficientnet_l2')

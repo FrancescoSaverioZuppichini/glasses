@@ -74,7 +74,6 @@ class InvertedResidualBlock(nn.Module):
 
 MobileNetBasicBlock = InvertedResidualBlock
 
-
 class MobileNetLayer(nn.Module):
     def __init__(self, in_features: int, out_features: int, block: nn.Module = MobileNetBasicBlock, n: int = 1, stride: int = 1, *args, **kwargs):
         super().__init__()
