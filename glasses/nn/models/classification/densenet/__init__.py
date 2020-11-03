@@ -151,19 +151,19 @@ class DenseNetEncoder(ResNetEncoder):
                  activation: nn.Module = ReLUInPlace, block: nn.Module = DenseBottleNeckBlock, *args, **kwargs):
         super().__init__(in_channels, start_features=start_features)
 
-        self.blocks = nn.ModuleList([])
+        self.layers = nn.ModuleList([])
         self.widths = []
         in_features = start_features
 
         for deepth in depths[:-1]:
-            self.blocks.append(DenseNetLayer(
+            self.layers.append(DenseNetLayer(
                 in_features, grow_rate, deepth, block=block, *args, **kwargs))
             # in each layer the in_features are equal the features we have so far + the number of layer multiplied by the grow rate
             in_features += deepth * grow_rate
             in_features //= 2
             self.widths.append(in_features)
 
-        self.blocks.append(DenseNetLayer(
+        self.layers.append(DenseNetLayer(
             in_features, grow_rate, depths[-1], block=block, *args, transition_block=None, **kwargs))
 
         self.widths.append(in_features + depths[-1] * grow_rate)
@@ -173,7 +173,7 @@ class DenseNetEncoder(ResNetEncoder):
 
     def forward(self, x):
         x = self.stem(x)
-        for block in self.blocks:
+        for block in self.layers:
             x = block(x)
         x = self.bn(x)
         x = self.act(x)
@@ -210,7 +210,7 @@ class DenseNet(VisionModule):
         >>> model = DenseNet.densenet121()
         >>> features = []
         >>> x = model.encoder.gate(x)
-        >>> for block in model.encoder.blocks:
+        >>> for block in model.encoder.layers:
             >>> x = block(x)
             >>> features.append(x)
         >>> print([x.shape for x in features])

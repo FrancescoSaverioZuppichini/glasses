@@ -66,7 +66,7 @@ class VGGEncoder(nn.Module):
         self.in_out_block_sizes = list(
             zip(widths[:-1], widths[1:]))
 
-        self.blocks = nn.ModuleList([
+        self.layers = nn.ModuleList([
             VGGLayer(in_channels, widths[0], activation=activation,
                      block=block, n=depths[0], *args, **kwargs),
             *[VGGLayer(in_channels, out_channels, activation=activation, block=block, n=n, *args, **kwargs)
@@ -74,7 +74,7 @@ class VGGEncoder(nn.Module):
         ])
 
     def forward(self, x: Tensor) -> Tensor:
-        for block in self.blocks:
+        for block in self.layers:
             x = block(x)
         return x
 
@@ -136,7 +136,7 @@ class VGG(VisionModule):
         >>> x = torch.rand((1, 3, 224, 224))
         >>> model = VGG.vgg11()
         >>> features = []
-        >>> for block in model.encoder.blocks:
+        >>> for block in model.encoder.layers:
             >>> x = block(x)
             >>> features.append(x)
         >>> print([x.shape for x in features])

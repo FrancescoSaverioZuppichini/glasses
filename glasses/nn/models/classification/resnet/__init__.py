@@ -284,7 +284,7 @@ class ResNetEncoder(nn.Module):
 
         self.in_out_widths = list(zip(widths, widths[1:]))
 
-        self.blocks = nn.ModuleList([
+        self.layers = nn.ModuleList([
             ResNetLayer(start_features, widths[0], n=depths[0], activation=activation,
                         block=block, downsampling=False, **kwargs),
             *[ResNetLayer(in_features,
@@ -295,7 +295,7 @@ class ResNetEncoder(nn.Module):
 
     def forward(self, x):
         x = self.stem(x)
-        for block in self.blocks:
+        for block in self.layers:
             x = block(x)
         return x
 
@@ -357,7 +357,7 @@ class ResNet(VisionModule):
         >>> model = ResNet.resnet18()
         >>> features = []
         >>> x = model.encoder.stem(x)
-        >>> for block in model.encoder.blocks:
+        >>> for block in model.encoder.layers:
         >>>     x = block(x)
         >>>     features.append(x)
         >>> print([x.shape for x in features])

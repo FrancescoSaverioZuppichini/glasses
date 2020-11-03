@@ -9,8 +9,8 @@ def test_EfficientNet():
     x = torch.rand((1, 3, 224, 224))
     model = EfficientNet.efficientnet_b0()
     features = []
-    x = model.encoder.gate(x)
-    for block in model.encoder.blocks:
+    x = model.encoder.stem(x)
+    for block in model.encoder.layers:
         x = block(x)
         features.append(x)
 

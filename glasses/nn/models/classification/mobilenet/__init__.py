@@ -9,8 +9,6 @@ from functools import partial
 from ....models.VisionModule import VisionModule
 
 
-
-
 """Implementations of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`
 """
 
@@ -45,36 +43,32 @@ class InvertedResidualBlock(nn.Module):
 
     def __init__(self, in_features: int, out_features: int,  stride: int = 1, expansion: int = 6, activation: nn.Module = nn.ReLU6, kernel_size: int = 3):
         super().__init__()
-        self.in_features, self.out_features = in_features, out_features
         self.expansion = expansion
         self.expanded_features = in_features * self.expansion
 
-        weights = nn.Sequential()
-        # we need to expand the input only if expansion is greater than one
-        if expansion > 1:
-            weights.add_module('exp', ConvBnAct(in_features,  self.expanded_features,
-                                                activation=activation, kernel_size=1))
-        # add the depth wise and point wise conv
-        weights.add_module('depth', ConvBnAct(self.expanded_features, self.expanded_features,
+        self.block = nn.Sequential(OrderedDict({
+            # we need to expand the input only if expansion is greater than one
+            'exp': ConvBnAct(in_features, self.expanded_features,  activation=activation, kernel_size=1) if expansion > 1 else nn.Identity(),
+        
+            'depth':  ConvBnAct(self.expanded_features, self.expanded_features,
                                               conv=DepthWiseConv2d,
                                               activation=activation,
                                               kernel_size=kernel_size,
-                                              stride=stride)
-                           )
+                                              stride=stride),
 
-        weights.add_module('point',  nn.Sequential(OrderedDict({
-            'conv': Conv2dPad(self.expanded_features,
-                                                   out_features, kernel_size=1, bias=False),
-            'bn': nn.BatchNorm2d(out_features)
-        })))
+            'point': nn.Sequential(ConvBnAct(self.expanded_features,
+                                                   out_features, kernel_size=1, activation=None))
+        }))
         # do not apply residual when downsamping and when features are different
         # in mobilenet we do not use a shortcut
         self.should_apply_residual = stride == 1 and in_features == out_features
-        self.block = ResidualAdd(
-            weights) if self.should_apply_residual else Residual(weights)
+
 
     def forward(self, x: Tensor) -> Tensor:
+        res = x
         x = self.block(x)
+        if self.should_apply_residual:
+            x += res
         return x
 
 
@@ -120,28 +114,28 @@ class MobileNetEncoder(nn.Module):
         # TODO mostly copied from resnet, we should find a way to re use the resnet one!
         self.widths = widths
 
-        self.gate = nn.Sequential(
+        self.stem = nn.Sequential(
             ConvBnAct(in_channels, widths[0], activation=activation,
                       kernel_size=3, stride=strides[0]),
         )
 
         self.in_out_block_sizes = list(zip(widths, widths[1:-1]))
 
-        self.blocks = nn.ModuleList([
+        self.layers = nn.ModuleList([
             *[MobileNetLayer(in_channels,
                              out_channels, n=n, stride=s, activation=activation,
                              block=block, *args,  expansion=t, **kwargs)
               for (in_channels, out_channels), n, s, t in zip(self.in_out_block_sizes, depths[1:], strides[1:], expansions)]
         ])
 
-        self.blocks.append(nn.Sequential(
+        self.layers.append(nn.Sequential(
             ConvBnAct(widths[-2], widths[-1],
                       activation=activation, kernel_size=1),
         ))
 
     def forward(self, x):
-        x = self.gate(x)
-        for block in self.blocks:
+        x = self.stem(x)
+        for block in self.layers:
             x = block(x)
 
         return x
@@ -200,7 +194,7 @@ class MobileNetV2(VisionModule):
         >>> model =MobileNetV2()
         >>> features = []
         >>> x = model.encoder.gate(x)
-        >>> for block in model.encoder.blocks:
+        >>> for block in model.encoder.layers:
         >>>     x = block(x)
         >>>     features.append(x)
         >>> print([x.shape for x in features])

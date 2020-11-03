@@ -31,15 +31,18 @@ class EfficientNetBasicBlock(InvertedResidualBlock):
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = nn.SiLU, drop_rate: float =0.2, **kwargs):
         super().__init__(in_features, out_features, activation=activation, **kwargs)
         reduced_features = in_features // 4
-        se = ChannelSE(self.expanded_features,
-                       reduced_features=reduced_features, activation=activation)
-        # squeeze and excitation is applied after the depth wise conv
-        self.block.block.point = nn.Sequential(
-            se,
-            self.block.block.point
-        )
-        if self.should_apply_residual:
-            self.block.block.add_module('drop', nn.Dropout2d(drop_rate))
+
+
+        self.block = nn.Sequential(OrderedDict({
+            'exp': self.block.exp,
+            'depth':  self.block.depth,
+            # apply se after depth-wise
+            'att':  ChannelSE(self.expanded_features,
+                       reduced_features=reduced_features, activation=activation),
+            'point': nn.Sequential(ConvBnAct(self.expanded_features,
+                                                   out_features, kernel_size=1, activation=None)),
+            'drop': nn.Dropout2d(drop_rate) if self.should_apply_residual else nn.Identity()
+        }))
 
 
 class EfficientNetLayer(nn.Module):
@@ -92,26 +95,26 @@ class EfficientNetEncoder(nn.Module):
         super().__init__()
 
         self.widths, self.depths = widths, depths
-        self.gate = ConvBnAct(
+        self.stem = ConvBnAct(
             in_channels, self.widths[0],  activation=activation, kernel_size=3, stride=2)
 
         self.in_out_block_sizes = list(zip(widths, widths[1:-1]))
 
-        self.blocks = nn.ModuleList([
+        self.layers = nn.ModuleList([
             *[EfficientNetLayer(in_channels,
                                 out_channels,  depth=n, stride=s,  expansion=t, kernel_size=k, activation=activation, **kwargs)
               for (in_channels, out_channels), n, s, t, k
                 in zip(self.in_out_block_sizes, depths, strides, expansions, kernels_sizes)]
         ])
 
-        self.blocks.append(
+        self.layers.append(
             ConvBnAct(self.widths[-2], self.widths[-1],
                       activation=activation, kernel_size=1),
         )
 
     def forward(self, x):
-        x = self.gate(x)
-        for block in self.blocks:
+        x = self.stem(x)
+        for block in self.layers:
             x = block(x)
         return x
 
@@ -165,7 +168,7 @@ class EfficientNet(VisionModule):
         >>> model = EfficientNet.efficientnet_b0()
         >>> features = []
         >>> x = model.encoder.gate(x)
-        >>> for block in model.encoder.blocks:
+        >>> for block in model.encoder.layers:
         >>>     x = block(x)
         >>>     features.append(x)
         >>> print([x.shape for x in features])

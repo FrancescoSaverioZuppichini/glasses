@@ -58,7 +58,7 @@ class ResNetXt(ResNet):
         >>> model = ResNetXt.resnext50_32x4d()
         >>> features = []
         >>> x = model.encoder.gate(x)
-        >>> for block in model.encoder.blocks:
+        >>> for block in model.encoder.layers:
         >>>     x = block(x)
         >>>     features.append(x)
         >>> print([x.shape for x in features])
