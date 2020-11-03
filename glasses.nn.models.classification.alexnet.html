@@ -292,13 +292,13 @@ registered hooks while the latter silently ignores them.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="glasses.nn.models.classification.alexnet.AlexNetGateBlock">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.alexnet.</code><code class="sig-name descname">AlexNetGateBlock</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/alexnet.html#AlexNetGateBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.alexnet.AlexNetGateBlock" title="Permalink to this definition">¶</a></dt>
+<dt id="glasses.nn.models.classification.alexnet.AlexNetStem">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.alexnet.</code><code class="sig-name descname">AlexNetStem</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/alexnet.html#AlexNetStem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.alexnet.AlexNetStem" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>AlexNet gate, the head of the architecture, which decreases the resolution of the filters by means of stride and bigger kernels.</p>
 <dl class="py method">
-<dt id="glasses.nn.models.classification.alexnet.AlexNetGateBlock.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/alexnet.html#AlexNetGateBlock.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.alexnet.AlexNetGateBlock.forward" title="Permalink to this definition">¶</a></dt>
+<dt id="glasses.nn.models.classification.alexnet.AlexNetStem.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/alexnet.html#AlexNetStem.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.alexnet.AlexNetStem.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -311,8 +311,8 @@ registered hooks while the latter silently ignores them.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.nn.models.classification.alexnet.AlexNetGateBlock.out_features">
-<code class="sig-name descname">out_features</code><em class="property">: int</em><em class="property"> = 192</em><a class="headerlink" href="#glasses.nn.models.classification.alexnet.AlexNetGateBlock.out_features" title="Permalink to this definition">¶</a></dt>
+<dt id="glasses.nn.models.classification.alexnet.AlexNetStem.out_features">
+<code class="sig-name descname">out_features</code><em class="property">: int</em><em class="property"> = 192</em><a class="headerlink" href="#glasses.nn.models.classification.alexnet.AlexNetStem.out_features" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

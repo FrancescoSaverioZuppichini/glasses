@@ -217,7 +217,7 @@
 <span class="sd">        &gt;&gt;&gt; model = ResNetXt.resnext50_32x4d()</span>
 <span class="sd">        &gt;&gt;&gt; features = []</span>
 <span class="sd">        &gt;&gt;&gt; x = model.encoder.gate(x)</span>
-<span class="sd">        &gt;&gt;&gt; for block in model.encoder.blocks:</span>
+<span class="sd">        &gt;&gt;&gt; for block in model.encoder.layers:</span>
 <span class="sd">        &gt;&gt;&gt;     x = block(x)</span>
 <span class="sd">        &gt;&gt;&gt;     features.append(x)</span>
 <span class="sd">        &gt;&gt;&gt; print([x.shape for x in features])</span>

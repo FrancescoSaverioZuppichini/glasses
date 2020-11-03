@@ -310,19 +310,19 @@
                  <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ReLUInPlace</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">DenseBottleNeckBlock</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">start_features</span><span class="o">=</span><span class="n">start_features</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">widths</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">in_features</span> <span class="o">=</span> <span class="n">start_features</span>
 
         <span class="k">for</span> <span class="n">deepth</span> <span class="ow">in</span> <span class="n">depths</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DenseNetLayer</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DenseNetLayer</span><span class="p">(</span>
                 <span class="n">in_features</span><span class="p">,</span> <span class="n">grow_rate</span><span class="p">,</span> <span class="n">deepth</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
             <span class="c1"># in each layer the in_features are equal the features we have so far + the number of layer multiplied by the grow rate</span>
             <span class="n">in_features</span> <span class="o">+=</span> <span class="n">deepth</span> <span class="o">*</span> <span class="n">grow_rate</span>
             <span class="n">in_features</span> <span class="o">//=</span> <span class="mi">2</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">in_features</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DenseNetLayer</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DenseNetLayer</span><span class="p">(</span>
             <span class="n">in_features</span><span class="p">,</span> <span class="n">grow_rate</span><span class="p">,</span> <span class="n">depths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">transition_block</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">in_features</span> <span class="o">+</span> <span class="n">depths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">grow_rate</span><span class="p">)</span>
@@ -332,7 +332,7 @@
 
 <div class="viewcode-block" id="DenseNetEncoder.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.densenet.html#glasses.nn.models.classification.DenseNetEncoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -369,7 +369,7 @@
 <span class="sd">        &gt;&gt;&gt; model = DenseNet.densenet121()</span>
 <span class="sd">        &gt;&gt;&gt; features = []</span>
 <span class="sd">        &gt;&gt;&gt; x = model.encoder.gate(x)</span>
-<span class="sd">        &gt;&gt;&gt; for block in model.encoder.blocks:</span>
+<span class="sd">        &gt;&gt;&gt; for block in model.encoder.layers:</span>
 <span class="sd">            &gt;&gt;&gt; x = block(x)</span>
 <span class="sd">            &gt;&gt;&gt; features.append(x)</span>
 <span class="sd">        &gt;&gt;&gt; print([x.shape for x in features])</span>

@@ -168,8 +168,6 @@
 <span class="kn">from</span> <span class="nn">....models.VisionModule</span> <span class="kn">import</span> <span class="n">VisionModule</span>
 
 
-
-
 <span class="sd">&quot;&quot;&quot;Implementations of ResNet proposed in `Deep Residual Learning for Image Recognition &lt;https://arxiv.org/abs/1512.03385&gt;`</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -204,41 +202,36 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>  <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">expansion</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU6</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">in_features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_features</span> <span class="o">=</span> <span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">expansion</span> <span class="o">=</span> <span class="n">expansion</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">expanded_features</span> <span class="o">=</span> <span class="n">in_features</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">expansion</span>
 
-        <span class="n">weights</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
-        <span class="c1"># we need to expand the input only if expansion is greater than one</span>
-        <span class="k">if</span> <span class="n">expansion</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">weights</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">ConvBnAct</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span>  <span class="bp">self</span><span class="o">.</span><span class="n">expanded_features</span><span class="p">,</span>
-                                                <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-        <span class="c1"># add the depth wise and point wise conv</span>
-        <span class="n">weights</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s1">&#39;depth&#39;</span><span class="p">,</span> <span class="n">ConvBnAct</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expanded_features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">expanded_features</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">({</span>
+            <span class="c1"># we need to expand the input only if expansion is greater than one</span>
+            <span class="s1">&#39;exp&#39;</span><span class="p">:</span> <span class="n">ConvBnAct</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">expanded_features</span><span class="p">,</span>  <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">expansion</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">(),</span>
+        
+            <span class="s1">&#39;depth&#39;</span><span class="p">:</span>  <span class="n">ConvBnAct</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expanded_features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">expanded_features</span><span class="p">,</span>
                                               <span class="n">conv</span><span class="o">=</span><span class="n">DepthWiseConv2d</span><span class="p">,</span>
                                               <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
                                               <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernel_size</span><span class="p">,</span>
-                                              <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">)</span>
-                           <span class="p">)</span>
+                                              <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">),</span>
 
-        <span class="n">weights</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s1">&#39;point&#39;</span><span class="p">,</span>  <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">({</span>
-            <span class="s1">&#39;conv&#39;</span><span class="p">:</span> <span class="n">Conv2dPad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expanded_features</span><span class="p">,</span>
-                                                   <span class="n">out_features</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-            <span class="s1">&#39;bn&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">out_features</span><span class="p">)</span>
-        <span class="p">})))</span>
+            <span class="s1">&#39;point&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">ConvBnAct</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expanded_features</span><span class="p">,</span>
+                                                   <span class="n">out_features</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="kc">None</span><span class="p">))</span>
+        <span class="p">}))</span>
         <span class="c1"># do not apply residual when downsamping and when features are different</span>
         <span class="c1"># in mobilenet we do not use a shortcut</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">should_apply_residual</span> <span class="o">=</span> <span class="n">stride</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">in_features</span> <span class="o">==</span> <span class="n">out_features</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">ResidualAdd</span><span class="p">(</span>
-            <span class="n">weights</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">should_apply_residual</span> <span class="k">else</span> <span class="n">Residual</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+
 
 <div class="viewcode-block" id="InvertedResidualBlock.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.mobilenet.html#glasses.nn.models.classification.InvertedResidualBlock.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">x</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">should_apply_residual</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">+=</span> <span class="n">res</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
 
 
 <span class="n">MobileNetBasicBlock</span> <span class="o">=</span> <span class="n">InvertedResidualBlock</span>
-
 
 <div class="viewcode-block" id="MobileNetLayer"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.mobilenet.html#glasses.nn.models.classification.MobileNetLayer">[docs]</a><span class="k">class</span> <span class="nc">MobileNetLayer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">MobileNetBasicBlock</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -279,28 +272,28 @@
         <span class="c1"># TODO mostly copied from resnet, we should find a way to re use the resnet one!</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">widths</span> <span class="o">=</span> <span class="n">widths</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">gate</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stem</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
             <span class="n">ConvBnAct</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">widths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
                       <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">strides</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">in_out_block_sizes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">widths</span><span class="p">,</span> <span class="n">widths</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
             <span class="o">*</span><span class="p">[</span><span class="n">MobileNetLayer</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span>
                              <span class="n">out_channels</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
                              <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span>  <span class="n">expansion</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
               <span class="k">for</span> <span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">),</span> <span class="n">n</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">in_out_block_sizes</span><span class="p">,</span> <span class="n">depths</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">strides</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">expansions</span><span class="p">)]</span>
         <span class="p">])</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
             <span class="n">ConvBnAct</span><span class="p">(</span><span class="n">widths</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">widths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                       <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
         <span class="p">))</span>
 
 <div class="viewcode-block" id="MobileNetEncoder.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.mobilenet.html#glasses.nn.models.classification.MobileNetEncoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">x</span></div></div>
@@ -359,7 +352,7 @@
 <span class="sd">        &gt;&gt;&gt; model =MobileNetV2()</span>
 <span class="sd">        &gt;&gt;&gt; features = []</span>
 <span class="sd">        &gt;&gt;&gt; x = model.encoder.gate(x)</span>
-<span class="sd">        &gt;&gt;&gt; for block in model.encoder.blocks:</span>
+<span class="sd">        &gt;&gt;&gt; for block in model.encoder.layers:</span>
 <span class="sd">        &gt;&gt;&gt;     x = block(x)</span>
 <span class="sd">        &gt;&gt;&gt;     features.append(x)</span>
 <span class="sd">        &gt;&gt;&gt; print([x.shape for x in features])</span>
