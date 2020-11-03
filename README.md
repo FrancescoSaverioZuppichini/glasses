@@ -45,7 +45,7 @@ ResNet.resnet18(n_classes=100)
 model = ResNet.resnet18(pretrained=True)
 model.freeze(who=model.encoder)
 # get the last layer, usuful to hook to it if you want to get the embeeded vector
-model.encoder.blocks[-1]
+model.encoder.layers[-1]
 # what about resnet with inverted residuals?
 from glasses.nn.models.classification.mobilenet import InvertedResidualBlock
 ResNet.resnet18(block = InvertedResidualBlock)

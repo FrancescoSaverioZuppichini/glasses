@@ -87,7 +87,7 @@ class UNetEncoder(nn.Module):
         self.stem = nn.Identity()
         self.in_out_block_sizes = list(zip(widths, widths[1:]))
         self.widths = widths
-        self.blocks = nn.ModuleList([
+        self.layers = nn.ModuleList([
             DownLayer(in_channels, widths[0],
                       donwsample=False, *args, **kwargs),
             *[DownLayer(in_features,
@@ -104,7 +104,7 @@ class UNetDecoder(nn.Module):
     def __init__(self, widths: List[int] = [64, 128, 256, 512, 1024], *args, **kwargs):
         super().__init__()
         self.in_out_block_sizes = list(zip(widths, widths[1:]))
-        self.blocks = nn.ModuleList([
+        self.layers = nn.ModuleList([
             UpLayer(in_features,
                     out_features, *args, **kwargs)
             for (in_features, out_features) in self.in_out_block_sizes
@@ -142,7 +142,7 @@ class UNet(nn.Module):
             in_channels (int, optional): [description]. Defaults to 1.
             n_classes (int, optional): [description]. Defaults to 2.
             encoder (nn.Module, optional): Model's encoder (left part). It have a `.stem` and `.block : nn.ModuleList` fields. Defaults to UNetEncoder.
-            decoder (nn.Module, optional): Model's decoder (left part). It must have a `.blocks : nn.ModuleList` field. Defaults to UNetDecoder.
+            decoder (nn.Module, optional): Model's decoder (left part). It must have a `.layers : nn.ModuleList` field. Defaults to UNetDecoder.
             widths (List[int], optional): [description]. Defaults to [64, 128, 256, 512, 1024].
         """
 
@@ -160,13 +160,13 @@ class UNet(nn.Module):
     def forward(self, x: Tensor) -> Tensor:
         self.residuals = []
         x = self.encoder.stem(x)
-        for block in self.encoder.blocks:
-            x = block(x)
+        for layer in self.encoder.layers:
+            x = layer(x)
             self.residuals.append(x)
         # reverse the residuals and skip the middle one
         self.residuals = self.residuals[::-1][1:]
-        for block, res in zip(self.decoder.blocks, self.residuals):
-            x = block(x, res)
+        for layer, res in zip(self.decoder.layers, self.residuals):
+            x = layer(x, res)
 
         x = self.tail(x)
         return x

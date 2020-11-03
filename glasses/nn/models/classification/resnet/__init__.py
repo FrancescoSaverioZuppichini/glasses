@@ -207,10 +207,9 @@ class ResNetBottleneckPreActBlock(ResNetBottleneckBlock):
 
 
 class ResNetLayer(nn.Module):
-    def __init__(self, in_features: int, out_features: int, block: nn.Module = ResNetBasicBlock, n: int = 1, downsampling: bool = True, *args, **kwargs):
+    def __init__(self, in_features: int, out_features: int, block: nn.Module = ResNetBasicBlock, n: int = 1, stride: int = 2, *args, **kwargs):
         super().__init__()
         # # 'We perform stride directly by convolutional layers that have a stride of 2.'
-        stride = 2 if downsampling else 1
         self.block = nn.Sequential(
             block(in_features, out_features, *args,
                   stride=stride,  **kwargs),
@@ -284,9 +283,9 @@ class ResNetEncoder(nn.Module):
 
         self.in_out_widths = list(zip(widths, widths[1:]))
 
-        self.blocks = nn.ModuleList([
+        self.layers = nn.ModuleList([
             ResNetLayer(start_features, widths[0], n=depths[0], activation=activation,
-                        block=block, downsampling=False, **kwargs),
+                        block=block, stride=1, **kwargs),
             *[ResNetLayer(in_features,
                           out_features, n=n, activation=activation,
                           block=block,  **kwargs)
@@ -295,7 +294,7 @@ class ResNetEncoder(nn.Module):
 
     def forward(self, x):
         x = self.stem(x)
-        for block in self.blocks:
+        for block in self.layers:
             x = block(x)
         return x
 
@@ -357,7 +356,7 @@ class ResNet(VisionModule):
         >>> model = ResNet.resnet18()
         >>> features = []
         >>> x = model.encoder.stem(x)
-        >>> for block in model.encoder.blocks:
+        >>> for block in model.encoder.layers:
         >>>     x = block(x)
         >>>     features.append(x)
         >>> print([x.shape for x in features])

@@ -4,13 +4,12 @@ import torch.nn as nn
 
 def test_EfficientNet():
     model = EfficientNet.efficientnet_b0()
-    model.encoder.gate.conv = nn.Conv2d(3, 32, kernel_size=7)
     # store each feature
     x = torch.rand((1, 3, 224, 224))
     model = EfficientNet.efficientnet_b0()
     features = []
-    x = model.encoder.gate(x)
-    for block in model.encoder.blocks:
+    x = model.encoder.stem(x)
+    for block in model.encoder.layers:
         x = block(x)
         features.append(x)
 

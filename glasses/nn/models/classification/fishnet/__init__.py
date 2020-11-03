@@ -203,7 +203,7 @@ class FishNetEncoder(nn.Module):
                  activation: nn.Module = ReLUInPlace,  *args, **kwargs):
         super().__init__()
 
-        self.gate = nn.Sequential(
+        self.stem = nn.Sequential(
             ConvBnAct(
                 in_channels, start_features // 2, activation=activation,  kernel_size=3,  stride=2),
             ConvBnAct(start_features // 2, start_features // 2,
@@ -238,7 +238,7 @@ class FishNetEncoder(nn.Module):
                 in_features, out_features, body_w[0], depth=depth, trans_depth=trans_depth, block=block, activation=activation))
 
     def forward(self, x):
-        x = self.gate(x)
+        x = self.stem(x)
         residuals = []
         # down
         for block in self.tail:

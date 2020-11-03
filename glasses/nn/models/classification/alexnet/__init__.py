@@ -14,7 +14,7 @@ from ....models.VisionModule import VisionModule
 AlexNetBasicBlock = ConvAct
 
 
-class AlexNetGateBlock(nn.Module):
+class AlexNetStem(nn.Module):
     """
     AlexNet gate, the head of the architecture, which decreases the resolution of the filters by means of stride and bigger kernels.
     """
@@ -36,6 +36,7 @@ class AlexNetGateBlock(nn.Module):
                 }
             )
         )
+        # [REVIEW] done by @francesco_cicala, need to change
         self.out_features = 192
 
     def forward(self, x: Tensor) -> Tensor:
@@ -54,10 +55,10 @@ class AlexNetEncoder(nn.Module):
 
         self.widths = widths
 
-        self.gate = AlexNetGateBlock()
+        self.gate = AlexNetStem(in_channels)
 
         self.in_out_block_sizes = list(zip(widths[:-1], widths[1:]))
-        self.blocks = nn.ModuleList([
+        self.layers = nn.ModuleList([
             block(self.gate.out_features,
                   widths[0], activation=activation, kernel_size=3),
             *[block(in_channels, out_channels, activation=activation, kernel_size=3)
@@ -68,7 +69,7 @@ class AlexNetEncoder(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.gate(x)
-        for block in self.blocks:
+        for block in self.layers:
             x = block(x)
         x = self.pool(x)
         return x

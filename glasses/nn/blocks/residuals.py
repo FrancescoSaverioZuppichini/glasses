@@ -73,12 +73,12 @@ class InputForward(nn.Module):
 
     def __init__(self, blocks: nn.Module, aggr_func: Callable[[Tensor], Tensor]):
         super().__init__()
-        self.blocks = blocks
+        self.layers = blocks
         self.aggr_func = aggr_func
 
     def forward(self, x: Tensor) -> Tensor:
         out = None
-        for block in self.blocks:
+        for block in self.layers:
             block_out = block(x)
             out = block_out if out is None else self.aggr_func(
                 [block_out, out])
