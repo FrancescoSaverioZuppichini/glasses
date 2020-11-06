@@ -48,7 +48,7 @@ models = {
     'densenet169': DenseNet.densenet169,
     'densenet201': DenseNet.densenet201,
     'densenet161': DenseNet.densenet161,
-    'mobilenet_v2': MobileNetV2,
+    # 'mobilenet_v2': MobileNetV2,
 
     'efficientnet_b0': EfficientNet.efficientnet_b0,
     'efficientnet_b1': EfficientNet.efficientnet_b1,
@@ -77,7 +77,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 def get_img_id(image_name):
     return image_name.split('/')[-1].replace('.JPEG', '')
 
-def benchmark(model: nn.Module, transform, batch_size=64):
+def benchmark(model: nn.Module, transform, batch_size=64, device = device):
 
     valid_dataset = ImageNet(
         root='/home/zuppif/Downloads/ImageNet', split='val', transform=transform)
@@ -114,7 +114,7 @@ def benchmark(model: nn.Module, transform, batch_size=64):
 
 def benchmark_all() -> pd.DataFrame:
     save_path = Path('./benchmark.pkl')
-    df = None
+    df = pd.DataFrame()
     if save_path.exists():
         df = pd.read_pickle(str(save_path))
     
@@ -124,6 +124,7 @@ def benchmark_all() -> pd.DataFrame:
     bar = tqdm(models.items())
 
     for key, model_def in bar:
+        
         if key not in df.index:
             model = model_def()
             try:
@@ -159,7 +160,7 @@ def benchmark_all() -> pd.DataFrame:
                 'top5': glasses_top5,
                 'time': glasses_time
             }
-
+            print(data)
             records.append(data)
 
             new_df = pd.DataFrame.from_records(records, index=index)
@@ -168,11 +169,11 @@ def benchmark_all() -> pd.DataFrame:
                 df = pd.concat([df, new_df])
             else: 
                 df = new_df
-            df.to_pickle(str(save_path))
-            pprint(records)
+            # df.to_pickle(str(save_path))
+            # pprint(records)
     # pd.DataFrame.
 
     print(df)
 
-# if __name__ == '__name__':
-benchmark_all()
+if __name__ == '__name__':
+    benchmark_all()

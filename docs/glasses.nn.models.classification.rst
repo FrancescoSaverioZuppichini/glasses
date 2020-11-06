@@ -14,22 +14,9 @@ Subpackages
    glasses.nn.models.classification.mobilenet
    glasses.nn.models.classification.resnet
    glasses.nn.models.classification.resnetxt
-   glasses.nn.models.classification.se
    glasses.nn.models.classification.senet
    glasses.nn.models.classification.vgg
    glasses.nn.models.classification.wide_resnet
-
-Submodules
-----------
-
-glasses.nn.models.classification.VisionModule module
-----------------------------------------------------
-
-.. automodule:: glasses.nn.models.classification.VisionModule
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 
 Module contents
 ---------------

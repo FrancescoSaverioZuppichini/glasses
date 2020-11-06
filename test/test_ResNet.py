@@ -1,16 +1,28 @@
 import torch
-from glasses.nn.models.classification.resnet import ResNet, ResNetBasicPreActBlock, ResNetBottleneckPreActBlock
+from glasses.nn.models.classification.resnet import *
 from glasses.nn.models.classification.resnetxt import ResNetXt
 from glasses.nn.models.classification.wide_resnet import WideResNet, WideResNetBottleNeckBlock
+
 def test_resnet():
     x = torch.rand(1, 3, 224, 224)
     model = ResNet.resnet18().eval()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
     # model.summary(device=torch.device('cpu'))
-
+    model = ResNet.resnet18(stem=ResNetStemC)
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+    model = ResNet.resnet18(block=partial(ResNetBasicBlock, shortcut=ResNetShorcutD))
+    pred = model(x)
+    assert pred.shape[-1] == 1000
     pred = model(x)
     assert pred.shape[-1] == 1000
     
     model = ResNet.resnet26().eval()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+
+    model = ResNet.resnet26d().eval()
     pred = model(x)
     assert pred.shape[-1] == 1000
 
@@ -19,6 +31,10 @@ def test_resnet():
     assert pred.shape[-1] == 1000
 
     model = ResNet.resnet50().eval()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+
+    model = ResNet.resnet50d().eval()
     pred = model(x)
     assert pred.shape[-1] == 1000
 
@@ -52,6 +68,19 @@ def test_resnetxt():
     model = ResNetXt.resnext101_32x8d().eval()
     pred = model(x)
     assert pred.shape[-1] == 1000
+
+    model = ResNetXt.resnext101_32x16d().eval()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+
+    model = ResNetXt.resnext101_32x32d().eval()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+
+    # too big
+    # model = ResNetXt.resnext101_32x48d().eval()
+    # pred = model(x)
+    # assert pred.shape[-1] == 1000
 
 def test_wide_resnet():
     x = torch.rand(1, 3, 224, 224)

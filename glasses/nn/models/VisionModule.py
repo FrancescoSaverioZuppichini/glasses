@@ -4,11 +4,10 @@ import inspect
 from pathlib import Path
 from torchsummary import summary
 from glasses.utils.PretrainedWeightsProvider import Config
-from .utils.protocols import Freezable
-
+from .utils.protocols import Freezable, Interpretable
 from typing import Dict
 
-class VisionModule(nn.Module, Freezable):
+class VisionModule(nn.Module, Freezable, Interpretable):
     configs: Dict[str, Config] = {}
     
     def summary(self, input_shape=(3, 224, 224), device: torch.device = None):

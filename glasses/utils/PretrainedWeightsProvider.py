@@ -5,6 +5,7 @@ import os
 import logging
 import torchvision.transforms as T
 import torch.nn as nn
+import numpy as np
 from torch import nn
 from dataclasses import dataclass
 from functools import partial
@@ -19,18 +20,23 @@ from typing import Callable
 from functools import wraps
 logging.basicConfig(level=logging.INFO)
 
-IMAGENET_DEFAULT_MEAN = (0.485, 0.456, 0.406)
-IMAGENET_DEFAULT_STD = (0.229, 0.224, 0.225)
+IMAGENET_DEFAULT_MEAN = torch.Tensor([0.485, 0.456, 0.406])
+IMAGENET_DEFAULT_STD = torch.Tensor([0.229, 0.224, 0.225])
 
 
 @dataclass
 class Config:
+    """Describe one configuration for a pretrained model.
+
+    Returns:
+        [type]: [description]
+    """
     input_size: int = 224
     resize: int = 256
     mean: Tuple[float] = IMAGENET_DEFAULT_MEAN
     std: Tuple[float] = IMAGENET_DEFAULT_STD
     interpolation: str = 'bilinear'
-
+    
     @property
     def transform(self):
         interpolations = {
@@ -67,6 +73,7 @@ def pretrained(name: str = None) -> Callable:
             model = func(*args, **kwargs)
             if pretrained:
                 model.load_state_dict(provider[name])
+                model.eval()
             return model
         return wrapper
     return decorator
@@ -138,35 +145,35 @@ class PretrainedWeightsProvider:
     override: bool = False
 
     weights_zoo = {
-        'resnet18': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses/blob/feature/weights/weights/resnet18.pth?raw=true'),
-        'resnet26': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses/blob/feature/weights/weights/resnet26.pth?raw=true'),
-        'resnet34': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses/blob/feature/weights/weights/resnet34.pth?raw=true'),
-        'mobilenet_v2': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses/blob/feature/weights/weights/mobilenet_v2.pth?raw=true'),
-        'efficientnet_b0': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses/blob/feature/weights/weights/efficientnet_b0.pth?raw=true'),
-        'efficientnet_b1': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses/blob/feature/weights/weights/efficientnet_b1.pth?raw=true'),
-        'efficientnet_b2': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses/blob/feature/weights/weights/efficientnet_b2.pth?raw=true'),
-        'efficientnet_b3': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses/blob/feature/weights/weights/efficientnet_b3.pth?raw=true'),
-        'densenet121': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses/blob/feature/weights/weights/densenet121.pth?raw=true'),
-        'densenet169': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses/blob/feature/weights/weights/densenet169.pth?raw=true'),
-        'densenet201': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses/blob/feature/weights/weights/densenet201.pth?raw=true'),
+        'resnet18': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/resnet18.pth?raw=true'),
+        'resnet26': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/resnet26.pth?raw=true'),
+        'resnet34': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/resnet34.pth?raw=true'),
+        'mobilenet_v2': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/mobilenet_v2.pth?raw=true'),
+        'efficientnet_b0': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/efficientnet_b0.pth?raw=true'),
+        'efficientnet_b1': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/efficientnet_b1.pth?raw=true'),
+        'efficientnet_b2': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/efficientnet_b2.pth?raw=true'),
+        'efficientnet_b3': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/efficientnet_b3.pth?raw=true'),
+        'densenet121': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/densenet121.pth?raw=true'),
+        'densenet169': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/densenet169.pth?raw=true'),
+        'densenet201': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/densenet201.pth?raw=true'),
         # from google drive
-        'resnet50': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1DYXJ12tLb-W687Wa9MWfvyarlz52cyD3'),
-        'cse_resnet50': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1CMyib_ACsWUIbXa7KjX3NXKkfAQyNnLd'),
-        'resnet101': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '14q5m53eYqQOPb1ZQYHButFW_g9Ec5pmR'),
-        'resnet152': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1d-EGQi-HGFNXEdQE7cVzXvmFl9iZAd-F'),
-        'resnext50_32x4d': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1lvV5v-WT0YBLSB9j3beGs8cV7Qc3ecEg'),
-        'resnext101_32x8d': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1y4GfcknrznFhMdMsbZwdZBYPN6UUNP2H'),
-        'wide_resnet50_2': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1or9L8aO7QDU0haP1pdbwGPrSLiTRQkqa'),
-        'wide_resnet101_2': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1VUvWd6MF7ySDx7kQH3siJjtpmxxw5LE8'),
-        'vgg11': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1dnlUB4ew8EdLMTVa9xS0CpyXVICpEls2'),
-        'vgg13': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1X87UaYvENTuLRD94TP8PJE0h-7su3lJL'),
-        'vgg16': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1yER36sIvoYZXRY_QHgk9sX6ecMP6t2h7'),
-        'vgg19': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1VWBABqCyrlqNXlacS5lHjDCWGkbwSIYZ'),
-        'vgg11_bn': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1HCqOnxN2RCyRvUy8pQ_5XnAqH3zI1bTp'),
-        'vgg13_bn': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1YlttLo-9VDgXq03gdnkJ8NIBEMpYwejN'),
-        'vgg16_bn': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1X6dvcZYPQcwTGlQ1S87pOUuCmTUhP1zj'),
-        'vgg19_bn': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1rHNKV8MgES-7PXYdzarI23MklRMpxaOm'),
-        'densenet161':  GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '153fMUorCUGSl4pKSA4tzduaI6BFG7hu5'),
+        # 'resnet50': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1DYXJ12tLb-W687Wa9MWfvyarlz52cyD3'),
+        # 'cse_resnet50': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1CMyib_ACsWUIbXa7KjX3NXKkfAQyNnLd'),
+        # 'resnet101': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '14q5m53eYqQOPb1ZQYHButFW_g9Ec5pmR'),
+        # 'resnet152': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1d-EGQi-HGFNXEdQE7cVzXvmFl9iZAd-F'),
+        # 'resnext50_32x4d': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1lvV5v-WT0YBLSB9j3beGs8cV7Qc3ecEg'),
+        # 'resnext101_32x8d': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1y4GfcknrznFhMdMsbZwdZBYPN6UUNP2H'),
+        # 'wide_resnet50_2': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1or9L8aO7QDU0haP1pdbwGPrSLiTRQkqa'),
+        # 'wide_resnet101_2': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1VUvWd6MF7ySDx7kQH3siJjtpmxxw5LE8'),
+        # 'vgg11': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1dnlUB4ew8EdLMTVa9xS0CpyXVICpEls2'),
+        # 'vgg13': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1X87UaYvENTuLRD94TP8PJE0h-7su3lJL'),
+        # 'vgg16': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1yER36sIvoYZXRY_QHgk9sX6ecMP6t2h7'),
+        # 'vgg19': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1VWBABqCyrlqNXlacS5lHjDCWGkbwSIYZ'),
+        # 'vgg11_bn': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1HCqOnxN2RCyRvUy8pQ_5XnAqH3zI1bTp'),
+        # 'vgg13_bn': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1YlttLo-9VDgXq03gdnkJ8NIBEMpYwejN'),
+        # 'vgg16_bn': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1X6dvcZYPQcwTGlQ1S87pOUuCmTUhP1zj'),
+        # 'vgg19_bn': GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '1rHNKV8MgES-7PXYdzarI23MklRMpxaOm'),
+        # 'densenet161':  GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id = '153fMUorCUGSl4pKSA4tzduaI6BFG7hu5'),
 
     }
 
