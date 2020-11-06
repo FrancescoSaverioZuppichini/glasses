@@ -14,8 +14,8 @@ from ....models.VisionModule import VisionModule
 from ..resnet import ResNetLayer
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 
-class EfficientNetBasicBlock(nn.Module):
-    """EfficientNet basic block. It used inverted residual connection proposed originally for MobileNetV2. 
+class InvertedResidualBlock(nn.Module):
+    """It used inverted residual connection proposed originally for MobileNetV2. 
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetBasicBlock.png?raw=true
 
@@ -65,7 +65,7 @@ class EfficientNetBasicBlock(nn.Module):
             x += res
         return x
 
-EfficientNetLayer = partial(ResNetLayer, block=EfficientNetBasicBlock)
+EfficientNetLayer = partial(ResNetLayer, block=InvertedResidualBlock)
 
 class EfficientNetEncoder(nn.Module):
     """
