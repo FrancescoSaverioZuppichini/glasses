@@ -1,4 +1,4 @@
-from glasses.nn.models.classification.efficientnet import EfficientNet
+from glasses.nn.models.classification.efficientnet import EfficientNet, EfficientNetLite
 import torch
 import torch.nn as nn
 
@@ -13,7 +13,7 @@ def test_EfficientNet():
         x = block(x)
         features.append(x)
 
-    assert len(features) == len(model.default_depths) + 1 #count for the last one also
+    assert len(features) == len(model.default_depths) 
 
 def test_EfficientNetb1():
     x = torch.rand(1, 3, 224, 224)
@@ -77,3 +77,38 @@ def test_EfficientNetb8():
 #     model = EfficientNet.efficientnet_l2()
 #     pred = model(x)
 #     assert pred.shape[-1] == 1000
+
+
+def test_EfficientNetLite0():
+    x = torch.rand(1, 3, 224, 224)
+    model = EfficientNetLite.efficientnet_lite0()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+
+
+
+def test_EfficientNetLite1():
+    x = torch.rand(1, 3, 224, 224)
+    model = EfficientNetLite.efficientnet_lite1()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+
+
+def test_EfficientNetLite2():
+    x = torch.rand(1, 3, 224, 224)
+    model = EfficientNetLite.efficientnet_lite2()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+
+
+def test_EfficientNetLite3():
+    x = torch.rand(1, 3, 224, 224)
+    model = EfficientNetLite.efficientnet_lite3()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+
+def test_EfficientNetLite4():
+    x = torch.rand(1, 3, 224, 224)
+    model = EfficientNetLite.efficientnet_lite4()
+    pred = model(x)
+    assert pred.shape[-1] == 1000

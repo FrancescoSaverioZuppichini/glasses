@@ -207,14 +207,14 @@ class ResNetBottleneckPreActBlock(ResNetBottleneckBlock):
 
 
 class ResNetLayer(nn.Module):
-    def __init__(self, in_features: int, out_features: int, block: nn.Module = ResNetBasicBlock, n: int = 1, stride: int = 2, *args, **kwargs):
+    def __init__(self, in_features: int, out_features: int, block: nn.Module = ResNetBasicBlock, depth: int = 1, stride: int = 2, *args, **kwargs):
         super().__init__()
         # # 'We perform stride directly by convolutional layers that have a stride of 2.'
         self.block = nn.Sequential(
-            block(in_features, out_features, *args,
+            block(in_features, out_features,
                   stride=stride,  **kwargs),
             *[block(out_features,
-                    out_features, *args, **kwargs) for _ in range(n - 1)]
+                    out_features, **kwargs) for _ in range(depth - 1)]
         )
 
     def forward(self, x: Tensor) -> Tensor:
@@ -223,13 +223,13 @@ class ResNetLayer(nn.Module):
 
 
 class ResNetStem(nn.Sequential):
-    def __init__(self, start_features: int, in_channels: int = 3, activation: nn.Module = ReLUInPlace):
+    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace):
         super().__init__(nn.Sequential(
             OrderedDict(
                 {
                     'conv': Conv2dPad(
-                        in_channels, start_features, kernel_size=7, stride=2, bias=False),
-                    'bn': nn.BatchNorm2d(start_features),
+                        in_features, out_features, kernel_size=7, stride=2, bias=False),
+                    'bn': nn.BatchNorm2d(out_features),
                     'act': activation(),
                     'pool': nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
                 }
@@ -246,14 +246,14 @@ class ResNetStemC(nn.Sequential):
     times more expensive than a 3 × 3 convolution. So this tweak replacing the 7 × 7 convolution in the input stem with three conservative 3 × 3 convolution
     """
 
-    def __init__(self, start_features: int, in_channels: int = 3, activation: nn.Module = ReLUInPlace):
+    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace):
         super().__init__(
-            ConvBnAct(in_channels, start_features // 2,
+            ConvBnAct(in_features, out_features // 2,
                       activation=activation, kernel_size=3, stride=2),
-            ConvBnAct(start_features // 2, start_features // 2,
+            ConvBnAct(out_features // 2, out_features // 2,
                       activation=activation, kernel_size=3),
-            ConvBnAct(start_features // 2,
-                      start_features, activation=activation, kernel_size=3),
+            ConvBnAct(out_features // 2,
+                      out_features, activation=activation, kernel_size=3),
             nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         )
 
@@ -273,21 +273,19 @@ class ResNetEncoder(nn.Module):
     """
 
     def __init__(self, in_channels: int = 3, start_features: int = 64, widths: List[int] = [64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2],
-                 activation: nn.Module = ReLUInPlace, block: nn.Module = ResNetBasicBlock, stem: nn.Module = ResNetStem, *args, **kwargs):
+                 activation: nn.Module = ReLUInPlace, block: nn.Module = ResNetBasicBlock, stem: nn.Module = ResNetStem, **kwargs):
 
         super().__init__()
-        # store the actuall width of each layer
         self.widths = widths
-
-        self.stem = stem(start_features, in_channels)
-
         self.in_out_widths = list(zip(widths, widths[1:]))
 
+        self.stem = stem(in_channels, start_features, activation)
+
         self.layers = nn.ModuleList([
-            ResNetLayer(start_features, widths[0], n=depths[0], activation=activation,
+            ResNetLayer(start_features, widths[0], depth=depths[0], activation=activation,
                         block=block, stride=1, **kwargs),
             *[ResNetLayer(in_features,
-                          out_features, n=n, activation=activation,
+                          out_features, depth=n, activation=activation,
                           block=block,  **kwargs)
               for (in_features, out_features), n in zip(self.in_out_widths, depths[1:])]
         ])

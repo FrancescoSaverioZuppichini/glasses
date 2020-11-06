@@ -4,120 +4,147 @@ from torch import nn
 from torch import Tensor
 from ....blocks.residuals import ResidualAdd
 from collections import OrderedDict
-from typing import List, Union
+from typing import List, Union, Dict
 from functools import partial
-from ..mobilenet import InvertedResidualBlock, DepthWiseConv2d, MobileNetEncoder, MobileNetDecoder
 from ....blocks import Conv2dPad, ConvBnAct
 from glasses.nn.att import ChannelSE
 from ....models.utils.scaler import CompoundScaler
 from glasses.utils.PretrainedWeightsProvider import Config
 from ....models.VisionModule import VisionModule
-
-
+from ..resnet import ResNetLayer
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 
-
-class EfficientNetBasicBlock(InvertedResidualBlock):
-    """EfficientNet basic block. It is an inverted residual block from `MobileNetV2` but with `ChannelSE` after the depth-wise conv. 
-    Residual connections are applied when there the input and output features number are the same.
+class EfficientNetBasicBlock(nn.Module):
+    """EfficientNet basic block. It used inverted residual connection proposed originally for MobileNetV2. 
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetBasicBlock.png?raw=true
 
 
     Args:
         in_features (int): [description]
-        activation (nn.Module, optional): [description]. Defaults to nn.SiLU.
-        drop_rate (float, optional): [description]. Defaults to 0.2.
-    """
-
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = nn.SiLU, drop_rate: float = 0.2, **kwargs):
-        super().__init__(in_features, out_features, activation=activation, **kwargs)
-        reduced_features = in_features // 4
-
-        self.block = nn.Sequential(OrderedDict({
-            'exp': self.block.exp,
-            'depth':  self.block.depth,
-            # apply se after depth-wise
-            'att':  ChannelSE(self.expanded_features,
-                              reduced_features=reduced_features, activation=activation),
-            'point': nn.Sequential(ConvBnAct(self.expanded_features,
-                                             out_features, kernel_size=1, activation=None)),
-            'drop': nn.Dropout2d(drop_rate) if self.should_apply_residual else nn.Identity()
-        }))
-
-
-class EfficientNetLayer(nn.Module):
-    """EfficientNet layer composed by `block` stacked one after the other. The first block will downsample the input
-
-    Args:
-        in_features (int): [description]
         out_features (int): [description]
-        block (nn.Module, optional): [description]. Defaults to EfficientNetBasicBlock.
-        depth (int, optional): [description]. Defaults to 1.
-        stride (int, optional): [description]. Defaults to 2.
+        stride (int, optional): Stide used in the depth convolution. Defaults to 1.
+        expansion (int, optional): The expansion ratio applied. Defaults to 6.
+        activation (nn.Module, optional): The activation funtion used. Defaults to nn.SiLU.
+        drop_rate (float, optional): If > 0, add a  nn.Dropout2d at the end of the block. Defaults to 0.2.
+        se (bool, optional): If True, add a ChannelSE module after the depth convolution. Defaults to True.
+        kernel_size (int, optional): [description]. Defaults to 3.
     """
 
-    def __init__(self, in_features: int, out_features: int, block: nn.Module = EfficientNetBasicBlock,
-                 depth: int = 1, stride: int = 2,  **kwargs):
+    def __init__(self, in_features: int, out_features: int, stride: int = 1, expansion: int = 6, activation: nn.Module = nn.SiLU, drop_rate: float = 0.2, se: bool = True, kernel_size: int = 3, **kwargs):
         super().__init__()
+
+        reduced_features = in_features // 4
+        expanded_features = in_features * expansion
+        # do not apply residual when downsamping and when features are different
+        # in mobilenet we do not use a shortcut
+        self.should_apply_residual = stride == 1 and in_features == out_features
         self.block = nn.Sequential(
-            block(in_features, out_features, **kwargs,
-                  stride=stride),
-            *[block(out_features,
-                    out_features, **kwargs) for _ in range(depth - 1)]
+            OrderedDict({
+                'exp': ConvBnAct(in_features, expanded_features,  activation=activation, kernel_size=1) if expansion > 1 else nn.Identity(),
+                'depth':  ConvBnAct(expanded_features, expanded_features,
+                                    activation=activation,
+                                    kernel_size=kernel_size,
+                                    stride=stride, 
+                                    groups=expanded_features,
+                                    **kwargs),
+                # apply se after depth-wise
+                'att':  ChannelSE(expanded_features,
+                                  reduced_features=reduced_features, activation=activation) if se else nn.Identity(),
+                'point': nn.Sequential(ConvBnAct(expanded_features,
+                                                 out_features, kernel_size=1, activation=None)),
+
+                'drop': nn.Dropout2d(drop_rate) if self.should_apply_residual and drop_rate > 0 else nn.Identity()
+            })
         )
 
     def forward(self, x: Tensor) -> Tensor:
+        res = x
         x = self.block(x)
+        if self.should_apply_residual:
+            x += res
         return x
 
+EfficientNetLayer = partial(ResNetLayer, block=EfficientNetBasicBlock)
 
 class EfficientNetEncoder(nn.Module):
     """
     EfficientNet encoder composed by increasing different layers with increasing features.
 
+    Be awere that `widths` and `strides` also includes the width and stride for the steam in the first position.
+
     Args:
         in_channels (int, optional): [description]. Defaults to 3.
-        widths (List[int], optional): [description]. Defaults to [ 32, 16, 24, 40, 80, 112, 192, 320, 1280].
+        widths (List[int], optional): [description]. Defaults to [32, 16, 24, 40, 80, 112, 192, 320, 1280].
         depths (List[int], optional): [description]. Defaults to [1, 2, 2, 3, 3, 4, 1].
-        strides (List[int], optional): [description]. Defaults to [1, 2, 2, 2, 2, 1, 2].
+        strides (List[int], optional): [description]. Defaults to [2, 1, 2, 2, 2, 1, 2, 1].
         expansions (List[int], optional): [description]. Defaults to [1, 6, 6, 6, 6, 6, 6].
-        kernels_sizes (List[int], optional): [description]. Defaults to [3, 3, 5, 3, 5, 5, 3].
+        kernel_sizes (List[int], optional): [description]. Defaults to [3, 3, 5, 3, 5, 5, 3].
+        se (List[bool], optional): [description]. Defaults to [True, True, True, True, True, True, True].
+        drop_rate (float, optional): [description]. Defaults to 0.2.
         activation (nn.Module, optional): [description]. Defaults to nn.SiLU.
     """
 
     def __init__(self, in_channels: int = 3,
-                 widths: List[int] = [
-                     32, 16, 24, 40, 80, 112, 192, 320, 1280],
+                 widths: List[int] = [32, 16, 24, 40, 80, 112, 192, 320, 1280],
                  depths: List[int] = [1, 2, 2, 3, 3, 4, 1],
-                 strides: List[int] = [1, 2, 2, 2, 1, 2, 1],
+                 strides: List[int] = [2, 1, 2, 2, 2, 1, 2, 1],
                  expansions: List[int] = [1, 6, 6, 6, 6, 6, 6],
-                 kernels_sizes: List[int] = [3, 3, 5, 3, 5, 5, 3],
-                 activation: nn.Module = nn.SiLU, **kwargs):
+                 kernel_sizes: List[int] = [3, 3, 5, 3, 5, 5, 3],
+                 se: List[bool] = [True, True, True, True, True, True, True],
+                 drop_rate: float = 0.2,
+                 stem: nn.Module = ConvBnAct,
+                 activation: nn.Module = partial(nn.SiLU, inplace=True), **kwargs):
         super().__init__()
 
         self.widths, self.depths = widths, depths
-        self.stem = ConvBnAct(
-            in_channels, self.widths[0],  activation=activation, kernel_size=3, stride=2)
-
+        self.stem = stem(
+            in_channels, widths[0],  activation=activation, kernel_size=3, stride=strides[0])
+        strides = strides[1:]
         self.in_out_block_sizes = list(zip(widths, widths[1:-1]))
 
         self.layers = nn.ModuleList([
-            *[EfficientNetLayer(in_channels,
-                                out_channels,  depth=n, stride=s,  expansion=t, kernel_size=k, activation=activation, **kwargs)
-              for (in_channels, out_channels), n, s, t, k
-                in zip(self.in_out_block_sizes, depths, strides, expansions, kernels_sizes)]
+            *[EfficientNetLayer(in_features,
+                                out_features,
+                                depth=n,
+                                stride=s,
+                                expansion=t,
+                                kernel_size=k,
+                                se=se,
+                                drop_rate=drop_rate,
+                                activation=activation, **kwargs)
+              for (in_features, out_features), n, s, t, k, se
+                in zip(self.in_out_block_sizes, depths, strides, expansions, kernel_sizes, se)]
         ])
 
-        self.layers.append(
-            ConvBnAct(self.widths[-2], self.widths[-1],
-                      activation=activation, kernel_size=1),
-        )
+        self.head = ConvBnAct(self.widths[-2], self.widths[-1],
+                              activation=activation, kernel_size=1)
 
     def forward(self, x):
         x = self.stem(x)
         for block in self.layers:
             x = block(x)
+        x = self.head(x)
+        return x
+
+
+class EfficientNetDecoder(nn.Module):
+    """
+    This class represents the tail of EfficientNet. It performs a global pooling, dropout and maps the output to the
+    correct class by using a fully connected layer.
+    """
+
+    def __init__(self, in_features: int, n_classes: int, drop_rate: float = 0.2):
+        super().__init__()
+        self.avg = nn.AdaptiveAvgPool2d((1, 1))
+        self.drop = nn.Dropout2d(drop_rate)
+        self.fc = nn.Linear(in_features, n_classes)
+
+    def forward(self, x):
+        x = self.avg(x)
+        x = x.view(x.size(0), -1)
+        x = self.drop(x)
+        x = self.fc(x)
         return x
 
 
@@ -126,19 +153,20 @@ class EfficientNet(VisionModule):
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNet.png?raw=true
 
-    The basic architecture is similar to MobileNetV2 as was computed by using  `Progressive Neural Architecture Search <https://arxiv.org/abs/1905.11946>`_ . 
+    The basic architecture is similar to MobileNetV2 as was computed by using  `Progressive Neural Architecture Search <https://arxiv.org/abs/1905.11946>`_ .
 
     The following table shows the basic architecture (EfficientNet-efficientnet_b0):
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetModelsTable.jpeg?raw=true
 
-    Then, the architecture is scaled up from `-efficientnet_b0` to `-efficientnet_b7` using compound scaling. 
+    Then, the architecture is scaled up from `-efficientnet_b0` to `-efficientnet_b7` using compound scaling.
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetScaling.jpg?raw=true
 
-    Create a default model
-
     Examples:
+
+        Create a default model
+
         >>> EfficientNet.efficientnet_b0()
         >>> EfficientNet.efficientnet_b1()
         >>> EfficientNet.efficientnet_b2()
@@ -151,20 +179,13 @@ class EfficientNet(VisionModule):
         >>> EfficientNet.efficientnet_l2()
 
 
-    Customization
-
     You can easily customize your model
-
-    Examples:
 
         >>> EfficientNet.efficientnet_b0(activation = nn.SELU)
         >>> # change number of classes (default is 1000 )
         >>> EfficientNet.efficientnet_b0(n_classes=100)
         >>> # pass a different block
         >>> EfficientNet.efficientnet_b0(block=...)
-        >>> # change the initial convolution
-        >>> model = EfficientNet.efficientnet_b0()
-        >>> model.encoder.gate.conv = nn.Conv2d(3, 32, kernel_size=7)
         >>> # store each feature
         >>> x = torch.rand((1, 3, 224, 224))
         >>> model = EfficientNet.efficientnet_b0()
@@ -191,7 +212,7 @@ class EfficientNet(VisionModule):
         'efficientnet_b6':  Config(resize=528, input_size=528, interpolation='bicubic'),
         'efficientnet_b7':  Config(resize=600, input_size=600, interpolation='bicubic'),
         'efficientnet_b8':  Config(resize=672, input_size=672, interpolation='bicubic'),
-        'efficientnet_l2':  Config(resize=800, input_size=800, interpolation='bicubic')
+        'efficientnet_l2':  Config(resize=800, input_size=800, interpolation='bicubic'),
     }
 
     models_config = {
@@ -215,7 +236,7 @@ class EfficientNet(VisionModule):
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = EfficientNetEncoder(in_channels, *args, **kwargs)
-        self.decoder = MobileNetDecoder(
+        self.decoder = EfficientNetDecoder(
             self.encoder.widths[-1], n_classes, drop_rate=kwargs['drop_rate'])
 
         self.initialize()
@@ -245,7 +266,7 @@ class EfficientNet(VisionModule):
         width_factor, depth_factor, drop_rate = config[key]
         widths, depths = CompoundScaler()(width_factor, depth_factor,
                                           cls.default_widths, cls.default_depths)
-        return EfficientNet(*args, **kwargs, depths=depths, widths=widths, drop_rate=drop_rate)
+        return cls(*args, depths=depths, widths=widths, drop_rate=drop_rate, **kwargs,)
 
     @classmethod
     @pretrained()
@@ -289,4 +310,90 @@ class EfficientNet(VisionModule):
 
     @classmethod
     def efficientnet_l2(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_l2')
+        return cls.from_config(cls.models_config, 'efficientnet_l2',  *args, **kwargs)
+
+
+class EfficientNetLite(EfficientNet):
+    """Implementations of EfficientNetLite proposed in `Higher accuracy on vision models with EfficientNet-Lite <https://blog.tensorflow.org/2020/03/higher-accuracy-on-vision-models-with-efficientnet-lite.html>`_
+
+    Main differences from the EfficientNet implementation are:
+
+
+    - Removed squeeze-and-excitation networks since they are not well supported
+    - Replaced all swish activations with RELU6, which significantly improved the quality of post-training quantization (explained later)
+    - Fixed the stem and head while scaling models up in order to reduce the size and computations of scaled models
+
+    Examples:
+        Create a default model
+
+        >>> EfficientNetLite.efficientnet_lite0()
+        >>> EfficientNetLite.efficientnet_lite1()
+        >>> EfficientNetLite.efficientnet_lite2()
+        >>> EfficientNetLite.efficientnet_lite3()
+        >>> EfficientNetLite.efficientnet_lite4()
+
+
+    Args:
+        in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
+        n_classes (int, optional): Number of classes. Defaults to 1000.
+    """
+
+    configs = {
+
+        'efficientnet_lite0':  Config(resize=224, input_size=224, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+        'efficientnet_lite1':  Config(resize=240, input_size=240, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+        'efficientnet_lite2':  Config(resize=260, input_size=260, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+        'efficientnet_lite3':  Config(resize=280, input_size=280, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+        'efficientnet_lite4':  Config(resize=300, input_size=300, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+
+    }
+
+    models_config = {
+        # name : width_factor, depth_factor, dropout_rate
+        'efficientnet_lite0': (1.0, 1.0, 0.2),
+        'efficientnet_lite1': (1.0, 1.1, 0.2),
+        'efficientnet_lite2': (1.1, 1.2, 0.3),
+        'efficientnet_lite3': (1.2, 1.4, 0.3),
+        'efficientnet_lite4': (1.4, 1.8, 0.3),
+    }
+
+    @classmethod
+    def from_config(cls, config, key, *args, **kwargs) -> EfficientNet:
+        width_factor, depth_factor, drop_rate = config[key]
+        widths, depths = CompoundScaler()(width_factor, depth_factor,
+                                          cls.default_widths, cls.default_depths)
+        # in lite models the steam and head width are not scaled
+        widths[0] = cls.default_widths[0]
+        widths[-1] = cls.default_widths[-1]
+
+        depths[0] = cls.default_depths[0]
+        depths[-1] = cls.default_depths[-1]
+        # and se is disabled are not well supported for some mobile accelerators.
+        # ot sure why since there are just convolutions.
+        se = [False] * len(widths)
+        # all swish function are replaced with ReLU6 for easier post-quantization
+        return cls(*args, depths=depths,
+                   widths=widths,
+                   se=se,
+                   drop_rate=drop_rate,
+                   activation=partial(nn.ReLU6, inplace=True),  **kwargs)
+
+    @classmethod
+    def efficientnet_lite0(cls, *args, **kwargs) -> EfficientNet:
+        return cls.from_config(cls.models_config, 'efficientnet_lite0', *args, **kwargs)
+
+    @classmethod
+    def efficientnet_lite1(cls, *args, **kwargs) -> EfficientNet:
+        return cls.from_config(cls.models_config, 'efficientnet_lite1', *args, **kwargs)
+
+    @classmethod
+    def efficientnet_lite2(cls, *args, **kwargs) -> EfficientNet:
+        return cls.from_config(cls.models_config, 'efficientnet_lite2', *args, **kwargs)
+
+    @classmethod
+    def efficientnet_lite3(cls, *args, **kwargs) -> EfficientNet:
+        return cls.from_config(cls.models_config, 'efficientnet_lite3', *args, **kwargs)
+
+    @classmethod
+    def efficientnet_lite4(cls, *args, **kwargs) -> EfficientNet:
+        return cls.from_config(cls.models_config, 'efficientnet_lite4')

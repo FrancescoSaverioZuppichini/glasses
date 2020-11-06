@@ -7,7 +7,7 @@ from collections import OrderedDict
 from typing import List
 from functools import partial
 from ....blocks import ConvBnAct
-
+from ....models.VisionModule import VisionModule
 
 class UNetBasicBlock(nn.Module):
     """Basic Block for UNet. It is composed by a double 3x3 conv.
@@ -16,8 +16,9 @@ class UNetBasicBlock(nn.Module):
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = partial(nn.ReLU, inplace=True), *args, **kwargs):
         super().__init__()
 
-        self.block = nn.Sequential(nn.Sequential(ConvBnAct(in_features, out_features, kernel_size=3, activation=activation, *args, **kwargs),
-                                                 ConvBnAct(out_features, out_features, kernel_size=3, activation=activation, *args, **kwargs))
+        self.block = nn.Sequential(ConvBnAct(in_features, out_features, kernel_size=3, activation=activation, *args, **kwargs),
+                                   ConvBnAct(
+                                       out_features, out_features, kernel_size=3, activation=activation, *args, **kwargs)
                                    )
 
     def forward(self, x: Tensor) -> Tensor:
@@ -111,22 +112,18 @@ class UNetDecoder(nn.Module):
         ])
 
 
-class UNet(nn.Module):
-    """Implementation of Unet proposed in `U-Net: Convolutional Networks for Biomedical Image Segmentation
- <https://arxiv.org/abs/1505.04597>`_
+class UNet(VisionModule):
+    """Implementation of Unet proposed in `U-Net: Convolutional Networks for Biomedical Image Segmentation <https://arxiv.org/abs/1505.04597>`_
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/UNet.png?raw=true
 
-    Create a default model
-
     Examples:
+
+       Create a default model
+
         >>> UNet()
 
-    Customization
-
-    You can easily customize your model
-
-    Examples:
+        You can easily customize your model
 
         >>> # change activation
         >>> UNet(activation=nn.SELU)
@@ -139,12 +136,13 @@ class UNet(nn.Module):
 
 
     Args:
-            in_channels (int, optional): [description]. Defaults to 1.
-            n_classes (int, optional): [description]. Defaults to 2.
-            encoder (nn.Module, optional): Model's encoder (left part). It have a `.stem` and `.block : nn.ModuleList` fields. Defaults to UNetEncoder.
-            decoder (nn.Module, optional): Model's decoder (left part). It must have a `.layers : nn.ModuleList` field. Defaults to UNetDecoder.
-            widths (List[int], optional): [description]. Defaults to [64, 128, 256, 512, 1024].
-        """
+
+        in_channels (int, optional): [description]. Defaults to 1.
+        n_classes (int, optional): [description]. Defaults to 2.
+        encoder (nn.Module, optional): Model's encoder (left part). It have a `.stem` and `.block : nn.ModuleList` fields. Defaults to UNetEncoder.
+        decoder (nn.Module, optional): Model's decoder (left part). It must have a `.layers : nn.ModuleList` field. Defaults to UNetDecoder.
+        widths (List[int], optional): [description]. Defaults to [64, 128, 256, 512, 1024].
+    """
 
     def __init__(self, in_channels: int = 1, n_classes: int = 2, encoder: nn.Module = UNetEncoder,
                  decoder: nn.Module = UNetDecoder, *args, **kwargs):

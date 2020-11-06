@@ -53,7 +53,7 @@ zoo_models_mapping = {
     'vgg16_bn':[pretrainedmodels.__dict__['vgg16_bn'], VGG.vgg16_bn],
     'vgg19_bn':[pretrainedmodels.__dict__['vgg19_bn'], VGG.vgg19_bn],
 
-    'mobilenet_v2': [partial(mobilenet_v2, pretrained=True), MobileNetV2],
+    # 'mobilenet_v2': [partial(mobilenet_v2, pretrained=True), MobileNetV2],
 
     'efficientnet_b0': [partial(timm.create_model, 'efficientnet_b0', pretrained=True), EfficientNet.efficientnet_b0],
     'efficientnet_b1': [partial(timm.create_model, 'efficientnet_b1', pretrained=True), EfficientNet.efficientnet_b1],
@@ -116,6 +116,7 @@ class AWSSTorage:
     def __contains__(self, el: 'str') -> bool:
         return False
 
+if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--storage', type=str,
                         choices=['local', 'aws'], default='local')
@@ -144,4 +145,4 @@ class AWSSTorage:
             cloned = clone_model(src_def(), dst_def())
             storage(key, cloned, uploading_bar)
 
-        # uploading_bar.update(0)
+    # uploading_bar.update(0)

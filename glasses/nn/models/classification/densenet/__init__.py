@@ -172,9 +172,7 @@ class DenseNetEncoder(ResNetEncoder):
         self.act = activation()
 
     def forward(self, x):
-        x = self.stem(x)
-        for block in self.layers:
-            x = block(x)
+        x = super().forward(x)
         x = self.bn(x)
         x = self.act(x)
         return x

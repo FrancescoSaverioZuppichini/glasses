@@ -8,7 +8,7 @@ from ..resnet import ResNetShorcut, ResNetLayer
 from collections import OrderedDict
 from typing import List
 from functools import partial
-from ..resnet import ResNetBottleneckBlock, ReLUInPlace, ResNetEncoder, ResNetShorcut, ResNetBottleneckPreActBlock
+from ..resnet import ResNetBottleneckBlock, ReLUInPlace, ResNetEncoder, ResNetShorcut, ResNetBottleneckPreActBlock, ResNetStemC
 from glasses.nn.att import ChannelSE
 from ....models.VisionModule import VisionModule
 
@@ -170,7 +170,6 @@ class FishNetHead(nn.Module):
         x = self.block(x)
         return x
 
-
 class FishNetEncoder(nn.Module):
     """
     FishNetEncoder encoder composed by a tail, body and head.
@@ -200,18 +199,11 @@ class FishNetEncoder(nn.Module):
                  head_trans_depths: List[int] = [1, 1, 1],
                  bridge_depth: int = 1,
                  block: nn.Module = FishNetBottleNeck,
+                 stem: nn.Module = ResNetStemC,
                  activation: nn.Module = ReLUInPlace,  *args, **kwargs):
         super().__init__()
 
-        self.stem = nn.Sequential(
-            ConvBnAct(
-                in_channels, start_features // 2, activation=activation,  kernel_size=3,  stride=2),
-            ConvBnAct(start_features // 2, start_features // 2,
-                      activation=activation,  kernel_size=3, ),
-            ConvBnAct(start_features // 2, start_features,
-                      activation=activation,  kernel_size=3),
-            nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
-        )
+        self.stem = stem(in_channels, start_features, activation)
 
         self.tail_widths, self.body_widths, self.head_widths = self.find_widths(
             start_features, len(tail_depths))
@@ -320,7 +312,7 @@ class FishNet(VisionModule):
     """Implementation of ResNet proposed in `FishNet: A Versatile Backbone for Image, Region, and Pixel Level Prediction <https://arxiv.org/abs/1901.03495>`_
 
     Honestly, this model it is very weird and it has some mistakes in the paper that nobody ever cared to correct. It is a nice idea, but it could have been described better and definitly implemented better.
-    The author's code is just terrible, I have based mostly of my implemente on this amazing repo `Fishnet-PyTorch <https://github.com/zsef123/Fishnet-PyTorch>`_.
+    The author's code is terrible, I have based mostly of my implemente on this amazing repo `Fishnet-PyTorch <https://github.com/zsef123/Fishnet-PyTorch>`_.
 
     The following image is taken from the paper and shows the architecture detail.
 

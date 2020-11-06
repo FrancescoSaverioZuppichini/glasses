@@ -101,7 +101,7 @@ class ConvBnAct(nn.Sequential):
                  normalization: nn.Module = nn.BatchNorm2d, activation: nn.Module = nn.ReLU, *args, bias: bool = False, **kwargs):
         super().__init__()
         self.add_module('conv', conv(
-            in_features, out_features, bias=bias, *args, **kwargs))
+            in_features, out_features, **kwargs, bias=bias))
         if normalization:
             self.add_module('bn', normalization(out_features))
         if activation:

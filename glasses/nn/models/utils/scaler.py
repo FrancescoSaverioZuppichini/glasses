@@ -24,8 +24,7 @@ class CompoundScaler:
         return scaled
 
     def depth_scaling(self, depth: int, depth_multi: float) -> int:
-        scaled = depth if depth_multi == 1 else int(
-            math.ceil(depth_multi * depth))
+        scaled = int(math.ceil(depth * depth_multi))
         return scaled
 
     def __call__(self, width_factor: float, depth_factor: float, widths: List[int], depths: List[int]) -> Union[List[int], List[int]]:
@@ -43,5 +42,6 @@ class CompoundScaler:
 
         widths = [self.width_scaling(w, width_factor) for w in widths]
         depths = [self.depth_scaling(d, depth_factor) for d in depths]
+        
 
         return widths, depths

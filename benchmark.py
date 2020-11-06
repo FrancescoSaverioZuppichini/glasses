@@ -48,7 +48,7 @@ models = {
     'densenet169': DenseNet.densenet169,
     'densenet201': DenseNet.densenet201,
     'densenet161': DenseNet.densenet161,
-    'mobilenet_v2': MobileNetV2,
+    # 'mobilenet_v2': MobileNetV2,
 
     'efficientnet_b0': EfficientNet.efficientnet_b0,
     'efficientnet_b1': EfficientNet.efficientnet_b1,
@@ -77,7 +77,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 def get_img_id(image_name):
     return image_name.split('/')[-1].replace('.JPEG', '')
 
-def benchmark(model: nn.Module, transform, batch_size=64):
+def benchmark(model: nn.Module, transform, batch_size=64, device = device):
 
     valid_dataset = ImageNet(
         root='/home/zuppif/Downloads/ImageNet', split='val', transform=transform)

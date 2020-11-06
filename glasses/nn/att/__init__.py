@@ -87,8 +87,7 @@ class SpatialSE(nn.Module):
 
 
 class ChannelSE(SpatialSE):
-    """Modified implement of Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze &
-Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>`_
+    """Modified implement of Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze & Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>`_
 
     It squeezes channel-wise and excitates spatially.
 
@@ -144,8 +143,7 @@ Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>
 
 
 class SpatialChannelSE(nn.Module):
-    """Implement of Spatial and Channel Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze &
-Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>`_
+    """Implement of Spatial and Channel Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze & Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>`_
 
     This module combines booth Spatial and Channel Squeeze and Excitation
 
@@ -199,7 +197,7 @@ class EfficientChannelAtt(nn.Module):
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true
 
-    :Usage:
+    Examples:
 
         >>> # create ecaresnet50
         >>> from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock
@@ -243,6 +241,7 @@ class WithAtt:
         >>> from functools import partial 
         >>> WithAtt(ResNetBottleneckBlock, att=partial(SpatialSE, reduction=8))
     """
+
     def __init__(self, block: nn.Module, att: nn.Module = SpatialSE):
         self.block = block
         self.att = att
@@ -251,4 +250,3 @@ class WithAtt:
         b = self.block(in_features, out_features, *args, **kwargs)
         b.block.add_module('se', self.att(out_features))
         return b
-
