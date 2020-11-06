@@ -166,7 +166,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">....blocks</span> <span class="kn">import</span> <span class="n">ConvBnAct</span>
-
+<span class="kn">from</span> <span class="nn">....models.VisionModule</span> <span class="kn">import</span> <span class="n">VisionModule</span>
 
 <div class="viewcode-block" id="UNetBasicBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.segmentation.UNetBasicBlock">[docs]</a><span class="k">class</span> <span class="nc">UNetBasicBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Basic Block for UNet. It is composed by a double 3x3 conv.</span>
@@ -175,8 +175,9 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">ConvBnAct</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
-                                                 <span class="n">ConvBnAct</span><span class="p">(</span><span class="n">out_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">ConvBnAct</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+                                   <span class="n">ConvBnAct</span><span class="p">(</span>
+                                       <span class="n">out_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                                    <span class="p">)</span>
 
 <div class="viewcode-block" id="UNetBasicBlock.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.segmentation.UNetBasicBlock.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
@@ -270,22 +271,18 @@
         <span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="UNet"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.segmentation.UNet">[docs]</a><span class="k">class</span> <span class="nc">UNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Implementation of Unet proposed in `U-Net: Convolutional Networks for Biomedical Image Segmentation</span>
-<span class="sd"> &lt;https://arxiv.org/abs/1505.04597&gt;`_</span>
+<div class="viewcode-block" id="UNet"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.segmentation.UNet">[docs]</a><span class="k">class</span> <span class="nc">UNet</span><span class="p">(</span><span class="n">VisionModule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Implementation of Unet proposed in `U-Net: Convolutional Networks for Biomedical Image Segmentation &lt;https://arxiv.org/abs/1505.04597&gt;`_</span>
 
 <span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/UNet.png?raw=true</span>
 
-<span class="sd">    Create a default model</span>
-
 <span class="sd">    Examples:</span>
+
+<span class="sd">       Create a default model</span>
+
 <span class="sd">        &gt;&gt;&gt; UNet()</span>
 
-<span class="sd">    Customization</span>
-
-<span class="sd">    You can easily customize your model</span>
-
-<span class="sd">    Examples:</span>
+<span class="sd">        You can easily customize your model</span>
 
 <span class="sd">        &gt;&gt;&gt; # change activation</span>
 <span class="sd">        &gt;&gt;&gt; UNet(activation=nn.SELU)</span>
@@ -298,12 +295,13 @@
 
 
 <span class="sd">    Args:</span>
-<span class="sd">            in_channels (int, optional): [description]. Defaults to 1.</span>
-<span class="sd">            n_classes (int, optional): [description]. Defaults to 2.</span>
-<span class="sd">            encoder (nn.Module, optional): Model&#39;s encoder (left part). It have a `.stem` and `.block : nn.ModuleList` fields. Defaults to UNetEncoder.</span>
-<span class="sd">            decoder (nn.Module, optional): Model&#39;s decoder (left part). It must have a `.layers : nn.ModuleList` field. Defaults to UNetDecoder.</span>
-<span class="sd">            widths (List[int], optional): [description]. Defaults to [64, 128, 256, 512, 1024].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+
+<span class="sd">        in_channels (int, optional): [description]. Defaults to 1.</span>
+<span class="sd">        n_classes (int, optional): [description]. Defaults to 2.</span>
+<span class="sd">        encoder (nn.Module, optional): Model&#39;s encoder (left part). It have a `.stem` and `.block : nn.ModuleList` fields. Defaults to UNetEncoder.</span>
+<span class="sd">        decoder (nn.Module, optional): Model&#39;s decoder (left part). It must have a `.layers : nn.ModuleList` field. Defaults to UNetDecoder.</span>
+<span class="sd">        widths (List[int], optional): [description]. Defaults to [64, 128, 256, 512, 1024].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">encoder</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">UNetEncoder</span><span class="p">,</span>
                  <span class="n">decoder</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">UNetDecoder</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>

@@ -246,8 +246,7 @@
 
 
 <div class="viewcode-block" id="ChannelSE"><a class="viewcode-back" href="../../../glasses.nn.att.html#glasses.nn.att.ChannelSE">[docs]</a><span class="k">class</span> <span class="nc">ChannelSE</span><span class="p">(</span><span class="n">SpatialSE</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Modified implement of Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze &amp;</span>
-<span class="sd">Excitation’ in Fully Convolutional Networks &lt;https://arxiv.org/abs/1803.02579&gt;`_</span>
+    <span class="sd">&quot;&quot;&quot;Modified implement of Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks &lt;https://arxiv.org/abs/1803.02579&gt;`_</span>
 
 <span class="sd">    It squeezes channel-wise and excitates spatially.</span>
 
@@ -303,8 +302,7 @@
 
 
 <div class="viewcode-block" id="SpatialChannelSE"><a class="viewcode-back" href="../../../glasses.nn.att.html#glasses.nn.att.SpatialChannelSE">[docs]</a><span class="k">class</span> <span class="nc">SpatialChannelSE</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Implement of Spatial and Channel Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze &amp;</span>
-<span class="sd">Excitation’ in Fully Convolutional Networks &lt;https://arxiv.org/abs/1803.02579&gt;`_</span>
+    <span class="sd">&quot;&quot;&quot;Implement of Spatial and Channel Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks &lt;https://arxiv.org/abs/1803.02579&gt;`_</span>
 
 <span class="sd">    This module combines booth Spatial and Channel Squeeze and Excitation</span>
 
@@ -358,7 +356,7 @@
 
 <span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true</span>
 
-<span class="sd">    :Usage:</span>
+<span class="sd">    Examples:</span>
 
 <span class="sd">        &gt;&gt;&gt; # create ecaresnet50</span>
 <span class="sd">        &gt;&gt;&gt; from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock</span>
@@ -402,6 +400,7 @@
 <span class="sd">        &gt;&gt;&gt; from functools import partial </span>
 <span class="sd">        &gt;&gt;&gt; WithAtt(ResNetBottleneckBlock, att=partial(SpatialSE, reduction=8))</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">att</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">SpatialSE</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">block</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">att</span> <span class="o">=</span> <span class="n">att</span>
@@ -410,7 +409,6 @@
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">b</span><span class="o">.</span><span class="n">block</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s1">&#39;se&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">att</span><span class="p">(</span><span class="n">out_features</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">b</span></div>
-
 </pre></div>
 
            </div>

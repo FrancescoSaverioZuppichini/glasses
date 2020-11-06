@@ -187,13 +187,11 @@
 <dt id="glasses.nn.att.ChannelSE">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.att.</code><code class="sig-name descname">ChannelSE</code><span class="sig-paren">(</span><em class="sig-param">features: int</em>, <em class="sig-param">*args</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">inplace=True)</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#ChannelSE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.ChannelSE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#glasses.nn.att.SpatialSE" title="glasses.nn.att.SpatialSE"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.att.SpatialSE</span></code></a></p>
-<p>Modified implement of Squeeze and Excitation Module proposed in <a class="reference external" href="https://arxiv.org/abs/1803.02579">Concurrent Spatial and Channel ‘Squeeze &amp;
-Excitation’ in Fully Convolutional Networks</a></p>
-<blockquote>
-<div><p>It squeezes channel-wise and excitates spatially.</p>
+<p>Modified implement of Squeeze and Excitation Module proposed in <a class="reference external" href="https://arxiv.org/abs/1803.02579">Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks</a></p>
+<p>It squeezes channel-wise and excitates spatially.</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ChannelSE.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ChannelSE.png?raw=true" />
-<dl>
-<dt>Examples:</dt><dd><p>Add <cite>ChannelSE</cite> to your own model is very simple.</p>
+<p class="rubric">Examples</p>
+<p>Add <cite>ChannelSE</cite> to your own model is very simple.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
 <span class="gp">&gt;&gt;&gt; </span>   <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
 <span class="gp">&gt;&gt;&gt; </span>   <span class="n">ChannelSE</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
@@ -216,13 +214,15 @@ Excitation’ in Fully Convolutional Networks</a></p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
-</dd>
-<dt>Args:</dt><dd><p>features (int): Number of features
-reduction (int, optional): Reduction ratio used to downsample the input. Defaults to 16.
-reduced_features (int, optional): If passed, use it instead of calculating the reduced features using <cite>reduction</cite>. Defaults to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>features</strong> (<em>int</em>) – Number of features</p></li>
+<li><p><strong>reduction</strong> (<em>int</em><em>, </em><em>optional</em>) – Reduction ratio used to downsample the input. Defaults to 16.</p></li>
+<li><p><strong>reduced_features</strong> (<em>int</em><em>, </em><em>optional</em>) – If passed, use it instead of calculating the reduced features using <cite>reduction</cite>. Defaults to None.</p></li>
+</ul>
 </dd>
 </dl>
-</div></blockquote>
 <dl class="py method">
 <dt id="glasses.nn.att.ChannelSE.forward">
 <code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/att.html#ChannelSE.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.ChannelSE.forward" title="Permalink to this definition">¶</a></dt>
@@ -250,18 +250,17 @@ registered hooks while the latter silently ignores them.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>Implement of Efficient Channel Attention proposed in <a class="reference external" href="https://arxiv.org/pdf/1910.03151.pdf">ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks</a></p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true" />
-<dl class="field-list">
-<dt class="field-odd">Usage</dt>
-<dd class="field-odd"><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># create ecaresnet50</span>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># create ecaresnet50</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">eca_resnet50</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">EfficientChannelAtt</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">eca_resnet50</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
-</dd>
-<dt class="field-even">Parameters</dt>
-<dd class="field-even"><ul class="simple">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
 <li><p><strong>features</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to None.</p></li>
 <li><p><strong>kernel_size</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 3.</p></li>
 <li><p><strong>gamma</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 2.</p></li>
@@ -294,13 +293,11 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.nn.att.SpatialChannelSE">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.att.</code><code class="sig-name descname">SpatialChannelSE</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialChannelSE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.SpatialChannelSE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>Implement of Spatial and Channel Squeeze and Excitation Module proposed in <a class="reference external" href="https://arxiv.org/abs/1803.02579">Concurrent Spatial and Channel ‘Squeeze &amp;
-Excitation’ in Fully Convolutional Networks</a></p>
-<blockquote>
-<div><p>This module combines booth Spatial and Channel Squeeze and Excitation</p>
+<p>Implement of Spatial and Channel Squeeze and Excitation Module proposed in <a class="reference external" href="https://arxiv.org/abs/1803.02579">Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks</a></p>
+<p>This module combines booth Spatial and Channel Squeeze and Excitation</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/SpatialAndChannelSE.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/SpatialAndChannelSE.png?raw=true" />
-<dl>
-<dt>Examples:</dt><dd><p>Add <cite>SpatialChannelSE</cite> to your own model is very simple.</p>
+<p class="rubric">Examples</p>
+<p>Add <cite>SpatialChannelSE</cite> to your own model is very simple.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
 <span class="gp">&gt;&gt;&gt; </span>   <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
 <span class="gp">&gt;&gt;&gt; </span>   <span class="n">SpatialChannelSE</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
@@ -323,13 +320,15 @@ Excitation’ in Fully Convolutional Networks</a></p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
-</dd>
-<dt>Args:</dt><dd><p>features (int): Number of features
-reduction (int, optional): Reduction ratio used to downsample the input. Defaults to 16.
-reduced_features (int, optional): If passed, use it instead of calculating the reduced features using <cite>reduction</cite>. Defaults to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>features</strong> (<em>int</em>) – Number of features</p></li>
+<li><p><strong>reduction</strong> (<em>int</em><em>, </em><em>optional</em>) – Reduction ratio used to downsample the input. Defaults to 16.</p></li>
+<li><p><strong>reduced_features</strong> (<em>int</em><em>, </em><em>optional</em>) – If passed, use it instead of calculating the reduced features using <cite>reduction</cite>. Defaults to None.</p></li>
+</ul>
 </dd>
 </dl>
-</div></blockquote>
 <dl class="py method">
 <dt id="glasses.nn.att.SpatialChannelSE.forward">
 <code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/att.html#SpatialChannelSE.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.SpatialChannelSE.forward" title="Permalink to this definition">¶</a></dt>

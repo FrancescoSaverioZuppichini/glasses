@@ -1,13 +1,13 @@
-glasses.nn.layers package
+glasses.nn.blocks package
 =========================
 
 Submodules
 ----------
 
-glasses.nn.layers.residuals module
+glasses.nn.blocks.residuals module
 ----------------------------------
 
-.. automodule:: glasses.nn.layers.residuals
+.. automodule:: glasses.nn.blocks.residuals
    :members:
    :undoc-members:
    :show-inheritance:
@@ -16,7 +16,7 @@ glasses.nn.layers.residuals module
 Module contents
 ---------------
 
-.. automodule:: glasses.nn.layers
+.. automodule:: glasses.nn.blocks
    :members:
    :undoc-members:
    :show-inheritance:

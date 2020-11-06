@@ -167,7 +167,7 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">ReLUInPlace</span><span class="p">,</span> <span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">ResNetShorcut</span><span class="p">,</span> <span class="n">ResNetBottleneckPreActBlock</span>
+<span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">ReLUInPlace</span><span class="p">,</span> <span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">ResNetShorcut</span><span class="p">,</span> <span class="n">ResNetBottleneckPreActBlock</span><span class="p">,</span> <span class="n">ResNetStemC</span>
 <span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">ChannelSE</span>
 <span class="kn">from</span> <span class="nn">....models.VisionModule</span> <span class="kn">import</span> <span class="n">VisionModule</span>
 
@@ -329,7 +329,6 @@
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
 
-
 <div class="viewcode-block" id="FishNetEncoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetEncoder">[docs]</a><span class="k">class</span> <span class="nc">FishNetEncoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    FishNetEncoder encoder composed by a tail, body and head.</span>
@@ -359,18 +358,11 @@
                  <span class="n">head_trans_depths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
                  <span class="n">bridge_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
                  <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">FishNetBottleNeck</span><span class="p">,</span>
+                 <span class="n">stem</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ResNetStemC</span><span class="p">,</span>
                  <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ReLUInPlace</span><span class="p">,</span>  <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">stem</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
-            <span class="n">ConvBnAct</span><span class="p">(</span>
-                <span class="n">in_channels</span><span class="p">,</span> <span class="n">start_features</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>  <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>  <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
-            <span class="n">ConvBnAct</span><span class="p">(</span><span class="n">start_features</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">start_features</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
-                      <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>  <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="p">),</span>
-            <span class="n">ConvBnAct</span><span class="p">(</span><span class="n">start_features</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">start_features</span><span class="p">,</span>
-                      <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>  <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stem</span> <span class="o">=</span> <span class="n">stem</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">start_features</span><span class="p">,</span> <span class="n">activation</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">tail_widths</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">body_widths</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">head_widths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_widths</span><span class="p">(</span>
             <span class="n">start_features</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tail_depths</span><span class="p">))</span>
@@ -479,7 +471,7 @@
     <span class="sd">&quot;&quot;&quot;Implementation of ResNet proposed in `FishNet: A Versatile Backbone for Image, Region, and Pixel Level Prediction &lt;https://arxiv.org/abs/1901.03495&gt;`_</span>
 
 <span class="sd">    Honestly, this model it is very weird and it has some mistakes in the paper that nobody ever cared to correct. It is a nice idea, but it could have been described better and definitly implemented better.</span>
-<span class="sd">    The author&#39;s code is just terrible, I have based mostly of my implemente on this amazing repo `Fishnet-PyTorch &lt;https://github.com/zsef123/Fishnet-PyTorch&gt;`_.</span>
+<span class="sd">    The author&#39;s code is terrible, I have based mostly of my implemente on this amazing repo `Fishnet-PyTorch &lt;https://github.com/zsef123/Fishnet-PyTorch&gt;`_.</span>
 
 <span class="sd">    The following image is taken from the paper and shows the architecture detail.</span>
 
