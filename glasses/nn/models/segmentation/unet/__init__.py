@@ -76,23 +76,6 @@ class UpLayer(nn.Module):
         return out
 
 
-class SegmentationEncoder(nn.Module):
-    
-    def __init__(self, backbone, stages : List[nn.Module] = None, widths : List[int] = None):
-        super().__init__()
-        self.backbone = backbone
-        self.stages = backbone.layers if stages is None else stages  
-        self.widths = backbone.widths if widths is None else widths
-        self.storage = ForwardModuleStorage(self.backbone, [*self.stages])
-        
-    def forward(self, x):
-        return self.backbone(x)
-    
-    @property
-    def features(self):
-        return list(self.storage.state.values())
-
-
 class UNetEncoder(nn.Module):
     """UNet Encoder composed of several layers of convolutions aimed to increased the features space and decrease the resolution.
     """
@@ -110,24 +93,24 @@ class UNetEncoder(nn.Module):
               for (in_features, out_features) in self.in_out_block_sizes]
         ])
 
-
     def forward(self, x: Tensor) -> Tensor:
         for layer in self.layers:
             x = layer(x)
 
         return x
 
+
 class UNetDecoder(nn.Module):
     """
     UNet Decoder composed of several layer of upsampling layers aimed to decrease the features space and increase the resolution.
     """
 
-    def __init__(self, widths: List[int] = [512, 256, 128, 64, 32], lateral_widths: List[int] = None, *args, **kwargs):
+    def __init__(self, start_features: int = 512, widths: List[int] = [256, 128, 64, 32], lateral_widths: List[int] = None, *args, **kwargs):
         super().__init__()
+        widths =  [start_features, *widths]
         self.widths = widths
         lateral_widths = widths if lateral_widths is None else lateral_widths
         lateral_widths.extend([0] * (len(widths) - len(lateral_widths)))
-        print(lateral_widths)
 
         self.in_out_block_sizes = list(zip(widths, widths[1:]))
         self.layers = nn.ModuleList([
@@ -135,6 +118,31 @@ class UNetDecoder(nn.Module):
                     out_features, lateral_features, **kwargs)
             for (in_features, out_features), lateral_features in zip(self.in_out_block_sizes, lateral_widths)
         ])
+
+    def forward(self, x: Tensor, residuals: List[Tensor]) -> Tensor:
+
+        for layer, res in zip(self.layers, residuals):
+            x = layer(x, res)
+
+        return x
+
+
+class WithFeatures(nn.Module):
+
+    def __init__(self, backbone, stages: List[nn.Module] = None, features_widths: List[int] = None):
+        super().__init__()
+        self.backbone = backbone
+        self.stages = backbone.layers if stages is None else stages
+        self.features_widths = backbone.widths if features_widths is None else features_widths
+        self.storage = ForwardModuleStorage(self.backbone, [*self.stages])
+
+    def __call__(self, x):
+        x = self.backbone(x)
+        return x
+
+    @property
+    def features(self):
+        return list(self.storage.state.values())
 
 class UNet(VisionModule):
     """Implementation of Unet proposed in `U-Net: Convolutional Networks for Biomedical Image Segmentation <https://arxiv.org/abs/1505.04597>`_
@@ -170,25 +178,25 @@ class UNet(VisionModule):
 
     def __init__(self, in_channels: int = 1, n_classes: int = 2,
                  encoder: nn.Module = UNetEncoder,
-                 decoder: nn.Module = UNetDecoder, 
-                  **kwargs):
+                 decoder: nn.Module = UNetDecoder,
+                 **kwargs):
 
         super().__init__()
         self.encoder = encoder(in_channels=in_channels, **kwargs)
-        self.decoder = decoder(lateral_widths=self.encoder.widths[::-1], **kwargs)
+        self.decoder = decoder(lateral_widths=self.encoder.features_widths[::-1],
+                               start_features=self.encoder.backbone.widths[-1],
+                               **kwargs)
         self.head = nn.Conv2d(
             self.decoder.widths[-1], n_classes, kernel_size=1)
 
-    def forward(self, x: Tensor) -> Tensor:       
+    def forward(self, x: Tensor) -> Tensor:
         x = self.encoder(x)
-        self.residuals = self.encoder.features[::-1]
-        # reverse the residuals and remove the last one
-        # if decoder has more layers than residuals, just pad residual with None
+        features = self.encoder.features
+        self.residuals = features[::-1]
         self.residuals.extend(
             [None] * (len(self.decoder.layers) - len(self.residuals)))
 
-        for layer, res in zip(self.decoder.layers, self.residuals):
-            x = layer(x, res)
+        x = self.decoder(x, self.residuals)
 
         x = self.head(x)
         return x
