@@ -66,6 +66,7 @@ class VGGEncoder(nn.Module):
         self.in_out_block_sizes = list(
             zip(widths[:-1], widths[1:]))
 
+        self.stem = nn.Identity()
         self.layers = nn.ModuleList([
             VGGLayer(in_channels, widths[0], activation=activation,
                      block=block, n=depths[0], *args, **kwargs),

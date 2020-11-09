@@ -224,17 +224,10 @@ class ResNetLayer(nn.Module):
 
 class ResNetStem(nn.Sequential):
     def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace):
-        super().__init__(nn.Sequential(
-            OrderedDict(
-                {
-                    'conv': Conv2dPad(
-                        in_features, out_features, kernel_size=7, stride=2, bias=False),
-                    'bn': nn.BatchNorm2d(out_features),
-                    'act': activation(),
-                    'pool': nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
-                }
-            )
-        )
+        super().__init__(
+            ConvBnAct(in_features, out_features,
+                      activation=activation, kernel_size=7, stride=2),
+            nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         )
 
 
@@ -272,18 +265,19 @@ class ResNetEncoder(nn.Module):
         stem (nn.Module, optional): Stem used. Defaults to ResNetStem.
     """
 
-    def __init__(self, in_channels: int = 3, start_features: int = 64, widths: List[int] = [64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2],
+    def __init__(self, in_channels: int = 3, widths: List[int] = [64, 64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2],
                  activation: nn.Module = ReLUInPlace, block: nn.Module = ResNetBasicBlock, stem: nn.Module = ResNetStem, **kwargs):
 
         super().__init__()
         self.widths = widths
-        self.in_out_widths = list(zip(widths, widths[1:]))
+        self.in_out_widths = list(zip(widths[1:], widths[2:]))
 
-        self.stem = stem(in_channels, start_features, activation)
+        self.stem = stem(in_channels, widths[0], activation)
 
         self.layers = nn.ModuleList([
-            ResNetLayer(start_features, widths[0], depth=depths[0], activation=activation,
-                        block=block, stride=1, **kwargs),
+            nn.Sequential(
+                ResNetLayer(widths[0], widths[1], depth=depths[0], activation=activation,
+                            block=block, stride=1, **kwargs)),
             *[ResNetLayer(in_features,
                           out_features, depth=n, activation=activation,
                           block=block,  **kwargs)
@@ -295,7 +289,6 @@ class ResNetEncoder(nn.Module):
         for block in self.layers:
             x = block(x)
         return x
-
 
 class ResNetDecoder(nn.Sequential):
     """
@@ -423,7 +416,7 @@ class ResNet(VisionModule):
             ResNet: A resnet26 model
         """
         model = cls(*args, **kwargs, block=block,
-                    widths=[256, 512, 1024, 2048], depths=[2, 2, 2, 2])
+                    widths=[64, 256, 512, 1024, 2048], depths=[2, 2, 2, 2])
 
         return model
 
@@ -436,7 +429,7 @@ class ResNet(VisionModule):
             ResNet: A resnet26d model
         """
         model = cls(*args, **kwargs, stem=ResNetStemC, block=partial(block, shortcut=ResNetShorcutD),
-                    widths=[256, 512, 1024, 2048], depths=[2, 2, 2, 2])
+                    widths=[64, 256, 512, 1024, 2048], depths=[2, 2, 2, 2])
 
         return model
 
@@ -462,7 +455,7 @@ class ResNet(VisionModule):
         Returns:
             ResNet: A resnet50 model
         """
-        return cls(*args, **kwargs, block=block, widths=[256, 512, 1024, 2048], depths=[3, 4, 6, 3])
+        return cls(*args, **kwargs, block=block, widths=[64, 256, 512, 1024, 2048], depths=[3, 4, 6, 3])
 
     @classmethod
     @pretrained()
@@ -474,7 +467,7 @@ class ResNet(VisionModule):
         Returns:
             ResNet: A resnet50d model
         """
-        return cls(*args, **kwargs,  stem=ResNetStemC, block=partial(block, shortcut=ResNetShorcutD), widths=[256, 512, 1024, 2048], depths=[3, 4, 6, 3])
+        return cls(*args, **kwargs,  stem=ResNetStemC, block=partial(block, shortcut=ResNetShorcutD), widths=[64, 256, 512, 1024, 2048], depths=[3, 4, 6, 3])
 
     @classmethod
     @pretrained()
@@ -486,7 +479,7 @@ class ResNet(VisionModule):
         Returns:
             ResNet: A resnet101 model
         """
-        return cls(*args, **kwargs, block=block,  widths=[256, 512, 1024, 2048], depths=[3, 4, 23, 3])
+        return cls(*args, **kwargs, block=block,  widths=[64, 256, 512, 1024, 2048], depths=[3, 4, 23, 3])
 
     @classmethod
     @pretrained()
@@ -498,7 +491,7 @@ class ResNet(VisionModule):
         Returns:
             ResNet: A resnet152 model
         """
-        return cls(*args, **kwargs, block=block,  widths=[256, 512, 1024, 2048], depths=[3, 8, 36, 3])
+        return cls(*args, **kwargs, block=block,  widths=[64, 256, 512, 1024, 2048], depths=[3, 8, 36, 3])
 
     @classmethod
     def resnet200(cls, *args, block=ResNetBottleneckBlock, **kwargs):
@@ -507,4 +500,4 @@ class ResNet(VisionModule):
         Returns:
             ResNet: A resnet200 model
         """
-        return cls(*args, **kwargs, block=block,  widths=[256, 512, 1024, 2048], depths=[3, 24, 36, 3])
+        return cls(*args, **kwargs, block=block,  widths=[64, 256, 512, 1024, 2048], depths=[3, 24, 36, 3])

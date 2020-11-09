@@ -13,6 +13,7 @@ from ....models.VisionModule import VisionModule
 
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 
+
 class DenseNetBasicBlock(nn.Module):
     """Basic DenseNet block composed by one 3x3 convs with residual connection.
     The residual connection is perfomed by concatenate the input and the output.
@@ -28,16 +29,16 @@ class DenseNetBasicBlock(nn.Module):
 
     def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace, *args, **kwargs):
         super().__init__()
-        self.block =  nn.Sequential(OrderedDict({
-                'bn': nn.BatchNorm2d(in_features),
-                'act': activation(),
-                'conv': Conv2dPad(in_features, out_features, kernel_size=3, *args, **kwargs)
-            }))
+        self.block = nn.Sequential(OrderedDict({
+            'bn': nn.BatchNorm2d(in_features),
+            'act': activation(),
+            'conv': Conv2dPad(in_features, out_features, kernel_size=3, *args, **kwargs)
+        }))
 
     def forward(self, x: Tensor) -> Tensor:
         res = x
         x = self.block(x)
-        return torch.cat([res, x], dim = 1)
+        return torch.cat([res, x], dim=1)
 
 
 class DenseBottleNeckBlock(DenseNetBasicBlock):
@@ -92,7 +93,7 @@ class TransitionBlock(nn.Module):
                     'bn': nn.BatchNorm2d(in_features),
                     'act': activation(),
                     'conv': Conv2dPad(in_features, in_features // factor,
-                                 kernel_size=1, bias=False),
+                                      kernel_size=1, bias=False),
                     'pool': nn.AvgPool2d(kernel_size=2, stride=2)
                 }
             ))
@@ -163,19 +164,15 @@ class DenseNetEncoder(ResNetEncoder):
             in_features //= 2
             self.widths.append(in_features)
 
-        self.layers.append(DenseNetLayer(
-            in_features, grow_rate, depths[-1], block=block, *args, transition_block=None, **kwargs))
-
         self.widths.append(in_features + depths[-1] * grow_rate)
 
-        self.bn = nn.BatchNorm2d(self.widths[-1])
-        self.act = activation()
+        self.layers.append(DenseNetLayer(
+            in_features, grow_rate, depths[-1], block=block, *args,
+            transition_block=lambda x: nn.Sequential(
+                nn.BatchNorm2d(self.widths[-1]),
+                activation()
+            ), **kwargs))
 
-    def forward(self, x):
-        x = super().forward(x)
-        x = self.bn(x)
-        x = self.act(x)
-        return x
 
 
 class DenseNet(VisionModule):
@@ -226,7 +223,6 @@ class DenseNet(VisionModule):
         'densenet169': Config(),
         'densenet201': Config(),
     }
-
 
     def __init__(self, in_channels: int = 3,  n_classes: int = 1000, *args, **kwargs):
         super().__init__()

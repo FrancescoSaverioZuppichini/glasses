@@ -117,14 +117,13 @@ class EfficientNetEncoder(nn.Module):
                 in zip(self.in_out_block_sizes, depths, strides, expansions, kernel_sizes, se)]
         ])
 
-        self.head = ConvBnAct(self.widths[-2], self.widths[-1],
-                              activation=activation, kernel_size=1)
+        self.layers.append(ConvBnAct(self.widths[-2], self.widths[-1],
+                              activation=activation, kernel_size=1))
 
     def forward(self, x):
         x = self.stem(x)
         for block in self.layers:
             x = block(x)
-        x = self.head(x)
         return x
 
 
