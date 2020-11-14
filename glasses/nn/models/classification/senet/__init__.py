@@ -10,17 +10,12 @@ SENetBottleneckBlock = WithAtt(ResNetBottleneckBlock, att=SpatialSE)
 CSENetBasicBlock = WithAtt(ResNetBasicBlock, att=ChannelSE)
 CSENetBottleneckBlock = WithAtt(ResNetBottleneckBlock, att=ChannelSE)
 
+
 class SEResNet(ResNet):
     """Implementation of Squeeze and Excitation ResNet using booth the original spatial se 
     and the channel se proposed in  
     `Concurrent Spatial and Channel ‘Squeeze & Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>`_
     The models with the channel se are labelab with prefix `c` 
-
-    Args:
-        ResNet ([type]): [description]
-
-    Returns:
-        [type]: [description]
     """
 
     configs = {
@@ -127,4 +122,3 @@ class SEResNet(ResNet):
             SEResNet: [description]
         """
         return ResNet.resnet152(*args, block=CSENetBottleneckBlock, **kwargs)
-

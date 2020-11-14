@@ -7,8 +7,9 @@ from collections import OrderedDict
 from typing import List, Callable
 from functools import partial
 from ....blocks import ConvBnAct
-from ....models.VisionModule import VisionModule
 from glasses.utils.Storage import ForwardModuleStorage
+from ..base import SegmentationModule
+from ...base import Encoder
 
 
 class UNetBasicBlock(nn.Sequential):
@@ -76,11 +77,12 @@ class UpLayer(nn.Module):
         return out
 
 
-class UNetEncoder(nn.Module):
+class UNetEncoder(Encoder):
     """UNet Encoder composed of several layers of convolutions aimed to increased the features space and decrease the resolution.
     """
 
     def __init__(self, in_channels: int,  widths: List[int] = [64, 128, 256, 512, 1024], *args, **kwargs):
+        super().__init__()
         self.in_out_block_sizes = list(zip(widths, widths[1:]))
         self.widths = widths
         self.stem = nn.Identity()
@@ -107,7 +109,7 @@ class UNetDecoder(nn.Module):
 
     def __init__(self, start_features: int = 512, widths: List[int] = [256, 128, 64, 32], lateral_widths: List[int] = None, *args, **kwargs):
         super().__init__()
-        widths =  [start_features, *widths]
+        widths = [start_features, *widths]
         self.widths = widths
         lateral_widths = widths if lateral_widths is None else lateral_widths
         lateral_widths.extend([0] * (len(widths) - len(lateral_widths)))
@@ -144,7 +146,8 @@ class WithFeatures(nn.Module):
     def features(self):
         return list(self.storage.state.values())
 
-class UNet(VisionModule):
+
+class UNet(SegmentationModule):
     """Implementation of Unet proposed in `U-Net: Convolutional Networks for Biomedical Image Segmentation <https://arxiv.org/abs/1505.04597>`_
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/UNet.png?raw=true
@@ -161,42 +164,29 @@ class UNet(VisionModule):
         >>> UNet(activation=nn.SELU)
         >>> # change number of classes (default is 2 )
         >>> UNet(n_classes=2)
-        >>> # pass a different block
+        >>> # change encoder
+        >>> unet = UNet(encoder=lambda *args, **kwargs: ResNet.resnet26(*args, **kwargs).encoder,)
+        >>> unet = UNet(encoder=lambda *args, **kwargs: EfficientNet.efficientnet_b2(*args, **kwargs).encoder,)
+        >>> # change decoder
+        >>> UNet(decoder=partial(UNetDecoder, widths=[256, 128, 64, 32, 16]))
+        >>> # pass a different block to decoder
         >>> UNet(encoder=partial(UNetEncoder, block=SENetBasicBlock))
-        >>> # change the encoder
+        >>> # all *Decoder class can be directly used
         >>> unet = UNet(encoder=partial(ResNetEncoder, block=ResNetBottleneckBlock, depths=[2,2,2,2]))
-
 
     Args:
 
-        in_channels (int, optional): [description]. Defaults to 1.
-        n_classes (int, optional): [description]. Defaults to 2.
-        encoder (nn.Module, optional): Model's encoder (left part). It have a `.stem` and `.block : nn.ModuleList` fields. Defaults to UNetEncoder.
-        decoder (nn.Module, optional): Model's decoder (left part). It must have a `.layers : nn.ModuleList` field. Defaults to UNetDecoder.
-        widths (List[int], optional): [description]. Defaults to [64, 128, 256, 512, 1024].
+       in_channels (int, optional): [description]. Defaults to 1.
+       n_classes (int, optional): [description]. Defaults to 2.
+       encoder (Encoder, optional): [description]. Defaults to UNetEncoder.
+       ecoder (nn.Module, optional): [description]. Defaults to UNetDecoder.
     """
 
     def __init__(self, in_channels: int = 1, n_classes: int = 2,
-                 encoder: nn.Module = UNetEncoder,
+                 encoder: Encoder = UNetEncoder,
                  decoder: nn.Module = UNetDecoder,
                  **kwargs):
 
-        super().__init__()
-        self.encoder = encoder(in_channels=in_channels, **kwargs)
-        self.decoder = decoder(lateral_widths=self.encoder.features_widths[::-1],
-                               start_features=self.encoder.backbone.widths[-1],
-                               **kwargs)
+        super().__init__(in_channels, n_classes, encoder, decoder)
         self.head = nn.Conv2d(
             self.decoder.widths[-1], n_classes, kernel_size=1)
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.encoder(x)
-        features = self.encoder.features
-        self.residuals = features[::-1]
-        self.residuals.extend(
-            [None] * (len(self.decoder.layers) - len(self.residuals)))
-
-        x = self.decoder(x, self.residuals)
-
-        x = self.head(x)
-        return x

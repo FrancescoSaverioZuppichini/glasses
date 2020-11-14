@@ -39,10 +39,11 @@ models = [
     WideResNet.wide_resnet50_2, WideResNet.wide_resnet101_2,
     SEResNet.se_resnet18, SEResNet.se_resnet34, SEResNet.se_resnet50, SEResNet.se_resnet101, SEResNet.se_resnet152,
     DenseNet.densenet121, DenseNet.densenet161, DenseNet.densenet169, DenseNet.densenet201,
-    MobileNetV2, FishNet.fishnet99, FishNet.fishnet150,
+    MobileNet.mobilenet_v2, FishNet.fishnet99, FishNet.fishnet150,
     EfficientNet.efficientnet_b0, EfficientNet.efficientnet_b1, EfficientNet.efficientnet_b2, EfficientNet.efficientnet_b3,
     EfficientNet.efficientnet_b4, EfficientNet.efficientnet_b5, EfficientNet.efficientnet_b6, EfficientNet.efficientnet_b7,
-    EfficientNet.efficientnet_b8,  EfficientNet.efficientnet_l2
+    EfficientNet.efficientnet_b8,  EfficientNet.efficientnet_l2,
+    EfficientNetLite.efficientnet_lite0, EfficientNetLite.efficientnet_lite1, EfficientNetLite.efficientnet_lite2, EfficientNetLite.efficientnet_lite3, EfficientNetLite.efficientnet_lite4
 ]
 
 res = list(map(row, models))

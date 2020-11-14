@@ -2,6 +2,7 @@ import torch
 from glasses.nn.models.classification.resnet import *
 from glasses.nn.models.classification.resnetxt import ResNetXt
 from glasses.nn.models.classification.wide_resnet import WideResNet, WideResNetBottleNeckBlock
+from functools import partial
 
 def test_resnet():
     x = torch.rand(1, 3, 224, 224)
@@ -19,7 +20,12 @@ def test_resnet():
     assert pred.shape[-1] == 1000
     
     model = ResNet.resnet26().eval()
+    model.encoder.features
     pred = model(x)
+    features = model.encoder.features
+    f_widths = [f.shape[1] for f in features]
+    for w, f_w in zip(model.encoder.features_widths, f_widths):
+        assert w == f_w
     assert pred.shape[-1] == 1000
 
     model = ResNet.resnet26d().eval()

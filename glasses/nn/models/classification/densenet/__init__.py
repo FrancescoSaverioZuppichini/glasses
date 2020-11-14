@@ -2,14 +2,14 @@ from __future__ import annotations
 import torch
 from torch import nn
 from torch import Tensor
-from ..resnet import ResNetEncoder, ResNetDecoder, ResNet
+from ..resnet import ResNetEncoder, ResNetDecoder, ResNet, ResNetStem
 from collections import OrderedDict
 from typing import List
 from functools import partial
 from ..resnet import ReLUInPlace
 from ....blocks.residuals import ResidualCat2d
 from ....blocks import Conv2dPad
-from ....models.VisionModule import VisionModule
+from ....models.base import VisionModule
 
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 
@@ -136,7 +136,7 @@ class DenseNetLayer(nn.Module):
 
 class DenseNetEncoder(ResNetEncoder):
 
-    """The encoder composed by multiple `DeseNetLayer` with increasing features size. The `.gate` is the same used in `ResNet`
+    """The encoder composed by multiple `DeseNetLayer` with increasing features size. The `.stem` is the same used in `ResNet`
 
     Args:
         in_channels (int, optional): [description]. Defaults to 3.
@@ -150,10 +150,11 @@ class DenseNetEncoder(ResNetEncoder):
     def __init__(self, in_channels: int = 3, start_features: int = 64,  grow_rate: int = 32,
                  depths: List[int] = [4, 4, 4, 4],
                  activation: nn.Module = ReLUInPlace, block: nn.Module = DenseBottleNeckBlock, *args, **kwargs):
-        super().__init__(in_channels, start_features=start_features)
-
+        super().__init__(in_channels)
         self.layers = nn.ModuleList([])
-        self.widths = []
+        self.widths = [start_features]
+        # [REVIEW] I should decide if I want to have `start_features` or just widths
+        self.stem = ResNetStem(in_channels, start_features, activation)
         in_features = start_features
 
         for deepth in depths[:-1]:
