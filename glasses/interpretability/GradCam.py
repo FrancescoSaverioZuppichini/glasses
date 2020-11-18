@@ -59,8 +59,8 @@ class GradCam(Interpretability):
 
         out.backward(gradient=ctx, retain_graph=True)
         # get back the weights and the gradients
-        weights = weights_storage[layer][0]
-        grads = gradients_storage[layer][0][0]
+        weights = weights_storage[layer]
+        grads = gradients_storage[layer][0]
         # compute grad cam
         avg_channel_grad = F.adaptive_avg_pool2d(grads.data, 1)
         cam = F.relu(torch.sum(weights * avg_channel_grad, dim=1)).squeeze(0)

@@ -1,4 +1,4 @@
-from glasses.nn.models.utils.protocols import Freezable
+from glasses.nn.models.base.protocols import Freezable
 import torch.nn as nn
 
 def test_Freezable():

@@ -7,9 +7,7 @@ from functools import partial
 from ..resnet import ReLUInPlace
 from ....blocks import ConvAct, ConvBnAct
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
-from ....models.VisionModule import VisionModule
-
-
+from ....models.base import VisionModule, Encoder
 
 
 """Implementations of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition <https://arxiv.org/pdf/1409.1556.pdf>`_
@@ -66,6 +64,7 @@ class VGGEncoder(nn.Module):
         self.in_out_block_sizes = list(
             zip(widths[:-1], widths[1:]))
 
+        self.stem = nn.Identity()
         self.layers = nn.ModuleList([
             VGGLayer(in_channels, widths[0], activation=activation,
                      block=block, n=depths[0], *args, **kwargs),

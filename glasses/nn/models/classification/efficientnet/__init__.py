@@ -10,12 +10,13 @@ from ....blocks import Conv2dPad, ConvBnAct
 from glasses.nn.att import ChannelSE
 from ....models.utils.scaler import CompoundScaler
 from glasses.utils.PretrainedWeightsProvider import Config
-from ....models.VisionModule import VisionModule
+from ....models.base import VisionModule, Encoder
 from ..resnet import ResNetLayer
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 
-class EfficientNetBasicBlock(nn.Module):
-    """EfficientNet basic block. It used inverted residual connection proposed originally for MobileNetV2. 
+
+class InvertedResidualBlock(nn.Module):
+    """Inverted residual block proposed originally for MobileNetV2. 
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetBasicBlock.png?raw=true
 
@@ -45,7 +46,7 @@ class EfficientNetBasicBlock(nn.Module):
                 'depth':  ConvBnAct(expanded_features, expanded_features,
                                     activation=activation,
                                     kernel_size=kernel_size,
-                                    stride=stride, 
+                                    stride=stride,
                                     groups=expanded_features,
                                     **kwargs),
                 # apply se after depth-wise
@@ -65,9 +66,13 @@ class EfficientNetBasicBlock(nn.Module):
             x += res
         return x
 
+EfficientNetBasicBlock = InvertedResidualBlock
+
 EfficientNetLayer = partial(ResNetLayer, block=EfficientNetBasicBlock)
 
-class EfficientNetEncoder(nn.Module):
+
+
+class EfficientNetEncoder(Encoder):
     """
     EfficientNet encoder composed by increasing different layers with increasing features.
 
@@ -117,15 +122,28 @@ class EfficientNetEncoder(nn.Module):
                 in zip(self.in_out_block_sizes, depths, strides, expansions, kernel_sizes, se)]
         ])
 
-        self.head = ConvBnAct(self.widths[-2], self.widths[-1],
-                              activation=activation, kernel_size=1)
+        self.layers.append(ConvBnAct(self.widths[-2], self.widths[-1],
+                                     activation=activation, kernel_size=1))
 
     def forward(self, x):
         x = self.stem(x)
         for block in self.layers:
             x = block(x)
-        x = self.head(x)
         return x
+
+    @property
+    def stages(self):
+        return [self.stem[-2],
+                self.layers[1],
+                self.layers[2],
+                self.layers[3]]
+
+    @property
+    def features_widths(self):
+        return [self.widths[0],
+                self.widths[2],
+                self.widths[3],
+                self.widths[4]]
 
 
 class EfficientNetDecoder(nn.Module):
@@ -189,13 +207,13 @@ class EfficientNet(VisionModule):
         >>> # store each feature
         >>> x = torch.rand((1, 3, 224, 224))
         >>> model = EfficientNet.efficientnet_b0()
-        >>> features = []
-        >>> x = model.encoder.gate(x)
-        >>> for block in model.encoder.layers:
-        >>>     x = block(x)
-        >>>     features.append(x)
+        >>> # first call .features, this will activate the forward hooks and tells the model you'll like to get the features
+        >>> model.encoder.features
+        >>> model(torch.randn((1,3,224,224)))
+        >>> # get the features from the encoder
+        >>> features = model.encoder.features
         >>> print([x.shape for x in features])
-        >>> # [torch.Size([1, 16, 112, 112]), torch.Size([1, 24, 56, 56]), torch.Size([1, 40, 28, 28]), torch.Size([1, 80, 14, 14]), torch.Size([1, 112, 7, 7]), torch.Size([1, 192, 7, 7]), torch.Size([1, 320, 4, 4]), torch.Size([1, 1280, 4, 4])]
+        >>> # [torch.Size([1, 32, 112, 112]), torch.Size([1, 24, 56, 56]), torch.Size([1, 40, 28, 28]), torch.Size([1, 80, 14, 14])]
 
     Args:
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
