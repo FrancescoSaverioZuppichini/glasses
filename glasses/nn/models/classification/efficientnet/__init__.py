@@ -71,6 +71,7 @@ EfficientNetBasicBlock = InvertedResidualBlock
 EfficientNetLayer = partial(ResNetLayer, block=EfficientNetBasicBlock)
 
 
+
 class EfficientNetEncoder(Encoder):
     """
     EfficientNet encoder composed by increasing different layers with increasing features.
