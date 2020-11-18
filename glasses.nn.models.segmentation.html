@@ -37,7 +37,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="glasses.nn.models.segmentation.unet package" href="glasses.nn.models.segmentation.unet.html" />
+    <link rel="next" title="glasses.nn.models.segmentation.base package" href="glasses.nn.models.segmentation.base.html" />
     <link rel="prev" title="glasses.nn.models.classification.wide_resnet package" href="glasses.nn.models.classification.wide_resnet.html" /> 
 </head>
 
@@ -93,6 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="glasses.nn.models.html">glasses.nn.models package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="glasses.nn.models.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.base.html">glasses.nn.models.base package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.classification.html">glasses.nn.models.classification package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">glasses.nn.models.segmentation package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
@@ -102,8 +103,6 @@
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.utils.html">glasses.nn.models.utils package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models.VisionModule">glasses.nn.models.VisionModule module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models">Module contents</a></li>
 </ul>
 </li>
@@ -189,6 +188,7 @@
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="glasses.nn.models.segmentation.base.html">glasses.nn.models.segmentation.base package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.models.segmentation.unet.html">glasses.nn.models.segmentation.unet package</a></li>
 </ul>
 </div>
@@ -198,8 +198,8 @@
 <p>Segmantation models</p>
 <dl class="py class">
 <dt id="glasses.nn.models.segmentation.UNet">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.segmentation.</code><code class="sig-name descname">UNet</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 1</em>, <em class="sig-param">n_classes: int = 2</em>, <em class="sig-param">encoder: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.segmentation.unet.UNetEncoder'&gt;</em>, <em class="sig-param">decoder: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.segmentation.unet.UNetDecoder'&gt;</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.UNet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.html#glasses.nn.models.VisionModule.VisionModule" title="glasses.nn.models.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.VisionModule.VisionModule</span></code></a></p>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.segmentation.</code><code class="sig-name descname">UNet</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 1</em>, <em class="sig-param">n_classes: int = 2</em>, <em class="sig-param">encoder: glasses.nn.models.base.Encoder = &lt;class 'glasses.nn.models.segmentation.unet.UNetEncoder'&gt;</em>, <em class="sig-param">decoder: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.segmentation.unet.UNetDecoder'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.UNet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.segmentation.base.html#glasses.nn.models.segmentation.base.SegmentationModule" title="glasses.nn.models.segmentation.base.SegmentationModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.segmentation.base.SegmentationModule</span></code></a></p>
 <p>Implementation of Unet proposed in <a class="reference external" href="https://arxiv.org/abs/1505.04597">U-Net: Convolutional Networks for Biomedical Image Segmentation</a></p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/UNet.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/UNet.png?raw=true" />
 <p class="rubric">Examples</p>
@@ -213,9 +213,14 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">(</span><span class="n">activation</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 2 )</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change encoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unet</span> <span class="o">=</span> <span class="n">UNet</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">encoder</span><span class="p">,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unet</span> <span class="o">=</span> <span class="n">UNet</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b2</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">encoder</span><span class="p">,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change decoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">(</span><span class="n">decoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">UNetDecoder</span><span class="p">,</span> <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">16</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block to decoder</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">UNetEncoder</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the encoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># all *Decoder class can be directly used</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">unet</span> <span class="o">=</span> <span class="n">UNet</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span>
 </pre></div>
 </div>
@@ -225,26 +230,11 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
 <li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 2.</p></li>
-<li><p><strong>encoder</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – Model’s encoder (left part). It have a <cite>.stem</cite> and <cite>.block : nn.ModuleList</cite> fields. Defaults to UNetEncoder.</p></li>
-<li><p><strong>decoder</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – Model’s decoder (left part). It must have a <cite>.layers : nn.ModuleList</cite> field. Defaults to UNetDecoder.</p></li>
-<li><p><strong>widths</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [64, 128, 256, 512, 1024].</p></li>
+<li><p><strong>encoder</strong> (<a class="reference internal" href="glasses.nn.models.base.html#glasses.nn.models.base.Encoder" title="glasses.nn.models.base.Encoder"><em>Encoder</em></a><em>, </em><em>optional</em>) – [description]. Defaults to UNetEncoder.</p></li>
+<li><p><strong>ecoder</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to UNetDecoder.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py method">
-<dt id="glasses.nn.models.segmentation.UNet.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UNet.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.UNet.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
 </dd></dl>
 
 </div>
@@ -258,7 +248,7 @@ registered hooks while the latter silently ignores them.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="glasses.nn.models.segmentation.unet.html" class="btn btn-neutral float-right" title="glasses.nn.models.segmentation.unet package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="glasses.nn.models.segmentation.base.html" class="btn btn-neutral float-right" title="glasses.nn.models.segmentation.base package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="glasses.nn.models.classification.wide_resnet.html" class="btn btn-neutral float-left" title="glasses.nn.models.classification.wide_resnet package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

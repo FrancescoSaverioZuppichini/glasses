@@ -170,6 +170,7 @@
 
 <span class="n">ReLUInPlace</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
+
 <div class="viewcode-block" id="WideResNetBottleNeckBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.wide_resnet.html#glasses.nn.models.classification.WideResNetBottleNeckBlock">[docs]</a><span class="k">class</span> <span class="nc">WideResNetBottleNeckBlock</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Wide resnet bottle neck block, you can control the width of the inner features with the width_factor parameter</span>
 <span class="sd">    Args:</span>
@@ -177,9 +178,12 @@
 <span class="sd">        out_features ([type]): [description]</span>
 <span class="sd">        width_factor (int, optional): Scales the 3x3 conv features in the bottle neck block. Defaults to 2.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span> <span class="p">,</span> <span class="n">width_factor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-            <span class="n">features</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">out_features</span> <span class="o">*</span> <span class="n">width_factor</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span><span class="p">)</span>
-            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">,</span>  <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">width_factor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">reduction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">out_features</span> <span class="o">*</span> <span class="n">width_factor</span> <span class="o">//</span> <span class="n">reduction</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span>
+                         <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">,</span>  <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="WideResNet"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.wide_resnet.html#glasses.nn.models.classification.WideResNet">[docs]</a><span class="k">class</span> <span class="nc">WideResNet</span><span class="p">(</span><span class="n">ResNet</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implementation of Wide ResNet proposed in `&quot;Wide Residual Networks&quot; &lt;https://arxiv.org/pdf/1605.07146.pdf&gt;`_</span>
@@ -221,7 +225,6 @@
 <span class="sd">        in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</span>
 <span class="sd">        n_classes (int, optional): Number of classes. Defaults to 1000.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 
 <div class="viewcode-block" id="WideResNet.wide_resnet50_2"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.wide_resnet.html#glasses.nn.models.classification.WideResNet.wide_resnet50_2">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@pretrained</span><span class="p">(</span><span class="s1">&#39;wide_resnet50_2&#39;</span><span class="p">)</span>

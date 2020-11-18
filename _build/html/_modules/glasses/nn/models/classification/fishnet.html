@@ -169,7 +169,7 @@
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">ReLUInPlace</span><span class="p">,</span> <span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">ResNetShorcut</span><span class="p">,</span> <span class="n">ResNetBottleneckPreActBlock</span><span class="p">,</span> <span class="n">ResNetStemC</span>
 <span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">ChannelSE</span>
-<span class="kn">from</span> <span class="nn">....models.VisionModule</span> <span class="kn">import</span> <span class="n">VisionModule</span>
+<span class="kn">from</span> <span class="nn">....models.base</span> <span class="kn">import</span> <span class="n">VisionModule</span><span class="p">,</span> <span class="n">Encoder</span>
 
 
 <span class="n">FishNetShortCut</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">BnActConv</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>

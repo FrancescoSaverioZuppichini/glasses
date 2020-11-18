@@ -169,12 +169,13 @@
 <span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">ChannelSE</span>
 <span class="kn">from</span> <span class="nn">....models.utils.scaler</span> <span class="kn">import</span> <span class="n">CompoundScaler</span>
 <span class="kn">from</span> <span class="nn">glasses.utils.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">Config</span>
-<span class="kn">from</span> <span class="nn">....models.VisionModule</span> <span class="kn">import</span> <span class="n">VisionModule</span>
+<span class="kn">from</span> <span class="nn">....models.base</span> <span class="kn">import</span> <span class="n">VisionModule</span><span class="p">,</span> <span class="n">Encoder</span>
 <span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ResNetLayer</span>
 <span class="kn">from</span> <span class="nn">glasses.utils.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">Config</span><span class="p">,</span> <span class="n">pretrained</span>
 
-<div class="viewcode-block" id="EfficientNetBasicBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.efficientnet.html#glasses.nn.models.classification.EfficientNetBasicBlock">[docs]</a><span class="k">class</span> <span class="nc">EfficientNetBasicBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;EfficientNet basic block. It used inverted residual connection proposed originally for MobileNetV2. </span>
+
+<div class="viewcode-block" id="InvertedResidualBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.efficientnet.html#glasses.nn.models.classification.InvertedResidualBlock">[docs]</a><span class="k">class</span> <span class="nc">InvertedResidualBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Inverted residual block proposed originally for MobileNetV2. </span>
 
 <span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetBasicBlock.png?raw=true</span>
 
@@ -204,7 +205,7 @@
                 <span class="s1">&#39;depth&#39;</span><span class="p">:</span>  <span class="n">ConvBnAct</span><span class="p">(</span><span class="n">expanded_features</span><span class="p">,</span> <span class="n">expanded_features</span><span class="p">,</span>
                                     <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
                                     <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernel_size</span><span class="p">,</span>
-                                    <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span> 
+                                    <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>
                                     <span class="n">groups</span><span class="o">=</span><span class="n">expanded_features</span><span class="p">,</span>
                                     <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
                 <span class="c1"># apply se after depth-wise</span>
@@ -217,16 +218,20 @@
             <span class="p">})</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="EfficientNetBasicBlock.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.efficientnet.html#glasses.nn.models.classification.EfficientNetBasicBlock.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="InvertedResidualBlock.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.efficientnet.html#glasses.nn.models.classification.InvertedResidualBlock.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">x</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">should_apply_residual</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">+=</span> <span class="n">res</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
 
+<span class="n">EfficientNetBasicBlock</span> <span class="o">=</span> <span class="n">InvertedResidualBlock</span>
+
 <span class="n">EfficientNetLayer</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">ResNetLayer</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">EfficientNetBasicBlock</span><span class="p">)</span>
 
-<div class="viewcode-block" id="EfficientNetEncoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.efficientnet.html#glasses.nn.models.classification.EfficientNetEncoder">[docs]</a><span class="k">class</span> <span class="nc">EfficientNetEncoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+
+
+<div class="viewcode-block" id="EfficientNetEncoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.efficientnet.html#glasses.nn.models.classification.EfficientNetEncoder">[docs]</a><span class="k">class</span> <span class="nc">EfficientNetEncoder</span><span class="p">(</span><span class="n">Encoder</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    EfficientNet encoder composed by increasing different layers with increasing features.</span>
 
@@ -276,15 +281,28 @@
                 <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">in_out_block_sizes</span><span class="p">,</span> <span class="n">depths</span><span class="p">,</span> <span class="n">strides</span><span class="p">,</span> <span class="n">expansions</span><span class="p">,</span> <span class="n">kernel_sizes</span><span class="p">,</span> <span class="n">se</span><span class="p">)]</span>
         <span class="p">])</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">ConvBnAct</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                              <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ConvBnAct</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                     <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
 
 <div class="viewcode-block" id="EfficientNetEncoder.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.efficientnet.html#glasses.nn.models.classification.EfficientNetEncoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x</span></div></div>
+        <span class="k">return</span> <span class="n">x</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">stages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">stem</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">features_widths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">[</span><span class="mi">4</span><span class="p">]]</span></div>
 
 
 <div class="viewcode-block" id="EfficientNetDecoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.efficientnet.html#glasses.nn.models.classification.EfficientNetDecoder">[docs]</a><span class="k">class</span> <span class="nc">EfficientNetDecoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -348,13 +366,13 @@
 <span class="sd">        &gt;&gt;&gt; # store each feature</span>
 <span class="sd">        &gt;&gt;&gt; x = torch.rand((1, 3, 224, 224))</span>
 <span class="sd">        &gt;&gt;&gt; model = EfficientNet.efficientnet_b0()</span>
-<span class="sd">        &gt;&gt;&gt; features = []</span>
-<span class="sd">        &gt;&gt;&gt; x = model.encoder.gate(x)</span>
-<span class="sd">        &gt;&gt;&gt; for block in model.encoder.layers:</span>
-<span class="sd">        &gt;&gt;&gt;     x = block(x)</span>
-<span class="sd">        &gt;&gt;&gt;     features.append(x)</span>
+<span class="sd">        &gt;&gt;&gt; # first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
+<span class="sd">        &gt;&gt;&gt; model.encoder.features</span>
+<span class="sd">        &gt;&gt;&gt; model(torch.randn((1,3,224,224)))</span>
+<span class="sd">        &gt;&gt;&gt; # get the features from the encoder</span>
+<span class="sd">        &gt;&gt;&gt; features = model.encoder.features</span>
 <span class="sd">        &gt;&gt;&gt; print([x.shape for x in features])</span>
-<span class="sd">        &gt;&gt;&gt; # [torch.Size([1, 16, 112, 112]), torch.Size([1, 24, 56, 56]), torch.Size([1, 40, 28, 28]), torch.Size([1, 80, 14, 14]), torch.Size([1, 112, 7, 7]), torch.Size([1, 192, 7, 7]), torch.Size([1, 320, 4, 4]), torch.Size([1, 1280, 4, 4])]</span>
+<span class="sd">        &gt;&gt;&gt; # [torch.Size([1, 32, 112, 112]), torch.Size([1, 24, 56, 56]), torch.Size([1, 40, 28, 28]), torch.Size([1, 80, 14, 14])]</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</span>

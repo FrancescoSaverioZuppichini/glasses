@@ -38,7 +38,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="glasses.nn.models.utils package" href="glasses.nn.models.utils.html" />
-    <link rel="prev" title="glasses.nn.models.segmentation package" href="glasses.nn.models.segmentation.html" /> 
+    <link rel="prev" title="glasses.nn.models.segmentation.base package" href="glasses.nn.models.segmentation.base.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -93,6 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="glasses.nn.models.html">glasses.nn.models package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="glasses.nn.models.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.base.html">glasses.nn.models.base package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.classification.html">glasses.nn.models.classification package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="glasses.nn.models.segmentation.html">glasses.nn.models.segmentation package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="glasses.nn.models.segmentation.html#subpackages">Subpackages</a></li>
@@ -102,8 +103,6 @@
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.utils.html">glasses.nn.models.utils package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models.VisionModule">glasses.nn.models.VisionModule module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models">Module contents</a></li>
 </ul>
 </li>
@@ -233,8 +232,8 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py class">
 <dt id="glasses.nn.models.segmentation.unet.UNet">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.segmentation.unet.</code><code class="sig-name descname">UNet</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 1</em>, <em class="sig-param">n_classes: int = 2</em>, <em class="sig-param">encoder: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.segmentation.unet.UNetEncoder'&gt;</em>, <em class="sig-param">decoder: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.segmentation.unet.UNetDecoder'&gt;</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.unet.UNet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.html#glasses.nn.models.VisionModule.VisionModule" title="glasses.nn.models.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.VisionModule.VisionModule</span></code></a></p>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.segmentation.unet.</code><code class="sig-name descname">UNet</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 1</em>, <em class="sig-param">n_classes: int = 2</em>, <em class="sig-param">encoder: glasses.nn.models.base.Encoder = &lt;class 'glasses.nn.models.segmentation.unet.UNetEncoder'&gt;</em>, <em class="sig-param">decoder: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.segmentation.unet.UNetDecoder'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.unet.UNet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.segmentation.base.html#glasses.nn.models.segmentation.base.SegmentationModule" title="glasses.nn.models.segmentation.base.SegmentationModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.segmentation.base.SegmentationModule</span></code></a></p>
 <p>Implementation of Unet proposed in <a class="reference external" href="https://arxiv.org/abs/1505.04597">U-Net: Convolutional Networks for Biomedical Image Segmentation</a></p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/UNet.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/UNet.png?raw=true" />
 <p class="rubric">Examples</p>
@@ -248,9 +247,14 @@ registered hooks while the latter silently ignores them.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">(</span><span class="n">activation</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 2 )</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change encoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unet</span> <span class="o">=</span> <span class="n">UNet</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">encoder</span><span class="p">,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unet</span> <span class="o">=</span> <span class="n">UNet</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b2</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">encoder</span><span class="p">,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change decoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">(</span><span class="n">decoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">UNetDecoder</span><span class="p">,</span> <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">16</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block to decoder</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">UNetEncoder</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the encoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># all *Decoder class can be directly used</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">unet</span> <span class="o">=</span> <span class="n">UNet</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span>
 </pre></div>
 </div>
@@ -260,47 +264,18 @@ registered hooks while the latter silently ignores them.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
 <li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 2.</p></li>
-<li><p><strong>encoder</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – Model’s encoder (left part). It have a <cite>.stem</cite> and <cite>.block : nn.ModuleList</cite> fields. Defaults to UNetEncoder.</p></li>
-<li><p><strong>decoder</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – Model’s decoder (left part). It must have a <cite>.layers : nn.ModuleList</cite> field. Defaults to UNetDecoder.</p></li>
-<li><p><strong>widths</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [64, 128, 256, 512, 1024].</p></li>
+<li><p><strong>encoder</strong> (<a class="reference internal" href="glasses.nn.models.base.html#glasses.nn.models.base.Encoder" title="glasses.nn.models.base.Encoder"><em>Encoder</em></a><em>, </em><em>optional</em>) – [description]. Defaults to UNetEncoder.</p></li>
+<li><p><strong>ecoder</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to UNetDecoder.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py method">
-<dt id="glasses.nn.models.segmentation.unet.UNet.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UNet.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.unet.UNet.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
 <dt id="glasses.nn.models.segmentation.unet.UNetBasicBlock">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.segmentation.unet.</code><code class="sig-name descname">UNetBasicBlock</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">inplace=True)</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UNetBasicBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.unet.UNetBasicBlock" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
 <p>Basic Block for UNet. It is composed by a double 3x3 conv.</p>
-<dl class="py method">
-<dt id="glasses.nn.models.segmentation.unet.UNetBasicBlock.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UNetBasicBlock.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.unet.UNetBasicBlock.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
 <dl class="py attribute">
 <dt id="glasses.nn.models.segmentation.unet.UNetBasicBlock.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.segmentation.unet.UNetBasicBlock.training" title="Permalink to this definition">¶</a></dt>
@@ -310,9 +285,23 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py class">
 <dt id="glasses.nn.models.segmentation.unet.UNetDecoder">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.segmentation.unet.</code><code class="sig-name descname">UNetDecoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">widths</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">[64, 128, 256, 512, 1024]</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UNetDecoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.unet.UNetDecoder" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.segmentation.unet.</code><code class="sig-name descname">UNetDecoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start_features</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">512</span></em>, <em class="sig-param"><span class="n">widths</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">[256, 128, 64, 32]</span></em>, <em class="sig-param"><span class="n">lateral_widths</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>int<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UNetDecoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.unet.UNetDecoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>UNet Decoder composed of several layer of upsampling layers aimed to decrease the features space and increase the resolution.</p>
+<dl class="py method">
+<dt id="glasses.nn.models.segmentation.unet.UNetDecoder.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em>, <em class="sig-param"><span class="n">residuals</span><span class="p">:</span> <span class="n">List<span class="p">[</span>torch.Tensor<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UNetDecoder.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.unet.UNetDecoder.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
 <dl class="py attribute">
 <dt id="glasses.nn.models.segmentation.unet.UNetDecoder.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.segmentation.unet.UNetDecoder.training" title="Permalink to this definition">¶</a></dt>
@@ -323,8 +312,22 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="py class">
 <dt id="glasses.nn.models.segmentation.unet.UNetEncoder">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.segmentation.unet.</code><code class="sig-name descname">UNetEncoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">widths</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">[64, 128, 256, 512, 1024]</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UNetEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.unet.UNetEncoder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.base.html#glasses.nn.models.base.Encoder" title="glasses.nn.models.base.Encoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.base.Encoder</span></code></a></p>
 <p>UNet Encoder composed of several layers of convolutions aimed to increased the features space and decrease the resolution.</p>
+<dl class="py method">
+<dt id="glasses.nn.models.segmentation.unet.UNetEncoder.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UNetEncoder.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.unet.UNetEncoder.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
 <dl class="py attribute">
 <dt id="glasses.nn.models.segmentation.unet.UNetEncoder.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.segmentation.unet.UNetEncoder.training" title="Permalink to this definition">¶</a></dt>
@@ -340,7 +343,7 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py class">
 <dt id="glasses.nn.models.segmentation.unet.UpLayer">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.segmentation.unet.</code><code class="sig-name descname">UpLayer</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">block: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.segmentation.unet.UNetBasicBlock'&gt;</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UpLayer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.unet.UpLayer" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.segmentation.unet.</code><code class="sig-name descname">UpLayer</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">lateral_features: Optional[int] = None</em>, <em class="sig-param">block: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.segmentation.unet.UNetBasicBlock'&gt;</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#UpLayer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.unet.UpLayer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>UNet up layer (right side).</p>
 <dl class="field-list simple">
@@ -373,6 +376,22 @@ registered hooks while the latter silently ignores them.</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt id="glasses.nn.models.segmentation.unet.WithFeatures">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.segmentation.unet.</code><code class="sig-name descname">WithFeatures</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">backbone</span></em>, <em class="sig-param"><span class="n">stages</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>torch.nn.modules.module.Module<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">features_widths</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>int<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/segmentation/unet.html#WithFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.segmentation.unet.WithFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<dl class="py method">
+<dt id="glasses.nn.models.segmentation.unet.WithFeatures.features">
+<em class="property">property </em><code class="sig-name descname">features</code><a class="headerlink" href="#glasses.nn.models.segmentation.unet.WithFeatures.features" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.segmentation.unet.WithFeatures.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.segmentation.unet.WithFeatures.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
@@ -387,7 +406,7 @@ registered hooks while the latter silently ignores them.</p>
         <a href="glasses.nn.models.utils.html" class="btn btn-neutral float-right" title="glasses.nn.models.utils package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="glasses.nn.models.segmentation.html" class="btn btn-neutral float-left" title="glasses.nn.models.segmentation package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="glasses.nn.models.segmentation.base.html" class="btn btn-neutral float-left" title="glasses.nn.models.segmentation.base package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

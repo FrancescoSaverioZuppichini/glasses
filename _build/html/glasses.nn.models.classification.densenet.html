@@ -93,6 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="glasses.nn.models.html">glasses.nn.models package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="glasses.nn.models.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.base.html">glasses.nn.models.base package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="glasses.nn.models.classification.html">glasses.nn.models.classification package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="glasses.nn.models.classification.html#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="glasses.nn.models.classification.html#module-glasses.nn.models.classification">Module contents</a></li>
@@ -102,8 +103,6 @@
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.utils.html">glasses.nn.models.utils package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models.VisionModule">glasses.nn.models.VisionModule module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models">Module contents</a></li>
 </ul>
 </li>
@@ -217,7 +216,7 @@ The expensive 3x3 conv is computed after a cheap 1x1 conv donwsample the input r
 <dl class="py class">
 <dt id="glasses.nn.models.classification.densenet.DenseNet">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.densenet.</code><code class="sig-name descname">DenseNet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/densenet.html#DenseNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.densenet.DenseNet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.html#glasses.nn.models.VisionModule.VisionModule" title="glasses.nn.models.VisionModule.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.VisionModule.VisionModule</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.base.html#glasses.nn.models.base.VisionModule" title="glasses.nn.models.base.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.base.VisionModule</span></code></a></p>
 <p>Implementations of DenseNet proposed in <a class="reference external" href="https://arxiv.org/abs/1608.06993">Densely Connected Convolutional Networks</a></p>
 <p>Create a default model</p>
 <p class="rubric">Examples</p>
@@ -382,7 +381,7 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.nn.models.classification.densenet.DenseNetEncoder">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.densenet.</code><code class="sig-name descname">DenseNetEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, start_features: int = 64, grow_rate: int = 32, depths: List[int] = [4, 4, 4, 4], activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;, inplace=True), block: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.classification.densenet.DenseBottleNeckBlock'&gt;, *args, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/densenet.html#DenseNetEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.densenet.DenseNetEncoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.resnet.ResNetEncoder" title="glasses.nn.models.classification.resnet.ResNetEncoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.classification.resnet.ResNetEncoder</span></code></a></p>
-<p>The encoder composed by multiple <cite>DeseNetLayer</cite> with increasing features size. The <cite>.gate</cite> is the same used in <cite>ResNet</cite></p>
+<p>The encoder composed by multiple <cite>DeseNetLayer</cite> with increasing features size. The <cite>.stem</cite> is the same used in <cite>ResNet</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -395,20 +394,6 @@ registered hooks while the latter silently ignores them.</p>
 </ul>
 </dd>
 </dl>
-<dl class="py method">
-<dt id="glasses.nn.models.classification.densenet.DenseNetEncoder.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/densenet.html#DenseNetEncoder.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.densenet.DenseNetEncoder.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
 <dl class="py attribute">
 <dt id="glasses.nn.models.classification.densenet.DenseNetEncoder.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.densenet.DenseNetEncoder.training" title="Permalink to this definition">¶</a></dt>

@@ -93,6 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="glasses.nn.models.html">glasses.nn.models package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="glasses.nn.models.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.base.html">glasses.nn.models.base package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="glasses.nn.models.classification.html">glasses.nn.models.classification package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="glasses.nn.models.classification.html#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="glasses.nn.models.classification.html#module-glasses.nn.models.classification">Module contents</a></li>
@@ -102,8 +103,6 @@
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.utils.html">glasses.nn.models.utils package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models.VisionModule">glasses.nn.models.VisionModule module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models">Module contents</a></li>
 </ul>
 </li>
@@ -197,17 +196,6 @@
 and the channel se proposed in
 <a class="reference external" href="https://arxiv.org/abs/1803.02579">Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks</a>
 The models with the channel se are labelab with prefix <cite>c</cite></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>ResNet</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>[description]</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>[type]</p>
-</dd>
-</dl>
 <dl class="py attribute">
 <dt id="glasses.nn.models.classification.senet.SEResNet.configs">
 <code class="sig-name descname">configs</code><em class="property">: Dict<span class="p">[</span>str<span class="p">, </span><a class="reference internal" href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.Config" title="glasses.utils.PretrainedWeightsProvider.Config">glasses.utils.PretrainedWeightsProvider.Config</a><span class="p">]</span></em><em class="property"> = {'cse_resnet101': Config(input_size=224, resize=256, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bilinear'), 'cse_resnet152': Config(input_size=224, resize=256, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bilinear'), 'cse_resnet18': Config(input_size=224, resize=256, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bilinear'), 'cse_resnet200': Config(input_size=224, resize=256, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bilinear'), 'cse_resnet34': Config(input_size=224, resize=256, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bilinear'), 'cse_resnet50': Config(input_size=224, resize=256, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bicubic'), 'se_resnet101': Config(input_size=224, resize=256, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bilinear'), 'se_resnet152': Config(input_size=224, resize=256, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bilinear'), 'se_resnet18': Config(input_size=224, resize=256, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bilinear'), 'se_resnet200': Config(input_size=224, resize=256, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bilinear'), 'se_resnet34': Config(input_size=224, resize=256, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bilinear'), 'se_resnet50': Config(input_size=224, resize=256, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bilinear')}</em><a class="headerlink" href="#glasses.nn.models.classification.senet.SEResNet.configs" title="Permalink to this definition">¶</a></dt>

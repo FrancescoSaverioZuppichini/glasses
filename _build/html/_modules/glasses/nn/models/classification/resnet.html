@@ -166,7 +166,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">glasses.utils.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">Config</span><span class="p">,</span> <span class="n">pretrained</span>
-<span class="kn">from</span> <span class="nn">....models.VisionModule</span> <span class="kn">import</span> <span class="n">VisionModule</span>
+<span class="kn">from</span> <span class="nn">....models.base</span> <span class="kn">import</span> <span class="n">VisionModule</span><span class="p">,</span> <span class="n">Encoder</span>
 
 
 <span class="sd">&quot;&quot;&quot;Implementation of ResNet proposed in `Deep Residual Learning for Image Recognition &lt;https://arxiv.org/abs/1512.03385&gt;`</span>
@@ -217,7 +217,6 @@
 
 
 <div class="viewcode-block" id="ResNetBasicBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetBasicBlock">[docs]</a><span class="k">class</span> <span class="nc">ResNetBasicBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="n">reduction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="sd">&quot;&quot;&quot;Basic ResNet block composed by two 3x3 convs with residual connection.</span>
 
 <span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNetBasicBlock.png?raw=true</span>
@@ -268,8 +267,6 @@
 
 
 <div class="viewcode-block" id="ResNetBottleneckBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetBottleneckBlock">[docs]</a><span class="k">class</span> <span class="nc">ResNetBottleneckBlock</span><span class="p">(</span><span class="n">ResNetBasicBlock</span><span class="p">):</span>
-    <span class="n">reduction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
-
     <span class="sd">&quot;&quot;&quot;ResNet Bottleneck block based on the torchvision implementation.</span>
 
 <span class="sd">    Even if the paper says that the first conv1x1 compresses the features. We followed the original implementation that expands the `out_features` by a factor equal to `reduction`.</span>
@@ -292,7 +289,6 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ReLUInPlace</span><span class="p">,</span> <span class="n">reduction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcut</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">shortcut</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">out_features</span> <span class="o">//</span> <span class="n">reduction</span> <span class="k">if</span> <span class="n">features</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">features</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
             <span class="n">OrderedDict</span><span class="p">(</span>
                 <span class="p">{</span>
@@ -368,7 +364,7 @@
 <div class="viewcode-block" id="ResNetLayer"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetLayer">[docs]</a><span class="k">class</span> <span class="nc">ResNetLayer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="c1"># # &#39;We perform stride directly by convolutional layers that have a stride of 2.&#39;</span>
+        <span class="c1"># &#39;We perform stride directly by convolutional layers that have a stride of 2.&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
             <span class="n">block</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span>
                   <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>  <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
@@ -383,17 +379,10 @@
 
 <div class="viewcode-block" id="ResNetStem"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetStem">[docs]</a><span class="k">class</span> <span class="nc">ResNetStem</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>  <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ReLUInPlace</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
-            <span class="n">OrderedDict</span><span class="p">(</span>
-                <span class="p">{</span>
-                    <span class="s1">&#39;conv&#39;</span><span class="p">:</span> <span class="n">Conv2dPad</span><span class="p">(</span>
-                        <span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-                    <span class="s1">&#39;bn&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">out_features</span><span class="p">),</span>
-                    <span class="s1">&#39;act&#39;</span><span class="p">:</span> <span class="n">activation</span><span class="p">(),</span>
-                    <span class="s1">&#39;pool&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-                <span class="p">}</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">ConvBnAct</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span>
+                      <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="p">)</span></div>
 
 
@@ -417,7 +406,7 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ResNetEncoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetEncoder">[docs]</a><span class="k">class</span> <span class="nc">ResNetEncoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="ResNetEncoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetEncoder">[docs]</a><span class="k">class</span> <span class="nc">ResNetEncoder</span><span class="p">(</span><span class="n">Encoder</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ResNet encoder composed by increasing different layers with increasing features.</span>
 
@@ -431,18 +420,19 @@
 <span class="sd">        stem (nn.Module, optional): Stem used. Defaults to ResNetStem.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">start_features</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="n">widths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">],</span> <span class="n">depths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">start_features</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span>  <span class="n">widths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">],</span> <span class="n">depths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
                  <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ReLUInPlace</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="n">stem</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ResNetStem</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">widths</span> <span class="o">=</span> <span class="n">widths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_features</span> <span class="o">=</span> <span class="n">start_features</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">in_out_widths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">widths</span><span class="p">,</span> <span class="n">widths</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">stem</span> <span class="o">=</span> <span class="n">stem</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">start_features</span><span class="p">,</span> <span class="n">activation</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
-            <span class="n">ResNetLayer</span><span class="p">(</span><span class="n">start_features</span><span class="p">,</span> <span class="n">widths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">depth</span><span class="o">=</span><span class="n">depths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
-                        <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+                <span class="n">ResNetLayer</span><span class="p">(</span><span class="n">start_features</span><span class="p">,</span> <span class="n">widths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">depth</span><span class="o">=</span><span class="n">depths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
+                            <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)),</span>
             <span class="o">*</span><span class="p">[</span><span class="n">ResNetLayer</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span>
                           <span class="n">out_features</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
                           <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span>  <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -453,7 +443,16 @@
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x</span></div></div>
+        <span class="k">return</span> <span class="n">x</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">stages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">stem</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span>
+                <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">features_widths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start_features</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span></div>
 
 
 <div class="viewcode-block" id="ResNetDecoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetDecoder">[docs]</a><span class="k">class</span> <span class="nc">ResNetDecoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
@@ -490,7 +489,7 @@
 
 <span class="sd">        &gt;&gt;&gt; ResNet.resnet26d()</span>
 <span class="sd">        &gt;&gt;&gt; ResNet.resnet50d()</span>
-<span class="sd">        &gt;&gt;&gt; #You can construct your own one by chaning `stem` and `block`</span>
+<span class="sd">        &gt;&gt;&gt; # You can construct your own one by chaning `stem` and `block`</span>
 <span class="sd">        &gt;&gt;&gt; resnet101d = ResNet.resnet101(stem=ResNetStemC, block=partial(ResNetBottleneckBlock, shortcut=ResNetShorcutD))</span>
 
 <span class="sd">    Customization</span>
@@ -510,15 +509,15 @@
 <span class="sd">        &gt;&gt;&gt; model = ResNet.resnet18(block=partial(ResNetBasicBlock, shortcut=ResNetShorcutD))</span>
 <span class="sd">        &gt;&gt;&gt; # store each feature</span>
 <span class="sd">        &gt;&gt;&gt; x = torch.rand((1, 3, 224, 224))</span>
+<span class="sd">        &gt;&gt;&gt; # get features</span>
 <span class="sd">        &gt;&gt;&gt; model = ResNet.resnet18()</span>
-<span class="sd">        &gt;&gt;&gt; features = []</span>
-<span class="sd">        &gt;&gt;&gt; x = model.encoder.stem(x)</span>
-<span class="sd">        &gt;&gt;&gt; for block in model.encoder.layers:</span>
-<span class="sd">        &gt;&gt;&gt;     x = block(x)</span>
-<span class="sd">        &gt;&gt;&gt;     features.append(x)</span>
+<span class="sd">        &gt;&gt;&gt; # first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
+<span class="sd">        &gt;&gt;&gt; model.encoder.features</span>
+<span class="sd">        &gt;&gt;&gt; model(torch.randn((1,3,224,224)))</span>
+<span class="sd">        &gt;&gt;&gt; # get the features from the encoder</span>
+<span class="sd">        &gt;&gt;&gt; features = model.encoder.features</span>
 <span class="sd">        &gt;&gt;&gt; print([x.shape for x in features])</span>
-<span class="sd">        # [torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7])]</span>
-<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; #[torch.Size([1, 64, 112, 112]), torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14])]</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</span>
