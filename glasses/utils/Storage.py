@@ -77,12 +77,11 @@ class ModuleStorage():
         
     def hook(self, m, i, o, name):
         if self.debug: print(f"{m} called")
-            
         if type(self.where2layers) == dict:
     #       store only the outputs from the correct layers defined in self.where2layers
             if m in self.where2layers[self.where]: self.state[self.where][name] = o
         if type(self.where2layers) is list:
-            self.state[name].append(o) 
+            self.state[name] = o
             
     def clear(self):
         if self.debug: print('[INFO] clear')

@@ -6,9 +6,7 @@ from typing import List
 from functools import partial
 from ..resnet import ReLUInPlace
 from ....blocks import ConvAct
-from ....models.VisionModule import VisionModule
-
-
+from ....models.base import VisionModule, Encoder
 
 
 AlexNetBasicBlock = ConvAct

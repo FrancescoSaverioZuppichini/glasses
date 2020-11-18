@@ -19,7 +19,6 @@ class SaliencyMapResult:
 
     def show(self) -> plt.figure:
         fig = plt.figure()
-
         plt.imshow(self.saliency_map.squeeze())
 
         return fig
@@ -43,7 +42,6 @@ class SaliencyMap(Interpretability):
         layer = find_first_layer(
             x, module, nn.Conv2d) if layer is None else layer
         gradients_storage = BackwardModuleStorage([layer])
-
         if guide:
             self.guide(module)
 
@@ -61,10 +59,9 @@ class SaliencyMap(Interpretability):
 
         out.backward(gradient=ctx)
 
-        grads = gradients_storage[layer][0][0]
+        grads = gradients_storage[layer][0]
 
         saliency_map = grads.data.cpu().numpy()[0]
-
         saliency_map = convert_to_grayscale(saliency_map)
         saliency_map = torch.from_numpy(saliency_map)
 

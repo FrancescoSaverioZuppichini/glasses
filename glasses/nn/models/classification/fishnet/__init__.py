@@ -10,7 +10,7 @@ from typing import List
 from functools import partial
 from ..resnet import ResNetBottleneckBlock, ReLUInPlace, ResNetEncoder, ResNetShorcut, ResNetBottleneckPreActBlock, ResNetStemC
 from glasses.nn.att import ChannelSE
-from ....models.VisionModule import VisionModule
+from ....models.base import VisionModule, Encoder
 
 
 FishNetShortCut = partial(BnActConv, kernel_size=1)

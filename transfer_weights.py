@@ -30,11 +30,10 @@ zoo_models_mapping = {
 
     'resnet34': [partial(timm.create_model, 'resnet34', pretrained=True), ResNet.resnet34],
     'resnet50': [partial(resnet50, pretrained=True), ResNet.resnet50],
-    'resnet50d': [partial(timm.create_model, 'resnet50d', pretrained=True), ResNet.resnet50d],
 
     'resnet101': [partial(resnet101, pretrained=True), ResNet.resnet101],
     'resnet152': [partial(resnet152, pretrained=True), ResNet.resnet152],
-    'cse_resnet50': [partial(timm.create_model, 'seresnet50', pretrained=True), SEResNet.cse_resnet50],
+    # 'cse_resnet50': [partial(timm.create_model, 'seresnet50', pretrained=True), SEResNet.cse_resnet50],
     'resnext50_32x4d': [partial(resnext50_32x4d, pretrained=True), ResNetXt.resnext50_32x4d],
     'resnext101_32x8d': [partial(resnext101_32x8d, pretrained=True), ResNetXt.resnext101_32x8d],
     'wide_resnet50_2': [partial(wide_resnet50_2, pretrained=True), WideResNet.wide_resnet50_2],
@@ -132,6 +131,8 @@ if __name__ == '__main__':
         save_dir.mkdir(exist_ok=True)
 
     storage = LocalStorage() if args.storage == 'local' else AWSSTorage()
+    if args.storage == 'local':
+        logging.info(f'Store root={storage.root}')
 
     override = True
 
