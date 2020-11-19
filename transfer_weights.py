@@ -31,6 +31,7 @@ zoo_models_mapping = {
     'resnet34': [partial(timm.create_model, 'resnet34', pretrained=True), ResNet.resnet34],
     'resnet50': [partial(resnet50, pretrained=True), ResNet.resnet50],
 
+
     'resnet101': [partial(resnet101, pretrained=True), ResNet.resnet101],
     'resnet152': [partial(resnet152, pretrained=True), ResNet.resnet152],
     # 'cse_resnet50': [partial(timm.create_model, 'seresnet50', pretrained=True), SEResNet.cse_resnet50],
