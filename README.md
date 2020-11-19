@@ -304,18 +304,18 @@ The encoder knows the number of output features, you can access them by
 
 ### Decoder
 
-The decoder takes the last feature from the `.encoder` and decode it. Usually it is just a linear layer. The `ResNetDecoder` looks like
+The decoder takes the last feature from the `.encoder` and decode it. Usually it is just a linear layer. The `ResNetHead` looks like
 
 
 ```python
-from glasses.nn.models.classification.resnet import ResNetDecoder
+from glasses.nn.models.classification.resnet import ResNetHead
 
 
-ResNetDecoder(512, n_classes=1000)
+ResNetHead(512, n_classes=1000)
 ```
 
 ```
-ResNetDecoder(
+ResNetHead(
   (pool): AdaptiveAvgPool2d(output_size=(1, 1))
   (flat): Flatten(start_dim=1, end_dim=-1)
   (fc): Linear(in_features=512, out_features=1000, bias=True)

@@ -7,8 +7,7 @@ from collections import OrderedDict
 from typing import List
 from functools import partial
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
-from ....models.base import VisionModule, Encoder
-
+from ....models.base import Encoder, VisionModule
 
 """Implementation of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`
 """
@@ -296,7 +295,7 @@ class ResNetEncoder(Encoder):
         return [self.start_features, *self.widths[:-1]]
 
 
-class ResNetDecoder(nn.Sequential):
+class ResNetHead(nn.Sequential):
     """
     This class represents the tail of ResNet. It performs a global pooling and maps the output to the
     correct class by using a fully connected layer.
@@ -380,14 +379,14 @@ class ResNet(VisionModule):
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = ResNetEncoder(in_channels, *args, **kwargs)
-        self.decoder = ResNetDecoder(
+        self.head = ResNetHead(
             self.encoder.widths[-1], n_classes)
 
         self.initialize()
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.encoder(x)
-        x = self.decoder(x)
+        x = self.head(x)
         return x
 
     def initialize(self):
