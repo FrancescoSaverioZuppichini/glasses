@@ -7,8 +7,7 @@ from collections import OrderedDict
 from typing import List
 from functools import partial
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
-from ....models.base import VisionModule, Encoder
-
+from ....models.base import Encoder, VisionModule
 
 """Implementation of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`
 """
