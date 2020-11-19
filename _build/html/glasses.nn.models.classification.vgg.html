@@ -378,24 +378,6 @@ registered hooks while the latter silently ignores them.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="glasses.nn.models.classification.vgg.VGGDecoder">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.vgg.</code><code class="sig-name descname">VGGDecoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGGDecoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGGDecoder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
-<p>This class represents the classifier of VGG. It converts the filters into 6x6 by means of the average pooling. Then, it maps the output to the
-correct class by means of fully connected layers. Dropout is used to decrease the overfitting.</p>
-<blockquote>
-<div><p>Args:
-out_features (int): Number of input features
-n_classes (int): [description]</p>
-</div></blockquote>
-<dl class="py attribute">
-<dt id="glasses.nn.models.classification.vgg.VGGDecoder.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGGDecoder.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt id="glasses.nn.models.classification.vgg.VGGEncoder">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.vgg.</code><code class="sig-name descname">VGGEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, widths: List[int] = [64, 128, 256, 512, 512], depths: List[int] = [1, 1, 2, 2, 2], activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;, inplace=True), block: torch.nn.modules.module.Module = functools.partial(&lt;class 'glasses.nn.blocks.ConvBnAct'&gt;, normalization=None, bias=True, kernel_size=3), *args, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGGEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGGEncoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
@@ -428,6 +410,24 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="py attribute">
 <dt id="glasses.nn.models.classification.vgg.VGGEncoder.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGGEncoder.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.vgg.VGGHead">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.vgg.</code><code class="sig-name descname">VGGHead</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/vgg.html#VGGHead"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGGHead" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
+<p>This class represents the classifier of VGG. It converts the filters into 6x6 by means of the average pooling. Then, it maps the output to the
+correct class by means of fully connected layers. Dropout is used to decrease the overfitting.</p>
+<blockquote>
+<div><p>Args:
+out_features (int): Number of input features
+n_classes (int): [description]</p>
+</div></blockquote>
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.vgg.VGGHead.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.vgg.VGGHead.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

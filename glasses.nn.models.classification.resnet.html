@@ -523,19 +523,6 @@ registered hooks while the latter silently ignores them.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="glasses.nn.models.classification.resnet.ResNetDecoder">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.resnet.</code><code class="sig-name descname">ResNetDecoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/resnet.html#ResNetDecoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.resnet.ResNetDecoder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
-<p>This class represents the tail of ResNet. It performs a global pooling and maps the output to the
-correct class by using a fully connected layer.</p>
-<dl class="py attribute">
-<dt id="glasses.nn.models.classification.resnet.ResNetDecoder.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.resnet.ResNetDecoder.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt id="glasses.nn.models.classification.resnet.ResNetEncoder">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.resnet.</code><code class="sig-name descname">ResNetEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, start_features: int = 64, widths: List[int] = [64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2], activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;, inplace=True), block: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.classification.resnet.ResNetBasicBlock'&gt;, stem: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.classification.resnet.ResNetStem'&gt;, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/resnet.html#ResNetEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.resnet.ResNetEncoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.nn.models.base.html#glasses.nn.models.base.Encoder" title="glasses.nn.models.base.Encoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.base.Encoder</span></code></a></p>
@@ -580,6 +567,19 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="py attribute">
 <dt id="glasses.nn.models.classification.resnet.ResNetEncoder.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.resnet.ResNetEncoder.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.resnet.ResNetHead">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.resnet.</code><code class="sig-name descname">ResNetHead</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/resnet.html#ResNetHead"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.resnet.ResNetHead" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
+<p>This class represents the tail of ResNet. It performs a global pooling and maps the output to the
+correct class by using a fully connected layer.</p>
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.resnet.ResNetHead.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.resnet.ResNetHead.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

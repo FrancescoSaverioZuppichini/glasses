@@ -238,33 +238,6 @@ registered hooks while the latter silently ignores them.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="glasses.nn.models.classification.alexnet.AlexNetDecoder">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.alexnet.</code><code class="sig-name descname">AlexNetDecoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/alexnet.html#AlexNetDecoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.alexnet.AlexNetDecoder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>This class represents the classifier of AlexNet. It converts the filters into 6x6 by means of the average pooling. Then, it maps the output to the
-correct class by means of fully connected layers. Dropout is used to decrease the overfitting.</p>
-<dl class="py attribute">
-<dt id="glasses.nn.models.classification.alexnet.AlexNetDecoder.filter_size">
-<code class="sig-name descname">filter_size</code><em class="property">: int</em><em class="property"> = 6</em><a class="headerlink" href="#glasses.nn.models.classification.alexnet.AlexNetDecoder.filter_size" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="glasses.nn.models.classification.alexnet.AlexNetDecoder.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/alexnet.html#AlexNetDecoder.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.alexnet.AlexNetDecoder.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt id="glasses.nn.models.classification.alexnet.AlexNetEncoder">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.alexnet.</code><code class="sig-name descname">AlexNetEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, widths: List[int] = [384, 256, 256], activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;, inplace=True), block: torch.nn.modules.module.Module = functools.partial(&lt;class 'glasses.nn.blocks.ConvBnAct'&gt;, normalization=None, bias=True), *args, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/alexnet.html#AlexNetEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.alexnet.AlexNetEncoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
@@ -287,6 +260,33 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.nn.models.classification.alexnet.AlexNetEncoder.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.alexnet.AlexNetEncoder.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.alexnet.AlexNetHead">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.alexnet.</code><code class="sig-name descname">AlexNetHead</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/alexnet.html#AlexNetHead"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.alexnet.AlexNetHead" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>This class represents the classifier of AlexNet. It converts the filters into 6x6 by means of the average pooling. Then, it maps the output to the
+correct class by means of fully connected layers. Dropout is used to decrease the overfitting.</p>
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.alexnet.AlexNetHead.filter_size">
+<code class="sig-name descname">filter_size</code><em class="property">: int</em><em class="property"> = 6</em><a class="headerlink" href="#glasses.nn.models.classification.alexnet.AlexNetHead.filter_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.alexnet.AlexNetHead.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/models/classification/alexnet.html#AlexNetHead.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.alexnet.AlexNetHead.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
 
 </dd></dl>
 

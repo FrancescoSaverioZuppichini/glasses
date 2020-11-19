@@ -342,33 +342,6 @@ registered hooks while the latter silently ignores them.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="glasses.nn.models.classification.efficientnet.EfficientNetDecoder">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.efficientnet.</code><code class="sig-name descname">EfficientNetDecoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">drop_rate</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/efficientnet.html#EfficientNetDecoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.efficientnet.EfficientNetDecoder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>This class represents the tail of EfficientNet. It performs a global pooling, dropout and maps the output to the
-correct class by using a fully connected layer.</p>
-<dl class="py method">
-<dt id="glasses.nn.models.classification.efficientnet.EfficientNetDecoder.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/efficientnet.html#EfficientNetDecoder.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.efficientnet.EfficientNetDecoder.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="glasses.nn.models.classification.efficientnet.EfficientNetDecoder.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.efficientnet.EfficientNetDecoder.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt id="glasses.nn.models.classification.efficientnet.EfficientNetEncoder">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.efficientnet.</code><code class="sig-name descname">EfficientNetEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, widths: List[int] = [32, 16, 24, 40, 80, 112, 192, 320, 1280], depths: List[int] = [1, 2, 2, 3, 3, 4, 1], strides: List[int] = [2, 1, 2, 2, 2, 1, 2, 1], expansions: List[int] = [1, 6, 6, 6, 6, 6, 6], kernel_sizes: List[int] = [3, 3, 5, 3, 5, 5, 3], se: List[bool] = [True, True, True, True, True, True, True], drop_rate: float = 0.2, stem: torch.nn.modules.module.Module = &lt;class 'glasses.nn.blocks.ConvBnAct'&gt;, activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.SiLU'&gt;, inplace=True), **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/efficientnet.html#EfficientNetEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.efficientnet.EfficientNetEncoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.nn.models.base.html#glasses.nn.models.base.Encoder" title="glasses.nn.models.base.Encoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.base.Encoder</span></code></a></p>
@@ -416,6 +389,33 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="py attribute">
 <dt id="glasses.nn.models.classification.efficientnet.EfficientNetEncoder.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.efficientnet.EfficientNetEncoder.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.models.classification.efficientnet.EfficientNetHead">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.efficientnet.</code><code class="sig-name descname">EfficientNetHead</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">drop_rate</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/efficientnet.html#EfficientNetHead"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.efficientnet.EfficientNetHead" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>This class represents the tail of EfficientNet. It performs a global pooling, dropout and maps the output to the
+correct class by using a fully connected layer.</p>
+<dl class="py method">
+<dt id="glasses.nn.models.classification.efficientnet.EfficientNetHead.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/efficientnet.html#EfficientNetHead.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.efficientnet.EfficientNetHead.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.efficientnet.EfficientNetHead.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.models.classification.efficientnet.EfficientNetHead.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
