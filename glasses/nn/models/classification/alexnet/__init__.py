@@ -134,9 +134,9 @@ class AlexNet(VisionModule):
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = AlexNetEncoder(in_channels, *args, **kwargs)
-        self.decoder = AlexNetDecoder(self.encoder.widths[-1], n_classes)
+        self.head = AlexNetDecoder(self.encoder.widths[-1], n_classes)
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.encoder(x)
-        x = self.decoder(x)
+        x = self.head(x)
         return x

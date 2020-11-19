@@ -2,7 +2,7 @@ from __future__ import annotations
 import torch
 from torch import nn
 from torch import Tensor
-from ..resnet import ResNetEncoder, ResNetDecoder, ResNet, ResNetStem
+from ..resnet import ResNetEncoder, ResNetHead, ResNet, ResNetStem
 from collections import OrderedDict
 from typing import List
 from functools import partial
@@ -228,12 +228,12 @@ class DenseNet(VisionModule):
     def __init__(self, in_channels: int = 3,  n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = DenseNetEncoder(in_channels, *args, **kwargs)
-        self.decoder = ResNetDecoder(
+        self.head = ResNetHead(
             self.encoder.widths[-1], n_classes)
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.encoder(x)
-        x = self.decoder(x)
+        x = self.head(x)
         return x
 
     @classmethod

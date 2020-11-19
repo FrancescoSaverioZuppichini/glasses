@@ -78,7 +78,7 @@ class VGGEncoder(nn.Module):
         return x
 
 
-class VGGDecoder(nn.Sequential):
+class VGGHead(nn.Sequential):
     """This class represents the classifier of VGG. It converts the filters into 6x6 by means of the average pooling. Then, it maps the output to the
     correct class by means of fully connected layers. Dropout is used to decrease the overfitting.
 
@@ -149,12 +149,12 @@ class VGG(VisionModule):
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = VGGEncoder(in_channels, *args, **kwargs)
-        self.decoder = VGGDecoder(self.encoder.out_features, n_classes)
+        self.head = VGGHead(self.encoder.out_features, n_classes)
         self.initialize()
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.encoder(x)
-        x = self.decoder(x)
+        x = self.head(x)
         return x
 
     def initialize(self):

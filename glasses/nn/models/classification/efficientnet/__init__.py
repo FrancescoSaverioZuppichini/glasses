@@ -146,7 +146,7 @@ class EfficientNetEncoder(Encoder):
                 self.widths[4]]
 
 
-class EfficientNetDecoder(nn.Module):
+class EfficientNetHead(nn.Module):
     """
     This class represents the tail of EfficientNet. It performs a global pooling, dropout and maps the output to the
     correct class by using a fully connected layer.
@@ -254,14 +254,14 @@ class EfficientNet(VisionModule):
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = EfficientNetEncoder(in_channels, *args, **kwargs)
-        self.decoder = EfficientNetDecoder(
+        self.head = EfficientNetHead(
             self.encoder.widths[-1], n_classes, drop_rate=kwargs['drop_rate'])
 
         self.initialize()
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.encoder(x)
-        x = self.decoder(x)
+        x = self.head(x)
         return x
 
     def initialize(self):
