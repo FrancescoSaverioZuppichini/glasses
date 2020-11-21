@@ -195,7 +195,7 @@
     <span class="n">mean</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">IMAGENET_DEFAULT_MEAN</span>
     <span class="n">std</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">IMAGENET_DEFAULT_STD</span>
     <span class="n">interpolation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;bilinear&#39;</span>
-    
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">interpolations</span> <span class="o">=</span> <span class="p">{</span>
@@ -217,7 +217,7 @@
     <span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
 
     <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Decorator to fetch the pretrained model. </span>
+        <span class="sd">&quot;&quot;&quot;Decorator to fetch the pretrained model.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            func ([Callable]): [description]</span>
@@ -240,7 +240,7 @@
 
 <div class="viewcode-block" id="BasicUrlHandler"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.PretrainedWeightsProvider.BasicUrlHandler">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">BasicUrlHandler</span><span class="p">:</span>
-    <span class="n">url</span><span class="p">:</span> <span class="nb">str</span> 
+    <span class="n">url</span><span class="p">:</span> <span class="nb">str</span>
 
 <div class="viewcode-block" id="BasicUrlHandler.get_response"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.PretrainedWeightsProvider.BasicUrlHandler.get_response">[docs]</a>    <span class="k">def</span> <span class="nf">get_response</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Request</span><span class="p">:</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -274,14 +274,16 @@
 <div class="viewcode-block" id="GoogleDriveUrlHandler.get_response"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.PretrainedWeightsProvider.GoogleDriveUrlHandler.get_response">[docs]</a>    <span class="k">def</span> <span class="nf">get_response</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Request</span><span class="p">:</span>
         <span class="n">session</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
 
-        <span class="n">response</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;id&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_id</span> <span class="p">},</span> <span class="n">stream</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_id</span><span class="p">},</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_confirm_token</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">token</span><span class="p">:</span>
-            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;id&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_id</span><span class="p">,</span> <span class="s1">&#39;confirm&#39;</span> <span class="p">:</span> <span class="n">token</span> <span class="p">}</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">params</span><span class="p">,</span> <span class="n">stream</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>  
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_id</span><span class="p">,</span> <span class="s1">&#39;confirm&#39;</span><span class="p">:</span> <span class="n">token</span><span class="p">}</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">response</span></div></div>
+
 
 <div class="viewcode-block" id="PretrainedWeightsProvider"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">PretrainedWeightsProvider</span><span class="p">:</span>
@@ -291,9 +293,12 @@
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; provider = PretrainedWeightsProvider()</span>
 <span class="sd">        &gt;&gt;&gt; provider[&#39;resnet18&#39;] # get a pre-trained resnet18 model</span>
-<span class="sd">        &gt;&gt;&gt; provider = PretrainedWeightsProvider(verbose=1) # see all the outputs</span>
-<span class="sd">        &gt;&gt;&gt; provider = PretrainedWeightsProvider(save_dir=Path(&#39;./awesome/&#39;)) # change save dir</span>
-<span class="sd">        &gt;&gt;&gt; provider = PretrainedWeightsProvider(override=True) # override model even if already downloaded</span>
+<span class="sd">        # see all the outputs</span>
+<span class="sd">        &gt;&gt;&gt; provider = PretrainedWeightsProvider(verbose=1)</span>
+<span class="sd">        # change save dir</span>
+<span class="sd">        &gt;&gt;&gt; provider = PretrainedWeightsProvider(save_dir=Path(&#39;./awesome/&#39;))</span>
+<span class="sd">        # override model even if already downloaded</span>
+<span class="sd">        &gt;&gt;&gt; provider = PretrainedWeightsProvider(override=True)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">BASE_URL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;https://cv-glasses.s3.eu-central-1.amazonaws.com&#39;</span>
@@ -340,8 +345,10 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.glasses/&#39;</span><span class="p">)</span>
+            <span class="n">default_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;HOME&#39;</span><span class="p">,</span> <span class="n">default_dir</span><span class="p">))</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.glasses/&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;GLASSES_HOME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights_zoo</span><span class="p">:</span>
