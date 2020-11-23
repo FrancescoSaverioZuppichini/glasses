@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 1
 
+   glasses.nn.models.base
    glasses.nn.models.classification
    glasses.nn.models.segmentation
    glasses.nn.models.utils
@@ -14,10 +15,18 @@ Subpackages
 Submodules
 ----------
 
-glasses.nn.models.VisionModule module
--------------------------------------
+glasses.nn.models.AutoConfig module
+-----------------------------------
 
-.. automodule:: glasses.nn.models.VisionModule
+.. automodule:: glasses.nn.models.AutoConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+glasses.nn.models.AutoModel module
+----------------------------------
+
+.. automodule:: glasses.nn.models.AutoModel
    :members:
    :undoc-members:
    :show-inheritance:
