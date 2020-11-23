@@ -14,7 +14,7 @@ Glasses is a Deep Learning Computer Vision library for `PyTorch <https://pytorch
    :maxdepth: 2
    :caption: Tutorials:
 
-   tutorials/installation.md
+   tutorials/README.md
 
 .. toctree::
    :glob:
