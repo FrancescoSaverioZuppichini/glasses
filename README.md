@@ -1,3 +1,8 @@
+```python
+%load_ext autoreload
+%autoreload 2
+```
+
 # Glasses 😎
 
 ![alt](https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/background.png?raw=true)
@@ -29,16 +34,40 @@ Most of them are missing a global structure, they used tons of code repetition, 
 
 The API are shared across **all** models!
 
+
+```python
+import torch
+from glasses import AutoModel, AutoConfig
+from torch import nn
+# load one model
+model = AutoModel.from_pretrained('resnet18')
+cfg = AutoConfig.from_name('resnet18')
+model.summary(device='cpu') # thanks to torchsummary
+```
+
+### Interpretability
+
+
+```python
+import requests
+from PIL import Image
+from io import BytesIO
+from glasses.interpretability import GradCam, SaliencyMap
+from torchvision.transforms import Normalize
+r = requests.get('https://i.insider.com/5df126b679d7570ad2044f3e?width=700&format=jpeg&auto=webp')
+im = Image.open(BytesIO(r.content))
+# un normalize when done
+postprocessing = Normalize(-cfg.mean / cfg.std, (1.0 / cfg.std))
+# apply preprocessing
+x =  cfg.transform(im).unsqueeze(0)
+_ = model.interpret(x, using=GradCam(), postprocessing=postprocessing).show()
+```
+
 ## Classification
 
 
 ```python
-import torch
 from glasses.nn.models import ResNet
-from torch import nn
-# classification
-model = ResNet.resnet18(pretrained=True)
-model.summary() # thanks to torchsummary
 # change activation
 ResNet.resnet18(activation = nn.SELU)
 # change number of classes
@@ -59,10 +88,10 @@ ResNet.resnet18(block = InvertedResidualBlock)
 ```python
 from functools import partial
 from glasses.nn.models.segmentation.unet import UNet, UNetDecoder
-
+# vanilla Unet
 unet = UNet()
 # let's change the encoder
-unet = UNet(encoder=lambda **kwargs: EfficientNet.efficientnet_b2(**kwargs).encoder)
+unet = UNet.from_encoder(partial(AutoModel.from_name, 'efficientnet_b1'))
 # mmm I want more layers in the decoder!
 unet = UNet(decoder=partial(UNetDecoder, widths=[256, 128, 64, 32, 16]))
 # maybe resnet was better
@@ -77,7 +106,7 @@ unet.summary(input_shape=(1,224,224))
 ```python
 # change the decoder part
 model = ResNet.resnet18(pretrained=True)
-my_decoder = nn.Sequential(
+my_head = nn.Sequential(
     nn.AdaptiveAvgPool2d((1,1)),
     nn.Flatten(),
     nn.Linear(model.encoder.widths[-1], 512),
@@ -85,49 +114,10 @@ my_decoder = nn.Sequential(
     nn.ReLU(),
     nn.Linear(512, 1000))
 
-model.decoder = my_decoder
+model.head = my_head
 
 x = torch.rand((1,3,224,224))
 model(x).shape #torch.Size([1, 1000])
-```
-
-
-```python
-# get features
-model = ResNet.resnet18()
-# first call .features, this will activate the forward hooks and tells the model you'll like to get the features
-model.encoder.features
-model(torch.randn((1,3,224,224)))
-# get the features from the encoder
-features = model.encoder.features
-print([x.shape for x in features])
-```
-
-### Interpretability 
-
-Interpretability is build it
-
-
-```python
-import requests
-from PIL import Image
-from io import BytesIO
-from glasses.interpretability import GradCam, SaliencyMap
-from torchvision.transforms import Normalize
-# get one image
-r = requests.get('https://i.insider.com/5df126b679d7570ad2044f3e?width=700&format=jpeg&auto=webp')
-im = Image.open(BytesIO(r.content))
-# create the model
-model = ResNet.resnet18(pretrained=True)
-# get the config for resnet18
-cfg = ResNet.configs['resnet18']
-# get the correct transformation
-transform = cfg.transform
-# un normalize when done
-postprocessing = Normalize(-cfg.mean / cfg.std, (1.0 / cfg.std))
-# apply preprocessing
-x = transform(im).unsqueeze(0)
-_ = model.interpret(x, using=GradCam(), postprocessing=postprocessing).show()
 ```
 
 ![alt](https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/grad_cam.png?raw=true)
@@ -167,7 +157,7 @@ This is a list of all the pretrained models available so far!. They are all trai
 | resnet18         | 0.69758 | 0.89078 |  46.7778 |
 | vgg11            | 0.6902  | 0.88628 |  84.9438 |
 
-Assuming you want to load `efficientnet_b1`
+Assuming you want to load `efficientnet_b1`, you can also grab it from its class
 
 
 ```python
@@ -175,7 +165,7 @@ from glasses.nn.models import EfficientNet
 
 model = EfficientNet.efficientnet_b1(pretrained=True)
 # you may also need to get the correct transformation that must be applied on the input
-cfg = EfficientNet.configs['efficientnet_b1']
+cfg = AutoConfig.from_name('efficientnet_b1')
 transform = cfg.transform
 ```
 
@@ -192,10 +182,11 @@ Compose(
 
 ## Deep Customization
 
-All models is composed by 4 parts:
+All models are composed by sharable parts:
 - `Block`
 - `Layer`
 - `Encoder`
+- `Head`
 - `Decoder`
 
 ### Block
@@ -240,6 +231,7 @@ The cool thing is each model has the same api, if I want to create a vgg13 with 
 
 
 ```python
+from glasses.nn.models import VGG
 model = VGG.vgg13(block=SEResNetBottleneckBlock)
 model.summary()
 ```
@@ -254,7 +246,7 @@ A `Layer` is a collection of blocks, it is used to stack multiple blocks togethe
 ```python
 from glasses.nn.models.classification.resnet import ResNetLayer
 
-ResNetLayer(64, 128, n=2)
+ResNetLayer(64, 128, depth=2)
 ```
 
 ### Encoder
@@ -302,9 +294,29 @@ model.encoder.widths[-1]
 
 The encoder knows the number of output features, you can access them by
 
-### Decoder
+#### Features
 
-The decoder takes the last feature from the `.encoder` and decode it. Usually it is just a linear layer. The `ResNetHead` looks like
+Each encoder can return a list of features accessable by the `.features` field. You need to call it once before in order to notify the encoder we wish to also store the features
+
+
+```python
+from glasses.nn.models.classification.resnet import ResNetEncoder
+
+x = torch.randn(1,3,224,224)
+enc = ResNetEncoder()
+enc.features # call it once
+enc(x)
+features = enc.features # now we have all the features from each layer (stage)
+[print(f.shape) for f in features]
+# torch.Size([1, 64, 112, 112])
+# torch.Size([1, 64, 56, 56])
+# torch.Size([1, 128, 28, 28])
+# torch.Size([1, 256, 14, 14])
+```
+
+### Head
+
+Head is the last part of the model, it usually perform the classification
 
 
 ```python
@@ -314,12 +326,23 @@ from glasses.nn.models.classification.resnet import ResNetHead
 ResNetHead(512, n_classes=1000)
 ```
 
-```
-ResNetHead(
-  (pool): AdaptiveAvgPool2d(output_size=(1, 1))
-  (flat): Flatten(start_dim=1, end_dim=-1)
-  (fc): Linear(in_features=512, out_features=1000, bias=True)
-)
+### Decoder
+
+The decoder takes the last feature from the `.encoder` and decode it. This is usually done in `segmentation` models, such as Unet.
+
+
+```python
+from glasses.nn.models.segmentation.unet import UNetDecoder
+x = torch.randn(1,3,224,224)
+enc = ResNetEncoder()
+enc.features # call it once
+x = enc(x)
+features = enc.features
+# we need to tell the decoder the first feature size and the size of the lateral features
+dec = UNetDecoder(start_features=enc.widths[-1],
+                  lateral_widths=enc.features_widths[::-1])
+out = dec(x, features[::-1])
+out.shape
 ```
 
 **This object oriented structure allows to reuse most of the code across the models**
@@ -328,27 +351,27 @@ ResNetHead(
 
 The models so far
 
-
 | name               | Parameters   |   Size (MB) |
 |:-------------------|:-------------|------------:|
-| AlexNet            | 61,100,840   |      233.08 |
-| vgg11              | 132,863,336  |      506.83 |
-| vgg11_bn           | 132,868,840  |      506.85 |
-| vgg13              | 133,047,848  |      507.54 |
-| vgg13_bn           | 133,053,736  |      507.56 |
-| vgg16              | 138,357,544  |      527.79 |
-| vgg16_bn           | 138,365,992  |      527.82 |
-| vgg19              | 143,667,240  |      548.05 |
-| vgg19_bn           | 143,678,248  |      548.09 |
 | resnet18           | 11,689,512   |       44.59 |
 | resnet26           | 15,995,176   |       61.02 |
+| resnet26d          | 16,014,408   |       61.09 |
 | resnet34           | 21,797,672   |       83.15 |
 | resnet50           | 25,557,032   |       97.49 |
+| resnet50d          | 25,576,264   |       97.57 |
 | resnet101          | 44,549,160   |      169.94 |
 | resnet152          | 60,192,808   |      229.62 |
 | resnet200          | 64,673,832   |      246.71 |
-| resnet26d          | 16,014,408   |       61.09 |
-| resnet50d          | 25,576,264   |       97.57 |
+| se_resnet18        | 11,776,552   |       44.92 |
+| se_resnet34        | 21,954,856   |       83.75 |
+| se_resnet50        | 28,071,976   |      107.09 |
+| se_resnet101       | 49,292,328   |      188.04 |
+| se_resnet152       | 66,770,984   |      254.71 |
+| cse_resnet18       | 11,778,592   |       44.93 |
+| cse_resnet34       | 21,958,868   |       83.77 |
+| cse_resnet50       | 28,088,024   |      107.15 |
+| cse_resnet101      | 49,326,872   |      188.17 |
+| cse_resnet152      | 66,821,848   |      254.91 |
 | resnext50_32x4d    | 25,028,904   |       95.48 |
 | resnext101_32x8d   | 88,791,336   |      338.71 |
 | resnext101_32x16d  | 194,026,792  |      740.15 |
@@ -356,18 +379,20 @@ The models so far
 | resnext101_32x48d  | 828,411,176  |     3160.14 |
 | wide_resnet50_2    | 68,883,240   |      262.77 |
 | wide_resnet101_2   | 126,886,696  |      484.03 |
-| se_resnet18        | 11,776,552   |       44.92 |
-| se_resnet34        | 21,954,856   |       83.75 |
-| se_resnet50        | 28,071,976   |      107.09 |
-| se_resnet101       | 49,292,328   |      188.04 |
-| se_resnet152       | 66,770,984   |      254.71 |
 | densenet121        | 7,978,856    |       30.44 |
-| densenet161        | 28,681,000   |      109.41 |
 | densenet169        | 14,149,480   |       53.98 |
 | densenet201        | 20,013,928   |       76.35 |
-| mobilenet_v2       | 3,504,872    |       13.37 |
+| densenet161        | 28,681,000   |      109.41 |
 | fishnet99          | 16,630,312   |       63.44 |
 | fishnet150         | 24,960,808   |       95.22 |
+| vgg11              | 132,863,336  |      506.83 |
+| vgg13              | 133,047,848  |      507.54 |
+| vgg16              | 138,357,544  |      527.79 |
+| vgg19              | 143,667,240  |      548.05 |
+| vgg11_bn           | 132,868,840  |      506.85 |
+| vgg13_bn           | 133,053,736  |      507.56 |
+| vgg16_bn           | 138,365,992  |      527.82 |
+| vgg19_bn           | 143,678,248  |      548.09 |
 | efficientnet_b0    | 5,288,548    |       20.17 |
 | efficientnet_b1    | 7,794,184    |       29.73 |
 | efficientnet_b2    | 9,109,994    |       34.75 |
@@ -383,6 +408,8 @@ The models so far
 | efficientnet_lite2 | 6,092,072    |       23.24 |
 | efficientnet_lite3 | 8,197,096    |       31.27 |
 | efficientnet_lite4 | 13,006,568   |       49.62 |
+| mobilenetv2        | 3,504,872    |       13.37 |
+| unet               | 23,202,530   |       88.51 |
 
 ## Credits
 

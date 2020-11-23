@@ -187,6 +187,6 @@ class UNet(SegmentationModule):
                  decoder: nn.Module = UNetDecoder,
                  **kwargs):
 
-        super().__init__(in_channels, n_classes, encoder, decoder)
+        super().__init__(in_channels, n_classes, encoder, decoder, **kwargs)
         self.head = nn.Conv2d(
             self.decoder.widths[-1], n_classes, kernel_size=1)

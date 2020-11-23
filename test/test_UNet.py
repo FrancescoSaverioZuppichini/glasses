@@ -4,10 +4,10 @@ from glasses.nn.models.classification.senet import SENetBasicBlock
 from glasses.nn.models.classification.resnet import ResNet, ResNetBasicBlock, ResNetEncoder, ResNetBottleneckBlock
 from glasses.nn.models.classification import EfficientNet
 from glasses.nn.models.classification import EfficientNetLite
-
+from glasses import AutoModel
 from glasses.nn.blocks import Conv2dPad
 from functools import partial
-
+import pytest
 
 def test_UNet():
     x = torch.rand((1, 1, 32 * 12, 32*12))
@@ -42,3 +42,12 @@ def test_UNet():
     # custom block
     unet = UNet(encoder=partial(UNetEncoder, block=SENetBasicBlock))
     unet(x)
+
+    # using .from_encoder
+    unet = UNet.from_encoder(lambda *args, **kwargs: ResNet.resnet26(*args, **kwargs))
+    unet(x)
+    # with AutoModel
+    unet = UNet.from_encoder(partial(AutoModel.from_name, 'resnet18'))
+    unet(x)
+    with pytest.raises(AttributeError):
+        unet = UNet.from_encoder(lambda *args, **kwargs: None)

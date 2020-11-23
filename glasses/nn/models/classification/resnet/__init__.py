@@ -363,19 +363,7 @@ class ResNet(VisionModule):
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
-
-    configs = {
-        'resnet18': Config(),
-        'resnet26': Config(interpolation='bicubic'),
-        'resnet26d': Config(interpolation='bicubic'),
-        'resnet34': Config(),
-        'resnet50': Config(),
-        'resnet50d': Config(interpolation='bicubic'),
-        'resnet101': Config(),
-        'resnet152': Config(),
-        'resnet200': Config()
-    }
-
+    
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = ResNetEncoder(in_channels, *args, **kwargs)

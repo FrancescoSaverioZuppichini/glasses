@@ -1,6 +1,9 @@
 from torch import nn
 from torch import Tensor
 from ...base import VisionModule
+from functools import partial
+from abc import abstractclassmethod
+from typing import Callable
 
 class SegmentationModule(VisionModule):
     """Base Segmentation Module class
@@ -32,3 +35,22 @@ class SegmentationModule(VisionModule):
 
         x = self.head(x)
         return x
+
+    @abstractclassmethod
+    def from_encoder(cls, model: Callable, *args, **kwargs) -> nn.Module:
+        """Extract the decoder part from a given model.
+
+        Args:
+            name (str): A function returning a model
+
+        Returns:
+            [nn.Module] A PyTorch module: 
+        """
+        def extract_encoder(*args, **kwargs):
+            try:
+                encoder = model(*args, **kwargs).encoder
+            except AttributeError:
+                raise AttributeError(f'Field .encoder was not found for {model}. Are you using a model from glasses.nn.models?')
+            return encoder
+
+        return cls( *args, encoder=extract_encoder, **kwargs)
