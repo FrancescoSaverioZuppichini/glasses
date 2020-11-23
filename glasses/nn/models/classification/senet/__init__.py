@@ -18,21 +18,6 @@ class SEResNet(ResNet):
     The models with the channel se are labelab with prefix `c` 
     """
 
-    configs = {
-        'se_resnet18': Config(),
-        'se_resnet34': Config(),
-        'se_resnet50': Config(),
-        'se_resnet101': Config(),
-        'se_resnet152': Config(),
-        'se_resnet200': Config(),
-        'cse_resnet18': Config(),
-        'cse_resnet34': Config(),
-        'cse_resnet50': Config(interpolation='bicubic'),
-        'cse_resnet101': Config(),
-        'cse_resnet152': Config(),
-        'cse_resnet200': Config()
-    }
-
     @classmethod
     def se_resnet18(cls, *args, **kwargs) -> SEResNet:
         """Original SE resnet18 with Spatial Squeeze and Excitation

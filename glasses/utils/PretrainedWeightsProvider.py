@@ -36,19 +36,23 @@ class Config:
     mean: Tuple[float] = IMAGENET_DEFAULT_MEAN
     std: Tuple[float] = IMAGENET_DEFAULT_STD
     interpolation: str = 'bilinear'
-    
+
     @property
     def transform(self):
         interpolations = {
             'bilinear': Image.BILINEAR,
             'bicubic': Image.BICUBIC
         }
-        return T.Compose([
+        tr = T.Compose([
             T.Resize(self.resize, interpolations[self.interpolation]),
             T.CenterCrop(self.input_size),
             T.ToTensor(),
-            T.Normalize(mean=self.mean, std=self.std)
         ])
+
+        if self.mean != None or self.std != None:
+            tr.transforms.append(T.Normalize(mean=self.mean, std=self.std))
+
+        return tr
 
 
 StateDict = Dict[str, Tensor]
@@ -58,7 +62,7 @@ def pretrained(name: str = None) -> Callable:
     _name = name
 
     def decorator(func: Callable) -> Callable:
-        """Decorator to fetch the pretrained model. 
+        """Decorator to fetch the pretrained model.
 
         Args:
             func ([Callable]): [description]
@@ -81,7 +85,7 @@ def pretrained(name: str = None) -> Callable:
 
 @dataclass
 class BasicUrlHandler:
-    url: str 
+    url: str
 
     def get_response(self) -> requests.Request:
         r = requests.get(self.url, stream=True)
@@ -115,14 +119,16 @@ class GoogleDriveUrlHandler(BasicUrlHandler):
     def get_response(self) -> requests.Request:
         session = requests.Session()
 
-        response = session.get(self.url, params = { 'id' : self.file_id }, stream = True)
+        response = session.get(
+            self.url, params={'id': self.file_id}, stream=True)
         token = self.get_confirm_token(response)
 
         if token:
-            params = { 'id' : self.file_id, 'confirm' : token }
-            response = session.get(self.url, params = params, stream = True)  
+            params = {'id': self.file_id, 'confirm': token}
+            response = session.get(self.url, params=params, stream=True)
 
         return response
+
 
 @dataclass
 class PretrainedWeightsProvider:
@@ -132,9 +138,12 @@ class PretrainedWeightsProvider:
     Example:
         >>> provider = PretrainedWeightsProvider()
         >>> provider['resnet18'] # get a pre-trained resnet18 model
-        >>> provider = PretrainedWeightsProvider(verbose=1) # see all the outputs
-        >>> provider = PretrainedWeightsProvider(save_dir=Path('./awesome/')) # change save dir
-        >>> provider = PretrainedWeightsProvider(override=True) # override model even if already downloaded
+        # see all the outputs
+        >>> provider = PretrainedWeightsProvider(verbose=1)
+        # change save dir
+        >>> provider = PretrainedWeightsProvider(save_dir=Path('./awesome/'))
+        # override model even if already downloaded
+        >>> provider = PretrainedWeightsProvider(override=True)
     """
 
     BASE_URL: str = 'https://cv-glasses.s3.eu-central-1.amazonaws.com'
@@ -181,8 +190,11 @@ class PretrainedWeightsProvider:
         try:
             self.save_dir.mkdir(exist_ok=True)
         except FileNotFoundError:
-            self.save_dir = Path(os.environ['HOME']) / Path('.glasses/')
+            default_dir = str(Path(__file__).resolve().parent)
+            self.save_dir = Path(os.environ.get(
+                'HOME', default_dir)) / Path('.glasses/')
             self.save_dir.mkdir(exist_ok=True)
+        os.environ['GLASSES_HOME'] = str(self.save_dir)
 
     def __getitem__(self, key: str) -> dict:
         if key not in self.weights_zoo:

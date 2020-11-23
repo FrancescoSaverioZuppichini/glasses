@@ -66,10 +66,10 @@ class InvertedResidualBlock(nn.Module):
             x += res
         return x
 
+
 EfficientNetBasicBlock = InvertedResidualBlock
 
 EfficientNetLayer = partial(ResNetLayer, block=EfficientNetBasicBlock)
-
 
 
 class EfficientNetEncoder(Encoder):
@@ -146,7 +146,7 @@ class EfficientNetEncoder(Encoder):
                 self.widths[4]]
 
 
-class EfficientNetDecoder(nn.Module):
+class EfficientNetHead(nn.Module):
     """
     This class represents the tail of EfficientNet. It performs a global pooling, dropout and maps the output to the
     correct class by using a fully connected layer.
@@ -219,20 +219,6 @@ class EfficientNet(VisionModule):
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
-
-    configs = {
-        'efficientnet_b0':  Config(resize=224, input_size=224, interpolation='bicubic'),
-        'efficientnet_b1':  Config(resize=240, input_size=240, interpolation='bicubic'),
-        'efficientnet_b2':  Config(resize=260, input_size=260, interpolation='bicubic'),
-        'efficientnet_b3':  Config(resize=300, input_size=300, interpolation='bicubic'),
-        'efficientnet_b4':  Config(resize=380, input_size=380, interpolation='bicubic'),
-        'efficientnet_b5':  Config(resize=456, input_size=456, interpolation='bicubic'),
-        'efficientnet_b6':  Config(resize=528, input_size=528, interpolation='bicubic'),
-        'efficientnet_b7':  Config(resize=600, input_size=600, interpolation='bicubic'),
-        'efficientnet_b8':  Config(resize=672, input_size=672, interpolation='bicubic'),
-        'efficientnet_l2':  Config(resize=800, input_size=800, interpolation='bicubic'),
-    }
-
     models_config = {
         # name : width_factor, depth_factor, dropout_rate
         'efficientnet_b0': (1.0, 1.0, 0.2),
@@ -254,14 +240,14 @@ class EfficientNet(VisionModule):
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = EfficientNetEncoder(in_channels, *args, **kwargs)
-        self.decoder = EfficientNetDecoder(
+        self.head = EfficientNetHead(
             self.encoder.widths[-1], n_classes, drop_rate=kwargs['drop_rate'])
 
         self.initialize()
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.encoder(x)
-        x = self.decoder(x)
+        x = self.head(x)
         return x
 
     def initialize(self):
@@ -355,16 +341,6 @@ class EfficientNetLite(EfficientNet):
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
-
-    configs = {
-
-        'efficientnet_lite0':  Config(resize=224, input_size=224, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
-        'efficientnet_lite1':  Config(resize=240, input_size=240, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
-        'efficientnet_lite2':  Config(resize=260, input_size=260, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
-        'efficientnet_lite3':  Config(resize=280, input_size=280, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
-        'efficientnet_lite4':  Config(resize=300, input_size=300, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
-
-    }
 
     models_config = {
         # name : width_factor, depth_factor, dropout_rate
