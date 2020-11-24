@@ -8,4 +8,5 @@ glasses
    glasses
    models_table
    setup
+   tmp
    transfer_weights

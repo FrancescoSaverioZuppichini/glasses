@@ -1,14 +1,6 @@
 glasses.nn.models.utils package
 ===============================
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 1
-
-   glasses.nn.models.utils.protocols
-
 Submodules
 ----------
 

@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 1
 
+   glasses.nn.models.segmentation.base
    glasses.nn.models.segmentation.unet
 
 Module contents

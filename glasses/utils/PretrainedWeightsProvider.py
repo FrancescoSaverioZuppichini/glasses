@@ -43,12 +43,16 @@ class Config:
             'bilinear': Image.BILINEAR,
             'bicubic': Image.BICUBIC
         }
-        return T.Compose([
+        tr = T.Compose([
             T.Resize(self.resize, interpolations[self.interpolation]),
             T.CenterCrop(self.input_size),
             T.ToTensor(),
-            T.Normalize(mean=self.mean, std=self.std)
         ])
+
+        if self.mean != None or self.std != None:
+            tr.transforms.append(T.Normalize(mean=self.mean, std=self.std))
+
+        return tr
 
 
 StateDict = Dict[str, Tensor]
@@ -187,7 +191,8 @@ class PretrainedWeightsProvider:
             self.save_dir.mkdir(exist_ok=True)
         except FileNotFoundError:
             default_dir = str(Path(__file__).resolve().parent)
-            self.save_dir = Path(os.environ.get('HOME', default_dir)) / Path('.glasses/')
+            self.save_dir = Path(os.environ.get(
+                'HOME', default_dir)) / Path('.glasses/')
             self.save_dir.mkdir(exist_ok=True)
         os.environ['GLASSES_HOME'] = str(self.save_dir)
 
