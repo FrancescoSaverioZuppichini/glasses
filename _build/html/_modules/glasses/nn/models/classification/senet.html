@@ -83,7 +83,7 @@
             
               <p class="caption"><span class="caption-text">Tutorials:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials/README.html">Glasses 😎</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package Reference</span></p>
 <ul>
@@ -176,21 +176,6 @@
 <span class="sd">    `Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks &lt;https://arxiv.org/abs/1803.02579&gt;`_</span>
 <span class="sd">    The models with the channel se are labelab with prefix `c` </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">configs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;se_resnet18&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(),</span>
-        <span class="s1">&#39;se_resnet34&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(),</span>
-        <span class="s1">&#39;se_resnet50&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(),</span>
-        <span class="s1">&#39;se_resnet101&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(),</span>
-        <span class="s1">&#39;se_resnet152&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(),</span>
-        <span class="s1">&#39;se_resnet200&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(),</span>
-        <span class="s1">&#39;cse_resnet18&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(),</span>
-        <span class="s1">&#39;cse_resnet34&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(),</span>
-        <span class="s1">&#39;cse_resnet50&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(</span><span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bicubic&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;cse_resnet101&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(),</span>
-        <span class="s1">&#39;cse_resnet152&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(),</span>
-        <span class="s1">&#39;cse_resnet200&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">()</span>
-    <span class="p">}</span>
 
 <div class="viewcode-block" id="SEResNet.se_resnet18"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.senet.html#glasses.nn.models.classification.SEResNet.se_resnet18">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">se_resnet18</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SEResNet</span><span class="p">:</span>

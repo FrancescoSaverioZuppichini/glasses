@@ -83,7 +83,7 @@
             
               <p class="caption"><span class="caption-text">Tutorials:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/README.html">Glasses 😎</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package Reference</span></p>
 <ul>
@@ -181,6 +181,7 @@
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
+ | <a href="#Z"><strong>Z</strong></a>
  
 </div>
 <h2 id="A">A</h2>
@@ -194,13 +195,17 @@
         <li><a href="glasses.nn.models.classification.alexnet.html#glasses.nn.models.classification.alexnet.AlexNet">(class in glasses.nn.models.classification.alexnet)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.nn.models.classification.alexnet.html#glasses.nn.models.classification.alexnet.AlexNetEncoder">AlexNetEncoder (class in glasses.nn.models.classification.alexnet)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.nn.models.classification.alexnet.html#glasses.nn.models.classification.alexnet.AlexNetHead">AlexNetHead (class in glasses.nn.models.classification.alexnet)</a>
 </li>
       <li><a href="glasses.nn.models.classification.alexnet.html#glasses.nn.models.classification.alexnet.AlexNetStem">AlexNetStem (class in glasses.nn.models.classification.alexnet)</a>
+</li>
+      <li><a href="glasses.nn.models.html#glasses.nn.models.AutoConfig.AutoConfig">AutoConfig (class in glasses.nn.models.AutoConfig)</a>
+</li>
+      <li><a href="glasses.nn.models.html#glasses.nn.models.AutoModel.AutoModel">AutoModel (class in glasses.nn.models.AutoModel)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -241,37 +246,15 @@
       <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.Config">Config (class in glasses.utils.PretrainedWeightsProvider)</a>
 </li>
       <li><a href="glasses.nn.models.base.html#glasses.nn.models.base.VisionModule.configs">configs (glasses.nn.models.base.VisionModule attribute)</a>
-
-      <ul>
-        <li><a href="glasses.nn.models.classification.html#glasses.nn.models.classification.DenseNet.configs">(glasses.nn.models.classification.DenseNet attribute)</a>
 </li>
-        <li><a href="glasses.nn.models.classification.densenet.html#glasses.nn.models.classification.densenet.DenseNet.configs">(glasses.nn.models.classification.densenet.DenseNet attribute)</a>
-</li>
-        <li><a href="glasses.nn.models.classification.html#glasses.nn.models.classification.EfficientNet.configs">(glasses.nn.models.classification.EfficientNet attribute)</a>
-</li>
-        <li><a href="glasses.nn.models.classification.efficientnet.html#glasses.nn.models.classification.efficientnet.EfficientNet.configs">(glasses.nn.models.classification.efficientnet.EfficientNet attribute)</a>
-</li>
-        <li><a href="glasses.nn.models.classification.efficientnet.html#glasses.nn.models.classification.efficientnet.EfficientNetLite.configs">(glasses.nn.models.classification.efficientnet.EfficientNetLite attribute)</a>
-</li>
-        <li><a href="glasses.nn.models.classification.html#glasses.nn.models.classification.EfficientNetLite.configs">(glasses.nn.models.classification.EfficientNetLite attribute)</a>
-</li>
-        <li><a href="glasses.nn.models.classification.html#glasses.nn.models.classification.ResNet.configs">(glasses.nn.models.classification.ResNet attribute)</a>
-</li>
-        <li><a href="glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.resnet.ResNet.configs">(glasses.nn.models.classification.resnet.ResNet attribute)</a>
-</li>
-        <li><a href="glasses.nn.models.classification.senet.html#glasses.nn.models.classification.senet.SEResNet.configs">(glasses.nn.models.classification.senet.SEResNet attribute)</a>
-</li>
-        <li><a href="glasses.nn.models.classification.html#glasses.nn.models.classification.SEResNet.configs">(glasses.nn.models.classification.SEResNet attribute)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.nn.blocks.html#glasses.nn.blocks.Conv2dPad">Conv2dPad (class in glasses.nn.blocks)</a>
 </li>
       <li><a href="glasses.nn.blocks.html#glasses.nn.blocks.ConvBnAct">ConvBnAct (class in glasses.nn.blocks)</a>
 </li>
       <li><a href="glasses.interpretability.html#glasses.interpretability.utils.convert_to_grayscale">convert_to_grayscale() (in module glasses.interpretability.utils)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.nn.models.classification.senet.html#glasses.nn.models.classification.senet.SEResNet.cse_resnet101">cse_resnet101() (glasses.nn.models.classification.senet.SEResNet class method)</a>
 
       <ul>
@@ -666,6 +649,16 @@
         <li><a href="glasses.nn.models.classification.html#glasses.nn.models.classification.EfficientNetLite.from_config">(glasses.nn.models.classification.EfficientNetLite class method)</a>
 </li>
       </ul></li>
+      <li><a href="glasses.nn.models.segmentation.base.html#glasses.nn.models.segmentation.base.SegmentationModule.from_encoder">from_encoder() (glasses.nn.models.segmentation.base.SegmentationModule class method)</a>
+</li>
+      <li><a href="glasses.nn.models.html#glasses.nn.models.AutoConfig.AutoConfig.from_name">from_name() (glasses.nn.models.AutoConfig.AutoConfig static method)</a>
+
+      <ul>
+        <li><a href="glasses.nn.models.html#glasses.nn.models.AutoModel.AutoModel.from_name">(glasses.nn.models.AutoModel.AutoModel static method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.nn.models.html#glasses.nn.models.AutoModel.AutoModel.from_pretrained">from_pretrained() (glasses.nn.models.AutoModel.AutoModel static method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -779,6 +772,20 @@
 </li>
       </ul></li>
       <li>
+    glasses.nn.models.AutoConfig
+
+      <ul>
+        <li><a href="glasses.nn.models.html#module-glasses.nn.models.AutoConfig">module</a>
+</li>
+      </ul></li>
+      <li>
+    glasses.nn.models.AutoModel
+
+      <ul>
+        <li><a href="glasses.nn.models.html#module-glasses.nn.models.AutoModel">module</a>
+</li>
+      </ul></li>
+      <li>
     glasses.nn.models.base
 
       <ul>
@@ -806,6 +813,8 @@
         <li><a href="glasses.nn.models.classification.alexnet.html#module-glasses.nn.models.classification.alexnet">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     glasses.nn.models.classification.densenet
 
@@ -813,8 +822,6 @@
         <li><a href="glasses.nn.models.classification.densenet.html#module-glasses.nn.models.classification.densenet">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     glasses.nn.models.classification.efficientnet
 
@@ -1051,6 +1058,8 @@
         <li><a href="glasses.nn.models.classification.mobilenet.html#glasses.nn.models.classification.mobilenet.MobileNet.mobilenet_v2">(glasses.nn.models.classification.mobilenet.MobileNet class method)</a>
 </li>
       </ul></li>
+      <li><a href="glasses.nn.models.html#glasses.nn.models.AutoModel.AutoModel.models">models() (glasses.nn.models.AutoModel.AutoModel property)</a>
+</li>
       <li><a href="glasses.nn.models.classification.html#glasses.nn.models.classification.EfficientNet.models_config">models_config (glasses.nn.models.classification.EfficientNet attribute)</a>
 
       <ul>
@@ -1092,6 +1101,10 @@
         <li><a href="glasses.nn.blocks.html#module-glasses.nn.blocks.residuals">glasses.nn.blocks.residuals</a>
 </li>
         <li><a href="glasses.nn.models.html#module-glasses.nn.models">glasses.nn.models</a>
+</li>
+        <li><a href="glasses.nn.models.html#module-glasses.nn.models.AutoConfig">glasses.nn.models.AutoConfig</a>
+</li>
+        <li><a href="glasses.nn.models.html#module-glasses.nn.models.AutoModel">glasses.nn.models.AutoModel</a>
 </li>
         <li><a href="glasses.nn.models.base.html#module-glasses.nn.models.base">glasses.nn.models.base</a>
 </li>
@@ -1156,8 +1169,12 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="glasses.utils.html#glasses.utils.Storage.ModuleStorage.names">names() (glasses.utils.Storage.ModuleStorage property)</a>
+      <li><a href="glasses.nn.models.html#glasses.nn.models.AutoConfig.AutoConfig.names">names() (glasses.nn.models.AutoConfig.AutoConfig property)</a>
+
+      <ul>
+        <li><a href="glasses.utils.html#glasses.utils.Storage.ModuleStorage.names">(glasses.utils.Storage.ModuleStorage property)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -1676,6 +1693,18 @@
 </li>
       <li><a href="glasses.nn.models.segmentation.unet.html#glasses.nn.models.segmentation.unet.WithFeatures">WithFeatures (class in glasses.nn.models.segmentation.unet)</a>
 </li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Z">Z</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glasses.nn.models.html#glasses.nn.models.AutoConfig.AutoConfig.zoo">zoo (glasses.nn.models.AutoConfig.AutoConfig attribute)</a>
+
+      <ul>
+        <li><a href="glasses.nn.models.html#glasses.nn.models.AutoModel.AutoModel.zoo">(glasses.nn.models.AutoModel.AutoModel attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 

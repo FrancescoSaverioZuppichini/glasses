@@ -83,7 +83,7 @@
             
               <p class="caption"><span class="caption-text">Tutorials:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials/README.html">Glasses 😎</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package Reference</span></p>
 <ul>
@@ -522,19 +522,7 @@
 <span class="sd">        in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</span>
 <span class="sd">        n_classes (int, optional): Number of classes. Defaults to 1000.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">configs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;resnet18&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(),</span>
-        <span class="s1">&#39;resnet26&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(</span><span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bicubic&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;resnet26d&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(</span><span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bicubic&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;resnet34&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(),</span>
-        <span class="s1">&#39;resnet50&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(),</span>
-        <span class="s1">&#39;resnet50d&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(</span><span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bicubic&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;resnet101&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(),</span>
-        <span class="s1">&#39;resnet152&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(),</span>
-        <span class="s1">&#39;resnet200&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">()</span>
-    <span class="p">}</span>
-
+    
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">ResNetEncoder</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>

@@ -12,6 +12,25 @@ Subpackages
    glasses.nn.models.segmentation
    glasses.nn.models.utils
 
+Submodules
+----------
+
+glasses.nn.models.AutoConfig module
+-----------------------------------
+
+.. automodule:: glasses.nn.models.AutoConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+glasses.nn.models.AutoModel module
+----------------------------------
+
+.. automodule:: glasses.nn.models.AutoModel
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

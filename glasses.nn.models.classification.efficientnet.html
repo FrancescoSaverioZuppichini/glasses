@@ -85,7 +85,7 @@
             
               <p class="caption"><span class="caption-text">Tutorials:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/README.html">Glasses 😎</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package Reference</span></p>
 <ul class="current">
@@ -103,6 +103,9 @@
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.utils.html">glasses.nn.models.utils package</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models.AutoConfig">glasses.nn.models.AutoConfig module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models.AutoModel">glasses.nn.models.AutoModel module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models">Module contents</a></li>
 </ul>
 </li>
@@ -239,11 +242,6 @@
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt id="glasses.nn.models.classification.efficientnet.EfficientNet.configs">
-<code class="sig-name descname">configs</code><em class="property">: Dict<span class="p">[</span>str<span class="p">, </span><a class="reference internal" href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.Config" title="glasses.utils.PretrainedWeightsProvider.Config">glasses.utils.PretrainedWeightsProvider.Config</a><span class="p">]</span></em><em class="property"> = {'efficientnet_b0': Config(input_size=224, resize=224, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bicubic'), 'efficientnet_b1': Config(input_size=240, resize=240, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bicubic'), 'efficientnet_b2': Config(input_size=260, resize=260, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bicubic'), 'efficientnet_b3': Config(input_size=300, resize=300, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bicubic'), 'efficientnet_b4': Config(input_size=380, resize=380, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bicubic'), 'efficientnet_b5': Config(input_size=456, resize=456, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bicubic'), 'efficientnet_b6': Config(input_size=528, resize=528, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bicubic'), 'efficientnet_b7': Config(input_size=600, resize=600, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bicubic'), 'efficientnet_b8': Config(input_size=672, resize=672, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bicubic'), 'efficientnet_l2': Config(input_size=800, resize=800, mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]), interpolation='bicubic')}</em><a class="headerlink" href="#glasses.nn.models.classification.efficientnet.EfficientNet.configs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="py attribute">
 <dt id="glasses.nn.models.classification.efficientnet.EfficientNet.default_depths">
 <code class="sig-name descname">default_depths</code><em class="property">: List<span class="p">[</span>int<span class="p">]</span></em><em class="property"> = [1, 2, 2, 3, 3, 4, 1]</em><a class="headerlink" href="#glasses.nn.models.classification.efficientnet.EfficientNet.default_depths" title="Permalink to this definition">¶</a></dt>
@@ -448,11 +446,6 @@ registered hooks while the latter silently ignores them.</p>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt id="glasses.nn.models.classification.efficientnet.EfficientNetLite.configs">
-<code class="sig-name descname">configs</code><em class="property">: Dict<span class="p">[</span>str<span class="p">, </span><a class="reference internal" href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.Config" title="glasses.utils.PretrainedWeightsProvider.Config">glasses.utils.PretrainedWeightsProvider.Config</a><span class="p">]</span></em><em class="property"> = {'efficientnet_lite0': Config(input_size=224, resize=224, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'), 'efficientnet_lite1': Config(input_size=240, resize=240, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'), 'efficientnet_lite2': Config(input_size=260, resize=260, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'), 'efficientnet_lite3': Config(input_size=280, resize=280, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'), 'efficientnet_lite4': Config(input_size=300, resize=300, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic')}</em><a class="headerlink" href="#glasses.nn.models.classification.efficientnet.EfficientNetLite.configs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt id="glasses.nn.models.classification.efficientnet.EfficientNetLite.efficientnet_lite0">
 <em class="property">classmethod </em><code class="sig-name descname">efficientnet_lite0</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.nn.models.classification.efficientnet.EfficientNet" title="glasses.nn.models.classification.efficientnet.EfficientNet">glasses.nn.models.classification.efficientnet.EfficientNet</a><a class="reference internal" href="_modules/glasses/nn/models/classification/efficientnet.html#EfficientNetLite.efficientnet_lite0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.efficientnet.EfficientNetLite.efficientnet_lite0" title="Permalink to this definition">¶</a></dt>
