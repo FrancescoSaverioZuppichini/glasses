@@ -63,6 +63,8 @@ x =  cfg.transform(im).unsqueeze(0)
 _ = model.interpret(x, using=GradCam(), postprocessing=postprocessing).show()
 ```
 
+![alt](https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/grad_cam.png?raw=true)
+
 ## Classification
 
 
@@ -119,8 +121,6 @@ model.head = my_head
 x = torch.rand((1,3,224,224))
 model(x).shape #torch.Size([1, 1000])
 ```
-
-![alt](https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/grad_cam.png?raw=true)
 
 ## Pretrained Models
 
