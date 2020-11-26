@@ -40,10 +40,8 @@ extensions = [
     'sphinx.ext.coverage',
     "sphinx.ext.napoleon",
     'sphinx.ext.mathjax',
-
     # "pytorch_sphinx_theme",
     'sphinx.ext.viewcode',
-
     "recommonmark"
 ]
 
@@ -76,16 +74,12 @@ html_theme = "sphinx_rtd_theme"
 # }
 
 source_parsers = {
-    '.md': 'recommonmark.parser.CommonMarkParser',
+    '.md': 'markdown',
 }
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
-
-source_parsers = {
-    '.md': 'recommonmark.parser.CommonMarkParser',
-}
 
 source_suffix = ['.rst', '.md']
 
