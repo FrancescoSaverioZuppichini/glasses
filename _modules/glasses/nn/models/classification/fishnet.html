@@ -81,11 +81,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Tutorials:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials/README.html">Glasses 😎</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Package Reference</span></p>
+              <p class="caption"><span class="caption-text">Package Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../modules.html">glasses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../glasses.nn.html">glasses.nn package</a></li>
@@ -175,7 +171,7 @@
 <span class="n">FishNetShortCut</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">BnActConv</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="FishNetChannelReductionShortcut"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetChannelReductionShortcut">[docs]</a><span class="k">class</span> <span class="nc">FishNetChannelReductionShortcut</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="FishNetChannelReductionShortcut"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNetChannelReductionShortcut">[docs]</a><span class="k">class</span> <span class="nc">FishNetChannelReductionShortcut</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Channel reduction output :math:`r(x)` is computed as follows:</span>
 
 
@@ -192,7 +188,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">in_features</span> <span class="o">//</span> <span class="n">out_features</span>
 
-<div class="viewcode-block" id="FishNetChannelReductionShortcut.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetChannelReductionShortcut.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="FishNetChannelReductionShortcut.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNetChannelReductionShortcut.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">depth</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
         <span class="n">x_red</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">c</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x_red</span></div></div>
@@ -202,7 +198,7 @@
     <span class="n">ResNetBottleneckPreActBlock</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">FishNetShortCut</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="FishNetBodyBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetBodyBlock">[docs]</a><span class="k">class</span> <span class="nc">FishNetBodyBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="FishNetBodyBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNetBodyBlock">[docs]</a><span class="k">class</span> <span class="nc">FishNetBodyBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;FishNet body block, called the Up-sampling &amp; Refinement block in the paper.</span>
 
 <span class="sd">    Args:</span>
@@ -227,14 +223,14 @@
               <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span><span class="o">-</span><span class="mi">1</span><span class="p">)],</span>
             <span class="n">nn</span><span class="o">.</span><span class="n">Upsample</span><span class="p">(</span><span class="n">scale_factor</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 
-<div class="viewcode-block" id="FishNetBodyBlock.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetBodyBlock.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="FishNetBodyBlock.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNetBodyBlock.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
 
 
-<div class="viewcode-block" id="FishNetHeadBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetHeadBlock">[docs]</a><span class="k">class</span> <span class="nc">FishNetHeadBlock</span><span class="p">(</span><span class="n">FishNetBodyBlock</span><span class="p">):</span>
+<div class="viewcode-block" id="FishNetHeadBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNetHeadBlock">[docs]</a><span class="k">class</span> <span class="nc">FishNetHeadBlock</span><span class="p">(</span><span class="n">FishNetBodyBlock</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;FishNet head block, called the Down-sampling &amp; Refinement block in the paper.</span>
 
 <span class="sd">    Args:</span>
@@ -259,7 +255,7 @@
             <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="FishNetBrigde"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetBrigde">[docs]</a><span class="k">class</span> <span class="nc">FishNetBrigde</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="FishNetBrigde"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNetBrigde">[docs]</a><span class="k">class</span> <span class="nc">FishNetBrigde</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">FishNetBottleNeck</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ReLUInPlace</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;A weird layer that &#39;bridges&#39; the tail and the body of the model.</span>
 
@@ -290,7 +286,7 @@
                                            <span class="n">out_features</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
                                  <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">())</span>
 
-<div class="viewcode-block" id="FishNetBrigde.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetBrigde.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="FishNetBrigde.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNetBrigde.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">att</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">att</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -298,7 +294,7 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">att</span><span class="p">)</span> <span class="o">+</span> <span class="n">att</span></div></div>
 
 
-<div class="viewcode-block" id="FishNetTailBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetTailBlock">[docs]</a><span class="k">class</span> <span class="nc">FishNetTailBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="FishNetTailBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNetTailBlock">[docs]</a><span class="k">class</span> <span class="nc">FishNetTailBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;FishNet Tail Block, simi</span>
 
 <span class="sd">    Args:</span>
@@ -316,20 +312,20 @@
                                      <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span><span class="o">-</span><span class="mi">1</span><span class="p">)],</span>
                                    <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 
-<div class="viewcode-block" id="FishNetTailBlock.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetTailBlock.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="FishNetTailBlock.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNetTailBlock.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
 
 
-<div class="viewcode-block" id="FishNetHead"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetHead">[docs]</a><span class="k">class</span> <span class="nc">FishNetHead</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="FishNetHead"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNetHead">[docs]</a><span class="k">class</span> <span class="nc">FishNetHead</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">FishNetBodyBlock</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-<div class="viewcode-block" id="FishNetHead.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetHead.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="FishNetHead.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNetHead.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
 
-<div class="viewcode-block" id="FishNetEncoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetEncoder">[docs]</a><span class="k">class</span> <span class="nc">FishNetEncoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="FishNetEncoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNetEncoder">[docs]</a><span class="k">class</span> <span class="nc">FishNetEncoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    FishNetEncoder encoder composed by a tail, body and head.</span>
 
@@ -388,7 +384,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">FishNetHeadBlock</span><span class="p">(</span>
                 <span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">body_w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span> <span class="n">trans_depth</span><span class="o">=</span><span class="n">trans_depth</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">))</span>
 
-<div class="viewcode-block" id="FishNetEncoder.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetEncoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="FishNetEncoder.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNetEncoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">residuals</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># down</span>
@@ -408,7 +404,7 @@
 
         <span class="k">return</span> <span class="n">x</span></div>
 
-<div class="viewcode-block" id="FishNetEncoder.find_widths"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetEncoder.find_widths">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="FishNetEncoder.find_widths"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNetEncoder.find_widths">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">find_widths</span><span class="p">(</span><span class="n">start_features</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This code iteratively computes the correnct number of in and out features for each FishNet layer.</span>
@@ -449,7 +445,7 @@
         <span class="k">return</span> <span class="n">tail_channels</span><span class="p">,</span> <span class="n">body_channels</span><span class="p">,</span> <span class="n">head_channels</span></div></div>
 
 
-<div class="viewcode-block" id="FishNetDecoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNetDecoder">[docs]</a><span class="k">class</span> <span class="nc">FishNetDecoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
+<div class="viewcode-block" id="FishNetDecoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNetDecoder">[docs]</a><span class="k">class</span> <span class="nc">FishNetDecoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    FishNet Decoder composed by 1x1 convs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -467,7 +463,7 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="FishNet"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNet">[docs]</a><span class="k">class</span> <span class="nc">FishNet</span><span class="p">(</span><span class="n">VisionModule</span><span class="p">):</span>
+<div class="viewcode-block" id="FishNet"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNet">[docs]</a><span class="k">class</span> <span class="nc">FishNet</span><span class="p">(</span><span class="n">VisionModule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implementation of ResNet proposed in `FishNet: A Versatile Backbone for Image, Region, and Pixel Level Prediction &lt;https://arxiv.org/abs/1901.03495&gt;`_</span>
 
 <span class="sd">    Honestly, this model it is very weird and it has some mistakes in the paper that nobody ever cared to correct. It is a nice idea, but it could have been described better and definitly implemented better.</span>
@@ -509,12 +505,12 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
 
-<div class="viewcode-block" id="FishNet.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNet.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="FishNet.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNet.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div>
 
-<div class="viewcode-block" id="FishNet.initialize"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNet.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FishNet.initialize"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNet.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">):</span>
                 <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">kaiming_normal_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
@@ -522,7 +518,7 @@
                 <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
                 <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="FishNet.fishnet99"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNet.fishnet99">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="FishNet.fishnet99"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNet.fishnet99">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">fishnet99</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FishNet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return a fishnet99 model</span>
 
@@ -548,7 +544,7 @@
                        <span class="n">head_depths</span><span class="o">=</span><span class="n">head_depths</span><span class="p">,</span>
                        <span class="n">head_trans_depths</span><span class="o">=</span><span class="n">head_trans_depths</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="FishNet.fishnet150"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.classification.FishNet.fishnet150">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="FishNet.fishnet150"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.fishnet.html#glasses.nn.models.FishNet.fishnet150">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">fishnet150</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FishNet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return a fishnet150 model</span>
 

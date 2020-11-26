@@ -81,11 +81,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Tutorials:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials/README.html">Glasses 😎</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Package Reference</span></p>
+              <p class="caption"><span class="caption-text">Package Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../modules.html">glasses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../glasses.nn.html">glasses.nn package</a></li>
@@ -175,7 +171,7 @@
 <span class="n">ReLUInPlace</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="ResNetShorcut"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetShorcut">[docs]</a><span class="k">class</span> <span class="nc">ResNetShorcut</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="ResNetShorcut"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNetShorcut">[docs]</a><span class="k">class</span> <span class="nc">ResNetShorcut</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Shorcut function applied by ResNet to upsample the channel</span>
 <span class="sd">    when residual and output features do not match</span>
 
@@ -190,13 +186,13 @@
                               <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">out_features</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ResNetShorcut.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetShorcut.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="ResNetShorcut.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNetShorcut.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
 
 
-<div class="viewcode-block" id="ResNetShorcutD"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetShorcutD">[docs]</a><span class="k">class</span> <span class="nc">ResNetShorcutD</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
+<div class="viewcode-block" id="ResNetShorcutD"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNetShorcutD">[docs]</a><span class="k">class</span> <span class="nc">ResNetShorcutD</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Shorcut function proposed in `Bag of Tricks for Image Classification with Convolutional Neural Networks &lt;https://arxiv.org/pdf/1812.01187.pdf&gt;`_</span>
 
 <span class="sd">    It applies average pool instead of `stride=2` in the convolution layer</span>
@@ -215,7 +211,7 @@
         <span class="p">}))</span></div>
 
 
-<div class="viewcode-block" id="ResNetBasicBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetBasicBlock">[docs]</a><span class="k">class</span> <span class="nc">ResNetBasicBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="ResNetBasicBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNetBasicBlock">[docs]</a><span class="k">class</span> <span class="nc">ResNetBasicBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Basic ResNet block composed by two 3x3 convs with residual connection.</span>
 
 <span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNetBasicBlock.png?raw=true</span>
@@ -255,7 +251,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">=</span> <span class="n">activation</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ResNetBasicBlock.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetBasicBlock.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="ResNetBasicBlock.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNetBasicBlock.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 
         <span class="n">res</span> <span class="o">=</span> <span class="n">x</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -265,7 +261,7 @@
         <span class="k">return</span> <span class="n">x</span></div></div>
 
 
-<div class="viewcode-block" id="ResNetBottleneckBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetBottleneckBlock">[docs]</a><span class="k">class</span> <span class="nc">ResNetBottleneckBlock</span><span class="p">(</span><span class="n">ResNetBasicBlock</span><span class="p">):</span>
+<div class="viewcode-block" id="ResNetBottleneckBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNetBottleneckBlock">[docs]</a><span class="k">class</span> <span class="nc">ResNetBottleneckBlock</span><span class="p">(</span><span class="n">ResNetBasicBlock</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;ResNet Bottleneck block based on the torchvision implementation.</span>
 
 <span class="sd">    Even if the paper says that the first conv1x1 compresses the features. We followed the original implementation that expands the `out_features` by a factor equal to `reduction`.</span>
@@ -303,7 +299,7 @@
             <span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="ResNetBasicPreActBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetBasicPreActBlock">[docs]</a><span class="k">class</span> <span class="nc">ResNetBasicPreActBlock</span><span class="p">(</span><span class="n">ResNetBasicBlock</span><span class="p">):</span>
+<div class="viewcode-block" id="ResNetBasicPreActBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNetBasicPreActBlock">[docs]</a><span class="k">class</span> <span class="nc">ResNetBasicPreActBlock</span><span class="p">(</span><span class="n">ResNetBasicBlock</span><span class="p">):</span>
     <span class="n">reduction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="sd">&quot;&quot;&quot;Pre activation ResNet basic block proposed in `Identity Mappings in Deep Residual Networks &lt;https://arxiv.org/pdf/1603.05027.pdf&gt;`_</span>
 
@@ -330,7 +326,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="ResNetBottleneckPreActBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetBottleneckPreActBlock">[docs]</a><span class="k">class</span> <span class="nc">ResNetBottleneckPreActBlock</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">):</span>
+<div class="viewcode-block" id="ResNetBottleneckPreActBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNetBottleneckPreActBlock">[docs]</a><span class="k">class</span> <span class="nc">ResNetBottleneckPreActBlock</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">):</span>
     <span class="n">reduction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
 
     <span class="sd">&quot;&quot;&quot;Pre activation ResNet bottleneck block proposed in `Identity Mappings in Deep Residual Networks &lt;https://arxiv.org/pdf/1603.05027.pdf&gt;`_</span>
@@ -360,7 +356,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="ResNetLayer"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetLayer">[docs]</a><span class="k">class</span> <span class="nc">ResNetLayer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="ResNetLayer"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNetLayer">[docs]</a><span class="k">class</span> <span class="nc">ResNetLayer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="c1"># &#39;We perform stride directly by convolutional layers that have a stride of 2.&#39;</span>
@@ -371,12 +367,12 @@
                     <span class="n">out_features</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="ResNetLayer.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetLayer.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="ResNetLayer.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNetLayer.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
 
 
-<div class="viewcode-block" id="ResNetStem"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetStem">[docs]</a><span class="k">class</span> <span class="nc">ResNetStem</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
+<div class="viewcode-block" id="ResNetStem"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNetStem">[docs]</a><span class="k">class</span> <span class="nc">ResNetStem</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>  <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ReLUInPlace</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">ConvBnAct</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span>
@@ -385,7 +381,7 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ResNetStemC"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetStemC">[docs]</a><span class="k">class</span> <span class="nc">ResNetStemC</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
+<div class="viewcode-block" id="ResNetStemC"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNetStemC">[docs]</a><span class="k">class</span> <span class="nc">ResNetStemC</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Modified stem proposed in `Bag of Tricks for Image Classification with Convolutional Neural Networks &lt;https://arxiv.org/pdf/1812.01187.pdf&gt;`_</span>
 
@@ -405,7 +401,7 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ResNetEncoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetEncoder">[docs]</a><span class="k">class</span> <span class="nc">ResNetEncoder</span><span class="p">(</span><span class="n">Encoder</span><span class="p">):</span>
+<div class="viewcode-block" id="ResNetEncoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNetEncoder">[docs]</a><span class="k">class</span> <span class="nc">ResNetEncoder</span><span class="p">(</span><span class="n">Encoder</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ResNet encoder composed by increasing different layers with increasing features.</span>
 
@@ -438,7 +434,7 @@
               <span class="k">for</span> <span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">),</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">in_out_widths</span><span class="p">,</span> <span class="n">depths</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
         <span class="p">])</span>
 
-<div class="viewcode-block" id="ResNetEncoder.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetEncoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="ResNetEncoder.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNetEncoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -454,7 +450,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">start_features</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">widths</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span></div>
 
 
-<div class="viewcode-block" id="ResNetHead"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNetHead">[docs]</a><span class="k">class</span> <span class="nc">ResNetHead</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
+<div class="viewcode-block" id="ResNetHead"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNetHead">[docs]</a><span class="k">class</span> <span class="nc">ResNetHead</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class represents the tail of ResNet. It performs a global pooling and maps the output to the</span>
 <span class="sd">    correct class by using a fully connected layer.</span>
@@ -467,7 +463,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s1">&#39;fc&#39;</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="ResNet"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNet">[docs]</a><span class="k">class</span> <span class="nc">ResNet</span><span class="p">(</span><span class="n">VisionModule</span><span class="p">):</span>
+<div class="viewcode-block" id="ResNet"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNet">[docs]</a><span class="k">class</span> <span class="nc">ResNet</span><span class="p">(</span><span class="n">VisionModule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implementation of ResNet proposed in `Deep Residual Learning for Image Recognition &lt;https://arxiv.org/abs/1512.03385&gt;`_</span>
 
 <span class="sd">    Create a default model</span>
@@ -531,12 +527,12 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ResNet.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNet.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="ResNet.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNet.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div>
 
-<div class="viewcode-block" id="ResNet.initialize"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNet.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ResNet.initialize"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNet.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">):</span>
                 <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">kaiming_normal_</span><span class="p">(</span>
@@ -545,7 +541,7 @@
                 <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
                 <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ResNet.resnet18"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNet.resnet18">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResNet.resnet18"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNet.resnet18">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet18</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span>  <span class="n">block</span><span class="o">=</span><span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a resnet18 model</span>
@@ -559,7 +555,7 @@
 
         <span class="k">return</span> <span class="n">model</span></div>
 
-<div class="viewcode-block" id="ResNet.resnet26"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNet.resnet26">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResNet.resnet26"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNet.resnet26">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet26</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span>  <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a resnet26 model</span>
@@ -572,7 +568,7 @@
 
         <span class="k">return</span> <span class="n">model</span></div>
 
-<div class="viewcode-block" id="ResNet.resnet26d"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNet.resnet26d">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResNet.resnet26d"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNet.resnet26d">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet26d</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span>  <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a resnet26d model</span>
@@ -585,7 +581,7 @@
 
         <span class="k">return</span> <span class="n">model</span></div>
 
-<div class="viewcode-block" id="ResNet.resnet34"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNet.resnet34">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResNet.resnet34"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNet.resnet34">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet34</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span>  <span class="n">block</span><span class="o">=</span><span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a resnet34 model</span>
@@ -597,7 +593,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="ResNet.resnet50"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNet.resnet50">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResNet.resnet50"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNet.resnet50">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet50</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a resnet50 model</span>
@@ -609,7 +605,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">],</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="ResNet.resnet50d"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNet.resnet50d">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResNet.resnet50d"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNet.resnet50d">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet50d</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a resnet50d model</span>
@@ -621,7 +617,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>  <span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcutD</span><span class="p">),</span> <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">],</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="ResNet.resnet101"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNet.resnet101">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResNet.resnet101"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNet.resnet101">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet101</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a resnet101 model</span>
@@ -633,7 +629,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span>  <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">],</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="ResNet.resnet152"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNet.resnet152">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResNet.resnet152"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNet.resnet152">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet152</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a resnet152 model</span>
@@ -645,7 +641,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span>  <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">],</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="ResNet.resnet200"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.ResNet.resnet200">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResNet.resnet200"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.resnet.html#glasses.nn.models.ResNet.resnet200">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">resnet200</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Creates a resnet200 model</span>
 

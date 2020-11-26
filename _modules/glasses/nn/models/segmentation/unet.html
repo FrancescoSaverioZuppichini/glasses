@@ -81,11 +81,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Tutorials:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials/README.html">Glasses 😎</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Package Reference</span></p>
+              <p class="caption"><span class="caption-text">Package Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../modules.html">glasses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../glasses.nn.html">glasses.nn package</a></li>
@@ -171,7 +167,7 @@
 <span class="kn">from</span> <span class="nn">...base</span> <span class="kn">import</span> <span class="n">Encoder</span>
 
 
-<div class="viewcode-block" id="UNetBasicBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.segmentation.UNetBasicBlock">[docs]</a><span class="k">class</span> <span class="nc">UNetBasicBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
+<div class="viewcode-block" id="UNetBasicBlock"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.UNetBasicBlock">[docs]</a><span class="k">class</span> <span class="nc">UNetBasicBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Basic Block for UNet. It is composed by a double 3x3 conv.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -185,7 +181,7 @@
 <span class="n">UpBlock</span> <span class="o">=</span> <span class="n">UNetBasicBlock</span>
 
 
-<div class="viewcode-block" id="DownLayer"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.segmentation.DownLayer">[docs]</a><span class="k">class</span> <span class="nc">DownLayer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="DownLayer"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.DownLayer">[docs]</a><span class="k">class</span> <span class="nc">DownLayer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;UNet down layer (left side). </span>
 
 <span class="sd">    Args:</span>
@@ -203,12 +199,12 @@
             <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">donwsample</span> <span class="k">else</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">(),</span>
             <span class="n">block</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
 
-<div class="viewcode-block" id="DownLayer.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.segmentation.DownLayer.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="DownLayer.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.DownLayer.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
 
 
-<div class="viewcode-block" id="UpLayer"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.segmentation.UpLayer">[docs]</a><span class="k">class</span> <span class="nc">UpLayer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="UpLayer"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.UpLayer">[docs]</a><span class="k">class</span> <span class="nc">UpLayer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;UNet up layer (right side). </span>
 
 <span class="sd">    Args:</span>
@@ -227,7 +223,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">out_features</span> <span class="o">+</span> <span class="n">lateral_features</span><span class="p">,</span>
                            <span class="n">out_features</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="UpLayer.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.segmentation.UpLayer.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="UpLayer.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.UpLayer.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">up</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">res</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -236,7 +232,7 @@
         <span class="k">return</span> <span class="n">out</span></div></div>
 
 
-<div class="viewcode-block" id="UNetEncoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.segmentation.UNetEncoder">[docs]</a><span class="k">class</span> <span class="nc">UNetEncoder</span><span class="p">(</span><span class="n">Encoder</span><span class="p">):</span>
+<div class="viewcode-block" id="UNetEncoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.UNetEncoder">[docs]</a><span class="k">class</span> <span class="nc">UNetEncoder</span><span class="p">(</span><span class="n">Encoder</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;UNet Encoder composed of several layers of convolutions aimed to increased the features space and decrease the resolution.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -254,14 +250,14 @@
               <span class="k">for</span> <span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_out_block_sizes</span><span class="p">]</span>
         <span class="p">])</span>
 
-<div class="viewcode-block" id="UNetEncoder.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.segmentation.UNetEncoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="UNetEncoder.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.UNetEncoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">x</span></div></div>
 
 
-<div class="viewcode-block" id="UNetDecoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.segmentation.UNetDecoder">[docs]</a><span class="k">class</span> <span class="nc">UNetDecoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="UNetDecoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.UNetDecoder">[docs]</a><span class="k">class</span> <span class="nc">UNetDecoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    UNet Decoder composed of several layer of upsampling layers aimed to decrease the features space and increase the resolution.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -280,7 +276,7 @@
             <span class="k">for</span> <span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">),</span> <span class="n">lateral_features</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">in_out_block_sizes</span><span class="p">,</span> <span class="n">lateral_widths</span><span class="p">)</span>
         <span class="p">])</span>
 
-<div class="viewcode-block" id="UNetDecoder.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.segmentation.UNetDecoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">residuals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="UNetDecoder.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.UNetDecoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">residuals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
 
         <span class="k">for</span> <span class="n">layer</span><span class="p">,</span> <span class="n">res</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">,</span> <span class="n">residuals</span><span class="p">):</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
@@ -288,7 +284,7 @@
         <span class="k">return</span> <span class="n">x</span></div></div>
 
 
-<div class="viewcode-block" id="WithFeatures"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.segmentation.WithFeatures">[docs]</a><span class="k">class</span> <span class="nc">WithFeatures</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="WithFeatures"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.WithFeatures">[docs]</a><span class="k">class</span> <span class="nc">WithFeatures</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backbone</span><span class="p">,</span> <span class="n">stages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">features_widths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -306,7 +302,7 @@
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
 
 
-<div class="viewcode-block" id="UNet"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.segmentation.UNet">[docs]</a><span class="k">class</span> <span class="nc">UNet</span><span class="p">(</span><span class="n">SegmentationModule</span><span class="p">):</span>
+<div class="viewcode-block" id="UNet"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.UNet">[docs]</a><span class="k">class</span> <span class="nc">UNet</span><span class="p">(</span><span class="n">SegmentationModule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implementation of Unet proposed in `U-Net: Convolutional Networks for Biomedical Image Segmentation &lt;https://arxiv.org/abs/1505.04597&gt;`_</span>
 
 <span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/UNet.png?raw=true</span>

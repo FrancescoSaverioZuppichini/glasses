@@ -5,16 +5,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Glasses' documentation
-=====================================
+.. include:: ./README.rst
 
-Glasses is a Deep Learning Computer Vision library for `PyTorch <https://pytorch.org/>`_.
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Tutorials:
-
-   tutorials/README.md
 
 .. toctree::
    :glob:

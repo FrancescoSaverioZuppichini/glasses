@@ -81,11 +81,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Tutorials:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorials/README.html">Glasses 😎</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Package Reference</span></p>
+              <p class="caption"><span class="caption-text">Package Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../modules.html">glasses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../glasses.nn.html">glasses.nn package</a></li>
@@ -171,7 +167,7 @@
 <span class="n">AlexNetBasicBlock</span> <span class="o">=</span> <span class="n">ConvAct</span>
 
 
-<div class="viewcode-block" id="AlexNetStem"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.alexnet.html#glasses.nn.models.classification.AlexNetStem">[docs]</a><span class="k">class</span> <span class="nc">AlexNetStem</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="AlexNetStem"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.alexnet.html#glasses.nn.models.AlexNetStem">[docs]</a><span class="k">class</span> <span class="nc">AlexNetStem</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    AlexNet gate, the head of the architecture, which decreases the resolution of the filters by means of stride and bigger kernels.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -196,12 +192,12 @@
         <span class="c1"># [REVIEW] done by @francesco_cicala, need to change</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">out_features</span> <span class="o">=</span> <span class="mi">192</span>
 
-<div class="viewcode-block" id="AlexNetStem.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.alexnet.html#glasses.nn.models.classification.AlexNetStem.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="AlexNetStem.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.alexnet.html#glasses.nn.models.AlexNetStem.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
 
 
-<div class="viewcode-block" id="AlexNetEncoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.alexnet.html#glasses.nn.models.classification.AlexNetEncoder">[docs]</a><span class="k">class</span> <span class="nc">AlexNetEncoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="AlexNetEncoder"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.alexnet.html#glasses.nn.models.AlexNetEncoder">[docs]</a><span class="k">class</span> <span class="nc">AlexNetEncoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    AlexNet encoder, composed by a gate which decreases the size of the filters by means of stride and bigger kernels, and simple convolutional layers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -224,7 +220,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-<div class="viewcode-block" id="AlexNetEncoder.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.alexnet.html#glasses.nn.models.classification.AlexNetEncoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="AlexNetEncoder.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.alexnet.html#glasses.nn.models.AlexNetEncoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -232,7 +228,7 @@
         <span class="k">return</span> <span class="n">x</span></div></div>
 
 
-<div class="viewcode-block" id="AlexNetHead"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.alexnet.html#glasses.nn.models.classification.AlexNetHead">[docs]</a><span class="k">class</span> <span class="nc">AlexNetHead</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="AlexNetHead"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.alexnet.html#glasses.nn.models.AlexNetHead">[docs]</a><span class="k">class</span> <span class="nc">AlexNetHead</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class represents the classifier of AlexNet. It converts the filters into 6x6 by means of the average pooling. Then, it maps the output to the</span>
 <span class="sd">    correct class by means of fully connected layers. Dropout is used to decrease the overfitting.</span>
@@ -253,14 +249,14 @@
                 <span class="s1">&#39;fc3&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4096</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">)</span>
             <span class="p">}))</span>
 
-<div class="viewcode-block" id="AlexNetHead.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.alexnet.html#glasses.nn.models.classification.AlexNetHead.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="AlexNetHead.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.alexnet.html#glasses.nn.models.AlexNetHead.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">avg</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
 
 
-<div class="viewcode-block" id="AlexNet"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.alexnet.html#glasses.nn.models.classification.AlexNet">[docs]</a><span class="k">class</span> <span class="nc">AlexNet</span><span class="p">(</span><span class="n">VisionModule</span><span class="p">):</span>
+<div class="viewcode-block" id="AlexNet"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.alexnet.html#glasses.nn.models.AlexNet">[docs]</a><span class="k">class</span> <span class="nc">AlexNet</span><span class="p">(</span><span class="n">VisionModule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implementation of AlexNet proposed in `ImageNet Classification with Deep Convolutional Neural Networks &lt;https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf&gt;`_, </span>
 <span class="sd">    according to the `variation &lt;https://pytorch.org/docs/stable/_modules/torchvision/models/alexnet.html&gt;`_ implemented in torchvision.</span>
 
@@ -295,7 +291,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">AlexNetEncoder</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">AlexNetHead</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">widths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">n_classes</span><span class="p">)</span>
 
-<div class="viewcode-block" id="AlexNet.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.alexnet.html#glasses.nn.models.classification.AlexNet.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<div class="viewcode-block" id="AlexNet.forward"><a class="viewcode-back" href="../../../../../glasses.nn.models.classification.alexnet.html#glasses.nn.models.AlexNet.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
