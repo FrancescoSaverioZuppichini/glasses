@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from torch import nn
 from torch import Tensor
 from collections import OrderedDict
-from typing import List, Callable
+from typing import List, Callable, Union
 from functools import partial
 from ....blocks import ConvBnAct
 from glasses.utils.Storage import ForwardModuleStorage
@@ -16,6 +16,16 @@ from ..unet import UNetEncoder
 # DownBlock = UNetBasicBlock
 # UpBlock = UNetBasicBlock
 
+class FPNSmoothBlock(nn.Module):
+    def __init__(self, in_features:int, out_features: int,  **kwargs):
+        super().__init__()
+        self.block = ConvBnAct(in_features, out_features, kernel_size=3, **kwargs)
+
+    def forward(self, x: Tensor, target_size: Union[int, int]) -> Tensor:
+        x = F.interpolate(x, size=target_size)
+        x = self.block(x)
+        return x
+
 class UpLayer(nn.Module):
     """FPN up layer (right side). 
 
@@ -26,19 +36,17 @@ class UpLayer(nn.Module):
 
     """
 
-    def __init__(self, in_features: int, out_features: int, lateral_features: int, block: nn.Module = ConvBnAct, upsample: bool = True, *args, **kwargs):
+    def __init__(self, in_features: int, out_features: int,  block: nn.Module = ConvBnAct, upsample: bool = True, *args, **kwargs):
         super().__init__()
         self.up = nn.UpsamplingNearest2d(scale_factor=2) if upsample else nn.Identity()
-        self.lateral_block = ConvBnAct(lateral_features, in_features, kernel_size=1, **kwargs)
-        self.block = ConvBnAct(in_features, out_features, kernel_size=1)
+        self.block = ConvBnAct(in_features, out_features, kernel_size=1, **kwargs)
 
     def forward(self, x: Tensor, res: Tensor) -> Tensor:
         out = self.up(x)
         if res is not None:
-            res = self.lateral_block(res)
+            res = self.block(res)
             out += res
-        feature = self.block(out)
-        return out, feature
+        return out
 
 class FPNDecoder(nn.Module):
     """
@@ -49,21 +57,49 @@ class FPNDecoder(nn.Module):
         super().__init__()
         self.widths = [prediction_width] * len(lateral_widths)
         self.in_out_block_sizes = list(zip(lateral_widths, self.widths))
-        # middle should return a puramid_width tensor 
-        self.middle = UpLayer(start_features, pyramid_width, start_features, upsample=None)
+
+        self.middle = ConvBnAct(start_features, pyramid_width, kernel_size=1, **kwargs)
         self.layers = nn.ModuleList([
-            UpLayer(pyramid_width, prediction_width, lateral_features, **kwargs)
+            UpLayer(lateral_features, pyramid_width, **kwargs)
             for lateral_features in lateral_widths
         ])
 
+        self.smooth_layers = nn.ModuleList([
+            FPNSmoothBlock(pyramid_width, prediction_width, **kwargs)
+            for _ in lateral_widths
+        ])
+
     def forward(self, x: Tensor, residuals: List[Tensor]) -> Tensor:
-        x, feature = self.middle(x, None)
-        features = [feature]
+        x = self.middle(x)
+        p_features = [x]
         for layer, res in zip(self.layers, residuals):
-            x, feature = layer(x, res)
-            print(feature.shape)
-            features.append(feature)
+            x = layer(x, res)
+            p_features.append(x)
+        # we do not smooth the first p features to save computational cost
+        target_size = p_features[-1].shape[2:4]
+        p_features = p_features[::-1][1:]
+        features = []
+        for layer, p in zip(self.smooth_layers, p_features):
+            x = layer(p, target_size)
+            features.append(x)
+
+        return features
+
+class Merge(nn.Module):
+    def __init__(self, policy: str = 'sum'):
+        super().__init__()
+        # assert policy in ['sum', 'cat'] "Only `sum` and `cat` policy are supported"
+        self.policy = policy
+
+    def forward(self, features):
+        x = features
+        if self.policy == 'sum':
+            x = torch.sum(torch.stack(features, dim=1), dim=1)
+        elif self.policy == 'cat':
+            x = torch.cat(features, dim=1)
         return x
+        
+
 
 class FPN(SegmentationModule):
     """Implementation of FPN proposed in `Feature Pyramid Networks for Object Detection <https://arxiv.org/abs/1612.03144>`_
@@ -104,4 +140,7 @@ class FPN(SegmentationModule):
                  **kwargs):
 
         super().__init__(in_channels, n_classes, encoder, decoder, **kwargs)
-        self.head = nn.Identity()
+        self.head = nn.Sequential(
+            Merge(),
+            nn.Conv2d(self.decoder.widths[-1], n_classes, kernel_size=1))
+        # self.head = nn.Identity()
