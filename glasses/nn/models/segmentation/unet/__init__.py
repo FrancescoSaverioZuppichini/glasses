@@ -98,7 +98,6 @@ class UNetEncoder(Encoder):
     def forward(self, x: Tensor) -> Tensor:
         for layer in self.layers:
             x = layer(x)
-
         return x
 
 
@@ -107,7 +106,7 @@ class UNetDecoder(nn.Module):
     UNet Decoder composed of several layer of upsampling layers aimed to decrease the features space and increase the resolution.
     """
 
-    def __init__(self, start_features: int = 512, widths: List[int] = [256, 128, 64, 32], lateral_widths: List[int] = None, *args, **kwargs):
+    def __init__(self, start_features: int = 512, widths: List[int] = [256, 128, 64, 32, 16], lateral_widths: List[int] = None, *args, **kwargs):
         super().__init__()
         widths = [start_features, *widths]
         self.widths = widths

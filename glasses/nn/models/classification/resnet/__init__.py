@@ -97,7 +97,6 @@ class ResNetBasicBlock(nn.Module):
         self.act = activation()
 
     def forward(self, x: Tensor) -> Tensor:
-
         res = x
         x = self.block(x)
         res = self.shortcut(res)
