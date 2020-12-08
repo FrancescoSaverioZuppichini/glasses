@@ -17,26 +17,41 @@ from ..unet import UNetEncoder
 # UpBlock = UNetBasicBlock
 
 class FPNSmoothBlock(nn.Module):
-    def __init__(self, in_features: int, out_features: int,  **kwargs):
+    def __init__(self, in_features: int, out_features: int, upsample: bool = True, **kwargs):
         super().__init__()
-        self.up = nn.UpsamplingNearest2d(
-            scale_factor=2)
+        self.upsample = upsample
         self.block = ConvBnAct(in_features, out_features,
                                kernel_size=3, **kwargs)
+        self.up = nn.UpsamplingNearest2d(
+            scale_factor=2)
 
     def forward(self, x: Tensor) -> Tensor:
-        x = self.up(x)
         x = self.block(x)
+        if self.upsample:
+            x = self.up(x)
         return x
 
 
-class FPNSmoothLayer(nn.Module):
+class FPNSegmentationBlock(nn.Module):
+    def __init__(self, in_features: int, out_features: int, **kwargs):
+        super().__init__()
+        self.block = ConvBnAct(in_features, out_features,
+                               kernel_size=3, **kwargs)
+        self.up = nn.UpsamplingNearest2d(
+            scale_factor=2)
+
+    def forward(self, x: Tensor) -> Tensor:
+        x = self.block(x)
+        x = self.up(x)
+        return x
+
+
+class FPNSegmentationLayer(nn.Module):
     def __init__(self, in_features: int, out_features: int, depth: int = 1, **kwargs):
         super().__init__()
-        print(depth)
         self.block = nn.Sequential(
-            FPNSmoothBlock(in_features, out_features, **kwargs),
-            *[FPNSmoothBlock(out_features, out_features, **kwargs)for _ in range(depth)])
+            FPNSegmentationBlock(in_features, out_features, **kwargs),
+            *[FPNSegmentationBlock(out_features, out_features, **kwargs) for _ in range(depth)])
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.block(x)
@@ -73,22 +88,26 @@ class FPNDecoder(nn.Module):
     FPN Decoder composed of several layer of upsampling layers aimed to decrease the features space and increase the resolution.
     """
 
-    def __init__(self, start_features: int = 512, prediction_width: int = 128, pyramid_width: int = 256, lateral_widths: List[int] = None, *args, **kwargs):
+    def __init__(self, start_features: int = 512, prediction_width: int = 128, pyramid_width: int = 256, lateral_widths: List[int] = None, block: nn.Module = ConvBnAct,  **kwargs):
         super().__init__()
+        # we start from c_2
+        lateral_widths = lateral_widths[:-1]
         self.widths = [prediction_width] * len(lateral_widths)
         self.in_out_block_sizes = list(zip(lateral_widths, self.widths))
 
-        self.middle = ConvBnAct(
+        self.middle = block(
             start_features, pyramid_width, kernel_size=1, **kwargs)
+
         self.layers = nn.ModuleList([
             FPNUpLayer(lateral_features, pyramid_width, **kwargs)
             for lateral_features in lateral_widths
         ])
-
-        self.smooth_layers = nn.ModuleList([
-            FPNSmoothLayer(pyramid_width, prediction_width,
-                           depth=i, **kwargs)
-            for i, _ in enumerate(lateral_widths)
+        self.segmentation_layers = nn.ModuleList([
+            *[FPNSegmentationLayer(pyramid_width, prediction_width,
+                                   depth=i - 1, **kwargs)
+              for i in range(len(self.layers), 0, -1)],
+            # latest one doesn't need to upsample
+            block(pyramid_width, prediction_width, kernel_size=3, **kwargs),
         ])
 
     def forward(self, x: Tensor, residuals: List[Tensor]) -> Tensor:
@@ -97,13 +116,10 @@ class FPNDecoder(nn.Module):
         for layer, res in zip(self.layers, residuals):
             x = layer(x, res)
             p_features.append(x)
-        # we do not smooth the first p features to save computational cost
-        p_features = p_features[::-1]
         features = []
-        for layer, p in zip(self.smooth_layers, p_features):
+        for layer, p in zip(self.segmentation_layers, p_features):
             x = layer(p)
             features.append(x)
-
         return features
 
 
@@ -160,5 +176,6 @@ class FPN(SegmentationModule):
         super().__init__(in_channels, n_classes, encoder, decoder, **kwargs)
         self.head = nn.Sequential(
             Merge(),
+            nn.UpsamplingNearest2d(scale_factor=4),
             nn.Conv2d(self.decoder.widths[-1], n_classes, kernel_size=1))
         # self.head = nn.Identity()
