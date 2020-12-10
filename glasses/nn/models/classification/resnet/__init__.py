@@ -79,7 +79,7 @@ class ResNetBasicBlock(nn.Module):
                  activation: nn.Module = ReLUInPlace,
                  stride: int = 1, shortcut: nn.Module = ResNetShorcut, **kwargs):
         super().__init__()
-        self.should_apply_shortcut = in_features != out_features
+        self.should_apply_shortcut = in_features != out_features or stride != 1
 
         self.block = nn.Sequential(
             OrderedDict(
@@ -153,6 +153,20 @@ class ResNetBasicPreActBlock(ResNetBasicBlock):
         out_features (int): Number of ouimport inspect
     """
 
+def test_wide_resnet():
+    x = torch.rand(1, 3, 224, 224)
+    model = WideResNet.wide_resnet50_2().eval()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+
+    model = WideResNet.wide_resnet101_2().eval()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
+
+
+    block = WideResNetBottleNeckBlock(32, 256, width_factor=2)
+
+    assert block.block.conv2.in_channels ==  128
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, stride: int = 1, shortcut: nn.Module = ResNetShorcut, **kwargs):
         super().__init__(in_features, out_features, activation,
                          stride=stride, shortcut=shortcut, **kwargs)
@@ -261,7 +275,7 @@ class ResNetEncoder(Encoder):
     """
 
     def __init__(self, in_channels: int = 3, start_features: int = 64,  widths: List[int] = [64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2],
-                 activation: nn.Module = ReLUInPlace, block: nn.Module = ResNetBasicBlock, stem: nn.Module = ResNetStem, **kwargs):
+                 activation: nn.Module = ReLUInPlace, block: nn.Module = ResNetBasicBlock, stem: nn.Module = ResNetStem, downsample_first: bool = False, **kwargs):
 
         super().__init__()
         self.widths = widths
@@ -272,7 +286,7 @@ class ResNetEncoder(Encoder):
         self.layers = nn.ModuleList([
             nn.Sequential(
                 ResNetLayer(start_features, widths[0], depth=depths[0], activation=activation,
-                            block=block, stride=1, **kwargs)),
+                            block=block, stride=2 if downsample_first else 1, **kwargs)),
             *[ResNetLayer(in_features,
                           out_features, depth=n, activation=activation,
                           block=block,  **kwargs)
