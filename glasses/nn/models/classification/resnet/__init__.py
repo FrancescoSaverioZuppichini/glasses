@@ -128,20 +128,16 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
 
     def __init__(self, in_features: int, out_features: int, features: int = None, activation: nn.Module = ReLUInPlace, reduction: int = 4, stride=1, shortcut=ResNetShorcut, **kwargs):
         super().__init__(in_features, out_features, activation, stride, shortcut=shortcut)
+        print
         self.features = out_features // reduction if features is None else features
         self.block = nn.Sequential(
-            OrderedDict(
-                {
-                    'conv1': Conv2dPad(in_features, self.features, kernel_size=1, bias=False),
-                    'bn1': nn.BatchNorm2d(self.features),
-                    'act1': activation(),
-                    'conv2': Conv2dPad(self.features, self.features, kernel_size=3, bias=False, stride=stride, **kwargs),
-                    'bn2': nn.BatchNorm2d(self.features),
-                    'act2': activation(),
-                    'conv3': Conv2dPad(self.features, out_features, kernel_size=1, bias=False),
-                    'bn3': nn.BatchNorm2d(out_features),
-                }
-            ))
+            ConvBnAct(in_features, self.features,
+                      activation=activation, kernel_size=1),
+            ConvBnAct(self.features, self.features, activation=activation,
+                      kernel_size=3, stride=stride, **kwargs),
+            ConvBnAct(self.features, out_features,
+                      activation=activation, kernel_size=1),
+        )
 
 
 class ResNetBasicPreActBlock(ResNetBasicBlock):
@@ -153,20 +149,6 @@ class ResNetBasicPreActBlock(ResNetBasicBlock):
         out_features (int): Number of ouimport inspect
     """
 
-def test_wide_resnet():
-    x = torch.rand(1, 3, 224, 224)
-    model = WideResNet.wide_resnet50_2().eval()
-    pred = model(x)
-    assert pred.shape[-1] == 1000
-
-    model = WideResNet.wide_resnet101_2().eval()
-    pred = model(x)
-    assert pred.shape[-1] == 1000
-
-
-    block = WideResNetBottleNeckBlock(32, 256, width_factor=2)
-
-    assert block.block.conv2.in_channels ==  128
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, stride: int = 1, shortcut: nn.Module = ResNetShorcut, **kwargs):
         super().__init__(in_features, out_features, activation,
                          stride=stride, shortcut=shortcut, **kwargs)
@@ -377,7 +359,7 @@ class ResNet(VisionModule):
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
-    
+
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = ResNetEncoder(in_channels, *args, **kwargs)

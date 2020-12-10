@@ -11,16 +11,18 @@ from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 from ....models.base import Encoder, VisionModule
 from ..resnet import ResNet, ResNetBottleneckBlock
 from ..resnetxt import ResNetXtBottleNeckBlock
+from glasses.nn.att import ChannelSE
 
 """Implementation of RegNet proposed in `Designing Network Design Spaces <https://arxiv.org/abs/2003.13678>_`
 """
+
 
 class RegNetScaler:
     """Generates per stage widths and depths from RegNet parameters. 
         Code borrowed from the original implementation.
     """
-    
-    def __call__(self, w_a: float, w_0: float, w_m: float, depth: int, groups_width: int =8):
+
+    def __call__(self, w_a: float, w_0: float, w_m: float, depth: int, groups_width: int = 8):
         assert w_a >= 0 and w_0 > 0 and w_m > 1 and w_0 % q == 0
         # Generate continuous per-block ws
         ws_cont = np.arange(d) * w_a + w_0
@@ -31,15 +33,29 @@ class RegNetScaler:
         # Generate per stage ws and ds (assumes ws_all are sorted)
         ws, ds = np.unique(ws_all, return_counts=True)
         # Convert numpy arrays to lists and return
-        ws, ds, ws_all, ws_cont = (x.tolist() for x in (ws, ds, ws_all, ws_cont))
+        ws, ds, ws_all, ws_cont = (x.tolist()
+                                   for x in (ws, ds, ws_all, ws_cont))
         return ws, ds
+
 
 class RegNetXBotteneckBlock(ResNetBottleneckBlock):
 
     def __init__(self, in_features: int, out_features: int, groups_width: int = 1, reduction: int = 1, **kwargs):
-        super().__init__(in_features, out_features, reduction=reduction, groups= out_features // groups_width,  **kwargs)
+        super().__init__(in_features, out_features, reduction=reduction,
+                         groups=out_features // groups_width,  **kwargs)
+
+
+class RegNetXBotteneckBlockSE(RegNetXBotteneckBlock):
+    def __init__(self,  in_features: int, out_features: int, reduction: int = 1, **kwargs):
+        super().__init__(in_features, out_features, reduction=reduction, **kwargs)
+
+        self.block[2] = nn.Sequential(ChannelSE(self.features),
+                                      self.block[2],
+                                      )
+
 
 RegNetStem = partial(ConvBnAct, kernel_size=3, stride=2)
+
 
 class RegNet(ResNet):
     """"Implementation of RegNet proposed in `Designing Network Design Spaces <https://arxiv.org/abs/2003.13678>_`
@@ -89,51 +105,51 @@ class RegNet(ResNet):
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
-    
-    @classmethod
-    def regnetx_002(cls, *args, **kwargs):
-        return cls(start_features=32, stem=RegNetStem, depths=[1, 1, 4, 7], widths=[24, 56, 152, 368], downsample_first=True, block=RegNetXBotteneckBlock, groups_width=8, **kwargs)
 
     @classmethod
-    def regnetx_004(cls, *args, **kwargs):
-        return cls(start_features=32, stem=RegNetStem, depths=[1, 2, 7, 12],widths= [32, 64, 160, 384], downsample_first=True, block=RegNetXBotteneckBlock, groups_width=16, **kwargs)
+    def regnetx_002(cls, *args, block=RegNetXBotteneckBlock, **kwargs):
+        return cls(start_features=32, stem=RegNetStem, depths=[1, 1, 4, 7], widths=[24, 56, 152, 368], downsample_first=True, block=block, groups_width=8, **kwargs)
 
     @classmethod
-    def regnetx_006(cls, *args, **kwargs):
-        return cls(start_features=32, stem=RegNetStem, depths=[1, 3, 5, 7], widths=[48, 96, 240, 528], downsample_first=True, block=RegNetXBotteneckBlock, groups_width=24, **kwargs)
+    def regnetx_004(cls, *args, block=RegNetXBotteneckBlock, **kwargs):
+        return cls(start_features=32, stem=RegNetStem, depths=[1, 2, 7, 12], widths=[32, 64, 160, 384], downsample_first=True, block=block, groups_width=16, **kwargs)
 
     @classmethod
-    def regnetx_008(cls, *args, **kwargs):
-        return cls(start_features=32, stem=RegNetStem, depths=[1, 3, 7, 5], widths=[64, 128, 288, 672], downsample_first=True, block=RegNetXBotteneckBlock, groups_width=16, **kwargs)
+    def regnetx_006(cls, *args, block=RegNetXBotteneckBlock, **kwargs):
+        return cls(start_features=32, stem=RegNetStem, depths=[1, 3, 5, 7], widths=[48, 96, 240, 528], downsample_first=True, block=block, groups_width=24, **kwargs)
 
     @classmethod
-    def regnetx_016(cls, *args, **kwargs):
-        return cls(start_features=32, stem=RegNetStem, depths=[2, 4, 10, 2],widths= [72, 168, 408, 912], downsample_first=True, block=RegNetXBotteneckBlock, groups_width=24, **kwargs)
+    def regnetx_008(cls, *args, block=RegNetXBotteneckBlock, **kwargs):
+        return cls(start_features=32, stem=RegNetStem, depths=[1, 3, 7, 5], widths=[64, 128, 288, 672], downsample_first=True, block=block, groups_width=16, **kwargs)
 
     @classmethod
-    def regnetx_032(cls, *args, **kwargs):
-        return cls(start_features=32, stem=RegNetStem, depths=[2, 6, 15, 2],widths= [96, 192, 432, 1008], downsample_first=True, block=RegNetXBotteneckBlock, groups_width=48, **kwargs)
+    def regnetx_016(cls, *args, block=RegNetXBotteneckBlock, **kwargs):
+        return cls(start_features=32, stem=RegNetStem, depths=[2, 4, 10, 2], widths=[72, 168, 408, 912], downsample_first=True, block=block, groups_width=24, **kwargs)
 
     @classmethod
-    def regnetx_040(cls, *args, **kwargs):
-        return cls(start_features=32, stem=RegNetStem, depths=[2, 5, 14, 2],widths= [80, 240, 560, 1360], downsample_first=True, block=RegNetXBotteneckBlock, groups_width=40, **kwargs)
+    def regnetx_032(cls, *args, block=RegNetXBotteneckBlock, **kwargs):
+        return cls(start_features=32, stem=RegNetStem, depths=[2, 6, 15, 2], widths=[96, 192, 432, 1008], downsample_first=True, block=block, groups_width=48, **kwargs)
 
     @classmethod
-    def regnetx_064(cls, *args, **kwargs):
-        return cls(start_features=32, stem=RegNetStem, depths=[2, 4, 10, 1],widths= [168, 392, 784, 1624], downsample_first=True, block=RegNetXBotteneckBlock, groups_width=56, **kwargs)
+    def regnetx_040(cls, *args, block=RegNetXBotteneckBlock, **kwargs):
+        return cls(start_features=32, stem=RegNetStem, depths=[2, 5, 14, 2], widths=[80, 240, 560, 1360], downsample_first=True, block=block, groups_width=40, **kwargs)
 
     @classmethod
-    def regnetx_080(cls, *args, **kwargs):
-        return cls(start_features=32, stem=RegNetStem, depths=[2, 5, 15, 1],widths= [80, 240, 720, 1920], downsample_first=True, block=RegNetXBotteneckBlock, groups_width=120, **kwargs)
+    def regnetx_064(cls, *args, block=RegNetXBotteneckBlock, **kwargs):
+        return cls(start_features=32, stem=RegNetStem, depths=[2, 4, 10, 1], widths=[168, 392, 784, 1624], downsample_first=True, block=block, groups_width=56, **kwargs)
 
     @classmethod
-    def regnetx_120(cls, *args, **kwargs):
-        return cls(start_features=32, stem=RegNetStem, depths=[2, 5, 11, 1],widths= [224, 448, 896, 2240], downsample_first=True, block=RegNetXBotteneckBlock, groups_width=112, **kwargs)
+    def regnetx_080(cls, *args, block=RegNetXBotteneckBlock, **kwargs):
+        return cls(start_features=32, stem=RegNetStem, depths=[2, 5, 15, 1], widths=[80, 240, 720, 1920], downsample_first=True, block=block, groups_width=120, **kwargs)
 
     @classmethod
-    def regnetx_160(cls, *args, **kwargs):
-        return cls(start_features=32, stem=RegNetStem, depths=[2, 6, 13, 1],widths= [256, 512, 896, 2048], downsample_first=True, block=RegNetXBotteneckBlock, groups_width=128, **kwargs)
+    def regnetx_120(cls, *args, block=RegNetXBotteneckBlock, **kwargs):
+        return cls(start_features=32, stem=RegNetStem, depths=[2, 5, 11, 1], widths=[224, 448, 896, 2240], downsample_first=True, block=block, groups_width=112, **kwargs)
 
     @classmethod
-    def regnetx_320(cls, *args, **kwargs):
-        return cls(start_features=32, stem=RegNetStem, depths=[2, 7, 13, 1], widths= [336, 672, 1344, 2520], downsample_first=True, block=RegNetXBotteneckBlock, groups_width=168, **kwargs)
+    def regnetx_160(cls, *args, block=RegNetXBotteneckBlock, **kwargs):
+        return cls(start_features=32, stem=RegNetStem, depths=[2, 6, 13, 1], widths=[256, 512, 896, 2048], downsample_first=True, block=block, groups_width=128, **kwargs)
+
+    @classmethod
+    def regnetx_320(cls, *args, block=RegNetXBotteneckBlock, **kwargs):
+        return cls(start_features=32, stem=RegNetStem, depths=[2, 7, 13, 1], widths=[336, 672, 1344, 2520], downsample_first=True, block=block, groups_width=168, **kwargs)
