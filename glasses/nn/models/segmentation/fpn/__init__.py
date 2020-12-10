@@ -10,7 +10,7 @@ from ....blocks import ConvBnAct
 from glasses.utils.Storage import ForwardModuleStorage
 from ..base import SegmentationModule
 from ...base import Encoder
-from ..unet import UNetEncoder
+from ....models.classification.resnet import ResNetEncoder
 
 
 # DownBlock = UNetBasicBlock
@@ -82,45 +82,58 @@ class FPNUpLayer(nn.Module):
             out += res
         return out
 
+class FPNSegmentationBranch(nn.Module):
+    def __init__(self, in_features: int = 256, out_features: int = 128, depth: int = 3, block: nn.Module = ConvBnAct,  **kwargs):
+        super().__init__()
+        self.layers = nn.ModuleList([
+            # we iterate backward using the number of layers to keep track
+            # of how many times we have to upsample
+            *[FPNSegmentationLayer(in_features, out_features,
+                                   depth=i - 1, **kwargs)
+              for i in range(depth, 0, -1)],
+            # latest one doesn't need to upsample
+            block(in_features, out_features, kernel_size=3, **kwargs),
+        ])
+
+    def forward(self, x: Tensor, residuals: List[Tensor]) -> Tensor:
+        features = []
+        for layer, p in zip(self.layers, residuals):
+            x = layer(p)
+            features.append(x)
+        return features
+
 
 class FPNDecoder(nn.Module):
     """
     FPN Decoder composed of several layer of upsampling layers aimed to decrease the features space and increase the resolution.
     """
 
-    def __init__(self, start_features: int = 512, prediction_width: int = 128, pyramid_width: int = 256, lateral_widths: List[int] = None, block: nn.Module = ConvBnAct,  **kwargs):
+    def __init__(self, start_features: int = 512, pyramid_width: int = 256,  prediction_width: int = 128, lateral_widths: List[int] = None, segmentation_branch: nn.Module = FPNSegmentationBranch, block: nn.Module = ConvBnAct,  **kwargs):
         super().__init__()
         # we start from c_2
-        lateral_widths = lateral_widths[:-1]
-        self.widths = [prediction_width] * len(lateral_widths)
-        self.in_out_block_sizes = list(zip(lateral_widths, self.widths))
+        self.lateral_widths = lateral_widths[:-1]
+        self.widths = [prediction_width] * len(self.lateral_widths)
+        self.in_out_block_sizes = list(zip(self.lateral_widths, self.widths))
 
         self.middle = block(
             start_features, pyramid_width, kernel_size=1, **kwargs)
 
         self.layers = nn.ModuleList([
             FPNUpLayer(lateral_features, pyramid_width, **kwargs)
-            for lateral_features in lateral_widths
+            for lateral_features in self.lateral_widths
         ])
-        self.segmentation_layers = nn.ModuleList([
-            *[FPNSegmentationLayer(pyramid_width, prediction_width,
-                                   depth=i - 1, **kwargs)
-              for i in range(len(self.layers), 0, -1)],
-            # latest one doesn't need to upsample
-            block(pyramid_width, prediction_width, kernel_size=3, **kwargs),
-        ])
+
+        self.segmentation_branch = segmentation_branch(pyramid_width, prediction_width, depth=len(self.layers), block=block, **kwargs)
 
     def forward(self, x: Tensor, residuals: List[Tensor]) -> Tensor:
         x = self.middle(x)
-        p_features = [x]
+        features = [x]
         for layer, res in zip(self.layers, residuals):
             x = layer(x, res)
-            p_features.append(x)
-        features = []
-        for layer, p in zip(self.segmentation_layers, p_features):
-            x = layer(p)
             features.append(x)
-        return features
+        features = self.segmentation_branch(x, features)
+        print(torch.stack(features, dim=1).shape)
+        return torch.stack(features, dim=1)
 
 
 class Merge(nn.Module):
@@ -131,7 +144,7 @@ class Merge(nn.Module):
     """
 
     def forward(self, features):
-        x = torch.sum(torch.stack(features, dim=1), dim=1)
+        x = torch.sum(features, dim=1)
         return x
 
 
@@ -169,7 +182,7 @@ class FPN(SegmentationModule):
     """
 
     def __init__(self, in_channels: int = 1, n_classes: int = 2,
-                 encoder: Encoder = UNetEncoder,
+                 encoder: Encoder = ResNetEncoder,
                  decoder: nn.Module = FPNDecoder,
                  **kwargs):
 
