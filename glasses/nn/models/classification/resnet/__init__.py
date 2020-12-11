@@ -307,8 +307,6 @@ class ResNetHead(nn.Sequential):
 class ResNet(VisionModule):
     """Implementation of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`_
 
-    Create a default model
-
     Examples:
 
     Vanilla models
@@ -321,7 +319,7 @@ class ResNet(VisionModule):
         >>> ResNet.resnet152()
         >>> ResNet.resnet200()
 
-    Variants (d) proposed in `Bag of Tricks for Image Classification with Convolutional Neural Networks <https://arxiv.org/pdf/1812.01187.pdf>`_
+        Variants (d) proposed in `Bag of Tricks for Image Classification with Convolutional Neural Networks <https://arxiv.org/pdf/1812.01187.pdf>`_
 
         >>> ResNet.resnet26d()
         >>> ResNet.resnet50d()

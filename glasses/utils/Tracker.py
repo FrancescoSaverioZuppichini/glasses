@@ -9,11 +9,11 @@ from dataclasses import dataclass, field
 class Tracker:
     """This class tracks all the operations of a given module by performing a forward pass. 
     
-    :Example
+    Example:
 
         >>> import torch
         >>> import torch.nn as nn
-        >>> from eyes.utils import Tracker
+        >>> from glasses.utils import Tracker
         >>> model = nn.Sequential(nn.Linear(1, 64), nn.ReLU(), nn.Linear(64,10), nn.ReLU())
         >>> tr = Tracker(model)
         >>> tr(x)
@@ -23,13 +23,13 @@ class Tracker:
         
         outputs 
         
-        [Linear(in_features=1, out_features=64, bias=True),
+        ``[Linear(in_features=1, out_features=64, bias=True),
         ReLU(),
         Linear(in_features=64, out_features=10, bias=True),
         ReLU()]
         -----
         [Linear(in_features=1, out_features=64, bias=True),
-        Linear(in_features=64, out_features=10, bias=True)]
+        Linear(in_features=64, out_features=10, bias=True)]``
     """
     module: nn.Module
     traced: [nn.Module] = field(default_factory=list)
