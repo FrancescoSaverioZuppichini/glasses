@@ -1,12 +1,30 @@
 import torch
 import torch.nn as nn
-from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider, Config, GoogleDriveUrlHandler    
+from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider, Config, GoogleDriveUrlHandler, BasicUrlHandler, pretrained    
 from glasses.nn.models.classification.resnet import ResNet
 import pytest
 from pathlib import Path
 import os
 from PIL import Image
 from pytest import raises
+
+
+PretrainedWeightsProvider.weights_zoo['dummy'] = BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/dummy.pth?raw=true')
+PretrainedWeightsProvider.weights_zoo['dummy1'] = BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/dummy.pth?raw=true')
+
+class Dummy(nn.Sequential):
+    def __init__(self):
+        super().__init__(nn.Conv2d(3, 32, kernel_size=3))
+
+    @classmethod
+    @pretrained()
+    def dummy(cls, *args, **kwargs):
+        return cls()
+
+    @classmethod
+    @pretrained(name='dummy1')
+    def dummy1(cls, *args, **kwargs):
+        return cls()   
 
 def test_PretrainedWeightsProvider():
     google_handler = GoogleDriveUrlHandler('https://docs.google.com/uc?export=download', file_id='19wLg526wenvhJMPSLPYMlnMgCS6n6jVA')
@@ -19,15 +37,18 @@ def test_PretrainedWeightsProvider():
         provider['IDontExists']           
 
 
-    resnet18_state = ResNet.resnet18().state_dict()
-    resnet18_prov_state = provider['resnet18']
+    dummy_state = Dummy().state_dict()
+    dummy_prov_state = provider['dummy']
 
-    for mod, mod_prov in zip(resnet18_state.keys(), resnet18_prov_state.keys()):
+    for mod, mod_prov in zip(dummy_state.keys(), dummy_prov_state.keys()):
         assert str(mod) == str(mod_prov)
     
-    model = ResNet.resnet18(pretrained=True)
+    model = Dummy.dummy(pretrained=True)
+    assert type(model) is Dummy
 
-    assert type(model) is ResNet
+    model = Dummy.dummy1(pretrained=True)
+
+    assert type(model) is Dummy
 
     cfg = Config(interpolation='bilinear')
     
@@ -36,13 +57,4 @@ def test_PretrainedWeightsProvider():
     cfg = Config(interpolation='bicubic')
 
     assert cfg.transform.transforms[0].interpolation == Image.BICUBIC
-
-    # this test will take too much time!
-    # for key, models in PretrainedWeightsProvider.zoo_models_mapping.items():
-    # _, model_def = models
-    # model = model_def()
-    # model_prov = provider[key]
-
-    # for mod, mod_prov in zip(model.children(), model_prov.children()):
-    #     assert str(mod) ==  str(mod_prov)
 
