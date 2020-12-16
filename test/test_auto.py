@@ -1,4 +1,4 @@
-from glasses import AutoConfig, AutoModel
+from glasses.nn.models import AutoConfig, AutoModel
 from glasses.utils.PretrainedWeightsProvider import Config
 from glasses.nn import ResNet
 import pytest

@@ -136,7 +136,7 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
             ConvBnAct(self.features, self.features, activation=activation,
                       kernel_size=3, stride=stride, **kwargs),
             ConvBnAct(self.features, out_features,
-                      activation=activation, kernel_size=1),
+                      activation=None, kernel_size=1),
         )
 
 
@@ -266,9 +266,8 @@ class ResNetEncoder(Encoder):
         self.stem = stem(in_channels, start_features, activation)
 
         self.layers = nn.ModuleList([
-            nn.Sequential(
                 ResNetLayer(start_features, widths[0], depth=depths[0], activation=activation,
-                            block=block, stride=2 if downsample_first else 1, **kwargs)),
+                            block=block, stride=2 if downsample_first else 1, **kwargs),
             *[ResNetLayer(in_features,
                           out_features, depth=n, activation=activation,
                           block=block,  **kwargs)

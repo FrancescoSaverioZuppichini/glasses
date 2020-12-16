@@ -36,7 +36,7 @@ class Tracker:
     handles: list = field(default_factory=list)
 
     def _forward_hook(self, m, inputs: Tensor, outputs: Tensor):
-        has_not_submodules = len(list(m.modules())) == 1 or  isinstance(m, nn.Conv2d)
+        has_not_submodules = len(list(m.modules())) == 1 or  isinstance(m, nn.Conv2d) or isinstance(m, nn.BatchNorm2d)
         if has_not_submodules:
             self.traced.append(m)
 
