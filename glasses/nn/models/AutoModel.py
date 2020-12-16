@@ -96,11 +96,11 @@ class AutoModel:
         'unet': UNet
     }
     
-    @staticmethod  
-    def add(name, func): 
-        key = name
-        AutoModel.zoo[key] = func
-        return func
+    # @staticmethod  
+    # def add(name, func): 
+    #     key = name
+    #     AutoModel.zoo[key] = func
+    #     return func
 
 
     @staticmethod

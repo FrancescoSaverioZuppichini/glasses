@@ -24,9 +24,13 @@ def test_AutoModel():
     model = AutoModel.from_pretrained('dummy')
     assert isinstance(model, Dummy)
     with pytest.raises(KeyError):
+        model = AutoModel.from_name('resn')
+    with pytest.raises(KeyError):
         model = AutoModel.from_name('resnetasddsadas')
     with pytest.raises(KeyError):
         model = AutoModel.from_pretrained('resnetasddsadas')
+    with pytest.raises(KeyError):
+        model = AutoModel.from_pretrained('resn')
     AutoModel.models
 
 
@@ -35,4 +39,4 @@ def test_AutoConfig():
     cfg = AutoConfig.from_name('resnet18')
     assert isinstance(cfg, Config)
     cfg = AutoConfig.from_name('resnetasddsadas')
-
+    AutoConfig.names
