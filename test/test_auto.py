@@ -31,7 +31,7 @@ def test_AutoModel():
         model = AutoModel.from_pretrained('resnetasddsadas')
     with pytest.raises(KeyError):
         model = AutoModel.from_pretrained('resn')
-    AutoModel.models
+    assert len(list(AutoConfig.models)) > 0
 
 
 
@@ -39,4 +39,4 @@ def test_AutoConfig():
     cfg = AutoConfig.from_name('resnet18')
     assert isinstance(cfg, Config)
     cfg = AutoConfig.from_name('resnetasddsadas')
-    AutoConfig.names
+    assert len(list(AutoConfig.names)) > 0

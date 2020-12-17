@@ -128,25 +128,6 @@ class UNetDecoder(nn.Module):
 
         return x
 
-
-class WithFeatures(nn.Module):
-
-    def __init__(self, backbone, stages: List[nn.Module] = None, features_widths: List[int] = None):
-        super().__init__()
-        self.backbone = backbone
-        self.stages = backbone.layers if stages is None else stages
-        self.features_widths = backbone.widths if features_widths is None else features_widths
-        self.storage = ForwardModuleStorage(self.backbone, [*self.stages])
-
-    def __call__(self, x):
-        x = self.backbone(x)
-        return x
-
-    @property
-    def features(self):
-        return list(self.storage.state.values())
-
-
 class UNet(SegmentationModule):
     """Implementation of Unet proposed in `U-Net: Convolutional Networks for Biomedical Image Segmentation <https://arxiv.org/abs/1505.04597>`_
 

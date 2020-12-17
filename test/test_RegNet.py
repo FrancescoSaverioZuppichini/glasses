@@ -34,6 +34,9 @@ def test_regnet():
         model = RegNet.regnetx_008().eval()
         pred = model(x)
         assert pred.shape[-1] == 1000
+        model = RegNet.regnetx_016().eval()
+        pred = model(x)
+        assert pred.shape[-1] == 1000
         model = RegNet.regnety_002().eval()
         pred = model(x)
         assert pred.shape[-1] == 1000
@@ -41,5 +44,11 @@ def test_regnet():
         pred = model(x)
         assert pred.shape[-1] == 1000
         model = RegNet.regnety_006().eval()
+        pred = model(x)
+        assert pred.shape[-1] == 1000
+        model = RegNet.regnety_008().eval()
+        pred = model(x)
+        assert pred.shape[-1] == 1000
+        model = RegNet.regnety_016().eval()
         pred = model(x)
         assert pred.shape[-1] == 1000
