@@ -263,7 +263,7 @@ class RegNet(ResNet):
 
     @classmethod
     def regnety_008(cls, *args,   **kwargs):
-        depths, widths, groups_width = cls.models_config['regnew_sety_008']
+        depths, widths, groups_width = cls.models_config['regnety_008']
         return cls(*args, depths=depths, widths=widths,  block=RegNetYBotteneckBlock, groups_width=groups_width, **kwargs)
 
     @classmethod
