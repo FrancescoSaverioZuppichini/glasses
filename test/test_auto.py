@@ -31,7 +31,7 @@ def test_AutoModel():
         model = AutoModel.from_pretrained('resnetasddsadas')
     with pytest.raises(KeyError):
         model = AutoModel.from_pretrained('resn')
-    assert len(list(AutoConfig.models)) > 0
+    assert len(list(AutoModel.models)) > 0
 
 
 
