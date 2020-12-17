@@ -131,6 +131,6 @@ class AutoModel:
         return model
 
     @staticmethod
-    def models(self):
-        return self.zoo.keys()
+    def models():
+        return AutoModel.zoo.keys()
 

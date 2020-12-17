@@ -36,5 +36,5 @@ class AutoConfig:
         return cfg
 
     @staticmethod
-    def names(self):
-        return self.zoo.keys()
+    def names():
+        return AutoConfig.zoo.keys()
