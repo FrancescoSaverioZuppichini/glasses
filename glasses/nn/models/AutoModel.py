@@ -130,7 +130,7 @@ class AutoModel:
         model = AutoModel.from_name(name, pretrained=True, *args, **kwargs)
         return model
 
-    @property
+    @staticmethod
     def models(self):
         return self.zoo.keys()
 
