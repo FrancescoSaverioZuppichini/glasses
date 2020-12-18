@@ -1,0 +1,313 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>glasses.models.classification.senet &mdash; Glasses  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> Glasses
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">glasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glasses.nn.html">glasses.nn package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glasses.nn.models.html">glasses.nn.models package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glasses.utils.html">glasses.utils package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glasses.data.html">glasses.data package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glasses.interpretability.html">glasses.interpretability package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Glasses</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>glasses.models.classification.senet</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for glasses.models.classification.senet</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">ResNet</span>
+<span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">SpatialSE</span><span class="p">,</span> <span class="n">ChannelSE</span><span class="p">,</span> <span class="n">WithAtt</span>
+<span class="kn">from</span> <span class="nn">glasses.utils.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">Config</span>
+
+<span class="n">SENetBasicBlock</span> <span class="o">=</span> <span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">SpatialSE</span><span class="p">)</span>
+<span class="n">SENetBottleneckBlock</span> <span class="o">=</span> <span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">SpatialSE</span><span class="p">)</span>
+
+<span class="n">CSENetBasicBlock</span> <span class="o">=</span> <span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">ChannelSE</span><span class="p">)</span>
+<span class="n">CSENetBottleneckBlock</span> <span class="o">=</span> <span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">ChannelSE</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SEResNet"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet">[docs]</a><span class="k">class</span> <span class="nc">SEResNet</span><span class="p">(</span><span class="n">ResNet</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Implementation of Squeeze and Excitation ResNet using booth the original spatial se </span>
+<span class="sd">    and the channel se proposed in  </span>
+<span class="sd">    `Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks &lt;https://arxiv.org/abs/1803.02579&gt;`_</span>
+<span class="sd">    The models with the channel se are labelab with prefix `c` </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SEResNet.se_resnet18"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet.se_resnet18">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">se_resnet18</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SEResNet</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Original SE resnet18 with Spatial Squeeze and Excitation</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SEResNet: [description]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SEResNet.se_resnet34"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet.se_resnet34">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">se_resnet34</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SEResNet</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Original SE resnet34 with Spatial Squeeze and Excitation</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SEResNet: [description]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet34</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SEResNet.se_resnet50"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet.se_resnet50">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">se_resnet50</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SEResNet</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Original SE resnet50 with Spatial Squeeze and Excitation</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SEResNet: [description]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">SENetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SEResNet.se_resnet101"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet.se_resnet101">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">se_resnet101</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SEResNet</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Original SE resnet101 with Spatial Squeeze and Excitation</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SEResNet: [description]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">SENetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SEResNet.se_resnet152"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet.se_resnet152">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">se_resnet152</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SEResNet</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Original SE resnet152 with Spatial Squeeze and Excitation</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SEResNet: [description]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet152</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">SENetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SEResNet.cse_resnet18"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet.cse_resnet18">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">cse_resnet18</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SEResNet</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;SE resnet18 with Channel Squeeze and Excitation</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SEResNet: [description]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">CSENetBasicBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SEResNet.cse_resnet34"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet.cse_resnet34">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">cse_resnet34</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SEResNet</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;SE resnet34 with Channel Squeeze and Excitation</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SEResNet: [description]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet34</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">CSENetBasicBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SEResNet.cse_resnet50"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet.cse_resnet50">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">cse_resnet50</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SEResNet</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;SE resnet50 with Channel Squeeze and Excitation</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SEResNet: [description]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">CSENetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SEResNet.cse_resnet101"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet.cse_resnet101">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">cse_resnet101</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SEResNet</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;SE resnet101 with Channel Squeeze and Excitation</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SEResNet: [description]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">CSENetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SEResNet.cse_resnet152"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet.cse_resnet152">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">cse_resnet152</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SEResNet</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;SE resnet152 with Channel Squeeze and Excitation</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SEResNet: [description]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet152</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">CSENetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

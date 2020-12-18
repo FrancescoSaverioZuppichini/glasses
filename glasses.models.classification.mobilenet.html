@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>glasses.models.classification.mobilenet package &mdash; Glasses  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="glasses.models.classification.regnet package" href="glasses.models.classification.regnet.html" />
+    <link rel="prev" title="glasses.models.classification.fishnet package" href="glasses.models.classification.fishnet.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Glasses
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Package Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">glasses</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="benchmark.html">benchmark module</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="glasses.html">glasses package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="glasses.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="glasses.data.html">glasses.data package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.interpretability.html">glasses.interpretability package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="glasses.models.html">glasses.models package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.html#module-glasses">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="models_table.html">models_table module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tmp.html">tmp module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transfer_weights.html">transfer_weights module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasses.nn.models.html">glasses.nn.models package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasses.data.html">glasses.data package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasses.interpretability.html">glasses.interpretability package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Glasses</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">glasses</a> &raquo;</li>
+        
+          <li><a href="glasses.html">glasses package</a> &raquo;</li>
+        
+          <li><a href="glasses.models.html">glasses.models package</a> &raquo;</li>
+        
+          <li><a href="glasses.models.classification.html">glasses.models.classification package</a> &raquo;</li>
+        
+      <li>glasses.models.classification.mobilenet package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/glasses.models.classification.mobilenet.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="glasses-models-classification-mobilenet-package">
+<h1>glasses.models.classification.mobilenet package<a class="headerlink" href="#glasses-models-classification-mobilenet-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-glasses.models.classification.mobilenet">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.models.classification.mobilenet" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="glasses.models.classification.mobilenet.MobileNet">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.mobilenet.</code><code class="sig-name descname">MobileNet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/mobilenet.html#MobileNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.mobilenet.MobileNet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.models.classification.efficientnet.html#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></code></a></p>
+<p>Implementations of MobileNet v2 proposed in <a class="reference external" href="https://arxiv.org/pdf/1801.04381.pdf">MobileNetV2: Inverted Residuals and Linear Bottlenecks</a></p>
+<p>MobileNet is a special case of EfficientNet.</p>
+<p class="rubric">Examples</p>
+<p>Create a default model</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">MobileNet</span><span class="o">.</span><span class="n">mobilenet_v2</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</p></li>
+<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of classes. Defaults to 1000.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="glasses.models.classification.mobilenet.MobileNet.mobilenet_v2">
+<em class="property">classmethod </em><code class="sig-name descname">mobilenet_v2</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="glasses.models.classification.efficientnet.html#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet">glasses.models.classification.efficientnet.EfficientNet</a><a class="reference internal" href="_modules/glasses/models/classification/mobilenet.html#MobileNet.mobilenet_v2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.mobilenet.MobileNet.mobilenet_v2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="glasses.models.classification.regnet.html" class="btn btn-neutral float-right" title="glasses.models.classification.regnet package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="glasses.models.classification.fishnet.html" class="btn btn-neutral float-left" title="glasses.models.classification.fishnet package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
