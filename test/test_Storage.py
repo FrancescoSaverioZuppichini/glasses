@@ -1,6 +1,7 @@
 import torch
 from torch import nn
 from glasses.utils.Storage import ForwardModuleStorage, BackwardModuleStorage, MutipleKeysDict
+import pytest
 
 def test_storage():
 
@@ -55,3 +56,6 @@ def test_storage():
 
     assert type(storage[layer][0][0]) is torch.Tensor
     assert len(storage[layer]) == 1
+
+    with pytest.raises(ValueError):
+        storage.register_hooks('wrong')
