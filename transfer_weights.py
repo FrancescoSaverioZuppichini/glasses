@@ -1,27 +1,29 @@
-import torch
-import requests
+import logging
 from argparse import ArgumentParser
-from torch import nn
 from dataclasses import dataclass
 from functools import partial
+from io import BytesIO
+from pathlib import Path
 from typing import Dict
-from torch import Tensor
+
+import boto3
+import pretrainedmodels
+import requests
+import timm
+import torch
+from boto3.s3.transfer import TransferConfig
+from torch import Tensor, nn
+from torchvision.models import (densenet121, densenet161, densenet169,
+                                densenet201, mobilenet_v2, resnet18, resnet34,
+                                resnet50, resnet101, resnet152,
+                                resnext50_32x4d, resnext101_32x8d, vgg11,
+                                vgg13, vgg16, vgg19, wide_resnet50_2,
+                                wide_resnet101_2)
+from tqdm.autonotebook import tqdm
+
+from glasses.models import *
 from glasses.utils.ModuleTransfer import ModuleTransfer
 from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
-from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet152, resnext50_32x4d, resnext101_32x8d, wide_resnet50_2, wide_resnet101_2
-from torchvision.models import densenet121, densenet161, densenet169, densenet201
-from torchvision.models import vgg11, vgg13, vgg16, vgg19
-from torchvision.models import mobilenet_v2
-from glasses.models import *
-from tqdm.autonotebook import tqdm
-from pathlib import Path
-import boto3
-from boto3.s3.transfer import TransferConfig
-from io import BytesIO
-import logging
-import timm
-import pretrainedmodels
-
 
 zoo_models_mapping = {
     'resnet18': [partial(resnet18, pretrained=True), ResNet.resnet18],

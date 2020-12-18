@@ -37,12 +37,13 @@ The API are shared across **all** models!
 
 ```python
 import torch
-from glasses import AutoModel, AutoConfig
+from glasses.models import AutoModel, AutoConfig
 from torch import nn
 # load one model
 model = AutoModel.from_pretrained('resnet18')
 cfg = AutoConfig.from_name('resnet18')
-model.summary(device='cpu') # thanks to torchsummary
+model.summary(device='cpu' ) # thanks to torchsummary
+AutoModel.models() # 'resnet18', 'resnet26', 'resnet26d', 'resnet34', 'resnet50', ...
 ```
 
 ### Interpretability
@@ -67,11 +68,11 @@ _ = model.interpret(x, using=GradCam(), postprocessing=postprocessing).show()
 
 ## Classification
 
+
 ```python
 from glasses.models import ResNet
-
 # change activation
-ResNet.resnet18(activation=nn.SELU)
+ResNet.resnet18(activation = nn.SELU)
 # change number of classes
 ResNet.resnet18(n_classes=100)
 # freeze only the convolution weights
@@ -80,17 +81,16 @@ model.freeze(who=model.encoder)
 # get the last layer, usuful to hook to it if you want to get the embeeded vector
 model.encoder.layers[-1]
 # what about resnet with inverted residuals?
-from glasses.models.classification import InvertedResidualBlock
-
-ResNet.resnet18(block=InvertedResidualBlock)
+from glasses.models.classification.efficientnet import InvertedResidualBlock
+ResNet.resnet18(block = InvertedResidualBlock)
 ```
 
 ## Segmentation
 
+
 ```python
 from functools import partial
-from glasses.models import UNet, UNetDecoder
-
+from glasses.models.segmentation.unet import UNet, UNetDecoder
 # vanilla Unet
 unet = UNet()
 # let's change the encoder
@@ -100,7 +100,7 @@ unet = UNet(decoder=partial(UNetDecoder, widths=[256, 128, 64, 32, 16]))
 # maybe resnet was better
 unet = UNet(encoder=lambda **kwargs: ResNet.resnet26(**kwargs).encoder)
 # same API
-unet.summary(input_shape=(1, 224, 224))
+unet.summary(input_shape=(1,224,224))
 ```
 
 ### More examples
@@ -124,6 +124,8 @@ model(x).shape #torch.Size([1, 1000])
 ```
 
 ## Pretrained Models
+
+**I am currently working on the pretrained models and the best way to make them available**
 
 This is a list of all the pretrained models available so far!. They are all trained on *ImageNet*
 
@@ -160,6 +162,7 @@ This is a list of all the pretrained models available so far!. They are all trai
 
 Assuming you want to load `efficientnet_b1`, you can also grab it from its class
 
+
 ```python
 from glasses.models import EfficientNet
 
@@ -191,33 +194,32 @@ All models are composed by sharable parts:
 
 ### Block
 
-Each model has its building block, they are noted by `*Block`. In each block, all the weights are in the `.block` field. This makes it very easy to customize one specific model.
+Each model has its building block, they are noted by `*Block`. In each block, all the weights are in the `.block` field. This makes it very easy to customize one specific model. 
+
 
 ```python
-from glasses.models.classification import VGGBasicBlock
-from glasses.models.classification import ResNetBasicBlock, ResNetBottleneckBlock, ResNetBasicPreActBlock,
-    ResNetBottleneckPreActBlock
-from glasses.models.classification import SENetBasicBlock, SENetBottleneckBlock
-from glasses.models.classification import ResNetXtBottleNeckBlock
-from glasses.models.classification import DenseBottleNeckBlock
-from glasses.models.classification import WideResNetBottleNeckBlock
-from glasses.models.classification import EfficientNetBasicBlock
+from glasses.models.classification.vgg import VGGBasicBlock
+from glasses.models.classification.resnet import ResNetBasicBlock, ResNetBottleneckBlock, ResNetBasicPreActBlock, ResNetBottleneckPreActBlock
+from glasses.models.classification.senet import SENetBasicBlock, SENetBottleneckBlock
+from glasses.models.classification.resnetxt import ResNetXtBottleNeckBlock
+from glasses.models.classification.densenet import DenseBottleNeckBlock
+from glasses.models.classification.wide_resnet import WideResNetBottleNeckBlock
+from glasses.models.classification.efficientnet import EfficientNetBasicBlock
 ```
 
 For example, if we want to add Squeeze and Excitation to the resnet bottleneck block, we can just
 
+
 ```python
 from glasses.nn.att import SpatialSE
-from glasses.models.classification import ResNetBottleneckBlock
-
+from  glasses.models.classification.resnet import ResNetBottleneckBlock
 
 class SEResNetBottleneckBlock(ResNetBottleneckBlock):
     def __init__(self, in_features: int, out_features: int, squeeze: int = 16, *args, **kwargs):
         super().__init__(in_features, out_features, *args, **kwargs)
         # all the weights are in block, we want to apply se after the weights
         self.block.add_module('se', SpatialSE(out_features, reduction=squeeze))
-
-
+        
 SEResNetBottleneckBlock(32, 64)
 ```
 
@@ -230,9 +232,9 @@ ResNet.resnet50(block=ResNetBottleneckBlock)
 
 The cool thing is each model has the same api, if I want to create a vgg13 with the `ResNetBottleneckBlock` I can just
 
+
 ```python
 from glasses.models import VGG
-
 model = VGG.vgg13(block=SEResNetBottleneckBlock)
 model.summary()
 ```
@@ -243,8 +245,9 @@ Some specific model can require additional parameter to the block, for example `
 
 A `Layer` is a collection of blocks, it is used to stack multiple blocks together following some logic. For example, `ResNetLayer`
 
+
 ```python
-from glasses.models.classification import ResNetLayer
+from glasses.models.classification.resnet import ResNetLayer
 
 ResNetLayer(64, 128, depth=2)
 ```
@@ -262,13 +265,13 @@ The encoder is what encoders a vector, so the convolution layers. It has always 
 
 For example, `ResNetEncoder` will creates multiple `ResNetLayer` based on the len of `widths` and `depths`. Let's see some example.
 
-```python
-from glasses.models.classification import ResNetEncoder
 
+```python
+from glasses.models.classification.resnet import ResNetEncoder
 # 3 layers, with 32,64,128 features and 1,2,3 block each
 ResNetEncoder(
-    widths=[32, 64, 128],
-    depths=[1, 2, 3])
+    widths=[32,64,128],
+    depths=[1,2,3])
 
 ```
 
@@ -284,6 +287,7 @@ print([f.shape for f in enc.features])
 
 **Remember** each model has always a `.decoder` field
 
+
 ```python
 from glasses.models import ResNet
 
@@ -297,14 +301,15 @@ The encoder knows the number of output features, you can access them by
 
 Each encoder can return a list of features accessable by the `.features` field. You need to call it once before in order to notify the encoder we wish to also store the features
 
-```python
-from glasses.models.classification import ResNetEncoder
 
-x = torch.randn(1, 3, 224, 224)
+```python
+from glasses.models.classification.resnet import ResNetEncoder
+
+x = torch.randn(1,3,224,224)
 enc = ResNetEncoder()
-enc.features  # call it once
+enc.features # call it once
 enc(x)
-features = enc.features  # now we have all the features from each layer (stage)
+features = enc.features # now we have all the features from each layer (stage)
 [print(f.shape) for f in features]
 # torch.Size([1, 64, 112, 112])
 # torch.Size([1, 64, 56, 56])
@@ -316,8 +321,10 @@ features = enc.features  # now we have all the features from each layer (stage)
 
 Head is the last part of the model, it usually perform the classification
 
+
 ```python
-from glasses.models.classification import ResNetHead
+from glasses.models.classification.resnet import ResNetHead
+
 
 ResNetHead(512, n_classes=1000)
 ```
@@ -326,12 +333,12 @@ ResNetHead(512, n_classes=1000)
 
 The decoder takes the last feature from the `.encoder` and decode it. This is usually done in `segmentation` models, such as Unet.
 
-```python
-from glasses.models import UNetDecoder
 
-x = torch.randn(1, 3, 224, 224)
+```python
+from glasses.models.segmentation.unet import UNetDecoder
+x = torch.randn(1,3,224,224)
 enc = ResNetEncoder()
-enc.features  # call it once
+enc.features # call it once
 x = enc(x)
 features = enc.features
 # we need to tell the decoder the first feature size and the size of the lateral features
@@ -373,6 +380,18 @@ The models so far
 | resnext101_32x16d  | 194,026,792  |      740.15 |
 | resnext101_32x32d  | 468,530,472  |     1787.3  |
 | resnext101_32x48d  | 828,411,176  |     3160.14 |
+| regnetx_002        | 2,684,792    |       10.24 |
+| regnetx_004        | 5,157,512    |       19.67 |
+| regnetx_006        | 6,196,040    |       23.64 |
+| regnetx_008        | 7,259,656    |       27.69 |
+| regnetx_016        | 9,190,136    |       35.06 |
+| regnetx_032        | 15,296,552   |       58.35 |
+| regnety_002        | 3,162,996    |       12.07 |
+| regnety_004        | 4,344,144    |       16.57 |
+| regnety_006        | 6,055,160    |       23.1  |
+| regnety_008        | 6,263,168    |       23.89 |
+| regnety_016        | 11,202,430   |       42.73 |
+| regnety_032        | 19,436,338   |       74.14 |
 | wide_resnet50_2    | 68,883,240   |      262.77 |
 | wide_resnet101_2   | 126,886,696  |      484.03 |
 | densenet121        | 7,978,856    |       30.44 |
