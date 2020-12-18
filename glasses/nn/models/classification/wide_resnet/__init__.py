@@ -22,6 +22,7 @@ class WideResNetBottleNeckBlock(ResNetBottleneckBlock):
 
     def __init__(self, in_features: int, out_features: int, width_factor: int = 2, reduction: int = 4, **kwargs):
         features = int(out_features * width_factor // reduction)
+        
         super().__init__(in_features, out_features,
                          features=features,  reduction=reduction, **kwargs)
 

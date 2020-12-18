@@ -35,6 +35,6 @@ class AutoConfig:
         cfg = AutoConfig.zoo.get(name, AutoConfig.zoo['default'])
         return cfg
 
-    @property
-    def names(self):
-        return self.zoo.keys()
+    @staticmethod
+    def names():
+        return AutoConfig.zoo.keys()

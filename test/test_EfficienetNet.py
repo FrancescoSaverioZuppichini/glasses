@@ -28,13 +28,6 @@ def test_EfficientNetb2():
 
     assert pred.shape[-1] == 1000
 
-    
-def test_EfficientNetb3():
-    x = torch.rand(1, 3, 224, 224)
-    model = EfficientNet.efficientnet_b3()
-    pred = model(x)
-    assert pred.shape[-1] == 1000
-
 def test_EfficientNetb3():
     x = torch.rand(1, 3, 224, 224)
     model = EfficientNet.efficientnet_b3()

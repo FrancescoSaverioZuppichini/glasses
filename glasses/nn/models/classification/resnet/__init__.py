@@ -79,7 +79,7 @@ class ResNetBasicBlock(nn.Module):
                  activation: nn.Module = ReLUInPlace,
                  stride: int = 1, shortcut: nn.Module = ResNetShorcut, **kwargs):
         super().__init__()
-        self.should_apply_shortcut = in_features != out_features
+        self.should_apply_shortcut = in_features != out_features or stride != 1
 
         self.block = nn.Sequential(
             OrderedDict(
@@ -128,20 +128,16 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
 
     def __init__(self, in_features: int, out_features: int, features: int = None, activation: nn.Module = ReLUInPlace, reduction: int = 4, stride=1, shortcut=ResNetShorcut, **kwargs):
         super().__init__(in_features, out_features, activation, stride, shortcut=shortcut)
+        print
         self.features = out_features // reduction if features is None else features
         self.block = nn.Sequential(
-            OrderedDict(
-                {
-                    'conv1': Conv2dPad(in_features, self.features, kernel_size=1, bias=False),
-                    'bn1': nn.BatchNorm2d(self.features),
-                    'act1': activation(),
-                    'conv2': Conv2dPad(self.features, self.features, kernel_size=3, bias=False, stride=stride, **kwargs),
-                    'bn2': nn.BatchNorm2d(self.features),
-                    'act2': activation(),
-                    'conv3': Conv2dPad(self.features, out_features, kernel_size=1, bias=False),
-                    'bn3': nn.BatchNorm2d(out_features),
-                }
-            ))
+            ConvBnAct(in_features, self.features,
+                      activation=activation, kernel_size=1),
+            ConvBnAct(self.features, self.features, activation=activation,
+                      kernel_size=3, stride=stride, **kwargs),
+            ConvBnAct(self.features, out_features,
+                      activation=None, kernel_size=1),
+        )
 
 
 class ResNetBasicPreActBlock(ResNetBasicBlock):
@@ -261,7 +257,7 @@ class ResNetEncoder(Encoder):
     """
 
     def __init__(self, in_channels: int = 3, start_features: int = 64,  widths: List[int] = [64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2],
-                 activation: nn.Module = ReLUInPlace, block: nn.Module = ResNetBasicBlock, stem: nn.Module = ResNetStem, **kwargs):
+                 activation: nn.Module = ReLUInPlace, block: nn.Module = ResNetBasicBlock, stem: nn.Module = ResNetStem, downsample_first: bool = False, **kwargs):
 
         super().__init__()
         self.widths = widths
@@ -270,9 +266,8 @@ class ResNetEncoder(Encoder):
         self.stem = stem(in_channels, start_features, activation)
 
         self.layers = nn.ModuleList([
-            nn.Sequential(
                 ResNetLayer(start_features, widths[0], depth=depths[0], activation=activation,
-                            block=block, stride=1, **kwargs)),
+                            block=block, stride=2 if downsample_first else 1, **kwargs),
             *[ResNetLayer(in_features,
                           out_features, depth=n, activation=activation,
                           block=block,  **kwargs)
@@ -311,8 +306,6 @@ class ResNetHead(nn.Sequential):
 class ResNet(VisionModule):
     """Implementation of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`_
 
-    Create a default model
-
     Examples:
 
     Vanilla models
@@ -325,7 +318,7 @@ class ResNet(VisionModule):
         >>> ResNet.resnet152()
         >>> ResNet.resnet200()
 
-    Variants (d) proposed in `Bag of Tricks for Image Classification with Convolutional Neural Networks <https://arxiv.org/pdf/1812.01187.pdf>`_
+        Variants (d) proposed in `Bag of Tricks for Image Classification with Convolutional Neural Networks <https://arxiv.org/pdf/1812.01187.pdf>`_
 
         >>> ResNet.resnet26d()
         >>> ResNet.resnet50d()
@@ -363,7 +356,7 @@ class ResNet(VisionModule):
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
-    
+
     def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = ResNetEncoder(in_channels, *args, **kwargs)

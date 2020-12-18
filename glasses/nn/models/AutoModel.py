@@ -1,18 +1,19 @@
 from torch import nn
 import difflib
 from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
+from typing import Callable, Any
+from functools import wraps
 from .classification import *
 from .segmentation import *
-
 
 class AutoModel:
     """This class returns a model based on its name
 
     Examples:
 
-        >>> AutoConfig.from_name('resnet18')
-        >>> AutoConfig.from_name('resnet18', activation=nn.SELU)
-        >>> AutoConfig.from_pretrained('resnet18')
+        >>> AutoModel.from_name('resnet18')
+        >>> AutoModel.from_name('resnet18', activation=nn.SELU)
+        >>> AutoModel.from_pretrained('resnet18')
 
 
     Raises:
@@ -48,10 +49,18 @@ class AutoModel:
         'resnext101_32x16d': ResNetXt.resnext101_32x16d,
         'resnext101_32x32d': ResNetXt.resnext101_32x32d,
         'resnext101_32x48d': ResNetXt.resnext101_32x48d,
-        'resnext101_32x32d': ResNetXt.resnext101_32x32d,
-        'resnext101_32x48d': ResNetXt.resnext101_32x48d,
-        'resnext101_32x32d': ResNetXt.resnext101_32x32d,
-        'resnext101_32x48d': ResNetXt.resnext101_32x48d,
+        'regnetx_002': RegNet.regnetx_002,
+        'regnetx_004': RegNet.regnetx_004,
+        'regnetx_006': RegNet.regnetx_006,
+        'regnetx_008': RegNet.regnetx_008,
+        'regnetx_016': RegNet.regnetx_016,
+        'regnetx_032': RegNet.regnetx_032,
+        'regnety_002': RegNet.regnety_002,
+        'regnety_004': RegNet.regnety_004,
+        'regnety_006': RegNet.regnety_006,
+        'regnety_008': RegNet.regnety_008,
+        'regnety_016': RegNet.regnety_016,
+        'regnety_032': RegNet.regnety_032,
         'wide_resnet50_2': WideResNet.wide_resnet50_2,
         'wide_resnet101_2': WideResNet.wide_resnet101_2,
         'densenet121': DenseNet.densenet121,
@@ -86,6 +95,13 @@ class AutoModel:
         'mobilenetv2': MobileNet.mobilenet_v2,
         'unet': UNet
     }
+    
+    # @staticmethod  
+    # def add(name, func): 
+    #     key = name
+    #     AutoModel.zoo[key] = func
+    #     return func
+
 
     @staticmethod
     def from_name(name: str, *args, **kwargs) -> nn.Module:
@@ -114,6 +130,7 @@ class AutoModel:
         model = AutoModel.from_name(name, pretrained=True, *args, **kwargs)
         return model
 
-    @property
-    def models(self):
-        return self.zoo.keys()
+    @staticmethod
+    def models():
+        return AutoModel.zoo.keys()
+
