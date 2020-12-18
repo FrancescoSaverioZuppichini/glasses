@@ -1,16 +1,15 @@
 import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
-import matplotlib.pyplot as plt
-
+from glasses.utils.Storage import BackwardModuleStorage, ForwardModuleStorage
 from torch import nn
-from .utils import convert_to_grayscale
-from torch.nn import ReLU
 from torch.autograd import Variable
+from torch.nn import ReLU
 from torchvision.transforms import *
-from glasses.utils.Storage import ForwardModuleStorage, BackwardModuleStorage
-from .utils import find_first_layer
+
 from .Interpretability import Interpretability
+from .utils import convert_to_grayscale, find_first_layer
 
 
 class SaliencyMapResult:

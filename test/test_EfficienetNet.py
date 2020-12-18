@@ -1,6 +1,7 @@
-from glasses.nn.models.classification.efficientnet import EfficientNet, EfficientNetLite
 import torch
 import torch.nn as nn
+from glasses.models.classification import EfficientNet, EfficientNetLite
+
 
 def test_EfficientNet():
     x = torch.rand((1, 3, 224, 224))

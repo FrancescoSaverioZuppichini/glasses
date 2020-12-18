@@ -1,5 +1,5 @@
 import torch
-from glasses.nn.models.classification.vgg import VGG
+from glasses.models.classification import VGG
 from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
 
 

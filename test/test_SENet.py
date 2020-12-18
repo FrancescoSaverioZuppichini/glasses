@@ -1,5 +1,5 @@
 import torch
-from glasses.nn.models.classification.senet import SEResNet
+from glasses.models.classification import SEResNet
 
 
 def test_seresnet():
