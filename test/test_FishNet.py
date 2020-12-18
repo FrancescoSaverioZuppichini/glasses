@@ -1,8 +1,9 @@
 import torch
 import torch.nn as nn
-from torchsummary import summary
-from glasses.nn.models.classification.fishnet import FishNet, FishNetBottleNeck
+from glasses.models.classification.fishnet import FishNet, FishNetBottleNeck
 from glasses.nn.att import SpatialSE
+from torchsummary import summary
+
 
 def test_fishnet():
     device = torch.device('cpu')

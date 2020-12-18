@@ -1,8 +1,8 @@
-import torch
-from glasses.nn.models.classification.regnet import *
-from glasses.nn.models.classification.resnet import ResNetStemC, ResNetShorcutD
-
 from functools import partial
+
+import torch
+from glasses.models.classification.regnet import *
+from glasses.models.classification.resnet import ResNetShorcutD, ResNetStemC
 
 
 def test_regnet():

@@ -1,5 +1,5 @@
 import torch
-from glasses.nn.models.classification.densenet import DenseNet
+from glasses.models.classification import DenseNet
 
 
 def test_DenseNet():
