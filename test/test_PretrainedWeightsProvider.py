@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider, Config, GoogleDriveUrlHandler, BasicUrlHandler, pretrained    
-from glasses.nn.models.classification.resnet import ResNet
+from glasses.models.classification import ResNet
 import pytest
 from pathlib import Path
 import os

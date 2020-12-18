@@ -1,8 +1,10 @@
-from glasses.nn.models import AutoConfig, AutoModel
-from glasses.utils.PretrainedWeightsProvider import Config, pretrained, BasicUrlHandler, PretrainedWeightsProvider
-from glasses.nn import ResNet
 import pytest
+from glasses.models import AutoConfig, AutoModel, ResNet
+from glasses.utils.PretrainedWeightsProvider import (BasicUrlHandler, Config,
+                                                     PretrainedWeightsProvider,
+                                                     pretrained)
 from torch import nn
+
 
 class Dummy(nn.Sequential):
     def __init__(self):

@@ -1,8 +1,11 @@
-import torch
-from glasses.nn.models.classification.resnet import *
-from glasses.nn.models.classification.resnetxt import ResNetXt
-from glasses.nn.models.classification.wide_resnet import WideResNet, WideResNetBottleNeckBlock
 from functools import partial
+
+import torch
+from glasses.models.classification.resnet import *
+from glasses.models.classification.resnetxt import ResNetXt
+from glasses.models.classification.wide_resnet import (
+    WideResNet, WideResNetBottleNeckBlock)
+
 
 def test_resnet():
     with torch.no_grad():

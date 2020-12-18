@@ -1,7 +1,7 @@
-from glasses.nn.models.base.protocols import Freezable, Interpretable
-from glasses.interpretability import GradCam
-import torch.nn as nn
 import torch
+import torch.nn as nn
+from glasses.interpretability import GradCam
+from glasses.models.base import Freezable, Interpretable
 
 
 def test_Freezable():

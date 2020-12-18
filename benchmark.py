@@ -12,7 +12,7 @@ from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet15
 from torchvision.models import densenet121, densenet161, densenet169, densenet201
 from torchvision.models import vgg11, vgg13, vgg16, vgg19
 from torchvision.models import mobilenet_v2
-from glasses.nn.models import *
+from glasses.models import *
 from tqdm.autonotebook import tqdm
 from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
 from functools import partial
