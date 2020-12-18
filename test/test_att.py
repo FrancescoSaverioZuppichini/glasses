@@ -27,6 +27,6 @@ def test_att():
 
     eca = EfficientChannelAtt(x.shape[1])
 
-    res = se(x)
+    res = eca(x)
     assert res.shape == x.shape
     

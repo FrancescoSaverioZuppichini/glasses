@@ -3,6 +3,7 @@ from torch import nn
 from glasses.interpretability import GradCam, SaliencyMap
 from glasses.interpretability.utils import *
 import matplotlib.pyplot as plt
+from torchvision.transforms import Resize, ToPILImage, ToTensor, Compose
 
 def test_gradcam():
     x = torch.rand((1, 3, 224, 224))
@@ -27,6 +28,11 @@ def test_gradcam():
     cam_res = cam(x, model, layer=model[0])
     assert type(cam_res.cam) == torch.Tensor
 
+    assert cam_res.show()
+
+    cam_res = cam(x, model, postprocessing=Compose([lambda x: x.squeeze(0), ToPILImage(), Resize(224), ToTensor()]))
+
+    assert type(cam_res.cam) == torch.Tensor
     assert cam_res.show()
 
 

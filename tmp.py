@@ -1,8 +1,5 @@
-import segmentation_models_pytorch as smp
-import torch
+from glasses.nn.models import AutoModel, AutoConfig
+from glasses.nn.models import ResNet
 
-x = torch.randn(1,3,224,224)
-model = smp.Unet('resnet34')
-pred = model(x)
-
-print(pred, pred.shape)
+# ResNet.resnet18()
+print(AutoModel.zoo['resnet18']())

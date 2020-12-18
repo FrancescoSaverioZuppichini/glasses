@@ -25,7 +25,7 @@ class ResNetXtBottleNeckBlock(ResNetBottleneckBlock):
         """
         features = (int(out_features * (base_width / 64) / reduction) * groups)
         super().__init__(in_features, out_features,
-                         features=features, groups=groups, **kwargs)
+                         features=features, groups=groups, reduction=reduction, **kwargs)
 
 
 class ResNetXt(ResNet):

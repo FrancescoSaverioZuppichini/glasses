@@ -97,8 +97,8 @@ class ConvBnAct(nn.Sequential):
             activation (nn.Module, optional): Activation function. Defaults to nn.ReLU.
     """
 
-    def __init__(self, in_features: int, out_features: int, conv: nn.Module = Conv2dPad,
-                 normalization: nn.Module = nn.BatchNorm2d, activation: nn.Module = nn.ReLU, *args, bias: bool = False, **kwargs):
+    def __init__(self, in_features: int, out_features: int, activation: nn.Module = nn.ReLU, conv: nn.Module = Conv2dPad,
+                 normalization: nn.Module = nn.BatchNorm2d,  *args, bias: bool = False, **kwargs):
         super().__init__()
         self.add_module('conv', conv(
             in_features, out_features, **kwargs, bias=bias))

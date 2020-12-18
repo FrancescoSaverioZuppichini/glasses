@@ -4,7 +4,7 @@ from glasses.nn.models.classification.senet import SENetBasicBlock
 from glasses.nn.models.classification.resnet import ResNet, ResNetBasicBlock, ResNetEncoder, ResNetBottleneckBlock
 from glasses.nn.models.classification import EfficientNet
 from glasses.nn.models.classification import EfficientNetLite
-from glasses import AutoModel
+from glasses.nn.models import AutoModel
 from glasses.nn.blocks import Conv2dPad
 from functools import partial
 import pytest
