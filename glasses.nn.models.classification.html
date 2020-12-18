@@ -192,6 +192,7 @@
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.models.classification.efficientnet.html">glasses.nn.models.classification.efficientnet package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.models.classification.fishnet.html">glasses.nn.models.classification.fishnet package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.models.classification.mobilenet.html">glasses.nn.models.classification.mobilenet package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasses.nn.models.classification.regnet.html">glasses.nn.models.classification.regnet package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.models.classification.resnet.html">glasses.nn.models.classification.resnet package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.models.classification.resnetxt.html">glasses.nn.models.classification.resnetxt package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.models.classification.senet.html">glasses.nn.models.classification.senet package</a></li>
@@ -690,14 +691,206 @@ registered hooks while the latter silently ignores them.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt id="glasses.nn.models.classification.RegNet">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.</code><code class="sig-name descname">RegNet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.nn.models.classification.resnet.html#glasses.nn.models.classification.resnet.ResNet" title="glasses.nn.models.classification.resnet.ResNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.classification.resnet.ResNet</span></code></a></p>
+<p>Implementation of RegNet proposed in <a class="reference external" href="https://arxiv.org/abs/2003.13678">Designing Network Design Spaces</a></p>
+<p>The main idea is to start with a high dimensional search space and iteratively reduce the search space by empirically apply
+constrains based on the best performing models sampled by the current search space.</p>
+<p>The resulting models are light, accurate, and faster than EfficientNets (up to 5x times!)</p>
+<p>For example, to go from <span class="math notranslate nohighlight">\(AnyNet_A\)</span> to <span class="math notranslate nohighlight">\(AnyNet_B\)</span> they fixed the bottleneck ratio <span class="math notranslate nohighlight">\(b_i\)</span> for all stage <span class="math notranslate nohighlight">\(i\)</span>. The following table
+shows all the restrictions applied from one search space to the next one.</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/RegNetDesignSpaceTable.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/RegNetDesignSpaceTable.png?raw=true" />
+<p>The paper is really well written and very interesting paper, I highly recommended to read it.</p>
+<p class="rubric">Examples</p>
+<p>Vanilla models</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_002</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_006</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_008</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_016</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_040</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_064</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_080</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_120</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_160</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_320</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Y variants (with SE)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnety_002</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># ...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_320</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Customization</p>
+<p>You can easily customize your model</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">RegNetYBotteneckBlock</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the steam</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">(</span><span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">change</span> <span class="n">shortcut</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">RegNetYBotteneckBlock</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcutD</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store each feature</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get features</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get the features from the encoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#[torch.Size([1, 32, 112, 112]), torch.Size([1, 32, 56, 56]), torch.Size([1, 64, 28, 28]), torch.Size([1, 160, 14, 14])]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</p></li>
+<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of classes. Defaults to 1000.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="glasses.nn.models.classification.RegNet.models_config">
+<code class="sig-name descname">models_config</code><em class="property"> = {'regnetx_002': ([1, 1, 4, 7], [24, 56, 152, 368], 8), 'regnetx_004': ([1, 2, 7, 12], [32, 64, 160, 384], 16), 'regnetx_006': ([1, 3, 5, 7], [48, 96, 240, 528], 24), 'regnetx_008': ([1, 3, 7, 5], [64, 128, 288, 672], 16), 'regnetx_016': ([2, 4, 10, 2], [72, 168, 408, 912], 24), 'regnetx_032': ([2, 6, 15, 2], [96, 192, 432, 1008], 48), 'regnetx_040': ([2, 5, 14, 2], [80, 240, 560, 1360], 40), 'regnetx_064': ([2, 4, 10, 1], [168, 392, 784, 1624], 56), 'regnetx_080': ([2, 5, 15, 1], [80, 240, 720, 1920], 80), 'regnetx_120': ([2, 5, 11, 1], [224, 448, 896, 2240], 112), 'regnetx_160': ([2, 6, 13, 1], [256, 512, 896, 2048], 128), 'regnetx_320': ([2, 7, 13, 1], [336, 672, 1344, 2520], 168), 'regnety_002': ([1, 1, 4, 7], [24, 56, 152, 368], 8), 'regnety_004': ([1, 3, 6, 6], [48, 104, 208, 440], 8), 'regnety_006': ([1, 3, 7, 4], [48, 112, 256, 608], 16), 'regnety_008': ([1, 3, 8, 2], [64, 128, 320, 768], 16), 'regnety_016': ([2, 6, 17, 2], [48, 120, 336, 888], 24), 'regnety_032': ([2, 5, 13, 1], [72, 216, 576, 1512], 24), 'regnety_040': ([2, 6, 12, 2], [128, 192, 512, 1088], 64), 'regnety_064': ([2, 7, 14, 2], [144, 288, 576, 1296], 72), 'regnety_080': ([2, 4, 10, 1], [168, 448, 896, 2016], 56), 'regnety_120': ([2, 5, 11, 1], [224, 448, 896, 2240], 112), 'regnety_160': ([2, 4, 11, 1], [224, 448, 1232, 3024], 112), 'regnety_320': ([2, 5, 12, 1], [232, 696, 1392, 3712], 232)}</em><a class="headerlink" href="#glasses.nn.models.classification.RegNet.models_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnetx_002">
+<em class="property">classmethod </em><code class="sig-name descname">regnetx_002</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnetx_002"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnetx_002" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnetx_004">
+<em class="property">classmethod </em><code class="sig-name descname">regnetx_004</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnetx_004"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnetx_004" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnetx_006">
+<em class="property">classmethod </em><code class="sig-name descname">regnetx_006</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnetx_006"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnetx_006" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnetx_008">
+<em class="property">classmethod </em><code class="sig-name descname">regnetx_008</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnetx_008"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnetx_008" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnetx_016">
+<em class="property">classmethod </em><code class="sig-name descname">regnetx_016</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnetx_016"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnetx_016" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnetx_032">
+<em class="property">classmethod </em><code class="sig-name descname">regnetx_032</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnetx_032"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnetx_032" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnetx_040">
+<em class="property">classmethod </em><code class="sig-name descname">regnetx_040</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnetx_040"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnetx_040" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnetx_064">
+<em class="property">classmethod </em><code class="sig-name descname">regnetx_064</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnetx_064"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnetx_064" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnetx_080">
+<em class="property">classmethod </em><code class="sig-name descname">regnetx_080</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnetx_080"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnetx_080" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnetx_120">
+<em class="property">classmethod </em><code class="sig-name descname">regnetx_120</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnetx_120"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnetx_120" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnetx_160">
+<em class="property">classmethod </em><code class="sig-name descname">regnetx_160</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnetx_160"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnetx_160" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnetx_320">
+<em class="property">classmethod </em><code class="sig-name descname">regnetx_320</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnetx_320"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnetx_320" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnety_002">
+<em class="property">classmethod </em><code class="sig-name descname">regnety_002</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnety_002"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnety_002" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnety_004">
+<em class="property">classmethod </em><code class="sig-name descname">regnety_004</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnety_004"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnety_004" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnety_006">
+<em class="property">classmethod </em><code class="sig-name descname">regnety_006</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnety_006"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnety_006" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnety_008">
+<em class="property">classmethod </em><code class="sig-name descname">regnety_008</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnety_008"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnety_008" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnety_016">
+<em class="property">classmethod </em><code class="sig-name descname">regnety_016</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnety_016"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnety_016" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnety_032">
+<em class="property">classmethod </em><code class="sig-name descname">regnety_032</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnety_032"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnety_032" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnety_040">
+<em class="property">classmethod </em><code class="sig-name descname">regnety_040</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnety_040"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnety_040" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnety_064">
+<em class="property">classmethod </em><code class="sig-name descname">regnety_064</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnety_064"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnety_064" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnety_080">
+<em class="property">classmethod </em><code class="sig-name descname">regnety_080</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnety_080"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnety_080" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnety_120">
+<em class="property">classmethod </em><code class="sig-name descname">regnety_120</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnety_120"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnety_120" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnety_160">
+<em class="property">classmethod </em><code class="sig-name descname">regnety_160</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnety_160"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnety_160" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.nn.models.classification.RegNet.regnety_320">
+<em class="property">classmethod </em><code class="sig-name descname">regnety_320</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/regnet.html#RegNet.regnety_320"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.RegNet.regnety_320" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt id="glasses.nn.models.classification.ResNet">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.</code><code class="sig-name descname">ResNet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/resnet.html#ResNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.ResNet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.nn.models.base.html#glasses.nn.models.base.VisionModule" title="glasses.nn.models.base.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.base.VisionModule</span></code></a></p>
 <p>Implementation of ResNet proposed in <a class="reference external" href="https://arxiv.org/abs/1512.03385">Deep Residual Learning for Image Recognition</a></p>
-<p>Create a default model</p>
 <p>Examples:</p>
 <p>Vanilla models</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span>
+<blockquote>
+<div><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet34</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">()</span>
@@ -713,6 +906,7 @@ registered hooks while the latter silently ignores them.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">resnet101d</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcutD</span><span class="p">))</span>
 </pre></div>
 </div>
+</div></blockquote>
 <p>Customization</p>
 <p>You can easily customize your model</p>
 <p class="rubric">Examples</p>

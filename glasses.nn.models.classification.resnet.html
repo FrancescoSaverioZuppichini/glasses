@@ -38,7 +38,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="glasses.nn.models.classification.resnetxt package" href="glasses.nn.models.classification.resnetxt.html" />
-    <link rel="prev" title="glasses.nn.models.classification.mobilenet package" href="glasses.nn.models.classification.mobilenet.html" /> 
+    <link rel="prev" title="glasses.nn.models.classification.regnet package" href="glasses.nn.models.classification.regnet.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -192,10 +192,10 @@
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.resnet.</code><code class="sig-name descname">ResNet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/resnet.html#ResNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.resnet.ResNet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.nn.models.base.html#glasses.nn.models.base.VisionModule" title="glasses.nn.models.base.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.base.VisionModule</span></code></a></p>
 <p>Implementation of ResNet proposed in <a class="reference external" href="https://arxiv.org/abs/1512.03385">Deep Residual Learning for Image Recognition</a></p>
-<p>Create a default model</p>
 <p>Examples:</p>
 <p>Vanilla models</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span>
+<blockquote>
+<div><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet34</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">()</span>
@@ -211,6 +211,7 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">resnet101d</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcutD</span><span class="p">))</span>
 </pre></div>
 </div>
+</div></blockquote>
 <p>Customization</p>
 <p>You can easily customize your model</p>
 <p class="rubric">Examples</p>
@@ -518,7 +519,7 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py class">
 <dt id="glasses.nn.models.classification.resnet.ResNetEncoder">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.resnet.</code><code class="sig-name descname">ResNetEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, start_features: int = 64, widths: List[int] = [64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2], activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;, inplace=True), block: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.classification.resnet.ResNetBasicBlock'&gt;, stem: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.classification.resnet.ResNetStem'&gt;, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/resnet.html#ResNetEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.resnet.ResNetEncoder" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.classification.resnet.</code><code class="sig-name descname">ResNetEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, start_features: int = 64, widths: List[int] = [64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2], activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;, inplace=True), block: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.classification.resnet.ResNetBasicBlock'&gt;, stem: torch.nn.modules.module.Module = &lt;class 'glasses.nn.models.classification.resnet.ResNetStem'&gt;, downsample_first: bool = False, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/models/classification/resnet.html#ResNetEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.classification.resnet.ResNetEncoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.nn.models.base.html#glasses.nn.models.base.Encoder" title="glasses.nn.models.base.Encoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.models.base.Encoder</span></code></a></p>
 <p>ResNet encoder composed by increasing different layers with increasing features.</p>
 <dl class="field-list simple">
@@ -698,7 +699,7 @@ times more expensive than a 3 × 3 convolution. So this tweak replacing the 7 ×
         <a href="glasses.nn.models.classification.resnetxt.html" class="btn btn-neutral float-right" title="glasses.nn.models.classification.resnetxt package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="glasses.nn.models.classification.mobilenet.html" class="btn btn-neutral float-left" title="glasses.nn.models.classification.mobilenet package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="glasses.nn.models.classification.regnet.html" class="btn btn-neutral float-left" title="glasses.nn.models.classification.regnet package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

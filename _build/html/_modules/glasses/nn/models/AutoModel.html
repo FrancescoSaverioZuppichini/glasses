@@ -156,18 +156,19 @@
 <span></span><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
 <span class="kn">import</span> <span class="nn">difflib</span>
 <span class="kn">from</span> <span class="nn">glasses.utils.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">PretrainedWeightsProvider</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
 <span class="kn">from</span> <span class="nn">.classification</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.segmentation</span> <span class="kn">import</span> <span class="o">*</span>
-
 
 <div class="viewcode-block" id="AutoModel"><a class="viewcode-back" href="../../../../glasses.nn.models.html#glasses.nn.models.AutoModel.AutoModel">[docs]</a><span class="k">class</span> <span class="nc">AutoModel</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;This class returns a model based on its name</span>
 
 <span class="sd">    Examples:</span>
 
-<span class="sd">        &gt;&gt;&gt; AutoConfig.from_name(&#39;resnet18&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; AutoConfig.from_name(&#39;resnet18&#39;, activation=nn.SELU)</span>
-<span class="sd">        &gt;&gt;&gt; AutoConfig.from_pretrained(&#39;resnet18&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; AutoModel.from_name(&#39;resnet18&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; AutoModel.from_name(&#39;resnet18&#39;, activation=nn.SELU)</span>
+<span class="sd">        &gt;&gt;&gt; AutoModel.from_pretrained(&#39;resnet18&#39;)</span>
 
 
 <span class="sd">    Raises:</span>
@@ -203,10 +204,18 @@
         <span class="s1">&#39;resnext101_32x16d&#39;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x16d</span><span class="p">,</span>
         <span class="s1">&#39;resnext101_32x32d&#39;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x32d</span><span class="p">,</span>
         <span class="s1">&#39;resnext101_32x48d&#39;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x48d</span><span class="p">,</span>
-        <span class="s1">&#39;resnext101_32x32d&#39;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x32d</span><span class="p">,</span>
-        <span class="s1">&#39;resnext101_32x48d&#39;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x48d</span><span class="p">,</span>
-        <span class="s1">&#39;resnext101_32x32d&#39;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x32d</span><span class="p">,</span>
-        <span class="s1">&#39;resnext101_32x48d&#39;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x48d</span><span class="p">,</span>
+        <span class="s1">&#39;regnetx_002&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_002</span><span class="p">,</span>
+        <span class="s1">&#39;regnetx_004&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">,</span>
+        <span class="s1">&#39;regnetx_006&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_006</span><span class="p">,</span>
+        <span class="s1">&#39;regnetx_008&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_008</span><span class="p">,</span>
+        <span class="s1">&#39;regnetx_016&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_016</span><span class="p">,</span>
+        <span class="s1">&#39;regnetx_032&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_032</span><span class="p">,</span>
+        <span class="s1">&#39;regnety_002&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_002</span><span class="p">,</span>
+        <span class="s1">&#39;regnety_004&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_004</span><span class="p">,</span>
+        <span class="s1">&#39;regnety_006&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_006</span><span class="p">,</span>
+        <span class="s1">&#39;regnety_008&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_008</span><span class="p">,</span>
+        <span class="s1">&#39;regnety_016&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_016</span><span class="p">,</span>
+        <span class="s1">&#39;regnety_032&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_032</span><span class="p">,</span>
         <span class="s1">&#39;wide_resnet50_2&#39;</span><span class="p">:</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet50_2</span><span class="p">,</span>
         <span class="s1">&#39;wide_resnet101_2&#39;</span><span class="p">:</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet101_2</span><span class="p">,</span>
         <span class="s1">&#39;densenet121&#39;</span><span class="p">:</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">,</span>
@@ -241,6 +250,13 @@
         <span class="s1">&#39;mobilenetv2&#39;</span><span class="p">:</span> <span class="n">MobileNet</span><span class="o">.</span><span class="n">mobilenet_v2</span><span class="p">,</span>
         <span class="s1">&#39;unet&#39;</span><span class="p">:</span> <span class="n">UNet</span>
     <span class="p">}</span>
+    
+    <span class="c1"># @staticmethod  </span>
+    <span class="c1"># def add(name, func): </span>
+    <span class="c1">#     key = name</span>
+    <span class="c1">#     AutoModel.zoo[key] = func</span>
+    <span class="c1">#     return func</span>
+
 
 <div class="viewcode-block" id="AutoModel.from_name"><a class="viewcode-back" href="../../../../glasses.nn.models.html#glasses.nn.models.AutoModel.AutoModel.from_name">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
@@ -269,9 +285,10 @@
         <span class="n">model</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">model</span></div>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">models</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoo</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
+<div class="viewcode-block" id="AutoModel.models"><a class="viewcode-back" href="../../../../glasses.nn.models.html#glasses.nn.models.AutoModel.AutoModel.models">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">models</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">zoo</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div></div>
+
 </pre></div>
 
            </div>

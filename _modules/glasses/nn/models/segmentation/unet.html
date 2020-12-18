@@ -283,25 +283,6 @@
 
         <span class="k">return</span> <span class="n">x</span></div></div>
 
-
-<div class="viewcode-block" id="WithFeatures"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.WithFeatures">[docs]</a><span class="k">class</span> <span class="nc">WithFeatures</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backbone</span><span class="p">,</span> <span class="n">stages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">features_widths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">backbone</span> <span class="o">=</span> <span class="n">backbone</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stages</span> <span class="o">=</span> <span class="n">backbone</span><span class="o">.</span><span class="n">layers</span> <span class="k">if</span> <span class="n">stages</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">stages</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">features_widths</span> <span class="o">=</span> <span class="n">backbone</span><span class="o">.</span><span class="n">widths</span> <span class="k">if</span> <span class="n">features_widths</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">features_widths</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">storage</span> <span class="o">=</span> <span class="n">ForwardModuleStorage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">backbone</span><span class="p">,</span> <span class="p">[</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">stages</span><span class="p">])</span>
-
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">backbone</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">features</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
-
-
 <div class="viewcode-block" id="UNet"><a class="viewcode-back" href="../../../../../glasses.nn.models.segmentation.unet.html#glasses.nn.models.UNet">[docs]</a><span class="k">class</span> <span class="nc">UNet</span><span class="p">(</span><span class="n">SegmentationModule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implementation of Unet proposed in `U-Net: Convolutional Networks for Biomedical Image Segmentation &lt;https://arxiv.org/abs/1505.04597&gt;`_</span>
 
