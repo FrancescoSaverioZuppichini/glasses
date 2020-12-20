@@ -29,7 +29,6 @@
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/doctools.js"></script>
-        <script src="../../../../_static/language_data.js"></script>
         <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
@@ -476,6 +475,7 @@
 <span class="sd">        Variants (d) proposed in `Bag of Tricks for Image Classification with Convolutional Neural Networks &lt;https://arxiv.org/pdf/1812.01187.pdf&gt;`_</span>
 
 <span class="sd">        &gt;&gt;&gt; ResNet.resnet26d()</span>
+<span class="sd">        &gt;&gt;&gt; ResNet.resnet34d()</span>
 <span class="sd">        &gt;&gt;&gt; ResNet.resnet50d()</span>
 <span class="sd">        &gt;&gt;&gt; # You can construct your own one by chaning `stem` and `block`</span>
 <span class="sd">        &gt;&gt;&gt; resnet101d = ResNet.resnet101(stem=ResNetStemC, block=partial(ResNetBottleneckBlock, shortcut=ResNetShorcutD))</span>
@@ -585,6 +585,20 @@
 <span class="sd">            ResNet: A resnet34 model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="ResNet.resnet34d"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNet.resnet34d">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="nd">@pretrained</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">resnet34d</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span>  <span class="n">block</span><span class="o">=</span><span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Creates a resnet34 model</span>
+
+<span class="sd">        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet34.png?raw=true</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ResNet: A resnet34 model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcutD</span><span class="p">),</span>
+                     <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">model</span></div>
 
 <div class="viewcode-block" id="ResNet.resnet50"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNet.resnet50">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@pretrained</span><span class="p">()</span>

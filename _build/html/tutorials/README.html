@@ -210,10 +210,9 @@ deep learning computer vision library</p>
 </div>
 <div class="section" id="classification">
 <h2>Classification<a class="headerlink" href="#classification" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.models</span> <span class="kn">import</span> <span class="n">ResNet</span>
-
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.nn.models</span> <span class="kn">import</span> <span class="n">ResNet</span>
 <span class="c1"># change activation</span>
-<span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">activation</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
 <span class="c1"># change number of classes</span>
 <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 <span class="c1"># freeze only the convolution weights</span>
@@ -222,17 +221,15 @@ deep learning computer vision library</p>
 <span class="c1"># get the last layer, usuful to hook to it if you want to get the embeeded vector</span>
 <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="c1"># what about resnet with inverted residuals?</span>
-<span class="kn">from</span> <span class="nn">glasses.models.classification</span> <span class="kn">import</span> <span class="n">InvertedResidualBlock</span>
-
-<span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">InvertedResidualBlock</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">glasses.nn.models.classification.efficientnet</span> <span class="kn">import</span> <span class="n">InvertedResidualBlock</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">block</span> <span class="o">=</span> <span class="n">InvertedResidualBlock</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="segmentation">
 <h2>Segmentation<a class="headerlink" href="#segmentation" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">glasses.models</span> <span class="kn">import</span> <span class="n">UNet</span><span class="p">,</span> <span class="n">UNetDecoder</span>
-
+<span class="kn">from</span> <span class="nn">glasses.nn.models.segmentation.unet</span> <span class="kn">import</span> <span class="n">UNet</span><span class="p">,</span> <span class="n">UNetDecoder</span>
 <span class="c1"># vanilla Unet</span>
 <span class="n">unet</span> <span class="o">=</span> <span class="n">UNet</span><span class="p">()</span>
 <span class="c1"># let&#39;s change the encoder</span>
@@ -242,7 +239,7 @@ deep learning computer vision library</p>
 <span class="c1"># maybe resnet was better</span>
 <span class="n">unet</span> <span class="o">=</span> <span class="n">UNet</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="k">lambda</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">encoder</span><span class="p">)</span>
 <span class="c1"># same API</span>
-<span class="n">unet</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="n">unet</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">))</span>
 </pre></div>
 </div>
 <div class="section" id="more-examples">
@@ -300,7 +297,7 @@ deep learning computer vision library</p>
 | resnet18         | 0.69758 | 0.89078 |  46.7778 |
 | vgg11            | 0.6902  | 0.88628 |  84.9438 |</p>
 <p>Assuming you want to load <code class="docutils literal notranslate"><span class="pre">efficientnet_b1</span></code>, you can also grab it from its class</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.models</span> <span class="kn">import</span> <span class="n">EfficientNet</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.nn.models</span> <span class="kn">import</span> <span class="n">EfficientNet</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b1</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="c1"># you may also need to get the correct transformation that must be applied on the input</span>
@@ -331,28 +328,25 @@ deep learning computer vision library</p>
 <div class="section" id="block">
 <h3>Block<a class="headerlink" href="#block" title="Permalink to this headline">¶</a></h3>
 <p>Each model has its building block, they are noted by <code class="docutils literal notranslate"><span class="pre">*Block</span></code>. In each block, all the weights are in the <code class="docutils literal notranslate"><span class="pre">.block</span></code> field. This makes it very easy to customize one specific model.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.models.classification</span> <span class="kn">import</span> <span class="n">VGGBasicBlock</span>
-<span class="kn">from</span> <span class="nn">glasses.models.classification</span> <span class="kn">import</span> <span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">ResNetBasicPreActBlock</span><span class="p">,</span>
-    <span class="n">ResNetBottleneckPreActBlock</span>
-<span class="kn">from</span> <span class="nn">glasses.models.classification</span> <span class="kn">import</span> <span class="n">SENetBasicBlock</span><span class="p">,</span> <span class="n">SENetBottleneckBlock</span>
-<span class="kn">from</span> <span class="nn">glasses.models.classification</span> <span class="kn">import</span> <span class="n">ResNetXtBottleNeckBlock</span>
-<span class="kn">from</span> <span class="nn">glasses.models.classification</span> <span class="kn">import</span> <span class="n">DenseBottleNeckBlock</span>
-<span class="kn">from</span> <span class="nn">glasses.models.classification</span> <span class="kn">import</span> <span class="n">WideResNetBottleNeckBlock</span>
-<span class="kn">from</span> <span class="nn">glasses.models.classification</span> <span class="kn">import</span> <span class="n">EfficientNetBasicBlock</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.vgg</span> <span class="kn">import</span> <span class="n">VGGBasicBlock</span>
+<span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">ResNetBasicPreActBlock</span><span class="p">,</span> <span class="n">ResNetBottleneckPreActBlock</span>
+<span class="kn">from</span> <span class="nn">glasses.nn.models.classification.senet</span> <span class="kn">import</span> <span class="n">SENetBasicBlock</span><span class="p">,</span> <span class="n">SENetBottleneckBlock</span>
+<span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnetxt</span> <span class="kn">import</span> <span class="n">ResNetXtBottleNeckBlock</span>
+<span class="kn">from</span> <span class="nn">glasses.nn.models.classification.densenet</span> <span class="kn">import</span> <span class="n">DenseBottleNeckBlock</span>
+<span class="kn">from</span> <span class="nn">glasses.nn.models.classification.wide_resnet</span> <span class="kn">import</span> <span class="n">WideResNetBottleNeckBlock</span>
+<span class="kn">from</span> <span class="nn">glasses.nn.models.classification.efficientnet</span> <span class="kn">import</span> <span class="n">EfficientNetBasicBlock</span>
 </pre></div>
 </div>
 <p>For example, if we want to add Squeeze and Excitation to the resnet bottleneck block, we can just</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">SpatialSE</span>
-<span class="kn">from</span> <span class="nn">glasses.models.classification</span> <span class="kn">import</span> <span class="n">ResNetBottleneckBlock</span>
-
+<span class="kn">from</span>  <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNetBottleneckBlock</span>
 
 <span class="k">class</span> <span class="nc">SEResNetBottleneckBlock</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">squeeze</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="c1"># all the weights are in block, we want to apply se after the weights</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s1">&#39;se&#39;</span><span class="p">,</span> <span class="n">SpatialSE</span><span class="p">(</span><span class="n">out_features</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">squeeze</span><span class="p">))</span>
-
-
+        
 <span class="n">SEResNetBottleneckBlock</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -361,8 +355,7 @@ deep learning computer vision library</p>
 </pre></div>
 </div>
 <p>The cool thing is each model has the same api, if I want to create a vgg13 with the <code class="docutils literal notranslate"><span class="pre">ResNetBottleneckBlock</span></code> I can just</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.models</span> <span class="kn">import</span> <span class="n">VGG</span>
-
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.nn.models</span> <span class="kn">import</span> <span class="n">VGG</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg13</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SEResNetBottleneckBlock</span><span class="p">)</span>
 <span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
@@ -372,7 +365,7 @@ deep learning computer vision library</p>
 <div class="section" id="layer">
 <h3>Layer<a class="headerlink" href="#layer" title="Permalink to this headline">¶</a></h3>
 <p>A <code class="docutils literal notranslate"><span class="pre">Layer</span></code> is a collection of blocks, it is used to stack multiple blocks together following some logic. For example, <code class="docutils literal notranslate"><span class="pre">ResNetLayer</span></code></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.models.classification</span> <span class="kn">import</span> <span class="n">ResNetLayer</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNetLayer</span>
 
 <span class="n">ResNetLayer</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
@@ -388,12 +381,11 @@ deep learning computer vision library</p>
 <p><strong>widths</strong> is the wide at each layer, so how much features there are
 <strong>depths</strong> is the depth at each layer, so how many blocks there are</p>
 <p>For example, <code class="docutils literal notranslate"><span class="pre">ResNetEncoder</span></code> will creates multiple <code class="docutils literal notranslate"><span class="pre">ResNetLayer</span></code> based on the len of <code class="docutils literal notranslate"><span class="pre">widths</span></code> and <code class="docutils literal notranslate"><span class="pre">depths</span></code>. Let’s see some example.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.models.classification</span> <span class="kn">import</span> <span class="n">ResNetEncoder</span>
-
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNetEncoder</span>
 <span class="c1"># 3 layers, with 32,64,128 features and 1,2,3 block each</span>
 <span class="n">ResNetEncoder</span><span class="p">(</span>
-    <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span>
-    <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>All encoders are subclass of <code class="docutils literal notranslate"><span class="pre">Encoder</span></code> that allows us to hook on specific stages to get the featuers. All you have to do is first call <code class="docutils literal notranslate"><span class="pre">.features</span></code> to notify the model you want to receive the features, and then pass an input.</p>
@@ -404,7 +396,7 @@ deep learning computer vision library</p>
 </pre></div>
 </div>
 <p><strong>Remember</strong> each model has always a <code class="docutils literal notranslate"><span class="pre">.decoder</span></code> field</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.models</span> <span class="kn">import</span> <span class="n">ResNet</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.nn.models</span> <span class="kn">import</span> <span class="n">ResNet</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span>
 <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">widths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -414,13 +406,13 @@ deep learning computer vision library</p>
 <div class="section" id="features">
 <h4>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h4>
 <p>Each encoder can return a list of features accessable by the <code class="docutils literal notranslate"><span class="pre">.features</span></code> field. You need to call it once before in order to notify the encoder we wish to also store the features</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.models.classification</span> <span class="kn">import</span> <span class="n">ResNetEncoder</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNetEncoder</span>
 
-<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)</span>
 <span class="n">enc</span> <span class="o">=</span> <span class="n">ResNetEncoder</span><span class="p">()</span>
-<span class="n">enc</span><span class="o">.</span><span class="n">features</span>  <span class="c1"># call it once</span>
+<span class="n">enc</span><span class="o">.</span><span class="n">features</span> <span class="c1"># call it once</span>
 <span class="n">enc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">features</span> <span class="o">=</span> <span class="n">enc</span><span class="o">.</span><span class="n">features</span>  <span class="c1"># now we have all the features from each layer (stage)</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">enc</span><span class="o">.</span><span class="n">features</span> <span class="c1"># now we have all the features from each layer (stage)</span>
 <span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">features</span><span class="p">]</span>
 <span class="c1"># torch.Size([1, 64, 112, 112])</span>
 <span class="c1"># torch.Size([1, 64, 56, 56])</span>
@@ -433,7 +425,8 @@ deep learning computer vision library</p>
 <div class="section" id="head">
 <h3>Head<a class="headerlink" href="#head" title="Permalink to this headline">¶</a></h3>
 <p>Head is the last part of the model, it usually perform the classification</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.models.classification</span> <span class="kn">import</span> <span class="n">ResNetHead</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNetHead</span>
+
 
 <span class="n">ResNetHead</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="n">n_classes</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 </pre></div>
@@ -442,11 +435,10 @@ deep learning computer vision library</p>
 <div class="section" id="decoder">
 <h3>Decoder<a class="headerlink" href="#decoder" title="Permalink to this headline">¶</a></h3>
 <p>The decoder takes the last feature from the <code class="docutils literal notranslate"><span class="pre">.encoder</span></code> and decode it. This is usually done in <code class="docutils literal notranslate"><span class="pre">segmentation</span></code> models, such as Unet.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.models</span> <span class="kn">import</span> <span class="n">UNetDecoder</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.nn.models.segmentation.unet</span> <span class="kn">import</span> <span class="n">UNetDecoder</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)</span>
 <span class="n">enc</span> <span class="o">=</span> <span class="n">ResNetEncoder</span><span class="p">()</span>
-<span class="n">enc</span><span class="o">.</span><span class="n">features</span>  <span class="c1"># call it once</span>
+<span class="n">enc</span><span class="o">.</span><span class="n">features</span> <span class="c1"># call it once</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">enc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="n">features</span> <span class="o">=</span> <span class="n">enc</span><span class="o">.</span><span class="n">features</span>
 <span class="c1"># we need to tell the decoder the first feature size and the size of the lateral features</span>

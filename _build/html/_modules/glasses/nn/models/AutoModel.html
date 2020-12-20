@@ -216,6 +216,7 @@
         <span class="s1">&#39;regnety_008&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_008</span><span class="p">,</span>
         <span class="s1">&#39;regnety_016&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_016</span><span class="p">,</span>
         <span class="s1">&#39;regnety_032&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_032</span><span class="p">,</span>
+
         <span class="s1">&#39;wide_resnet50_2&#39;</span><span class="p">:</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet50_2</span><span class="p">,</span>
         <span class="s1">&#39;wide_resnet101_2&#39;</span><span class="p">:</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet101_2</span><span class="p">,</span>
         <span class="s1">&#39;densenet121&#39;</span><span class="p">:</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">,</span>
@@ -251,11 +252,11 @@
         <span class="s1">&#39;unet&#39;</span><span class="p">:</span> <span class="n">UNet</span>
     <span class="p">}</span>
     
-    <span class="c1"># @staticmethod  </span>
-    <span class="c1"># def add(name, func): </span>
-    <span class="c1">#     key = name</span>
-    <span class="c1">#     AutoModel.zoo[key] = func</span>
-    <span class="c1">#     return func</span>
+<div class="viewcode-block" id="AutoModel.add"><a class="viewcode-back" href="../../../../glasses.nn.models.html#glasses.nn.models.AutoModel.AutoModel.add">[docs]</a>    <span class="nd">@staticmethod</span>  
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span> 
+        <span class="n">key</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="n">AutoModel</span><span class="o">.</span><span class="n">zoo</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span>
+        <span class="k">return</span> <span class="n">func</span></div>
 
 
 <div class="viewcode-block" id="AutoModel.from_name"><a class="viewcode-back" href="../../../../glasses.nn.models.html#glasses.nn.models.AutoModel.AutoModel.from_name">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -285,9 +286,9 @@
         <span class="n">model</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">model</span></div>
 
-<div class="viewcode-block" id="AutoModel.models"><a class="viewcode-back" href="../../../../glasses.nn.models.html#glasses.nn.models.AutoModel.AutoModel.models">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">models</span><span class="p">():</span>
-        <span class="k">return</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">zoo</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div></div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">models</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoo</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
 
 </pre></div>
 

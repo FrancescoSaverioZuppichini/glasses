@@ -37,7 +37,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="glasses.utils package" href="glasses.utils.html" />
+    <link rel="next" title="glasses.nn.models package" href="glasses.nn.models.html" />
     <link rel="prev" title="glasses.nn.att package" href="glasses.nn.att.html" /> 
 </head>
 
@@ -96,6 +96,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#module-glasses.nn.blocks">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.html">glasses.nn.models package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.nn.html#module-glasses.nn">Module contents</a></li>
@@ -219,7 +220,7 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.residuals.InputForward.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.blocks.residuals.InputForward.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">training</code><a class="headerlink" href="#glasses.nn.blocks.residuals.InputForward.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -259,7 +260,7 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.residuals.Residual.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.blocks.residuals.Residual.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">training</code><a class="headerlink" href="#glasses.nn.blocks.residuals.Residual.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -270,7 +271,7 @@ registered hooks while the latter silently ignores them.</p>
 <dd><p>Bases: <a class="reference internal" href="#glasses.nn.blocks.residuals.Residual" title="glasses.nn.blocks.residuals.Residual"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.blocks.residuals.Residual</span></code></a></p>
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.residuals.ResidualAdd.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.blocks.residuals.ResidualAdd.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">training</code><a class="headerlink" href="#glasses.nn.blocks.residuals.ResidualAdd.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -301,7 +302,7 @@ registered hooks while the latter silently ignores them.</p>
 </dl>
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.BnActConv.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.blocks.BnActConv.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">training</code><a class="headerlink" href="#glasses.nn.blocks.BnActConv.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -320,12 +321,12 @@ registered hooks while the latter silently ignores them.</p>
 </dl>
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.Conv2dPad.bias">
-<code class="sig-name descname">bias</code><em class="property">: Optional<span class="p">[</span>torch.Tensor<span class="p">]</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.bias" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">bias</code><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.bias" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.Conv2dPad.dilation">
-<code class="sig-name descname">dilation</code><em class="property">: Tuple<span class="p">[</span>int<span class="p">, </span><span class="p">…</span><span class="p">]</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.dilation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">dilation</code><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.dilation" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -344,47 +345,47 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.Conv2dPad.groups">
-<code class="sig-name descname">groups</code><em class="property">: int</em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.groups" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">groups</code><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.groups" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.Conv2dPad.kernel_size">
-<code class="sig-name descname">kernel_size</code><em class="property">: Tuple<span class="p">[</span>int<span class="p">, </span><span class="p">…</span><span class="p">]</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.kernel_size" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">kernel_size</code><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.kernel_size" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.Conv2dPad.out_channels">
-<code class="sig-name descname">out_channels</code><em class="property">: int</em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.out_channels" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">out_channels</code><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.out_channels" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.Conv2dPad.output_padding">
-<code class="sig-name descname">output_padding</code><em class="property">: Tuple<span class="p">[</span>int<span class="p">, </span><span class="p">…</span><span class="p">]</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.output_padding" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">output_padding</code><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.output_padding" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.Conv2dPad.padding">
-<code class="sig-name descname">padding</code><em class="property">: Tuple<span class="p">[</span>int<span class="p">, </span><span class="p">…</span><span class="p">]</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.padding" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">padding</code><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.padding" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.Conv2dPad.padding_mode">
-<code class="sig-name descname">padding_mode</code><em class="property">: str</em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.padding_mode" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">padding_mode</code><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.padding_mode" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.Conv2dPad.stride">
-<code class="sig-name descname">stride</code><em class="property">: Tuple<span class="p">[</span>int<span class="p">, </span><span class="p">…</span><span class="p">]</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.stride" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">stride</code><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.stride" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.Conv2dPad.transposed">
-<code class="sig-name descname">transposed</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.transposed" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transposed</code><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.transposed" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.Conv2dPad.weight">
-<code class="sig-name descname">weight</code><em class="property">: torch.Tensor</em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.weight" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">weight</code><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.weight" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -430,7 +431,7 @@ registered hooks while the latter silently ignores them.</p>
 :type activation: nn.Module, optional</p>
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.ConvBnAct.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.blocks.ConvBnAct.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">training</code><a class="headerlink" href="#glasses.nn.blocks.ConvBnAct.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -466,7 +467,7 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.Lambda.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.blocks.Lambda.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">training</code><a class="headerlink" href="#glasses.nn.blocks.Lambda.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -482,7 +483,7 @@ registered hooks while the latter silently ignores them.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="glasses.utils.html" class="btn btn-neutral float-right" title="glasses.utils package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="glasses.nn.models.html" class="btn btn-neutral float-right" title="glasses.nn.models package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="glasses.nn.att.html" class="btn btn-neutral float-left" title="glasses.nn.att package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

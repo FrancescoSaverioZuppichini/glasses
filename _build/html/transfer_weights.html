@@ -37,7 +37,6 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="glasses.nn.models package" href="glasses.nn.models.html" />
     <link rel="prev" title="tmp module" href="tmp.html" /> 
 </head>
 
@@ -166,8 +165,35 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="transfer-weights-module">
-<h1>transfer_weights module<a class="headerlink" href="#transfer-weights-module" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-transfer_weights">
+<span id="transfer-weights-module"></span><h1>transfer_weights module<a class="headerlink" href="#module-transfer_weights" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="transfer_weights.AWSSTorage">
+<em class="property">class </em><code class="sig-prename descclassname">transfer_weights.</code><code class="sig-name descname">AWSSTorage</code><a class="reference internal" href="_modules/transfer_weights.html#AWSSTorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#transfer_weights.AWSSTorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="transfer_weights.LocalStorage">
+<em class="property">class </em><code class="sig-prename descclassname">transfer_weights.</code><code class="sig-name descname">LocalStorage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span><span class="p">:</span> <span class="n">pathlib.Path</span> <span class="o">=</span> <span class="default_value">PosixPath('/home/zuppif/.cache/torch/hub/glasses')</span></em>, <em class="sig-param"><span class="n">override</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/transfer_weights.html#LocalStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#transfer_weights.LocalStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt id="transfer_weights.LocalStorage.override">
+<code class="sig-name descname">override</code><em class="property">: bool</em><em class="property"> = False</em><a class="headerlink" href="#transfer_weights.LocalStorage.override" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="transfer_weights.LocalStorage.root">
+<code class="sig-name descname">root</code><em class="property">: pathlib.Path</em><em class="property"> = PosixPath('/home/zuppif/.cache/torch/hub/glasses')</em><a class="headerlink" href="#transfer_weights.LocalStorage.root" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="transfer_weights.clone_model">
+<code class="sig-prename descclassname">transfer_weights.</code><code class="sig-name descname">clone_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">src</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="n">dst</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span></em><span class="sig-paren">)</span> &#x2192; torch.nn.modules.module.Module<a class="reference internal" href="_modules/transfer_weights.html#clone_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#transfer_weights.clone_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 
 
@@ -177,8 +203,6 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="glasses.nn.models.html" class="btn btn-neutral float-right" title="glasses.nn.models package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="tmp.html" class="btn btn-neutral float-left" title="tmp module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
