@@ -32,6 +32,7 @@ class AutoModel:
         'resnet26': ResNet.resnet26,
         'resnet26d': ResNet.resnet26d,
         'resnet34': ResNet.resnet34,
+        'resnet34d':  ResNet.resnet34d,
         'resnet50':  ResNet.resnet50,
         'resnet50d':  ResNet.resnet50d,
         'resnet101': ResNet.resnet101,

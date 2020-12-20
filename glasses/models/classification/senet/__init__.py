@@ -2,7 +2,7 @@ from __future__ import annotations
 from torch import nn
 from ..resnet import ResNetBasicBlock, ResNetBottleneckBlock, ResNet
 from glasses.nn.att import SpatialSE, ChannelSE, WithAtt
-from glasses.utils.PretrainedWeightsProvider import Config
+from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 
 SENetBasicBlock = WithAtt(ResNetBasicBlock, att=SpatialSE)
 SENetBottleneckBlock = WithAtt(ResNetBottleneckBlock, att=SpatialSE)
@@ -82,6 +82,7 @@ class SEResNet(ResNet):
         return ResNet.resnet34(*args, block=CSENetBasicBlock, **kwargs)
 
     @classmethod
+    @pretrained()
     def cse_resnet50(cls, *args, **kwargs) -> SEResNet:
         """SE resnet50 with Channel Squeeze and Excitation
 
