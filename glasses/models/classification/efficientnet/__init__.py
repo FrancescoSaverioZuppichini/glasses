@@ -293,6 +293,7 @@ class EfficientNet(VisionModule):
         return cls.from_config(cls.models_config, 'efficientnet_b3', *args, **kwargs)
 
     @classmethod
+    @pretrained()
     def efficientnet_b4(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, 'efficientnet_b4', *args, **kwargs)
 

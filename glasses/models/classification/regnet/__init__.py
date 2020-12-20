@@ -187,121 +187,145 @@ class RegNet(ResNet):
         self.encoder = RegNetEncoder(in_channels, *args, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnetx_002(cls, *args, **kwargs):
         depths, widths, groups_width = cls.models_config['regnetx_002']
         return cls(*args, depths=depths, widths=widths, groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnetx_004(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnetx_004']
         return cls(*args, depths=depths, widths=widths,  groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnetx_006(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnetx_006']
         return cls(*args, depths=depths, widths=widths,  groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnetx_008(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnetx_008']
         return cls(*args, depths=depths, widths=widths,  groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnetx_016(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnetx_016']
         return cls(*args, depths=depths, widths=widths,  groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnetx_032(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnetx_032']
         return cls(*args, depths=depths, widths=widths,  groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnetx_040(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnetx_040']
         return cls(*args, depths=depths, widths=widths,  groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnetx_064(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnetx_064']
         return cls(*args, depths=depths, widths=widths,  groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnetx_080(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnetx_080']
         return cls(*args, depths=depths, widths=widths,  groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnetx_120(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnetx_120']
         return cls(*args, depths=depths, widths=widths,  groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnetx_160(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnetx_160']
         return cls(*args, depths=depths, widths=widths,  groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnetx_320(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnetx_320']
         return cls(*args, depths=depths, widths=widths,  groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnety_002(cls, *args,  **kwargs):
         depths, widths, groups_width = cls.models_config['regnety_002']
         return cls(*args, depths=depths, widths=widths,  block=RegNetYBotteneckBlock, groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnety_004(cls, *args, **kwargs):
         depths, widths, groups_width = cls.models_config['regnety_004']
         return cls(*args, depths=depths, widths=widths,  block=RegNetYBotteneckBlock, groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnety_006(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnety_006']
         return cls(*args, depths=depths, widths=widths,  block=RegNetYBotteneckBlock, groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnety_008(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnety_008']
         return cls(*args, depths=depths, widths=widths,  block=RegNetYBotteneckBlock, groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnety_016(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnety_016']
         return cls(*args, depths=depths, widths=widths,  block=RegNetYBotteneckBlock, groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnety_032(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnety_032']
         return cls(*args, depths=depths, widths=widths,  block=RegNetYBotteneckBlock, groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnety_040(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnety_040']
         return cls(*args, depths=depths, widths=widths,  block=RegNetYBotteneckBlock, groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnety_064(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnety_064']
         return cls(*args, depths=depths, widths=widths,  block=RegNetYBotteneckBlock, groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnety_080(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnety_080']
         return cls(*args, depths=depths, widths=widths,  block=RegNetYBotteneckBlock, groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnety_120(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnety_120']
         return cls(*args, depths=depths, widths=widths,  block=RegNetYBotteneckBlock, groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnety_160(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnety_160']
         return cls(*args, depths=depths, widths=widths,  block=RegNetYBotteneckBlock, groups_width=groups_width, **kwargs)
 
     @classmethod
+    @pretrained()
     def regnety_320(cls, *args,   **kwargs):
         depths, widths, groups_width = cls.models_config['regnety_320']
         return cls(*args, depths=depths, widths=widths,  block=RegNetYBotteneckBlock, groups_width=groups_width, **kwargs)

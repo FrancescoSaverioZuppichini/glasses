@@ -21,46 +21,62 @@ from torchvision.models import (densenet121, densenet161, densenet169,
                                 wide_resnet101_2)
 from tqdm.autonotebook import tqdm
 
+from glasses.models.AutoModel import AutoModel
 from glasses.models import *
 from glasses.utils.ModuleTransfer import ModuleTransfer
 from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
 
-zoo_models_mapping = {
-    'resnet18': [partial(resnet18, pretrained=True), ResNet.resnet18],
-    'resnet26': [partial(timm.create_model, 'resnet26', pretrained=True), ResNet.resnet26],
-    'resnet26d': [partial(timm.create_model, 'resnet26d', pretrained=True), ResNet.resnet26d],
+zoo_source = {
+    'resnet18': partial(resnet18, pretrained=True),
+    'resnet26': partial(timm.create_model, 'resnet26', pretrained=True),
+    'resnet26d': partial(timm.create_model, 'resnet26d', pretrained=True),
+    'resnet34': partial(timm.create_model, 'resnet34', pretrained=True),
+    'resnet34d': partial(timm.create_model, 'resnet34d', pretrained=True),
+    'resnet50': partial(resnet50, pretrained=True),
+    'resnet50d': partial(timm.create_model, 'resnet50d', pretrained=True),
+    'resnet101': partial(resnet101, pretrained=True),
+    'resnet152': partial(resnet152, pretrained=True),
+    'cse_resnet50': partial(timm.create_model, 'seresnet50', pretrained=True),
+    'resnext50_32x4d': partial(resnext50_32x4d, pretrained=True),
+    'resnext101_32x8d': partial(resnext101_32x8d, pretrained=True),
+    'wide_resnet50_2': partial(wide_resnet50_2, pretrained=True),
+    'wide_resnet101_2': partial(wide_resnet101_2, pretrained=True),
 
-    'resnet34': [partial(timm.create_model, 'resnet34', pretrained=True), ResNet.resnet34],
-    'resnet50': [partial(resnet50, pretrained=True), ResNet.resnet50],
+    'regnetx_002': None,
+    'regnetx_004': None,
+    'regnetx_006': None,
+    'regnetx_008': None,
+    'regnetx_016': None,
+    'regnetx_032': None,
+    'regnety_002': None,
+    'regnety_004': None,
+    'regnety_006': None,
+    'regnety_008': None,
+    'regnety_016': None,
+    'regnety_032': None,
+    
+    'densenet121': partial(densenet121, pretrained=True),
+    'densenet169': partial(densenet169, pretrained=True),
+    'densenet201': partial(densenet201, pretrained=True),
+    'densenet161': partial(densenet161, pretrained=True),
 
-
-    'resnet101': [partial(resnet101, pretrained=True), ResNet.resnet101],
-    'resnet152': [partial(resnet152, pretrained=True), ResNet.resnet152],
-    # 'cse_resnet50': [partial(timm.create_model, 'seresnet50', pretrained=True), SEResNet.cse_resnet50],
-    'resnext50_32x4d': [partial(resnext50_32x4d, pretrained=True), ResNetXt.resnext50_32x4d],
-    'resnext101_32x8d': [partial(resnext101_32x8d, pretrained=True), ResNetXt.resnext101_32x8d],
-    'wide_resnet50_2': [partial(wide_resnet50_2, pretrained=True), WideResNet.wide_resnet50_2],
-    'wide_resnet101_2': [partial(wide_resnet101_2, pretrained=True), WideResNet.wide_resnet101_2],
-
-    'densenet121': [partial(densenet121, pretrained=True), DenseNet.densenet121],
-    'densenet169': [partial(densenet169, pretrained=True), DenseNet.densenet169],
-    'densenet201': [partial(densenet201, pretrained=True), DenseNet.densenet201],
-    'densenet161': [partial(densenet161, pretrained=True), DenseNet.densenet161],
-    'vgg11': [partial(vgg11, pretrained=True), VGG.vgg11],
-    'vgg13': [partial(vgg13, pretrained=True), VGG.vgg13],
-    'vgg16': [partial(vgg16, pretrained=True), VGG.vgg16],
-    'vgg19': [partial(vgg19, pretrained=True), VGG.vgg19],
-    'vgg11_bn':[pretrainedmodels.__dict__['vgg11_bn'], VGG.vgg11_bn],
-    'vgg13_bn':[pretrainedmodels.__dict__['vgg13_bn'], VGG.vgg13_bn],
-    'vgg16_bn':[pretrainedmodels.__dict__['vgg16_bn'], VGG.vgg16_bn],
-    'vgg19_bn':[pretrainedmodels.__dict__['vgg19_bn'], VGG.vgg19_bn],
+    'vgg11': partial(vgg11, pretrained=True),
+    'vgg13': partial(vgg13, pretrained=True),
+    'vgg16': partial(vgg16, pretrained=True),
+    'vgg19': partial(vgg19, pretrained=True),
+    'vgg11_bn':pretrainedmodels.__dict__['vgg11_bn'],
+    'vgg13_bn':pretrainedmodels.__dict__['vgg13_bn'],
+    'vgg16_bn':pretrainedmodels.__dict__['vgg16_bn'],
+    'vgg19_bn':pretrainedmodels.__dict__['vgg19_bn'],
 
     # 'mobilenet_v2': [partial(mobilenet_v2, pretrained=True), MobileNetV2],
 
-    'efficientnet_b0': [partial(timm.create_model, 'efficientnet_b0', pretrained=True), EfficientNet.efficientnet_b0],
-    'efficientnet_b1': [partial(timm.create_model, 'efficientnet_b1', pretrained=True), EfficientNet.efficientnet_b1],
-    'efficientnet_b2': [partial(timm.create_model, 'efficientnet_b2', pretrained=True), EfficientNet.efficientnet_b2],
-    'efficientnet_b3': [partial(timm.create_model, 'efficientnet_b3', pretrained=True), EfficientNet.efficientnet_b3],
+    'efficientnet_b0': partial(timm.create_model, 'efficientnet_b0', pretrained=True),
+    'efficientnet_b1': partial(timm.create_model, 'efficientnet_b1', pretrained=True),
+    'efficientnet_b2': partial(timm.create_model, 'efficientnet_b2', pretrained=True),
+    'efficientnet_b3': partial(timm.create_model, 'efficientnet_b3', pretrained=True),
+    # 'efficientnet_b5': partial(timm.create_model, 'efficientnet_b5', pretrained=True),
+    # 'efficientnet_b6': partial(timm.create_model, 'efficientnet_b6', pretrained=True),
 
 }
 
@@ -110,7 +126,7 @@ class AWSSTorage:
 
         bar.reset(total=buffer.getbuffer().nbytes)
         bar.set_description('📤')
-        obj = self.s3.Object('cv-glasses', f'{key}.pth')
+        obj = self.s3.Object('glasses-weights', f'{key}.pth')
 
         obj.upload_fileobj(buffer, ExtraArgs={
                            'ACL': 'public-read'}, Callback=lambda x: bar.update(x))
@@ -121,7 +137,7 @@ class AWSSTorage:
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--storage', type=str,
-                        choices=['local', 'aws'], default='local')
+                        choices=['local', 'aws'], default='aws')
     parser.add_argument('-o', type=Path)
 
     args = parser.parse_args()
@@ -139,14 +155,16 @@ if __name__ == '__main__':
 
     override = True
 
-    bar = tqdm(zoo_models_mapping.items())
+    bar = tqdm(zoo_source.items())
     uploading_bar = tqdm()
-    for key, mapping in bar:
+    for key, src_def in bar:
         bar.set_description(key)
-
+        if src_def is None:
+            # it means I was lazy and I meant to use timm
+            src_def = partial(timm.create_model, key, pretrained=True)
         if key not in storage or override:
-            src_def, dst_def = mapping
-            cloned = clone_model(src_def(), dst_def())
+            src, dst = src_def(), AutoModel.from_name(key)
+            cloned = clone_model(src, dst)
             storage(key, cloned, uploading_bar)
 
     # uploading_bar.update(0)
