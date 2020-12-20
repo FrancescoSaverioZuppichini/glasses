@@ -321,6 +321,7 @@ class ResNet(VisionModule):
         Variants (d) proposed in `Bag of Tricks for Image Classification with Convolutional Neural Networks <https://arxiv.org/pdf/1812.01187.pdf>`_
 
         >>> ResNet.resnet26d()
+        >>> ResNet.resnet34d()
         >>> ResNet.resnet50d()
         >>> # You can construct your own one by chaning `stem` and `block`
         >>> resnet101d = ResNet.resnet101(stem=ResNetStemC, block=partial(ResNetBottleneckBlock, shortcut=ResNetShorcutD))
@@ -430,6 +431,20 @@ class ResNet(VisionModule):
             ResNet: A resnet34 model
         """
         return cls(*args, **kwargs, block=block, depths=[3, 4, 6, 3])
+
+    @classmethod
+    @pretrained()
+    def resnet34d(cls, *args,  block=ResNetBasicBlock, **kwargs) -> ResNet:
+        """Creates a resnet34 model
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet34.png?raw=true
+
+        Returns:
+            ResNet: A resnet34 model
+        """
+        model = cls(*args, **kwargs, stem=ResNetStemC, block=partial(block, shortcut=ResNetShorcutD),
+                     depths=[3, 4, 6, 3])
+        return model
 
     @classmethod
     @pretrained()
