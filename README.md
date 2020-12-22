@@ -12,9 +12,20 @@
 Compact, concise and customizable 
 deep learning computer vision library
 
-**This is an early beta, code will change and pretrained weights are not available (I need to find a place to store them online, any advice?)**
+**So far I have the [following](#pretrained-models) pretrainde weights. I am working on porting more. They are hosted on GitHub if < 100MB and on AWS (thaks to Francis Ukpeh) if > 100MB.**
 
 Doc is [here](https://francescosaveriozuppichini.github.io/glasses/index.html)
+
+## TL;TR
+
+This library has
+
+- human readable code, no *research code*
+- common component are shared across [models](#Models)
+- [same APIs](#classification) for all models (you learn them once and they are always the same)
+- clear and easy to use model constomization (see [here](#block))
+- [classification](#classification) and [segmentation](#segmentation) 
+- emoji in the name ;)
 
 ## Installation
 
@@ -24,9 +35,9 @@ You can install `glasses` using pip by running
 pip install git+https://github.com/FrancescoSaverioZuppichini/glasses
 ```
 
-### Motivation
+### Motivations
 
-All the existing implementation of the most famous model are written with very bad coding practices, what today is called *research code*. I struggled myself to understand some of the implementation that in the end were just few lines of code. 
+Almost all existing implementation of the most famous model are written with very bad coding practices, what today is called *research code*. I struggled myself to understand some of the implementation that in the end were just few lines of code. 
 
 Most of them are missing a global structure, they used tons of code repetition, they are not easily customizable and not tested. Since I do computer vision for living, so I needed a way to make my life easier.
 
@@ -37,12 +48,13 @@ The API are shared across **all** models!
 
 ```python
 import torch
-from glasses import AutoModel, AutoConfig
+from glasses.models import AutoModel, AutoConfig
 from torch import nn
 # load one model
 model = AutoModel.from_pretrained('resnet18')
 cfg = AutoConfig.from_name('resnet18')
-model.summary(device='cpu') # thanks to torchsummary
+model.summary(device='cpu' ) # thanks to torchsummary
+AutoModel.models() # 'resnet18', 'resnet26', 'resnet26d', 'resnet34', 'resnet50', ...
 ```
 
 ### Interpretability
@@ -69,7 +81,7 @@ _ = model.interpret(x, using=GradCam(), postprocessing=postprocessing).show()
 
 
 ```python
-from glasses.nn.models import ResNet
+from glasses.models import ResNet
 # change activation
 ResNet.resnet18(activation = nn.SELU)
 # change number of classes
@@ -80,7 +92,7 @@ model.freeze(who=model.encoder)
 # get the last layer, usuful to hook to it if you want to get the embeeded vector
 model.encoder.layers[-1]
 # what about resnet with inverted residuals?
-from glasses.nn.models.classification.efficientnet import InvertedResidualBlock
+from glasses.models.classification.efficientnet import InvertedResidualBlock
 ResNet.resnet18(block = InvertedResidualBlock)
 ```
 
@@ -89,7 +101,7 @@ ResNet.resnet18(block = InvertedResidualBlock)
 
 ```python
 from functools import partial
-from glasses.nn.models.segmentation.unet import UNet, UNetDecoder
+from glasses.models.segmentation.unet import UNet, UNetDecoder
 # vanilla Unet
 unet = UNet()
 # let's change the encoder
@@ -124,45 +136,66 @@ model(x).shape #torch.Size([1, 1000])
 
 ## Pretrained Models
 
-This is a list of all the pretrained models available so far!. They are all trained on *ImageNet*
+**I am currently working on the pretrained models and the best way to make them available**
+
+This is a list of all the pretrained models available so far!. They are all trained on *ImageNet*.
+
+I used a `batch_size=64` and a GTX 1080ti to evaluale the models.
 
 |                  |    top1 |    top5 |     time |
 |:-----------------|--------:|--------:|---------:|
-| efficientnet_b3  | 0.8204  | 0.96044 | 233.535  |
-| cse_resnet50     | 0.80236 | 0.9507  | 103.796  |
-| efficientnet_b2  | 0.8011  | 0.95118 | 143.739  |
-| resnext101_32x8d | 0.79312 | 0.94526 | 332.005  |
-| wide_resnet101_2 | 0.78848 | 0.94284 | 234.597  |
-| wide_resnet50_2  | 0.78468 | 0.94086 | 146.662  |
-| efficientnet_b1  | 0.78338 | 0.94078 | 109.463  |
-| resnet152        | 0.78312 | 0.94046 | 207.622  |
-| resnext50_32x4d  | 0.77618 | 0.93698 | 135.172  |
-| resnet101        | 0.77374 | 0.93546 | 151.992  |
-| efficientnet_b0  | 0.77364 | 0.9356  |  74.3195 |
-| densenet161      | 0.77138 | 0.9356  | 201.173  |
-| densenet201      | 0.76896 | 0.9337  | 143.988  |
-| resnet50         | 0.7613  | 0.92862 |  92.408  |
-| densenet169      | 0.756   | 0.92806 | 115.986  |
-| resnet26         | 0.75292 | 0.9257  |  65.2226 |
-| resnet34         | 0.75112 | 0.92288 |  61.9156 |
-| densenet121      | 0.74434 | 0.91972 |  95.5099 |
-| vgg19_bn         | 0.74218 | 0.91842 | 172.343  |
-| vgg16_bn         | 0.7336  | 0.91516 | 152.662  |
-| vgg19            | 0.72376 | 0.90876 | 160.982  |
-| mobilenet_v2     | 0.71878 | 0.90286 |  53.3237 |
-| vgg16            | 0.71592 | 0.90382 | 141.572  |
-| vgg13_bn         | 0.71586 | 0.90374 | 129.88   |
-| vgg11_bn         | 0.7037  | 0.8981  |  91.5699 |
-| vgg13            | 0.69928 | 0.89246 | 119.631  |
-| resnet18         | 0.69758 | 0.89078 |  46.7778 |
-| vgg11            | 0.6902  | 0.88628 |  84.9438 |
+| efficientnet_b3  | 0.82034 | 0.9603  | 199.599  |
+| regnety_032      | 0.81958 | 0.95964 | 136.518  |
+| resnet50d        | 0.80492 | 0.95128 |  97.5827 |
+| cse_resnet50     | 0.80292 | 0.95048 | 108.765  |
+| efficientnet_b2  | 0.80126 | 0.95124 | 127.177  |
+| resnext101_32x8d | 0.7921  | 0.94556 | 290.38   |
+| wide_resnet101_2 | 0.7891  | 0.94344 | 277.755  |
+| wide_resnet50_2  | 0.78464 | 0.94064 | 201.634  |
+| efficientnet_b1  | 0.7831  | 0.94096 |  98.7143 |
+| resnet152        | 0.7825  | 0.93982 | 186.191  |
+| regnetx_032      | 0.7792  | 0.93996 | 319.558  |
+| resnext50_32x4d  | 0.77628 | 0.9368  | 114.325  |
+| regnety_016      | 0.77604 | 0.93702 |  96.547  |
+| efficientnet_b0  | 0.77332 | 0.93566 |  67.2147 |
+| resnet101        | 0.77314 | 0.93556 | 134.148  |
+| densenet161      | 0.77146 | 0.93602 | 239.388  |
+| resnet34d        | 0.77118 | 0.93418 |  59.9938 |
+| densenet201      | 0.76932 | 0.9339  | 158.514  |
+| regnetx_016      | 0.76684 | 0.9328  |  91.7536 |
+| resnet26d        | 0.766   | 0.93188 |  70.6453 |
+| regnety_008      | 0.76238 | 0.93026 |  54.1286 |
+| resnet50         | 0.76012 | 0.92934 |  89.7976 |
+| densenet169      | 0.75628 | 0.9281  | 127.077  |
+| resnet26         | 0.75394 | 0.92584 |  65.5801 |
+| resnet34         | 0.75096 | 0.92246 |  56.8985 |
+| regnety_006      | 0.75068 | 0.92474 |  55.5611 |
+| regnetx_008      | 0.74788 | 0.92194 |  57.9559 |
+| densenet121      | 0.74472 | 0.91974 | 104.13   |
+| vgg19_bn         | 0.74216 | 0.91848 | 169.357  |
+| regnety_004      | 0.73766 | 0.91638 |  68.4893 |
+| regnetx_006      | 0.73682 | 0.91568 |  81.4703 |
+| vgg16_bn         | 0.73476 | 0.91536 | 150.317  |
+| vgg19            | 0.7236  | 0.9085  | 155.851  |
+| regnetx_004      | 0.72298 | 0.90644 |  58.0049 |
+| vgg16            | 0.71628 | 0.90368 | 135.398  |
+| vgg13_bn         | 0.71618 | 0.9036  | 129.077  |
+| vgg11_bn         | 0.70408 | 0.89724 |  86.9459 |
+| vgg13            | 0.69984 | 0.89306 | 116.052  |
+| regnety_002      | 0.6998  | 0.89422 |  46.804  |
+| resnet18         | 0.69644 | 0.88982 |  46.2029 |
+| vgg11            | 0.68872 | 0.88658 |  79.4136 |
+| regnetx_002      | 0.68658 | 0.88244 |  45.9211 |
 
-Assuming you want to load `efficientnet_b1`, you can also grab it from its class
+Assuming you want to load `efficientnet_b1`:
 
 
 ```python
-from glasses.nn.models import EfficientNet
+from glasses.models import EfficientNet, AutoModel, AutoConfig
 
+# load it using AutoModel
+model = AutoModel.from_pretrained('efficientnet_b1')
+# or from its own class
 model = EfficientNet.efficientnet_b1(pretrained=True)
 # you may also need to get the correct transformation that must be applied on the input
 cfg = AutoConfig.from_name('efficientnet_b1')
@@ -195,13 +228,13 @@ Each model has its building block, they are noted by `*Block`. In each block, al
 
 
 ```python
-from glasses.nn.models.classification.vgg import VGGBasicBlock
-from glasses.nn.models.classification.resnet import ResNetBasicBlock, ResNetBottleneckBlock, ResNetBasicPreActBlock, ResNetBottleneckPreActBlock
-from glasses.nn.models.classification.senet import SENetBasicBlock, SENetBottleneckBlock
-from glasses.nn.models.classification.resnetxt import ResNetXtBottleNeckBlock
-from glasses.nn.models.classification.densenet import DenseBottleNeckBlock
-from glasses.nn.models.classification.wide_resnet import WideResNetBottleNeckBlock
-from glasses.nn.models.classification.efficientnet import EfficientNetBasicBlock
+from glasses.models.classification.vgg import VGGBasicBlock
+from glasses.models.classification.resnet import ResNetBasicBlock, ResNetBottleneckBlock, ResNetBasicPreActBlock, ResNetBottleneckPreActBlock
+from glasses.models.classification.senet import SENetBasicBlock, SENetBottleneckBlock
+from glasses.models.classification.resnetxt import ResNetXtBottleNeckBlock
+from glasses.models.classification.densenet import DenseBottleNeckBlock
+from glasses.models.classification.wide_resnet import WideResNetBottleNeckBlock
+from glasses.models.classification.efficientnet import EfficientNetBasicBlock
 ```
 
 For example, if we want to add Squeeze and Excitation to the resnet bottleneck block, we can just
@@ -209,7 +242,7 @@ For example, if we want to add Squeeze and Excitation to the resnet bottleneck b
 
 ```python
 from glasses.nn.att import SpatialSE
-from  glasses.nn.models.classification.resnet import ResNetBottleneckBlock
+from  glasses.models.classification.resnet import ResNetBottleneckBlock
 
 class SEResNetBottleneckBlock(ResNetBottleneckBlock):
     def __init__(self, in_features: int, out_features: int, squeeze: int = 16, *args, **kwargs):
@@ -231,7 +264,7 @@ The cool thing is each model has the same api, if I want to create a vgg13 with 
 
 
 ```python
-from glasses.nn.models import VGG
+from glasses.models import VGG
 model = VGG.vgg13(block=SEResNetBottleneckBlock)
 model.summary()
 ```
@@ -244,7 +277,7 @@ A `Layer` is a collection of blocks, it is used to stack multiple blocks togethe
 
 
 ```python
-from glasses.nn.models.classification.resnet import ResNetLayer
+from glasses.models.classification.resnet import ResNetLayer
 
 ResNetLayer(64, 128, depth=2)
 ```
@@ -264,7 +297,7 @@ For example, `ResNetEncoder` will creates multiple `ResNetLayer` based on the le
 
 
 ```python
-from glasses.nn.models.classification.resnet import ResNetEncoder
+from glasses.models.classification.resnet import ResNetEncoder
 # 3 layers, with 32,64,128 features and 1,2,3 block each
 ResNetEncoder(
     widths=[32,64,128],
@@ -286,7 +319,7 @@ print([f.shape for f in enc.features])
 
 
 ```python
-from glasses.nn.models import ResNet
+from glasses.models import ResNet
 
 model = ResNet.resnet18()
 model.encoder.widths[-1]
@@ -300,7 +333,7 @@ Each encoder can return a list of features accessable by the `.features` field. 
 
 
 ```python
-from glasses.nn.models.classification.resnet import ResNetEncoder
+from glasses.models.classification.resnet import ResNetEncoder
 
 x = torch.randn(1,3,224,224)
 enc = ResNetEncoder()
@@ -320,7 +353,7 @@ Head is the last part of the model, it usually perform the classification
 
 
 ```python
-from glasses.nn.models.classification.resnet import ResNetHead
+from glasses.models.classification.resnet import ResNetHead
 
 
 ResNetHead(512, n_classes=1000)
@@ -332,7 +365,7 @@ The decoder takes the last feature from the `.encoder` and decode it. This is us
 
 
 ```python
-from glasses.nn.models.segmentation.unet import UNetDecoder
+from glasses.models.segmentation.unet import UNetDecoder
 x = torch.randn(1,3,224,224)
 enc = ResNetEncoder()
 enc.features # call it once
@@ -377,6 +410,18 @@ The models so far
 | resnext101_32x16d  | 194,026,792  |      740.15 |
 | resnext101_32x32d  | 468,530,472  |     1787.3  |
 | resnext101_32x48d  | 828,411,176  |     3160.14 |
+| regnetx_002        | 2,684,792    |       10.24 |
+| regnetx_004        | 5,157,512    |       19.67 |
+| regnetx_006        | 6,196,040    |       23.64 |
+| regnetx_008        | 7,259,656    |       27.69 |
+| regnetx_016        | 9,190,136    |       35.06 |
+| regnetx_032        | 15,296,552   |       58.35 |
+| regnety_002        | 3,162,996    |       12.07 |
+| regnety_004        | 4,344,144    |       16.57 |
+| regnety_006        | 6,055,160    |       23.1  |
+| regnety_008        | 6,263,168    |       23.89 |
+| regnety_016        | 11,202,430   |       42.73 |
+| regnety_032        | 19,436,338   |       74.14 |
 | wide_resnet50_2    | 68,883,240   |      262.77 |
 | wide_resnet101_2   | 126,886,696  |      484.03 |
 | densenet121        | 7,978,856    |       30.44 |

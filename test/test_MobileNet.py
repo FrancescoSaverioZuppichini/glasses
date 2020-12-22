@@ -1,5 +1,5 @@
 import torch
-from glasses.nn.models.classification.mobilenet import MobileNet
+from glasses.models.classification import MobileNet
 
 
 def test_alexnet():

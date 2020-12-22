@@ -1,8 +1,10 @@
-import torch
-import pandas as pd
 from argparse import ArgumentParser
+
+import pandas as pd
+import torch
 from torchsummary import summary
-from glasses import AutoModel
+
+from glasses.models import AutoModel
 
 # from torchvision.models import *
 

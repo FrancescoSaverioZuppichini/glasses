@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
-from glasses.nn.att import SpatialChannelSE, ChannelSE, SpatialSE, EfficientChannelAtt
+from glasses.nn import (ChannelSE, EfficientChannelAtt, SpatialChannelSE,
+                        SpatialSE)
+
 
 def test_att():
     x = torch.rand(1,48,8,8)
@@ -27,6 +29,6 @@ def test_att():
 
     eca = EfficientChannelAtt(x.shape[1])
 
-    res = se(x)
+    res = eca(x)
     assert res.shape == x.shape
     

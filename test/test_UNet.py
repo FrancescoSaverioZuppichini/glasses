@@ -1,13 +1,16 @@
-import torch
-from glasses.nn.models.segmentation.unet import UNet, UNetEncoder, UNetDecoder
-from glasses.nn.models.classification.senet import SENetBasicBlock
-from glasses.nn.models.classification.resnet import ResNet, ResNetBasicBlock, ResNetEncoder, ResNetBottleneckBlock
-from glasses.nn.models.classification import EfficientNet
-from glasses.nn.models.classification import EfficientNetLite
-from glasses import AutoModel
-from glasses.nn.blocks import Conv2dPad
 from functools import partial
+
 import pytest
+import torch
+from glasses.models import AutoModel
+from glasses.models.classification import EfficientNet, EfficientNetLite
+from glasses.models.classification.resnet import (ResNet, ResNetBasicBlock,
+                                                  ResNetBottleneckBlock,
+                                                  ResNetEncoder)
+from glasses.models.classification.senet import SENetBasicBlock
+from glasses.models.segmentation.unet import UNet, UNetDecoder, UNetEncoder
+from glasses.nn.blocks import Conv2dPad
+
 
 def test_UNet():
     x = torch.rand((1, 1, 32 * 12, 32*12))
