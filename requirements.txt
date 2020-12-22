@@ -4,3 +4,5 @@ torchvision
 torch
 requests==2.23.0
 torchsummary
+opencv-python
+matplotlib
