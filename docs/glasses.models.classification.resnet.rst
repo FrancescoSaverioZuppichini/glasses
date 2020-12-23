@@ -1,10 +1,10 @@
-glasses.nn.models.classification.vgg package
+glasses.models.classification.resnet package
 ============================================
 
 Module contents
 ---------------
 
-.. automodule:: glasses.nn.models.classification.vgg
+.. automodule:: glasses.models.classification.resnet
    :members:
    :undoc-members:
    :show-inheritance:

@@ -1,10 +1,10 @@
-glasses.nn.models.utils.protocols package
+glasses.models.classification.vgg package
 =========================================
 
 Module contents
 ---------------
 
-.. automodule:: glasses.nn.models.utils.protocols
+.. automodule:: glasses.models.classification.vgg
    :members:
    :undoc-members:
    :show-inheritance:

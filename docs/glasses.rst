@@ -9,6 +9,7 @@ Subpackages
 
    glasses.data
    glasses.interpretability
+   glasses.models
    glasses.nn
    glasses.utils
 

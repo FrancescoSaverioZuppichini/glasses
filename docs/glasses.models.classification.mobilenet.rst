@@ -1,10 +1,10 @@
-glasses.nn.models.classification.regnet package
+glasses.models.classification.mobilenet package
 ===============================================
 
 Module contents
 ---------------
 
-.. automodule:: glasses.nn.models.classification.regnet
+.. automodule:: glasses.models.classification.mobilenet
    :members:
    :undoc-members:
    :show-inheritance:

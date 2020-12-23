@@ -122,7 +122,6 @@ class UNetDecoder(nn.Module):
         ])
 
     def forward(self, x: Tensor, residuals: List[Tensor]) -> Tensor:
-
         for layer, res in zip(self.layers, residuals):
             x = layer(x, res)
 
