@@ -1,7 +1,7 @@
 # Transfer Learning with glasses 😎
 
 ### Preambula
-To get started you need to install glasses, this can be done throught `pip`
+To get started you need to install glasses, this can be done through `pip`
 
 ```bash
 pip install git+https://github.com/FrancescoSaverioZuppichini/glasses
@@ -11,24 +11,31 @@ pip install git+https://github.com/FrancescoSaverioZuppichini/glasses
 
 Train a deep convolutional neural network may take a lot of time, **transfer learning**, as the name suggests, use models already trained on a huge image dataset, such as ImageNet, to speed up the learning procedure. 
 
-Even if you dataset may be different than ImageNet, the pretrained models have learned useful weights that can be easility adapt to your new dataset.
+Even if your dataset may be different than ImageNet, the pre-trained models have learned useful weights that can be easily adapt to your new dataset.
 
 ### Loading a Model
 
-You can use `AutoModel` and `AutoConfig` to load your model and your preprocessing function. In this tutorial we are going to use `resnet34`.
+You can use `AutoModel` and `AutoConfig` to load your model and your preprocessing function. In this tutorial, we are going to use `resnet34`.
 
 
 ```python
 from glasses.models import AutoModel, AutoConfig
 
-resnet34 = AutoModel.from_pretrained('resnet34')
+resnet34 = AutoModel.from_pretrained('resnet34') 
 cfg = AutoConfig.from_name('resnet34')
 ```
 
     INFO:root:Loaded resnet34 pretrained weights.
 
 
-`AutoConfig` returns the correct configuration for a specific model. This is crucial because you need to properly preprocess your input in the same way it was done when the model was originally trained. `cfg` returns a `Config` object that contains the correct pytorch transformation. 
+You can also call `.summary()` to see your models parameters
+
+
+```python
+resnet34.summary()
+```
+
+`AutoConfig` returns the correct configuration for a specific model. This is crucial because you need to properly preprocess your input in the same way it was done when the model was originally trained. `cfg` returns a `Config` object that contains the correct PyTorch transformation. 
 
 
 ```python
