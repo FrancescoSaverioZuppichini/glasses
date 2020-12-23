@@ -38,8 +38,7 @@ plt.imshow(im)
 
 
 
-![png](output_3_1.png)
-
+![png](https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/tutorials/interpretability/output_3_1.png?raw=true)
 
 Then we can create a model using `AutoModel`, a simple `resnet18` will do just fine.
 
@@ -70,11 +69,9 @@ _ = model.interpret(x, using=GradCam(), postprocessing=postprocessing).show()
 ```
 
 
-![png](output_7_0.png)
+![png](https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/tutorials/interpretability/output_7_0.png?raw=true)
 
 
-
-![png](output_7_1.png)
-
+![png](https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/tutorials/interpretability/output_7_1.png?raw=true)
 
 Tada!
