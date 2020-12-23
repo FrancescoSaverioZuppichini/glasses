@@ -35,6 +35,12 @@ You can install `glasses` using pip by running
 pip install git+https://github.com/FrancescoSaverioZuppichini/glasses
 ```
 
+## Tutorials
+Check out `./tutorials` . So far:
+
+- [Transfer Learning](https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/tutorials/Transfer%20Learning.md)
+- [Interpretability](https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/tutorials/Interpretability.md)
+
 ### Motivations
 
 Almost all existing implementation of the most famous model are written with very bad coding practices, what today is called *research code*. I struggled myself to understand some of the implementation that in the end were just few lines of code. 
