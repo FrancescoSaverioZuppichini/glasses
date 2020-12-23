@@ -10,7 +10,6 @@ Subpackages
    glasses.nn.activation
    glasses.nn.att
    glasses.nn.blocks
-   glasses.nn.models
 
 Module contents
 ---------------

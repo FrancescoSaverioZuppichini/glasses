@@ -1,10 +1,10 @@
-glasses.nn.models.classification.senet package
+glasses.models.classification.resnetxt package
 ==============================================
 
 Module contents
 ---------------
 
-.. automodule:: glasses.nn.models.classification.senet
+.. automodule:: glasses.models.classification.resnetxt
    :members:
    :undoc-members:
    :show-inheritance:

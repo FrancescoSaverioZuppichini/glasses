@@ -37,7 +37,6 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="glasses.utils package" href="glasses.utils.html" />
     <link rel="prev" title="glasses.nn.models.segmentation.unet package" href="glasses.nn.models.segmentation.unet.html" /> 
 </head>
 
@@ -94,16 +93,16 @@
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.models.segmentation.html">glasses.nn.models.segmentation package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">glasses.nn.models.utils package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-glasses.nn.models.utils.scaler">glasses.nn.models.utils.scaler module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-glasses.nn.models.utils">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#glasses-nn-models-utils-scaler-module">glasses.nn.models.utils.scaler module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models.AutoConfig">glasses.nn.models.AutoConfig module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models.AutoModel">glasses.nn.models.AutoModel module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-glasses.nn.models">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#glasses-nn-models-autoconfig-module">glasses.nn.models.AutoConfig module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#glasses-nn-models-automodel-module">glasses.nn.models.AutoModel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.models.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
@@ -155,12 +154,6 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="modules.html">glasses</a> &raquo;</li>
-        
-          <li><a href="glasses.html">glasses package</a> &raquo;</li>
-        
-          <li><a href="glasses.nn.html">glasses.nn package</a> &raquo;</li>
-        
           <li><a href="glasses.nn.models.html">glasses.nn.models package</a> &raquo;</li>
         
       <li>glasses.nn.models.utils package</li>
@@ -187,42 +180,11 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-glasses.nn.models.utils.scaler">
-<span id="glasses-nn-models-utils-scaler-module"></span><h2>glasses.nn.models.utils.scaler module<a class="headerlink" href="#module-glasses.nn.models.utils.scaler" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="glasses.nn.models.utils.scaler.CompoundScaler">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.models.utils.scaler.</code><code class="sig-name descname">CompoundScaler</code><a class="reference internal" href="_modules/glasses/nn/models/utils/scaler.html#CompoundScaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.utils.scaler.CompoundScaler" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Scales <cite>widths</cite> and <cite>depths</cite>. Proposed in <a class="reference external" href="https://arxiv.org/abs/1905.11946">EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks</a>.</p>
-<blockquote>
-<div><dl>
-<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scaler</span> <span class="o">=</span> <span class="n">CompoundScaler</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">scaler</span><span class="p">(</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
-</pre></div>
+<div class="section" id="glasses-nn-models-utils-scaler-module">
+<h2>glasses.nn.models.utils.scaler module<a class="headerlink" href="#glasses-nn-models-utils-scaler-module" title="Permalink to this headline">¶</a></h2>
 </div>
-</dd>
-</dl>
-</div></blockquote>
-<dl class="py method">
-<dt id="glasses.nn.models.utils.scaler.CompoundScaler.depth_scaling">
-<code class="sig-name descname">depth_scaling</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">depth</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">depth_multi</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/glasses/nn/models/utils/scaler.html#CompoundScaler.depth_scaling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.utils.scaler.CompoundScaler.depth_scaling" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="glasses.nn.models.utils.scaler.CompoundScaler.make_divisible">
-<code class="sig-name descname">make_divisible</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">divisor</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">8</span></em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/glasses/nn/models/utils/scaler.html#CompoundScaler.make_divisible"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.utils.scaler.CompoundScaler.make_divisible" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="glasses.nn.models.utils.scaler.CompoundScaler.width_scaling">
-<code class="sig-name descname">width_scaling</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">width</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">width_multi</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/glasses/nn/models/utils/scaler.html#CompoundScaler.width_scaling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.models.utils.scaler.CompoundScaler.width_scaling" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-glasses.nn.models.utils">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.nn.models.utils" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -233,8 +195,6 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="glasses.utils.html" class="btn btn-neutral float-right" title="glasses.utils package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="glasses.nn.models.segmentation.unet.html" class="btn btn-neutral float-left" title="glasses.nn.models.segmentation.unet package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
