@@ -30,6 +30,7 @@ class FPNSmoothBlock(nn.Module):
 
 # [TODO] one of these two guys should override one of the other
 
+
 class FPNSegmentationBlock(nn.Module):
     def __init__(self, in_features: int, out_features: int, block: nn.Module = ConvBnAct, **kwargs):
         super().__init__()
@@ -100,6 +101,7 @@ class FPNSegmentationBranch(nn.Module):
             features.append(x)
         return features
 
+
 class FPNDecoder(nn.Module):
     """
     FPN Decoder composed of several layer of upsampling layers aimed to decrease the features space and increase the resolution.
@@ -134,19 +136,23 @@ class FPNDecoder(nn.Module):
 
 
 class Merge(nn.Module):
-    """This layer merges all the features by summing them
+    """This layer merges all the features by summing them.
 
     Args:
         policy (str, optional): [description]. Defaults to 'sum'.
     """
 
     def __init__(self, policy: str = 'sum'):
+        super().__init__()
         assert policy in ['sum'], f'Policy {policy} is not supported.'
         self.policy = policy
 
     def forward(self, features):
+        if type(features) == list:
+            features = torch.stack(features, dim=1)
         x = torch.sum(features, dim=1)
         return x
+
 
 class FPN(SegmentationModule):
     """Implementation of Feature Pyramid Networks proposed in `Feature Pyramid Networks for Object Detection <https://arxiv.org/abs/1612.03144>`_
@@ -155,6 +161,9 @@ class FPN(SegmentationModule):
         This model should be used only to extract features from an image, the output is a vector of shape [B, N, <prediction_width>, :math:`S_i`, :math:`S_i`].
         Where :math:`S_i` is the spatial shape of the :math:`i-th` stage of the encoder. 
         For image segmentation please use `PFPN`.
+
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/PPFN.png?raw=true
+
     Examples:
 
        Create a default model
@@ -171,9 +180,9 @@ class FPN(SegmentationModule):
         >>> FPN = FPN(encoder=lambda *args, **kwargs: ResNet.resnet26(*args, **kwargs).encoder,)
         >>> FPN = FPN(encoder=lambda *args, **kwargs: EfficientNet.efficientnet_b2(*args, **kwargs).encoder,)
         >>> # change decoder
-        >>> FPN(decoder=partial(FPNDecoder, widths=[256, 128, 64, 32, 16]))
+        >>> FPN(decoder=partial(FPNDecoder, pyramid_width=64, prediction_width=32))
         >>> # pass a different block to decoder
-        >>> FPN(encoder=partial(FPNEncoder, block=SENetBasicBlock))
+        >>> FPN(encoder=partial(ResNetEncoder, block=SENetBasicBlock))
         >>> # all *Decoder class can be directly used
         >>> FPN = FPN(encoder=partial(ResNetEncoder, block=ResNetBottleneckBlock, depths=[2,2,2,2]))
 
@@ -195,13 +204,18 @@ class FPN(SegmentationModule):
 
 
 PFPNSegmentationBranch = partial(FPNSegmentationBranch, layer=PFPNSegmentationLayer)
+r"""Panoptic FPN Segmentation Branch that upsample every features to match :math:`\frac{1}{4}` of the spatial dimension of the input"""
 PFPNDecoder = partial(FPNDecoder, segmentation_branch=PFPNSegmentationBranch)
+"""Panoptic FPN Decoder that uses  :func:`~PFPNSegmentationBranch` as segmentation branch"""
 
-class PPFN(FPN):
+
+class PFPN(FPN):
     r"""Implementation of Panoptic Feature Pyramid Networks proposed in `Panoptic Feature Pyramid Networks <https://arxiv.org/pdf/1901.02446.pdf>`_
 
     Basically, each features obtained from the segmentation branch is upsampled to match :math:`\frac{1}{4}` of the input, in the `ResNet` case :math:`58`. 
     Then, the features are merged by summing them to obtain a single vector that is upsampled to the input spatial shape.
+
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/PPFN.png?raw=true
 
     Examples:
 
@@ -216,14 +230,14 @@ class PPFN(FPN):
         >>> # change number of classes (default is 2 )
         >>> PFPN(n_classes=2)
         >>> # change encoder
-        >>> PFPN = PFPN(encoder=lambda *args, **kwargs: ResNet.resnet26(*args, **kwargs).encoder,)
-        >>> PFPN = PFPN(encoder=lambda *args, **kwargs: EfficientNet.efficientnet_b2(*args, **kwargs).encoder,)
+        >>> pfpn = PFPN(encoder=lambda *args, **kwargs: ResNet.resnet26(*args, **kwargs).encoder,)
+        >>> pfpn = PFPN(encoder=lambda *args, **kwargs: EfficientNet.efficientnet_b2(*args, **kwargs).encoder,)
         >>> # change decoder
-        >>> PFPN(decoder=partial(PFPNDecoder, widths=[256, 128, 64, 32, 16]))
+        >>> PFPN(decoder=partial(PFPNDecoder, pyramid_width=64, prediction_width=32))
         >>> # pass a different block to decoder
-        >>> PFPN(encoder=partial(PFPNEncoder, block=SENetBasicBlock))
+        >>> PFPN(encoder=partial(ResNetEncoder, block=SENetBasicBlock))
         >>> # all *Decoder class can be directly used
-        >>> PFPN = FPN(encoder=partial(ResNetEncoder, block=ResNetBottleneckBlock, depths=[2,2,2,2]))
+        >>> pfpn = PFPN(encoder=partial(ResNetEncoder, block=ResNetBottleneckBlock, depths=[2,2,2,2]))
 
     Args:
 
@@ -232,8 +246,9 @@ class PPFN(FPN):
        encoder (Encoder, optional): [description]. Defaults to ResNetEncoder.
        ecoder (nn.Module, optional): [description]. Defaults to PFPNDecoder.
     """
+
     def __init__(self, *args, n_classes: int = 2, decoder: nn.Module = PFPNDecoder, **kwargs):
-        super().__init__(*args, decoder, **kwargs)
+        super().__init__(*args, decoder=decoder, **kwargs)
         self.head = nn.Sequential(
             Merge(),
             nn.UpsamplingNearest2d(scale_factor=4),

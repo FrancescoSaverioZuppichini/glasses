@@ -133,6 +133,8 @@ class EfficientNetEncoder(Encoder):
 
     @property
     def stages(self):
+        # TODO this must be changed to allow multi layers
+        # stages are all the layers with stride = 2 skipping the last one
         return [self.stem[-2],
                 self.layers[1],
                 self.layers[2],
