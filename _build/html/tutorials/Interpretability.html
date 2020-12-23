@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Interpretability with glasses 😎 &mdash; Glasses  documentation</title>
+  <title>Interpretability &mdash; Glasses  documentation</title>
   
 
   
@@ -36,7 +36,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Transfer Learning with glasses 😎" href="Transfer%20Learning.html" />
+    <link rel="next" title="Transfer Learning" href="Transfer%20Learning.html" />
     <link rel="prev" title="Glasses 😎" href="../index.html" /> 
 </head>
 
@@ -84,12 +84,12 @@
             
               <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Interpretability with glasses 😎</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Interpretability</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#preambula">Preambula</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#interpretability">Interpretability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Interpretability</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Transfer%20Learning.html">Transfer Learning with glasses 😎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Transfer%20Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package Reference</span></p>
@@ -146,7 +146,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Interpretability with glasses 😎</li>
+      <li>Interpretability</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -165,8 +165,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="interpretability-with-glasses">
-<h1>Interpretability with glasses 😎<a class="headerlink" href="#interpretability-with-glasses" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="interpretability">
+<h1>Interpretability<a class="headerlink" href="#interpretability" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="preambula">
 <h2>Preambula<a class="headerlink" href="#preambula" title="Permalink to this headline">¶</a></h2>
 <p>To get started you need to install glasses, this can be done through <code class="docutils literal notranslate"><span class="pre">pip</span></code></p>
@@ -174,8 +174,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="interpretability">
-<h2>Interpretability<a class="headerlink" href="#interpretability" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h2>Interpretability<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>There are different methods to understand the model’s output. In glasses, each model is a <code class="docutils literal notranslate"><span class="pre">VisionModule</span></code> instance and they all implement the <code class="docutils literal notranslate"><span class="pre">Interpretable</span></code> protocol allowing you to access the <code class="docutils literal notranslate"><span class="pre">.interpret</span></code> method.</p>
 <p>All the available interpretability techniques are contained in <code class="docutils literal notranslate"><span class="pre">glasses.interpretability</span></code>. Let’s see them in action!</p>
 <p>First of all, we need an image!</p>
@@ -195,7 +195,7 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">AxesImage</span> <span class="n">at</span> <span class="mh">0x7fa343f358b0</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-<p><img alt="png" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/tutorials/interpretability/output_3_1.png?raw=true" /></p>
+<p><img alt="png" src="tutorials/output_3_1.png" /></p>
 <p>Then we can create a model using <code class="docutils literal notranslate"><span class="pre">AutoModel</span></code>, a simple <code class="docutils literal notranslate"><span class="pre">resnet18</span></code> will do just fine.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.models</span> <span class="kn">import</span> <span class="n">AutoModel</span><span class="p">,</span> <span class="n">AutoConfig</span>
 
@@ -218,8 +218,8 @@
 <span class="n">_</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">interpret</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">using</span><span class="o">=</span><span class="n">GradCam</span><span class="p">(),</span> <span class="n">postprocessing</span><span class="o">=</span><span class="n">postprocessing</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><img alt="png" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/tutorials/interpretability/output_7_0.png?raw=true" /></p>
-<p><img alt="png" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/tutorials/interpretability/output_7_1.png?raw=true" /></p>
+<p><img alt="png" src="tutorials/output_7_0.png" /></p>
+<p><img alt="png" src="tutorials/output_7_1.png" /></p>
 <p>Tada!</p>
 </div>
 </div>
@@ -232,7 +232,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Transfer%20Learning.html" class="btn btn-neutral float-right" title="Transfer Learning with glasses 😎" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Transfer%20Learning.html" class="btn btn-neutral float-right" title="Transfer Learning" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../index.html" class="btn btn-neutral float-left" title="Glasses 😎" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
