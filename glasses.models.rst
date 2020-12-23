@@ -31,6 +31,7 @@ glasses.models.AutoModel module
    :undoc-members:
    :show-inheritance:
 
+
 Module contents
 ---------------
 

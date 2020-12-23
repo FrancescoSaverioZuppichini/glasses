@@ -84,7 +84,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">glasses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="glasses.nn.models.html">glasses.nn.models package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.data.html">glasses.data package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.interpretability.html">glasses.interpretability package</a></li>
@@ -675,6 +674,18 @@
 </li>
         <li><a href="glasses.models.segmentation.base.html#glasses.models.segmentation.base.SegmentationModule.forward">(glasses.models.segmentation.base.SegmentationModule method)</a>
 </li>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNDecoder.forward">(glasses.models.segmentation.fpn.FPNDecoder method)</a>
+</li>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNSegmentationBlock.forward">(glasses.models.segmentation.fpn.FPNSegmentationBlock method)</a>
+</li>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNSegmentationBranch.forward">(glasses.models.segmentation.fpn.FPNSegmentationBranch method)</a>
+</li>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNSmoothBlock.forward">(glasses.models.segmentation.fpn.FPNSmoothBlock method)</a>
+</li>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNUpLayer.forward">(glasses.models.segmentation.fpn.FPNUpLayer method)</a>
+</li>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.Merge.forward">(glasses.models.segmentation.fpn.Merge method)</a>
+</li>
         <li><a href="glasses.models.segmentation.unet.html#glasses.models.segmentation.unet.DownLayer.forward">(glasses.models.segmentation.unet.DownLayer method)</a>
 </li>
         <li><a href="glasses.models.segmentation.unet.html#glasses.models.segmentation.unet.UNetDecoder.forward">(glasses.models.segmentation.unet.UNetDecoder method)</a>
@@ -705,6 +716,24 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.utils.html#glasses.utils.Storage.ForwardModuleStorage">ForwardModuleStorage (class in glasses.utils.Storage)</a>
+</li>
+      <li><a href="glasses.models.segmentation.html#glasses.models.segmentation.FPN">FPN (class in glasses.models.segmentation)</a>
+
+      <ul>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPN">(class in glasses.models.segmentation.fpn)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNDecoder">FPNDecoder (class in glasses.models.segmentation.fpn)</a>
+</li>
+      <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNSegmentationBlock">FPNSegmentationBlock (class in glasses.models.segmentation.fpn)</a>
+</li>
+      <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNSegmentationBranch">FPNSegmentationBranch (class in glasses.models.segmentation.fpn)</a>
+</li>
+      <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNSegmentationLayer">FPNSegmentationLayer (class in glasses.models.segmentation.fpn)</a>
+</li>
+      <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNSmoothBlock">FPNSmoothBlock (class in glasses.models.segmentation.fpn)</a>
+</li>
+      <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNUpLayer">FPNUpLayer (class in glasses.models.segmentation.fpn)</a>
 </li>
       <li><a href="glasses.models.base.html#glasses.models.base.protocols.Freezable">Freezable (class in glasses.models.base.protocols)</a>
 </li>
@@ -940,6 +969,13 @@
 </li>
       </ul></li>
       <li>
+    glasses.models.segmentation.fpn
+
+      <ul>
+        <li><a href="glasses.models.segmentation.fpn.html#module-glasses.models.segmentation.fpn">module</a>
+</li>
+      </ul></li>
+      <li>
     glasses.models.segmentation.unet
 
       <ul>
@@ -1136,6 +1172,8 @@
 </li>
       <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.Config.mean">mean (glasses.utils.PretrainedWeightsProvider.Config attribute)</a>
 </li>
+      <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.Merge">Merge (class in glasses.models.segmentation.fpn)</a>
+</li>
       <li><a href="glasses.models.html#glasses.models.MobileNet">MobileNet (class in glasses.models)</a>
 
       <ul>
@@ -1230,6 +1268,8 @@
 </li>
         <li><a href="glasses.models.segmentation.base.html#module-glasses.models.segmentation.base">glasses.models.segmentation.base</a>
 </li>
+        <li><a href="glasses.models.segmentation.fpn.html#module-glasses.models.segmentation.fpn">glasses.models.segmentation.fpn</a>
+</li>
         <li><a href="glasses.models.segmentation.unet.html#module-glasses.models.segmentation.unet">glasses.models.segmentation.unet</a>
 </li>
         <li><a href="glasses.models.utils.html#module-glasses.models.utils">glasses.models.utils</a>
@@ -1305,9 +1345,21 @@
 </li>
       <li><a href="glasses.nn.blocks.html#glasses.nn.blocks.Conv2dPad.padding_mode">padding_mode (glasses.nn.blocks.Conv2dPad attribute)</a>
 </li>
+      <li><a href="glasses.utils.html#glasses.utils.Tracker.Tracker.parametrized">parametrized() (glasses.utils.Tracker.Tracker property)</a>
+</li>
+      <li><a href="glasses.models.segmentation.html#glasses.models.segmentation.PFPN">PFPN (class in glasses.models.segmentation)</a>
+
+      <ul>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.PFPN">(class in glasses.models.segmentation.fpn)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="glasses.utils.html#glasses.utils.Tracker.Tracker.parametrized">parametrized() (glasses.utils.Tracker.Tracker property)</a>
+      <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.PFPNDecoder">PFPNDecoder (in module glasses.models.segmentation.fpn)</a>
+</li>
+      <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.PFPNSegmentationBranch">PFPNSegmentationBranch (in module glasses.models.segmentation.fpn)</a>
+</li>
+      <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.PFPNSegmentationLayer">PFPNSegmentationLayer (class in glasses.models.segmentation.fpn)</a>
 </li>
       <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.pretrained">pretrained() (in module glasses.utils.PretrainedWeightsProvider)</a>
 </li>
@@ -1879,6 +1931,30 @@
         <li><a href="glasses.models.html#glasses.models.MobileNet.training">(glasses.models.MobileNet attribute)</a>
 </li>
         <li><a href="glasses.models.segmentation.base.html#glasses.models.segmentation.base.SegmentationModule.training">(glasses.models.segmentation.base.SegmentationModule attribute)</a>
+</li>
+        <li><a href="glasses.models.segmentation.html#glasses.models.segmentation.FPN.training">(glasses.models.segmentation.FPN attribute)</a>
+</li>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPN.training">(glasses.models.segmentation.fpn.FPN attribute)</a>
+</li>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNDecoder.training">(glasses.models.segmentation.fpn.FPNDecoder attribute)</a>
+</li>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNSegmentationBlock.training">(glasses.models.segmentation.fpn.FPNSegmentationBlock attribute)</a>
+</li>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNSegmentationBranch.training">(glasses.models.segmentation.fpn.FPNSegmentationBranch attribute)</a>
+</li>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNSegmentationLayer.training">(glasses.models.segmentation.fpn.FPNSegmentationLayer attribute)</a>
+</li>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNSmoothBlock.training">(glasses.models.segmentation.fpn.FPNSmoothBlock attribute)</a>
+</li>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNUpLayer.training">(glasses.models.segmentation.fpn.FPNUpLayer attribute)</a>
+</li>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.Merge.training">(glasses.models.segmentation.fpn.Merge attribute)</a>
+</li>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.PFPN.training">(glasses.models.segmentation.fpn.PFPN attribute)</a>
+</li>
+        <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.PFPNSegmentationLayer.training">(glasses.models.segmentation.fpn.PFPNSegmentationLayer attribute)</a>
+</li>
+        <li><a href="glasses.models.segmentation.html#glasses.models.segmentation.PFPN.training">(glasses.models.segmentation.PFPN attribute)</a>
 </li>
         <li><a href="glasses.models.segmentation.html#glasses.models.segmentation.UNet.training">(glasses.models.segmentation.UNet attribute)</a>
 </li>

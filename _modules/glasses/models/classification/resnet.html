@@ -84,7 +84,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">glasses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../glasses.nn.html">glasses.nn package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../glasses.nn.models.html">glasses.nn.models package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../glasses.utils.html">glasses.utils package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../glasses.data.html">glasses.data package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../glasses.interpretability.html">glasses.interpretability package</a></li>
@@ -251,7 +250,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">=</span> <span class="n">activation</span><span class="p">()</span>
 
 <div class="viewcode-block" id="ResNetBasicBlock.forward"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNetBasicBlock.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-
         <span class="n">res</span> <span class="o">=</span> <span class="n">x</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortcut</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
