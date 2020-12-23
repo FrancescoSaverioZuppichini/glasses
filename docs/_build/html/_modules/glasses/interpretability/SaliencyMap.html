@@ -81,11 +81,17 @@
               
             
             
-              <p class="caption"><span class="caption-text">Package Reference</span></p>
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/Interpretability.html">Interpretability with glasses 😎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/Transfer Learning.html">Transfer Learning with glasses 😎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Package Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">glasses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glasses.nn.html">glasses.nn package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../glasses.nn.models.html">glasses.nn.models package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glasses.models.html">glasses.models package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glasses.utils.html">glasses.utils package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glasses.data.html">glasses.data package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glasses.interpretability.html">glasses.interpretability package</a></li>
@@ -154,18 +160,17 @@
             
   <h1>Source code for glasses.interpretability.SaliencyMap</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
+<span class="kn">from</span> <span class="nn">glasses.utils.Storage</span> <span class="kn">import</span> <span class="n">BackwardModuleStorage</span><span class="p">,</span> <span class="n">ForwardModuleStorage</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">convert_to_grayscale</span>
-<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">ReLU</span>
 <span class="kn">from</span> <span class="nn">torch.autograd</span> <span class="kn">import</span> <span class="n">Variable</span>
+<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">ReLU</span>
 <span class="kn">from</span> <span class="nn">torchvision.transforms</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">glasses.utils.Storage</span> <span class="kn">import</span> <span class="n">ForwardModuleStorage</span><span class="p">,</span> <span class="n">BackwardModuleStorage</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">find_first_layer</span>
+
 <span class="kn">from</span> <span class="nn">.Interpretability</span> <span class="kn">import</span> <span class="n">Interpretability</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">convert_to_grayscale</span><span class="p">,</span> <span class="n">find_first_layer</span>
 
 
 <div class="viewcode-block" id="SaliencyMapResult"><a class="viewcode-back" href="../../../glasses.interpretability.html#glasses.interpretability.SaliencyMap.SaliencyMapResult">[docs]</a><span class="k">class</span> <span class="nc">SaliencyMapResult</span><span class="p">:</span>

@@ -7,15 +7,21 @@
 
 .. include:: ./README.rst
 
+.. toctree::
+   :glob:
+   :maxdepth: 1
+   :caption: Tutorials
+
+   tutorials/*
 
 .. toctree::
    :glob:
    :maxdepth: 1
    :caption: Package Reference
-
+   
    modules
    glasses.nn
-   glasses.nn.models
+   glasses.models
    glasses.utils
    glasses.data
    glasses.interpretability
