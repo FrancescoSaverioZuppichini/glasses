@@ -1,4 +1,4 @@
-# Transfer Learning with glasses 😎
+# Transfer Learning
 
 ### Preambula
 To get started you need to install glasses, this can be done through `pip`
