@@ -1,10 +1,10 @@
-glasses.nn.models.segmentation.base package
+glasses.models.classification.senet package
 ===========================================
 
 Module contents
 ---------------
 
-.. automodule:: glasses.nn.models.segmentation.base
+.. automodule:: glasses.models.classification.senet
    :members:
    :undoc-members:
    :show-inheritance:

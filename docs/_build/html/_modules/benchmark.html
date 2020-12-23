@@ -85,7 +85,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">glasses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glasses.nn.html">glasses.nn package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../glasses.nn.models.html">glasses.nn.models package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glasses.utils.html">glasses.utils package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glasses.data.html">glasses.data package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glasses.interpretability.html">glasses.interpretability package</a></li>
@@ -153,73 +152,42 @@
            <div itemprop="articleBody">
             
   <h1>Source code for benchmark</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
-<span class="kn">from</span> <span class="nn">torchvision.datasets</span> <span class="kn">import</span> <span class="n">ImageNet</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
-<span class="kn">from</span> <span class="nn">torchvision.transforms</span> <span class="kn">import</span> <span class="n">Resize</span><span class="p">,</span> <span class="n">CenterCrop</span><span class="p">,</span> <span class="n">ToTensor</span><span class="p">,</span> <span class="n">Normalize</span><span class="p">,</span> <span class="n">Compose</span>
-<span class="kn">from</span> <span class="nn">torchvision.models</span> <span class="kn">import</span> <span class="n">resnet18</span><span class="p">,</span> <span class="n">resnet34</span><span class="p">,</span> <span class="n">resnet50</span><span class="p">,</span> <span class="n">resnet101</span><span class="p">,</span> <span class="n">resnet152</span><span class="p">,</span> <span class="n">resnext50_32x4d</span><span class="p">,</span> <span class="n">resnext101_32x8d</span><span class="p">,</span> <span class="n">wide_resnet50_2</span><span class="p">,</span> <span class="n">wide_resnet101_2</span>
-<span class="kn">from</span> <span class="nn">torchvision.models</span> <span class="kn">import</span> <span class="n">densenet121</span><span class="p">,</span> <span class="n">densenet161</span><span class="p">,</span> <span class="n">densenet169</span><span class="p">,</span> <span class="n">densenet201</span>
-<span class="kn">from</span> <span class="nn">torchvision.models</span> <span class="kn">import</span> <span class="n">vgg11</span><span class="p">,</span> <span class="n">vgg13</span><span class="p">,</span> <span class="n">vgg16</span><span class="p">,</span> <span class="n">vgg19</span>
-<span class="kn">from</span> <span class="nn">torchvision.models</span> <span class="kn">import</span> <span class="n">mobilenet_v2</span>
-<span class="kn">from</span> <span class="nn">glasses.nn.models</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">tqdm.autonotebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="kn">from</span> <span class="nn">glasses.utils.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">PretrainedWeightsProvider</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">glasses.utils.ModuleTransfer</span> <span class="kn">import</span> <span class="n">ModuleTransfer</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 <span class="kn">from</span> <span class="nn">sotabencheval.image_classification</span> <span class="kn">import</span> <span class="n">ImageNetEvaluator</span>
+<span class="kn">from</span> <span class="nn">torchvision.datasets</span> <span class="kn">import</span> <span class="n">ImageNet</span>
+<span class="kn">from</span> <span class="nn">torchvision.models</span> <span class="kn">import</span> <span class="p">(</span><span class="n">densenet121</span><span class="p">,</span> <span class="n">densenet161</span><span class="p">,</span> <span class="n">densenet169</span><span class="p">,</span>
+                                <span class="n">densenet201</span><span class="p">,</span> <span class="n">mobilenet_v2</span><span class="p">,</span> <span class="n">resnet18</span><span class="p">,</span> <span class="n">resnet34</span><span class="p">,</span>
+                                <span class="n">resnet50</span><span class="p">,</span> <span class="n">resnet101</span><span class="p">,</span> <span class="n">resnet152</span><span class="p">,</span>
+                                <span class="n">resnext50_32x4d</span><span class="p">,</span> <span class="n">resnext101_32x8d</span><span class="p">,</span> <span class="n">vgg11</span><span class="p">,</span>
+                                <span class="n">vgg13</span><span class="p">,</span> <span class="n">vgg16</span><span class="p">,</span> <span class="n">vgg19</span><span class="p">,</span> <span class="n">wide_resnet50_2</span><span class="p">,</span>
+                                <span class="n">wide_resnet101_2</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">torchvision.transforms</span> <span class="kn">import</span> <span class="p">(</span><span class="n">CenterCrop</span><span class="p">,</span> <span class="n">Compose</span><span class="p">,</span> <span class="n">Normalize</span><span class="p">,</span> <span class="n">Resize</span><span class="p">,</span>
+                                    <span class="n">ToTensor</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">tqdm.autonotebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
+<span class="kn">from</span> <span class="nn">glasses.models</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">glasses.models.AutoModel</span> <span class="kn">import</span> <span class="n">AutoModel</span>
+<span class="kn">from</span> <span class="nn">glasses.models.AutoConfig</span> <span class="kn">import</span> <span class="n">AutoConfig</span>
+<span class="kn">from</span> <span class="nn">glasses.utils.ModuleTransfer</span> <span class="kn">import</span> <span class="n">ModuleTransfer</span>
+<span class="kn">from</span> <span class="nn">glasses.utils.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">PretrainedWeightsProvider</span>
 
-<span class="n">models</span> <span class="o">=</span> <span class="p">{</span>
-     <span class="s1">&#39;vgg11&#39;</span><span class="p">:</span>   <span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">,</span>
-    <span class="s1">&#39;vgg13&#39;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg13</span><span class="p">,</span>
-    <span class="s1">&#39;vgg16&#39;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg16</span><span class="p">,</span>
-    <span class="s1">&#39;vgg19&#39;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg19</span><span class="p">,</span>
-    <span class="s1">&#39;vgg11_bn&#39;</span><span class="p">:</span>   <span class="n">VGG</span><span class="o">.</span><span class="n">vgg11_bn</span><span class="p">,</span>
-    <span class="s1">&#39;vgg13_bn&#39;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg13_bn</span><span class="p">,</span>
-    <span class="s1">&#39;vgg16_bn&#39;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg16_bn</span><span class="p">,</span>
-    <span class="s1">&#39;vgg19_bn&#39;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg19_bn</span><span class="p">,</span>
-    <span class="s1">&#39;resnet18&#39;</span><span class="p">:</span>  <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">,</span>
-    <span class="s1">&#39;resnet26&#39;</span><span class="p">:</span>  <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">,</span>
-    <span class="s1">&#39;resnet34&#39;</span><span class="p">:</span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet34</span><span class="p">,</span>
-    <span class="s1">&#39;resnet50&#39;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">,</span>
-    <span class="s1">&#39;cse_resnet50&#39;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet50</span><span class="p">,</span>
-    <span class="s1">&#39;resnet101&#39;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet101</span><span class="p">,</span>
-    <span class="s1">&#39;resnet152&#39;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet152</span><span class="p">,</span>
-
-
-    <span class="s1">&#39;resnext50_32x4d&#39;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">,</span>
-    <span class="s1">&#39;resnext101_32x8d&#39;</span><span class="p">:</span><span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x8d</span><span class="p">,</span>
-    <span class="s1">&#39;wide_resnet50_2&#39;</span><span class="p">:</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet50_2</span><span class="p">,</span>
-    <span class="s1">&#39;wide_resnet101_2&#39;</span><span class="p">:</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet101_2</span><span class="p">,</span>
-
-    <span class="s1">&#39;densenet121&#39;</span><span class="p">:</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">,</span>
-    <span class="s1">&#39;densenet169&#39;</span><span class="p">:</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet169</span><span class="p">,</span>
-    <span class="s1">&#39;densenet201&#39;</span><span class="p">:</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet201</span><span class="p">,</span>
-    <span class="s1">&#39;densenet161&#39;</span><span class="p">:</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet161</span><span class="p">,</span>
-    <span class="c1"># &#39;mobilenet_v2&#39;: MobileNetV2,</span>
-
-    <span class="s1">&#39;efficientnet_b0&#39;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">,</span>
-    <span class="s1">&#39;efficientnet_b1&#39;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b1</span><span class="p">,</span>
-    <span class="s1">&#39;efficientnet_b2&#39;</span><span class="p">:</span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b2</span><span class="p">,</span>
-    <span class="s1">&#39;efficientnet_b3&#39;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b3</span><span class="p">,</span>
-
-<span class="p">}</span>
-
-
+<span class="n">models</span> <span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">PretrainedWeightsProvider</span><span class="o">.</span><span class="n">weights_zoo</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
 <span class="n">batch_sizes</span> <span class="o">=</span> <span class="p">{</span>
-     <span class="s1">&#39;efficientnet-b0&#39;</span><span class="p">:</span> <span class="mi">256</span><span class="p">,</span>
-    <span class="s1">&#39;efficientnet-b1&#39;</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
-    <span class="s1">&#39;efficientnet-b2&#39;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
-    <span class="s1">&#39;efficientnet-b3&#39;</span><span class="p">:</span> <span class="mi">64</span>
+    <span class="s1">&#39;efficientnet_b0&#39;</span><span class="p">:</span> <span class="mi">256</span><span class="p">,</span>
+    <span class="s1">&#39;efficientnet_b1&#39;</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
 <span class="p">}</span>
-
 
 
 <span class="n">provider</span> <span class="o">=</span> <span class="n">PretrainedWeightsProvider</span><span class="p">()</span>
@@ -229,22 +197,24 @@
 
 <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
 
+
 <div class="viewcode-block" id="get_img_id"><a class="viewcode-back" href="../benchmark.html#benchmark.get_img_id">[docs]</a><span class="k">def</span> <span class="nf">get_img_id</span><span class="p">(</span><span class="n">image_name</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">image_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.JPEG&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="benchmark"><a class="viewcode-back" href="../benchmark.html#benchmark.benchmark">[docs]</a><span class="k">def</span> <span class="nf">benchmark</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span> <span class="o">=</span> <span class="n">device</span><span class="p">):</span>
+
+<div class="viewcode-block" id="benchmark"><a class="viewcode-back" href="../benchmark.html#benchmark.benchmark">[docs]</a><span class="k">def</span> <span class="nf">benchmark</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">):</span>
 
     <span class="n">valid_dataset</span> <span class="o">=</span> <span class="n">ImageNet</span><span class="p">(</span>
         <span class="n">root</span><span class="o">=</span><span class="s1">&#39;/home/zuppif/Downloads/ImageNet&#39;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
 
     <span class="n">valid_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">valid_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                                            <span class="n">num_workers</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                                 
+                                               <span class="n">num_workers</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
     <span class="n">evaluator</span> <span class="o">=</span> <span class="n">ImageNetEvaluator</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span>
-                              <span class="n">paper_arxiv_id</span><span class="o">=</span><span class="s1">&#39;1905.11946&#39;</span><span class="p">)</span>
+                                  <span class="n">paper_arxiv_id</span><span class="o">=</span><span class="s1">&#39;1905.11946&#39;</span><span class="p">)</span>
     <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
     <span class="n">num_batches</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">valid_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span> <span class="o">/</span>
-                            <span class="nb">float</span><span class="p">(</span><span class="n">valid_loader</span><span class="o">.</span><span class="n">batch_size</span><span class="p">)))</span>
+                                <span class="nb">float</span><span class="p">(</span><span class="n">valid_loader</span><span class="o">.</span><span class="n">batch_size</span><span class="p">)))</span>
 
     <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
@@ -257,9 +227,10 @@
 
             <span class="n">net_out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
 
-            <span class="n">image_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_img_id</span><span class="p">(</span><span class="n">img</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">valid_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">imgs</span><span class="p">[</span><span class="n">i_val</span><span class="o">*</span><span class="n">valid_loader</span><span class="o">.</span><span class="n">batch_size</span><span class="p">:(</span><span class="n">i_val</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">valid_loader</span><span class="o">.</span><span class="n">batch_size</span><span class="p">]]</span>
+            <span class="n">image_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_img_id</span><span class="p">(</span><span class="n">img</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">valid_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">imgs</span><span class="p">[</span><span class="n">i_val</span> <span class="o">*</span>
+                                                                                 <span class="n">valid_loader</span><span class="o">.</span><span class="n">batch_size</span><span class="p">:(</span><span class="n">i_val</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">valid_loader</span><span class="o">.</span><span class="n">batch_size</span><span class="p">]]</span>
             <span class="n">evaluator</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">image_ids</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">net_out</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))))</span>
-          
+
             <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">pbar</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="n">stop</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -268,69 +239,60 @@
 
 
 <div class="viewcode-block" id="benchmark_all"><a class="viewcode-back" href="../benchmark.html#benchmark.benchmark_all">[docs]</a><span class="k">def</span> <span class="nf">benchmark_all</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="n">save_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;./benchmark.pkl&#39;</span><span class="p">)</span>
+    <span class="n">save_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;./benchmark.csv&#39;</span><span class="p">)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">save_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">save_path</span><span class="p">))</span>
-    
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">save_path</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">index</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">records</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="n">bar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+    <span class="n">bar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">bar</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">model</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                    <span class="n">cfg</span> <span class="o">=</span> <span class="n">AutoConfig</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                    <span class="n">tr</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">transform</span>
 
-    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">model_def</span> <span class="ow">in</span> <span class="n">bar</span><span class="p">:</span>
-        
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
-            <span class="n">model</span> <span class="o">=</span> <span class="n">model_def</span><span class="p">()</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">cfg</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">configs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                <span class="c1"># default one</span>
-                <span class="n">cfg</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">configs</span><span class="p">[</span><span class="s1">&#39;resnet18&#39;</span><span class="p">]</span>
-            <span class="n">tr</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">transform</span>
+                    <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
 
-            <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+                    <span class="c1"># if key in batch_sizes:</span>
+                    <span class="c1">#     batch_size = batch_sizes[key]</span>
 
-            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">batch_sizes</span><span class="p">:</span>
-                <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_sizes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> 
+                    <span class="n">bar</span><span class="o">.</span><span class="n">set_description</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">, size=</span><span class="si">{</span><span class="n">cfg</span><span class="o">.</span><span class="n">input_size</span><span class="si">}</span><span class="s1">, batch_size=</span><span class="si">{</span><span class="n">batch_size</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-            <span class="n">bar</span><span class="o">.</span><span class="n">set_description</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">, size=</span><span class="si">{</span><span class="n">cfg</span><span class="o">.</span><span class="n">input_size</span><span class="si">}</span><span class="s1">, batch_size=</span><span class="si">{</span><span class="n">batch_size</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-                                    
-            <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="n">top1</span><span class="p">,</span> <span class="n">top5</span><span class="p">,</span> <span class="n">time</span> <span class="o">=</span> <span class="n">benchmark</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">tr</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
 
-            <span class="c1"># original_model = original_model_func()</span>
-            <span class="c1"># glasses_model = glasses_model_func()</span>
+                    <span class="n">index</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-            <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">provider</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s1">&#39;top1&#39;</span><span class="p">:</span> <span class="n">top1</span><span class="p">,</span>
+                        <span class="s1">&#39;top5&#39;</span><span class="p">:</span> <span class="n">top5</span><span class="p">,</span>
+                        <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">time</span><span class="p">,</span>
+                        <span class="s1">&#39;batch_size&#39;</span><span class="p">:</span> <span class="n">batch_size</span>
+                    <span class="p">}</span>
 
-            <span class="n">glasses_top1</span><span class="p">,</span> <span class="n">glasses_top5</span><span class="p">,</span> <span class="n">glasses_time</span> <span class="o">=</span> <span class="n">benchmark</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">tr</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
-            <span class="c1"># original_top1, original_top5, original_time = benchmark(original_model.to(device), valid_loader)</span>
-            <span class="n">index</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                    <span class="n">pprint</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                    <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="k">continue</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">pass</span>
+    <span class="n">new_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
 
-            <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="c1"># &#39;original_top1&#39;: original_top1,</span>
-                <span class="c1"># &#39;original_top5&#39;: original_top5,</span>
-                <span class="c1"># &#39;original_time&#39;: original_time,</span>
-                <span class="s1">&#39;top1&#39;</span><span class="p">:</span> <span class="n">glasses_top1</span><span class="p">,</span>
-                <span class="s1">&#39;top5&#39;</span><span class="p">:</span> <span class="n">glasses_top5</span><span class="p">,</span>
-                <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">glasses_time</span>
-            <span class="p">}</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-            <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">new_df</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">new_df</span>
 
-            <span class="n">new_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
-            
-            <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">new_df</span><span class="p">])</span>
-            <span class="k">else</span><span class="p">:</span> 
-                <span class="n">df</span> <span class="o">=</span> <span class="n">new_df</span>
-            <span class="c1"># df.to_pickle(str(save_path))</span>
-            <span class="c1"># pprint(records)</span>
-    <span class="c1"># pd.DataFrame.</span>
-
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./benchmark.csv&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span></div>
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__name__&#39;</span><span class="p">:</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">benchmark_all</span><span class="p">()</span>
 </pre></div>
 

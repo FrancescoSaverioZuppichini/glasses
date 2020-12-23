@@ -1,10 +1,10 @@
-glasses.nn.models.classification.mobilenet package
+glasses.models.classification.wide\_resnet package
 ==================================================
 
 Module contents
 ---------------
 
-.. automodule:: glasses.nn.models.classification.mobilenet
+.. automodule:: glasses.models.classification.wide_resnet
    :members:
    :undoc-members:
    :show-inheritance:
