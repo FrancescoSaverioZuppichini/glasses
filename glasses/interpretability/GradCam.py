@@ -39,8 +39,21 @@ class GradCamResult:
 class GradCam(Interpretability):
     """Implementation of GradCam proposed in `Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization <https://arxiv.org/abs/1610.02391>`_
     """
-    def __call__(self, x: torch.Tensor, module: nn.Module, layer: nn.Module = None, target: int = None,
-                 postprocessing: Callable[[torch.Tensor], torch.Tensor] = None) -> GradCamResult:
+
+    def __call__(self, x: torch.Tensor, module: nn.Module, layer: nn.Module = None, target: int = None, ctx: torch.Tensor = None, postprocessing: Callable[[torch.Tensor], torch.Tensor] = None) -> GradCamResult:
+        """Run GradCam on the input given a model
+
+        Args:
+            x (torch.Tensor): Input tensor, e.g. an image
+            module (nn.Module): Model
+            layer (nn.Module, optional): The layer we wish to interpreter, if `None` then the last conv layer will be used. Defaults to None.
+            target (int, optional): The target tensor, if `None` the model output (after softmax and argmax) wil be used. Defaults to None.
+            ctx (torch.Tensor, optional): The tensor w.r we derive, if `None` we will use the one-hot encoding of the target. Defaults to None.
+            postprocessing (Callable[[torch.Tensor], torch.Tensor], optional): A function used to post process the output, e.g. de-normalize. Defaults to None.
+
+        Returns:
+            GradCamResult: The result of the gradcam, you can call `.show` to see it.
+        """
         layer = find_last_layer(
             x, module, nn.Conv2d) if layer is None else layer
         # register forward and backward storages
@@ -54,8 +67,9 @@ class GradCam(Interpretability):
         if target is None:
             target = torch.argmax(torch.softmax(out, dim=1))
 
-        ctx = torch.zeros(out.size())
-        ctx[0][int(target)] = 1
+        if ctx is None:
+            ctx = torch.zeros(out.size())
+            ctx[0][int(target)] = 1
 
         out.backward(gradient=ctx, retain_graph=True)
         # get back the weights and the gradients
