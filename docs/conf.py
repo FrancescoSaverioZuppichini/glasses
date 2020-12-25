@@ -50,9 +50,9 @@ autosummary_generate = True
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
-autodoc_default_options = {
-    'undoc-members': 'forward',
-}
+# autodoc_default_options = {
+#     'undoc-members': 'forward',
+# }
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
@@ -72,6 +72,7 @@ html_theme = "sphinx_rtd_theme"
 #     'display_version': True,
 #     'logo_only': True,
 # }
+napoleon_include_special_with_doc = True
 
 source_parsers = {
     '.md': 'markdown',
@@ -86,15 +87,15 @@ source_suffix = ['.rst', '.md']
 latex_engine = 'xelatex'
 
 
-def setup(app):
-    def skip(app, what, name, obj, skip, options):
-        members = [
-            '__init__',
-            '__repr__',
-            '__weakref__',
-            '__dict__',
-            '__module__',
-        ]
-        return True if name in members else skip
+# def setup(app):
+#     def skip(app, what, name, obj, skip, options):
+#         members = [
+#             '__init__',
+#             '__repr__',
+#             '__weakref__',
+#             '__dict__',
+#             '__module__',
+#         ]
+#         return True if name in members else skip
 
-    app.connect('autodoc-skip-member', skip)
+#     app.connect('autodoc-skip-member', skip)

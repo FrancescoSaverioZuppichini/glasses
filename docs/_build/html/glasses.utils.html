@@ -85,8 +85,8 @@
             
               <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/Interpretability.html">Interpretability with glasses 😎</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/Transfer Learning.html">Transfer Learning with glasses 😎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Interpretability.html">Interpretability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Transfer Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/installation.html">Installation</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package Reference</span></p>
@@ -205,6 +205,15 @@ they have the same set of operations but they were defined in a different way.</
 </div>
 <p># now module_b has the same weight of model_a</p>
 </div></blockquote>
+<dl class="py method">
+<dt id="glasses.utils.ModuleTransfer.ModuleTransfer.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/ModuleTransfer.html#ModuleTransfer.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transfer the weights of <cite>self.src</cite> to <cite>self.dest</cite> by performing a forward pass using <cite>x</cite> as input.
+Under the hood we tracked all the operations in booth modules.
+:param x: [The input to the modules]
+:type x: torch.tensor</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt id="glasses.utils.ModuleTransfer.ModuleTransfer.dest">
 <code class="sig-name descname">dest</code><em class="property">: nn.Module</em><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.dest" title="Permalink to this definition">¶</a></dt>
