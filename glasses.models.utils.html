@@ -207,6 +207,28 @@
 </dl>
 </div></blockquote>
 <dl class="py method">
+<dt id="glasses.models.utils.scaler.CompoundScaler.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">width_factor</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">depth_factor</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">widths</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">depths</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>int<span class="p">]</span><a class="reference internal" href="_modules/glasses/models/utils/scaler.html#CompoundScaler.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.utils.scaler.CompoundScaler.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale up <cite>widhts</cite> and <cite>depths</cite> using <cite>width_factor</cite> and <cite>depth_factor</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width_factor</strong> (<em>float</em>) – value used to scale up widths</p></li>
+<li><p><strong>depth_factor</strong> (<em>float</em>) – value used to scale up depths</p></li>
+<li><p><strong>widths</strong> (<em>List</em><em>[</em><em>int</em><em>]</em>) – array where each value is the number of in_features in one layer</p></li>
+<li><p><strong>depths</strong> (<em>List</em><em>[</em><em>int</em><em>]</em>) – array where each value is the number of blocks in one layer</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>scaled widths and depths</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[List[int], List[int]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="glasses.models.utils.scaler.CompoundScaler.depth_scaling">
 <code class="sig-name descname">depth_scaling</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">depth</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">depth_multi</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/glasses/models/utils/scaler.html#CompoundScaler.depth_scaling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.utils.scaler.CompoundScaler.depth_scaling" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
