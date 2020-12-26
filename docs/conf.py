@@ -2,6 +2,9 @@ import sphinx_rtd_theme
 # import pytorch_sphinx_theme
 import os
 import sys
+from pprint import pformat
+from sphinx.util import inspect
+
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -77,6 +80,8 @@ napoleon_include_special_with_doc = True
 source_parsers = {
     '.md': 'markdown',
 }
+
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
