@@ -10,9 +10,9 @@
 .. toctree::
    :glob:
    :maxdepth: 1
-   :caption: Tutorials
+   :caption: Notes
 
-   tutorials/*
+   Notes/tutorials/*
 
 .. toctree::
    :glob:
