@@ -52,7 +52,7 @@ class SegmentationModule(VisionModule):
             try:
                 encoder = model(*args, **kwargs).encoder
             except AttributeError:
-                raise AttributeError(f'Field .encoder was not found for {model}. Are you using a model from glasses.nn.models?')
+                raise AttributeError(f'Field .encoder was not found for {model}. Are you using a model from glasses.models?')
             return encoder
 
         return cls( *args, encoder=extract_encoder, **kwargs)

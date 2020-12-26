@@ -81,11 +81,12 @@
               
             
             
-              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <p class="caption"><span class="caption-text">Notes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/Interpretability.html">Interpretability with glasses 😎</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/Transfer Learning.html">Transfer Learning with glasses 😎</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/Interpretability.html">Interpretability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/Segmentation.html">Segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/Transfer Learning.html">Transfer Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/installation.html">Installation</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package Reference</span></p>
 <ul>
@@ -193,7 +194,7 @@
     <span class="n">dest</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span>
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
+<div class="viewcode-block" id="ModuleTransfer.__call__"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.ModuleTransfer.ModuleTransfer.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Transfer the weights of `self.src` to `self.dest` by performing a forward pass using `x` as input.</span>
 <span class="sd">        Under the hood we tracked all the operations in booth modules.</span>
 <span class="sd">        :param x: [The input to the modules]</span>
@@ -209,7 +210,7 @@
         <span class="k">for</span> <span class="n">dest_m</span><span class="p">,</span> <span class="n">src_m</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dest_traced</span><span class="p">,</span> <span class="n">src_traced</span><span class="p">):</span>
             <span class="n">dest_m</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">src_m</span><span class="o">.</span><span class="n">state_dict</span><span class="p">())</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Transfered from=</span><span class="si">{</span><span class="n">src_m</span><span class="si">}</span><span class="s1"> to=</span><span class="si">{</span><span class="n">dest_m</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Transfered from=</span><span class="si">{</span><span class="n">src_m</span><span class="si">}</span><span class="s1"> to=</span><span class="si">{</span><span class="n">dest_m</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

@@ -40,6 +40,7 @@ Check out `./tutorials` . So far:
 
 - [Transfer Learning](https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/tutorials/Transfer%20Learning.md)
 - [Interpretability](https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/tutorials/Interpretability.md)
+- [Segmentation](https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/tutorials/Segmentation.md)
 
 ### Motivations
 

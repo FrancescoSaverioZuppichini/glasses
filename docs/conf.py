@@ -2,6 +2,9 @@ import sphinx_rtd_theme
 # import pytorch_sphinx_theme
 import os
 import sys
+from pprint import pformat
+from sphinx.util import inspect
+
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -50,9 +53,9 @@ autosummary_generate = True
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
-autodoc_default_options = {
-    'undoc-members': 'forward',
-}
+# autodoc_default_options = {
+#     'undoc-members': 'forward',
+# }
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
@@ -72,10 +75,13 @@ html_theme = "sphinx_rtd_theme"
 #     'display_version': True,
 #     'logo_only': True,
 # }
+napoleon_include_special_with_doc = True
 
 source_parsers = {
     '.md': 'markdown',
 }
+
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
@@ -86,15 +92,15 @@ source_suffix = ['.rst', '.md']
 latex_engine = 'xelatex'
 
 
-def setup(app):
-    def skip(app, what, name, obj, skip, options):
-        members = [
-            '__init__',
-            '__repr__',
-            '__weakref__',
-            '__dict__',
-            '__module__',
-        ]
-        return True if name in members else skip
+# def setup(app):
+#     def skip(app, what, name, obj, skip, options):
+#         members = [
+#             '__init__',
+#             '__repr__',
+#             '__weakref__',
+#             '__dict__',
+#             '__module__',
+#         ]
+#         return True if name in members else skip
 
-    app.connect('autodoc-skip-member', skip)
+#     app.connect('autodoc-skip-member', skip)

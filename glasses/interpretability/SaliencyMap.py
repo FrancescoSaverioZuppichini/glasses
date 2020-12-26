@@ -17,11 +17,11 @@ class SaliencyMapResult:
         self.saliency_map = saliency_map
 
     def show(self) -> plt.figure:
+
         fig = plt.figure()
         plt.imshow(self.saliency_map.squeeze())
 
         return fig
-
 
 class SaliencyMap(Interpretability):
     """Implementation of `Deep Inside Convolutional Networks: Visualising Image Classification Models
@@ -36,8 +36,19 @@ class SaliencyMap(Interpretability):
             if isinstance(module, ReLU):
                 module.register_backward_hook(guide_relu)
 
-    def __call__(self, x: torch.Tensor, module: nn.Module, layer: nn.Module = None, target: int = None, guide: bool = True) -> SaliencyMapResult:
+    def __call__(self, x: torch.Tensor, module: nn.Module, layer: nn.Module = None, ctx: torch.Tensor = None, target: int = None, guide: bool = True) -> SaliencyMapResult:
+        """Run SaliencyMap on the input given a model
 
+        Args:
+            x (torch.Tensor): Input tensor, e.g. an image
+            module (nn.Module): Model
+            layer (nn.Module, optional): The layer we wish to interpreter, if `None` then the last conv layer will be used. Defaults to None.
+            target (int, optional): The target tensor, if `None` the model output (after softmax and argmax) wil be used. Defaults to None.
+            ctx (torch.Tensor, optional): The tensor w.r we derive, if `None` we will use the one-hot encoding of the target. Defaults to None.
+
+        Returns:
+            SaliencyMapResult: The result of the saliency map, you can call `.show` to see it.
+        """
         layer = find_first_layer(
             x, module, nn.Conv2d) if layer is None else layer
         gradients_storage = BackwardModuleStorage([layer])
@@ -51,8 +62,9 @@ class SaliencyMap(Interpretability):
         if target is None:
             target = torch.argmax(torch.softmax(out, dim=1))
 
-        ctx = torch.zeros(out.size())
-        ctx[0][int(target)] = 1
+        if ctx is None:
+            ctx = torch.zeros(out.size())
+            ctx[0][int(target)] = 1
 
         module.zero_grad()
 
