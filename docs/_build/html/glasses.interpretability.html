@@ -85,8 +85,8 @@
             
               <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/Interpretability.html">Interpretability with glasses 😎</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/Transfer Learning.html">Transfer Learning with glasses 😎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Interpretability.html">Interpretability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Transfer Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/installation.html">Installation</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package Reference</span></p>
@@ -186,6 +186,30 @@
 <em class="property">class </em><code class="sig-prename descclassname">glasses.interpretability.GradCam.</code><code class="sig-name descname">GradCam</code><a class="reference internal" href="_modules/glasses/interpretability/GradCam.html#GradCam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.interpretability.GradCam.GradCam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#glasses.interpretability.Interpretability.Interpretability" title="glasses.interpretability.Interpretability.Interpretability"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.interpretability.Interpretability.Interpretability</span></code></a></p>
 <p>Implementation of GradCam proposed in <a class="reference external" href="https://arxiv.org/abs/1610.02391">Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization</a></p>
+<dl class="py method">
+<dt id="glasses.interpretability.GradCam.GradCam.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em>, <em class="sig-param"><span class="n">module</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="n">layer</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">target</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ctx</span><span class="p">:</span> <span class="n">torch.Tensor</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">postprocessing</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span>torch.Tensor<span class="p">]</span><span class="p">, </span>torch.Tensor<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.interpretability.GradCam.GradCamResult" title="glasses.interpretability.GradCam.GradCamResult">glasses.interpretability.GradCam.GradCamResult</a><a class="reference internal" href="_modules/glasses/interpretability/GradCam.html#GradCam.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.interpretability.GradCam.GradCam.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run GradCam on the input given a model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>torch.Tensor</em>) – Input tensor, e.g. an image</p></li>
+<li><p><strong>module</strong> (<em>nn.Module</em>) – Model</p></li>
+<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <cite>None</cite> then the last conv layer will be used. Defaults to None.</p></li>
+<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <cite>None</cite> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
+<li><p><strong>ctx</strong> (<em>torch.Tensor</em><em>, </em><em>optional</em>) – The tensor w.r we derive, if <cite>None</cite> we will use the one-hot encoding of the target. Defaults to None.</p></li>
+<li><p><strong>postprocessing</strong> (<em>Callable</em><em>[</em><em>[</em><em>torch.Tensor</em><em>]</em><em>, </em><em>torch.Tensor</em><em>]</em><em>, </em><em>optional</em>) – A function used to post process the output, e.g. de-normalize. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The result of the gradcam, you can call <cite>.show</cite> to see it.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#glasses.interpretability.GradCam.GradCamResult" title="glasses.interpretability.GradCam.GradCamResult">GradCamResult</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -218,6 +242,29 @@
 <dd><p>Bases: <a class="reference internal" href="#glasses.interpretability.Interpretability.Interpretability" title="glasses.interpretability.Interpretability.Interpretability"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.interpretability.Interpretability.Interpretability</span></code></a></p>
 <p>Implementation of <a class="reference external" href="https://arxiv.org/abs/1312.6034">Deep Inside Convolutional Networks: Visualising Image Classification Models
 and Saliency Maps</a></p>
+<dl class="py method">
+<dt id="glasses.interpretability.SaliencyMap.SaliencyMap.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em>, <em class="sig-param"><span class="n">module</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="n">layer</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ctx</span><span class="p">:</span> <span class="n">torch.Tensor</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">target</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">guide</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.interpretability.SaliencyMap.SaliencyMapResult" title="glasses.interpretability.SaliencyMap.SaliencyMapResult">glasses.interpretability.SaliencyMap.SaliencyMapResult</a><a class="reference internal" href="_modules/glasses/interpretability/SaliencyMap.html#SaliencyMap.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.interpretability.SaliencyMap.SaliencyMap.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run SaliencyMap on the input given a model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>torch.Tensor</em>) – Input tensor, e.g. an image</p></li>
+<li><p><strong>module</strong> (<em>nn.Module</em>) – Model</p></li>
+<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <cite>None</cite> then the last conv layer will be used. Defaults to None.</p></li>
+<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <cite>None</cite> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
+<li><p><strong>ctx</strong> (<em>torch.Tensor</em><em>, </em><em>optional</em>) – The tensor w.r we derive, if <cite>None</cite> we will use the one-hot encoding of the target. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The result of the saliency map, you can call <cite>.show</cite> to see it.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#glasses.interpretability.SaliencyMap.SaliencyMapResult" title="glasses.interpretability.SaliencyMap.SaliencyMapResult">SaliencyMapResult</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt id="glasses.interpretability.SaliencyMap.SaliencyMap.guide">
 <code class="sig-name descname">guide</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">module</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/interpretability/SaliencyMap.html#SaliencyMap.guide"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.interpretability.SaliencyMap.SaliencyMap.guide" title="Permalink to this definition">¶</a></dt>
@@ -332,6 +379,80 @@ and Saliency Maps</a></p>
 </div>
 <div class="section" id="module-glasses.interpretability">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.interpretability" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="glasses.interpretability.GradCam">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.interpretability.</code><code class="sig-name descname">GradCam</code><a class="reference internal" href="_modules/glasses/interpretability/GradCam.html#GradCam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.interpretability.GradCam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#glasses.interpretability.Interpretability.Interpretability" title="glasses.interpretability.Interpretability.Interpretability"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.interpretability.Interpretability.Interpretability</span></code></a></p>
+<p>Implementation of GradCam proposed in <a class="reference external" href="https://arxiv.org/abs/1610.02391">Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization</a></p>
+<dl class="py method">
+<dt id="glasses.interpretability.GradCam.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em>, <em class="sig-param"><span class="n">module</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="n">layer</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">target</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ctx</span><span class="p">:</span> <span class="n">torch.Tensor</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">postprocessing</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span>torch.Tensor<span class="p">]</span><span class="p">, </span>torch.Tensor<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.interpretability.GradCam.GradCamResult" title="glasses.interpretability.GradCam.GradCamResult">glasses.interpretability.GradCam.GradCamResult</a><a class="reference internal" href="_modules/glasses/interpretability/GradCam.html#GradCam.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.interpretability.GradCam.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run GradCam on the input given a model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>torch.Tensor</em>) – Input tensor, e.g. an image</p></li>
+<li><p><strong>module</strong> (<em>nn.Module</em>) – Model</p></li>
+<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <cite>None</cite> then the last conv layer will be used. Defaults to None.</p></li>
+<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <cite>None</cite> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
+<li><p><strong>ctx</strong> (<em>torch.Tensor</em><em>, </em><em>optional</em>) – The tensor w.r we derive, if <cite>None</cite> we will use the one-hot encoding of the target. Defaults to None.</p></li>
+<li><p><strong>postprocessing</strong> (<em>Callable</em><em>[</em><em>[</em><em>torch.Tensor</em><em>]</em><em>, </em><em>torch.Tensor</em><em>]</em><em>, </em><em>optional</em>) – A function used to post process the output, e.g. de-normalize. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The result of the gradcam, you can call <cite>.show</cite> to see it.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#glasses.interpretability.GradCam.GradCamResult" title="glasses.interpretability.GradCam.GradCamResult">GradCamResult</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.interpretability.Interpretability">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.interpretability.</code><code class="sig-name descname">Interpretability</code><a class="reference internal" href="_modules/glasses/interpretability/Interpretability.html#Interpretability"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.interpretability.Interpretability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for all interpretability techniques</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.interpretability.SaliencyMap">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.interpretability.</code><code class="sig-name descname">SaliencyMap</code><a class="reference internal" href="_modules/glasses/interpretability/SaliencyMap.html#SaliencyMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.interpretability.SaliencyMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#glasses.interpretability.Interpretability.Interpretability" title="glasses.interpretability.Interpretability.Interpretability"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.interpretability.Interpretability.Interpretability</span></code></a></p>
+<p>Implementation of <a class="reference external" href="https://arxiv.org/abs/1312.6034">Deep Inside Convolutional Networks: Visualising Image Classification Models
+and Saliency Maps</a></p>
+<dl class="py method">
+<dt id="glasses.interpretability.SaliencyMap.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em>, <em class="sig-param"><span class="n">module</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="n">layer</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ctx</span><span class="p">:</span> <span class="n">torch.Tensor</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">target</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">guide</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.interpretability.SaliencyMap.SaliencyMapResult" title="glasses.interpretability.SaliencyMap.SaliencyMapResult">glasses.interpretability.SaliencyMap.SaliencyMapResult</a><a class="reference internal" href="_modules/glasses/interpretability/SaliencyMap.html#SaliencyMap.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.interpretability.SaliencyMap.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run SaliencyMap on the input given a model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>torch.Tensor</em>) – Input tensor, e.g. an image</p></li>
+<li><p><strong>module</strong> (<em>nn.Module</em>) – Model</p></li>
+<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <cite>None</cite> then the last conv layer will be used. Defaults to None.</p></li>
+<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <cite>None</cite> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
+<li><p><strong>ctx</strong> (<em>torch.Tensor</em><em>, </em><em>optional</em>) – The tensor w.r we derive, if <cite>None</cite> we will use the one-hot encoding of the target. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The result of the saliency map, you can call <cite>.show</cite> to see it.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#glasses.interpretability.SaliencyMap.SaliencyMapResult" title="glasses.interpretability.SaliencyMap.SaliencyMapResult">SaliencyMapResult</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="glasses.interpretability.SaliencyMap.guide">
+<code class="sig-name descname">guide</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">module</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/interpretability/SaliencyMap.html#SaliencyMap.guide"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.interpretability.SaliencyMap.guide" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 

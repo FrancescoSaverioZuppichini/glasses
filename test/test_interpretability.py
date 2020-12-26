@@ -35,6 +35,15 @@ def test_gradcam():
     assert type(cam_res.cam) == torch.Tensor
     assert cam_res.show()
 
+    cam = GradCam()
+    target = 1
+    ctx = torch.zeros(10).unsqueeze(0)
+    ctx[0][int(target)] = 1
+    cam_res = cam(x, model, target=target, ctx=ctx)
+
+    assert type(cam_res.cam) == torch.Tensor
+    assert cam_res.show()
+
 
 def test_saliency_map():
     x = torch.rand((1, 3, 224, 224))
@@ -63,6 +72,16 @@ def test_saliency_map():
 
     saliency_res = saliency(x, model, guide=False)
 
+    assert saliency_res.show()
+    assert len(saliency_res.saliency_map.squeeze(0).shape) == 2
+    assert type(saliency_res.saliency_map) == torch.Tensor
+
+    saliency = SaliencyMap()
+    target = 1
+    ctx = torch.zeros(10).unsqueeze(0)
+    ctx[0][int(target)] = 1
+    saliency_res = saliency(x, model, target=target, ctx=ctx)
+    
     assert saliency_res.show()
     assert len(saliency_res.saliency_map.squeeze(0).shape) == 2
     assert type(saliency_res.saliency_map) == torch.Tensor
