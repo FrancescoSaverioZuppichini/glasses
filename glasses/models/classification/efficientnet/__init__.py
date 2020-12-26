@@ -68,7 +68,7 @@ class InvertedResidualBlock(nn.Module):
 
 
 EfficientNetBasicBlock = InvertedResidualBlock
-
+EfficientNetStem = ConvBnAct
 EfficientNetLayer = partial(ResNetLayer, block=EfficientNetBasicBlock)
 
 
@@ -98,7 +98,7 @@ class EfficientNetEncoder(Encoder):
                  kernel_sizes: List[int] = [3, 3, 5, 3, 5, 5, 3],
                  se: List[bool] = [True, True, True, True, True, True, True],
                  drop_rate: float = 0.2,
-                 stem: nn.Module = ConvBnAct,
+                 stem: nn.Module = EfficientNetStem,
                  activation: nn.Module = partial(nn.SiLU, inplace=True), **kwargs):
         super().__init__()
 
