@@ -83,6 +83,7 @@
               <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/Interpretability.html">Interpretability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/Segmentation.html">Segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/installation.html">Installation</a></li>
 </ul>
@@ -212,7 +213,7 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">encoder</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">encoder</span>
             <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Field .encoder was not found for </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s1">. Are you using a model from glasses.nn.models?&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Field .encoder was not found for </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s1">. Are you using a model from glasses.models?&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">encoder</span>
 
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">extract_encoder</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>

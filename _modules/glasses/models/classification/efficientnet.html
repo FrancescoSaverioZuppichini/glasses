@@ -83,6 +83,7 @@
               <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/Interpretability.html">Interpretability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/Segmentation.html">Segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/installation.html">Installation</a></li>
 </ul>
@@ -228,7 +229,7 @@
 
 
 <span class="n">EfficientNetBasicBlock</span> <span class="o">=</span> <span class="n">InvertedResidualBlock</span>
-
+<span class="n">EfficientNetStem</span> <span class="o">=</span> <span class="n">ConvBnAct</span>
 <span class="n">EfficientNetLayer</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">ResNetLayer</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">EfficientNetBasicBlock</span><span class="p">)</span>
 
 
@@ -258,7 +259,7 @@
                  <span class="n">kernel_sizes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
                  <span class="n">se</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
                  <span class="n">drop_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
-                 <span class="n">stem</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ConvBnAct</span><span class="p">,</span>
+                 <span class="n">stem</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">EfficientNetStem</span><span class="p">,</span>
                  <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">SiLU</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
