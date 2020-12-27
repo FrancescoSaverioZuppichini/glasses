@@ -140,8 +140,8 @@ class EfficientNetEncoder(Encoder):
         # skip the last layer because it is just a conv-bn-act
         # and we haven't a stride for it
         layers = np.array(self.layers[:-1])[np.array(self.strides[1:]) == 2].tolist()[:-1]
-
-        return [self.stem[-2],
+            
+        return [self.stem[-1],
                *layers]
 
     @property
@@ -149,8 +149,8 @@ class EfficientNetEncoder(Encoder):
         # skip the last layer because it is just a conv-bn-act
         # and we haven't a stride for it
         widths = np.array(self.widths[:-1])[np.array(self.strides) == 2].tolist()
-
-        return widths
+        # we also have to remove the last one, because it is the spatial size of the network output 
+        return widths[:-1]
 
 
 class EfficientNetHead(nn.Module):
