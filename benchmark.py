@@ -78,7 +78,7 @@ def benchmark(model: nn.Module, transform, batch_size=64, device=device):
             evaluator.add(dict(zip(image_ids, list(net_out.cpu().numpy()))))
             pbar.set_description(f'f1={evaluator.top1.avg:.2f}')
             pbar.update(1)
-            break
+            # break
         pbar.close()
     stop = time.time()
     res = evaluator.get_results()
