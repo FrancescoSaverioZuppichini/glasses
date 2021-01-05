@@ -60,7 +60,7 @@ class PatchEmbedding(nn.Module):
 
 
 class MultiHeadAttention(nn.Module):
-    def __init__(self, emb_size: int = 768, num_heads: int = 12, att_drop_p: float = 0., projection_drop_p: float = 0., qkv_bias: bool = True):
+    def __init__(self, emb_size: int = 768, num_heads: int = 12, att_drop_p: float = 0., projection_drop_p: float = 0., qkv_bias: bool = False):
         """Classic multi head attention proposed in `Attention Is All You Need <https://arxiv.org/abs/1706.03762>`_
 
 
@@ -69,7 +69,7 @@ class MultiHeadAttention(nn.Module):
             num_heads (int, optional): Number of heads. Defaults to 12.
             att_drop_p (float, optional): Attention dropout probability. Defaults to 0..
             projection_drop_p (float, optional): Projection dropout probability. Defaults to 0..
-            qkv_bias (bool, optional): If yes, apply bias to the qkv projection matrix. Defaults to True.
+            qkv_bias (bool, optional): If yes, apply bias to the qkv projection matrix. Defaults to False.
 
         """
         super().__init__()
@@ -226,17 +226,17 @@ class ViT(nn.Sequential, VisionModule):
             n_classes (int, optional): [description]. Defaults to 1000.
         """
         super().__init__(OrderedDict({'embedding': PatchEmbedding(in_channels, patch_size, emb_size, img_size),
-                                      'encoder': TransformerEncoder(depth,  **kwargs),
+                                      'encoder': TransformerEncoder(depth, emb_size=emb_size, **kwargs),
                                       'head': ClassificationHead(emb_size, n_classes)
                                       }))
 
     @classmethod
     def vit_small_patch16_224(cls, **kwargs):
-        return cls(depth=8, num_heads=8, forward_expansion=3, qkv_bias=False, **kwargs)
+        return cls(depth=8, num_heads=8, forward_expansion=3, **kwargs)
 
     @classmethod
     def vit_base_patch16_224(cls,  **kwargs):
-        return cls(depth=12, num_heads=12, forward_expansion=4, **kwargs)
+        return cls(depth=12, num_heads=12, forward_expansion=4, qkv_bias=True, **kwargs)
 
     @classmethod
     def vit_base_patch16_384(cls, **kwargs):
@@ -244,11 +244,11 @@ class ViT(nn.Sequential, VisionModule):
 
     @classmethod
     def vit_base_patch32_384(cls, **kwargs):
-        return cls.vit_base_patch16_224(patch_size=32, **kwargs)
+        return cls.vit_base_patch16_384(patch_size=32, **kwargs)
 
     @classmethod
     def vit_large_patch16_224(cls, **kwargs):
-        return cls(emb_size=1024, depth=24, num_heads=16, **kwargs)
+        return cls(emb_size=1024, depth=24, num_heads=16, qkv_bias=True, **kwargs)
 
     @classmethod
     def vit_large_patch16_384(cls, **kwargs):
@@ -260,7 +260,7 @@ class ViT(nn.Sequential, VisionModule):
 
     @classmethod
     def vit_huge_patch16_224(cls, **kwargs):
-        return cls(patch_size=16, emb_size=1280, depth=32, num_heads=16, **kwargs)
+        return cls(emb_size=1280, depth=32, num_heads=16, **kwargs)
 
     @classmethod
     def vit_huge_patch32_384(cls, **kwargs):

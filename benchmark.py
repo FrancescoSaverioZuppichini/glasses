@@ -81,9 +81,9 @@ def benchmark(model: nn.Module, transform, batch_size=64, device=device):
             break
         pbar.close()
     stop = time.time()
-    # res = evaluator.get_results()
-    print(evaluator.top1.avg)
-    return None, None, None
+    res = evaluator.get_results()
+    # print(evaluator.top1.avg)
+    # return None, None, None
     return res['Top 1 Accuracy'], res['Top 5 Accuracy'], stop - start
 
 def benchmark_all() -> pd.DataFrame:

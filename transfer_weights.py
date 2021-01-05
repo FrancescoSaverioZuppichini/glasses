@@ -1,3 +1,4 @@
+from glasses.models.AutoConfig import AutoConfig
 import logging
 from argparse import ArgumentParser
 from dataclasses import dataclass
@@ -25,6 +26,19 @@ from glasses.models.AutoModel import AutoModel
 from glasses.models import *
 from glasses.utils.ModuleTransfer import ModuleTransfer
 from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
+
+
+def vit_clone(key: str):
+    src = timm.create_model(key, pretrained='True')
+    dst = AutoModel.from_name(key)
+
+    dst.embedding.positions.data.copy_(src.pos_embed.data.squeeze(0))
+    dst.embedding.cls_token.data.copy_(src.cls_token.data)
+
+    cfg = AutoConfig.from_name(key)
+
+    return clone_model(src, dst, torch.randn((1, 3, cfg.input_size, cfg.input_size)))
+
 
 zoo_source = {
     'resnet18': partial(resnet18, pretrained=True),
@@ -54,7 +68,7 @@ zoo_source = {
     'regnety_008': None,
     'regnety_016': None,
     'regnety_032': None,
-    
+
     'densenet121': partial(densenet121, pretrained=True),
     'densenet169': partial(densenet169, pretrained=True),
     'densenet201': partial(densenet201, pretrained=True),
@@ -64,10 +78,10 @@ zoo_source = {
     'vgg13': partial(vgg13, pretrained=True),
     'vgg16': partial(vgg16, pretrained=True),
     'vgg19': partial(vgg19, pretrained=True),
-    'vgg11_bn':pretrainedmodels.__dict__['vgg11_bn'],
-    'vgg13_bn':pretrainedmodels.__dict__['vgg13_bn'],
-    'vgg16_bn':pretrainedmodels.__dict__['vgg16_bn'],
-    'vgg19_bn':pretrainedmodels.__dict__['vgg19_bn'],
+    'vgg11_bn': pretrainedmodels.__dict__['vgg11_bn'],
+    'vgg13_bn': pretrainedmodels.__dict__['vgg13_bn'],
+    'vgg16_bn': pretrainedmodels.__dict__['vgg16_bn'],
+    'vgg19_bn': pretrainedmodels.__dict__['vgg19_bn'],
 
     # 'mobilenet_v2': [partial(mobilenet_v2, pretrained=True), MobileNetV2],
 
@@ -78,10 +92,19 @@ zoo_source = {
     # 'efficientnet_b5': partial(timm.create_model, 'efficientnet_b5', pretrained=True),
     # 'efficientnet_b6': partial(timm.create_model, 'efficientnet_b6', pretrained=True),
 
+    'vit_base_patch16_224': (vit_clone, True),
+    'vit_base_patch16_384': (vit_clone, True),
+    'vit_base_patch32_384': (vit_clone, True),
+    'vit_huge_patch16_224': (vit_clone, True),
+    'vit_huge_patch32_384': (vit_clone, True),
+    'vit_large_patch16_224': (vit_clone, True),
+    'vit_large_patch16_384': (vit_clone, True),
+    'vit_large_patch32_384': (vit_clone, True),
+
 }
 
 
-def clone_model(src: nn.Module, dst: nn.Module, x : Tensor = torch.rand((1, 3, 224, 224))) -> nn.Module:
+def clone_model(src: nn.Module, dst: nn.Module, x: Tensor = torch.rand((1, 3, 224, 224))) -> nn.Module:
     src = src.eval()
     dst = dst.eval()
 
@@ -133,10 +156,11 @@ class AWSSTorage:
     def __contains__(self, el: 'str') -> bool:
         return False
 
+
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--storage', type=str,
-                        choices=['local', 'aws'], default='aws')
+                        choices=['local', 'aws'], default='local')
     parser.add_argument('-o', type=Path)
 
     args = parser.parse_args()
@@ -152,7 +176,7 @@ if __name__ == '__main__':
     if args.storage == 'local':
         logging.info(f'Store root={storage.root}')
 
-    override = True
+    override = False
 
     bar = tqdm(zoo_source.items())
     uploading_bar = tqdm()
@@ -162,8 +186,11 @@ if __name__ == '__main__':
             # it means I was lazy and I meant to use timm
             src_def = partial(timm.create_model, key, pretrained=True)
         if key not in storage or override:
-            src, dst = src_def(), AutoModel.from_name(key)
-            cloned = clone_model(src, dst)
+            if type(src_def) is tuple:
+                # I have a custom clone func -> not the most elegant way, but it works!
+                clone_func, flag = src_def
+                cloned = clone_func(key)
+            else:
+                src, dst = src_def(), AutoModel.from_name(key)
+                cloned = clone_model(src, dst)
             storage(key, cloned, uploading_bar)
-
-    # uploading_bar.update(0)

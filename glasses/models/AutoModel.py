@@ -96,6 +96,15 @@ class AutoModel:
         'efficientnet_lite2': EfficientNetLite.efficientnet_lite2,
         'efficientnet_lite3': EfficientNetLite.efficientnet_lite3,
         'efficientnet_lite4': EfficientNetLite.efficientnet_lite4,
+        'vit_base_patch16_224':  ViT.vit_base_patch16_224,
+        'vit_base_patch16_384':ViT.vit_base_patch16_384,
+        'vit_base_patch32_384': ViT.vit_base_patch32_384,
+        'vit_huge_patch16_224':  ViT.vit_huge_patch16_224,
+        'vit_huge_patch32_384': ViT.vit_huge_patch32_384,
+        'vit_large_patch16_224':  ViT.vit_large_patch16_224,
+        'vit_large_patch16_384': ViT.vit_large_patch16_384,
+        'vit_large_patch32_384': ViT.vit_large_patch32_384,
+        'vit_small_patch16_224': ViT.vit_small_patch16_224,
         'mobilenetv2': MobileNet.mobilenet_v2,
         'unet': UNet
     }
