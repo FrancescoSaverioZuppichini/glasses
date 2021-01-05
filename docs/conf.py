@@ -104,3 +104,4 @@ latex_engine = 'xelatex'
 #         return True if name in members else skip
 
 #     app.connect('autodoc-skip-member', skip)
+autoclass_content = 'both'

@@ -102,7 +102,7 @@ class VGGHead(nn.Sequential):
 
 
 class VGG(VisionModule):
-    """Implementations of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition <https://arxiv.org/pdf/1409.1556.pdf>`_
+    """Implementation of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition <https://arxiv.org/pdf/1409.1556.pdf>`_
 
     Create a default model
 
@@ -116,7 +116,7 @@ class VGG(VisionModule):
         >>> VGG.vgg16_bn()
         >>> VGG.vgg19_bn()
 
-    Please be awere that the `bn` models uses BatchNorm but they are very old and people back then don't know the bias is superfluous 
+    Please be aware that the `bn` models uses BatchNorm but they are very old and people back then don't know the bias is superfluous 
     in a conv followed by a batchnorm.
 
     Customization

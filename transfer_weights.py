@@ -81,11 +81,10 @@ zoo_source = {
 }
 
 
-def clone_model(src: nn.Module, dst: nn.Module) -> nn.Module:
+def clone_model(src: nn.Module, dst: nn.Module, x : Tensor = torch.rand((1, 3, 224, 224))) -> nn.Module:
     src = src.eval()
     dst = dst.eval()
 
-    x = torch.rand((1, 3, 224, 224))
     a = src(x)
     b = dst(x)
 

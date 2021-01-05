@@ -76,13 +76,15 @@ def benchmark(model: nn.Module, transform, batch_size=64, device=device):
             image_ids = [get_img_id(img[0]) for img in valid_loader.dataset.imgs[i_val *
                                                                                  valid_loader.batch_size:(i_val+1)*valid_loader.batch_size]]
             evaluator.add(dict(zip(image_ids, list(net_out.cpu().numpy()))))
-
+            pbar.set_description(f'f1={evaluator.top1.avg:.2f}')
             pbar.update(1)
+            break
         pbar.close()
     stop = time.time()
-    res = evaluator.get_results()
+    # res = evaluator.get_results()
+    print(evaluator.top1.avg)
+    return None, None, None
     return res['Top 1 Accuracy'], res['Top 5 Accuracy'], stop - start
-
 
 def benchmark_all() -> pd.DataFrame:
     save_path = Path('./benchmark.csv')
