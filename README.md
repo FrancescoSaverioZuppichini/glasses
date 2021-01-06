@@ -29,6 +29,7 @@ This library has
 
 Architectures implemented so far:
 
+- [Vision Transformer -  An Image Is Worth 16x16 Words: Transformers For Image Recognition At Scale](https://arxiv.org/pdf/2010.11929.pdf)
 - [AlexNet-  ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf)
 - [DenseNet - Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993)
 - [EfficientNet - EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks](https://arxiv.org/abs/1905.11946)

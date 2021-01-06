@@ -61,8 +61,8 @@ class PatchEmbedding(nn.Module):
 
 class MultiHeadAttention(nn.Module):
     def __init__(self, emb_size: int = 768, num_heads: int = 12, att_drop_p: float = 0., projection_drop_p: float = 0., qkv_bias: bool = False):
-        """Classic multi head attention proposed in `Attention Is All You Need <https://arxiv.org/abs/1706.03762>`_
-
+        """
+        Classic multi head attention proposed in `Attention Is All You Need <https://arxiv.org/abs/1706.03762>`_
 
         Args:
             emb_size (int, optional):  Embedding dimensions Defaults to 768.
@@ -196,7 +196,7 @@ class ViTClassificationHead(nn.Sequential):
         Args:
             emb_size (int, optional):  Embedding dimensions Defaults to 768.
             n_classes (int, optional): [description]. Defaults to 1000.
-            policy (str, optional): [description]. Defaults to 'token'.
+            policy (str, optional): Pooling policy, can be token or mean. Defaults to 'token'.
         """
 
         assert policy in self.POLICIES, f"Only policies {','.join(self.POLICIES)} are supported"
