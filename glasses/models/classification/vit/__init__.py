@@ -166,7 +166,7 @@ class TransformerEncoderBlock(nn.Sequential):
         )
 
 
-class TransformerEncoder(nn.Sequential):
+class TransformerEncoder(Encoder):
     def __init__(self, depth: int = 12, block: nn.Module = TransformerEncoderBlock, **kwargs):
         """
         Transformer Encoder proposed in `Attention Is All You Need <https://arxiv.org/abs/1706.03762>`_
@@ -176,11 +176,18 @@ class TransformerEncoder(nn.Sequential):
             block ( nn.Module, optional): Block used inside the transformer encoder. Defaults to TransformerEncoderBlock.
 
         """
-        super().__init__(*[TransformerEncoderBlock(**kwargs)
-                           for _ in range(depth)])
+        super().__init__()
+
+        self.layers = nn.ModuleList([TransformerEncoderBlock(**kwargs)
+                                     for _ in range(depth)])
+
+    def forward(self, x: Tensor) -> Tensor:
+        for layer in self.layers:
+            x = layer(x)
+        return x
 
 
-class ClassificationHead(nn.Sequential):
+class ViTClassificationHead(nn.Sequential):
     POLICIES = ['token', 'mean']
 
     def __init__(self, emb_size: int = 768, n_classes: int = 1000, policy: str = 'token'):
@@ -227,7 +234,7 @@ class ViT(nn.Sequential, VisionModule):
         """
         super().__init__(OrderedDict({'embedding': PatchEmbedding(in_channels, patch_size, emb_size, img_size),
                                       'encoder': TransformerEncoder(depth, emb_size=emb_size, **kwargs),
-                                      'head': ClassificationHead(emb_size, n_classes)
+                                      'head': ViTClassificationHead(emb_size, n_classes)
                                       }))
 
     @classmethod
