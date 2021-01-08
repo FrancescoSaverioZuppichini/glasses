@@ -1,5 +1,6 @@
 from __future__ import annotations
 import torch
+import numpy as np
 from torch import nn
 from torch import Tensor
 from glasses.nn.blocks.residuals import ResidualAdd
@@ -103,6 +104,7 @@ class EfficientNetEncoder(Encoder):
         super().__init__()
 
         self.widths, self.depths = widths, depths
+        self.strides, self.expansions, self.kernel_sizes = strides, expansions, kernel_sizes
         self.stem = stem(
             in_channels, widths[0],  activation=activation, kernel_size=3, stride=strides[0])
         strides = strides[1:]
@@ -133,19 +135,22 @@ class EfficientNetEncoder(Encoder):
 
     @property
     def stages(self):
-        # TODO this must be changed to allow multi layers
-        # stages are all the layers with stride = 2 skipping the last one
-        return [self.stem[-2],
-                self.layers[1],
-                self.layers[2],
-                self.layers[3]]
+        # find the layers where the input is // 2 
+        # skip first stride because it is for the stem!
+        # skip the last layer because it is just a conv-bn-act
+        # and we haven't a stride for it
+        layers = np.array(self.layers[:-1])[np.array(self.strides[1:]) == 2].tolist()[:-1]
+            
+        return [self.stem[-1],
+               *layers]
 
     @property
     def features_widths(self):
-        return [self.widths[0],
-                self.widths[2],
-                self.widths[3],
-                self.widths[4]]
+        # skip the last layer because it is just a conv-bn-act
+        # and we haven't a stride for it
+        widths = np.array(self.widths[:-1])[np.array(self.strides) == 2].tolist()
+        # we also have to remove the last one, because it is the spatial size of the network output 
+        return widths[:-1]
 
 
 class EfficientNetHead(nn.Module):

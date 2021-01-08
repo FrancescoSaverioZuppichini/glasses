@@ -17,6 +17,7 @@ Subpackages
    glasses.models.classification.resnetxt
    glasses.models.classification.senet
    glasses.models.classification.vgg
+   glasses.models.classification.vit
    glasses.models.classification.wide_resnet
 
 Module contents

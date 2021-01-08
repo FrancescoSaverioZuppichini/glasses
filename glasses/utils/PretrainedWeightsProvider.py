@@ -198,7 +198,7 @@ class PretrainedWeightsProvider:
         'vgg19_bn': BasicUrlHandler('https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg19_bn.pth'),
         'wide_resnet101_2': BasicUrlHandler('https://glasses-weights.s3.eu-central-1.amazonaws.com/wide_resnet101_2.pth'),
         'wide_resnet50_2': BasicUrlHandler('https://glasses-weights.s3.eu-central-1.amazonaws.com/wide_resnet50_2.pth'),
-
+        
     }
 
     def __post_init__(self):

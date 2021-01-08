@@ -3,7 +3,7 @@ import copy
 import torch.nn as nn
 from torch import Tensor
 from dataclasses import dataclass, field
-
+from typing import List
 
 @dataclass
 class Tracker:
@@ -32,7 +32,7 @@ class Tracker:
         Linear(in_features=64, out_features=10, bias=True)]``
     """
     module: nn.Module
-    traced: [nn.Module] = field(default_factory=list)
+    traced: List[nn.Module] = field(default_factory=list)
     handles: list = field(default_factory=list)
 
     def _forward_hook(self, m, inputs: Tensor, outputs: Tensor):

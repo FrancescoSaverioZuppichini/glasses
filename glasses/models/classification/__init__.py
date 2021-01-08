@@ -11,6 +11,6 @@ from .mobilenet import MobileNet
 from .alexnet import AlexNet
 from .efficientnet import EfficientNet, EfficientNetLite
 from .fishnet import FishNet
-
+from .vit import ViT
 __all__ = ['ResNet', 'DenseNet', 'ResNetXt', 'RegNet', 'WideResNet', 'FishNet',
- 'SEResNet', 'VGG', 'MobileNet', 'AlexNet',  'EfficientNet', 'EfficientNetLite']
+ 'SEResNet', 'VGG', 'MobileNet', 'AlexNet',  'EfficientNet', 'EfficientNetLite', 'ViT']
