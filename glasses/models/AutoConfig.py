@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import difflib
 
 from glasses.models import *
@@ -30,11 +31,19 @@ class AutoConfig:
         'efficientnet_lite3':  Config(resize=280, input_size=280, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
         'efficientnet_lite4':  Config(resize=300, input_size=300, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
         'unet': Config(resize=384, input_size=384, mean=None, std=None),
-
+        'vit_base_patch16_224':  Config(resize=224, input_size=224, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+        'vit_base_patch16_384': Config(resize=384, input_size=384, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+        'vit_base_patch32_384':  Config(resize=384, input_size=384, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+        'vit_huge_patch16_224':  Config(resize=224, input_size=224, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+        'vit_huge_patch32_384':  Config(resize=384, input_size=384, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+        'vit_large_patch16_224':  Config(resize=224, input_size=224, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+        'vit_large_patch16_384':  Config(resize=384, input_size=384, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+        'vit_large_patch32_384':  Config(resize=384, input_size=384, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+        'vit_small_patch16_224': Config(resize=224, input_size=224, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
     }
 
     @staticmethod
-    def from_name(name: str, *args, **kwargs) -> nn.Module:
+    def from_name(name: str, *args, **kwargs) -> Config:
         cfg = AutoConfig.zoo.get(name, AutoConfig.zoo['default'])
         return cfg
 

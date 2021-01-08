@@ -9,6 +9,7 @@ from enum import Enum
 import math
 from torch.nn import functional as F
 
+
 class Lambda(nn.Module):
     """[summary]
 
@@ -38,29 +39,34 @@ class Conv2dPad(nn.Conv2d):
             mode (str, optional): [description]. Defaults to 'auto'.
     """
 
-    def __init__(self, *args, mode: str = 'auto', padding:int = 0, **kwargs):
+    def __init__(self, *args, mode: str = 'auto', padding: int = 0, **kwargs):
 
         super().__init__(*args, **kwargs)
         self.mode = mode
         # dynamic add padding based on the kernel_size
         if self.mode == 'auto':
-            self.padding = self._get_padding(padding) if padding != 0 else (self.kernel_size[0] // 2, self.kernel_size[1] // 2)
-          
+            self.padding = self._get_padding(padding) if padding != 0 else (
+                self.kernel_size[0] // 2, self.kernel_size[1] // 2)
+
     def _get_padding(self, padding: int) -> Union[int]:
         return (padding, padding)
-    
+
     def forward(self, x: Tensor) -> Tensor:
         if self.mode == 'same':
             ih, iw = x.size()[-2:]
             kh, kw = self.weight.size()[-2:]
             sh, sw = self.stride
-            oh, ow = math.ceil(ih / sh), math.ceil(iw / sw) # change the output size according to stride ! ! !
-            pad_h = max((oh - 1) * self.stride[0] + (kh - 1) * self.dilation[0] + 1 - ih, 0)
-            pad_w = max((ow - 1) * self.stride[1] + (kw - 1) * self.dilation[1] + 1 - iw, 0)
+            # change the output size according to stride ! ! !
+            oh, ow = math.ceil(ih / sh), math.ceil(iw / sw)
+            pad_h = max(
+                (oh - 1) * self.stride[0] + (kh - 1) * self.dilation[0] + 1 - ih, 0)
+            pad_w = max(
+                (ow - 1) * self.stride[1] + (kw - 1) * self.dilation[1] + 1 - iw, 0)
             if pad_h > 0 or pad_w > 0:
-                x = F.pad(x, [pad_w // 2, pad_w - pad_w // 2, pad_h // 2, pad_h - pad_h // 2])
+                x = F.pad(x, [pad_w // 2, pad_w - pad_w //
+                              2, pad_h // 2, pad_h - pad_h // 2])
             return F.conv2d(x, self.weight, self.bias, self.stride, self.padding, self.dilation, self.groups)
-        
+
         else:
             return super().forward(x)
 
@@ -107,7 +113,9 @@ class ConvBnAct(nn.Sequential):
         if activation:
             self.add_module('act', activation())
 
+
 ReLUInPlace = partial(nn.ReLU, inplace=True)
+
 
 class BnActConv(nn.Sequential):
     """A Sequential layer composed by a normalization, an activation and a convolution layer. This is usually known as a 'Preactivation Block'
@@ -119,6 +127,7 @@ class BnActConv(nn.Sequential):
         normalization (nn.Module, optional): [description]. Defaults to nn.BatchNorm2d.
         activation (nn.Module, optional): [description]. Defaults to nn.ReLU.
     """
+
     def __init__(self, in_features: int, out_features: int, conv: nn.Module = Conv2dPad,
                  normalization: nn.Module = nn.BatchNorm2d, activation: nn.Module = ReLUInPlace, *args, **kwargs):
         super().__init__()
@@ -127,6 +136,16 @@ class BnActConv(nn.Sequential):
         self.add_module('conv', conv(
             in_features, out_features, *args, **kwargs))
 
+
 ConvBn = partial(ConvBnAct, activation=None)
 ConvAct = partial(ConvBnAct, normalization=None, bias=True)
 Conv3x3BnAct = partial(ConvBnAct, kernel_size=3)
+
+
+class Lambda(nn.Module):
+    def __init__(self, lambd: Callable[[Tensor], Tensor]):
+        super().__init__()
+        self.lambd = lambd
+
+    def forward(self, x: Tensor) -> Tensor:
+        return self.lambd(x)

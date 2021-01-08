@@ -215,7 +215,7 @@ class PFPN(FPN):
     Basically, each features obtained from the segmentation branch is upsampled to match :math:`\frac{1}{4}` of the input, in the `ResNet` case :math:`58`. 
     Then, the features are merged by summing them to obtain a single vector that is upsampled to the input spatial shape.
 
-    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/PPFN.png?raw=true
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/PFPN.png?raw=true
 
     Examples:
 
