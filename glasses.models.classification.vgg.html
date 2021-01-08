@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>glasses.models.classification.vgg package &mdash; Glasses  documentation</title>
   
@@ -16,7 +16,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -36,7 +39,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="glasses.models.classification.wide_resnet package" href="glasses.models.classification.wide_resnet.html" />
+    <link rel="next" title="glasses.models.classification.vit package" href="glasses.models.classification.vit.html" />
     <link rel="prev" title="glasses.models.classification.senet package" href="glasses.models.classification.senet.html" /> 
 </head>
 
@@ -51,7 +54,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Glasses
+            <a href="index.html" class="icon icon-home"> Glasses
           
 
           
@@ -154,6 +157,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -173,7 +178,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/glasses.models.classification.vgg.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -195,7 +200,7 @@
 <dt id="glasses.models.classification.vgg.VGG">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.vgg.</code><code class="sig-name descname">VGG</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/vgg.html#VGG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.vgg.VGG" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.models.base.html#glasses.models.base.VisionModule" title="glasses.models.base.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.base.VisionModule</span></code></a></p>
-<p>Implementations of VGG proposed in <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">Very Deep Convolutional Networks For Large-Scale Image Recognition</a></p>
+<p>Implementation of VGG proposed in <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">Very Deep Convolutional Networks For Large-Scale Image Recognition</a></p>
 <p>Create a default model</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">()</span>
@@ -208,7 +213,7 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg19_bn</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Please be awere that the <cite>bn</cite> models uses BatchNorm but they are very old and people back then don’t know the bias is superfluous
+<p>Please be aware that the <cite>bn</cite> models uses BatchNorm but they are very old and people back then don’t know the bias is superfluous
 in a conv followed by a batchnorm.</p>
 <p>Customization</p>
 <p>You can easily create your custom VGG-like model</p>
@@ -239,6 +244,7 @@ in a conv followed by a batchnorm.</p>
 </ul>
 </dd>
 </dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.models.classification.vgg.VGG.forward">
 <code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/models/classification/vgg.html#VGG.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.vgg.VGG.forward" title="Permalink to this definition">¶</a></dt>
@@ -401,6 +407,7 @@ registered hooks while the latter silently ignores them.</p>
 </ul>
 </dd>
 </dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.models.classification.vgg.VGGEncoder.forward">
 <code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/models/classification/vgg.html#VGGEncoder.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.vgg.VGGEncoder.forward" title="Permalink to this definition">¶</a></dt>
@@ -433,6 +440,7 @@ correct class by means of fully connected layers. Dropout is used to decrease th
 out_features (int): Number of input features
 n_classes (int): [description]</p>
 </div></blockquote>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
 <dt id="glasses.models.classification.vgg.VGGHead.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.models.classification.vgg.VGGHead.training" title="Permalink to this definition">¶</a></dt>
@@ -457,6 +465,7 @@ convolution-activation transformation) eventually followed by maxpooling.</p>
 </ul>
 </dd>
 </dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.models.classification.vgg.VGGLayer.forward">
 <code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/models/classification/vgg.html#VGGLayer.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.vgg.VGGLayer.forward" title="Permalink to this definition">¶</a></dt>
@@ -486,37 +495,29 @@ registered hooks while the latter silently ignores them.</p>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="glasses.models.classification.wide_resnet.html" class="btn btn-neutral float-right" title="glasses.models.classification.wide_resnet package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="glasses.models.classification.senet.html" class="btn btn-neutral float-left" title="glasses.models.classification.senet package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="glasses.models.classification.vit.html" class="btn btn-neutral float-right" title="glasses.models.classification.vit package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="glasses.models.classification.senet.html" class="btn btn-neutral float-left" title="glasses.models.classification.senet package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
+        &#169; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

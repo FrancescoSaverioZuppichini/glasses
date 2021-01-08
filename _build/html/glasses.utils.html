@@ -83,11 +83,12 @@
               
             
             
-              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <p class="caption"><span class="caption-text">Notes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/Interpretability.html">Interpretability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/Transfer Learning.html">Transfer Learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Interpretability.html">Interpretability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Segmentation.html">Segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Transfer Learning.html">Transfer Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/installation.html">Installation</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package Reference</span></p>
 <ul class="current">
@@ -445,7 +446,7 @@ performance.</p>
 <span id="glasses-utils-tracker-module"></span><h2>glasses.utils.Tracker module<a class="headerlink" href="#module-glasses.utils.Tracker" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="glasses.utils.Tracker.Tracker">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.utils.Tracker.</code><code class="sig-name descname">Tracker</code><span class="sig-paren">(</span><em class="sig-param">module: torch.nn.modules.module.Module</em>, <em class="sig-param">traced: [&lt;class 'torch.nn.modules.module.Module'&gt;] = &lt;factory&gt;</em>, <em class="sig-param">handles: list = &lt;factory&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Tracker.html#Tracker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.Tracker.Tracker" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.utils.Tracker.</code><code class="sig-name descname">Tracker</code><span class="sig-paren">(</span><em class="sig-param">module: torch.nn.modules.module.Module</em>, <em class="sig-param">traced: List[torch.nn.modules.module.Module] = &lt;factory&gt;</em>, <em class="sig-param">handles: list = &lt;factory&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Tracker.html#Tracker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.Tracker.Tracker" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>This class tracks all the operations of a given module by performing a forward pass.</p>
 <p class="rubric">Example</p>
@@ -485,7 +486,7 @@ performance.</p>
 
 <dl class="py attribute">
 <dt id="glasses.utils.Tracker.Tracker.traced">
-<code class="sig-name descname">traced</code><em class="property">: <span class="p">[</span>nn.Module<span class="p">]</span></em><a class="headerlink" href="#glasses.utils.Tracker.Tracker.traced" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">traced</code><em class="property">: List<span class="p">[</span>nn.Module<span class="p">]</span></em><a class="headerlink" href="#glasses.utils.Tracker.Tracker.traced" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

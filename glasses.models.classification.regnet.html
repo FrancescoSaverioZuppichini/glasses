@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>glasses.models.classification.regnet package &mdash; Glasses  documentation</title>
   
@@ -16,7 +16,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -51,7 +54,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Glasses
+            <a href="index.html" class="icon icon-home"> Glasses
           
 
           
@@ -154,6 +157,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -173,7 +178,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/glasses.models.classification.regnet.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -256,6 +261,7 @@ shows all the restrictions applied from one search space to the next one.</p>
 </ul>
 </dd>
 </dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
 <dt id="glasses.models.classification.regnet.RegNet.models_config">
 <code class="sig-name descname">models_config</code><em class="property"> = {'regnetx_002': ([1, 1, 4, 7], [24, 56, 152, 368], 8), 'regnetx_004': ([1, 2, 7, 12], [32, 64, 160, 384], 16), 'regnetx_006': ([1, 3, 5, 7], [48, 96, 240, 528], 24), 'regnetx_008': ([1, 3, 7, 5], [64, 128, 288, 672], 16), 'regnetx_016': ([2, 4, 10, 2], [72, 168, 408, 912], 24), 'regnetx_032': ([2, 6, 15, 2], [96, 192, 432, 1008], 48), 'regnetx_040': ([2, 5, 14, 2], [80, 240, 560, 1360], 40), 'regnetx_064': ([2, 4, 10, 1], [168, 392, 784, 1624], 56), 'regnetx_080': ([2, 5, 15, 1], [80, 240, 720, 1920], 80), 'regnetx_120': ([2, 5, 11, 1], [224, 448, 896, 2240], 112), 'regnetx_160': ([2, 6, 13, 1], [256, 512, 896, 2048], 128), 'regnetx_320': ([2, 7, 13, 1], [336, 672, 1344, 2520], 168), 'regnety_002': ([1, 1, 4, 7], [24, 56, 152, 368], 8), 'regnety_004': ([1, 3, 6, 6], [48, 104, 208, 440], 8), 'regnety_006': ([1, 3, 7, 4], [48, 112, 256, 608], 16), 'regnety_008': ([1, 3, 8, 2], [64, 128, 320, 768], 16), 'regnety_016': ([2, 6, 17, 2], [48, 120, 336, 888], 24), 'regnety_032': ([2, 5, 13, 1], [72, 216, 576, 1512], 24), 'regnety_040': ([2, 6, 12, 2], [128, 192, 512, 1088], 64), 'regnety_064': ([2, 7, 14, 2], [144, 288, 576, 1296], 72), 'regnety_080': ([2, 4, 10, 1], [168, 448, 896, 2016], 56), 'regnety_120': ([2, 5, 11, 1], [224, 448, 896, 2240], 112), 'regnety_160': ([2, 4, 11, 1], [224, 448, 1232, 3024], 112), 'regnety_320': ([2, 5, 12, 1], [232, 696, 1392, 3712], 232)}</em><a class="headerlink" href="#glasses.models.classification.regnet.RegNet.models_config" title="Permalink to this definition">¶</a></dt>
@@ -420,6 +426,7 @@ Code borrowed from the original implementation.</p>
 <em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.regnet.</code><code class="sig-name descname">RegNetXBotteneckBlock</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">out_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">groups_width</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/regnet.html#RegNetXBotteneckBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.regnet.RegNetXBotteneckBlock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNetBottleneckBlock" title="glasses.models.classification.resnet.ResNetBottleneckBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNetBottleneckBlock</span></code></a></p>
 <p>RegNet modified block from ResNetXt, bottleneck reduction (b in the paper) if fixed to 1.</p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
 <dt id="glasses.models.classification.regnet.RegNetXBotteneckBlock.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.models.classification.regnet.RegNetXBotteneckBlock.training" title="Permalink to this definition">¶</a></dt>
@@ -437,6 +444,7 @@ Code borrowed from the original implementation.</p>
 <p>This block is wrong but it follows the official doc where the inner features of the SE module are <cite>in_features // reduction</cite>,
 a correct implementation of SE should have the inner features computed from <cite>self.features</cite>.</p>
 </div>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
 <dt id="glasses.models.classification.regnet.RegNetYBotteneckBlock.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.models.classification.regnet.RegNetYBotteneckBlock.training" title="Permalink to this definition">¶</a></dt>
@@ -452,37 +460,29 @@ a correct implementation of SE should have the inner features computed from <cit
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="glasses.models.classification.resnet.html" class="btn btn-neutral float-right" title="glasses.models.classification.resnet package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="glasses.models.classification.mobilenet.html" class="btn btn-neutral float-left" title="glasses.models.classification.mobilenet package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="glasses.models.classification.resnet.html" class="btn btn-neutral float-right" title="glasses.models.classification.resnet package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="glasses.models.classification.mobilenet.html" class="btn btn-neutral float-left" title="glasses.models.classification.mobilenet package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
+        &#169; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

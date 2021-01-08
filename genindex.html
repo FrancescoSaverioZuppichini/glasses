@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Index &mdash; Glasses  documentation</title>
   
@@ -16,7 +16,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -49,7 +52,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Glasses
+            <a href="index.html" class="icon icon-home"> Glasses
           
 
           
@@ -135,6 +138,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -146,7 +151,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
         
       </li>
     
@@ -576,6 +581,8 @@
         <li><a href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNetEncoder.features_widths">(glasses.models.classification.resnet.ResNetEncoder property)</a>
 </li>
       </ul></li>
+      <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.FeedForwardBlock">FeedForwardBlock (class in glasses.models.classification.vit)</a>
+</li>
       <li><a href="glasses.models.classification.alexnet.html#glasses.models.classification.alexnet.AlexNetHead.filter_size">filter_size (glasses.models.classification.alexnet.AlexNetHead attribute)</a>
 </li>
       <li><a href="glasses.interpretability.html#glasses.interpretability.utils.find_first_layer">find_first_layer() (in module glasses.interpretability.utils)</a>
@@ -692,6 +699,14 @@
         <li><a href="glasses.models.classification.vgg.html#glasses.models.classification.vgg.VGGEncoder.forward">(glasses.models.classification.vgg.VGGEncoder method)</a>
 </li>
         <li><a href="glasses.models.classification.vgg.html#glasses.models.classification.vgg.VGGLayer.forward">(glasses.models.classification.vgg.VGGLayer method)</a>
+</li>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.MultiHeadAttention.forward">(glasses.models.classification.vit.MultiHeadAttention method)</a>
+</li>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.PatchEmbedding.forward">(glasses.models.classification.vit.PatchEmbedding method)</a>
+</li>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ResidualAdd.forward">(glasses.models.classification.vit.ResidualAdd method)</a>
+</li>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.TransformerEncoder.forward">(glasses.models.classification.vit.TransformerEncoder method)</a>
 </li>
         <li><a href="glasses.models.html#glasses.models.DenseNet.forward">(glasses.models.DenseNet method)</a>
 </li>
@@ -974,6 +989,13 @@
 
       <ul>
         <li><a href="glasses.models.classification.vgg.html#module-glasses.models.classification.vgg">module</a>
+</li>
+      </ul></li>
+      <li>
+    glasses.models.classification.vit
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#module-glasses.models.classification.vit">module</a>
 </li>
       </ul></li>
       <li>
@@ -1303,6 +1325,8 @@
 </li>
         <li><a href="glasses.models.classification.vgg.html#module-glasses.models.classification.vgg">glasses.models.classification.vgg</a>
 </li>
+        <li><a href="glasses.models.classification.vit.html#module-glasses.models.classification.vit">glasses.models.classification.vit</a>
+</li>
         <li><a href="glasses.models.classification.wide_resnet.html#module-glasses.models.classification.wide_resnet">glasses.models.classification.wide_resnet</a>
 </li>
         <li><a href="glasses.models.segmentation.html#module-glasses.models.segmentation">glasses.models.segmentation</a>
@@ -1346,6 +1370,8 @@
 </li>
       <li><a href="glasses.utils.html#glasses.utils.ModuleTransfer.ModuleTransfer">ModuleTransfer (class in glasses.utils.ModuleTransfer)</a>
 </li>
+      <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.MultiHeadAttention">MultiHeadAttention (class in glasses.models.classification.vit)</a>
+</li>
       <li><a href="glasses.utils.html#glasses.utils.Storage.MutipleKeysDict">MutipleKeysDict (class in glasses.utils.Storage)</a>
 </li>
   </ul></td>
@@ -1388,6 +1414,8 @@
 </li>
       <li><a href="glasses.utils.html#glasses.utils.Tracker.Tracker.parametrized">parametrized() (glasses.utils.Tracker.Tracker property)</a>
 </li>
+      <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.PatchEmbedding">PatchEmbedding (class in glasses.models.classification.vit)</a>
+</li>
       <li><a href="glasses.models.segmentation.html#glasses.models.segmentation.PFPN">PFPN (class in glasses.models.segmentation)</a>
 
       <ul>
@@ -1401,6 +1429,8 @@
       <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.PFPNSegmentationBranch">PFPNSegmentationBranch (in module glasses.models.segmentation.fpn)</a>
 </li>
       <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.PFPNSegmentationLayer">PFPNSegmentationLayer (class in glasses.models.segmentation.fpn)</a>
+</li>
+      <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViTClassificationHead.POLICIES">POLICIES (glasses.models.classification.vit.ViTClassificationHead attribute)</a>
 </li>
       <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.pretrained">pretrained() (in module glasses.utils.PretrainedWeightsProvider)</a>
 </li>
@@ -1582,10 +1612,16 @@
 </li>
       <li><a href="glasses.nn.blocks.html#glasses.nn.blocks.residuals.Residual">Residual (class in glasses.nn.blocks.residuals)</a>
 </li>
-      <li><a href="glasses.nn.blocks.html#glasses.nn.blocks.residuals.ResidualAdd">ResidualAdd (class in glasses.nn.blocks.residuals)</a>
+      <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ResidualAdd">ResidualAdd (class in glasses.models.classification.vit)</a>
+
+      <ul>
+        <li><a href="glasses.nn.blocks.html#glasses.nn.blocks.residuals.ResidualAdd">(class in glasses.nn.blocks.residuals)</a>
 </li>
+      </ul></li>
       <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.Config.resize">resize (glasses.utils.PretrainedWeightsProvider.Config attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.models.html#glasses.models.ResNet">ResNet (class in glasses.models)</a>
 
       <ul>
@@ -1594,8 +1630,6 @@
         <li><a href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNet">(class in glasses.models.classification.resnet)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.models.classification.html#glasses.models.classification.ResNet.resnet101">resnet101() (glasses.models.classification.ResNet class method)</a>
 
       <ul>
@@ -1965,6 +1999,24 @@
 </li>
         <li><a href="glasses.models.classification.vgg.html#glasses.models.classification.vgg.VGGLayer.training">(glasses.models.classification.vgg.VGGLayer attribute)</a>
 </li>
+        <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.training">(glasses.models.classification.ViT attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.FeedForwardBlock.training">(glasses.models.classification.vit.FeedForwardBlock attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.MultiHeadAttention.training">(glasses.models.classification.vit.MultiHeadAttention attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.PatchEmbedding.training">(glasses.models.classification.vit.PatchEmbedding attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ResidualAdd.training">(glasses.models.classification.vit.ResidualAdd attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.TransformerEncoder.training">(glasses.models.classification.vit.TransformerEncoder attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.TransformerEncoderBlock.training">(glasses.models.classification.vit.TransformerEncoderBlock attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.training">(glasses.models.classification.vit.ViT attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViTClassificationHead.training">(glasses.models.classification.vit.ViTClassificationHead attribute)</a>
+</li>
         <li><a href="glasses.models.classification.wide_resnet.html#glasses.models.classification.wide_resnet.WideResNet.training">(glasses.models.classification.wide_resnet.WideResNet attribute)</a>
 </li>
         <li><a href="glasses.models.classification.wide_resnet.html#glasses.models.classification.wide_resnet.WideResNetBottleNeckBlock.training">(glasses.models.classification.wide_resnet.WideResNetBottleNeckBlock attribute)</a>
@@ -2039,6 +2091,10 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.Config.transform">transform() (glasses.utils.PretrainedWeightsProvider.Config property)</a>
+</li>
+      <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.TransformerEncoder">TransformerEncoder (class in glasses.models.classification.vit)</a>
+</li>
+      <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.TransformerEncoderBlock">TransformerEncoderBlock (class in glasses.models.classification.vit)</a>
 </li>
       <li><a href="glasses.models.classification.densenet.html#glasses.models.classification.densenet.TransitionBlock">TransitionBlock (class in glasses.models.classification.densenet)</a>
 </li>
@@ -2130,8 +2186,6 @@
         <li><a href="glasses.models.html#glasses.models.VGG.vgg13_bn">(glasses.models.VGG class method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.models.classification.html#glasses.models.classification.VGG.vgg16">vgg16() (glasses.models.classification.VGG class method)</a>
 
       <ul>
@@ -2164,6 +2218,8 @@
         <li><a href="glasses.models.html#glasses.models.VGG.vgg19_bn">(glasses.models.VGG class method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.models.classification.vgg.html#glasses.models.classification.vgg.VGGEncoder">VGGEncoder (class in glasses.models.classification.vgg)</a>
 </li>
       <li><a href="glasses.models.classification.vgg.html#glasses.models.classification.vgg.VGGHead">VGGHead (class in glasses.models.classification.vgg)</a>
@@ -2171,6 +2227,68 @@
       <li><a href="glasses.models.classification.vgg.html#glasses.models.classification.vgg.VGGLayer">VGGLayer (class in glasses.models.classification.vgg)</a>
 </li>
       <li><a href="glasses.models.base.html#glasses.models.base.VisionModule">VisionModule (class in glasses.models.base)</a>
+</li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT">ViT (class in glasses.models.classification)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT">(class in glasses.models.classification.vit)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_base_patch16_224">vit_base_patch16_224() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_base_patch16_224">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_base_patch16_384">vit_base_patch16_384() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_base_patch16_384">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_base_patch32_384">vit_base_patch32_384() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_base_patch32_384">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_huge_patch16_224">vit_huge_patch16_224() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_huge_patch16_224">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_huge_patch32_384">vit_huge_patch32_384() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_huge_patch32_384">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_large_patch16_224">vit_large_patch16_224() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_large_patch16_224">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_large_patch16_384">vit_large_patch16_384() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_large_patch16_384">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_large_patch32_384">vit_large_patch32_384() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_large_patch32_384">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_small_patch16_224">vit_small_patch16_224() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_small_patch16_224">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViTClassificationHead">ViTClassificationHead (class in glasses.models.classification.vit)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2235,28 +2353,25 @@
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
+        &#169; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

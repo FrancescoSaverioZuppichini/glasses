@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>glasses.models.classification.resnet package &mdash; Glasses  documentation</title>
   
@@ -16,7 +16,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -51,7 +54,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Glasses
+            <a href="index.html" class="icon icon-home"> Glasses
           
 
           
@@ -154,6 +157,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -173,7 +178,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/glasses.models.classification.resnet.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -251,6 +256,7 @@
 </ul>
 </dd>
 </dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.models.classification.resnet.ResNet.forward">
 <code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/models/classification/resnet.html#ResNet.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.resnet.ResNet.forward" title="Permalink to this definition">¶</a></dt>
@@ -444,6 +450,7 @@ registered hooks while the latter silently ignores them.</p>
 </ul>
 </dd>
 </dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.models.classification.resnet.ResNetBasicBlock.forward">
 <code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/models/classification/resnet.html#ResNetBasicBlock.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.resnet.ResNetBasicBlock.forward" title="Permalink to this definition">¶</a></dt>
@@ -469,6 +476,7 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.models.classification.resnet.ResNetBasicPreActBlock">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.resnet.</code><code class="sig-name descname">ResNetBasicPreActBlock</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">inplace=True)</em>, <em class="sig-param">stride: int = 1</em>, <em class="sig-param">shortcut: torch.nn.modules.module.Module = &lt;class 'glasses.models.classification.resnet.ResNetShorcut'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/resnet.html#ResNetBasicPreActBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.resnet.ResNetBasicPreActBlock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#glasses.models.classification.resnet.ResNetBasicBlock" title="glasses.models.classification.resnet.ResNetBasicBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNetBasicBlock</span></code></a></p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
 <dt id="glasses.models.classification.resnet.ResNetBasicPreActBlock.reduction">
 <code class="sig-name descname">reduction</code><em class="property">: int</em><em class="property"> = 1</em><a class="headerlink" href="#glasses.models.classification.resnet.ResNetBasicPreActBlock.reduction" title="Permalink to this definition">¶</a></dt>
@@ -509,6 +517,7 @@ registered hooks while the latter silently ignores them.</p>
 </ul>
 </dd>
 </dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
 <dt id="glasses.models.classification.resnet.ResNetBottleneckBlock.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.models.classification.resnet.ResNetBottleneckBlock.training" title="Permalink to this definition">¶</a></dt>
@@ -520,6 +529,7 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.models.classification.resnet.ResNetBottleneckPreActBlock">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.resnet.</code><code class="sig-name descname">ResNetBottleneckPreActBlock</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">features: Optional[int] = None</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">inplace=True)</em>, <em class="sig-param">reduction: int = 4</em>, <em class="sig-param">stride=1</em>, <em class="sig-param">shortcut=&lt;class 'glasses.models.classification.resnet.ResNetShorcut'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/resnet.html#ResNetBottleneckPreActBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.resnet.ResNetBottleneckPreActBlock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#glasses.models.classification.resnet.ResNetBottleneckBlock" title="glasses.models.classification.resnet.ResNetBottleneckBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNetBottleneckBlock</span></code></a></p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
 <dt id="glasses.models.classification.resnet.ResNetBottleneckPreActBlock.reduction">
 <code class="sig-name descname">reduction</code><em class="property">: int</em><em class="property"> = 4</em><a class="headerlink" href="#glasses.models.classification.resnet.ResNetBottleneckPreActBlock.reduction" title="Permalink to this definition">¶</a></dt>
@@ -560,6 +570,7 @@ registered hooks while the latter silently ignores them.</p>
 </ul>
 </dd>
 </dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.models.classification.resnet.ResNetEncoder.features_widths">
 <em class="property">property </em><code class="sig-name descname">features_widths</code><a class="headerlink" href="#glasses.models.classification.resnet.ResNetEncoder.features_widths" title="Permalink to this definition">¶</a></dt>
@@ -597,6 +608,7 @@ registered hooks while the latter silently ignores them.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
 <p>This class represents the tail of ResNet. It performs a global pooling and maps the output to the
 correct class by using a fully connected layer.</p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
 <dt id="glasses.models.classification.resnet.ResNetHead.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.models.classification.resnet.ResNetHead.training" title="Permalink to this definition">¶</a></dt>
@@ -608,6 +620,7 @@ correct class by using a fully connected layer.</p>
 <dt id="glasses.models.classification.resnet.ResNetLayer">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.resnet.</code><code class="sig-name descname">ResNetLayer</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">block: torch.nn.modules.module.Module = &lt;class 'glasses.models.classification.resnet.ResNetBasicBlock'&gt;</em>, <em class="sig-param">depth: int = 1</em>, <em class="sig-param">stride: int = 2</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/resnet.html#ResNetLayer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.resnet.ResNetLayer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.models.classification.resnet.ResNetLayer.forward">
 <code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/models/classification/resnet.html#ResNetLayer.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.resnet.ResNetLayer.forward" title="Permalink to this definition">¶</a></dt>
@@ -643,6 +656,7 @@ when residual and output features do not match</p>
 </ul>
 </dd>
 </dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.models.classification.resnet.ResNetShorcut.forward">
 <code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/models/classification/resnet.html#ResNetShorcut.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.resnet.ResNetShorcut.forward" title="Permalink to this definition">¶</a></dt>
@@ -678,6 +692,7 @@ registered hooks while the latter silently ignores them.</p>
 </ul>
 </dd>
 </dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
 <dt id="glasses.models.classification.resnet.ResNetShorcutD.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.models.classification.resnet.ResNetShorcutD.training" title="Permalink to this definition">¶</a></dt>
@@ -689,6 +704,7 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.models.classification.resnet.ResNetStem">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.resnet.</code><code class="sig-name descname">ResNetStem</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">inplace=True)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/resnet.html#ResNetStem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.resnet.ResNetStem" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
 <dt id="glasses.models.classification.resnet.ResNetStem.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.models.classification.resnet.ResNetStem.training" title="Permalink to this definition">¶</a></dt>
@@ -703,6 +719,7 @@ registered hooks while the latter silently ignores them.</p>
 <p>Modified stem proposed in <a class="reference external" href="https://arxiv.org/pdf/1812.01187.pdf">Bag of Tricks for Image Classification with Convolutional Neural Networks</a></p>
 <p>The observation is that the computational cost of a convolution is quadratic to the kernel width or height. A 7 × 7 convolution is 5.4
 times more expensive than a 3 × 3 convolution. So this tweak replacing the 7 × 7 convolution in the input stem with three conservative 3 × 3 convolution</p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
 <dt id="glasses.models.classification.resnet.ResNetStemC.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.models.classification.resnet.ResNetStemC.training" title="Permalink to this definition">¶</a></dt>
@@ -718,37 +735,29 @@ times more expensive than a 3 × 3 convolution. So this tweak replacing the 7 ×
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="glasses.models.classification.resnetxt.html" class="btn btn-neutral float-right" title="glasses.models.classification.resnetxt package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="glasses.models.classification.regnet.html" class="btn btn-neutral float-left" title="glasses.models.classification.regnet package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="glasses.models.classification.resnetxt.html" class="btn btn-neutral float-right" title="glasses.models.classification.resnetxt package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="glasses.models.classification.regnet.html" class="btn btn-neutral float-left" title="glasses.models.classification.regnet package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
+        &#169; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
