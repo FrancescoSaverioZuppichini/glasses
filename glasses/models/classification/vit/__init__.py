@@ -1,17 +1,12 @@
 from __future__ import annotations
-from pprint import pformat
-import numpy as np
 import torch
 from torch import nn
 from torch import Tensor
 from glasses.nn.blocks.residuals import ResidualAdd
-from glasses.nn.blocks import Conv2dPad, BnActConv, ConvBnAct, Lambda
+from glasses.nn.blocks import  Lambda
 from collections import OrderedDict
-from typing import List
-from functools import partial
-from glasses.utils.PretrainedWeightsProvider import Config, pretrained
+from glasses.utils.PretrainedWeightsProvider import pretrained
 from ....models.base import Encoder, VisionModule
-from glasses.nn.att import ChannelSE
 import torch.nn.functional as F
 from einops import rearrange, reduce, repeat
 from einops.layers.torch import Rearrange, Reduce
@@ -167,18 +162,23 @@ class TransformerEncoderBlock(nn.Sequential):
 
 
 class TransformerEncoder(Encoder):
-    def __init__(self, depth: int = 12, block: nn.Module = TransformerEncoderBlock, **kwargs):
+    def __init__(self, depth: int = 12, block: nn.Module = TransformerEncoderBlock, emb_size: int = 786,  **kwargs):
         """
         Transformer Encoder proposed in `Attention Is All You Need <https://arxiv.org/abs/1706.03762>`_
+
+        .. warning::
+            Even if `TransformerEncoder` uses the `Encoder` APIs you won't be able to use it with `segmentation` models
+            since they will expect 3-D tensors as inputs. 
 
         Args:
             depth (int, optional): Number of transformer's blocks. Defaults to 12.
             block ( nn.Module, optional): Block used inside the transformer encoder. Defaults to TransformerEncoderBlock.
+            emb_size (int, optional):  Embedding dimensions Defaults to 768.
 
         """
         super().__init__()
-
-        self.layers = nn.ModuleList([TransformerEncoderBlock(**kwargs)
+        self.widths = [emb_size] * depth
+        self.layers = nn.ModuleList([block(emb_size, **kwargs)
                                      for _ in range(depth)])
 
     def forward(self, x: Tensor) -> Tensor:
@@ -192,6 +192,7 @@ class ViTClassificationHead(nn.Sequential):
 
     def __init__(self, emb_size: int = 768, n_classes: int = 1000, policy: str = 'token'):
         """
+        ViT Classification Head
 
         Args:
             emb_size (int, optional):  Embedding dimensions Defaults to 768.
@@ -223,6 +224,39 @@ class ViT(nn.Sequential, VisionModule):
         The following image from the authors shows the architecture.
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ViT.png?raw=true
+        
+        Vanilla models
+
+        >>> ViT.vit_small_patch16_224()
+        >>> ViT.vit_base_patch16_224()
+        >>> ViT.vit_base_patch16_384()
+        >>> ViT.vit_base_patch32_384()
+        >>> ViT.vit_huge_patch16_224()
+        >>> ViT.vit_huge_patch32_384()
+        >>> ViT.vit_large_patch16_224()
+        >>> ViT.vit_large_patch16_384()
+        >>> ViT.vit_large_patch32_384()
+
+        Customization
+
+        You can easily customize your model
+
+        Examples:
+            >>> # change activation
+            >>> ViT.vit_base_patch16_224(activation = nn.SELU)
+            >>> # change number of classes (default is 1000 )
+            >>> ViT.vit_base_patch16_224(n_classes=100)
+            >>> # pass a different block, default is TransformerEncoderBlock
+            >>> ViT.vit_base_patch16_224(block=MyCoolTransformerBlock)
+            >>> # get features
+            >>> model = ViT.vit_base_patch16_224
+            >>> # first call .features, this will activate the forward hooks and tells the model you'll like to get the features
+            >>> model.encoder.features
+            >>> model(torch.randn((1,3,224,224)))
+            >>> # get the features from the encoder
+            >>> features = model.encoder.features
+            >>> print([x.shape for x in features])
+            >>> #[[torch.Size([1, 197, 768]),  torch.Size([1, 197, 768]), ...]
 
         Args:
             in_channels (int, optional): [description]. Defaults to 3.

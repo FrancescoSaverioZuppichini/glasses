@@ -1,4 +1,5 @@
 import torch
+from torch import nn
 import pytest
 from glasses.models.classification.vit import ViT, ViTClassificationHead
 from functools import partial
@@ -15,7 +16,14 @@ def test_head():
     with pytest.raises(AssertionError):
         head = ViTClassificationHead(emb_size = 32, policy = 'trolololo')
 
+def test_features():
+    x = torch.rand((1, 3, 224, 224))
+    model = ViT.vit_base_patch16_224(emb_size=24)
+    model.encoder.features
+    model(x)
+    features = model.encoder.features
 
+    assert len(features) == len(model.encoder.layers) - 1
 
 def test_vit():
     x = torch.rand((1, 3, 224, 224))
