@@ -186,7 +186,7 @@
 </div>
 <div class="section" id="id1">
 <h2>Transfer Learning<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>Train a deep convolutional neural network may take a lot of time, <strong>transfer learning</strong>, as the name suggests, use models already trained on a huge image dataset, such as ImageNet, to speed up the learning procedure.</p>
+<p>Train a deep convolutional neural network may take a lot of time, <strong>transfer learning</strong>, as the name suggests, uses models already trained on a huge image dataset, such as ImageNet, to speed up the learning procedure.</p>
 <p>Even if your dataset may be different than ImageNet, the pre-trained models have learned useful weights that can be easily adapt to your new dataset.</p>
 <div class="section" id="loading-a-model">
 <h3>Loading a Model<a class="headerlink" href="#loading-a-model" title="Permalink to this headline">¶</a></h3>
@@ -195,9 +195,6 @@
 
 <span class="n">resnet34</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;resnet34&#39;</span><span class="p">)</span> 
 <span class="n">cfg</span> <span class="o">=</span> <span class="n">AutoConfig</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="s1">&#39;resnet34&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">INFO</span><span class="p">:</span><span class="n">root</span><span class="p">:</span><span class="n">Loaded</span> <span class="n">resnet34</span> <span class="n">pretrained</span> <span class="n">weights</span><span class="o">.</span>
 </pre></div>
 </div>
 <p>You can also call <code class="docutils literal notranslate"><span class="pre">.summary()</span></code> to see your models parameters</p>
@@ -224,7 +221,8 @@
 <p>Cool, we have our model. Now we need to <strong>freeze</strong> the convolution layers and change the classification head. In glasses, each classification model is composed by a <code class="docutils literal notranslate"><span class="pre">Encoder</span></code> (where the convs are) and a <code class="docutils literal notranslate"><span class="pre">Head</span></code> (usually a linear layer) that performs the final classification. Each <code class="docutils literal notranslate"><span class="pre">Encoder</span></code> has the <code class="docutils literal notranslate"><span class="pre">.widths</span></code> field that tells the number of output features at each layer.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNetHead</span>
 
-<span class="n">resnet34</span><span class="o">.</span><span class="n">freeze</span><span class="p">(</span><span class="n">who</span><span class="o">=</span><span class="n">resnet34</span><span class="o">.</span><span class="n">encoder</span><span class="p">)</span>
+<span class="n">resnet34</span><span class="o">.</span><span class="n">freeze</span><span class="p">()</span>
+<span class="c1"># you can also freeze a specific layer e.g. resnet34.freeze(who=resnet34.encoder.layers[0])</span>
 <span class="c1"># head will need to know how many features we are passing into</span>
 <span class="n">resnet34</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">ResNetHead</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="n">resnet34</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">widths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">n_classes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="c1"># just to show you</span>

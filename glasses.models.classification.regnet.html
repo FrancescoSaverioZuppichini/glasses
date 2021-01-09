@@ -209,7 +209,7 @@ shows all the restrictions applied from one search space to the next one.</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/RegNetDesignSpaceTable.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/RegNetDesignSpaceTable.png?raw=true" />
 <p>The paper is really well written and very interesting paper, I highly recommended to read it.</p>
 <p class="rubric">Examples</p>
-<p>Vanilla models</p>
+<p>Default models</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_002</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_006</span><span class="p">()</span>
@@ -227,9 +227,7 @@ shows all the restrictions applied from one search space to the next one.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_320</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Customization</p>
 <p>You can easily customize your model</p>
-<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>

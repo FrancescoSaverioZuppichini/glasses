@@ -211,9 +211,7 @@ The author’s code is terrible, I have based mostly of my implemente on this am
 <span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet150</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Customization</p>
 <p>You can easily customize your model</p>
-<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
@@ -293,8 +291,8 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
-<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>in_features</strong> (<em>int</em>) – Number of input features</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – Number of output features</p></li>
 <li><p><strong>trans_features</strong> (<em>int</em>) – [description]</p></li>
 <li><p><strong>block</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to FishNetBottleNeck.</p></li>
 <li><p><strong>depth</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
@@ -332,8 +330,8 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
-<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>in_features</strong> (<em>int</em>) – Number of input features</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – Number of output features</p></li>
 <li><p><strong>block</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to FishNetBottleNeck.</p></li>
 <li><p><strong>depth</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
 </ul>
@@ -370,8 +368,8 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
-<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>in_features</strong> (<em>int</em>) – Number of input features</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – Number of output features</p></li>
 </ul>
 </dd>
 </dl>
@@ -510,8 +508,8 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
-<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>in_features</strong> (<em>int</em>) – Number of input features</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – Number of output features</p></li>
 <li><p><strong>trans_features</strong> (<em>int</em>) – [description]</p></li>
 <li><p><strong>block</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to FishNetBottleNeck.</p></li>
 <li><p><strong>depth</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
@@ -535,8 +533,8 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
-<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>in_features</strong> (<em>int</em>) – Number of input features</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – Number of output features</p></li>
 <li><p><strong>depth</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
 <li><p><strong>block</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to FishNetBottleNeck.</p></li>
 </ul>

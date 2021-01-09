@@ -176,23 +176,22 @@
 <span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">functional</span> <span class="k">as</span> <span class="n">F</span>
 
 
-<span class="k">class</span> <span class="nc">Lambda</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;[summary]</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        lambd (Callable[Tensor]): A function that does something</span>
-
-<span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; add_two = Lambda(lambd x: x + 2)</span>
-<span class="sd">        &gt;&gt;&gt; add_two(Tensor([0])) // 2</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
+<div class="viewcode-block" id="Lambda"><a class="viewcode-back" href="../../../glasses.nn.blocks.html#glasses.nn.blocks.Lambda">[docs]</a><span class="k">class</span> <span class="nc">Lambda</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lambd</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Tensor</span><span class="p">],</span> <span class="n">Tensor</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;An utility Module, it allows custom function to be passed</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            lambd (Callable[Tensor]): A function that does something on a tensor</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; add_two = Lambda(lambd x: x + 2)</span>
+<span class="sd">            &gt;&gt;&gt; add_two(Tensor([0])) // 2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lambd</span> <span class="o">=</span> <span class="n">lambd</span>
 
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="viewcode-block" id="Lambda.forward"><a class="viewcode-back" href="../../../glasses.nn.blocks.html#glasses.nn.blocks.Lambda.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="Conv2dPad"><a class="viewcode-back" href="../../../glasses.nn.blocks.html#glasses.nn.blocks.Conv2dPad">[docs]</a><span class="k">class</span> <span class="nc">Conv2dPad</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">):</span>
@@ -287,8 +286,8 @@
     <span class="sd">&quot;&quot;&quot;A Sequential layer composed by a normalization, an activation and a convolution layer. This is usually known as a &#39;Preactivation Block&#39;</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        in_features (int): [description]</span>
-<span class="sd">        out_features (int): [description]</span>
+<span class="sd">        in_features (int): Number of input features</span>
+<span class="sd">        out_features (int): Number of output features</span>
 <span class="sd">        conv (nn.Module, optional): [description]. Defaults to Conv2dPad.</span>
 <span class="sd">        normalization (nn.Module, optional): [description]. Defaults to nn.BatchNorm2d.</span>
 <span class="sd">        activation (nn.Module, optional): [description]. Defaults to nn.ReLU.</span>
@@ -307,14 +306,6 @@
 <span class="n">ConvAct</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">ConvBnAct</span><span class="p">,</span> <span class="n">normalization</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">Conv3x3BnAct</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">ConvBnAct</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="Lambda"><a class="viewcode-back" href="../../../glasses.nn.blocks.html#glasses.nn.blocks.Lambda">[docs]</a><span class="k">class</span> <span class="nc">Lambda</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lambd</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Tensor</span><span class="p">],</span> <span class="n">Tensor</span><span class="p">]):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lambd</span> <span class="o">=</span> <span class="n">lambd</span>
-
-<div class="viewcode-block" id="Lambda.forward"><a class="viewcode-back" href="../../../glasses.nn.blocks.html#glasses.nn.blocks.Lambda.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

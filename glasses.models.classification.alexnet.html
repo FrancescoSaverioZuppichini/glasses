@@ -202,8 +202,8 @@
 <dd><p>Bases: <a class="reference internal" href="glasses.models.base.html#glasses.models.base.VisionModule" title="glasses.models.base.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.base.VisionModule</span></code></a></p>
 <p>Implementation of AlexNet proposed in <a class="reference external" href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf">ImageNet Classification with Deep Convolutional Neural Networks</a>,
 according to the <a class="reference external" href="https://pytorch.org/docs/stable/_modules/torchvision/models/alexnet.html">variation</a> implemented in torchvision.</p>
-<p>Create a default model</p>
 <p class="rubric">Examples</p>
+<p>Default model</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">AlexNet</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -216,9 +216,6 @@ according to the <a class="reference external" href="https://pytorch.org/docs/st
 <span class="gp">&gt;&gt;&gt; </span><span class="n">AlexNet</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">AlexNet</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the initial convolution</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AlexNet</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -253,9 +250,9 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py class">
 <dt id="glasses.models.classification.alexnet.AlexNetEncoder">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.alexnet.</code><code class="sig-name descname">AlexNetEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, widths: List[int] = [384, 256, 256], activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;, inplace=True), block: torch.nn.modules.module.Module = functools.partial(&lt;class 'glasses.nn.blocks.ConvBnAct'&gt;, normalization=None, bias=True), *args, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/alexnet.html#AlexNetEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.alexnet.AlexNetEncoder" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.alexnet.</code><code class="sig-name descname">AlexNetEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, stem: torch.nn.modules.module.Module = &lt;class 'glasses.models.classification.alexnet.AlexNetStem'&gt;, widths: List[int] = [192, 384, 256, 256], activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;, inplace=True), block: torch.nn.modules.module.Module = functools.partial(&lt;class 'glasses.nn.blocks.ConvBnAct'&gt;, normalization=None, bias=True)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/alexnet.html#AlexNetEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.alexnet.AlexNetEncoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>AlexNet encoder, composed by a gate which decreases the size of the filters by means of stride and bigger kernels, and simple convolutional layers.</p>
+<p>AlexNet encoder</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.models.classification.alexnet.AlexNetEncoder.forward">
@@ -281,7 +278,7 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="py class">
 <dt id="glasses.models.classification.alexnet.AlexNetHead">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.alexnet.</code><code class="sig-name descname">AlexNetHead</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/alexnet.html#AlexNetHead"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.alexnet.AlexNetHead" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
 <p>This class represents the classifier of AlexNet. It converts the filters into 6x6 by means of the average pooling. Then, it maps the output to the
 correct class by means of fully connected layers. Dropout is used to decrease the overfitting.</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
@@ -290,45 +287,17 @@ correct class by means of fully connected layers. Dropout is used to decrease th
 <code class="sig-name descname">filter_size</code><em class="property">: int</em><em class="property"> = 6</em><a class="headerlink" href="#glasses.models.classification.alexnet.AlexNetHead.filter_size" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
-<dt id="glasses.models.classification.alexnet.AlexNetHead.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/models/classification/alexnet.html#AlexNetHead.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.alexnet.AlexNetHead.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
 <dt id="glasses.models.classification.alexnet.AlexNetStem">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.alexnet.</code><code class="sig-name descname">AlexNetStem</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/alexnet.html#AlexNetStem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.alexnet.AlexNetStem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>AlexNet gate, the head of the architecture, which decreases the resolution of the filters by means of stride and bigger kernels.</p>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.alexnet.</code><code class="sig-name descname">AlexNetStem</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">out_features</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">192</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/alexnet.html#AlexNetStem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.alexnet.AlexNetStem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
+<p>AlexNet stem which decreases the resolution of the filters by means of stride and bigger kernels.</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
-<dl class="py method">
-<dt id="glasses.models.classification.alexnet.AlexNetStem.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/models/classification/alexnet.html#AlexNetStem.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.alexnet.AlexNetStem.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
 <dl class="py attribute">
-<dt id="glasses.models.classification.alexnet.AlexNetStem.out_features">
-<code class="sig-name descname">out_features</code><em class="property">: int</em><em class="property"> = 192</em><a class="headerlink" href="#glasses.models.classification.alexnet.AlexNetStem.out_features" title="Permalink to this definition">¶</a></dt>
+<dt id="glasses.models.classification.alexnet.AlexNetStem.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.models.classification.alexnet.AlexNetStem.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

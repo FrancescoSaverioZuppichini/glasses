@@ -209,9 +209,7 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">ResNetXtBottleNeckBlock</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">base_width</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Customization</p>
 <p>You can easily customize your model</p>
-<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
@@ -328,8 +326,8 @@ It uses <cite>base_width</cite> to compute the inner features of the 3x3 conv.</
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
-<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>in_features</strong> (<em>int</em>) – Number of input features</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – Number of output features</p></li>
 <li><p><strong>groups</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 32.</p></li>
 <li><p><strong>base_width</strong> (<em>int</em><em>, </em><em>optional</em>) – width factor uses to compute the inner features in the 3x3 conv. Defaults to 4.</p></li>
 </ul>

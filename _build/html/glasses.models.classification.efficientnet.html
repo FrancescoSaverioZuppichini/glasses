@@ -200,7 +200,7 @@
 <dt id="glasses.models.classification.efficientnet.EfficientNet">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.efficientnet.</code><code class="sig-name descname">EfficientNet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.models.base.html#glasses.models.base.VisionModule" title="glasses.models.base.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.base.VisionModule</span></code></a></p>
-<p>Implementations of EfficientNet proposed in <a class="reference external" href="https://arxiv.org/abs/1905.11946">EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks</a></p>
+<p>Implementation of EfficientNet proposed in <a class="reference external" href="https://arxiv.org/abs/1905.11946">EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks</a></p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNet.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNet.png?raw=true" />
 <p>The basic architecture is similar to MobileNetV2 as was computed by using  <a class="reference external" href="https://arxiv.org/abs/1905.11946">Progressive Neural Architecture Search</a> .</p>
 <p>The following table shows the basic architecture (EfficientNet-efficientnet_b0):</p>
@@ -208,7 +208,7 @@
 <p>Then, the architecture is scaled up from <cite>-efficientnet_b0</cite> to <cite>-efficientnet_b7</cite> using compound scaling.</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetScaling.jpg?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetScaling.jpg?raw=true" />
 <p class="rubric">Examples</p>
-<p>Create a default model</p>
+<p>Default models</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b1</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b2</span><span class="p">()</span>
@@ -354,7 +354,7 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.models.classification.efficientnet.EfficientNetEncoder">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.efficientnet.</code><code class="sig-name descname">EfficientNetEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, widths: List[int] = [32, 16, 24, 40, 80, 112, 192, 320, 1280], depths: List[int] = [1, 2, 2, 3, 3, 4, 1], strides: List[int] = [2, 1, 2, 2, 2, 1, 2, 1], expansions: List[int] = [1, 6, 6, 6, 6, 6, 6], kernel_sizes: List[int] = [3, 3, 5, 3, 5, 5, 3], se: List[bool] = [True, True, True, True, True, True, True], drop_rate: float = 0.2, stem: torch.nn.modules.module.Module = &lt;class 'glasses.nn.blocks.ConvBnAct'&gt;, activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.SiLU'&gt;, inplace=True), **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNetEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetEncoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.models.base.html#glasses.models.base.Encoder" title="glasses.models.base.Encoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.base.Encoder</span></code></a></p>
-<p>EfficientNet encoder composed by increasing different layers with increasing features.</p>
+<p>EfficientNet encoder composed by multiple different layers with increasing features.</p>
 <p>Be awere that <cite>widths</cite> and <cite>strides</cite> also includes the width and stride for the steam in the first position.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -406,8 +406,8 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="py class">
 <dt id="glasses.models.classification.efficientnet.EfficientNetHead">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.efficientnet.</code><code class="sig-name descname">EfficientNetHead</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">drop_rate</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNetHead"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetHead" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>This class represents the tail of EfficientNet. It performs a global pooling, dropout and maps the output to the
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
+<p>This class represents the head of EfficientNet. It performs a global pooling, dropout and maps the output to the
 correct class by using a fully connected layer.</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
@@ -511,8 +511,8 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
-<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>in_features</strong> (<em>int</em>) – Number of input features</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – Number of output features</p></li>
 <li><p><strong>stride</strong> (<em>int</em><em>, </em><em>optional</em>) – Stide used in the depth convolution. Defaults to 1.</p></li>
 <li><p><strong>expansion</strong> (<em>int</em><em>, </em><em>optional</em>) – The expansion ratio applied. Defaults to 6.</p></li>
 <li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The activation funtion used. Defaults to nn.SiLU.</p></li>

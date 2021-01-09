@@ -208,8 +208,35 @@
         <span class="s1">&#39;vit_small_patch16_224&#39;</span><span class="p">:</span> <span class="n">Config</span><span class="p">(</span><span class="n">resize</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;bicubic&#39;</span><span class="p">),</span>
     <span class="p">}</span>
 
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">EnvironmentError</span><span class="p">(</span>
+            <span class="s2">&quot;AutoConfig is designed to be instantiated &quot;</span>
+            <span class="s2">&quot;using the `AutoModel.from_name(model_name)` method.&quot;</span>
+        <span class="p">)</span>
+
+
 <div class="viewcode-block" id="AutoConfig.from_name"><a class="viewcode-back" href="../../../glasses.models.html#glasses.models.AutoConfig.AutoConfig.from_name">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Config</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">from_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Config</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a configuration from a given model name. </span>
+<span class="sd">        If the name is not found, it returns a default one.</span>
+
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; AutoConfig.from_name(&#39;resnet18&#39;)</span>
+
+<span class="sd">            You can access the preprocess `transformation`, you should use it</span>
+<span class="sd">            when preparing the data for your model.</span>
+<span class="sd">            </span>
+<span class="sd">            &gt;&gt;&gt; cfg =  AutoConfig.from_name(&#39;resnet18&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; cfg.transform</span>
+
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): [description]</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Config: The model&#39;s config</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cfg</span> <span class="o">=</span> <span class="n">AutoConfig</span><span class="o">.</span><span class="n">zoo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">AutoConfig</span><span class="o">.</span><span class="n">zoo</span><span class="p">[</span><span class="s1">&#39;default&#39;</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">cfg</span></div>
 

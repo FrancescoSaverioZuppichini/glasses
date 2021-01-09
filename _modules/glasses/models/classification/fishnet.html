@@ -191,8 +191,8 @@
 <span class="sd">    Where :math:`k = \frac{c_{in}}{c_{ou}}` </span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        in_features (int): [description]</span>
-<span class="sd">        out_features (int): [description]</span>
+<span class="sd">        in_features (int): Number of input features</span>
+<span class="sd">        out_features (int): Number of output features</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -213,8 +213,8 @@
     <span class="sd">&quot;&quot;&quot;FishNet body block, called the Up-sampling &amp; Refinement block in the paper.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        in_features (int): [description]</span>
-<span class="sd">        out_features (int): [description]</span>
+<span class="sd">        in_features (int): Number of input features</span>
+<span class="sd">        out_features (int): Number of output features</span>
 <span class="sd">        trans_features (int): [description]</span>
 <span class="sd">        block (nn.Module, optional): [description]. Defaults to FishNetBottleNeck.</span>
 <span class="sd">        depth (int, optional): [description]. Defaults to 1.</span>
@@ -245,8 +245,8 @@
     <span class="sd">&quot;&quot;&quot;FishNet head block, called the Down-sampling &amp; Refinement block in the paper.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        in_features (int): [description]</span>
-<span class="sd">        out_features (int): [description]</span>
+<span class="sd">        in_features (int): Number of input features</span>
+<span class="sd">        out_features (int): Number of output features</span>
 <span class="sd">        trans_features (int): [description]</span>
 <span class="sd">        block (nn.Module, optional): [description]. Defaults to FishNetBottleNeck.</span>
 <span class="sd">        depth (int, optional): [description]. Defaults to 1.</span>
@@ -271,8 +271,8 @@
         <span class="sd">&quot;&quot;&quot;A weird layer that &#39;bridges&#39; the tail and the body of the model.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            in_features (int): [description]</span>
-<span class="sd">            out_features (int): [description]</span>
+<span class="sd">            in_features (int): Number of input features</span>
+<span class="sd">            out_features (int): Number of output features</span>
 <span class="sd">            block (nn.Module, optional): [description]. Defaults to FishNetBottleNeck.</span>
 <span class="sd">            depth (int, optional): [description]. Defaults to 1.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -309,8 +309,8 @@
     <span class="sd">&quot;&quot;&quot;FishNet Tail Block, simi</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        in_features (int): [description]</span>
-<span class="sd">        out_features (int): [description]</span>
+<span class="sd">        in_features (int): Number of input features</span>
+<span class="sd">        out_features (int): Number of output features</span>
 <span class="sd">        depth (int, optional): [description]. Defaults to 1.</span>
 <span class="sd">        block (nn.Module, optional): [description]. Defaults to FishNetBottleNeck.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -488,14 +488,13 @@
 <span class="sd">    Create a default model</span>
 
 <span class="sd">    Examples:</span>
+<span class="sd">    </span>
 <span class="sd">        &gt;&gt;&gt; FishNet.fishnet99()</span>
 <span class="sd">        &gt;&gt;&gt; FishNet.fishnet150()</span>
 
-<span class="sd">    Customization</span>
 
-<span class="sd">    You can easily customize your model</span>
+<span class="sd">        You can easily customize your model</span>
 
-<span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; FishNet.fishnet99(activation = nn.SELU)</span>
 <span class="sd">        &gt;&gt;&gt; # change number of classes (default is 1000 )</span>
 <span class="sd">        &gt;&gt;&gt; FishNet.fishnet99(n_classes=100)</span>

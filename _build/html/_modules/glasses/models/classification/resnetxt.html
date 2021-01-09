@@ -184,8 +184,8 @@
 <span class="sd">        It uses `base_width` to compute the inner features of the 3x3 conv.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            in_features (int): [description]</span>
-<span class="sd">            out_features (int): [description]</span>
+<span class="sd">            in_features (int): Number of input features</span>
+<span class="sd">            out_features (int): Number of output features</span>
 <span class="sd">            groups (int, optional): [description]. Defaults to 32.</span>
 <span class="sd">            base_width (int, optional): width factor uses to compute the inner features in the 3x3 conv. Defaults to 4.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -205,11 +205,8 @@
 <span class="sd">        &gt;&gt;&gt; # create a resnetxt18_32x4d</span>
 <span class="sd">        &gt;&gt;&gt; ResNetXt.resnet18(block=ResNetXtBottleNeckBlock, groups=32, base_width=4)</span>
 
-<span class="sd">    Customization</span>
+<span class="sd">        You can easily customize your model</span>
 
-<span class="sd">    You can easily customize your model</span>
-
-<span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; # change activation</span>
 <span class="sd">        &gt;&gt;&gt; ResNetXt.resnext50_32x4d(activation = nn.SELU)</span>
 <span class="sd">        &gt;&gt;&gt; # change number of classes (default is 1000 )</span>

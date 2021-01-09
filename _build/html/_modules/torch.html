@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
@@ -11,30 +12,27 @@
   
 
   
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-
-  
   
   
   
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
         <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
 </head>
@@ -50,7 +48,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> Glasses
+            <a href="../index.html" class="icon icon-home"> Glasses
           
 
           
@@ -73,7 +71,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -85,7 +82,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../Notes/tutorials/Interpretability.html">Interpretability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Notes/tutorials/Segmentation.html">Segmentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Notes/tutorials/Transfer Learning.html">Transfer Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Notes/tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Notes/tutorials/installation.html">Installation</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package Reference</span></p>
@@ -101,7 +98,6 @@
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -140,7 +136,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="../index.html">Docs</a> &raquo;</li>
         
           <li><a href="index.html">Module code</a> &raquo;</li>
         
@@ -180,13 +176,13 @@
 <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,):</span>
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Python 2 has reached end-of-life and is no longer supported by PyTorch.&quot;</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="n">_import_dotted_name</span>
-<span class="kn">from</span> <span class="nn">._utils_internal</span> <span class="kn">import</span> <span class="n">get_file_path</span><span class="p">,</span> <span class="n">prepare_multiprocessing_environment</span><span class="p">,</span> \
+<span class="kn">from</span> <span class="nn">._utils</span> <span class="k">import</span> <span class="n">_import_dotted_name</span>
+<span class="kn">from</span> <span class="nn">._utils_internal</span> <span class="k">import</span> <span class="n">get_file_path</span><span class="p">,</span> <span class="n">prepare_multiprocessing_environment</span><span class="p">,</span> \
     <span class="n">USE_RTLD_GLOBAL_WITH_LIBTORCH</span><span class="p">,</span> <span class="n">USE_GLOBAL_DEPS</span>
-<span class="kn">from</span> <span class="nn">.version</span> <span class="kn">import</span> <span class="n">__version__</span>
-<span class="kn">from</span> <span class="nn">._six</span> <span class="kn">import</span> <span class="n">string_classes</span> <span class="k">as</span> <span class="n">_string_classes</span>
+<span class="kn">from</span> <span class="nn">.version</span> <span class="k">import</span> <span class="n">__version__</span>
+<span class="kn">from</span> <span class="nn">._six</span> <span class="k">import</span> <span class="n">string_classes</span> <span class="k">as</span> <span class="n">_string_classes</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;typename&#39;</span><span class="p">,</span> <span class="s1">&#39;is_tensor&#39;</span><span class="p">,</span> <span class="s1">&#39;is_storage&#39;</span><span class="p">,</span> <span class="s1">&#39;set_default_tensor_type&#39;</span><span class="p">,</span>
@@ -226,7 +222,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">nvtoolsext_dll_path</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
-    <span class="kn">from</span> <span class="nn">.version</span> <span class="kn">import</span> <span class="n">cuda</span> <span class="k">as</span> <span class="n">cuda_version</span>
+    <span class="kn">from</span> <span class="nn">.version</span> <span class="k">import</span> <span class="n">cuda</span> <span class="k">as</span> <span class="n">cuda_version</span>
     <span class="kn">import</span> <span class="nn">glob</span>
     <span class="k">if</span> <span class="n">cuda_version</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">([</span><span class="ow">not</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">&#39;cudart64*.dll&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">dll_paths</span><span class="p">]):</span>
         <span class="n">cuda_version_1</span> <span class="o">=</span> <span class="n">cuda_version</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
@@ -254,7 +250,7 @@
             <span class="n">res</span> <span class="o">=</span> <span class="n">kernel32</span><span class="o">.</span><span class="n">AddDllDirectory</span><span class="p">(</span><span class="n">dll_path</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">err</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">WinError</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">get_last_error</span><span class="p">())</span>
-                <span class="n">err</span><span class="o">.</span><span class="n">strerror</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39; Error adding &quot;</span><span class="si">{</span><span class="n">dll_path</span><span class="si">}</span><span class="s1">&quot; to the DLL directories.&#39;</span>
+                <span class="n">err</span><span class="o">.</span><span class="n">strerror</span> <span class="o">+=</span> <span class="n">f</span><span class="s1">&#39; Error adding &quot;</span><span class="si">{dll_path}</span><span class="s1">&quot; to the DLL directories.&#39;</span>
                 <span class="k">raise</span> <span class="n">err</span>
 
     <span class="k">try</span><span class="p">:</span>
@@ -275,7 +271,7 @@
             <span class="n">last_error</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">get_last_error</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">last_error</span> <span class="o">!=</span> <span class="mi">126</span><span class="p">:</span>
                 <span class="n">err</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">WinError</span><span class="p">(</span><span class="n">last_error</span><span class="p">)</span>
-                <span class="n">err</span><span class="o">.</span><span class="n">strerror</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39; Error loading &quot;</span><span class="si">{</span><span class="n">dll</span><span class="si">}</span><span class="s1">&quot; or one of its dependencies.&#39;</span>
+                <span class="n">err</span><span class="o">.</span><span class="n">strerror</span> <span class="o">+=</span> <span class="n">f</span><span class="s1">&#39; Error loading &quot;</span><span class="si">{dll}</span><span class="s1">&quot; or one of its dependencies.&#39;</span>
                 <span class="k">raise</span> <span class="n">err</span>
             <span class="k">elif</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">is_loaded</span> <span class="o">=</span> <span class="kc">True</span>
@@ -286,7 +282,7 @@
             <span class="n">res</span> <span class="o">=</span> <span class="n">kernel32</span><span class="o">.</span><span class="n">LoadLibraryW</span><span class="p">(</span><span class="n">dll</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">err</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">WinError</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">get_last_error</span><span class="p">())</span>
-                <span class="n">err</span><span class="o">.</span><span class="n">strerror</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39; Error loading &quot;</span><span class="si">{</span><span class="n">dll</span><span class="si">}</span><span class="s1">&quot; or one of its dependencies.&#39;</span>
+                <span class="n">err</span><span class="o">.</span><span class="n">strerror</span> <span class="o">+=</span> <span class="n">f</span><span class="s1">&#39; Error loading &quot;</span><span class="si">{dll}</span><span class="s1">&quot; or one of its dependencies.&#39;</span>
                 <span class="k">raise</span> <span class="n">err</span>
 
     <span class="n">kernel32</span><span class="o">.</span><span class="n">SetErrorMode</span><span class="p">(</span><span class="n">prev_error_mode</span><span class="p">)</span>
@@ -332,7 +328,7 @@
             <span class="kn">import</span> <span class="nn">torch._dl</span> <span class="k">as</span> <span class="nn">_dl_flags</span>  <span class="c1"># type: ignore</span>
     <span class="n">old_flags</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">getdlopenflags</span><span class="p">()</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">setdlopenflags</span><span class="p">(</span><span class="n">_dl_flags</span><span class="o">.</span><span class="n">RTLD_GLOBAL</span> <span class="o">|</span> <span class="n">_dl_flags</span><span class="o">.</span><span class="n">RTLD_LAZY</span><span class="p">)</span>
-    <span class="kn">from</span> <span class="nn">torch._C</span> <span class="kn">import</span> <span class="o">*</span>
+    <span class="kn">from</span> <span class="nn">torch._C</span> <span class="k">import</span> <span class="o">*</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">setdlopenflags</span><span class="p">(</span><span class="n">old_flags</span><span class="p">)</span>
     <span class="k">del</span> <span class="n">old_flags</span>
     <span class="k">del</span> <span class="n">_dl_flags</span>
@@ -349,7 +345,7 @@
     <span class="c1"># See Note [Global dependencies]</span>
     <span class="k">if</span> <span class="n">USE_GLOBAL_DEPS</span><span class="p">:</span>
         <span class="n">_load_global_deps</span><span class="p">()</span>
-    <span class="kn">from</span> <span class="nn">torch._C</span> <span class="kn">import</span> <span class="o">*</span>
+    <span class="kn">from</span> <span class="nn">torch._C</span> <span class="k">import</span> <span class="o">*</span>
 
 <span class="c1"># Appease the type checker; ordinarily this binding is inserted by the</span>
 <span class="c1"># torch._C module initialization code in C</span>
@@ -360,7 +356,7 @@
 <span class="c1"># on what the problem might be.</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="c1"># _initExtension is chosen (arbitrarily) as a sentinel.</span>
-    <span class="kn">from</span> <span class="nn">torch._C</span> <span class="kn">import</span> <span class="n">_initExtension</span>
+    <span class="kn">from</span> <span class="nn">torch._C</span> <span class="k">import</span> <span class="n">_initExtension</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">torch._C</span> <span class="k">as</span> <span class="nn">_C_for_compiled_check</span>
 
@@ -377,7 +373,7 @@
 <span class="s1">                This error can generally be solved using the `develop` workflow</span>
 <span class="s1">                    $ python setup.py develop &amp;&amp; python -c &quot;import torch&quot;  # This should succeed</span>
 <span class="s1">                or by running Python from a different directory.</span>
-<span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="kn">from</span> <span class="bp">None</span>
+<span class="s1">            &#39;&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="kn">from</span> <span class="nn">None</span>
     <span class="k">raise</span>  <span class="c1"># If __file__ is not None the cause is unknown, so just re-raise.</span>
 
 
@@ -571,8 +567,8 @@
 <span class="c1"># Define Storage and Tensor classes</span>
 <span class="c1">################################################################################</span>
 
-<span class="kn">from</span> <span class="nn">.tensor</span> <span class="kn">import</span> <span class="n">Tensor</span>
-<span class="kn">from</span> <span class="nn">.storage</span> <span class="kn">import</span> <span class="n">_StorageBase</span>
+<span class="kn">from</span> <span class="nn">.tensor</span> <span class="k">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">.storage</span> <span class="k">import</span> <span class="n">_StorageBase</span>
 
 
 <span class="k">class</span> <span class="nc">DoubleStorage</span><span class="p">(</span><span class="n">_C</span><span class="o">.</span><span class="n">DoubleStorageBase</span><span class="p">,</span> <span class="n">_StorageBase</span><span class="p">):</span>
@@ -640,9 +636,9 @@
 <span class="n">_tensor_classes</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Type</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
 <span class="c1"># If you edit these imports, please update torch/__init__.py.in as well</span>
-<span class="kn">from</span> <span class="nn">.random</span> <span class="kn">import</span> <span class="n">set_rng_state</span><span class="p">,</span> <span class="n">get_rng_state</span><span class="p">,</span> <span class="n">manual_seed</span><span class="p">,</span> <span class="n">initial_seed</span><span class="p">,</span> <span class="n">seed</span>
-<span class="kn">from</span> <span class="nn">.serialization</span> <span class="kn">import</span> <span class="n">save</span><span class="p">,</span> <span class="n">load</span>
-<span class="kn">from</span> <span class="nn">._tensor_str</span> <span class="kn">import</span> <span class="n">set_printoptions</span>
+<span class="kn">from</span> <span class="nn">.random</span> <span class="k">import</span> <span class="n">set_rng_state</span><span class="p">,</span> <span class="n">get_rng_state</span><span class="p">,</span> <span class="n">manual_seed</span><span class="p">,</span> <span class="n">initial_seed</span><span class="p">,</span> <span class="n">seed</span>
+<span class="kn">from</span> <span class="nn">.serialization</span> <span class="k">import</span> <span class="n">save</span><span class="p">,</span> <span class="n">load</span>
+<span class="kn">from</span> <span class="nn">._tensor_str</span> <span class="k">import</span> <span class="n">set_printoptions</span>
 
 <span class="c1">################################################################################</span>
 <span class="c1"># Initialize extension</span>
@@ -670,7 +666,7 @@
     <span class="c1"># Some type signatures pulled in from _VariableFunctions here clash with</span>
     <span class="c1"># signatures already imported. For now these clashes are ignored; see</span>
     <span class="c1"># PR #43339 for details.</span>
-    <span class="kn">from</span> <span class="nn">torch._C._VariableFunctions</span> <span class="kn">import</span> <span class="o">*</span>  <span class="c1"># type: ignore</span>
+    <span class="kn">from</span> <span class="nn">torch._C._VariableFunctions</span> <span class="k">import</span> <span class="o">*</span>  <span class="c1"># type: ignore</span>
 
 <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">_C</span><span class="o">.</span><span class="n">_VariableFunctions</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">):</span>
@@ -683,7 +679,7 @@
 <span class="c1">################################################################################</span>
 
 <span class="c1"># needs to be after the above ATen bindings so we can overwrite from Python side</span>
-<span class="kn">from</span> <span class="nn">.functional</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.functional</span> <span class="k">import</span> <span class="o">*</span>
 
 
 <span class="c1">################################################################################</span>
@@ -709,7 +705,7 @@
 
 <span class="kn">import</span> <span class="nn">torch.cuda</span>
 <span class="kn">import</span> <span class="nn">torch.autograd</span>
-<span class="kn">from</span> <span class="nn">torch.autograd</span> <span class="kn">import</span> <span class="n">no_grad</span><span class="p">,</span> <span class="n">enable_grad</span><span class="p">,</span> <span class="n">set_grad_enabled</span>
+<span class="kn">from</span> <span class="nn">torch.autograd</span> <span class="k">import</span> <span class="n">no_grad</span><span class="p">,</span> <span class="n">enable_grad</span><span class="p">,</span> <span class="n">set_grad_enabled</span>
 <span class="c1"># import torch.fft  # TODO: enable once torch.fft() is removed</span>
 <span class="kn">import</span> <span class="nn">torch.futures</span>
 <span class="kn">import</span> <span class="nn">torch.nn</span>
@@ -740,7 +736,7 @@
 <span class="n">_C</span><span class="o">.</span><span class="n">_init_names</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">_storage_classes</span><span class="p">))</span>
 
 <span class="c1"># attach docstrings to torch and tensor functions</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">_torch_docs</span><span class="p">,</span> <span class="n">_tensor_docs</span><span class="p">,</span> <span class="n">_storage_docs</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">_torch_docs</span><span class="p">,</span> <span class="n">_tensor_docs</span><span class="p">,</span> <span class="n">_storage_docs</span>
 <span class="k">del</span> <span class="n">_torch_docs</span><span class="p">,</span> <span class="n">_tensor_docs</span><span class="p">,</span> <span class="n">_storage_docs</span>
 
 
@@ -750,8 +746,8 @@
 
 
 <span class="c1"># Import the ops &quot;namespace&quot;</span>
-<span class="kn">from</span> <span class="nn">torch._ops</span> <span class="kn">import</span> <span class="n">ops</span>
-<span class="kn">from</span> <span class="nn">torch._classes</span> <span class="kn">import</span> <span class="n">classes</span>
+<span class="kn">from</span> <span class="nn">torch._ops</span> <span class="k">import</span> <span class="n">ops</span>
+<span class="kn">from</span> <span class="nn">torch._classes</span> <span class="k">import</span> <span class="n">classes</span>
 
 <span class="c1"># Import the quasi random sampler</span>
 <span class="kn">import</span> <span class="nn">torch.quasirandom</span>
@@ -762,13 +758,13 @@
 <span class="n">legacy_contiguous_format</span> <span class="o">=</span> <span class="n">contiguous_format</span>
 
 <span class="c1"># Register fork handler to initialize OpenMP in child processes (see gh-28389)</span>
-<span class="kn">from</span> <span class="nn">torch.multiprocessing._atfork</span> <span class="kn">import</span> <span class="n">register_after_fork</span>
+<span class="kn">from</span> <span class="nn">torch.multiprocessing._atfork</span> <span class="k">import</span> <span class="n">register_after_fork</span>
 <span class="n">register_after_fork</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">get_num_threads</span><span class="p">)</span>
 <span class="k">del</span> <span class="n">register_after_fork</span>
 
 <span class="c1"># Import tools that require fully imported torch (for applying</span>
 <span class="c1"># torch.jit.script as a decorator, for instance):</span>
-<span class="kn">from</span> <span class="nn">._lobpcg</span> <span class="kn">import</span> <span class="n">lobpcg</span>
+<span class="kn">from</span> <span class="nn">._lobpcg</span> <span class="k">import</span> <span class="n">lobpcg</span>
 
 <span class="c1"># These were previously defined in native_functions.yaml and appeared on the</span>
 <span class="c1"># `torch` namespace, but we moved them to c10 dispatch to facilitate custom</span>
@@ -780,7 +776,7 @@
 <span class="k">def</span> <span class="nf">Assert</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;A wrapper around Python&#39;s assert which is symbolically traceable.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">.overrides</span> <span class="kn">import</span> <span class="n">has_torch_function</span><span class="p">,</span> <span class="n">handle_torch_function</span>
+    <span class="kn">from</span> <span class="nn">.overrides</span> <span class="k">import</span> <span class="n">has_torch_function</span><span class="p">,</span> <span class="n">handle_torch_function</span>
 
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">condition</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="ow">and</span> <span class="n">has_torch_function</span><span class="p">((</span><span class="n">condition</span><span class="p">,)):</span>
         <span class="k">return</span> <span class="n">handle_torch_function</span><span class="p">(</span><span class="n">Assert</span><span class="p">,</span> <span class="p">(</span><span class="n">condition</span><span class="p">,),</span> <span class="n">condition</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
@@ -797,19 +793,11 @@
 
   <div role="contentinfo">
     <p>
-        
         &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -820,6 +808,7 @@
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {

@@ -380,7 +380,8 @@ registered hooks while the latter silently ignores them.</p>
 <p>Implementation of Vision Transformer (ViT) proposed in <a class="reference external" href="https://arxiv.org/pdf/2010.11929.pdf">An Image Is Worth 16x16 Words: Transformers For Image Recognition At Scale</a></p>
 <p>The following image from the authors shows the architecture.</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ViT.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ViT.png?raw=true" />
-<p>Vanilla models</p>
+<p class="rubric">Examples</p>
+<p>Default models</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_small_patch16_224</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_224</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_384</span><span class="p">()</span>
@@ -392,9 +393,7 @@ registered hooks while the latter silently ignores them.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_large_patch32_384</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Customization</p>
 <p>You can easily customize your model</p>
-<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_224</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>

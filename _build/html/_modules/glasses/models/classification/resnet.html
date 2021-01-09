@@ -473,7 +473,7 @@
 
 <span class="sd">    Examples:</span>
 
-<span class="sd">    Vanilla models</span>
+<span class="sd">        Default models</span>
 
 <span class="sd">        &gt;&gt;&gt; ResNet.resnet18()</span>
 <span class="sd">        &gt;&gt;&gt; ResNet.resnet26()</span>
@@ -491,11 +491,8 @@
 <span class="sd">        &gt;&gt;&gt; # You can construct your own one by chaning `stem` and `block`</span>
 <span class="sd">        &gt;&gt;&gt; resnet101d = ResNet.resnet101(stem=ResNetStemC, block=partial(ResNetBottleneckBlock, shortcut=ResNetShorcutD))</span>
 
-<span class="sd">    Customization</span>
+<span class="sd">        You can easily customize your model</span>
 
-<span class="sd">    You can easily customize your model</span>
-
-<span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; # change activation</span>
 <span class="sd">        &gt;&gt;&gt; ResNet.resnet18(activation = nn.SELU)</span>
 <span class="sd">        &gt;&gt;&gt; # change number of classes (default is 1000 )</span>

@@ -200,11 +200,7 @@
 <dt id="glasses.models.classification.densenet.DenseBottleNeckBlock">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.densenet.</code><code class="sig-name descname">DenseBottleNeckBlock</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">inplace=True)</em>, <em class="sig-param">expansion: int = 4</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/densenet.html#DenseBottleNeckBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.densenet.DenseBottleNeckBlock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#glasses.models.classification.densenet.DenseNetBasicBlock" title="glasses.models.classification.densenet.DenseNetBasicBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.densenet.DenseNetBasicBlock</span></code></a></p>
-<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
-<dl class="py attribute">
-<dt id="glasses.models.classification.densenet.DenseBottleNeckBlock.expansion">
-<code class="sig-name descname">expansion</code><em class="property">: int</em><em class="property"> = 4</em><a class="headerlink" href="#glasses.models.classification.densenet.DenseBottleNeckBlock.expansion" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bottleneck block composed by two preactivated layer of convolution.
+<p>Bottleneck block composed by two preactivated layer of convolution.
 The expensive 3x3 conv is computed after a cheap 1x1 conv donwsample the input resulting in less parameters.</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNetBottleneckBlock.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNetBottleneckBlock.png?raw=true" />
 <dl class="field-list simple">
@@ -218,7 +214,11 @@ The expensive 3x3 conv is computed after a cheap 1x1 conv donwsample the input r
 </ul>
 </dd>
 </dl>
-</dd></dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py attribute">
+<dt id="glasses.models.classification.densenet.DenseBottleNeckBlock.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.models.classification.densenet.DenseBottleNeckBlock.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -226,8 +226,8 @@ The expensive 3x3 conv is computed after a cheap 1x1 conv donwsample the input r
 <dt id="glasses.models.classification.densenet.DenseNet">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.densenet.</code><code class="sig-name descname">DenseNet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/densenet.html#DenseNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.densenet.DenseNet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.models.base.html#glasses.models.base.VisionModule" title="glasses.models.base.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.base.VisionModule</span></code></a></p>
-<p>Implementations of DenseNet proposed in <a class="reference external" href="https://arxiv.org/abs/1608.06993">Densely Connected Convolutional Networks</a></p>
-<p>Create a default model</p>
+<p>Implementation of DenseNet proposed in <a class="reference external" href="https://arxiv.org/abs/1608.06993">Densely Connected Convolutional Networks</a></p>
+<p>Create a default models</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet161</span><span class="p">()</span>
@@ -235,9 +235,7 @@ The expensive 3x3 conv is computed after a cheap 1x1 conv donwsample the input r
 <span class="gp">&gt;&gt;&gt; </span><span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet201</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Customization</p>
-<p>You can easily customize your densenet</p>
-<p class="rubric">Examples</p>
+<p>You can easily customize your model</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
@@ -250,13 +248,13 @@ The expensive 3x3 conv is computed after a cheap 1x1 conv donwsample the input r
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># store each feature</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
-<span class="go">    &gt;&gt;&gt; x = block(x)</span>
-<span class="go">    &gt;&gt;&gt; features.append(x)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get the features from the encoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
-<span class="go"># [torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7]), torch.Size([1, 1024, 7, 7])]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># [torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7]), torch.Size([1, 1024, 7, 7])]</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -392,7 +390,7 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.models.classification.densenet.DenseNetEncoder">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.densenet.</code><code class="sig-name descname">DenseNetEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, start_features: int = 64, grow_rate: int = 32, depths: List[int] = [4, 4, 4, 4], activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;, inplace=True), block: torch.nn.modules.module.Module = &lt;class 'glasses.models.classification.densenet.DenseBottleNeckBlock'&gt;, *args, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/densenet.html#DenseNetEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.densenet.DenseNetEncoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNetEncoder" title="glasses.models.classification.resnet.ResNetEncoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNetEncoder</span></code></a></p>
-<p>The encoder composed by multiple <cite>DeseNetLayer</cite> with increasing features size. The <cite>.stem</cite> is the same used in <cite>ResNet</cite></p>
+<p>DenseNet encoder composed by multiple <cite>DeseNetLayer</cite> with increasing features size. The <cite>.stem</cite> is the same used in <cite>ResNet</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

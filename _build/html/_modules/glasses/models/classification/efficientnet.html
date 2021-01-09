@@ -189,8 +189,8 @@
 
 
 <span class="sd">    Args:</span>
-<span class="sd">        in_features (int): [description]</span>
-<span class="sd">        out_features (int): [description]</span>
+<span class="sd">        in_features (int): Number of input features</span>
+<span class="sd">        out_features (int): Number of output features</span>
 <span class="sd">        stride (int, optional): Stide used in the depth convolution. Defaults to 1.</span>
 <span class="sd">        expansion (int, optional): The expansion ratio applied. Defaults to 6.</span>
 <span class="sd">        activation (nn.Module, optional): The activation funtion used. Defaults to nn.SiLU.</span>
@@ -241,7 +241,7 @@
 
 <div class="viewcode-block" id="EfficientNetEncoder"><a class="viewcode-back" href="../../../../glasses.models.classification.efficientnet.html#glasses.models.EfficientNetEncoder">[docs]</a><span class="k">class</span> <span class="nc">EfficientNetEncoder</span><span class="p">(</span><span class="n">Encoder</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    EfficientNet encoder composed by increasing different layers with increasing features.</span>
+<span class="sd">    EfficientNet encoder composed by multiple different layers with increasing features.</span>
 
 <span class="sd">    Be awere that `widths` and `strides` also includes the width and stride for the steam in the first position.</span>
 
@@ -319,9 +319,9 @@
         <span class="k">return</span> <span class="n">widths</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="EfficientNetHead"><a class="viewcode-back" href="../../../../glasses.models.classification.efficientnet.html#glasses.models.EfficientNetHead">[docs]</a><span class="k">class</span> <span class="nc">EfficientNetHead</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="EfficientNetHead"><a class="viewcode-back" href="../../../../glasses.models.classification.efficientnet.html#glasses.models.EfficientNetHead">[docs]</a><span class="k">class</span> <span class="nc">EfficientNetHead</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class represents the tail of EfficientNet. It performs a global pooling, dropout and maps the output to the</span>
+<span class="sd">    This class represents the head of EfficientNet. It performs a global pooling, dropout and maps the output to the</span>
 <span class="sd">    correct class by using a fully connected layer.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -340,7 +340,7 @@
 
 
 <div class="viewcode-block" id="EfficientNet"><a class="viewcode-back" href="../../../../glasses.models.classification.efficientnet.html#glasses.models.EfficientNet">[docs]</a><span class="k">class</span> <span class="nc">EfficientNet</span><span class="p">(</span><span class="n">VisionModule</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Implementations of EfficientNet proposed in `EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks &lt;https://arxiv.org/abs/1905.11946&gt;`_</span>
+    <span class="sd">&quot;&quot;&quot;Implementation of EfficientNet proposed in `EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks &lt;https://arxiv.org/abs/1905.11946&gt;`_</span>
 
 <span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNet.png?raw=true</span>
 
@@ -356,7 +356,7 @@
 
 <span class="sd">    Examples:</span>
 
-<span class="sd">        Create a default model</span>
+<span class="sd">        Default models</span>
 
 <span class="sd">        &gt;&gt;&gt; EfficientNet.efficientnet_b0()</span>
 <span class="sd">        &gt;&gt;&gt; EfficientNet.efficientnet_b1()</span>
@@ -368,7 +368,6 @@
 <span class="sd">        &gt;&gt;&gt; EfficientNet.efficientnet_b7()</span>
 <span class="sd">        &gt;&gt;&gt; EfficientNet.efficientnet_b8()</span>
 <span class="sd">        &gt;&gt;&gt; EfficientNet.efficientnet_l2()</span>
-
 
 <span class="sd">    You can easily customize your model</span>
 

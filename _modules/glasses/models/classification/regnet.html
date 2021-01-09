@@ -182,7 +182,6 @@
 <span class="sd">&quot;&quot;&quot;Implementation of RegNet proposed in `Designing Network Design Spaces &lt;https://arxiv.org/abs/2003.13678&gt;_`</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-
 <div class="viewcode-block" id="RegNetScaler"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNetScaler">[docs]</a><span class="k">class</span> <span class="nc">RegNetScaler</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Generates per stage widths and depths from RegNet parameters. </span>
 <span class="sd">        Code borrowed from the original implementation.</span>
@@ -255,6 +254,7 @@
 <span class="sd">the first layer also applies a `stride=2` and the starting features are always set to 32.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+
 <div class="viewcode-block" id="RegNet"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet">[docs]</a><span class="k">class</span> <span class="nc">RegNet</span><span class="p">(</span><span class="n">ResNet</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implementation of RegNet proposed in `Designing Network Design Spaces &lt;https://arxiv.org/abs/2003.13678&gt;`_</span>
 
@@ -272,7 +272,8 @@
 <span class="sd">    The paper is really well written and very interesting paper, I highly recommended to read it.</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">        Vanilla models</span>
+
+<span class="sd">        Default models</span>
 
 <span class="sd">        &gt;&gt;&gt; ResNet.regnetx_002()</span>
 <span class="sd">        &gt;&gt;&gt; ResNet.regnetx_004()</span>
@@ -290,11 +291,8 @@
 <span class="sd">        &gt;&gt;&gt; # ...</span>
 <span class="sd">        &gt;&gt;&gt; ResNet.regnetx_320()</span>
 
-<span class="sd">    Customization</span>
+<span class="sd">        You can easily customize your model</span>
 
-<span class="sd">    You can easily customize your model</span>
-
-<span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; # change activation</span>
 <span class="sd">        &gt;&gt;&gt; RegNet.regnetx_004(activation = nn.SELU)</span>
 <span class="sd">        &gt;&gt;&gt; # change number of classes (default is 1000 )</span>

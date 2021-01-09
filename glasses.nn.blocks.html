@@ -316,8 +316,8 @@ shortcut (nn.Module, optional): A function applied before the input is passed to
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
-<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>in_features</strong> (<em>int</em>) – Number of input features</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – Number of output features</p></li>
 <li><p><strong>conv</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to Conv2dPad.</p></li>
 <li><p><strong>normalization</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to nn.BatchNorm2d.</p></li>
 <li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to nn.ReLU.</p></li>
@@ -467,7 +467,17 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.nn.blocks.Lambda">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.nn.blocks.</code><code class="sig-name descname">Lambda</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lambd</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span>torch.Tensor<span class="p">]</span><span class="p">, </span>torch.Tensor<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#Lambda"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.blocks.Lambda" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<p>An utility Module, it allows custom function to be passed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>lambd</strong> (<em>Callable</em><em>[</em><em>Tensor</em><em>]</em>) – A function that does something on a tensor</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">add_two</span> <span class="o">=</span> <span class="n">Lambda</span><span class="p">(</span><span class="n">lambd</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_two</span><span class="p">(</span><span class="n">Tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">]))</span> <span class="o">//</span> <span class="mi">2</span>
+</pre></div>
+</div>
 <dl class="py method">
 <dt id="glasses.nn.blocks.Lambda.forward">
 <code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/blocks.html#Lambda.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.blocks.Lambda.forward" title="Permalink to this definition">¶</a></dt>
