@@ -134,7 +134,7 @@ class UNet(SegmentationModule):
 
     Examples:
 
-       Create a default model
+        Default models
 
         >>> UNet()
 

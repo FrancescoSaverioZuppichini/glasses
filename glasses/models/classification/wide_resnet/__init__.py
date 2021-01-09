@@ -38,11 +38,8 @@ class WideResNet(ResNet):
         >>> # create a wide_resnet18_4
         >>> WideResNet.resnet18(block=WideResNetBottleNeckBlock, width_factor=4)
 
-    Customization
+        You can easily customize your model
 
-    You can easily customize your model
-
-    Examples:
         >>> # change activation
         >>> WideResNet.resnext50_32x4d(activation = nn.SELU)
         >>> # change number of classes (default is 1000 )

@@ -42,7 +42,6 @@ class DenseNetBasicBlock(nn.Module):
 
 
 class DenseBottleNeckBlock(DenseNetBasicBlock):
-    expansion: int = 4
 
     """Bottleneck block composed by two preactivated layer of convolution.
     The expensive 3x3 conv is computed after a cheap 1x1 conv donwsample the input resulting in less parameters.
@@ -135,8 +134,7 @@ class DenseNetLayer(nn.Module):
 
 
 class DenseNetEncoder(ResNetEncoder):
-
-    """The encoder composed by multiple `DeseNetLayer` with increasing features size. The `.stem` is the same used in `ResNet`
+    """DenseNet encoder composed by multiple `DeseNetLayer` with increasing features size. The `.stem` is the same used in `ResNet`
 
     Args:
         in_channels (int, optional): [description]. Defaults to 3.
@@ -175,11 +173,10 @@ class DenseNetEncoder(ResNetEncoder):
             ), **kwargs))
 
 
-
 class DenseNet(VisionModule):
-    """Implementations of DenseNet proposed in `Densely Connected Convolutional Networks <https://arxiv.org/abs/1608.06993>`_
+    """Implementation of DenseNet proposed in `Densely Connected Convolutional Networks <https://arxiv.org/abs/1608.06993>`_
 
-    Create a default model
+    Create a default models
 
     Examples:
         >>> DenseNet.densenet121()
@@ -187,11 +184,8 @@ class DenseNet(VisionModule):
         >>> DenseNet.densenet169()
         >>> DenseNet.densenet201()
 
-    Customization
+    You can easily customize your model
 
-    You can easily customize your densenet
-
-    Examples:
         >>> # change activation
         >>> DenseNet.densenet121(activation = nn.SELU)
         >>> # change number of classes (default is 1000 )
@@ -204,26 +198,26 @@ class DenseNet(VisionModule):
         >>> # store each feature
         >>> x = torch.rand((1, 3, 224, 224))
         >>> model = DenseNet.densenet121()
-        >>> features = []
-        >>> x = model.encoder.gate(x)
-        >>> for block in model.encoder.layers:
-            >>> x = block(x)
-            >>> features.append(x)
+        >>> # first call .features, this will activate the forward hooks and tells the model you'll like to get the features
+        >>> model.encoder.features
+        >>> model(torch.randn((1,3,224,224)))
+        >>> # get the features from the encoder
+        >>> features = model.encoder.features
         >>> print([x.shape for x in features])
-        # [torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7]), torch.Size([1, 1024, 7, 7])]
+        >>> # [torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7]), torch.Size([1, 1024, 7, 7])]
 
 
     Args:
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
-    
+
     def __init__(self, in_channels: int = 3,  n_classes: int = 1000, *args, **kwargs):
         super().__init__()
         self.encoder = DenseNetEncoder(in_channels, *args, **kwargs)
         self.head = ResNetHead(
             self.encoder.widths[-1], n_classes)
-
+            
     def forward(self, x: Tensor) -> Tensor:
         x = self.encoder(x)
         x = self.head(x)

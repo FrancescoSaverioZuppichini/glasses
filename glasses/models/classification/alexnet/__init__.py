@@ -71,27 +71,27 @@ class AlexNetHead(nn.Sequential):
     filter_size: int = 6
 
     def __init__(self, in_features: int, n_classes: int):
-        super().__init__(
-            OrderedDict({
-                'pool': nn.AdaptiveAvgPool2d((self.filter_size, self.filter_size)),
-                'flat': nn.Flatten(),
-                'drop1': nn.Dropout(p=0.5),
-                'fc1': nn.Linear(self.filter_size * self.filter_size * in_features, 4096),
-                'act1': ReLUInPlace(),
-                'drop2': nn.Dropout(p=0.5),
-                'fc2': nn.Linear(4096, 4096),
-                'act2': ReLUInPlace(),
-                'fc3': nn.Linear(4096, n_classes)
-            }))
+        super().__init__(OrderedDict({
+            'pool': nn.AdaptiveAvgPool2d((self.filter_size, self.filter_size)),
+            'flat': nn.Flatten(),
+            'drop1': nn.Dropout(p=0.5),
+            'fc1': nn.Linear(self.filter_size * self.filter_size * in_features, 4096),
+            'act1': ReLUInPlace(),
+            'drop2': nn.Dropout(p=0.5),
+            'fc2': nn.Linear(4096, 4096),
+            'act2': ReLUInPlace(),
+            'fc3': nn.Linear(4096, n_classes)
+        }))
 
 
 class AlexNet(VisionModule):
     """Implementation of AlexNet proposed in `ImageNet Classification with Deep Convolutional Neural Networks <https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf>`_, 
     according to the `variation <https://pytorch.org/docs/stable/_modules/torchvision/models/alexnet.html>`_ implemented in torchvision.
 
-    Create a default model
-
     Examples:
+
+        Default model
+
         >>> net = AlexNet()
 
     Customization
@@ -105,9 +105,7 @@ class AlexNet(VisionModule):
         >>> AlexNet(n_classes=100)
         >>> # pass a different block
         >>> AlexNet(block=SENetBasicBlock)
-        >>> # change the initial convolution
-        >>> model = AlexNet()
-        >>> model.encoder.gate.conv1 = nn.Conv2d(3, 64, kernel_size=5)
+
 
 
     Args:

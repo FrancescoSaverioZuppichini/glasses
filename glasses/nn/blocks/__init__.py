@@ -120,8 +120,8 @@ class BnActConv(nn.Sequential):
     """A Sequential layer composed by a normalization, an activation and a convolution layer. This is usually known as a 'Preactivation Block'
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        in_features (int): Number of input features
+        out_features (int): Number of output features
         conv (nn.Module, optional): [description]. Defaults to Conv2dPad.
         normalization (nn.Module, optional): [description]. Defaults to nn.BatchNorm2d.
         activation (nn.Module, optional): [description]. Defaults to nn.ReLU.

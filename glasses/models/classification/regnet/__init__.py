@@ -16,7 +16,6 @@ from glasses.nn.att import ChannelSE
 """Implementation of RegNet proposed in `Designing Network Design Spaces <https://arxiv.org/abs/2003.13678>_`
 """
 
-
 class RegNetScaler:
     """Generates per stage widths and depths from RegNet parameters. 
         Code borrowed from the original implementation.
@@ -89,6 +88,7 @@ RegNetEncoder = partial(ResNetEncoder, start_features=32, stem=RegNetStem, downs
 the first layer also applies a `stride=2` and the starting features are always set to 32.
 """
 
+
 class RegNet(ResNet):
     """Implementation of RegNet proposed in `Designing Network Design Spaces <https://arxiv.org/abs/2003.13678>`_
 
@@ -106,7 +106,8 @@ class RegNet(ResNet):
     The paper is really well written and very interesting paper, I highly recommended to read it.
 
     Examples:
-        Vanilla models
+
+        Default models
 
         >>> ResNet.regnetx_002()
         >>> ResNet.regnetx_004()
@@ -124,11 +125,8 @@ class RegNet(ResNet):
         >>> # ...
         >>> ResNet.regnetx_320()
 
-    Customization
+        You can easily customize your model
 
-    You can easily customize your model
-
-    Examples:
         >>> # change activation
         >>> RegNet.regnetx_004(activation = nn.SELU)
         >>> # change number of classes (default is 1000 )

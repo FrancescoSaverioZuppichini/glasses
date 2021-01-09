@@ -23,8 +23,8 @@ class InvertedResidualBlock(nn.Module):
 
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        in_features (int): Number of input features
+        out_features (int): Number of output features
         stride (int, optional): Stide used in the depth convolution. Defaults to 1.
         expansion (int, optional): The expansion ratio applied. Defaults to 6.
         activation (nn.Module, optional): The activation funtion used. Defaults to nn.SiLU.
@@ -75,7 +75,7 @@ EfficientNetLayer = partial(ResNetLayer, block=EfficientNetBasicBlock)
 
 class EfficientNetEncoder(Encoder):
     """
-    EfficientNet encoder composed by increasing different layers with increasing features.
+    EfficientNet encoder composed by multiple different layers with increasing features.
 
     Be awere that `widths` and `strides` also includes the width and stride for the steam in the first position.
 
@@ -153,9 +153,9 @@ class EfficientNetEncoder(Encoder):
         return widths[:-1]
 
 
-class EfficientNetHead(nn.Module):
+class EfficientNetHead(nn.Sequential):
     """
-    This class represents the tail of EfficientNet. It performs a global pooling, dropout and maps the output to the
+    This class represents the head of EfficientNet. It performs a global pooling, dropout and maps the output to the
     correct class by using a fully connected layer.
     """
 
@@ -174,7 +174,7 @@ class EfficientNetHead(nn.Module):
 
 
 class EfficientNet(VisionModule):
-    """Implementations of EfficientNet proposed in `EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks <https://arxiv.org/abs/1905.11946>`_
+    """Implementation of EfficientNet proposed in `EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks <https://arxiv.org/abs/1905.11946>`_
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNet.png?raw=true
 
@@ -190,7 +190,7 @@ class EfficientNet(VisionModule):
 
     Examples:
 
-        Create a default model
+        Default models
 
         >>> EfficientNet.efficientnet_b0()
         >>> EfficientNet.efficientnet_b1()
@@ -202,7 +202,6 @@ class EfficientNet(VisionModule):
         >>> EfficientNet.efficientnet_b7()
         >>> EfficientNet.efficientnet_b8()
         >>> EfficientNet.efficientnet_l2()
-
 
     You can easily customize your model
 
