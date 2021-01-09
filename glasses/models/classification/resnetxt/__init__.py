@@ -18,8 +18,8 @@ class ResNetXtBottleNeckBlock(ResNetBottleneckBlock):
         It uses `base_width` to compute the inner features of the 3x3 conv.
 
         Args:
-            in_features (int): [description]
-            out_features (int): [description]
+            in_features (int): Number of input features
+            out_features (int): Number of output features
             groups (int, optional): [description]. Defaults to 32.
             base_width (int, optional): width factor uses to compute the inner features in the 3x3 conv. Defaults to 4.
         """
@@ -39,11 +39,8 @@ class ResNetXt(ResNet):
         >>> # create a resnetxt18_32x4d
         >>> ResNetXt.resnet18(block=ResNetXtBottleNeckBlock, groups=32, base_width=4)
 
-    Customization
+        You can easily customize your model
 
-    You can easily customize your model
-
-    Examples:
         >>> # change activation
         >>> ResNetXt.resnext50_32x4d(activation = nn.SELU)
         >>> # change number of classes (default is 1000 )

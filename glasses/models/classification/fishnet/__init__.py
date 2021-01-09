@@ -25,8 +25,8 @@ class FishNetChannelReductionShortcut(nn.Module):
     Where :math:`k = \frac{c_{in}}{c_{ou}}` 
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        in_features (int): Number of input features
+        out_features (int): Number of output features
     """
 
     def __init__(self, in_features: int, out_features: int, *args, **kwargs):
@@ -47,8 +47,8 @@ class FishNetBodyBlock(nn.Module):
     """FishNet body block, called the Up-sampling & Refinement block in the paper.
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        in_features (int): Number of input features
+        out_features (int): Number of output features
         trans_features (int): [description]
         block (nn.Module, optional): [description]. Defaults to FishNetBottleNeck.
         depth (int, optional): [description]. Defaults to 1.
@@ -79,8 +79,8 @@ class FishNetHeadBlock(FishNetBodyBlock):
     """FishNet head block, called the Down-sampling & Refinement block in the paper.
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        in_features (int): Number of input features
+        out_features (int): Number of output features
         trans_features (int): [description]
         block (nn.Module, optional): [description]. Defaults to FishNetBottleNeck.
         depth (int, optional): [description]. Defaults to 1.
@@ -105,8 +105,8 @@ class FishNetBrigde(nn.Module):
         """A weird layer that 'bridges' the tail and the body of the model.
 
         Args:
-            in_features (int): [description]
-            out_features (int): [description]
+            in_features (int): Number of input features
+            out_features (int): Number of output features
             block (nn.Module, optional): [description]. Defaults to FishNetBottleNeck.
             depth (int, optional): [description]. Defaults to 1.
         """
@@ -143,8 +143,8 @@ class FishNetTailBlock(nn.Module):
     """FishNet Tail Block, simi
 
     Args:
-        in_features (int): [description]
-        out_features (int): [description]
+        in_features (int): Number of input features
+        out_features (int): Number of output features
         depth (int, optional): [description]. Defaults to 1.
         block (nn.Module, optional): [description]. Defaults to FishNetBottleNeck.
     """
@@ -322,14 +322,13 @@ class FishNet(VisionModule):
     Create a default model
 
     Examples:
+    
         >>> FishNet.fishnet99()
         >>> FishNet.fishnet150()
 
-    Customization
 
-    You can easily customize your model
+        You can easily customize your model
 
-    Examples:
         >>> FishNet.fishnet99(activation = nn.SELU)
         >>> # change number of classes (default is 1000 )
         >>> FishNet.fishnet99(n_classes=100)

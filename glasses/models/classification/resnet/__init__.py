@@ -307,7 +307,7 @@ class ResNet(VisionModule):
 
     Examples:
 
-    Vanilla models
+        Default models
 
         >>> ResNet.resnet18()
         >>> ResNet.resnet26()
@@ -325,11 +325,8 @@ class ResNet(VisionModule):
         >>> # You can construct your own one by chaning `stem` and `block`
         >>> resnet101d = ResNet.resnet101(stem=ResNetStemC, block=partial(ResNetBottleneckBlock, shortcut=ResNetShorcutD))
 
-    Customization
+        You can easily customize your model
 
-    You can easily customize your model
-
-    Examples:
         >>> # change activation
         >>> ResNet.resnet18(activation = nn.SELU)
         >>> # change number of classes (default is 1000 )

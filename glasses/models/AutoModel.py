@@ -1,7 +1,6 @@
 import difflib
 from functools import wraps
-from typing import Any, Callable
-
+from typing import Any, Callable, List, OrderedDict
 from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
 from torch import nn
 
@@ -10,24 +9,22 @@ from .segmentation import *
 
 
 class AutoModel:
-    """This class returns a model based on its name
+    """This class returns a model based on its name.
 
     Examples:
-
+        >>> AutoModel.models() # odict_keys(['resnet18', 'resnet26', .... ])
         >>> AutoModel.from_name('resnet18')
         >>> AutoModel.from_name('resnet18', activation=nn.SELU)
         >>> AutoModel.from_pretrained('resnet18')
 
 
-    Raises:
-        KeyError: [description]
-        KeyError: [description]
 
-    Returns:
-        [type]: [description]
+    Raises:
+        KeyError: Raised if the name of the model is not found.
+
     """
 
-    zoo = {
+    zoo = OrderedDict({
         'resnet18': ResNet.resnet18,
         'resnet26': ResNet.resnet26,
         'resnet26d': ResNet.resnet26d,
@@ -38,16 +35,16 @@ class AutoModel:
         'resnet101': ResNet.resnet101,
         'resnet152': ResNet.resnet152,
         'resnet200': ResNet.resnet200,
-        'se_resnet18' : SEResNet.se_resnet18,
-        'se_resnet34' : SEResNet.se_resnet34,
-        'se_resnet50' : SEResNet.se_resnet50,
-        'se_resnet101' : SEResNet.se_resnet101,
-        'se_resnet152' : SEResNet.se_resnet152,
-        'cse_resnet18' : SEResNet.cse_resnet18,
-        'cse_resnet34' : SEResNet.cse_resnet34,
-        'cse_resnet50' : SEResNet.cse_resnet50,
-        'cse_resnet101' : SEResNet.cse_resnet101,
-        'cse_resnet152' : SEResNet.cse_resnet152,
+        'se_resnet18': SEResNet.se_resnet18,
+        'se_resnet34': SEResNet.se_resnet34,
+        'se_resnet50': SEResNet.se_resnet50,
+        'se_resnet101': SEResNet.se_resnet101,
+        'se_resnet152': SEResNet.se_resnet152,
+        'cse_resnet18': SEResNet.cse_resnet18,
+        'cse_resnet34': SEResNet.cse_resnet34,
+        'cse_resnet50': SEResNet.cse_resnet50,
+        'cse_resnet101': SEResNet.cse_resnet101,
+        'cse_resnet152': SEResNet.cse_resnet152,
         'resnext50_32x4d': ResNetXt.resnext50_32x4d,
         'resnext101_32x8d': ResNetXt.resnext101_32x8d,
         'resnext101_32x16d': ResNetXt.resnext101_32x16d,
@@ -71,8 +68,8 @@ class AutoModel:
         'densenet169': DenseNet.densenet169,
         'densenet201': DenseNet.densenet201,
         'densenet161': DenseNet.densenet161,
-        'fishnet99' :  FishNet.fishnet99,
-        'fishnet150' : FishNet.fishnet150,
+        'fishnet99':  FishNet.fishnet99,
+        'fishnet150': FishNet.fishnet150,
         'vgg11': VGG.vgg11,
         'vgg13': VGG.vgg13,
         'vgg16':  VGG.vgg16,
@@ -98,7 +95,7 @@ class AutoModel:
         'efficientnet_lite4': EfficientNetLite.efficientnet_lite4,
         'vit_small_patch16_224': ViT.vit_small_patch16_224,
         'vit_base_patch16_224':  ViT.vit_base_patch16_224,
-        'vit_base_patch16_384':ViT.vit_base_patch16_384,
+        'vit_base_patch16_384': ViT.vit_base_patch16_384,
         'vit_base_patch32_384': ViT.vit_base_patch32_384,
         'vit_huge_patch16_224':  ViT.vit_huge_patch16_224,
         'vit_huge_patch32_384': ViT.vit_huge_patch32_384,
@@ -107,17 +104,33 @@ class AutoModel:
         'vit_large_patch32_384': ViT.vit_large_patch32_384,
         'mobilenetv2': MobileNet.mobilenet_v2,
         'unet': UNet
-    }
-    
-    # @staticmethod  
-    # def add(name, func): 
-    #     key = name
-    #     AutoModel.zoo[key] = func
-    #     return func
+    })
 
+    def __init__(self):
+        raise EnvironmentError(
+            "AutoModel is designed to be instantiated "
+            "using the `AutoModel.from_pretrained(pretrained_model_name)` or the `AutoModel.from_name(model_name)`  method."
+        )
 
     @staticmethod
     def from_name(name: str, *args, **kwargs) -> nn.Module:
+        """Instantiates one of the model classes of the library.
+
+        Examples:
+            >>> AutoModel.models() # odict_keys(['resnet18', 'resnet26', .... ])
+            >>> AutoModel.from_name('resnet18')
+            >>> AutoModel.from_name('resnet18', activation=nn.SELU)
+
+
+        Args:
+            name (str): Name of the model, e.g. 'resnet18'
+
+        Raises:
+            KeyError: Raised if the name of the model is not found.
+
+        Returns:
+            nn.Module: A fully instantiated model
+        """
         if name not in AutoModel.zoo:
             suggestions = difflib.get_close_matches(name, AutoModel.zoo.keys())
             msg = f"Model \"{name}\" does not exists."
@@ -130,6 +143,21 @@ class AutoModel:
 
     @staticmethod
     def from_pretrained(name: str, *args, **kwargs) -> nn.Module:
+        """Instantiates one of the pretrained model classes of the library.
+
+        Examples:
+            >>> AutoModel.pretrained_models() # odict_keys(['resnet18', 'resnet26', .... ])
+            >>> AutoModel.from_pretrained('resnet18')
+
+        Args:
+            name (str): Name of the model, e.g. 'resnet18'
+
+        Raises:
+            KeyError: Raised if the name of the model is not found.
+
+        Returns:
+            nn.Module: A fully instantiated pretrained model
+        """
         # check if key is valid
         if name not in PretrainedWeightsProvider.weights_zoo:
             suggestions = difflib.get_close_matches(name, AutoModel.zoo.keys())
@@ -137,13 +165,26 @@ class AutoModel:
             if len(suggestions) > 0:
                 msg += f' Did you mean "{suggestions[0]}?"'
 
-            msg += f'Available models are {",".join(list(PretrainedWeightsProvider.weights_zoo.keys()))}'
+            msg += f'Available pretrained models are {",".join(list(PretrainedWeightsProvider.weights_zoo.keys()))}'
             raise KeyError(msg)
 
         model = AutoModel.from_name(name, pretrained=True, *args, **kwargs)
         return model
 
     @staticmethod
-    def models():
+    def models() -> List[str]:
+        """List the available models name
+
+        Returns:
+            List[str]: [description]
+        """
         return AutoModel.zoo.keys()
 
+    @staticmethod
+    def pretrained_models() -> List[str]:
+        """List the available pretrained models name
+
+        Returns:
+            List[str]: [description]
+        """
+        return PretrainedWeightsProvider.weights_zoo.keys()
