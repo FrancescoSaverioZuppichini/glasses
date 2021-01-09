@@ -11,17 +11,16 @@ from torch.nn import functional as F
 
 
 class Lambda(nn.Module):
-    """[summary]
-
-    Args:
-        lambd (Callable[Tensor]): A function that does something
-
-    Examples:
-        >>> add_two = Lambda(lambd x: x + 2)
-        >>> add_two(Tensor([0])) // 2
-    """
-
     def __init__(self, lambd: Callable[[Tensor], Tensor]):
+        """An utility Module, it allows custom function to be passed
+
+        Args:
+            lambd (Callable[Tensor]): A function that does something on a tensor
+
+        Examples:
+            >>> add_two = Lambda(lambd x: x + 2)
+            >>> add_two(Tensor([0])) // 2
+        """
         super().__init__()
         self.lambd = lambd
 
@@ -141,11 +140,3 @@ ConvBn = partial(ConvBnAct, activation=None)
 ConvAct = partial(ConvBnAct, normalization=None, bias=True)
 Conv3x3BnAct = partial(ConvBnAct, kernel_size=3)
 
-
-class Lambda(nn.Module):
-    def __init__(self, lambd: Callable[[Tensor], Tensor]):
-        super().__init__()
-        self.lambd = lambd
-
-    def forward(self, x: Tensor) -> Tensor:
-        return self.lambd(x)

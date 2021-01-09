@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
@@ -11,30 +12,27 @@
   
 
   
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-
-  
   
   
   
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
         <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
 </head>
@@ -50,7 +48,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> Glasses
+            <a href="../index.html" class="icon icon-home"> Glasses
           
 
           
@@ -73,7 +71,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -85,7 +82,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../Notes/tutorials/Interpretability.html">Interpretability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Notes/tutorials/Segmentation.html">Segmentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Notes/tutorials/Transfer Learning.html">Transfer Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Notes/tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Notes/tutorials/installation.html">Installation</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package Reference</span></p>
@@ -101,7 +98,6 @@
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -140,7 +136,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="../index.html">Docs</a> &raquo;</li>
         
       <li>Overview: module code</li>
     
@@ -158,8 +154,7 @@
            <div itemprop="articleBody">
             
   <h1>All modules for which code is available</h1>
-<ul><li><a href="benchmark.html">benchmark</a></li>
-<li><a href="glasses/interpretability/GradCam.html">glasses.interpretability.GradCam</a></li>
+<ul><li><a href="glasses/interpretability/GradCam.html">glasses.interpretability.GradCam</a></li>
 <li><a href="glasses/interpretability/Interpretability.html">glasses.interpretability.Interpretability</a></li>
 <li><a href="glasses/interpretability/SaliencyMap.html">glasses.interpretability.SaliencyMap</a></li>
 <li><a href="glasses/interpretability/utils.html">glasses.interpretability.utils</a></li>
@@ -186,27 +181,7 @@
 <li><a href="glasses/nn/att.html">glasses.nn.att</a></li>
 <li><a href="glasses/nn/blocks.html">glasses.nn.blocks</a></li>
 <ul><li><a href="glasses/nn/blocks/residuals.html">glasses.nn.blocks.residuals</a></li>
-</ul><li><a href="glasses/nn/models/AutoConfig.html">glasses.nn.models.AutoConfig</a></li>
-<li><a href="glasses/nn/models/AutoModel.html">glasses.nn.models.AutoModel</a></li>
-<li><a href="glasses/nn/models/VisionModule.html">glasses.nn.models.VisionModule</a></li>
-<li><a href="glasses/nn/models/base.html">glasses.nn.models.base</a></li>
-<ul><li><a href="glasses/nn/models/base/protocols.html">glasses.nn.models.base.protocols</a></li>
-</ul><li><a href="glasses/nn/models/classification/alexnet.html">glasses.nn.models.classification.alexnet</a></li>
-<li><a href="glasses/nn/models/classification/densenet.html">glasses.nn.models.classification.densenet</a></li>
-<li><a href="glasses/nn/models/classification/efficientnet.html">glasses.nn.models.classification.efficientnet</a></li>
-<li><a href="glasses/nn/models/classification/fishnet.html">glasses.nn.models.classification.fishnet</a></li>
-<li><a href="glasses/nn/models/classification/mobilenet.html">glasses.nn.models.classification.mobilenet</a></li>
-<li><a href="glasses/nn/models/classification/regnet.html">glasses.nn.models.classification.regnet</a></li>
-<li><a href="glasses/nn/models/classification/resnet.html">glasses.nn.models.classification.resnet</a></li>
-<li><a href="glasses/nn/models/classification/resnetxt.html">glasses.nn.models.classification.resnetxt</a></li>
-<li><a href="glasses/nn/models/classification/senet.html">glasses.nn.models.classification.senet</a></li>
-<li><a href="glasses/nn/models/classification/vgg.html">glasses.nn.models.classification.vgg</a></li>
-<li><a href="glasses/nn/models/classification/wide_resnet.html">glasses.nn.models.classification.wide_resnet</a></li>
-<li><a href="glasses/nn/models/segmentation/base.html">glasses.nn.models.segmentation.base</a></li>
-<li><a href="glasses/nn/models/segmentation/unet.html">glasses.nn.models.segmentation.unet</a></li>
-<li><a href="glasses/nn/models/utils/protocols.html">glasses.nn.models.utils.protocols</a></li>
-<li><a href="glasses/nn/models/utils/scaler.html">glasses.nn.models.utils.scaler</a></li>
-<li><a href="glasses/utils/ModuleTransfer.html">glasses.utils.ModuleTransfer</a></li>
+</ul><li><a href="glasses/utils/ModuleTransfer.html">glasses.utils.ModuleTransfer</a></li>
 <li><a href="glasses/utils/PretrainedWeightsProvider.html">glasses.utils.PretrainedWeightsProvider</a></li>
 <li><a href="glasses/utils/Storage.html">glasses.utils.Storage</a></li>
 <li><a href="glasses/utils/Tracker.html">glasses.utils.Tracker</a></li>
@@ -225,19 +200,11 @@
 
   <div role="contentinfo">
     <p>
-        
         &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -248,6 +215,7 @@
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {

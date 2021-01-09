@@ -10,7 +10,7 @@ ReLUInPlace = partial(nn.ReLU, inplace=True)
 
 class SpatialSE(nn.Module):
     """Implementation of Squeeze and Excitation Module proposed in `Squeeze-and-Excitation Networks <https://arxiv.org/abs/1709.01507>`_
-    The idea is to apply learned an channel-wise attention.
+    The idea is to apply a learned an channel-wise attention.
 
     It squeezes spatially and excitates channel-wise.
 
@@ -87,7 +87,7 @@ class SpatialSE(nn.Module):
 
 
 class ChannelSE(SpatialSE):
-    """Modified implement of Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze & Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>`_
+    """Modified implementation of Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze & Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>`_
 
     It squeezes channel-wise and excitates spatially.
 
@@ -143,7 +143,7 @@ class ChannelSE(SpatialSE):
 
 
 class SpatialChannelSE(nn.Module):
-    """Implement of Spatial and Channel Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze & Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>`_
+    """Implementation of Spatial and Channel Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze & Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>`_
 
     This module combines booth Spatial and Channel Squeeze and Excitation
 
@@ -193,7 +193,7 @@ class SpatialChannelSE(nn.Module):
 
 
 class EfficientChannelAtt(nn.Module):
-    """Implement of Efficient Channel Attention proposed in `ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks <https://arxiv.org/pdf/1910.03151.pdf>`_
+    """Implementation of Efficient Channel Attention proposed in `ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks <https://arxiv.org/pdf/1910.03151.pdf>`_
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true
 
@@ -206,19 +206,19 @@ class EfficientChannelAtt(nn.Module):
         >>> eca_resnet50.summary()
 
     Args:
-        features (int, optional): [description]. Defaults to None.
+        features (int, optional): Number of features features. Defaults to None.
         kernel_size (int, optional): [description]. Defaults to 3.
         gamma (int, optional): [description]. Defaults to 2.
         beta (int, optional): [description]. Defaults to 1.
     """
 
-    def __init__(self, features: int = None, kernel_size: int = 3, gamma: int = 2, beta: int = 1):
+    def __init__(self, features: int, kernel_size: int = 3, gamma: int = 2, beta: int = 1):
 
         super().__init__()
         assert kernel_size % 2 == 1
-        if features:
-            t = int(abs(math.log(features, 2) + beta) / gamma)
-            k = t if t % 2 else t + 1
+
+        t = int(abs(math.log(features, 2) + beta) / gamma)
+        k = t if t % 2 else t + 1
 
         self.pool = nn.AdaptiveAvgPool2d(1)
         self.conv = nn.Conv1d(1, 1, kernel_size=k, padding=k // 2, bias=False)

@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
@@ -11,33 +12,29 @@
   
 
   
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-
-  
   
   
   
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
         <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="models_table module" href="models_table.html" />
     <link rel="prev" title="glasses.nn.blocks package" href="glasses.nn.blocks.html" /> 
 </head>
 
@@ -52,7 +49,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Glasses
+            <a href="index.html" class="icon icon-home"> Glasses
           
 
           
@@ -75,7 +72,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -87,7 +83,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Interpretability.html">Interpretability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Segmentation.html">Segmentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Transfer Learning.html">Transfer Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/installation.html">Installation</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package Reference</span></p>
@@ -111,7 +107,6 @@
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -150,7 +145,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
           <li><a href="modules.html">glasses</a> &raquo;</li>
         
@@ -192,7 +187,7 @@ they have the same set of operations but they were defined in a different way.</
 <blockquote>
 <div><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">eyes.utils</span> <span class="kn">import</span> <span class="n">ModuleTransfer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">eyes.utils</span> <span class="k">import</span> <span class="n">ModuleTransfer</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model_a</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">block</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">):</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">),</span>
@@ -217,12 +212,12 @@ Under the hood we tracked all the operations in booth modules.
 
 <dl class="py attribute">
 <dt id="glasses.utils.ModuleTransfer.ModuleTransfer.dest">
-<code class="sig-name descname">dest</code><em class="property">: nn.Module</em><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.dest" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">dest</code><em class="property">: torch.nn.modules.module.Module</em><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.dest" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="glasses.utils.ModuleTransfer.ModuleTransfer.src">
-<code class="sig-name descname">src</code><em class="property">: nn.Module</em><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.src" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">src</code><em class="property">: torch.nn.modules.module.Module</em><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.src" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -312,14 +307,14 @@ Under the hood we tracked all the operations in booth modules.
 
 <dl class="py attribute">
 <dt id="glasses.utils.PretrainedWeightsProvider.GoogleDriveUrlHandler.url">
-<code class="sig-name descname">url</code><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.GoogleDriveUrlHandler.url" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">url</code><em class="property">: str</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.GoogleDriveUrlHandler.url" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt id="glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.utils.PretrainedWeightsProvider.</code><code class="sig-name descname">PretrainedWeightsProvider</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">BASE_URL</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'https://cv-glasses.s3.eu-central-1.amazonaws.com'</span></em>, <em class="sig-param"><span class="n">BASE_DIR</span><span class="p">:</span> <span class="n">pathlib.Path</span> <span class="o">=</span> <span class="default_value">PosixPath('/home/zuppif/.cache/torch/hub/glasses')</span></em>, <em class="sig-param"><span class="n">save_dir</span><span class="p">:</span> <span class="n">pathlib.Path</span> <span class="o">=</span> <span class="default_value">PosixPath('/home/zuppif/.cache/torch/hub/glasses')</span></em>, <em class="sig-param"><span class="n">chunk_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1024</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">override</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/PretrainedWeightsProvider.html#PretrainedWeightsProvider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.utils.PretrainedWeightsProvider.</code><code class="sig-name descname">PretrainedWeightsProvider</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">BASE_URL</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'https://cv-glasses.s3.eu-central-1.amazonaws.com'</span></em>, <em class="sig-param"><span class="n">BASE_DIR</span><span class="p">:</span> <span class="n">pathlib.Path</span> <span class="o">=</span> <span class="default_value">WindowsPath('C:/Users/Francesco/.cache/torch/hub/glasses')</span></em>, <em class="sig-param"><span class="n">save_dir</span><span class="p">:</span> <span class="n">pathlib.Path</span> <span class="o">=</span> <span class="default_value">WindowsPath('C:/Users/Francesco/.cache/torch/hub/glasses')</span></em>, <em class="sig-param"><span class="n">chunk_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1024</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">override</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/PretrainedWeightsProvider.html#PretrainedWeightsProvider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>This class allows to retrieve pretrained models weights (state dict).</p>
 <p class="rubric">Example</p>
@@ -335,7 +330,7 @@ Under the hood we tracked all the operations in booth modules.
 </div>
 <dl class="py attribute">
 <dt id="glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.BASE_DIR">
-<code class="sig-name descname">BASE_DIR</code><em class="property">: pathlib.Path</em><em class="property"> = PosixPath('/home/zuppif/.cache/torch/hub/glasses')</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.BASE_DIR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">BASE_DIR</code><em class="property">: pathlib.Path</em><em class="property"> = WindowsPath('C:/Users/Francesco/.cache/torch/hub/glasses')</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.BASE_DIR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -355,7 +350,7 @@ Under the hood we tracked all the operations in booth modules.
 
 <dl class="py attribute">
 <dt id="glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.save_dir">
-<code class="sig-name descname">save_dir</code><em class="property">: pathlib.Path</em><em class="property"> = PosixPath('/home/zuppif/.cache/torch/hub/glasses')</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.save_dir" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">save_dir</code><em class="property">: pathlib.Path</em><em class="property"> = WindowsPath('C:/Users/Francesco/.cache/torch/hub/glasses')</em><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.save_dir" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -372,7 +367,7 @@ Under the hood we tracked all the operations in booth modules.
 
 <dl class="py function">
 <dt id="glasses.utils.PretrainedWeightsProvider.pretrained">
-<code class="sig-prename descclassname">glasses.utils.PretrainedWeightsProvider.</code><code class="sig-name descname">pretrained</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Callable<a class="reference internal" href="_modules/glasses/utils/PretrainedWeightsProvider.html#pretrained"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.pretrained" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">glasses.utils.PretrainedWeightsProvider.</code><code class="sig-name descname">pretrained</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Callable<a class="reference internal" href="_modules/glasses/utils/PretrainedWeightsProvider.html#pretrained"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.utils.PretrainedWeightsProvider.pretrained" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -452,7 +447,7 @@ performance.</p>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.utils</span> <span class="kn">import</span> <span class="n">Tracker</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.utils</span> <span class="k">import</span> <span class="n">Tracker</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tr</span> <span class="o">=</span> <span class="n">Tracker</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tr</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -476,7 +471,7 @@ performance.</p>
 
 <dl class="py attribute">
 <dt id="glasses.utils.Tracker.Tracker.module">
-<code class="sig-name descname">module</code><em class="property">: nn.Module</em><a class="headerlink" href="#glasses.utils.Tracker.Tracker.module" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">module</code><em class="property">: torch.nn.modules.module.Module</em><a class="headerlink" href="#glasses.utils.Tracker.Tracker.module" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -486,7 +481,7 @@ performance.</p>
 
 <dl class="py attribute">
 <dt id="glasses.utils.Tracker.Tracker.traced">
-<code class="sig-name descname">traced</code><em class="property">: List<span class="p">[</span>nn.Module<span class="p">]</span></em><a class="headerlink" href="#glasses.utils.Tracker.Tracker.traced" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">traced</code><em class="property">: List<span class="p">[</span>torch.nn.modules.module.Module<span class="p">]</span></em><a class="headerlink" href="#glasses.utils.Tracker.Tracker.traced" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -505,8 +500,6 @@ performance.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="models_table.html" class="btn btn-neutral float-right" title="models_table module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
       
         <a href="glasses.nn.blocks.html" class="btn btn-neutral float-left" title="glasses.nn.blocks package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
@@ -517,19 +510,11 @@ performance.</p>
 
   <div role="contentinfo">
     <p>
-        
         &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -540,6 +525,7 @@ performance.</p>
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {

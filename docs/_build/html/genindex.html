@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
@@ -11,30 +12,27 @@
   
 
   
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-
-  
   
   
   
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
         <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -50,7 +48,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Glasses
+            <a href="index.html" class="icon icon-home"> Glasses
           
 
           
@@ -73,7 +71,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -85,7 +82,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Interpretability.html">Interpretability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Segmentation.html">Segmentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Transfer Learning.html">Transfer Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/installation.html">Installation</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package Reference</span></p>
@@ -101,7 +98,6 @@
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -140,7 +136,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
       <li>Index</li>
     
@@ -235,8 +231,6 @@
 </li>
       <li><a href="glasses.models.html#glasses.models.AutoModel.AutoModel">AutoModel (class in glasses.models.AutoModel)</a>
 </li>
-      <li><a href="transfer_weights.html#transfer_weights.AWSSTorage">AWSSTorage (class in transfer_weights)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -249,20 +243,9 @@
 </li>
       <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.BASE_URL">BASE_URL (glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider attribute)</a>
 </li>
-      <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.BasicUrlHandler">BasicUrlHandler (class in glasses.utils.PretrainedWeightsProvider)</a>
-</li>
-      <li>
-    benchmark
-
-      <ul>
-        <li><a href="benchmark.html#module-benchmark">module</a>
-</li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="benchmark.html#benchmark.benchmark">benchmark() (in module benchmark)</a>
-</li>
-      <li><a href="benchmark.html#benchmark.benchmark_all">benchmark_all() (in module benchmark)</a>
+      <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.BasicUrlHandler">BasicUrlHandler (class in glasses.utils.PretrainedWeightsProvider)</a>
 </li>
       <li><a href="glasses.nn.blocks.html#glasses.nn.blocks.Conv2dPad.bias">bias (glasses.nn.blocks.Conv2dPad attribute)</a>
 </li>
@@ -280,11 +263,7 @@
 </li>
       <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.chunk_size">chunk_size (glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider attribute)</a>
 </li>
-      <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ClassificationHead">ClassificationHead (class in glasses.models.classification.vit)</a>
-</li>
       <li><a href="glasses.utils.html#glasses.utils.Storage.ModuleStorage.clear">clear() (glasses.utils.Storage.ModuleStorage method)</a>
-</li>
-      <li><a href="transfer_weights.html#transfer_weights.clone_model">clone_model() (in module transfer_weights)</a>
 </li>
       <li><a href="glasses.models.utils.html#glasses.models.utils.scaler.CompoundScaler">CompoundScaler (class in glasses.models.utils.scaler)</a>
 </li>
@@ -719,6 +698,8 @@
 </li>
         <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ResidualAdd.forward">(glasses.models.classification.vit.ResidualAdd method)</a>
 </li>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.TransformerEncoder.forward">(glasses.models.classification.vit.TransformerEncoder method)</a>
+</li>
         <li><a href="glasses.models.html#glasses.models.DenseNet.forward">(glasses.models.DenseNet method)</a>
 </li>
         <li><a href="glasses.models.html#glasses.models.EfficientNet.forward">(glasses.models.EfficientNet method)</a>
@@ -825,8 +806,6 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.GoogleDriveUrlHandler.get_confirm_token">get_confirm_token() (glasses.utils.PretrainedWeightsProvider.GoogleDriveUrlHandler method)</a>
-</li>
-      <li><a href="benchmark.html#benchmark.get_img_id">get_img_id() (in module benchmark)</a>
 </li>
       <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.BasicUrlHandler.get_response">get_response() (glasses.utils.PretrainedWeightsProvider.BasicUrlHandler method)</a>
 
@@ -1238,8 +1217,6 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.utils.html#glasses.utils.Storage.ModuleStorage.layers">layers() (glasses.utils.Storage.ModuleStorage property)</a>
 </li>
-      <li><a href="transfer_weights.html#transfer_weights.LocalStorage">LocalStorage (class in transfer_weights)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -1292,8 +1269,6 @@
     module
 
       <ul>
-        <li><a href="benchmark.html#module-benchmark">benchmark</a>
-</li>
         <li><a href="glasses.html#module-glasses">glasses</a>
 </li>
         <li><a href="glasses.data.html#module-glasses.data">glasses.data</a>
@@ -1378,8 +1353,6 @@
 </li>
         <li><a href="glasses.utils.html#module-glasses.utils.Tracker">glasses.utils.Tracker</a>
 </li>
-        <li><a href="transfer_weights.html#module-transfer_weights">transfer_weights</a>
-</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -1420,11 +1393,7 @@
       <li><a href="glasses.nn.blocks.html#glasses.nn.blocks.Conv2dPad.output_padding">output_padding (glasses.nn.blocks.Conv2dPad attribute)</a>
 </li>
       <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider.override">override (glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider attribute)</a>
-
-      <ul>
-        <li><a href="transfer_weights.html#transfer_weights.LocalStorage.override">(transfer_weights.LocalStorage attribute)</a>
 </li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -1453,9 +1422,11 @@
 </li>
       <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.PFPNSegmentationLayer">PFPNSegmentationLayer (class in glasses.models.segmentation.fpn)</a>
 </li>
-      <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ClassificationHead.POLICIES">POLICIES (glasses.models.classification.vit.ClassificationHead attribute)</a>
+      <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViTClassificationHead.POLICIES">POLICIES (glasses.models.classification.vit.ViTClassificationHead attribute)</a>
 </li>
       <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.pretrained">pretrained() (in module glasses.utils.PretrainedWeightsProvider)</a>
+</li>
+      <li><a href="glasses.models.html#glasses.models.AutoModel.AutoModel.pretrained_models">pretrained_models() (glasses.models.AutoModel.AutoModel static method)</a>
 </li>
       <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.PretrainedWeightsProvider">PretrainedWeightsProvider (class in glasses.utils.PretrainedWeightsProvider)</a>
 </li>
@@ -1643,6 +1614,8 @@
       </ul></li>
       <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.Config.resize">resize (glasses.utils.PretrainedWeightsProvider.Config attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.models.html#glasses.models.ResNet">ResNet (class in glasses.models)</a>
 
       <ul>
@@ -1651,8 +1624,6 @@
         <li><a href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNet">(class in glasses.models.classification.resnet)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.models.classification.html#glasses.models.classification.ResNet.resnet101">resnet101() (glasses.models.classification.ResNet class method)</a>
 
       <ul>
@@ -1805,8 +1776,6 @@
         <li><a href="glasses.models.html#glasses.models.ResNetXt.resnext50_32x4d">(glasses.models.ResNetXt class method)</a>
 </li>
       </ul></li>
-      <li><a href="transfer_weights.html#transfer_weights.LocalStorage.root">root (transfer_weights.LocalStorage attribute)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -1918,7 +1887,13 @@
       <li><a href="glasses.models.base.html#glasses.models.base.Encoder.training">training (glasses.models.base.Encoder attribute)</a>
 
       <ul>
+        <li><a href="glasses.models.classification.html#glasses.models.classification.AlexNet.training">(glasses.models.classification.AlexNet attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.alexnet.html#glasses.models.classification.alexnet.AlexNet.training">(glasses.models.classification.alexnet.AlexNet attribute)</a>
+</li>
         <li><a href="glasses.models.classification.alexnet.html#glasses.models.classification.alexnet.AlexNetEncoder.training">(glasses.models.classification.alexnet.AlexNetEncoder attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.html#glasses.models.classification.DenseNet.training">(glasses.models.classification.DenseNet attribute)</a>
 </li>
         <li><a href="glasses.models.classification.densenet.html#glasses.models.classification.densenet.DenseNetBasicBlock.training">(glasses.models.classification.densenet.DenseNetBasicBlock attribute)</a>
 </li>
@@ -1928,11 +1903,21 @@
 </li>
         <li><a href="glasses.models.classification.densenet.html#glasses.models.classification.densenet.TransitionBlock.training">(glasses.models.classification.densenet.TransitionBlock attribute)</a>
 </li>
+        <li><a href="glasses.models.classification.html#glasses.models.classification.EfficientNet.training">(glasses.models.classification.EfficientNet attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.efficientnet.html#glasses.models.classification.efficientnet.EfficientNet.training">(glasses.models.classification.efficientnet.EfficientNet attribute)</a>
+</li>
         <li><a href="glasses.models.classification.efficientnet.html#glasses.models.classification.efficientnet.EfficientNetEncoder.training">(glasses.models.classification.efficientnet.EfficientNetEncoder attribute)</a>
 </li>
         <li><a href="glasses.models.classification.efficientnet.html#glasses.models.classification.efficientnet.EfficientNetHead.training">(glasses.models.classification.efficientnet.EfficientNetHead attribute)</a>
 </li>
+        <li><a href="glasses.models.classification.efficientnet.html#glasses.models.classification.efficientnet.EfficientNetLite.training">(glasses.models.classification.efficientnet.EfficientNetLite attribute)</a>
+</li>
         <li><a href="glasses.models.classification.efficientnet.html#glasses.models.classification.efficientnet.InvertedResidualBlock.training">(glasses.models.classification.efficientnet.InvertedResidualBlock attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.html#glasses.models.classification.EfficientNetLite.training">(glasses.models.classification.EfficientNetLite attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.html#glasses.models.classification.FishNet.training">(glasses.models.classification.FishNet attribute)</a>
 </li>
         <li><a href="glasses.models.classification.fishnet.html#glasses.models.classification.fishnet.FishNetBodyBlock.training">(glasses.models.classification.fishnet.FishNetBodyBlock attribute)</a>
 </li>
@@ -1950,9 +1935,17 @@
 </li>
         <li><a href="glasses.models.classification.fishnet.html#glasses.models.classification.fishnet.FishNetTailBlock.training">(glasses.models.classification.fishnet.FishNetTailBlock attribute)</a>
 </li>
+        <li><a href="glasses.models.classification.html#glasses.models.classification.MobileNet.training">(glasses.models.classification.MobileNet attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.mobilenet.html#glasses.models.classification.mobilenet.MobileNet.training">(glasses.models.classification.mobilenet.MobileNet attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.html#glasses.models.classification.RegNet.training">(glasses.models.classification.RegNet attribute)</a>
+</li>
         <li><a href="glasses.models.classification.regnet.html#glasses.models.classification.regnet.RegNetXBotteneckBlock.training">(glasses.models.classification.regnet.RegNetXBotteneckBlock attribute)</a>
 </li>
         <li><a href="glasses.models.classification.regnet.html#glasses.models.classification.regnet.RegNetYBotteneckBlock.training">(glasses.models.classification.regnet.RegNetYBotteneckBlock attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.html#glasses.models.classification.ResNet.training">(glasses.models.classification.ResNet attribute)</a>
 </li>
         <li><a href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNetBasicBlock.training">(glasses.models.classification.resnet.ResNetBasicBlock attribute)</a>
 </li>
@@ -1972,7 +1965,13 @@
 </li>
         <li><a href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNetStemC.training">(glasses.models.classification.resnet.ResNetStemC attribute)</a>
 </li>
+        <li><a href="glasses.models.classification.html#glasses.models.classification.ResNetXt.training">(glasses.models.classification.ResNetXt attribute)</a>
+</li>
         <li><a href="glasses.models.classification.resnetxt.html#glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock.training">(glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.html#glasses.models.classification.SEResNet.training">(glasses.models.classification.SEResNet attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.html#glasses.models.classification.VGG.training">(glasses.models.classification.VGG attribute)</a>
 </li>
         <li><a href="glasses.models.classification.vgg.html#glasses.models.classification.vgg.VGGEncoder.training">(glasses.models.classification.vgg.VGGEncoder attribute)</a>
 </li>
@@ -1980,7 +1979,7 @@
 </li>
         <li><a href="glasses.models.classification.vgg.html#glasses.models.classification.vgg.VGGLayer.training">(glasses.models.classification.vgg.VGGLayer attribute)</a>
 </li>
-        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ClassificationHead.training">(glasses.models.classification.vit.ClassificationHead attribute)</a>
+        <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.training">(glasses.models.classification.ViT attribute)</a>
 </li>
         <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.FeedForwardBlock.training">(glasses.models.classification.vit.FeedForwardBlock attribute)</a>
 </li>
@@ -1994,9 +1993,19 @@
 </li>
         <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.TransformerEncoderBlock.training">(glasses.models.classification.vit.TransformerEncoderBlock attribute)</a>
 </li>
-        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.training">(glasses.models.classification.vit.ViT attribute)</a>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViTClassificationHead.training">(glasses.models.classification.vit.ViTClassificationHead attribute)</a>
 </li>
         <li><a href="glasses.models.classification.wide_resnet.html#glasses.models.classification.wide_resnet.WideResNetBottleNeckBlock.training">(glasses.models.classification.wide_resnet.WideResNetBottleNeckBlock attribute)</a>
+</li>
+        <li><a href="glasses.models.classification.html#glasses.models.classification.WideResNet.training">(glasses.models.classification.WideResNet attribute)</a>
+</li>
+        <li><a href="glasses.models.html#glasses.models.EfficientNetLite.training">(glasses.models.EfficientNetLite attribute)</a>
+</li>
+        <li><a href="glasses.models.html#glasses.models.MobileNet.training">(glasses.models.MobileNet attribute)</a>
+</li>
+        <li><a href="glasses.models.segmentation.base.html#glasses.models.segmentation.base.SegmentationModule.training">(glasses.models.segmentation.base.SegmentationModule attribute)</a>
+</li>
+        <li><a href="glasses.models.segmentation.html#glasses.models.segmentation.FPN.training">(glasses.models.segmentation.FPN attribute)</a>
 </li>
         <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPNDecoder.training">(glasses.models.segmentation.fpn.FPNDecoder attribute)</a>
 </li>
@@ -2013,6 +2022,10 @@
         <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.Merge.training">(glasses.models.segmentation.fpn.Merge attribute)</a>
 </li>
         <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.PFPNSegmentationLayer.training">(glasses.models.segmentation.fpn.PFPNSegmentationLayer attribute)</a>
+</li>
+        <li><a href="glasses.models.segmentation.html#glasses.models.segmentation.PFPN.training">(glasses.models.segmentation.PFPN attribute)</a>
+</li>
+        <li><a href="glasses.models.segmentation.html#glasses.models.segmentation.UNet.training">(glasses.models.segmentation.UNet attribute)</a>
 </li>
         <li><a href="glasses.models.segmentation.unet.html#glasses.models.segmentation.unet.DownLayer.training">(glasses.models.segmentation.unet.DownLayer attribute)</a>
 </li>
@@ -2047,13 +2060,6 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    transfer_weights
-
-      <ul>
-        <li><a href="transfer_weights.html#module-transfer_weights">module</a>
-</li>
-      </ul></li>
       <li><a href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.Config.transform">transform() (glasses.utils.PretrainedWeightsProvider.Config property)</a>
 </li>
       <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.TransformerEncoder">TransformerEncoder (class in glasses.models.classification.vit)</a>
@@ -2150,8 +2156,6 @@
         <li><a href="glasses.models.html#glasses.models.VGG.vgg13_bn">(glasses.models.VGG class method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.models.classification.html#glasses.models.classification.VGG.vgg16">vgg16() (glasses.models.classification.VGG class method)</a>
 
       <ul>
@@ -2184,6 +2188,8 @@
         <li><a href="glasses.models.html#glasses.models.VGG.vgg19_bn">(glasses.models.VGG class method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.models.classification.vgg.html#glasses.models.classification.vgg.VGGEncoder">VGGEncoder (class in glasses.models.classification.vgg)</a>
 </li>
       <li><a href="glasses.models.classification.vgg.html#glasses.models.classification.vgg.VGGHead">VGGHead (class in glasses.models.classification.vgg)</a>
@@ -2192,7 +2198,67 @@
 </li>
       <li><a href="glasses.models.base.html#glasses.models.base.VisionModule">VisionModule (class in glasses.models.base)</a>
 </li>
-      <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT">ViT (class in glasses.models.classification.vit)</a>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT">ViT (class in glasses.models.classification)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT">(class in glasses.models.classification.vit)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_base_patch16_224">vit_base_patch16_224() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_base_patch16_224">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_base_patch16_384">vit_base_patch16_384() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_base_patch16_384">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_base_patch32_384">vit_base_patch32_384() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_base_patch32_384">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_huge_patch16_224">vit_huge_patch16_224() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_huge_patch16_224">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_huge_patch32_384">vit_huge_patch32_384() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_huge_patch32_384">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_large_patch16_224">vit_large_patch16_224() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_large_patch16_224">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_large_patch16_384">vit_large_patch16_384() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_large_patch16_384">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_large_patch32_384">vit_large_patch32_384() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_large_patch32_384">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.html#glasses.models.classification.ViT.vit_small_patch16_224">vit_small_patch16_224() (glasses.models.classification.ViT class method)</a>
+
+      <ul>
+        <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT.vit_small_patch16_224">(glasses.models.classification.vit.ViT class method)</a>
+</li>
+      </ul></li>
+      <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViTClassificationHead">ViTClassificationHead (class in glasses.models.classification.vit)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2263,19 +2329,11 @@
 
   <div role="contentinfo">
     <p>
-        
         &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -2286,6 +2344,7 @@
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {
