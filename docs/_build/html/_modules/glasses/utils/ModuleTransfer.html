@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
@@ -11,30 +12,27 @@
   
 
   
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-
-  
   
   
   
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/language_data.js"></script>
         <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -50,7 +48,7 @@
           
 
           
-            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> Glasses
+            <a href="../../../index.html" class="icon icon-home"> Glasses
           
 
           
@@ -73,7 +71,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -85,7 +82,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/Interpretability.html">Interpretability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/Segmentation.html">Segmentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/Transfer Learning.html">Transfer Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/installation.html">Installation</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package Reference</span></p>
@@ -101,7 +98,6 @@
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -140,7 +136,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
@@ -163,9 +159,9 @@
 <span></span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
-<span class="kn">from</span> <span class="nn">.Tracker</span> <span class="kn">import</span> <span class="n">Tracker</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="k">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="k">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">.Tracker</span> <span class="k">import</span> <span class="n">Tracker</span>
 
 <div class="viewcode-block" id="ModuleTransfer"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.ModuleTransfer.ModuleTransfer">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">ModuleTransfer</span><span class="p">:</span>
@@ -194,7 +190,7 @@
     <span class="n">dest</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span>
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 
-<div class="viewcode-block" id="ModuleTransfer.__call__"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.ModuleTransfer.ModuleTransfer.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
+<div class="viewcode-block" id="ModuleTransfer.__call__"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.ModuleTransfer.ModuleTransfer.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Transfer the weights of `self.src` to `self.dest` by performing a forward pass using `x` as input.</span>
 <span class="sd">        Under the hood we tracked all the operations in booth modules.</span>
 <span class="sd">        :param x: [The input to the modules]</span>
@@ -205,12 +201,12 @@
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dest_traced</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">src_traced</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Numbers of operations are different. Source module has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">src_traced</span><span class="p">)</span><span class="si">}</span><span class="s1"> operations while destination module has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dest_traced</span><span class="p">)</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+                <span class="n">f</span><span class="s1">&#39;Numbers of operations are different. Source module has {len(src_traced)} operations while destination module has {len(dest_traced)}.&#39;</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">dest_m</span><span class="p">,</span> <span class="n">src_m</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dest_traced</span><span class="p">,</span> <span class="n">src_traced</span><span class="p">):</span>
             <span class="n">dest_m</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">src_m</span><span class="o">.</span><span class="n">state_dict</span><span class="p">())</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Transfered from=</span><span class="si">{</span><span class="n">src_m</span><span class="si">}</span><span class="s1"> to=</span><span class="si">{</span><span class="n">dest_m</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
+                <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Transfered from=</span><span class="si">{src_m}</span><span class="s1"> to=</span><span class="si">{dest_m}</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>
@@ -223,19 +219,11 @@
 
   <div role="contentinfo">
     <p>
-        
         &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -246,6 +234,7 @@
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {

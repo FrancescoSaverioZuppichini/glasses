@@ -1,7 +1,8 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
@@ -11,30 +12,27 @@
   
 
   
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-
-  
   
   
   
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
         <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="setup module" href="setup.html" /> 
@@ -51,7 +49,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Glasses
+            <a href="index.html" class="icon icon-home"> Glasses
           
 
           
@@ -74,7 +72,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -86,7 +83,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Interpretability.html">Interpretability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Segmentation.html">Segmentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Transfer Learning.html">Transfer Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/installation.html">Installation</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package Reference</span></p>
@@ -109,7 +106,6 @@
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -148,7 +144,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
           <li><a href="modules.html">glasses</a> &raquo;</li>
         
@@ -181,7 +177,7 @@
 
 <dl class="py class">
 <dt id="transfer_weights.LocalStorage">
-<em class="property">class </em><code class="sig-prename descclassname">transfer_weights.</code><code class="sig-name descname">LocalStorage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span><span class="p">:</span> <span class="n">pathlib.Path</span> <span class="o">=</span> <span class="default_value">PosixPath('/home/zuppif/.cache/torch/hub/glasses')</span></em>, <em class="sig-param"><span class="n">override</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/transfer_weights.html#LocalStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#transfer_weights.LocalStorage" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">transfer_weights.</code><code class="sig-name descname">LocalStorage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">root</span><span class="p">:</span> <span class="n">pathlib.Path</span> <span class="o">=</span> <span class="default_value">WindowsPath('C:/Users/Francesco/.cache/torch/hub/glasses')</span></em>, <em class="sig-param"><span class="n">override</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/transfer_weights.html#LocalStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#transfer_weights.LocalStorage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt id="transfer_weights.LocalStorage.override">
@@ -190,14 +186,19 @@
 
 <dl class="py attribute">
 <dt id="transfer_weights.LocalStorage.root">
-<code class="sig-name descname">root</code><em class="property">: pathlib.Path</em><em class="property"> = PosixPath('/home/zuppif/.cache/torch/hub/glasses')</em><a class="headerlink" href="#transfer_weights.LocalStorage.root" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">root</code><em class="property">: pathlib.Path</em><em class="property"> = WindowsPath('C:/Users/Francesco/.cache/torch/hub/glasses')</em><a class="headerlink" href="#transfer_weights.LocalStorage.root" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt id="transfer_weights.clone_model">
-<code class="sig-prename descclassname">transfer_weights.</code><code class="sig-name descname">clone_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">src</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="n">dst</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span></em><span class="sig-paren">)</span> &#x2192; torch.nn.modules.module.Module<a class="reference internal" href="_modules/transfer_weights.html#clone_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#transfer_weights.clone_model" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">transfer_weights.</code><code class="sig-name descname">clone_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">src</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="n">dst</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span> <span class="o">=</span> <span class="default_value">tensor([[[[0.9443, 0.632, 0.4794, ..., 0.048, 0.9529, 0.8692], [0.9897, 0.0061, 0.3697, ..., 0.912, 0.014, 0.5548], [0.9186, 0.3896, 0.4745, ..., 0.6321, 0.6619, 0.2064], ..., [0.9426, 0.6484, 0.5632, ..., 0.2513, 0.4664, 0.2519], [0.9867, 0.6211, 0.3913, ..., 0.7771, 0.6179, 0.542], [0.0899, 0.2279, 0.7648, ..., 0.691, 0.923, 0.128]], [[0.3647, 0.1375, 0.117, ..., 0.0988, 0.89, 0.0144], [0.9969, 0.4341, 0.1333, ..., 0.2881, 0.2312, 0.8506], [0.8969, 0.5605, 0.814, ..., 0.8959, 0.4411, 0.81], ..., [0.6643, 0.4532, 0.4749, ..., 0.849, 0.4554, 0.961], [0.0517, 0.5935, 0.8173, ..., 0.5056, 0.3504, 0.8696], [0.4845, 0.8346, 0.7279, ..., 0.2163, 0.9011, 0.627]], [[0.6965, 0.6596, 0.0528, ..., 0.3771, 0.7078, 0.7291], [0.0373, 0.5528, 0.4437, ..., 0.9406, 0.8382, 0.5711], [0.0822, 0.6348, 0.6753, ..., 0.7198, 0.1715, 0.6084], ..., [0.8577, 0.3358, 0.6882, ..., 0.7983, 0.1929, 0.3998], [0.6504, 0.2159, 0.3994, ..., 0.0048, 0.8083, 0.7401], [0.8923, 0.4051, 0.1673, ..., 0.5515, 0.6614, 0.2654]]]])</span></em><span class="sig-paren">)</span> &#x2192; torch.nn.modules.module.Module<a class="reference internal" href="_modules/transfer_weights.html#clone_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#transfer_weights.clone_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="transfer_weights.vit_clone">
+<code class="sig-prename descclassname">transfer_weights.</code><code class="sig-name descname">vit_clone</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/transfer_weights.html#vit_clone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#transfer_weights.vit_clone" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -220,19 +221,11 @@
 
   <div role="contentinfo">
     <p>
-        
         &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -243,6 +236,7 @@
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {

@@ -12,12 +12,13 @@ from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 
 
 class MobileNet(EfficientNet):
-    """Implementations of MobileNet v2 proposed in `MobileNetV2: Inverted Residuals and Linear Bottlenecks <https://arxiv.org/pdf/1801.04381.pdf>`_
+    """Implementation of MobileNet v2 proposed in `MobileNetV2: Inverted Residuals and Linear Bottlenecks <https://arxiv.org/pdf/1801.04381.pdf>`_
 
     MobileNet is a special case of EfficientNet.
 
     Examples:
-        Create a default model
+    
+        Default model
 
         >>> MobileNet.mobilenet_v2()
 

@@ -9,7 +9,7 @@ pip install git+https://github.com/FrancescoSaverioZuppichini/glasses
 
 ## Transfer Learning
 
-Train a deep convolutional neural network may take a lot of time, **transfer learning**, as the name suggests, use models already trained on a huge image dataset, such as ImageNet, to speed up the learning procedure. 
+Train a deep convolutional neural network may take a lot of time, **transfer learning**, as the name suggests, uses models already trained on a huge image dataset, such as ImageNet, to speed up the learning procedure. 
 
 Even if your dataset may be different than ImageNet, the pre-trained models have learned useful weights that can be easily adapt to your new dataset.
 
@@ -24,9 +24,6 @@ from glasses.models import AutoModel, AutoConfig
 resnet34 = AutoModel.from_pretrained('resnet34') 
 cfg = AutoConfig.from_name('resnet34')
 ```
-
-    INFO:root:Loaded resnet34 pretrained weights.
-
 
 You can also call `.summary()` to see your models parameters
 
@@ -65,7 +62,8 @@ Cool, we have our model. Now we need to **freeze** the convolution layers and ch
 ```python
 from glasses.models.classification.resnet import ResNetHead
 
-resnet34.freeze(who=resnet34.encoder)
+resnet34.freeze()
+# you can also freeze a specific layer e.g. resnet34.freeze(who=resnet34.encoder.layers[0])
 # head will need to know how many features we are passing into
 resnet34.head = ResNetHead(in_features=resnet34.encoder.widths[-1], n_classes=2)
 # just to show you

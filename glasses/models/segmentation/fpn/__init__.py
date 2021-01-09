@@ -166,7 +166,7 @@ class FPN(SegmentationModule):
 
     Examples:
 
-       Create a default model
+        Default models
 
         >>> FPN()
 

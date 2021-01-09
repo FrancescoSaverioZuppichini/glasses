@@ -225,23 +225,23 @@ class ViT(nn.Sequential, VisionModule):
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ViT.png?raw=true
         
-        Vanilla models
-
-        >>> ViT.vit_small_patch16_224()
-        >>> ViT.vit_base_patch16_224()
-        >>> ViT.vit_base_patch16_384()
-        >>> ViT.vit_base_patch32_384()
-        >>> ViT.vit_huge_patch16_224()
-        >>> ViT.vit_huge_patch32_384()
-        >>> ViT.vit_large_patch16_224()
-        >>> ViT.vit_large_patch16_384()
-        >>> ViT.vit_large_patch32_384()
-
-        Customization
-
-        You can easily customize your model
-
         Examples:
+
+            Default models
+
+            >>> ViT.vit_small_patch16_224()
+            >>> ViT.vit_base_patch16_224()
+            >>> ViT.vit_base_patch16_384()
+            >>> ViT.vit_base_patch32_384()
+            >>> ViT.vit_huge_patch16_224()
+            >>> ViT.vit_huge_patch32_384()
+            >>> ViT.vit_large_patch16_224()
+            >>> ViT.vit_large_patch16_384()
+            >>> ViT.vit_large_patch32_384()
+
+            You can easily customize your model
+
+
             >>> # change activation
             >>> ViT.vit_base_patch16_224(activation = nn.SELU)
             >>> # change number of classes (default is 1000 )

@@ -42,8 +42,35 @@ class AutoConfig:
         'vit_small_patch16_224': Config(resize=224, input_size=224, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
     }
 
+    def __init__(self):
+        raise EnvironmentError(
+            "AutoConfig is designed to be instantiated "
+            "using the `AutoModel.from_name(model_name)` method."
+        )
+
+
     @staticmethod
-    def from_name(name: str, *args, **kwargs) -> Config:
+    def from_name(name: str) -> Config:
+        """Returns a configuration from a given model name. 
+        If the name is not found, it returns a default one.
+
+
+        Examples:
+            >>> AutoConfig.from_name('resnet18')
+
+            You can access the preprocess `transformation`, you should use it
+            when preparing the data for your model.
+            
+            >>> cfg =  AutoConfig.from_name('resnet18')
+            >>> cfg.transform
+
+
+        Args:
+            name (str): [description]
+
+        Returns:
+            Config: The model's config
+        """
         cfg = AutoConfig.zoo.get(name, AutoConfig.zoo['default'])
         return cfg
 
