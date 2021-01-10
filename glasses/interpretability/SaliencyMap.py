@@ -66,8 +66,6 @@ class SaliencyMap(Interpretability):
             ctx = torch.zeros(out.size())
             ctx[0][int(target)] = 1
 
-        module.zero_grad()
-
         out.backward(gradient=ctx)
 
         grads = gradients_storage[layer][0]
