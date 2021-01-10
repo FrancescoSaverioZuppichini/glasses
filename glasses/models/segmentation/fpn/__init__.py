@@ -7,7 +7,6 @@ from collections import OrderedDict
 from typing import List, Callable, Union
 from functools import partial
 from glasses.nn.blocks import ConvBnAct
-from glasses.utils.Storage import ForwardModuleStorage
 from ..base import SegmentationModule
 from ...base import Encoder
 from ....models.classification.resnet import ResNetEncoder
