@@ -70,8 +70,8 @@ class GradCam(Interpretability):
         if ctx is None:
             ctx = torch.zeros(out.size())
             ctx[0][int(target)] = 1
-
-        out.backward(gradient=ctx, retain_graph=True)
+        
+        out.backward(gradient=ctx)
         # get back the weights and the gradients
         weights = weights_storage[layer]
         grads = gradients_storage[layer][0]
