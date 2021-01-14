@@ -88,6 +88,8 @@ class ResNeStBottleneckBlock(ResNetXtBottleNeckBlock):
 class ResNetSt(ResNet):
     """Implementation of ResNetSt proposed in `"ResNeSt: Split-Attention Networks" <https://arxiv.org/abs/2004.08955>`_. 
 
+    This model beats EfficientNet both in speed and accuracy.
+
     Create a default model
 
     Examples:
@@ -96,10 +98,11 @@ class ResNetSt(ResNet):
         >>> ResNetSt.resnest50d()
         >>> ResNetSt.resnest50d_1s4x24d()
         >>> ResNetSt.resnest50d_4s2x40d()
+        >>> # 'e' models have a bigger start_features (128), resulting in a 64 stem width
         >>> ResNetSt.resnest101e()
         >>> ResNetSt.resnest200e()
         >>> ResNetSt.resnest269e()
-        >>> # create a ResNetSt50_2s4s40d
+        >>> # create a ResNetSt50_2s4s40d 
         >>> ResNetSt.resnet50d(radix=2, groups=4, base_width=80)
 
         You can easily customize your model
@@ -128,7 +131,7 @@ class ResNetSt(ResNet):
     
     @classmethod
     def resnest14d(cls, *args, **kwargs) -> ResNetSt:
-        return ResNet(*args, stem=ResNetStemC, block=ResNeStBottleneckBlock, widths=[256, 512, 1024, 2048],  depths=[1,1,1,1], base_width=64, **kwargs)
+        return cls(*args, stem=ResNetStemC, block=ResNeStBottleneckBlock, widths=[256, 512, 1024, 2048],  depths=[1,1,1,1], base_width=64, **kwargs)
 
     @classmethod
     def resnest26d(cls, *args, **kwargs) -> ResNetSt:

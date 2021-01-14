@@ -13,6 +13,7 @@ Subpackages
    glasses.models.classification.fishnet
    glasses.models.classification.mobilenet
    glasses.models.classification.regnet
+   glasses.models.classification.resnest
    glasses.models.classification.resnet
    glasses.models.classification.resnetxt
    glasses.models.classification.senet

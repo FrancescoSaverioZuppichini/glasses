@@ -224,8 +224,6 @@
             <span class="n">ctx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
             <span class="n">ctx</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">target</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
 
-        <span class="n">module</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-
         <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">gradient</span><span class="o">=</span><span class="n">ctx</span><span class="p">)</span>
 
         <span class="n">grads</span> <span class="o">=</span> <span class="n">gradients_storage</span><span class="p">[</span><span class="n">layer</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
