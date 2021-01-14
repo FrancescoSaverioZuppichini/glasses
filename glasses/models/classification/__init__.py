@@ -6,11 +6,12 @@ from .wide_resnet import WideResNet
 from .densenet import DenseNet
 from .senet import SEResNet
 from .regnet import RegNet
+from .resnest import ResNetSt
 from .vgg import VGG
 from .mobilenet import MobileNet
 from .alexnet import AlexNet
 from .efficientnet import EfficientNet, EfficientNetLite
 from .fishnet import FishNet
 from .vit import ViT
-__all__ = ['ResNet', 'DenseNet', 'ResNetXt', 'RegNet', 'WideResNet', 'FishNet',
+__all__ = ['ResNet', 'DenseNet', 'ResNetXt', 'RegNet', 'ResNetSt', 'WideResNet', 'FishNet',
  'SEResNet', 'VGG', 'MobileNet', 'AlexNet',  'EfficientNet', 'EfficientNetLite', 'ViT']
