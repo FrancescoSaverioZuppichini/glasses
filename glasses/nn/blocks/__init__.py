@@ -120,7 +120,7 @@ class ConvBnDropAct(nn.Sequential):
             ConvBnAct(
                 (conv): Conv2dPad(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
                 (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (drop): DropBlock(p=0.2)
+                (reg): DropBlock(p=0.2)
                 (act): ReLU()
             )
     """
