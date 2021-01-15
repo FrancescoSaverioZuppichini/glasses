@@ -81,21 +81,21 @@ class ResNeStBottleneckBlock(ResNetXtBottleNeckBlock):
                             padding=1) if stride == 2 else nn.Identity()
         self.block = nn.Sequential(
             ConvBnDropAct(in_features, self.features, activation=activation,
-                          p=drop_block_p, kernel_size=1,),
+                          p=drop_block_p, kernel_size=1),
             pool if fast else nn.Identity(),
             ConvBnDropAct(self.features, self.features * radix, activation=activation,
-                          p=drop_block_p,  kernel_size=3, groups=groups * radix,),
+                          p=drop_block_p,  kernel_size=3, groups=groups * radix),
             SplitAtt(self.features, att_features, radix, groups),
             pool if not fast else nn.Identity(),
             ConvBnDropAct(self.features, out_features, activation=activation,
-                          p=drop_block_p,  kernel_size=1,),
+                          p=drop_block_p,  kernel_size=1),
         )
 
 
 class ResNeStEncoder(ResNetEncoder):
     def __init__(self, *args, start_features: int = 64,  widths: List[int] = [64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2],
                  stem: nn.Module = ResNetStemC, activation: nn.Module = ReLUInPlace, block: nn.Module = ResNeStBottleneckBlock,
-                 downsample_first: bool = True, drop_block_p: float = 0.2, **kwargs):
+                 downsample_first: bool = False, drop_block_p: float = 0.2, **kwargs):
 
         super().__init__(*args, start_features=start_features, widths=widths, depths=depths, stem=stem,
                          activation=activation, block=block, downsample_first=downsample_first, **kwargs)
@@ -156,8 +156,8 @@ class ResNeSt(ResNet):
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
 
-    def __init__(self, in_channels: int = 3,  *args, **kwargs):
-        super().__init__(in_channels, *args, **kwargs)
+    def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
+        super().__init__(in_channels, *args, n_classes=n_classes, **kwargs)
         self.encoder = ResNeStEncoder(in_channels, *args, **kwargs)
 
     @classmethod
