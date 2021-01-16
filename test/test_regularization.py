@@ -13,3 +13,5 @@ def test_drop_block():
     x_drop = drop(x)
     assert torch.equal(x, x_drop)
     assert not drop.training
+
+    drop.__repr__ == 'DropBlock(p=0.5)'
