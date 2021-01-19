@@ -20,7 +20,7 @@ class DropBlock(nn.Module):
         self.block_size = block_size
         self.p = p
 
-    def calculate_gamma(self, x: Tensor) -> Tensor:
+    def calculate_gamma(self, x: Tensor) -> float:
         """Compute gamma, eq (1) in the paper
 
         Args:

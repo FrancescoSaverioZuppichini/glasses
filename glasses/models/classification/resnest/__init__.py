@@ -5,7 +5,7 @@ from torch import nn
 from einops.layers.torch import Rearrange, Reduce
 from einops import rearrange, reduce
 from torch import Tensor
-from glasses.nn.blocks import ConvBnAct, Conv2dPad, ConvBnDropAct
+from glasses.nn.blocks import ConvBnAct, Conv2dPad, ConvBnDropAct, Lambda
 from ..resnetxt import ResNetXtBottleNeckBlock
 from ..resnet import ReLUInPlace, ResNet, ResNetStemC, ResNetLayer, ResNetEncoder
 from typing import List
@@ -30,8 +30,8 @@ class SplitAtt(nn.Module):
         self.radix, self.groups = radix, groups
         self.att = nn.Sequential(
             # this produces U^{/hat}
-            Reduce('b (r k c) h w -> b (k c) h w',
-                   reduction='mean', r=radix, k=groups),
+            Reduce('b r (k c) h w-> b (k c) h w',
+                   reduction='sum', r=radix, k=groups),
             # eq 1
             nn.AdaptiveAvgPool2d(1),
             # the two following conv layers are G in the paper
@@ -39,17 +39,18 @@ class SplitAtt(nn.Module):
                       groups=groups, activation=ReLUInPlace, bias=True),
             nn.Conv2d(features, in_features * radix,
                       kernel_size=1, groups=groups),
-            Rearrange('b (r k c) h w -> b r (k c) h w', r=radix, k=groups),
+            Rearrange('b (r k c) h w -> b r k c h w', r=radix, k=groups),
             nn.Softmax(dim=1) if radix > 1 else nn.Sigmoid(),
-            Rearrange('b r (k c) h w -> b (r k c) h w', r=radix, k=groups)
+            Rearrange('b r k c h w -> b r (k c) h w', r=radix, k=groups)
         )
 
     def forward(self, x: Tensor) -> Tensor:
+        x = rearrange(x, 'b (r k c) h w -> b r (k c) h w', r=self.radix, k=self.groups)
         att = self.att(x)
         # eq 2, scale using att and sum-up over the radix axis
         x *= att
-        x = reduce(x, 'b (r k c) h w -> b (k c) h w',
-                   reduction='mean', r=self.radix, k=self.groups)
+        x = reduce(x, 'b r (k c) h w -> b (k c) h w',
+                   reduction='sum', r=self.radix, k=self.groups)
         return x
 
 class ResNeStBottleneckBlock(ResNetXtBottleNeckBlock):
