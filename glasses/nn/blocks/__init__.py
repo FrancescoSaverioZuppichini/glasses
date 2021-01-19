@@ -8,7 +8,7 @@ from torch import Tensor
 from enum import Enum
 import math
 from torch.nn import functional as F
-
+from ..regularization import DropBlock
 
 class Lambda(nn.Module):
     def __init__(self, lambd: Callable[[Tensor], Tensor]):
@@ -103,12 +103,36 @@ class ConvBnAct(nn.Sequential):
     """
 
     def __init__(self, in_features: int, out_features: int, activation: nn.Module = nn.ReLU, conv: nn.Module = Conv2dPad,
-                 normalization: nn.Module = nn.BatchNorm2d,  *args, bias: bool = False, **kwargs):
+                 normalization: nn.Module = nn.BatchNorm2d,  bias: bool = False, **kwargs):
         super().__init__()
         self.add_module('conv', conv(
             in_features, out_features, **kwargs, bias=bias))
         if normalization:
             self.add_module('bn', normalization(out_features))
+        if activation:
+            self.add_module('act', activation())
+
+class ConvBnDropAct(nn.Sequential):
+    """Utility module that stacks one convolution layer, a normalization layer, a regularization layer and an activation function.
+
+    Example:
+        >>> ConvBnDropAct(32, 64, kernel_size=3)
+            ConvBnAct(
+                (conv): Conv2dPad(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (reg): DropBlock(p=0.2)
+                (act): ReLU()
+            )
+    """
+    def __init__(self, in_features: int, out_features: int, activation: nn.Module = nn.ReLU, conv: nn.Module = Conv2dPad,
+                 normalization: nn.Module = nn.BatchNorm2d, regularization: nn.Module = DropBlock, p: float = 0.2,  bias: bool = False, **kwargs):
+        super().__init__()
+        self.add_module('conv', conv(
+            in_features, out_features, **kwargs, bias=bias))
+        if normalization:
+            self.add_module('bn', normalization(out_features))
+        if regularization:
+            self.add_module('reg', regularization(p=p))
         if activation:
             self.add_module('act', activation())
 
