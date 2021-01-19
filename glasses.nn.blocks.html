@@ -108,6 +108,8 @@
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.pool.html">glasses.nn.pool package</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.html#module-glasses.nn.regularization">glasses.nn.regularization module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.nn.html#module-glasses.nn">Module contents</a></li>
 </ul>
 </li>
@@ -419,7 +421,7 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py class">
 <dt id="glasses.nn.blocks.ConvBnAct">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.blocks.</code><code class="sig-name descname">ConvBnAct</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">conv: torch.nn.modules.module.Module = &lt;class 'glasses.nn.blocks.Conv2dPad'&gt;</em>, <em class="sig-param">normalization: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.batchnorm.BatchNorm2d'&gt;</em>, <em class="sig-param">*args</em>, <em class="sig-param">bias: bool = False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#ConvBnAct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.blocks.ConvBnAct" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.blocks.</code><code class="sig-name descname">ConvBnAct</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">conv: torch.nn.modules.module.Module = &lt;class 'glasses.nn.blocks.Conv2dPad'&gt;</em>, <em class="sig-param">normalization: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.batchnorm.BatchNorm2d'&gt;</em>, <em class="sig-param">bias: bool = False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#ConvBnAct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.blocks.ConvBnAct" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
 <p>Utility module that stacks one convolution layer, a normalization layer and an activation function.</p>
 <p class="rubric">Example</p>
@@ -460,6 +462,29 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.ConvBnAct.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.blocks.ConvBnAct.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.nn.blocks.ConvBnDropAct">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.blocks.</code><code class="sig-name descname">ConvBnDropAct</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">conv: torch.nn.modules.module.Module = &lt;class 'glasses.nn.blocks.Conv2dPad'&gt;</em>, <em class="sig-param">normalization: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.batchnorm.BatchNorm2d'&gt;</em>, <em class="sig-param">regularization: torch.nn.modules.module.Module = &lt;class 'glasses.nn.regularization.DropBlock'&gt;</em>, <em class="sig-param">p: float = 0.2</em>, <em class="sig-param">bias: bool = False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#ConvBnDropAct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.blocks.ConvBnDropAct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
+<p>Utility module that stacks one convolution layer, a normalization layer, a regularization layer and an activation function.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ConvBnDropAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">    ConvBnAct(</span>
+<span class="go">        (conv): Conv2dPad(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))</span>
+<span class="go">        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)</span>
+<span class="go">        (reg): DropBlock(p=0.2)</span>
+<span class="go">        (act): ReLU()</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py attribute">
+<dt id="glasses.nn.blocks.ConvBnDropAct.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.blocks.ConvBnDropAct.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

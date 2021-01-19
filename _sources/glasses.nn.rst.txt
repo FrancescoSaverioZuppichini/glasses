@@ -12,6 +12,17 @@ Subpackages
    glasses.nn.blocks
    glasses.nn.pool
 
+Submodules
+----------
+
+glasses.nn.regularization module
+--------------------------------
+
+.. automodule:: glasses.nn.regularization
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
