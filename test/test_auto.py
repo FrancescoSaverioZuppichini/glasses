@@ -36,7 +36,6 @@ def test_AutoModel():
     with pytest.raises(EnvironmentError):
         AutoModel()
     assert len(list(AutoModel.models())) > 0
-
     assert len(AutoModel.pretrained_models()) > 0
 
 
@@ -47,4 +46,4 @@ def test_AutoConfig():
     cfg = AutoConfig.from_name('resnetasddsadas')
     assert len(list(AutoConfig.names())) > 0
     with pytest.raises(EnvironmentError):
-        test_AutoConfig()
+        AutoConfig()
