@@ -179,6 +179,8 @@ class PretrainedWeightsProvider:
         'resnet26d': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/resnet26d.pth?raw=true'),
         'resnet34': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/resnet34.pth?raw=true'),
         'resnet34d': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/resnet34d.pth?raw=true'),
+        'deit_tiny_patch16_224': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/deit_tiny_patch16_224.pth?raw=true'),
+        'deit_small_patch16_224': BasicUrlHandler('https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/deit_small_patch16_224.pth?raw=true'),
         # aws stored
         'cse_resnet50': BasicUrlHandler('https://glasses-weights.s3.eu-central-1.amazonaws.com/cse_resnet50.pth'),
         'densenet161': BasicUrlHandler('https://glasses-weights.s3.eu-central-1.amazonaws.com/densenet161.pth'),

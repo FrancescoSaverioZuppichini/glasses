@@ -23,9 +23,9 @@ class ResNetXtBottleNeckBlock(ResNetBottleneckBlock):
             groups (int, optional): [description]. Defaults to 32.
             base_width (int, optional): width factor uses to compute the inner features in the 3x3 conv. Defaults to 4.
         """
-        features = (int(out_features * (base_width / 64) / reduction) * groups)
+        self.features = (int(out_features * (base_width / 64) / reduction) * groups)
         super().__init__(in_features, out_features,
-                         features=features, groups=groups, reduction=reduction, **kwargs)
+                         features=self.features, groups=groups, reduction=reduction, **kwargs)
 
 
 class ResNetXt(ResNet):
@@ -53,13 +53,13 @@ class ResNetXt(ResNet):
         >>> # store each feature
         >>> x = torch.rand((1, 3, 224, 224))
         >>> model = ResNetXt.resnext50_32x4d()
-        >>> features = []
-        >>> x = model.encoder.gate(x)
-        >>> for block in model.encoder.layers:
-        >>>     x = block(x)
-        >>>     features.append(x)
+        >>> # first call .features, this will activate the forward hooks and tells the model you'll like to get the features
+        >>> model.encoder.features
+        >>> model(torch.randn((1,3,224,224)))
+        >>> # get the features from the encoder
+        >>> features = model.encoder.features
         >>> print([x.shape for x in features])
-        >>> # [torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7])]
+        >>> #[torch.Size([1, 64, 112, 112]), torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14])]
 
     Args:
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.

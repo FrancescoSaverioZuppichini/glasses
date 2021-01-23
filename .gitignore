@@ -1,7 +1,8 @@
 docs/_build/*
 __pycache__/
 .ipynb_checkpoints/
-#
+temp.py
+# IDEs
 .vscode/
 .idea/
 # Byte-compiled / optimized / DLL files

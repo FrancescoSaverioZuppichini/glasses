@@ -29,7 +29,6 @@ from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
 
 models =list(PretrainedWeightsProvider.weights_zoo.keys())
     
-print(models)
 batch_sizes = {
     'efficientnet_b0': 256,
     'efficientnet_b1': 128,
@@ -48,7 +47,7 @@ def get_img_id(image_name):
     return image_name.split('/')[-1].replace('.JPEG', '')
 
 
-def benchmark(model: nn.Module, transform, batch_size=64, device=device):
+def benchmark(model: nn.Module, transform, batch_size=64, device=device, fast: bool = False):
 
     valid_dataset = ImageNet(
         root='/home/zuppif/Downloads/ImageNet', split='val', transform=transform)
@@ -78,13 +77,15 @@ def benchmark(model: nn.Module, transform, batch_size=64, device=device):
             evaluator.add(dict(zip(image_ids, list(net_out.cpu().numpy()))))
             pbar.set_description(f'f1={evaluator.top1.avg:.2f}')
             pbar.update(1)
-            # break
+            if fast:
+                break
         pbar.close()
     stop = time.time()
-    res = evaluator.get_results()
-    # print(evaluator.top1.avg)
-    # return None, None, None
-    return res['Top 1 Accuracy'], res['Top 5 Accuracy'], stop - start
+    if fast:
+        return evaluator.top1.avg, None, None
+    else:
+        res = evaluator.get_results()
+        return res['Top 1 Accuracy'], res['Top 5 Accuracy'], stop - start
 
 def benchmark_all() -> pd.DataFrame:
     save_path = Path('./benchmark.csv')
@@ -138,6 +139,8 @@ def benchmark_all() -> pd.DataFrame:
 
     df.to_csv('./benchmark.csv')
     print(df)
+
+    return df
 
 
 if __name__ == '__main__':

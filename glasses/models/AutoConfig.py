@@ -15,6 +15,8 @@ class AutoConfig:
         'resnet26d': Config(interpolation='bicubic'),
         'resnet50d':  Config(interpolation='bicubic'),
         'cse_resnet50':  Config(interpolation='bicubic'),
+        'resnest200e': Config(resize=320, input_size=320, interpolation='bicubic'),
+        'resnest269e':Config(resize=461, input_size=416, interpolation='bicubic'),
         'efficientnet_b0':  Config(resize=224, input_size=224, interpolation='bicubic'),
         'efficientnet_b1':  Config(resize=240, input_size=240, interpolation='bicubic'),
         'efficientnet_b2':  Config(resize=260, input_size=260, interpolation='bicubic'),
@@ -59,7 +61,7 @@ class AutoConfig:
             >>> AutoConfig.from_name('resnet18')
 
             You can access the preprocess `transformation`, you should use it
-            when preparing the data for your model.
+            to preprocess your inputs.
             
             >>> cfg =  AutoConfig.from_name('resnet18')
             >>> cfg.transform
