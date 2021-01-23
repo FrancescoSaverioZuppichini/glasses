@@ -20,7 +20,7 @@ def test_head():
 
 def test_features():
     x = torch.rand((1, 3, 224, 224))
-    model = DeiT.deit_base_distilled_patch16_224()
+    model = DeiT.deit_base_patch16_224()
     model.encoder.features
     model(x)
     features = model.encoder.features
