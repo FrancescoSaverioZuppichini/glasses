@@ -33,7 +33,7 @@ def vit_clone(key: str):
     dst = AutoModel.from_name(key)
 
     dst.embedding.positions.data.copy_(src.pos_embed.data.squeeze(0))
-    dst.embedding.cls_token.data.copy_(src.cls_token.data)
+    dst.embedding.tokens.cls.data.copy_(src.cls_token.data)
 
     cfg = AutoConfig.from_name(key)
 
@@ -104,14 +104,14 @@ zoo_source = {
 }
 
 
-def clone_model(src: nn.Module, dst: nn.Module, x: Tensor = torch.rand((1, 3, 224, 224))) -> nn.Module:
+def clone_model(src: nn.Module, dst: nn.Module, x: Tensor = torch.rand((1, 3, 224, 224)), **kwargs) -> nn.Module:
     src = src.eval()
     dst = dst.eval()
 
     a = src(x)
     b = dst(x)
 
-    ModuleTransfer(src, dst)(x)
+    ModuleTransfer(src, dst, **kwargs)(x)
 
     return dst
 

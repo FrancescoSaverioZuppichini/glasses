@@ -3,17 +3,41 @@ import torch
 from torch import nn
 from torch import Tensor
 from glasses.nn.blocks.residuals import ResidualAdd
-from glasses.nn.blocks import  Lambda
+from glasses.nn.blocks import Lambda
 from collections import OrderedDict
 from glasses.utils.PretrainedWeightsProvider import pretrained
 from ....models.base import Encoder, VisionModule
 import torch.nn.functional as F
 from einops import rearrange, reduce, repeat
 from einops.layers.torch import Rearrange, Reduce
+from typing import List
+
+
+class ViTTokens(nn.Module):
+    def __init__(self, emb_size: int):
+        super().__init__()
+        self.cls = nn.Parameter(torch.randn(1, 1, emb_size))
+
+    def forward(self, x: Tensor) -> List[Tensor]:
+        b = x.shape[0]
+        tokens = []
+        for token in self.parameters():
+            # for each token repeat itself over the batch dimension
+            tokens.append(repeat(token, '() n e -> b n e', b=b))
+        return tokens
+
+    def __len__(self):
+        return len(list(self.parameters()))
+
+    # def __repr__(self):
+    #     buffer = ""
+    #     for name, token in self.named_parameters():
+    #         buffer += f"({name}): {list(token.data.shape)}\n"
+    #     return buffer
 
 
 class PatchEmbedding(nn.Module):
-    def __init__(self, in_channels: int = 3, patch_size: int = 16, emb_size: int = 768, img_size: int = 224):
+    def __init__(self, in_channels: int = 3, patch_size: int = 16, emb_size: int = 768, img_size: int = 224, tokens: nn.Module = ViTTokens):
         """
 
         Patch Embedding layer used in ViT. In order to work with transformers, this layer decompose 
@@ -24,12 +48,23 @@ class PatchEmbedding(nn.Module):
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ViTPatchesPositionEmbedding.png?raw=true
 
+        Example:
+
+            Change the tokens
+
+            >>> class MyTokens(ViTTokens):
+            >>>     def __init__(self, emb_size: int):
+            >>>         super().__init__(emb_size)
+            >>>         self.my_new_token = nn.Parameter(torch.randn(1, 1, emb_size))
+            >>> PatchEmbedding(tokens=MyTokens)
 
         Args:
             in_channels (int, optional): Number of input's channels. Defaults to 3.
             patch_size (int, optional): Size of the each patch. Defaults to 16.
             emb_size (int, optional):  Embedding dimensions Defaults to 768.
             img_size (int, optional): Size of the input image, this is needed to calculate the final number of patches. Defaults to 224.
+            tokens (nn.Module, optional): A module that contains the tokens as his parameters. Defaults to ViTTokens.
+
         """
         self.patch_size = patch_size
         super().__init__()
@@ -39,16 +74,17 @@ class PatchEmbedding(nn.Module):
                       kernel_size=patch_size, stride=patch_size),
             Rearrange('b e (h) (w) -> b (h w) e'),
         )
-        self.cls_token = nn.Parameter(torch.randn(1, 1, emb_size))
+        self.tokens = tokens(emb_size)
         self.positions = nn.Parameter(torch.randn(
-            (img_size // patch_size) ** 2 + 1, emb_size))
+            (img_size // patch_size) ** 2 + len(self.tokens), emb_size))
 
     def forward(self, x: Tensor) -> Tensor:
-        b, _, _, _ = x.shape
+        b = x.shape[0]
         x = self.projection(x)
-        cls_tokens = repeat(self.cls_token, '() n e -> b n e', b=b)
-        # prepend the cls token to the input
-        x = torch.cat([cls_tokens, x], dim=1)
+        # get the tokens
+        tokens = self.tokens(x)
+        # prepend the tokens to the input
+        x = torch.cat([*tokens, x], dim=1)
         # add position embedding
         x += self.positions
         return x
@@ -97,7 +133,6 @@ class MultiHeadAttention(nn.Module):
         att = self.att_drop(att)
         # sum up over the third axis
         out = torch.einsum('bhal, bhlv -> bhav ', att, values)
-
         out = rearrange(out, "b h n d -> b n (h d)")
         out = self.projection(out)
         return out
@@ -162,7 +197,7 @@ class TransformerEncoderBlock(nn.Sequential):
 
 
 class TransformerEncoder(Encoder):
-    def __init__(self, depth: int = 12, block: nn.Module = TransformerEncoderBlock, emb_size: int = 786,  **kwargs):
+    def __init__(self, depth: int = 12, emb_size: int = 786, block: nn.Module = TransformerEncoderBlock,  **kwargs):
         """
         Transformer Encoder proposed in `Attention Is All You Need <https://arxiv.org/abs/1706.03762>`_
 
@@ -180,10 +215,11 @@ class TransformerEncoder(Encoder):
         self.widths = [emb_size] * depth
         self.layers = nn.ModuleList([block(emb_size, **kwargs)
                                      for _ in range(depth)])
-
+        self.norm = nn.LayerNorm(emb_size)
     def forward(self, x: Tensor) -> Tensor:
         for layer in self.layers:
             x = layer(x)
+        x = self.norm(x)
         return x
 
 
@@ -204,7 +240,6 @@ class ViTClassificationHead(nn.Sequential):
 
         super().__init__(OrderedDict({
             'pool': Reduce('b n e -> b e', reduction='mean') if policy == 'mean' else Lambda(lambda x: x[:, 0]),
-            'norm': nn.LayerNorm(emb_size),
             'fc': nn.Linear(emb_size, n_classes)
         }))
 
@@ -215,6 +250,7 @@ class ViT(nn.Sequential, VisionModule):
                  patch_size: int = 16,
                  emb_size: int = 768,
                  img_size: int = 224,
+                 tokens: nn.Module = ViTTokens,
                  depth: int = 12,
                  n_classes: int = 1000,
                  **kwargs):
@@ -224,7 +260,7 @@ class ViT(nn.Sequential, VisionModule):
         The following image from the authors shows the architecture.
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ViT.png?raw=true
-        
+
         Examples:
 
             Default models
@@ -257,19 +293,27 @@ class ViT(nn.Sequential, VisionModule):
             >>> features = model.encoder.features
             >>> print([x.shape for x in features])
             >>> #[[torch.Size([1, 197, 768]),  torch.Size([1, 197, 768]), ...]
+            >>> # change the tokens, you have to subclass ViTTokens
+            >>> class MyTokens(ViTTokens):
+            >>>     def __init__(self, emb_size: int):
+            >>>         super().__init__(emb_size)
+            >>>         self.my_new_token = nn.Parameter(torch.randn(1, 1, emb_size))
+            >>> ViT(tokens=MyTokens)
 
         Args:
             in_channels (int, optional): [description]. Defaults to 3.
             patch_size (int, optional): [description]. Defaults to 16.
             emb_size (int, optional):  Embedding dimensions Defaults to 768.
             img_size (int, optional): [description]. Defaults to 224.
+            tokens (nn.Module, optional): A module that contains the tokens as his parameters. Defaults to ViTTokens.
             depth (int, optional): [description]. Defaults to 12.
             n_classes (int, optional): [description]. Defaults to 1000.
         """
-        super().__init__(OrderedDict({'embedding': PatchEmbedding(in_channels, patch_size, emb_size, img_size),
-                                      'encoder': TransformerEncoder(depth, emb_size=emb_size, **kwargs),
-                                      'head': ViTClassificationHead(emb_size, n_classes)
-                                      }))
+        super().__init__(OrderedDict({
+            'embedding': PatchEmbedding(in_channels, patch_size, emb_size, img_size, tokens),
+            'encoder': TransformerEncoder(depth, emb_size, **kwargs),
+            'head': ViTClassificationHead(emb_size, n_classes)
+        }))
 
     @classmethod
     def vit_small_patch16_224(cls, **kwargs):

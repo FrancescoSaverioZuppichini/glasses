@@ -4,6 +4,8 @@ import torch.nn as nn
 from torch import Tensor
 from dataclasses import dataclass, field
 from .Tracker import Tracker
+from pprint import pprint
+from typing import List
 
 @dataclass
 class ModuleTransfer:
@@ -31,6 +33,8 @@ class ModuleTransfer:
     src: nn.Module
     dest: nn.Module
     verbose: int = 0
+    src_skip: List = field(default_factory=list)
+    dest_skip: List = field(default_factory=list)
 
     def __call__(self, x: Tensor):
         """Transfer the weights of `self.src` to `self.dest` by performing a forward pass using `x` as input.
@@ -40,6 +44,10 @@ class ModuleTransfer:
         """
         dest_traced = Tracker(self.dest)(x).parametrized
         src_traced = Tracker(self.src)(x).parametrized
+        
+        src_traced = list(filter(lambda x: type(x) not in self.src_skip, src_traced))
+        dest_traced = list(filter(lambda x: type(x) not in self.dest_skip, dest_traced))
+
 
         if len(dest_traced) != len(src_traced):
             raise Exception(

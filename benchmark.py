@@ -83,7 +83,7 @@ def benchmark(model: nn.Module, transform, batch_size=64, device=device, fast: b
         pbar.close()
     stop = time.time()
     if fast:
-        return None, None, None
+        return evaluator.top1.avg, None, None
     else:
         res = evaluator.get_results()
         return res['Top 1 Accuracy'], res['Top 5 Accuracy'], stop - start
