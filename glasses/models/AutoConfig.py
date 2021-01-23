@@ -61,7 +61,7 @@ class AutoConfig:
             >>> AutoConfig.from_name('resnet18')
 
             You can access the preprocess `transformation`, you should use it
-            when preparing the data for your model.
+            to preprocess your inputs.
             
             >>> cfg =  AutoConfig.from_name('resnet18')
             >>> cfg.transform

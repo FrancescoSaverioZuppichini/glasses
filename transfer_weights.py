@@ -26,18 +26,43 @@ from glasses.models.AutoModel import AutoModel
 from glasses.models import *
 from glasses.utils.ModuleTransfer import ModuleTransfer
 from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
+from glasses.models.classification.vit import ViTTokens
+from glasses.models.classification.deit import DeiTTokens
 
 
 def vit_clone(key: str):
     src = timm.create_model(key, pretrained='True')
     dst = AutoModel.from_name(key)
 
+    cfg = AutoConfig.from_name(key)
+
+    dst = clone_model(src, dst, torch.randn(
+        (1, 3, cfg.input_size, cfg.input_size)), dest_skip=[ViTTokens])
+
     dst.embedding.positions.data.copy_(src.pos_embed.data.squeeze(0))
     dst.embedding.tokens.cls.data.copy_(src.cls_token.data)
 
-    cfg = AutoConfig.from_name(key)
+    return dst
 
-    return clone_model(src, dst, torch.randn((1, 3, cfg.input_size, cfg.input_size)))
+
+def deit_clone(key: str):
+    k_split = key.split('_')
+    hub_key = "_".join(k_split[:2]) + '_distilled_' + "_".join(k_split[2:])
+    src = torch.hub.load('facebookresearch/deit:main',
+                         hub_key, pretrained=True)
+
+    dst = AutoModel.from_name(key)
+
+    cfg = AutoConfig.from_name(f"vit_{'_'.join(key.split('_')[1:])}")
+
+    dst = clone_model(src, dst, torch.randn(
+        (1, 3, cfg.input_size, cfg.input_size)), dest_skip=[DeiTTokens])
+
+    dst.embedding.positions.data.copy_(src.pos_embed.data.squeeze(0))
+    dst.embedding.tokens.cls.data.copy_(src.cls_token.data)
+    dst.embedding.tokens.dist.data.copy_(src.dist_token.data)
+
+    return dst
 
 
 zoo_source = {
@@ -100,6 +125,11 @@ zoo_source = {
     'vit_large_patch16_224': (vit_clone, True),
     'vit_large_patch16_384': (vit_clone, True),
     'vit_large_patch32_384': (vit_clone, True),
+
+    'deit_tiny_patch16_224': (deit_clone, True),
+    'deit_small_patch16_224': (deit_clone, True),
+    'deit_base_patch16_224': (deit_clone, True),
+    'deit_base_patch16_384': (deit_clone, True),
 
 }
 

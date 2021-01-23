@@ -29,7 +29,6 @@ from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
 
 models =list(PretrainedWeightsProvider.weights_zoo.keys())
     
-print(models)
 batch_sizes = {
     'efficientnet_b0': 256,
     'efficientnet_b1': 128,

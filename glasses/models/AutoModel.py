@@ -110,6 +110,10 @@ class AutoModel:
         'vit_large_patch16_224':  ViT.vit_large_patch16_224,
         'vit_large_patch16_384': ViT.vit_large_patch16_384,
         'vit_large_patch32_384': ViT.vit_large_patch32_384,
+        'deit_tiny_patch16_224': DeiT.deit_tiny_patch16_224,
+        'deit_small_patch16_224': DeiT.deit_small_patch16_224,
+        'deit_base_patch16_224': DeiT.deit_base_patch16_224,
+        'deit_base_patch16_384': DeiT.deit_base_patch16_384,
         'mobilenetv2': MobileNet.mobilenet_v2,
         'unet': UNet
     })
