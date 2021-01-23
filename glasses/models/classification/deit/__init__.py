@@ -35,6 +35,7 @@ class DeiTClassificationHead(nn.Module):
             n_classes (int, optional): [description]. Defaults to 1000.
         """
         super().__init__()
+
         self.head = nn.Linear(emb_size, n_classes)
         self.dist_head = nn.Linear(emb_size, n_classes)
 
@@ -71,7 +72,7 @@ class DeiT(ViT):
         ViT ([type]): [description]
     """
     def __init__(self, *args, tokens: nn.Module = DeiTTokens, emb_size: int = 768, n_classes: int = 1000, **kwargs):
-        super().__init__(*args, tokens=tokens, **kwargs)
+        super().__init__(*args, tokens=tokens, emb_size=emb_size, **kwargs)
         self.head = DeiTClassificationHead(emb_size, n_classes)
 
     @classmethod
@@ -97,5 +98,5 @@ class DeiT(ViT):
     @classmethod
     def deit_base_distilled_patch16_384(cls, **kwargs):
         model = cls(img_size=384, patch_size=16, emb_size=768, depth=12,
-                    num_heads=12, mlp_ratio=4, qkv_bias=True,  **kwargs)
+                    num_heads=12, qkv_bias=True,  **kwargs)
         return model
