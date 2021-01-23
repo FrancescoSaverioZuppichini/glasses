@@ -62,10 +62,10 @@ class DeiT(ViT):
 
         Default models
 
-        >>> DeiT.deit_tiny_distilled_patch16_224()
-        >>> DeiT.deit_small_distilled_patch16_224()
-        >>> DeiT.deit_base_distilled_patch16_224()
-        >>> DeiT.deit_base_distilled_patch16_384()
+        >>> DeiT.deit_tiny_patch16_224()
+        >>> DeiT.deit_small_patch16_224()
+        >>> DeiT.deit_base_patch16_224()
+        >>> DeiT.deit_base_patch16_384()
 
 
     Args:  
@@ -76,27 +76,27 @@ class DeiT(ViT):
         self.head = DeiTClassificationHead(emb_size, n_classes)
 
     @classmethod
-    def deit_tiny_distilled_patch16_224(cls, **kwargs):
+    def deit_tiny_patch16_224(cls, **kwargs):
         model = cls(patch_size=16, emb_size=192, depth=12,
                     num_heads=3, qkv_bias=True, **kwargs)
 
         return model
 
     @classmethod
-    def deit_small_distilled_patch16_224(cls, **kwargs):
+    def deit_small_patch16_224(cls, **kwargs):
         model = cls(patch_size=16, emb_size=384, depth=12,
                     num_heads=6, qkv_bias=True, **kwargs)
 
         return model
 
     @classmethod
-    def deit_base_distilled_patch16_224(cls, **kwargs):
+    def deit_base_patch16_224(cls, **kwargs):
         model = cls(patch_size=16, emb_size=768, depth=12,
                     num_heads=12, qkv_bias=True, **kwargs)
         return model
 
     @classmethod
-    def deit_base_distilled_patch16_384(cls, **kwargs):
+    def deit_base_patch16_384(cls, **kwargs):
         model = cls(img_size=384, patch_size=16, emb_size=768, depth=12,
                     num_heads=12, qkv_bias=True,  **kwargs)
         return model
