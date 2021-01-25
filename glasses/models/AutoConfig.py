@@ -42,6 +42,10 @@ class AutoConfig:
         'vit_large_patch16_384':  Config(resize=384, input_size=384, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
         'vit_large_patch32_384':  Config(resize=384, input_size=384, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
         'vit_small_patch16_224': Config(resize=224, input_size=224, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+        'deit_tiny_patch16_224': Config(resize=224, input_size=224, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+        'deit_small_patch16_224':Config(resize=224, input_size=224, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+        'deit_base_patch16_224': Config(resize=224, input_size=224, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
+        'deit_base_patch16_384': Config(resize=384, input_size=384, mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5), interpolation='bicubic'),
     }
 
     def __init__(self):
@@ -61,7 +65,7 @@ class AutoConfig:
             >>> AutoConfig.from_name('resnet18')
 
             You can access the preprocess `transformation`, you should use it
-            when preparing the data for your model.
+            to preprocess your inputs.
             
             >>> cfg =  AutoConfig.from_name('resnet18')
             >>> cfg.transform

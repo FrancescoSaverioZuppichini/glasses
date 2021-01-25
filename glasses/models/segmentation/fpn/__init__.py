@@ -12,26 +12,15 @@ from ...base import Encoder
 from ....models.classification.resnet import ResNetEncoder
 
 
-class FPNSmoothBlock(nn.Module):
-    def __init__(self, in_features: int, out_features: int, upsample: bool = True, block: nn.Module = ConvBnAct, **kwargs):
-        super().__init__()
-        self.upsample = upsample
-        self.block = block(in_features, out_features,
-                           kernel_size=3, **kwargs)
-        self.up = nn.UpsamplingNearest2d(
-            scale_factor=2)
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.block(x)
-        if self.upsample:
-            x = self.up(x)
-        return x
-
-# [TODO] one of these two guys should override one of the other
-
-
 class FPNSegmentationBlock(nn.Module):
     def __init__(self, in_features: int, out_features: int, block: nn.Module = ConvBnAct, **kwargs):
+        """FPN segmentation (smooth) layer used to smooth and upsample the decoder features
+
+        Args:
+            in_features (int): [description]
+            out_features (int): [description]
+            block (nn.Module, optional): [description]. Defaults to ConvBnAct.
+        """
         super().__init__()
         self.block = block(in_features, out_features,
                            kernel_size=3, **kwargs)

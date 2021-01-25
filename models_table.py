@@ -4,13 +4,13 @@ import pandas as pd
 import torch
 from torchsummary import summary
 import tqdm
-
+from pathlib import Path
 from glasses.models import AutoModel, AutoConfig
 
 # from torchvision.models import *
 
 parser = ArgumentParser()
-parser.add_argument('-o', default='./table.md')
+parser.add_argument('-o', default='./table.md', type=Path)
 
 args = parser.parse_args()
 
@@ -36,27 +36,32 @@ def row(item):
         # 'Total Size (MB)': int(total_size.item())
     }
 
+df = pd.DataFrame()
+if Path('./table.csv').exists():
+    df = pd.read_csv('./table.csv', index_col=0)
 
 res = []
 bar = tqdm.tqdm(AutoModel.zoo.items())
 for item in bar:
-    bar.set_description(item[0])
-    try:
-        out = row(item)
-        res.append(out)
-    except RuntimeError:
-        res.append({'name': item[0],
-                    'Parameters': '😥',
-                    'Size (MB)': '😥',
-                    })
-        continue
-# res = list(map(row, tqdm.tqdm(AutoModel.zoo.items())))
+    if item[0] not in df.index.values:
+        bar.set_description(item[0])
+        try:
+            out = row(item)
+            res.append(out)
+        except RuntimeError as e:
+            res.append({'name': item[0],
+                        'Parameters': '😥',
+                        'Size (MB)': '😥',
+                        })
+            continue
 
-df = pd.DataFrame.from_records(res)
-print(df['name'].values)
-print(df)
+new_df = pd.DataFrame.from_records(res)
+new_df = new_df.set_index('name', drop=True)
 
-mk = df.set_index('name', drop=True).to_markdown()
+df = pd.concat([df, new_df])
+df.to_csv('./table.csv')
+
+mk = df.to_markdown()
 
 with open(args.o, 'w') as f:
     f.write(mk)

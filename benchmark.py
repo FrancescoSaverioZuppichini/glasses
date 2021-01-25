@@ -29,7 +29,6 @@ from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
 
 models =list(PretrainedWeightsProvider.weights_zoo.keys())
     
-print(models)
 batch_sizes = {
     'efficientnet_b0': 256,
     'efficientnet_b1': 128,
@@ -83,7 +82,7 @@ def benchmark(model: nn.Module, transform, batch_size=64, device=device, fast: b
         pbar.close()
     stop = time.time()
     if fast:
-        return None, None, None
+        return evaluator.top1.avg, None, None
     else:
         res = evaluator.get_results()
         return res['Top 1 Accuracy'], res['Top 5 Accuracy'], stop - start
@@ -139,7 +138,10 @@ def benchmark_all() -> pd.DataFrame:
         df = new_df
 
     df.to_csv('./benchmark.csv')
-    print(df)
+    mk = df.sort_values('top1', ascending=False).to_markdown()
+
+    with open('./benchmark.md', 'w') as f:
+        f.write(mk)
 
     return df
 
