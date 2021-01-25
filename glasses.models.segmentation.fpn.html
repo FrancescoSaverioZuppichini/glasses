@@ -278,7 +278,16 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.models.segmentation.fpn.FPNSegmentationBlock">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.models.segmentation.fpn.</code><code class="sig-name descname">FPNSegmentationBlock</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">block: torch.nn.modules.module.Module = &lt;class 'glasses.nn.blocks.ConvBnAct'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#FPNSegmentationBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNSegmentationBlock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<p>FPN segmentation (smooth) layer used to smooth and upsample the decoder features</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>block</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to ConvBnAct.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt id="glasses.models.segmentation.fpn.FPNSegmentationBlock.forward">
 <code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#FPNSegmentationBlock.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNSegmentationBlock.forward" title="Permalink to this definition">¶</a></dt>
@@ -334,32 +343,6 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="py attribute">
 <dt id="glasses.models.segmentation.fpn.FPNSegmentationLayer.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNSegmentationLayer.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="glasses.models.segmentation.fpn.FPNSmoothBlock">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.models.segmentation.fpn.</code><code class="sig-name descname">FPNSmoothBlock</code><span class="sig-paren">(</span><em class="sig-param">in_features: int</em>, <em class="sig-param">out_features: int</em>, <em class="sig-param">upsample: bool = True</em>, <em class="sig-param">block: torch.nn.modules.module.Module = &lt;class 'glasses.nn.blocks.ConvBnAct'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#FPNSmoothBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNSmoothBlock" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
-<dl class="py method">
-<dt id="glasses.models.segmentation.fpn.FPNSmoothBlock.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#FPNSmoothBlock.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNSmoothBlock.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="glasses.models.segmentation.fpn.FPNSmoothBlock.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNSmoothBlock.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

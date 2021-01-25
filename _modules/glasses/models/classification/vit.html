@@ -169,17 +169,41 @@
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
 <span class="kn">from</span> <span class="nn">glasses.nn.blocks.residuals</span> <span class="kn">import</span> <span class="n">ResidualAdd</span>
-<span class="kn">from</span> <span class="nn">glasses.nn.blocks</span> <span class="kn">import</span>  <span class="n">Lambda</span>
+<span class="kn">from</span> <span class="nn">glasses.nn.blocks</span> <span class="kn">import</span> <span class="n">Lambda</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">glasses.utils.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">pretrained</span>
 <span class="kn">from</span> <span class="nn">....models.base</span> <span class="kn">import</span> <span class="n">Encoder</span><span class="p">,</span> <span class="n">VisionModule</span>
 <span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
 <span class="kn">from</span> <span class="nn">einops</span> <span class="kn">import</span> <span class="n">rearrange</span><span class="p">,</span> <span class="n">reduce</span><span class="p">,</span> <span class="n">repeat</span>
 <span class="kn">from</span> <span class="nn">einops.layers.torch</span> <span class="kn">import</span> <span class="n">Rearrange</span><span class="p">,</span> <span class="n">Reduce</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+
+<div class="viewcode-block" id="ViTTokens"><a class="viewcode-back" href="../../../../glasses.models.classification.vit.html#glasses.models.classification.ViTTokens">[docs]</a><span class="k">class</span> <span class="nc">ViTTokens</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cls</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">))</span>
+
+<div class="viewcode-block" id="ViTTokens.forward"><a class="viewcode-back" href="../../../../glasses.models.classification.vit.html#glasses.models.classification.ViTTokens.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+            <span class="c1"># for each token repeat itself over the batch dimension</span>
+            <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">repeat</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="s1">&#39;() n e -&gt; b n e&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">tokens</span></div>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">()))</span></div>
+
+    <span class="c1"># def __repr__(self):</span>
+    <span class="c1">#     buffer = &quot;&quot;</span>
+    <span class="c1">#     for name, token in self.named_parameters():</span>
+    <span class="c1">#         buffer += f&quot;({name}): {list(token.data.shape)}\n&quot;</span>
+    <span class="c1">#     return buffer</span>
 
 
 <div class="viewcode-block" id="PatchEmbedding"><a class="viewcode-back" href="../../../../glasses.models.classification.vit.html#glasses.models.classification.PatchEmbedding">[docs]</a><span class="k">class</span> <span class="nc">PatchEmbedding</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">patch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">768</span><span class="p">,</span> <span class="n">img_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">224</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">patch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">768</span><span class="p">,</span> <span class="n">img_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">224</span><span class="p">,</span> <span class="n">tokens</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ViTTokens</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Patch Embedding layer used in ViT. In order to work with transformers, this layer decompose </span>
@@ -190,12 +214,23 @@
 
 <span class="sd">        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ViTPatchesPositionEmbedding.png?raw=true</span>
 
+<span class="sd">        Example:</span>
+
+<span class="sd">            Change the tokens</span>
+
+<span class="sd">            &gt;&gt;&gt; class MyTokens(ViTTokens):</span>
+<span class="sd">            &gt;&gt;&gt;     def __init__(self, emb_size: int):</span>
+<span class="sd">            &gt;&gt;&gt;         super().__init__(emb_size)</span>
+<span class="sd">            &gt;&gt;&gt;         self.my_new_token = nn.Parameter(torch.randn(1, 1, emb_size))</span>
+<span class="sd">            &gt;&gt;&gt; PatchEmbedding(tokens=MyTokens)</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            in_channels (int, optional): Number of input&#39;s channels. Defaults to 3.</span>
 <span class="sd">            patch_size (int, optional): Size of the each patch. Defaults to 16.</span>
 <span class="sd">            emb_size (int, optional):  Embedding dimensions Defaults to 768.</span>
 <span class="sd">            img_size (int, optional): Size of the input image, this is needed to calculate the final number of patches. Defaults to 224.</span>
+<span class="sd">            tokens (nn.Module, optional): A module that contains the tokens as his parameters. Defaults to ViTTokens.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span> <span class="o">=</span> <span class="n">patch_size</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -205,16 +240,16 @@
                       <span class="n">kernel_size</span><span class="o">=</span><span class="n">patch_size</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">patch_size</span><span class="p">),</span>
             <span class="n">Rearrange</span><span class="p">(</span><span class="s1">&#39;b e (h) (w) -&gt; b (h w) e&#39;</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cls_token</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokens</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">(</span><span class="n">emb_size</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">img_size</span> <span class="o">//</span> <span class="n">patch_size</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">))</span>
+            <span class="p">(</span><span class="n">img_size</span> <span class="o">//</span> <span class="n">patch_size</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tokens</span><span class="p">),</span> <span class="n">emb_size</span><span class="p">))</span>
 
 <div class="viewcode-block" id="PatchEmbedding.forward"><a class="viewcode-back" href="../../../../glasses.models.classification.vit.html#glasses.models.classification.PatchEmbedding.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="n">b</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projection</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">cls_tokens</span> <span class="o">=</span> <span class="n">repeat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cls_token</span><span class="p">,</span> <span class="s1">&#39;() n e -&gt; b n e&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
-        <span class="c1"># prepend the cls token to the input</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">cls_tokens</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># get the tokens</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokens</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="c1"># prepend the tokens to the input</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="o">*</span><span class="n">tokens</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="c1"># add position embedding</span>
         <span class="n">x</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">positions</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
@@ -263,7 +298,6 @@
         <span class="n">att</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">att_drop</span><span class="p">(</span><span class="n">att</span><span class="p">)</span>
         <span class="c1"># sum up over the third axis</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;bhal, bhlv -&gt; bhav &#39;</span><span class="p">,</span> <span class="n">att</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
-
         <span class="n">out</span> <span class="o">=</span> <span class="n">rearrange</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s2">&quot;b h n d -&gt; b n (h d)&quot;</span><span class="p">)</span>
         <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projection</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span></div></div>
@@ -328,7 +362,7 @@
 
 
 <div class="viewcode-block" id="TransformerEncoder"><a class="viewcode-back" href="../../../../glasses.models.classification.vit.html#glasses.models.classification.TransformerEncoder">[docs]</a><span class="k">class</span> <span class="nc">TransformerEncoder</span><span class="p">(</span><span class="n">Encoder</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">TransformerEncoderBlock</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">786</span><span class="p">,</span>  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">786</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">TransformerEncoderBlock</span><span class="p">,</span>  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transformer Encoder proposed in `Attention Is All You Need &lt;https://arxiv.org/abs/1706.03762&gt;`_</span>
 
@@ -346,10 +380,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">widths</span> <span class="o">=</span> <span class="p">[</span><span class="n">emb_size</span><span class="p">]</span> <span class="o">*</span> <span class="n">depth</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span><span class="n">block</span><span class="p">(</span><span class="n">emb_size</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                                      <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span><span class="p">)])</span>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">emb_size</span><span class="p">)</span>
 <div class="viewcode-block" id="TransformerEncoder.forward"><a class="viewcode-back" href="../../../../glasses.models.classification.vit.html#glasses.models.classification.TransformerEncoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
 
 
@@ -370,7 +405,6 @@
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">({</span>
             <span class="s1">&#39;pool&#39;</span><span class="p">:</span> <span class="n">Reduce</span><span class="p">(</span><span class="s1">&#39;b n e -&gt; b e&#39;</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">policy</span> <span class="o">==</span> <span class="s1">&#39;mean&#39;</span> <span class="k">else</span> <span class="n">Lambda</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span>
-            <span class="s1">&#39;norm&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">emb_size</span><span class="p">),</span>
             <span class="s1">&#39;fc&#39;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">emb_size</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">)</span>
         <span class="p">}))</span></div>
 
@@ -381,6 +415,7 @@
                  <span class="n">patch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
                  <span class="n">emb_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">768</span><span class="p">,</span>
                  <span class="n">img_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">224</span><span class="p">,</span>
+                 <span class="n">tokens</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ViTTokens</span><span class="p">,</span>
                  <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
                  <span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -390,7 +425,7 @@
 <span class="sd">        The following image from the authors shows the architecture.</span>
 
 <span class="sd">        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ViT.png?raw=true</span>
-<span class="sd">        </span>
+
 <span class="sd">        Examples:</span>
 
 <span class="sd">            Default models</span>
@@ -423,19 +458,27 @@
 <span class="sd">            &gt;&gt;&gt; features = model.encoder.features</span>
 <span class="sd">            &gt;&gt;&gt; print([x.shape for x in features])</span>
 <span class="sd">            &gt;&gt;&gt; #[[torch.Size([1, 197, 768]),  torch.Size([1, 197, 768]), ...]</span>
+<span class="sd">            &gt;&gt;&gt; # change the tokens, you have to subclass ViTTokens</span>
+<span class="sd">            &gt;&gt;&gt; class MyTokens(ViTTokens):</span>
+<span class="sd">            &gt;&gt;&gt;     def __init__(self, emb_size: int):</span>
+<span class="sd">            &gt;&gt;&gt;         super().__init__(emb_size)</span>
+<span class="sd">            &gt;&gt;&gt;         self.my_new_token = nn.Parameter(torch.randn(1, 1, emb_size))</span>
+<span class="sd">            &gt;&gt;&gt; ViT(tokens=MyTokens)</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            in_channels (int, optional): [description]. Defaults to 3.</span>
 <span class="sd">            patch_size (int, optional): [description]. Defaults to 16.</span>
 <span class="sd">            emb_size (int, optional):  Embedding dimensions Defaults to 768.</span>
 <span class="sd">            img_size (int, optional): [description]. Defaults to 224.</span>
+<span class="sd">            tokens (nn.Module, optional): A module that contains the tokens as his parameters. Defaults to ViTTokens.</span>
 <span class="sd">            depth (int, optional): [description]. Defaults to 12.</span>
 <span class="sd">            n_classes (int, optional): [description]. Defaults to 1000.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">({</span><span class="s1">&#39;embedding&#39;</span><span class="p">:</span> <span class="n">PatchEmbedding</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">patch_size</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">,</span> <span class="n">img_size</span><span class="p">),</span>
-                                      <span class="s1">&#39;encoder&#39;</span><span class="p">:</span> <span class="n">TransformerEncoder</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">emb_size</span><span class="o">=</span><span class="n">emb_size</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
-                                      <span class="s1">&#39;head&#39;</span><span class="p">:</span> <span class="n">ViTClassificationHead</span><span class="p">(</span><span class="n">emb_size</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">)</span>
-                                      <span class="p">}))</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">({</span>
+            <span class="s1">&#39;embedding&#39;</span><span class="p">:</span> <span class="n">PatchEmbedding</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">patch_size</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">,</span> <span class="n">img_size</span><span class="p">,</span> <span class="n">tokens</span><span class="p">),</span>
+            <span class="s1">&#39;encoder&#39;</span><span class="p">:</span> <span class="n">TransformerEncoder</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+            <span class="s1">&#39;head&#39;</span><span class="p">:</span> <span class="n">ViTClassificationHead</span><span class="p">(</span><span class="n">emb_size</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">)</span>
+        <span class="p">}))</span>
 
 <div class="viewcode-block" id="ViT.vit_small_patch16_224"><a class="viewcode-back" href="../../../../glasses.models.classification.vit.html#glasses.models.classification.ViT.vit_small_patch16_224">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">vit_small_patch16_224</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>

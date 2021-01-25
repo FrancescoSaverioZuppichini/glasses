@@ -197,6 +197,7 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="glasses.models.classification.alexnet.html">glasses.models.classification.alexnet package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasses.models.classification.deit.html">glasses.models.classification.deit package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.models.classification.densenet.html">glasses.models.classification.densenet package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.models.classification.efficientnet.html">glasses.models.classification.efficientnet package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.models.classification.fishnet.html">glasses.models.classification.fishnet package</a></li>
@@ -263,6 +264,106 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="py attribute">
 <dt id="glasses.models.classification.AlexNet.training">
 <code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.models.classification.AlexNet.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.classification.DeiT">
+<em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.</code><code class="sig-name descname">DeiT</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">tokens: torch.nn.modules.module.Module = &lt;class 'glasses.models.classification.deit.DeiTTokens'&gt;</em>, <em class="sig-param">emb_size: int = 768</em>, <em class="sig-param">n_classes: int = 1000</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/deit.html#DeiT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.DeiT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT" title="glasses.models.classification.vit.ViT"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.vit.ViT</span></code></a></p>
+<p>Implementation of DeiT proposed in <a class="reference external" href="https://arxiv.org/pdf/2010.11929.pdf">Training data-efficient image transformers &amp; distillation through attention</a></p>
+<p>An attention based distillation is proposed where a new token is added to the model, the <cite>dist</cite> token.</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DeiT.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DeiT.png?raw=true" />
+<p class="rubric">Examples</p>
+<p>Default models</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">DeiT</span><span class="o">.</span><span class="n">deit_tiny_patch16_224</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DeiT</span><span class="o">.</span><span class="n">deit_small_patch16_224</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DeiT</span><span class="o">.</span><span class="n">deit_base_patch16_224</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DeiT</span><span class="o">.</span><span class="n">deit_base_patch16_384</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ViT</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p>
+</dd>
+</dl>
+<p>Implementation of Vision Transformer (ViT) proposed in <a class="reference external" href="https://arxiv.org/pdf/2010.11929.pdf">An Image Is Worth 16x16 Words: Transformers For Image Recognition At Scale</a></p>
+<p>The following image from the authors shows the architecture.</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ViT.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ViT.png?raw=true" />
+<p class="rubric">Examples</p>
+<p>Default models</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_small_patch16_224</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_224</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_384</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch32_384</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_huge_patch16_224</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_huge_patch32_384</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_large_patch16_224</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_large_patch16_384</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_large_patch32_384</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can easily customize your model</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_224</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_224</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block, default is TransformerEncoderBlock</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_224</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">MyCoolTransformerBlock</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get features</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_224</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get the features from the encoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#[[torch.Size([1, 197, 768]),  torch.Size([1, 197, 768]), ...]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the tokens, you have to subclass ViTTokens</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyTokens</span><span class="p">(</span><span class="n">ViTTokens</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">emb_size</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">my_new_token</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="p">(</span><span class="n">tokens</span><span class="o">=</span><span class="n">MyTokens</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 3.</p></li>
+<li><p><strong>patch_size</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 16.</p></li>
+<li><p><strong>emb_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Embedding dimensions Defaults to 768.</p></li>
+<li><p><strong>img_size</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 224.</p></li>
+<li><p><strong>tokens</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – A module that contains the tokens as his parameters. Defaults to ViTTokens.</p></li>
+<li><p><strong>depth</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 12.</p></li>
+<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1000.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="glasses.models.classification.DeiT.deit_base_patch16_224">
+<em class="property">classmethod </em><code class="sig-name descname">deit_base_patch16_224</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/deit.html#DeiT.deit_base_patch16_224"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.DeiT.deit_base_patch16_224" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.DeiT.deit_base_patch16_384">
+<em class="property">classmethod </em><code class="sig-name descname">deit_base_patch16_384</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/deit.html#DeiT.deit_base_patch16_384"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.DeiT.deit_base_patch16_384" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.DeiT.deit_small_patch16_224">
+<em class="property">classmethod </em><code class="sig-name descname">deit_small_patch16_224</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/deit.html#DeiT.deit_small_patch16_224"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.DeiT.deit_small_patch16_224" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.DeiT.deit_tiny_patch16_224">
+<em class="property">classmethod </em><code class="sig-name descname">deit_tiny_patch16_224</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/deit.html#DeiT.deit_tiny_patch16_224"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.DeiT.deit_tiny_patch16_224" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.classification.DeiT.training">
+<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.models.classification.DeiT.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1731,7 +1832,7 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py class">
 <dt id="glasses.models.classification.ViT">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.</code><code class="sig-name descname">ViT</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">patch_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">16</span></em>, <em class="sig-param"><span class="n">emb_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">768</span></em>, <em class="sig-param"><span class="n">img_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">224</span></em>, <em class="sig-param"><span class="n">depth</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">12</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/vit.html#ViT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.ViT" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.</code><code class="sig-name descname">ViT</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3</em>, <em class="sig-param">patch_size: int = 16</em>, <em class="sig-param">emb_size: int = 768</em>, <em class="sig-param">img_size: int = 224</em>, <em class="sig-param">tokens: torch.nn.modules.module.Module = &lt;class 'glasses.models.classification.vit.ViTTokens'&gt;</em>, <em class="sig-param">depth: int = 12</em>, <em class="sig-param">n_classes: int = 1000</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/vit.html#ViT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.ViT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code>, <a class="reference internal" href="glasses.models.base.html#glasses.models.base.VisionModule" title="glasses.models.base.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.base.VisionModule</span></code></a></p>
 <p>Implementation of Vision Transformer (ViT) proposed in <a class="reference external" href="https://arxiv.org/pdf/2010.11929.pdf">An Image Is Worth 16x16 Words: Transformers For Image Recognition At Scale</a></p>
 <p>The following image from the authors shows the architecture.</p>
@@ -1765,6 +1866,12 @@ registered hooks while the latter silently ignores them.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1">#[[torch.Size([1, 197, 768]),  torch.Size([1, 197, 768]), ...]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the tokens, you have to subclass ViTTokens</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyTokens</span><span class="p">(</span><span class="n">ViTTokens</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">emb_size</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">my_new_token</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="p">(</span><span class="n">tokens</span><span class="o">=</span><span class="n">MyTokens</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -1774,6 +1881,7 @@ registered hooks while the latter silently ignores them.</p>
 <li><p><strong>patch_size</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 16.</p></li>
 <li><p><strong>emb_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Embedding dimensions Defaults to 768.</p></li>
 <li><p><strong>img_size</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 224.</p></li>
+<li><p><strong>tokens</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – A module that contains the tokens as his parameters. Defaults to ViTTokens.</p></li>
 <li><p><strong>depth</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 12.</p></li>
 <li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1000.</p></li>
 </ul>
