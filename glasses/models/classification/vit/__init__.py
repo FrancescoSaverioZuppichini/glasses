@@ -79,7 +79,6 @@ class PatchEmbedding(nn.Module):
             (img_size // patch_size) ** 2 + len(self.tokens), emb_size))
 
     def forward(self, x: Tensor) -> Tensor:
-        b = x.shape[0]
         x = self.projection(x)
         # get the tokens
         tokens = self.tokens(x)

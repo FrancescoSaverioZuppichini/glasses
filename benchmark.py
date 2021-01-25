@@ -138,7 +138,10 @@ def benchmark_all() -> pd.DataFrame:
         df = new_df
 
     df.to_csv('./benchmark.csv')
-    print(df)
+    mk = df.sort_values('top1', ascending=False).to_markdown()
+
+    with open('./benchmark.md', 'w') as f:
+        f.write(mk)
 
     return df
 
