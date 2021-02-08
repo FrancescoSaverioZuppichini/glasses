@@ -146,7 +146,7 @@ class ResidualAdd(nn.Module):
 
     def forward(self, x, **kwargs):
         out = self.fn(x, **kwargs)
-        x += out
+        x = x + out
         return x
 
 
