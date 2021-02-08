@@ -1519,8 +1519,13 @@
 
     <span class="k">def</span> <span class="nf">rename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Rename this path to the given path,</span>
-<span class="sd">        and return a new Path instance pointing to the given path.</span>
+<span class="sd">        Rename this path to the target path.</span>
+
+<span class="sd">        The target path may be absolute or relative. Relative paths are</span>
+<span class="sd">        interpreted relative to the current working directory, *not* the</span>
+<span class="sd">        directory of the Path object.</span>
+
+<span class="sd">        Returns the new Path instance pointing to the target path.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_raise_closed</span><span class="p">()</span>
@@ -1529,9 +1534,13 @@
 
     <span class="k">def</span> <span class="nf">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Rename this path to the given path, clobbering the existing</span>
-<span class="sd">        destination if it exists, and return a new Path instance</span>
-<span class="sd">        pointing to the given path.</span>
+<span class="sd">        Rename this path to the target path, overwriting if that path exists.</span>
+
+<span class="sd">        The target path may be absolute or relative. Relative paths are</span>
+<span class="sd">        interpreted relative to the current working directory, *not* the</span>
+<span class="sd">        directory of the Path object.</span>
+
+<span class="sd">        Returns the new Path instance pointing to the target path.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_raise_closed</span><span class="p">()</span>
