@@ -8,7 +8,7 @@ from ..resnet import ReLUInPlace
 from glasses.nn.blocks import ConvAct, ConvBnAct
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 from ....models.base import VisionModule, Encoder
-
+from ..base import ClassificationModule
 
 """Implementations of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition <https://arxiv.org/pdf/1409.1556.pdf>`_
 """
@@ -43,7 +43,7 @@ class VGGLayer(nn.Module):
         return x
 
 
-class VGGEncoder(nn.Module):
+class VGGEncoder(Encoder):
     """VGG encoder, composed by default by a sequence of VGGLayer modules with an increasing number of output features.
 
     Args:
@@ -101,7 +101,7 @@ class VGGHead(nn.Sequential):
         )
 
 
-class VGG(VisionModule):
+class VGG(ClassificationModule):
     """Implementation of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition <https://arxiv.org/pdf/1409.1556.pdf>`_
 
     Create a default model
@@ -146,16 +146,10 @@ class VGG(VisionModule):
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
 
-    def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
-        super().__init__()
-        self.encoder = VGGEncoder(in_channels, *args, **kwargs)
-        self.head = VGGHead(self.encoder.out_features, n_classes)
+    def __init__(self, encoder: nn.Module = VGGEncoder, head:  nn.Module = VGGHead, *args, **kwargs):
+        super().__init__(encoder, head, *args, **kwargs)
         self.initialize()
 
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.encoder(x)
-        x = self.head(x)
-        return x
 
     def initialize(self):
         for m in self.modules():

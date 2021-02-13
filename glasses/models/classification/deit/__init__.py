@@ -72,9 +72,8 @@ class DeiT(ViT):
     Args:  
         ViT ([type]): [description]
     """
-    def __init__(self, *args, tokens: nn.Module = DeiTTokens, emb_size: int = 768, n_classes: int = 1000, **kwargs):
-        super().__init__(*args, tokens=tokens, emb_size=emb_size, **kwargs)
-        self.head = DeiTClassificationHead(emb_size, n_classes)
+    def __init__(self, *args, head: nn.Module =DeiTClassificationHead,  tokens: nn.Module = DeiTTokens, **kwargs):
+        super().__init__(*args, head=head, tokens=tokens, **kwargs)
 
     @classmethod
     @pretrained()
