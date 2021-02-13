@@ -40,7 +40,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="glasses.models.classification.densenet package" href="glasses.models.classification.densenet.html" />
-    <link rel="prev" title="glasses.models.classification.alexnet package" href="glasses.models.classification.alexnet.html" /> 
+    <link rel="prev" title="glasses.models.classification.base package" href="glasses.models.classification.base.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -198,7 +198,7 @@
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.models.classification.deit" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="glasses.models.classification.deit.DeiT">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.deit.</code><code class="sig-name descname">DeiT</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">tokens: torch.nn.modules.module.Module = &lt;class 'glasses.models.classification.deit.DeiTTokens'&gt;</em>, <em class="sig-param">emb_size: int = 768</em>, <em class="sig-param">n_classes: int = 1000</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/deit.html#DeiT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.deit.DeiT" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.deit.</code><code class="sig-name descname">DeiT</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">head: torch.nn.modules.module.Module = &lt;class 'glasses.models.classification.deit.DeiTClassificationHead'&gt;</em>, <em class="sig-param">tokens: torch.nn.modules.module.Module = &lt;class 'glasses.models.classification.deit.DeiTTokens'&gt;</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/deit.html#DeiT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.deit.DeiT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT" title="glasses.models.classification.vit.ViT"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.vit.ViT</span></code></a></p>
 <p>Implementation of DeiT proposed in <a class="reference external" href="https://arxiv.org/pdf/2010.11929.pdf">Training data-efficient image transformers &amp; distillation through attention</a></p>
 <p>An attention based distillation is proposed where a new token is added to the model, the <cite>dist</cite> token.</p>
@@ -358,7 +358,7 @@ registered hooks while the latter silently ignores them.</p>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="glasses.models.classification.densenet.html" class="btn btn-neutral float-right" title="glasses.models.classification.densenet package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="glasses.models.classification.alexnet.html" class="btn btn-neutral float-left" title="glasses.models.classification.alexnet package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="glasses.models.classification.base.html" class="btn btn-neutral float-left" title="glasses.models.classification.base package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

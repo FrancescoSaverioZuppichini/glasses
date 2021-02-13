@@ -195,12 +195,6 @@
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">()))</span></div>
 
-    <span class="c1"># def __repr__(self):</span>
-    <span class="c1">#     buffer = &quot;&quot;</span>
-    <span class="c1">#     for name, token in self.named_parameters():</span>
-    <span class="c1">#         buffer += f&quot;({name}): {list(token.data.shape)}\n&quot;</span>
-    <span class="c1">#     return buffer</span>
-
 
 <div class="viewcode-block" id="PatchEmbedding"><a class="viewcode-back" href="../../../../glasses.models.classification.vit.html#glasses.models.classification.PatchEmbedding">[docs]</a><span class="k">class</span> <span class="nc">PatchEmbedding</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">patch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">768</span><span class="p">,</span> <span class="n">img_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">224</span><span class="p">,</span> <span class="n">tokens</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ViTTokens</span><span class="p">):</span>
@@ -411,6 +405,9 @@
 
 <div class="viewcode-block" id="ViT"><a class="viewcode-back" href="../../../../glasses.models.classification.vit.html#glasses.models.classification.ViT">[docs]</a><span class="k">class</span> <span class="nc">ViT</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">VisionModule</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">embedding</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">PatchEmbedding</span><span class="p">,</span>
+                 <span class="n">encoder</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">TransformerEncoder</span><span class="p">,</span>
+                 <span class="n">head</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ViTClassificationHead</span><span class="p">,</span>
                  <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
                  <span class="n">patch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
                  <span class="n">emb_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">768</span><span class="p">,</span>
@@ -475,9 +472,9 @@
 <span class="sd">            n_classes (int, optional): [description]. Defaults to 1000.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">({</span>
-            <span class="s1">&#39;embedding&#39;</span><span class="p">:</span> <span class="n">PatchEmbedding</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">patch_size</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">,</span> <span class="n">img_size</span><span class="p">,</span> <span class="n">tokens</span><span class="p">),</span>
-            <span class="s1">&#39;encoder&#39;</span><span class="p">:</span> <span class="n">TransformerEncoder</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
-            <span class="s1">&#39;head&#39;</span><span class="p">:</span> <span class="n">ViTClassificationHead</span><span class="p">(</span><span class="n">emb_size</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">)</span>
+            <span class="s1">&#39;embedding&#39;</span><span class="p">:</span> <span class="n">embedding</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">patch_size</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">,</span> <span class="n">img_size</span><span class="p">,</span> <span class="n">tokens</span><span class="p">),</span>
+            <span class="s1">&#39;encoder&#39;</span><span class="p">:</span> <span class="n">encoder</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+            <span class="s1">&#39;head&#39;</span><span class="p">:</span> <span class="n">head</span><span class="p">(</span><span class="n">emb_size</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">)</span>
         <span class="p">}))</span>
 
 <div class="viewcode-block" id="ViT.vit_small_patch16_224"><a class="viewcode-back" href="../../../../glasses.models.classification.vit.html#glasses.models.classification.ViT.vit_small_patch16_224">[docs]</a>    <span class="nd">@classmethod</span>

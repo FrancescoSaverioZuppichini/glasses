@@ -175,7 +175,7 @@
 <span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ReLUInPlace</span>
 <span class="kn">from</span> <span class="nn">glasses.nn.blocks.residuals</span> <span class="kn">import</span> <span class="n">ResidualCat2d</span>
 <span class="kn">from</span> <span class="nn">glasses.nn.blocks</span> <span class="kn">import</span> <span class="n">Conv2dPad</span>
-<span class="kn">from</span> <span class="nn">....models.base</span> <span class="kn">import</span> <span class="n">VisionModule</span>
+<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">ClassificationModule</span>
 
 <span class="kn">from</span> <span class="nn">glasses.utils.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">Config</span><span class="p">,</span> <span class="n">pretrained</span>
 
@@ -339,7 +339,7 @@
             <span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="DenseNet"><a class="viewcode-back" href="../../../../glasses.models.classification.densenet.html#glasses.models.DenseNet">[docs]</a><span class="k">class</span> <span class="nc">DenseNet</span><span class="p">(</span><span class="n">VisionModule</span><span class="p">):</span>
+<div class="viewcode-block" id="DenseNet"><a class="viewcode-back" href="../../../../glasses.models.classification.densenet.html#glasses.models.DenseNet">[docs]</a><span class="k">class</span> <span class="nc">DenseNet</span><span class="p">(</span><span class="n">ClassificationModule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implementation of DenseNet proposed in `Densely Connected Convolutional Networks &lt;https://arxiv.org/abs/1608.06993&gt;`_</span>
 
 <span class="sd">    Create a default models</span>
@@ -377,12 +377,9 @@
 <span class="sd">        in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</span>
 <span class="sd">        n_classes (int, optional): Number of classes. Defaults to 1000.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>  <span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">DenseNetEncoder</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">ResNetHead</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">widths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">n_classes</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encoder</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">DenseNetEncoder</span><span class="p">,</span> <span class="n">head</span><span class="p">:</span>  <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ResNetHead</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">encoder</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+   
             
 <div class="viewcode-block" id="DenseNet.forward"><a class="viewcode-back" href="../../../../glasses.models.classification.densenet.html#glasses.models.DenseNet.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>

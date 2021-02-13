@@ -198,8 +198,8 @@
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.models.classification.vgg" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="glasses.models.classification.vgg.VGG">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.vgg.</code><code class="sig-name descname">VGG</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_channels</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">n_classes</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1000</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/vgg.html#VGG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.vgg.VGG" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="glasses.models.base.html#glasses.models.base.VisionModule" title="glasses.models.base.VisionModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.base.VisionModule</span></code></a></p>
+<em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.vgg.</code><code class="sig-name descname">VGG</code><span class="sig-paren">(</span><em class="sig-param">encoder: torch.nn.modules.module.Module = &lt;class 'glasses.models.classification.vgg.VGGEncoder'&gt;</em>, <em class="sig-param">head: torch.nn.modules.module.Module = &lt;class 'glasses.models.classification.vgg.VGGHead'&gt;</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/vgg.html#VGG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.vgg.VGG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.models.classification.base.html#glasses.models.classification.base.ClassificationModule" title="glasses.models.classification.base.ClassificationModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.base.ClassificationModule</span></code></a></p>
 <p>Implementation of VGG proposed in <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">Very Deep Convolutional Networks For Large-Scale Image Recognition</a></p>
 <p>Create a default model</p>
 <p class="rubric">Examples</p>
@@ -245,20 +245,6 @@ in a conv followed by a batchnorm.</p>
 </dd>
 </dl>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
-<dl class="py method">
-<dt id="glasses.models.classification.vgg.VGG.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/models/classification/vgg.html#VGG.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.vgg.VGG.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
 <dl class="py method">
 <dt id="glasses.models.classification.vgg.VGG.initialize">
 <code class="sig-name descname">initialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/vgg.html#VGG.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.vgg.VGG.initialize" title="Permalink to this definition">¶</a></dt>
@@ -394,7 +380,7 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="py class">
 <dt id="glasses.models.classification.vgg.VGGEncoder">
 <em class="property">class </em><code class="sig-prename descclassname">glasses.models.classification.vgg.</code><code class="sig-name descname">VGGEncoder</code><span class="sig-paren">(</span><em class="sig-param">in_channels: int = 3, widths: List[int] = [64, 128, 256, 512, 512], depths: List[int] = [1, 1, 2, 2, 2], activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;, inplace=True), block: torch.nn.modules.module.Module = functools.partial(&lt;class 'glasses.nn.blocks.ConvBnAct'&gt;, normalization=None, bias=True, kernel_size=3), *args, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/vgg.html#VGGEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.classification.vgg.VGGEncoder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="glasses.models.base.html#glasses.models.base.Encoder" title="glasses.models.base.Encoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.base.Encoder</span></code></a></p>
 <p>VGG encoder, composed by default by a sequence of VGGLayer modules with an increasing number of output features.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

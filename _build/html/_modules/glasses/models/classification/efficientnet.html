@@ -180,7 +180,7 @@
 <span class="kn">from</span> <span class="nn">....models.base</span> <span class="kn">import</span> <span class="n">VisionModule</span><span class="p">,</span> <span class="n">Encoder</span>
 <span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ResNetLayer</span>
 <span class="kn">from</span> <span class="nn">glasses.utils.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">Config</span><span class="p">,</span> <span class="n">pretrained</span>
-
+<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">ClassificationModule</span>
 
 <div class="viewcode-block" id="InvertedResidualBlock"><a class="viewcode-back" href="../../../../glasses.models.classification.efficientnet.html#glasses.models.InvertedResidualBlock">[docs]</a><span class="k">class</span> <span class="nc">InvertedResidualBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Inverted residual block proposed originally for MobileNetV2. </span>
@@ -339,7 +339,7 @@
         <span class="k">return</span> <span class="n">x</span></div></div>
 
 
-<div class="viewcode-block" id="EfficientNet"><a class="viewcode-back" href="../../../../glasses.models.classification.efficientnet.html#glasses.models.EfficientNet">[docs]</a><span class="k">class</span> <span class="nc">EfficientNet</span><span class="p">(</span><span class="n">VisionModule</span><span class="p">):</span>
+<div class="viewcode-block" id="EfficientNet"><a class="viewcode-back" href="../../../../glasses.models.classification.efficientnet.html#glasses.models.EfficientNet">[docs]</a><span class="k">class</span> <span class="nc">EfficientNet</span><span class="p">(</span><span class="n">ClassificationModule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implementation of EfficientNet proposed in `EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks &lt;https://arxiv.org/abs/1905.11946&gt;`_</span>
 
 <span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNet.png?raw=true</span>
@@ -409,19 +409,10 @@
     <span class="n">default_widths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
         <span class="mi">32</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">112</span><span class="p">,</span> <span class="mi">192</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">1280</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">EfficientNetEncoder</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">EfficientNetHead</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">widths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">n_classes</span><span class="p">,</span> <span class="n">drop_rate</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;drop_rate&#39;</span><span class="p">])</span>
-
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encoder</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">EfficientNetEncoder</span><span class="p">,</span> <span class="n">head</span><span class="p">:</span>  <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">EfficientNetHead</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">encoder</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="n">drop_rate</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;drop_rate&#39;</span><span class="p">]),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
-
-<div class="viewcode-block" id="EfficientNet.forward"><a class="viewcode-back" href="../../../../glasses.models.classification.efficientnet.html#glasses.models.EfficientNet.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x</span></div>
-
+        
 <div class="viewcode-block" id="EfficientNet.initialize"><a class="viewcode-back" href="../../../../glasses.models.classification.efficientnet.html#glasses.models.EfficientNet.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># initialization copied from MobileNetV2</span>
         <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">():</span>
