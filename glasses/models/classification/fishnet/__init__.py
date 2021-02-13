@@ -11,7 +11,7 @@ from functools import partial
 from ..resnet import ResNetBottleneckBlock, ReLUInPlace, ResNetEncoder, ResNetShorcut, ResNetBottleneckPreActBlock, ResNetStemC
 from glasses.nn.att import ChannelSE
 from ....models.base import VisionModule, Encoder
-
+from ..base import ClassificationModule
 
 FishNetShortCut = partial(BnActConv, kernel_size=1)
 
@@ -229,6 +229,9 @@ class FishNetEncoder(nn.Module):
             self.head.append(FishNetHeadBlock(
                 in_features, out_features, body_w[0], depth=depth, trans_depth=trans_depth, block=block, activation=activation))
 
+        # set the widths field 
+        self.widths = [w[1] for w in self.head_widths]
+
     def forward(self, x):
         x = self.stem(x)
         residuals = []
@@ -290,9 +293,9 @@ class FishNetEncoder(nn.Module):
         return tail_channels, body_channels, head_channels
 
 
-class FishNetDecoder(nn.Sequential):
+class FishNetHead(nn.Sequential):
     """
-    FishNet Decoder composed by 1x1 convs.
+    FishNet Head composed by 1x1 convs.
     """
 
     def __init__(self, in_features: int, n_classes: int, activation: nn.Module = nn.ReLU):
@@ -308,7 +311,7 @@ class FishNetDecoder(nn.Sequential):
         )
 
 
-class FishNet(VisionModule):
+class FishNet(ClassificationModule):
     """Implementation of ResNet proposed in `FishNet: A Versatile Backbone for Image, Region, and Pixel Level Prediction <https://arxiv.org/abs/1901.03495>`_
 
     Honestly, this model it is very weird and it has some mistakes in the paper that nobody ever cared to correct. It is a nice idea, but it could have been described better and definitly implemented better.
@@ -341,12 +344,8 @@ class FishNet(VisionModule):
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
 
-    def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
-        super().__init__()
-        self.encoder = FishNetEncoder(in_channels, *args, **kwargs)
-        self.head = FishNetDecoder(
-            self.encoder.head_widths[-1][1], n_classes)
-
+    def __init__(self, encoder: nn.Module = FishNetEncoder, head:  nn.Module = FishNetHead, *args, **kwargs):
+        super().__init__(encoder, head, *args, **kwargs)
         self.initialize()
 
     def forward(self, x: Tensor) -> Tensor:

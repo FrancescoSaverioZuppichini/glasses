@@ -180,9 +180,8 @@ class RegNet(ResNet):
                      'regnety_320': ([2, 5, 12, 1], [232, 696, 1392, 3712], 232)
                      }
 
-    def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
-        super().__init__(in_channels, n_classes, widths=kwargs['widths'])
-        self.encoder = RegNetEncoder(in_channels, *args, **kwargs)
+    def __init__(self,encoder: nn.Module = RegNetEncoder, *args, **kwargs):
+        super().__init__(encoder, *args, **kwargs)
 
     @classmethod
     @pretrained()

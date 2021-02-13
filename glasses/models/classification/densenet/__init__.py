@@ -9,7 +9,7 @@ from functools import partial
 from ..resnet import ReLUInPlace
 from glasses.nn.blocks.residuals import ResidualCat2d
 from glasses.nn.blocks import Conv2dPad
-from ....models.base import VisionModule
+from ..base import ClassificationModule
 
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 
@@ -173,7 +173,7 @@ class DenseNetEncoder(ResNetEncoder):
             ), **kwargs))
 
 
-class DenseNet(VisionModule):
+class DenseNet(ClassificationModule):
     """Implementation of DenseNet proposed in `Densely Connected Convolutional Networks <https://arxiv.org/abs/1608.06993>`_
 
     Create a default models
@@ -211,12 +211,9 @@ class DenseNet(VisionModule):
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
-
-    def __init__(self, in_channels: int = 3,  n_classes: int = 1000, *args, **kwargs):
-        super().__init__()
-        self.encoder = DenseNetEncoder(in_channels, *args, **kwargs)
-        self.head = ResNetHead(
-            self.encoder.widths[-1], n_classes)
+    def __init__(self, encoder: nn.Module = DenseNetEncoder, head:  nn.Module = ResNetHead, *args, **kwargs):
+        super().__init__(encoder, head, *args, **kwargs)
+   
             
     def forward(self, x: Tensor) -> Tensor:
         x = self.encoder(x)
