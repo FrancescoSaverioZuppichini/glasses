@@ -14,7 +14,7 @@ from glasses.utils.PretrainedWeightsProvider import Config
 from ....models.base import VisionModule, Encoder
 from ..resnet import ResNetLayer
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
-
+from ..base import ClassificationModule
 
 class InvertedResidualBlock(nn.Module):
     """Inverted residual block proposed originally for MobileNetV2. 
@@ -173,7 +173,7 @@ class EfficientNetHead(nn.Sequential):
         return x
 
 
-class EfficientNet(VisionModule):
+class EfficientNet(ClassificationModule):
     """Implementation of EfficientNet proposed in `EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks <https://arxiv.org/abs/1905.11946>`_
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNet.png?raw=true
@@ -243,19 +243,10 @@ class EfficientNet(VisionModule):
     default_widths: List[int] = [
         32, 16, 24, 40, 80, 112, 192, 320, 1280]
 
-    def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
-        super().__init__()
-        self.encoder = EfficientNetEncoder(in_channels, *args, **kwargs)
-        self.head = EfficientNetHead(
-            self.encoder.widths[-1], n_classes, drop_rate=kwargs['drop_rate'])
-
+    def __init__(self, encoder: nn.Module = EfficientNetEncoder, head:  nn.Module = EfficientNetHead, *args, **kwargs):
+        super().__init__(encoder, partial(head, drop_rate=kwargs['drop_rate']), *args, **kwargs)
         self.initialize()
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.encoder(x)
-        x = self.head(x)
-        return x
-
+        
     def initialize(self):
         # initialization copied from MobileNetV2
         for m in self.modules():

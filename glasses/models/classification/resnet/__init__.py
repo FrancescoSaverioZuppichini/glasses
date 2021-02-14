@@ -8,6 +8,7 @@ from typing import List
 from functools import partial
 from glasses.utils.PretrainedWeightsProvider import Config, pretrained
 from ....models.base import Encoder, VisionModule
+from ..base import ClassificationModule
 
 """Implementation of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`
 """
@@ -16,7 +17,7 @@ from ....models.base import Encoder, VisionModule
 ReLUInPlace = partial(nn.ReLU, inplace=True)
 
 
-class ResNetShorcut(nn.Module):
+class ResNetShorcut(nn.Sequential):
     """Shorcut function applied by ResNet to upsample the channel
     when residual and output features do not match
 
@@ -30,12 +31,6 @@ class ResNetShorcut(nn.Module):
         self.conv = Conv2dPad(in_features, out_features,
                               kernel_size=1, stride=stride, bias=False)
         self.bn = nn.BatchNorm2d(out_features)
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.conv(x)
-        x = self.bn(x)
-        return x
-
 
 class ResNetShorcutD(nn.Sequential):
     """Shorcut function proposed in `Bag of Tricks for Image Classification with Convolutional Neural Networks <https://arxiv.org/pdf/1812.01187.pdf>`_
@@ -265,8 +260,8 @@ class ResNetEncoder(Encoder):
         self.stem = stem(in_channels, start_features, activation)
 
         self.layers = nn.ModuleList([
-                ResNetLayer(start_features, widths[0], depth=depths[0], activation=activation,
-                            block=block, stride=2 if downsample_first else 1, **kwargs),
+            ResNetLayer(start_features, widths[0], depth=depths[0], activation=activation,
+                        block=block, stride=2 if downsample_first else 1, **kwargs),
             *[ResNetLayer(in_features,
                           out_features, depth=n, activation=activation,
                           block=block,  **kwargs)
@@ -297,12 +292,12 @@ class ResNetHead(nn.Sequential):
 
     def __init__(self, in_features: int, n_classes: int):
         super().__init__()
-        self.add_module('pool', nn.AdaptiveAvgPool2d((1, 1)))
-        self.add_module('flat', nn.Flatten())
-        self.add_module('fc', nn.Linear(in_features, n_classes))
+        self.pool = nn.AdaptiveAvgPool2d((1, 1))
+        self.flat = nn.Flatten()
+        self.fc = nn.Linear(in_features, n_classes)
 
 
-class ResNet(VisionModule):
+class ResNet(ClassificationModule):
     """Implementation of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`_
 
     Examples:
@@ -354,18 +349,9 @@ class ResNet(VisionModule):
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
 
-    def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
-        super().__init__()
-        self.encoder = ResNetEncoder(in_channels, *args, **kwargs)
-        self.head = ResNetHead(
-            self.encoder.widths[-1], n_classes)
-
+    def __init__(self, encoder: nn.Module = ResNetEncoder, head:  nn.Module = ResNetHead, *args, **kwargs):
+        super().__init__(encoder, head, *args, **kwargs)
         self.initialize()
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.encoder(x)
-        x = self.head(x)
-        return x
 
     def initialize(self):
         for m in self.modules():
@@ -439,7 +425,7 @@ class ResNet(VisionModule):
             ResNet: A resnet34 model
         """
         model = cls(*args, **kwargs, stem=ResNetStemC, block=partial(block, shortcut=ResNetShorcutD),
-                     depths=[3, 4, 6, 3])
+                    depths=[3, 4, 6, 3])
         return model
 
     @classmethod

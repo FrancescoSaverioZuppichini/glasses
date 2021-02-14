@@ -29,12 +29,6 @@ class ViTTokens(nn.Module):
     def __len__(self):
         return len(list(self.parameters()))
 
-    # def __repr__(self):
-    #     buffer = ""
-    #     for name, token in self.named_parameters():
-    #         buffer += f"({name}): {list(token.data.shape)}\n"
-    #     return buffer
-
 
 class PatchEmbedding(nn.Module):
     def __init__(self, in_channels: int = 3, patch_size: int = 16, emb_size: int = 768, img_size: int = 224, tokens: nn.Module = ViTTokens):
@@ -146,7 +140,7 @@ class ResidualAdd(nn.Module):
 
     def forward(self, x, **kwargs):
         out = self.fn(x, **kwargs)
-        x += out
+        x = x + out
         return x
 
 
@@ -245,6 +239,9 @@ class ViTClassificationHead(nn.Sequential):
 
 class ViT(nn.Sequential, VisionModule):
     def __init__(self,
+                 embedding: nn.Module = PatchEmbedding,
+                 encoder: nn.Module = TransformerEncoder,
+                 head: nn.Module = ViTClassificationHead,
                  in_channels: int = 3,
                  patch_size: int = 16,
                  emb_size: int = 768,
@@ -309,9 +306,9 @@ class ViT(nn.Sequential, VisionModule):
             n_classes (int, optional): [description]. Defaults to 1000.
         """
         super().__init__(OrderedDict({
-            'embedding': PatchEmbedding(in_channels, patch_size, emb_size, img_size, tokens),
-            'encoder': TransformerEncoder(depth, emb_size, **kwargs),
-            'head': ViTClassificationHead(emb_size, n_classes)
+            'embedding': embedding(in_channels, patch_size, emb_size, img_size, tokens),
+            'encoder': encoder(depth, emb_size, **kwargs),
+            'head': head(emb_size, n_classes)
         }))
 
     @classmethod
