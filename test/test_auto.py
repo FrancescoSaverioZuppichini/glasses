@@ -36,9 +36,10 @@ def test_AutoModel():
         model = AutoModel.from_pretrained('resn')
     with pytest.raises(EnvironmentError):
         AutoModel()
-    assert len(list(AutoModel.models().columns[0].cells)) > 0
-    assert len(list(AutoModel.pretrained_models().columns[0].cells)) > 0
+    assert len(list(AutoModel.models())) > 0
+    assert len(list(AutoModel.pretrained_models())) > 0
 
+    assert len(list(AutoModel.models_table().columns[0].cells)) > 0
 
 
 def test_AutoConfig():
