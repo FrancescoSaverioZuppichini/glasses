@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider, Config, GoogleDriveUrlHandler, BasicUrlHandler, pretrained    
+from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider, Config, GoogleDriveUrlHandler, BasicUrlHandler, pretrained, load_pretrained_model    
 from glasses.models.classification import ResNet
 import pytest
 from pathlib import Path
@@ -58,3 +58,35 @@ def test_PretrainedWeightsProvider():
 
     assert cfg.transform.transforms[0].interpolation == Image.BICUBIC
 
+def test_pretrained():
+
+    def get_params():
+        dummy = Dummy()
+        temp = Dummy()
+        nn.init.zeros_(temp[0].weight)
+
+        state_dict = dummy.state_dict()
+        new_state_dict = temp.state_dict()
+
+        return dummy, state_dict, new_state_dict
+
+    model, state_dict, new_state_dict = get_params()
+
+    load_pretrained_model(model, new_state_dict, excluding=None)
+
+    assert torch.equal(model[0].weight, torch.zeros(model[0].weight.shape))
+
+    model, state_dict, new_state_dict = get_params()
+
+    load_pretrained_model(model, state_dict, excluding=None)
+
+    assert not torch.equal(model[0].weight, torch.zeros(model[0].weight.shape))
+
+    model, state_dict, new_state_dict = get_params()
+
+    load_pretrained_model(model, new_state_dict, excluding=lambda x: x[0])
+
+    assert not torch.equal(model[0].weight, torch.zeros(model[0].weight.shape))
+
+    with pytest.raises(AttributeError):
+        load_pretrained_model(model, new_state_dict, excluding=lambda x: x.no_exist)

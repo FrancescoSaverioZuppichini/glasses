@@ -6,6 +6,8 @@ from torch import nn
 
 from .classification import *
 from .segmentation import *
+from rich.table import Table
+from rich.console import Console
 
 
 class AutoModel:
@@ -180,7 +182,7 @@ class AutoModel:
             msg += f'Available pretrained models are {",".join(list(PretrainedWeightsProvider.weights_zoo.keys()))}'
             raise KeyError(msg)
 
-        model = AutoModel.from_name(name, pretrained=True, *args, **kwargs)
+        model = AutoModel.from_name(name,  *args, pretrained=True, **kwargs)
         return model
 
     @staticmethod
@@ -190,7 +192,13 @@ class AutoModel:
         Returns:
             List[str]: [description]
         """
-        return AutoModel.zoo.keys()
+        table = Table(title="Models")
+        table.add_column("Name", justify="left", no_wrap=True)
+        table.add_column("Pretrained", justify="left", no_wrap=True)
+
+        [table.add_row(k, 'true' if k in PretrainedWeightsProvider.weights_zoo else 'false') for k in AutoModel.zoo.keys()]
+
+        return table
 
     @staticmethod
     def pretrained_models() -> List[str]:
@@ -199,4 +207,10 @@ class AutoModel:
         Returns:
             List[str]: [description]
         """
-        return PretrainedWeightsProvider.weights_zoo.keys()
+
+        table = Table(title="Models")
+        table.add_column("Name", justify="left", no_wrap=True)
+
+        [table.add_row(k) for k in PretrainedWeightsProvider.weights_zoo.keys()]
+
+        return table

@@ -9,7 +9,7 @@ import numpy as np
 from torch import nn
 from dataclasses import dataclass
 from functools import partial
-from typing import Dict
+from typing import Dict, AnyStr
 from torch import Tensor
 from .ModuleTransfer import ModuleTransfer
 from tqdm.autonotebook import tqdm
@@ -18,6 +18,8 @@ from PIL import Image
 from typing import Tuple
 from typing import Callable
 from functools import wraps
+from rich.progress import track
+
 logging.basicConfig(level=logging.INFO)
 
 IMAGENET_DEFAULT_MEAN = torch.Tensor([0.485, 0.456, 0.406])
@@ -65,22 +67,74 @@ def pretrained(name: str = None) -> Callable:
         """Decorator to fetch the pretrained model.
 
         Args:
-            func ([Callable]): [description]
+            func ([Callable]): The function to which the decorator is applied
 
         Returns:
-            [Callable]: [description]
+            [Callable]: The decorated funtion
         """
         name = func.__name__ if _name is None else _name
         provider = PretrainedWeightsProvider()
+
         @wraps(func)
-        def wrapper(*args,  pretrained: bool = False, **kwargs) -> Callable:
+        def wrapper(*args,  pretrained: bool = False, excluding: Callable[[nn.Module], nn.Module] = None, **kwargs) -> Callable:
             model = func(*args, **kwargs)
             if pretrained:
-                model.load_state_dict(provider[name])
-                model.eval()
+                state_dict = provider[name]
+                model = load_pretrained_model(model, state_dict, excluding)
             return model
         return wrapper
     return decorator
+
+
+def load_pretrained_model(model: nn.Module,
+                          state_dict: StateDict,
+                          excluding: Callable[[nn.Module], nn.Module] = None) -> nn.Module:
+    """Load the pretrained weights to the model. Optionally, you can exclude some sub-module.
+
+    Usage:
+        >>> load_pretrained_model(your_model, pretrained_state_dict)
+        >>> #load the pretrained weights but not in `model.head`
+        >>> load_pretrained_model(your_model, pretrained_state_dict, excluding: lambda model: model.head)
+
+    Args:
+        model (nn.Module): A PyTorch Module
+        state_dict (Dict[AnyStr, Tensor]): The state dict you want to use
+        excluding (Callable[[nn.Module], nn.Module], optional): [description]. A function telling which sub-module you want to exclude
+
+    Raises:
+        AttributeError: Raising if you return a wrong sub-module from `excluding`
+
+    Returns:
+        nn.Module: The model with the new state dict
+    """
+    excluded = None
+    excluded_key = None
+
+    if excluding is not None:
+        excluded = excluding(model)
+
+    old_state_dict = model.state_dict()
+    # find the key name of the module we want to exluce
+    for name, module in model.named_modules():
+        if module is excluded:
+            excluded_key = name
+
+    wrong_module = excluded is not None and excluded_key is None
+
+    if wrong_module:
+        raise AttributeError(f"Model doesn't contain {excluded}")
+
+    if excluded_key is not None:
+        logging.info(
+            f"Weights starting with `{excluded_key}` won't be loaded.")
+        # copy in the new state the old weights
+        for k, v in state_dict.items():
+            if k.startswith(excluded_key):
+                state_dict[k] = old_state_dict[k]
+    # apply it to the model
+    model.load_state_dict(state_dict)
+    model.eval()
+    return model
 
 
 @dataclass
@@ -93,11 +147,12 @@ class BasicUrlHandler:
 
     def __call__(self, save_path: Path, chunk_size: int = 1024) -> Path:
         r = self.get_response()
-
+        chunk_size = chunk_size * 8
         with open(save_path, 'wb') as f:
             total_length = sys.getsizeof(r.content)
-            bar = tqdm(r.iter_content(chunk_size=chunk_size),
-                       total=total_length // chunk_size)
+            bar = track(r.iter_content(chunk_size=chunk_size),
+                        description="Downloading...",
+                        total=total_length // chunk_size)
             for chunk in bar:
                 if chunk:
                     f.write(chunk)
@@ -200,7 +255,7 @@ class PretrainedWeightsProvider:
         'vgg19_bn': BasicUrlHandler('https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg19_bn.pth'),
         'wide_resnet101_2': BasicUrlHandler('https://glasses-weights.s3.eu-central-1.amazonaws.com/wide_resnet101_2.pth'),
         'wide_resnet50_2': BasicUrlHandler('https://glasses-weights.s3.eu-central-1.amazonaws.com/wide_resnet50_2.pth'),
-        
+
     }
 
     def __post_init__(self):
