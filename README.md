@@ -79,7 +79,21 @@ from torch import nn
 model = AutoModel.from_pretrained('resnet18')
 cfg = AutoConfig.from_name('resnet18')
 model.summary(device='cpu' ) # thanks to torchsummary
-AutoModel.models() # 'resnet18', 'resnet26', 'resnet26d', 'resnet34', 'resnet50', ...
+AutoModel.models_table() 
+```
+
+```python
+            Models                 
+┏━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Name                   ┃ Pretrained ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ resnet18               │ true       │
+│ resnet26               │ true       │
+│ resnet26d              │ true       │
+│ resnet34               │ true       │
+│ resnet34d              │ true       │
+│ resnet50               │ true       │
+...
 ```
 
 ### Interpretability
@@ -228,10 +242,6 @@ model = EfficientNet.efficientnet_b1(pretrained=True)
 cfg = AutoConfig.from_name('efficientnet_b1')
 transform = cfg.transform
 ```
-
-    INFO:root:Loaded efficientnet_b1 pretrained weights.
-    INFO:root:Loaded efficientnet_b1 pretrained weights.
-
 
 In this case, `transform` is 
 

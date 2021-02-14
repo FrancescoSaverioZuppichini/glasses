@@ -7,7 +7,7 @@ from torch import nn
 
 
 class Dummy(nn.Sequential):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         super().__init__(nn.Conv2d(3, 32, kernel_size=3))
 
     @classmethod
@@ -24,6 +24,7 @@ def test_AutoModel():
     model = AutoModel.from_name('dummy')
     assert isinstance(model, Dummy)
     model = AutoModel.from_pretrained('dummy')
+    model = AutoModel.from_pretrained('dummy', excluding=lambda x: x[0])
     assert isinstance(model, Dummy)
     with pytest.raises(KeyError):
         model = AutoModel.from_name('resn')
@@ -36,8 +37,9 @@ def test_AutoModel():
     with pytest.raises(EnvironmentError):
         AutoModel()
     assert len(list(AutoModel.models())) > 0
-    assert len(AutoModel.pretrained_models()) > 0
+    assert len(list(AutoModel.pretrained_models())) > 0
 
+    assert len(list(AutoModel.models_table().columns[0].cells)) > 0
 
 
 def test_AutoConfig():
