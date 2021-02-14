@@ -10,7 +10,7 @@ class DropBlock(nn.Module):
 
         Similar to dropout but it maskes clusters of close pixels. The following image shows normal Dropout (b) and Drop Block (c) 
 
-        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/DropBlock.jpg?raw=true
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlock.jpg?raw=true
 
         Args:
             block_size (int, optional): Dimension of the pixel cluster. Defaults to 7.
