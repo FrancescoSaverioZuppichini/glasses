@@ -192,13 +192,7 @@ class AutoModel:
         Returns:
             List[str]: [description]
         """
-        table = Table(title="Models")
-        table.add_column("Name", justify="left", no_wrap=True)
-        table.add_column("Pretrained", justify="left", no_wrap=True)
-
-        [table.add_row(k, 'true' if k in PretrainedWeightsProvider.weights_zoo else 'false') for k in AutoModel.zoo.keys()]
-
-        return table
+        return AutoModel.zoo.keys()
 
     @staticmethod
     def pretrained_models() -> List[str]:
@@ -207,10 +201,19 @@ class AutoModel:
         Returns:
             List[str]: [description]
         """
+        return PretrainedWeightsProvider.weights_zoo.keys()
 
+    @staticmethod
+    def models_table() -> Table:
+        """List the available models name
+
+        Returns:
+            List[str]: [description]
+        """
         table = Table(title="Models")
         table.add_column("Name", justify="left", no_wrap=True)
+        table.add_column("Pretrained", justify="left", no_wrap=True)
 
-        [table.add_row(k) for k in PretrainedWeightsProvider.weights_zoo.keys()]
+        [table.add_row(k, 'true' if k in PretrainedWeightsProvider.weights_zoo else 'false') for k in AutoModel.zoo.keys()]
 
         return table
