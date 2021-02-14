@@ -32,7 +32,6 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -194,7 +193,7 @@
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.nn.att" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="glasses.nn.att.ChannelSE">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.att.</code><code class="sig-name descname">ChannelSE</code><span class="sig-paren">(</span><em class="sig-param">features: int</em>, <em class="sig-param">*args</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">inplace=True)</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#ChannelSE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.ChannelSE" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.att.</span></code><code class="sig-name descname"><span class="pre">ChannelSE</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></em>, <em class="sig-param"><span class="pre">inplace=True)</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#ChannelSE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.ChannelSE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#glasses.nn.att.SpatialSE" title="glasses.nn.att.SpatialSE"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.att.SpatialSE</span></code></a></p>
 <p>Modified implementation of Squeeze and Excitation Module proposed in <a class="reference external" href="https://arxiv.org/abs/1803.02579">Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks</a></p>
 <p>It squeezes channel-wise and excitates spatially.</p>
@@ -235,7 +234,7 @@
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.nn.att.ChannelSE.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/att.html#ChannelSE.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.ChannelSE.forward" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/att.html#ChannelSE.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.ChannelSE.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -249,14 +248,14 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py attribute">
 <dt id="glasses.nn.att.ChannelSE.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.att.ChannelSE.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.att.ChannelSE.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt id="glasses.nn.att.EfficientChannelAtt">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.att.</code><code class="sig-name descname">EfficientChannelAtt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">kernel_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">gamma</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">2</span></em>, <em class="sig-param"><span class="n">beta</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#EfficientChannelAtt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.EfficientChannelAtt" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.att.</span></code><code class="sig-name descname"><span class="pre">EfficientChannelAtt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#EfficientChannelAtt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.EfficientChannelAtt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>Implementation of Efficient Channel Attention proposed in <a class="reference external" href="https://arxiv.org/pdf/1910.03151.pdf">ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks</a></p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true" />
@@ -281,7 +280,7 @@ registered hooks while the latter silently ignores them.</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.nn.att.EfficientChannelAtt.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/att.html#EfficientChannelAtt.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.EfficientChannelAtt.forward" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/att.html#EfficientChannelAtt.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.EfficientChannelAtt.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -295,14 +294,14 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py attribute">
 <dt id="glasses.nn.att.EfficientChannelAtt.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.att.EfficientChannelAtt.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.att.EfficientChannelAtt.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt id="glasses.nn.att.SpatialChannelSE">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.att.</code><code class="sig-name descname">SpatialChannelSE</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialChannelSE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.SpatialChannelSE" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.att.</span></code><code class="sig-name descname"><span class="pre">SpatialChannelSE</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialChannelSE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.SpatialChannelSE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>Implementation of Spatial and Channel Squeeze and Excitation Module proposed in <a class="reference external" href="https://arxiv.org/abs/1803.02579">Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks</a></p>
 <p>This module combines booth Spatial and Channel Squeeze and Excitation</p>
@@ -343,7 +342,7 @@ registered hooks while the latter silently ignores them.</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.nn.att.SpatialChannelSE.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/att.html#SpatialChannelSE.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.SpatialChannelSE.forward" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialChannelSE.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.SpatialChannelSE.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -357,14 +356,14 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py attribute">
 <dt id="glasses.nn.att.SpatialChannelSE.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.att.SpatialChannelSE.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.att.SpatialChannelSE.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt id="glasses.nn.att.SpatialSE">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.att.</code><code class="sig-name descname">SpatialSE</code><span class="sig-paren">(</span><em class="sig-param">features: int</em>, <em class="sig-param">reduction: int = 16</em>, <em class="sig-param">reduced_features: Optional[int] = None</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">inplace=True)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialSE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.SpatialSE" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.att.</span></code><code class="sig-name descname"><span class="pre">SpatialSE</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">reduction:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">16</span></em>, <em class="sig-param"><span class="pre">reduced_features:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></em>, <em class="sig-param"><span class="pre">inplace=True)</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialSE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.SpatialSE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>Implementation of Squeeze and Excitation Module proposed in <a class="reference external" href="https://arxiv.org/abs/1709.01507">Squeeze-and-Excitation Networks</a>
 The idea is to apply a learned an channel-wise attention.</p>
@@ -417,7 +416,7 @@ The idea is to apply a learned an channel-wise attention.</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.nn.att.SpatialSE.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/att.html#SpatialSE.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.SpatialSE.forward" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialSE.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.SpatialSE.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -431,14 +430,14 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py attribute">
 <dt id="glasses.nn.att.SpatialSE.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.att.SpatialSE.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.att.SpatialSE.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt id="glasses.nn.att.WithAtt">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.att.</code><code class="sig-name descname">WithAtt</code><span class="sig-paren">(</span><em class="sig-param">block: torch.nn.modules.module.Module</em>, <em class="sig-param">att: torch.nn.modules.module.Module = &lt;class 'glasses.nn.att.SpatialSE'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#WithAtt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.WithAtt" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.att.</span></code><code class="sig-name descname"><span class="pre">WithAtt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">block:</span> <span class="pre">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="pre">att:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.att.SpatialSE'&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#WithAtt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.WithAtt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Utility class that adds an attention module after <cite>.block</cite>.</p>
 <dl class="field-list">

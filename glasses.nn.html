@@ -32,7 +32,6 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -203,11 +202,11 @@
 <span id="glasses-nn-regularization-module"></span><h2>glasses.nn.regularization module<a class="headerlink" href="#module-glasses.nn.regularization" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="glasses.nn.regularization.DropBlock">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.regularization.</code><code class="sig-name descname">DropBlock</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">block_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">7</span></em>, <em class="sig-param"><span class="n">p</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.5</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/regularization.html#DropBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.regularization.DropBlock" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.regularization.</span></code><code class="sig-name descname"><span class="pre">DropBlock</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/regularization.html#DropBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.regularization.DropBlock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>Implementation of Drop Block proposed in <a class="reference external" href="https://arxiv.org/abs/1810.12890">DropBlock: A regularization method for convolutional networks</a></p>
 <p>Similar to dropout but it maskes clusters of close pixels. The following image shows normal Dropout (b) and Drop Block (c)</p>
-<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/DropBlock.jpg?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/DropBlock.jpg?raw=true" />
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlock.jpg?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlock.jpg?raw=true" />
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -218,7 +217,7 @@
 </dl>
 <dl class="py method">
 <dt id="glasses.nn.regularization.DropBlock.calculate_gamma">
-<code class="sig-name descname">calculate_gamma</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/glasses/nn/regularization.html#DropBlock.calculate_gamma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.regularization.DropBlock.calculate_gamma" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">calculate_gamma</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">float</span><a class="reference internal" href="_modules/glasses/nn/regularization.html#DropBlock.calculate_gamma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.regularization.DropBlock.calculate_gamma" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute gamma, eq (1) in the paper</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -235,7 +234,7 @@
 
 <dl class="py method">
 <dt id="glasses.nn.regularization.DropBlock.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/regularization.html#DropBlock.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.regularization.DropBlock.forward" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/regularization.html#DropBlock.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.regularization.DropBlock.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -249,7 +248,7 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py attribute">
 <dt id="glasses.nn.regularization.DropBlock.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.regularization.DropBlock.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.regularization.DropBlock.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

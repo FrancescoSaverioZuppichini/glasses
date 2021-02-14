@@ -32,7 +32,6 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -200,7 +199,7 @@
 <span id="glasses-models-base-protocols-module"></span><h2>glasses.models.base.protocols module<a class="headerlink" href="#module-glasses.models.base.protocols" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="glasses.models.base.protocols.Freezable">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.models.base.protocols.</code><code class="sig-name descname">Freezable</code><a class="reference internal" href="_modules/glasses/models/base/protocols.html#Freezable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.base.protocols.Freezable" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.base.protocols.</span></code><code class="sig-name descname"><span class="pre">Freezable</span></code><a class="reference internal" href="_modules/glasses/models/base/protocols.html#Freezable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.base.protocols.Freezable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A protocol that allows to freeze and unfreeze weights of the class that uses it</p>
 <dl class="field-list simple">
@@ -221,29 +220,29 @@
 </div>
 <dl class="py method">
 <dt id="glasses.models.base.protocols.Freezable.freeze">
-<code class="sig-name descname">freeze</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">who</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>torch.nn.modules.module.Module<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/base/protocols.html#Freezable.freeze"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.base.protocols.Freezable.freeze" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">freeze</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">who</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/base/protocols.html#Freezable.freeze"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.base.protocols.Freezable.freeze" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="glasses.models.base.protocols.Freezable.set_requires_grad">
-<em class="property">static </em><code class="sig-name descname">set_requires_grad</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">module</span></em>, <em class="sig-param"><span class="n">to</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/base/protocols.html#Freezable.set_requires_grad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.base.protocols.Freezable.set_requires_grad" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">set_requires_grad</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/base/protocols.html#Freezable.set_requires_grad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.base.protocols.Freezable.set_requires_grad" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="glasses.models.base.protocols.Freezable.unfreeze">
-<code class="sig-name descname">unfreeze</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">who</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>torch.nn.modules.module.Module<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/base/protocols.html#Freezable.unfreeze"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.base.protocols.Freezable.unfreeze" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">unfreeze</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">who</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/base/protocols.html#Freezable.unfreeze"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.base.protocols.Freezable.unfreeze" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt id="glasses.models.base.protocols.Interpretable">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.models.base.protocols.</code><code class="sig-name descname">Interpretable</code><a class="reference internal" href="_modules/glasses/models/base/protocols.html#Interpretable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.base.protocols.Interpretable" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.base.protocols.</span></code><code class="sig-name descname"><span class="pre">Interpretable</span></code><a class="reference internal" href="_modules/glasses/models/base/protocols.html#Interpretable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.base.protocols.Interpretable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Protocol that allows the clas that subclass it to interpret an input using and instance of <cite>Interpretability</cite></p>
 <dl class="py method">
 <dt id="glasses.models.base.protocols.Interpretable.interpret">
-<code class="sig-name descname">interpret</code><span class="sig-paren">(</span><em class="sig-param">x: torch.Tensor</em>, <em class="sig-param">using: &lt;glasses.interpretability.Interpretability.Interpretability object at 0x7fbd29be4b20&gt;</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/base/protocols.html#Interpretable.interpret"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.base.protocols.Interpretable.interpret" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">interpret</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">x:</span> <span class="pre">torch.Tensor</span></em>, <em class="sig-param"><span class="pre">using:</span> <span class="pre">&lt;glasses.interpretability.Interpretability.Interpretability</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f0e0037c970&gt;</span></em>, <em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/base/protocols.html#Interpretable.interpret"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.base.protocols.Interpretable.interpret" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -253,46 +252,46 @@
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.models.base" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="glasses.models.base.Encoder">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.models.base.</code><code class="sig-name descname">Encoder</code><a class="reference internal" href="_modules/glasses/models/base.html#Encoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.base.Encoder" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.base.</span></code><code class="sig-name descname"><span class="pre">Encoder</span></code><a class="reference internal" href="_modules/glasses/models/base.html#Encoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.base.Encoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>Base encoder class, it allows to access the inner features.</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.models.base.Encoder.features">
-<em class="property">property </em><code class="sig-name descname">features</code><a class="headerlink" href="#glasses.models.base.Encoder.features" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">features</span></code><a class="headerlink" href="#glasses.models.base.Encoder.features" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="glasses.models.base.Encoder.features_widths">
-<em class="property">property </em><code class="sig-name descname">features_widths</code><a class="headerlink" href="#glasses.models.base.Encoder.features_widths" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">features_widths</span></code><a class="headerlink" href="#glasses.models.base.Encoder.features_widths" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="glasses.models.base.Encoder.stages">
-<em class="property">property </em><code class="sig-name descname">stages</code><a class="headerlink" href="#glasses.models.base.Encoder.stages" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">stages</span></code><a class="headerlink" href="#glasses.models.base.Encoder.stages" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="glasses.models.base.Encoder.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.models.base.Encoder.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.base.Encoder.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt id="glasses.models.base.VisionModule">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.models.base.</code><code class="sig-name descname">VisionModule</code><a class="reference internal" href="_modules/glasses/models/base.html#VisionModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.base.VisionModule" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.base.</span></code><code class="sig-name descname"><span class="pre">VisionModule</span></code><a class="reference internal" href="_modules/glasses/models/base.html#VisionModule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.base.VisionModule" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code>, <a class="reference internal" href="#glasses.models.base.protocols.Freezable" title="glasses.models.base.protocols.Freezable"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.base.protocols.Freezable</span></code></a>, <a class="reference internal" href="#glasses.models.base.protocols.Interpretable" title="glasses.models.base.protocols.Interpretable"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.base.protocols.Interpretable</span></code></a></p>
 <p>Base vision module, all models should subclass it.</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
 <dt id="glasses.models.base.VisionModule.configs">
-<code class="sig-name descname">configs</code><em class="property">: Dict<span class="p">[</span>str<span class="p">, </span><a class="reference internal" href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.Config" title="glasses.utils.PretrainedWeightsProvider.Config">glasses.utils.PretrainedWeightsProvider.Config</a><span class="p">]</span></em><em class="property"> = {}</em><a class="headerlink" href="#glasses.models.base.VisionModule.configs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">configs</span></code><em class="property"><span class="pre">:</span> <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="glasses.utils.html#glasses.utils.PretrainedWeightsProvider.Config" title="glasses.utils.PretrainedWeightsProvider.Config"><span class="pre">glasses.utils.PretrainedWeightsProvider.Config</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">{}</span></em><a class="headerlink" href="#glasses.models.base.VisionModule.configs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="glasses.models.base.VisionModule.summary">
-<code class="sig-name descname">summary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_shape</span><span class="o">=</span><span class="default_value">(3, 224, 224)</span></em>, <em class="sig-param"><span class="n">device</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>torch.device<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/base.html#VisionModule.summary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.models.base.VisionModule.summary" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">summary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(3,</span> <span class="pre">224,</span> <span class="pre">224)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.device</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/base.html#VisionModule.summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.base.VisionModule.summary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Useful method to run <cite>torchsummary</cite> directly from the model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

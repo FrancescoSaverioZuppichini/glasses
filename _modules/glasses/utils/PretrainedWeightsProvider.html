@@ -32,7 +32,6 @@
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -175,7 +174,7 @@
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">AnyStr</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
 <span class="kn">from</span> <span class="nn">.ModuleTransfer</span> <span class="kn">import</span> <span class="n">ModuleTransfer</span>
 <span class="kn">from</span> <span class="nn">tqdm.autonotebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
@@ -184,6 +183,8 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">rich.progress</span> <span class="kn">import</span> <span class="n">track</span>
+
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 
 <span class="n">IMAGENET_DEFAULT_MEAN</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">])</span>
@@ -231,22 +232,74 @@
         <span class="sd">&quot;&quot;&quot;Decorator to fetch the pretrained model.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            func ([Callable]): [description]</span>
+<span class="sd">            func ([Callable]): The function to which the decorator is applied</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            [Callable]: [description]</span>
+<span class="sd">            [Callable]: The decorated funtion</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">if</span> <span class="n">_name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_name</span>
         <span class="n">provider</span> <span class="o">=</span> <span class="n">PretrainedWeightsProvider</span><span class="p">()</span>
+
         <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span>  <span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span>  <span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">excluding</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">],</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
             <span class="n">model</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">pretrained</span><span class="p">:</span>
-                <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">provider</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
-                <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+                <span class="n">state_dict</span> <span class="o">=</span> <span class="n">provider</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                <span class="n">model</span> <span class="o">=</span> <span class="n">load_pretrained_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">,</span> <span class="n">excluding</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">model</span>
         <span class="k">return</span> <span class="n">wrapper</span>
     <span class="k">return</span> <span class="n">decorator</span></div>
+
+
+<div class="viewcode-block" id="load_pretrained_model"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.PretrainedWeightsProvider.load_pretrained_model">[docs]</a><span class="k">def</span> <span class="nf">load_pretrained_model</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+                          <span class="n">state_dict</span><span class="p">:</span> <span class="n">StateDict</span><span class="p">,</span>
+                          <span class="n">excluding</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">],</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Load the pretrained weights to the model. Optionally, you can exclude some sub-module.</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">        &gt;&gt;&gt; load_pretrained_model(your_model, pretrained_state_dict)</span>
+<span class="sd">        &gt;&gt;&gt; #load the pretrained weights but not in `model.head`</span>
+<span class="sd">        &gt;&gt;&gt; load_pretrained_model(your_model, pretrained_state_dict, excluding: lambda model: model.head)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (nn.Module): A PyTorch Module</span>
+<span class="sd">        state_dict (Dict[AnyStr, Tensor]): The state dict you want to use</span>
+<span class="sd">        excluding (Callable[[nn.Module], nn.Module], optional): [description]. A function telling which sub-module you want to exclude</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        AttributeError: Raising if you return a wrong sub-module from `excluding`</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        nn.Module: The model with the new state dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">excluded</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">excluded_key</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">excluding</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">excluded</span> <span class="o">=</span> <span class="n">excluding</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+    <span class="n">old_state_dict</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span>
+    <span class="c1"># find the key name of the module we want to exluce</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_modules</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">module</span> <span class="ow">is</span> <span class="n">excluded</span><span class="p">:</span>
+            <span class="n">excluded_key</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="n">wrong_module</span> <span class="o">=</span> <span class="n">excluded</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">excluded_key</span> <span class="ow">is</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">wrong_module</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model doesn&#39;t contain </span><span class="si">{</span><span class="n">excluded</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">excluded_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Weights starting with `</span><span class="si">{</span><span class="n">excluded_key</span><span class="si">}</span><span class="s2">` won&#39;t be loaded.&quot;</span><span class="p">)</span>
+        <span class="c1"># copy in the new state the old weights</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">state_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">excluded_key</span><span class="p">):</span>
+                <span class="n">state_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_state_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="c1"># apply it to the model</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">model</span></div>
 
 
 <div class="viewcode-block" id="BasicUrlHandler"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.PretrainedWeightsProvider.BasicUrlHandler">[docs]</a><span class="nd">@dataclass</span>
@@ -259,11 +312,12 @@
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_response</span><span class="p">()</span>
-
+        <span class="n">chunk_size</span> <span class="o">=</span> <span class="n">chunk_size</span> <span class="o">*</span> <span class="mi">8</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">total_length</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-            <span class="n">bar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">),</span>
-                       <span class="n">total</span><span class="o">=</span><span class="n">total_length</span> <span class="o">//</span> <span class="n">chunk_size</span><span class="p">)</span>
+            <span class="n">bar</span> <span class="o">=</span> <span class="n">track</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">),</span>
+                        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Downloading...&quot;</span><span class="p">,</span>
+                        <span class="n">total</span><span class="o">=</span><span class="n">total_length</span> <span class="o">//</span> <span class="n">chunk_size</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">bar</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">chunk</span><span class="p">:</span>
                     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
@@ -366,7 +420,7 @@
         <span class="s1">&#39;vgg19_bn&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg19_bn.pth&#39;</span><span class="p">),</span>
         <span class="s1">&#39;wide_resnet101_2&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/wide_resnet101_2.pth&#39;</span><span class="p">),</span>
         <span class="s1">&#39;wide_resnet50_2&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/wide_resnet50_2.pth&#39;</span><span class="p">),</span>
-        
+
     <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

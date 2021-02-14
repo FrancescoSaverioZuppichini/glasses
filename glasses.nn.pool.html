@@ -32,7 +32,6 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -199,7 +198,7 @@
 <span id="glasses-nn-pool-spatialpyramidpool-module"></span><h2>glasses.nn.pool.SpatialPyramidPool module<a class="headerlink" href="#module-glasses.nn.pool.SpatialPyramidPool" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="glasses.nn.pool.SpatialPyramidPool.SpatialPyramidPool">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.pool.SpatialPyramidPool.</code><code class="sig-name descname">SpatialPyramidPool</code><span class="sig-paren">(</span><em class="sig-param">num_pools: List[int] = [1, 4, 16], pool: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.pooling.AdaptiveMaxPool2d'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/pool/SpatialPyramidPool.html#SpatialPyramidPool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.pool.SpatialPyramidPool.SpatialPyramidPool" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.pool.SpatialPyramidPool.</span></code><code class="sig-name descname"><span class="pre">SpatialPyramidPool</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">num_pools:</span> <span class="pre">List[int]</span> <span class="pre">=</span> <span class="pre">[1,</span> <span class="pre">4,</span> <span class="pre">16],</span> <span class="pre">pool:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.pooling.AdaptiveMaxPool2d'&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/pool/SpatialPyramidPool.html#SpatialPyramidPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.pool.SpatialPyramidPool.SpatialPyramidPool" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>Implementation of <a class="reference external" href="https://arxiv.org/pdf/1406.4729.pdf">Spatial Pyramid Pooling in Deep Convolutional Networks  for Visual Recognition</a></p>
 <p>It generate fixed length representation regardless of image dimensions.</p>
@@ -220,7 +219,7 @@
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.nn.pool.SpatialPyramidPool.SpatialPyramidPool.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/pool/SpatialPyramidPool.html#SpatialPyramidPool.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.pool.SpatialPyramidPool.SpatialPyramidPool.forward" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/pool/SpatialPyramidPool.html#SpatialPyramidPool.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.pool.SpatialPyramidPool.SpatialPyramidPool.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -234,7 +233,7 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py attribute">
 <dt id="glasses.nn.pool.SpatialPyramidPool.SpatialPyramidPool.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.pool.SpatialPyramidPool.SpatialPyramidPool.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.pool.SpatialPyramidPool.SpatialPyramidPool.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -244,7 +243,7 @@ registered hooks while the latter silently ignores them.</p>
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.nn.pool" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="glasses.nn.pool.SpatialPyramidPool">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.pool.</code><code class="sig-name descname">SpatialPyramidPool</code><span class="sig-paren">(</span><em class="sig-param">num_pools: List[int] = [1, 4, 16], pool: torch.nn.modules.module.Module = &lt;class 'torch.nn.modules.pooling.AdaptiveMaxPool2d'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/pool/SpatialPyramidPool.html#SpatialPyramidPool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.pool.SpatialPyramidPool" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.pool.</span></code><code class="sig-name descname"><span class="pre">SpatialPyramidPool</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">num_pools:</span> <span class="pre">List[int]</span> <span class="pre">=</span> <span class="pre">[1,</span> <span class="pre">4,</span> <span class="pre">16],</span> <span class="pre">pool:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.pooling.AdaptiveMaxPool2d'&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/pool/SpatialPyramidPool.html#SpatialPyramidPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.pool.SpatialPyramidPool" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>Implementation of <a class="reference external" href="https://arxiv.org/pdf/1406.4729.pdf">Spatial Pyramid Pooling in Deep Convolutional Networks  for Visual Recognition</a></p>
 <p>It generate fixed length representation regardless of image dimensions.</p>
@@ -265,7 +264,7 @@ registered hooks while the latter silently ignores them.</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.nn.pool.SpatialPyramidPool.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/pool/SpatialPyramidPool.html#SpatialPyramidPool.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.pool.SpatialPyramidPool.forward" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/pool/SpatialPyramidPool.html#SpatialPyramidPool.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.pool.SpatialPyramidPool.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -279,7 +278,7 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py attribute">
 <dt id="glasses.nn.pool.SpatialPyramidPool.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.pool.SpatialPyramidPool.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.pool.SpatialPyramidPool.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
