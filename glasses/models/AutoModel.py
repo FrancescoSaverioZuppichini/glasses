@@ -205,7 +205,7 @@ class AutoModel:
 
     @staticmethod
     def models_table() -> Table:
-        """List the available models name
+        """Show a nice formated table with all the models available
 
         Returns:
             List[str]: [description]
