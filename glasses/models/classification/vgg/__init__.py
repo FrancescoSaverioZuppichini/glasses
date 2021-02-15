@@ -1,13 +1,12 @@
 from __future__ import annotations
 from torch import nn
 from torch import Tensor
-from collections import OrderedDict
 from typing import List
 from functools import partial
 from ..resnet import ReLUInPlace
 from glasses.nn.blocks import ConvAct, ConvBnAct
-from glasses.utils.PretrainedWeightsProvider import Config, pretrained
-from ....models.base import VisionModule, Encoder
+from glasses.utils.PretrainedWeightsProvider import  pretrained
+from ....models.base import  Encoder
 from ..base import ClassificationModule
 
 """Implementations of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition <https://arxiv.org/pdf/1409.1556.pdf>`_

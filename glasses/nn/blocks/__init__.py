@@ -1,11 +1,8 @@
 
-import torch
 import torch.nn as nn
 from functools import partial
-from collections import OrderedDict
 from typing import Callable, Union
 from torch import Tensor
-from enum import Enum
 import math
 from torch.nn import functional as F
 from ..regularization import DropBlock

@@ -1,12 +1,9 @@
-import cv2
 import matplotlib.pyplot as plt
-import numpy as np
 import torch
-from glasses.utils.Storage import BackwardModuleStorage, ForwardModuleStorage
+from glasses.utils.Storage import BackwardModuleStorage
 from torch import nn
 from torch.autograd import Variable
 from torch.nn import ReLU
-from torchvision.transforms import *
 
 from .Interpretability import Interpretability
 from .utils import convert_to_grayscale, find_first_layer

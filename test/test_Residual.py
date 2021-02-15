@@ -1,4 +1,3 @@
-import unittest
 import torch
 import torch.nn as nn
 from glasses.nn.blocks.residuals import ResidualAdd, ResidualCat, Cat

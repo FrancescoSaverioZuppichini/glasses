@@ -1,13 +1,10 @@
 import difflib
-from functools import wraps
-from typing import Any, Callable, List, OrderedDict
+from typing import List, OrderedDict
 from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
 from torch import nn
-
 from .classification import *
 from .segmentation import *
 from rich.table import Table
-from rich.console import Console
 
 
 class AutoModel:

@@ -2,16 +2,14 @@ from __future__ import annotations
 import torch
 from torch import nn
 from torch import Tensor
-from ..resnet import ResNetEncoder, ResNetHead, ResNet, ResNetStem
+from ..resnet import ResNetEncoder, ResNetHead, ResNetStem
 from collections import OrderedDict
 from typing import List
-from functools import partial
 from ..resnet import ReLUInPlace
-from glasses.nn.blocks.residuals import ResidualCat2d
 from glasses.nn.blocks import Conv2dPad
 from ..base import ClassificationModule
 
-from glasses.utils.PretrainedWeightsProvider import Config, pretrained
+from glasses.utils.PretrainedWeightsProvider import pretrained
 
 
 class DenseNetBasicBlock(nn.Module):

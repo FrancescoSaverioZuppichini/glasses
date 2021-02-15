@@ -1,16 +1,12 @@
 from __future__ import annotations
-from ast import parse
-from collections import OrderedDict
 from torch import nn
 from einops.layers.torch import Rearrange, Reduce
 from einops import rearrange, reduce
 from torch import Tensor
-from glasses.nn.blocks import ConvBnAct, Conv2dPad, ConvBnDropAct, Lambda
+from glasses.nn.blocks import ConvBnAct,  ConvBnDropAct
 from ..resnetxt import ResNetXtBottleNeckBlock
 from ..resnet import ReLUInPlace, ResNet, ResNetStemC, ResNetLayer, ResNetEncoder
 from typing import List
-from glasses.nn.regularization import DropBlock
-
 
 class SplitAtt(nn.Module):
     def __init__(self, in_features: int, features: int, radix: int, groups: int):
