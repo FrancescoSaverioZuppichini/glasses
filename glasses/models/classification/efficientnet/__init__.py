@@ -3,17 +3,15 @@ import torch
 import numpy as np
 from torch import nn
 from torch import Tensor
-from glasses.nn.blocks.residuals import ResidualAdd
 from collections import OrderedDict
-from typing import List, Union, Dict
+from typing import List
 from functools import partial
-from glasses.nn.blocks import Conv2dPad, ConvBnAct
+from glasses.nn.blocks import ConvBnAct
 from glasses.nn.att import ChannelSE
 from ....models.utils.scaler import CompoundScaler
-from glasses.utils.PretrainedWeightsProvider import Config
-from ....models.base import VisionModule, Encoder
+from ....models.base import  Encoder
 from ..resnet import ResNetLayer
-from glasses.utils.PretrainedWeightsProvider import Config, pretrained
+from glasses.utils.PretrainedWeightsProvider import pretrained
 from ..base import ClassificationModule
 
 class InvertedResidualBlock(nn.Module):

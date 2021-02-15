@@ -8,11 +8,8 @@ import torch.nn as nn
 import numpy as np
 from torch import nn
 from dataclasses import dataclass
-from functools import partial
-from typing import Dict, AnyStr
+from typing import Dict
 from torch import Tensor
-from .ModuleTransfer import ModuleTransfer
-from tqdm.autonotebook import tqdm
 from pathlib import Path
 from PIL import Image
 from typing import Tuple

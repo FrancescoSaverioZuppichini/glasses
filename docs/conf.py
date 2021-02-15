@@ -1,9 +1,7 @@
-import sphinx_rtd_theme
 # import pytorch_sphinx_theme
 import os
 import sys
 from pprint import pformat
-from sphinx.util import inspect
 
 # Configuration file for the Sphinx documentation builder.
 #

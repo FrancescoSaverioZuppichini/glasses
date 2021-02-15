@@ -2,15 +2,12 @@ from __future__ import annotations
 import torch
 from torch import nn
 from torch import Tensor
-from glasses.nn.blocks.residuals import ResidualAdd
-from glasses.nn.blocks import Conv2dPad, ConvBnAct, BnActConv
-from ..resnet import ResNetShorcut, ResNetLayer
-from collections import OrderedDict
+from glasses.nn.blocks import BnActConv
+from ..resnet import ResNetShorcut
 from typing import List
 from functools import partial
-from ..resnet import ResNetBottleneckBlock, ReLUInPlace, ResNetEncoder, ResNetShorcut, ResNetBottleneckPreActBlock, ResNetStemC
-from glasses.nn.att import ChannelSE
-from ....models.base import VisionModule, Encoder
+from ..resnet import  ReLUInPlace, ResNetShorcut, ResNetBottleneckPreActBlock, ResNetStemC
+from ....models.base import  Encoder
 from ..base import ClassificationModule
 
 FishNetShortCut = partial(BnActConv, kernel_size=1)

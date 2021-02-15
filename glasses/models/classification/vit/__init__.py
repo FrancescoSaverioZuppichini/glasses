@@ -1,5 +1,6 @@
 from __future__ import annotations
 import torch
+import torch.nn.functional as F
 from torch import nn
 from torch import Tensor
 from glasses.nn.blocks.residuals import ResidualAdd
@@ -7,7 +8,6 @@ from glasses.nn.blocks import Lambda
 from collections import OrderedDict
 from glasses.utils.PretrainedWeightsProvider import pretrained
 from ....models.base import Encoder, VisionModule
-import torch.nn.functional as F
 from einops import rearrange, reduce, repeat
 from einops.layers.torch import Rearrange, Reduce
 from typing import List
