@@ -163,9 +163,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for glasses.interpretability.GradCam</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">torch</span>
+<span></span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
 
@@ -173,11 +171,11 @@
 <span class="kn">from</span> <span class="nn">torch.autograd</span> <span class="kn">import</span> <span class="n">Variable</span>
 <span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">ReLU</span>
 <span class="kn">from</span> <span class="nn">torch.autograd</span> <span class="kn">import</span> <span class="n">Variable</span>
-<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">AvgPool2d</span><span class="p">,</span> <span class="n">Conv2d</span><span class="p">,</span> <span class="n">Linear</span><span class="p">,</span> <span class="n">ReLU</span><span class="p">,</span> <span class="n">MaxPool2d</span><span class="p">,</span> <span class="n">BatchNorm2d</span>
+<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span>  <span class="n">ReLU</span>
 <span class="kn">from</span> <span class="nn">.Interpretability</span> <span class="kn">import</span> <span class="n">Interpretability</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">glasses.utils.Storage</span> <span class="kn">import</span> <span class="n">ForwardModuleStorage</span><span class="p">,</span> <span class="n">BackwardModuleStorage</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">tensor2cam</span><span class="p">,</span> <span class="n">image2cam</span><span class="p">,</span> <span class="n">find_last_layer</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">tensor2cam</span><span class="p">,</span> <span class="n">find_last_layer</span>
 
 
 <div class="viewcode-block" id="GradCamResult"><a class="viewcode-back" href="../../../glasses.interpretability.html#glasses.interpretability.GradCam.GradCamResult">[docs]</a><span class="k">class</span> <span class="nc">GradCamResult</span><span class="p">:</span>

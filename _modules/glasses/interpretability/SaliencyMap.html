@@ -163,15 +163,12 @@
            <div itemprop="articleBody">
             
   <h1>Source code for glasses.interpretability.SaliencyMap</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">glasses.utils.Storage</span> <span class="kn">import</span> <span class="n">BackwardModuleStorage</span><span class="p">,</span> <span class="n">ForwardModuleStorage</span>
+<span class="kn">from</span> <span class="nn">glasses.utils.Storage</span> <span class="kn">import</span> <span class="n">BackwardModuleStorage</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
 <span class="kn">from</span> <span class="nn">torch.autograd</span> <span class="kn">import</span> <span class="n">Variable</span>
 <span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">ReLU</span>
-<span class="kn">from</span> <span class="nn">torchvision.transforms</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="kn">from</span> <span class="nn">.Interpretability</span> <span class="kn">import</span> <span class="n">Interpretability</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">convert_to_grayscale</span><span class="p">,</span> <span class="n">find_first_layer</span>
