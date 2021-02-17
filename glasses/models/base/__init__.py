@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 from glasses.utils.PretrainedWeightsProvider import Config
 from glasses.utils.Storage import ForwardModuleStorage
-from torchsummary import summary
+from torchinfo import summary
 
 from .protocols import Freezable, Interpretable
 
@@ -16,8 +16,8 @@ class VisionModule(nn.Module, Freezable, Interpretable):
     """
     configs: Dict[str, Config] = {}
 
-    def summary(self, input_shape=(3, 224, 224), device: torch.device = None):
-        """Useful method to run `torchsummary` directly from the model
+    def summary(self, input_shape=(1, 3, 224, 224), device: torch.device = None):
+        """Useful method to run `torchinfo` directly from the model
 
         Args:
             input_shape (tuple, optional): [description]. Defaults to (3, 224, 224).
