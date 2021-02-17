@@ -78,7 +78,7 @@ from torch import nn
 # load one model
 model = AutoModel.from_pretrained('resnet18')
 cfg = AutoConfig.from_name('resnet18')
-model.summary(device='cpu' ) # thanks to torchsummary
+model.summary(device='cpu' ) # thanks to torchinfo
 AutoModel.models_table() 
 ```
 

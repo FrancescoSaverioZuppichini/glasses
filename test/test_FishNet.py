@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from glasses.models.classification.fishnet import FishNet, FishNetBottleNeck
 from glasses.nn.att import SpatialSE
-from torchsummary import summary
+from torchinfo import summary
 
 
 def test_fishnet():

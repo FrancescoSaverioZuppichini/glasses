@@ -2,7 +2,7 @@ from argparse import ArgumentParser
 
 import pandas as pd
 import torch
-from torchsummary import summary
+from torchinfo import summary
 import tqdm
 from pathlib import Path
 from glasses.models import AutoModel, AutoConfig

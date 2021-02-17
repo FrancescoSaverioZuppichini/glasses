@@ -5,6 +5,7 @@ from glasses.utils.PretrainedWeightsProvider import (BasicUrlHandler, Config,
                                                      pretrained)
 from torch import nn
 
+from torchinfo.torchinfo import ModelStatistics
 
 class Dummy(nn.Sequential):
     def __init__(self, *args, **kwargs):
@@ -40,7 +41,8 @@ def test_AutoModel():
     assert len(list(AutoModel.pretrained_models())) > 0
 
     assert len(list(AutoModel.models_table().columns[0].cells)) > 0
-
+    
+    assert type(AutoModel.from_name('resnet18').summary()) == ModelStatistics
 
 def test_AutoConfig():
     cfg = AutoConfig.from_name('resnet18')
