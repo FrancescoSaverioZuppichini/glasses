@@ -1,13 +1,12 @@
 from __future__ import annotations
 from torch import nn
 from torch import Tensor
-from glasses.nn.blocks.residuals import ResidualAdd
 from glasses.nn.blocks import Conv2dPad, BnActConv, ConvBnAct
 from collections import OrderedDict
 from typing import List
 from functools import partial
-from glasses.utils.PretrainedWeightsProvider import Config, pretrained
-from ....models.base import Encoder, VisionModule
+from glasses.utils.PretrainedWeightsProvider import pretrained
+from ....models.base import Encoder
 from ..base import ClassificationModule
 
 """Implementation of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`

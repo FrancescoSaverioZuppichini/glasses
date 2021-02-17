@@ -2,7 +2,6 @@ from typing import List
 import torch
 from torch import nn
 from torch import Tensor
-import torch.nn.functional as F
 from math import sqrt
 
 class SpatialPyramidPool(nn.Module):

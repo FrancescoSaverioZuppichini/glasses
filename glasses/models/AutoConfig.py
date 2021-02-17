@@ -1,9 +1,6 @@
-from collections import OrderedDict
-import difflib
 
 from glasses.models import *
-from glasses.utils.PretrainedWeightsProvider import (Config,
-                                                     PretrainedWeightsProvider)
+from glasses.utils.PretrainedWeightsProvider import Config
 from torch import nn
 
 

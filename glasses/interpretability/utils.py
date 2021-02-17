@@ -3,7 +3,7 @@ import numpy as np
 import torch
 from torch import nn
 from glasses.utils.Tracker import Tracker
-from typing import Type, Callable
+from typing import Type
 
 
 def tensor2cam(image, cam):

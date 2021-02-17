@@ -1,6 +1,5 @@
 import math
 import time
-from functools import partial
 from pathlib import Path
 from pprint import pprint
 
@@ -8,23 +7,14 @@ import numpy as np
 import pandas as pd
 import torch
 import torch.nn as nn
-from PIL import Image
 from sotabencheval.image_classification import ImageNetEvaluator
 from torchvision.datasets import ImageNet
-from torchvision.models import (densenet121, densenet161, densenet169,
-                                densenet201, mobilenet_v2, resnet18, resnet34,
-                                resnet50, resnet101, resnet152,
-                                resnext50_32x4d, resnext101_32x8d, vgg11,
-                                vgg13, vgg16, vgg19, wide_resnet50_2,
-                                wide_resnet101_2)
-from torchvision.transforms import (CenterCrop, Compose, Normalize, Resize,
-                                    ToTensor)
+
 from tqdm.autonotebook import tqdm
 
 from glasses.models import *
 from glasses.models.AutoModel import AutoModel
 from glasses.models.AutoConfig import AutoConfig
-from glasses.utils.ModuleTransfer import ModuleTransfer
 from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
 
 models =list(PretrainedWeightsProvider.weights_zoo.keys())

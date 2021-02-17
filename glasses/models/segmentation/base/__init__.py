@@ -39,7 +39,7 @@ class SegmentationModule(VisionModule):
         return x
 
     @abstractclassmethod
-    def from_encoder(cls, model: Callable, *args, **kwargs) -> nn.Module:
+    def from_encoder(cls, model: nn.Module, *args, **kwargs) -> nn.Module:
         """Extract the decoder part from a given model.
 
         Args:

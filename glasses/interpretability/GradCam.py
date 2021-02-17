@@ -1,5 +1,3 @@
-import cv2
-import numpy as np
 import torch
 import matplotlib.pyplot as plt
 import torch.nn.functional as F
@@ -8,11 +6,11 @@ from torch import nn
 from torch.autograd import Variable
 from torch.nn import ReLU
 from torch.autograd import Variable
-from torch.nn import AvgPool2d, Conv2d, Linear, ReLU, MaxPool2d, BatchNorm2d
+from torch.nn import  ReLU
 from .Interpretability import Interpretability
-from typing import Type, Callable
+from typing import Callable
 from glasses.utils.Storage import ForwardModuleStorage, BackwardModuleStorage
-from .utils import tensor2cam, image2cam, find_last_layer
+from .utils import tensor2cam, find_last_layer
 
 
 class GradCamResult:

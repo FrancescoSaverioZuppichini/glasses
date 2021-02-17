@@ -1,20 +1,16 @@
 from __future__ import annotations
 import numpy as np
 from torch import nn
-from torch import Tensor
-from glasses.nn.blocks.residuals import ResidualAdd
-from glasses.nn.blocks import Conv2dPad, BnActConv, ConvBnAct
-from collections import OrderedDict
-from typing import List
+from glasses.nn.blocks import ConvBnAct
 from functools import partial
-from glasses.utils.PretrainedWeightsProvider import Config, pretrained
-from ....models.base import Encoder, VisionModule
+from glasses.utils.PretrainedWeightsProvider import pretrained
+from ....models.base import Encoder
 from ..resnet import ResNet, ResNetEncoder, ResNetBottleneckBlock
-from ..resnetxt import ResNetXtBottleNeckBlock
 from glasses.nn.att import ChannelSE
 
 """Implementation of RegNet proposed in `Designing Network Design Spaces <https://arxiv.org/abs/2003.13678>_`
 """
+
 
 class RegNetScaler:
     """Generates per stage widths and depths from RegNet parameters. 
@@ -180,7 +176,7 @@ class RegNet(ResNet):
                      'regnety_320': ([2, 5, 12, 1], [232, 696, 1392, 3712], 232)
                      }
 
-    def __init__(self,encoder: nn.Module = RegNetEncoder, *args, **kwargs):
+    def __init__(self, encoder: nn.Module = RegNetEncoder, *args, **kwargs):
         super().__init__(encoder, *args, **kwargs)
 
     @classmethod

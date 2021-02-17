@@ -3,7 +3,6 @@ from torch import nn
 from torch import Tensor
 from collections import OrderedDict
 from typing import List
-from functools import partial
 from ..resnet import ReLUInPlace
 from glasses.nn.blocks import ConvAct
 from ....models.base import VisionModule, Encoder
@@ -32,7 +31,7 @@ class AlexNetStem(nn.Sequential):
         )
 
 
-class AlexNetEncoder(nn.Module):
+class AlexNetEncoder(Encoder):
     """
     AlexNet encoder
     """

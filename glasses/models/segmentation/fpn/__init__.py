@@ -1,10 +1,8 @@
 from __future__ import annotations
 import torch
-import torch.nn.functional as F
 from torch import nn
 from torch import Tensor
-from collections import OrderedDict
-from typing import List, Callable, Union
+from typing import List
 from functools import partial
 from glasses.nn.blocks import ConvBnAct
 from ..base import SegmentationModule

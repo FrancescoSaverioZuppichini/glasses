@@ -9,10 +9,8 @@ from typing import Dict
 
 import boto3
 import pretrainedmodels
-import requests
 import timm
 import torch
-from boto3.s3.transfer import TransferConfig
 from torch import Tensor, nn
 from torchvision.models import (densenet121, densenet161, densenet169,
                                 densenet201, mobilenet_v2, resnet18, resnet34,
