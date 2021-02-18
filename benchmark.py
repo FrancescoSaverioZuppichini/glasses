@@ -120,18 +120,20 @@ def benchmark_all() -> pd.DataFrame:
     except Exception as e:
         print(e)
         pass
-    new_df = pd.DataFrame.from_records(records, index=index)
+    
+    if len(records) > 0: 
+        new_df = pd.DataFrame.from_records(records, index=index)
 
-    if df is not None:
-        df = pd.concat([df, new_df])
-    else:
-        df = new_df
+        if df is not None:
+            df = pd.concat([df, new_df])
+        else:
+            df = new_df
 
-    df.to_csv('./benchmark.csv')
-    mk = df.sort_values('top1', ascending=False).to_markdown()
+        df.to_csv('./benchmark.csv')
+        mk = df.sort_values('top1', ascending=False).to_markdown()
 
-    with open('./benchmark.md', 'w') as f:
-        f.write(mk)
+        with open('./benchmark.md', 'w') as f:
+            f.write(mk)
 
     return df
 

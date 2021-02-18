@@ -1,5 +1,5 @@
-from typing import List
 import torch
+from typing import List
 from torch import nn
 from torch import Tensor
 from math import sqrt
