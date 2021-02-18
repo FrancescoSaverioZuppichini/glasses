@@ -13,7 +13,7 @@ import timm
 import torch
 from torch import Tensor, nn
 from torchvision.models import (densenet121, densenet161, densenet169,
-                                densenet201, mobilenet_v2, resnet18, resnet34,
+                                densenet201, resnet18,
                                 resnet50, resnet101, resnet152,
                                 resnext50_32x4d, resnext101_32x8d, vgg11,
                                 vgg13, vgg16, vgg19, wide_resnet50_2,

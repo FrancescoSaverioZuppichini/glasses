@@ -12,6 +12,10 @@ class DropBlock(nn.Module):
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlock.jpg?raw=true
 
+        The following picture shows the effect of DropBlock on an input image
+
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlockGrogu.png
+        
         Args:
             block_size (int, optional): Dimension of the pixel cluster. Defaults to 7.
             p (float, optional): probability, the bigger the mode clusters. Defaults to 0.5.
@@ -40,7 +44,7 @@ class DropBlock(nn.Module):
                                               self.block_size, self.block_size),
                                           stride=(1, 1),
                                           padding=(self.block_size // 2, self.block_size // 2))
-            x = mask_block * x * (mask_block.numel()/mask_block.sum())
+            x = mask_block * x * (mask_block.numel() / mask_block.sum())
         return x
 
     def __repr__(self):
