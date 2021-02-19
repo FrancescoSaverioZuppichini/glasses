@@ -13,9 +13,9 @@ class SaliencyMapResult:
     def __init__(self, saliency_map: torch.Tensor):
         self.saliency_map = saliency_map
 
-    def show(self) -> plt.figure:
+    def show(self, *args, **kwargs) -> plt.figure:
 
-        fig = plt.figure()
+        fig = plt.figure(*args, **kwargs)
         plt.imshow(self.saliency_map.squeeze())
 
         return fig

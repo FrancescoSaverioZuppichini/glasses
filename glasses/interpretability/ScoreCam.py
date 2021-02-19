@@ -38,7 +38,7 @@ class ScoreCam(Interpretability):
             target = torch.argmax(torch.softmax(out, dim=1))
         acts = F.relu(features)
         # rescale the activations to match the input size
-        acts_up = F.interpolate(acts, size=x.shape[2:], mode='bilinear')
+        acts_up = F.interpolate(acts, size=x.shape[2:], mode='bilinear', align_corners=False)
         # normalize 
         acts_up = (acts_up - acts_up.min()) / (acts_up.max() - acts_up.min())
         # repeat the input matching the number of acts

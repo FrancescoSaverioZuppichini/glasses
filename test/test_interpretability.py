@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from glasses.interpretability import GradCam, SaliencyMap
+from glasses.interpretability import GradCam, SaliencyMap, ScoreCam
 from glasses.interpretability.utils import *
 import matplotlib.pyplot as plt
 from torchvision.transforms import Resize, ToPILImage, ToTensor, Compose
@@ -55,7 +55,7 @@ def test_scorecam():
         nn.Linear(32, 10)
     )
 
-    cam = GradCam()
+    cam = ScoreCam()
 
     cam_res = cam(x, model)
 
@@ -74,7 +74,7 @@ def test_scorecam():
     assert type(cam_res.cam) == torch.Tensor
     assert cam_res.show()
 
-    cam = GradCam()
+    cam = ScoreCam()
     target = 1
     cam_res = cam(x, model, target=target)
 

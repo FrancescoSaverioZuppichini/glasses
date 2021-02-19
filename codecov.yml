@@ -3,3 +3,4 @@ ignore:
   - "transfer_weights.py"  # ignore transfer weights script
   - "benchmark.py"  # ignore benchmark script
   - "temp.py" 
+  - "setup.py"

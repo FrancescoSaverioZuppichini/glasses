@@ -136,7 +136,7 @@ class FishNetBrigde(nn.Module):
         return (x * att) + att
 
 
-class FishNetTailBlock(nn.Module):
+class FishNetTailBlock(nn.Sequential):
     """FishNet Tail Block, simi
 
     Args:
@@ -148,24 +148,12 @@ class FishNetTailBlock(nn.Module):
 
     def __init__(self, in_features: int, out_features: int, depth: int = 1,
                  block: nn.Module = FishNetBottleNeck, *args, **kwargs):
-        super().__init__()
-        self.block = nn.Sequential(block(in_features, out_features, **kwargs),
+        super().__init__(block(in_features, out_features, **kwargs),
                                    *[block(out_features, out_features, **kwargs)
                                      for _ in range(depth-1)],
                                    nn.MaxPool2d(kernel_size=2, stride=2))
+  
 
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.block(x)
-        return x
-
-
-class FishNetHead(nn.Module):
-    def __init__(self, in_features: int, out_features: int, block: nn.Module = FishNetBodyBlock, depth: int = 1, *args, **kwargs):
-        super().__init__()
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.block(x)
-        return x
 
 class FishNetEncoder(nn.Module):
     """

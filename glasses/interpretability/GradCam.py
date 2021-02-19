@@ -17,15 +17,16 @@ class GradCamResult:
         self.cam = cam
         self.postpreocessing = postpreocessing
 
-    def show(self) -> plt.figure:
+    def show(self, *args, **kwargs) -> plt.figure:
         img = self.img
         if self.postpreocessing is not None:
             img = self.postpreocessing(self.img)
-        cam_on_img = tensor2cam(img.squeeze(0), self.cam)
+            
+        self.cam_on_img = tensor2cam(img.squeeze(0), self.cam)
 
-        fig = plt.figure()
+        fig = plt.figure(*args, **kwargs)
 
-        plt.imshow(cam_on_img)
+        plt.imshow(self.cam_on_img)
 
         return fig
 
