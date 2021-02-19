@@ -103,6 +103,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-glasses.interpretability.GradCam">glasses.interpretability.GradCam module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-glasses.interpretability.Interpretability">glasses.interpretability.Interpretability module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-glasses.interpretability.SaliencyMap">glasses.interpretability.SaliencyMap module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-glasses.interpretability.ScoreCam">glasses.interpretability.ScoreCam module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-glasses.interpretability.utils">glasses.interpretability.utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-glasses.interpretability">Module contents</a></li>
 </ul>
@@ -222,7 +223,7 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt id="glasses.interpretability.GradCam.GradCamResult.show">
-<code class="sig-name descname"><span class="pre">show</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">matplotlib.pyplot.figure</span><a class="reference internal" href="_modules/glasses/interpretability/GradCam.html#GradCamResult.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.GradCam.GradCamResult.show" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">show</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">matplotlib.pyplot.figure</span><a class="reference internal" href="_modules/glasses/interpretability/GradCam.html#GradCamResult.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.GradCam.GradCamResult.show" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -282,8 +283,41 @@ and Saliency Maps</a></p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt id="glasses.interpretability.SaliencyMap.SaliencyMapResult.show">
-<code class="sig-name descname"><span class="pre">show</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">matplotlib.pyplot.figure</span><a class="reference internal" href="_modules/glasses/interpretability/SaliencyMap.html#SaliencyMapResult.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.SaliencyMap.SaliencyMapResult.show" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">show</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">matplotlib.pyplot.figure</span><a class="reference internal" href="_modules/glasses/interpretability/SaliencyMap.html#SaliencyMapResult.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.SaliencyMap.SaliencyMapResult.show" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-glasses.interpretability.ScoreCam">
+<span id="glasses-interpretability-scorecam-module"></span><h2>glasses.interpretability.ScoreCam module<a class="headerlink" href="#module-glasses.interpretability.ScoreCam" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="glasses.interpretability.ScoreCam.ScoreCam">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.interpretability.ScoreCam.</span></code><code class="sig-name descname"><span class="pre">ScoreCam</span></code><a class="reference internal" href="_modules/glasses/interpretability/ScoreCam.html#ScoreCam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.ScoreCam.ScoreCam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#glasses.interpretability.Interpretability.Interpretability" title="glasses.interpretability.Interpretability.Interpretability"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.interpretability.Interpretability.Interpretability</span></code></a></p>
+<p>Implementation of ScoreCam proposed in <a class="reference external" href="https://arxiv.org/abs/1910.01279">Score-CAM: Score-Weighted Visual Explanations for Convolutional Neural Networks</a></p>
+<dl class="py method">
+<dt id="glasses.interpretability.ScoreCam.ScoreCam.__call__">
+<code class="sig-name descname"><span class="pre">__call__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocessing</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.interpretability.GradCam.GradCamResult" title="glasses.interpretability.GradCam.GradCamResult"><span class="pre">glasses.interpretability.GradCam.GradCamResult</span></a><a class="reference internal" href="_modules/glasses/interpretability/ScoreCam.html#ScoreCam.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.ScoreCam.ScoreCam.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run GradCam on the input given a model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>torch.Tensor</em>) – Input tensor, e.g. an image</p></li>
+<li><p><strong>module</strong> (<em>nn.Module</em>) – Model</p></li>
+<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <cite>None</cite> then the last conv layer will be used. Defaults to None.</p></li>
+<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <cite>None</cite> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
+<li><p><strong>postprocessing</strong> (<em>Callable</em><em>[</em><em>[</em><em>torch.Tensor</em><em>]</em><em>, </em><em>torch.Tensor</em><em>]</em><em>, </em><em>optional</em>) – A function used to post process the output, e.g. de-normalize. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The result of the scorecam, you can call <cite>.show</cite> to see it.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#glasses.interpretability.GradCam.GradCamResult" title="glasses.interpretability.GradCam.GradCamResult">GradCamResult</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -454,6 +488,36 @@ and Saliency Maps</a></p>
 <dt id="glasses.interpretability.SaliencyMap.guide">
 <code class="sig-name descname"><span class="pre">guide</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/interpretability/SaliencyMap.html#SaliencyMap.guide"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.SaliencyMap.guide" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.interpretability.ScoreCam">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.interpretability.</span></code><code class="sig-name descname"><span class="pre">ScoreCam</span></code><a class="reference internal" href="_modules/glasses/interpretability/ScoreCam.html#ScoreCam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.ScoreCam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#glasses.interpretability.Interpretability.Interpretability" title="glasses.interpretability.Interpretability.Interpretability"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.interpretability.Interpretability.Interpretability</span></code></a></p>
+<p>Implementation of ScoreCam proposed in <a class="reference external" href="https://arxiv.org/abs/1910.01279">Score-CAM: Score-Weighted Visual Explanations for Convolutional Neural Networks</a></p>
+<dl class="py method">
+<dt id="glasses.interpretability.ScoreCam.__call__">
+<code class="sig-name descname"><span class="pre">__call__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocessing</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.interpretability.GradCam.GradCamResult" title="glasses.interpretability.GradCam.GradCamResult"><span class="pre">glasses.interpretability.GradCam.GradCamResult</span></a><a class="reference internal" href="_modules/glasses/interpretability/ScoreCam.html#ScoreCam.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.ScoreCam.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run GradCam on the input given a model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>torch.Tensor</em>) – Input tensor, e.g. an image</p></li>
+<li><p><strong>module</strong> (<em>nn.Module</em>) – Model</p></li>
+<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <cite>None</cite> then the last conv layer will be used. Defaults to None.</p></li>
+<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <cite>None</cite> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
+<li><p><strong>postprocessing</strong> (<em>Callable</em><em>[</em><em>[</em><em>torch.Tensor</em><em>]</em><em>, </em><em>torch.Tensor</em><em>]</em><em>, </em><em>optional</em>) – A function used to post process the output, e.g. de-normalize. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The result of the scorecam, you can call <cite>.show</cite> to see it.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#glasses.interpretability.GradCam.GradCamResult" title="glasses.interpretability.GradCam.GradCamResult">GradCamResult</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
