@@ -9,10 +9,10 @@ from typing import Callable
 
 class ScoreCam(Interpretability):
     """
-    Implementation of GradCam proposed in `Score-CAM: Score-Weighted Visual Explanations for Convolutional Neural Networks <https://arxiv.org/abs/1910.01279>`_
+    Implementation of ScoreCam proposed in `Score-CAM: Score-Weighted Visual Explanations for Convolutional Neural Networks <https://arxiv.org/abs/1910.01279>`_
     """
 
-    def __call__(self, x: torch.Tensor, module: nn.Module, layer: nn.Module = None,  postprocessing: Callable[[torch.Tensor], torch.Tensor] = None) -> GradCamResult:
+    def __call__(self, x: torch.Tensor, module: nn.Module, layer: nn.Module = None,  target: int = None, postprocessing: Callable[[torch.Tensor], torch.Tensor] = None) -> GradCamResult:
         """Run GradCam on the input given a model
 
         Args:
@@ -20,11 +20,10 @@ class ScoreCam(Interpretability):
             module (nn.Module): Model
             layer (nn.Module, optional): The layer we wish to interpreter, if `None` then the last conv layer will be used. Defaults to None.
             target (int, optional): The target tensor, if `None` the model output (after softmax and argmax) wil be used. Defaults to None.
-            ctx (torch.Tensor, optional): The tensor w.r we derive, if `None` we will use the one-hot encoding of the target. Defaults to None.
             postprocessing (Callable[[torch.Tensor], torch.Tensor], optional): A function used to post process the output, e.g. de-normalize. Defaults to None.
 
         Returns:
-            GradCamResult: The result of the gradcam, you can call `.show` to see it.
+            GradCamResult: The result of the scorecam, you can call `.show` to see it.
         """
         layer = find_last_layer(
             x, module, nn.Conv2d) if layer is None else layer
@@ -35,13 +34,12 @@ class ScoreCam(Interpretability):
         # get back the weights 
         features = features_storage[layer]
         _, c, _, _ = features.shape
-        target = module(x).argmax()
+        if target is None:
+            target = torch.argmax(torch.softmax(out, dim=1))
         acts = F.relu(features)
         # rescale the activations to match the input size
         acts_up = F.interpolate(acts, size=x.shape[2:], mode='bilinear')
-        # normalize image wise (dim=1)
-        mins = acts_up.min(keepdim=True, dim=1).values
-        maxs = acts_up.max(keepdim=True, dim=1).values
+        # normalize 
         acts_up = (acts_up - acts_up.min()) / (acts_up.max() - acts_up.min())
         # repeat the input matching the number of acts
         batch  = x.repeat(c, 1, 1, 1)

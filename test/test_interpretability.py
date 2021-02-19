@@ -44,6 +44,42 @@ def test_gradcam():
     assert type(cam_res.cam) == torch.Tensor
     assert cam_res.show()
 
+def test_scorecam():
+    x = torch.rand((1, 3, 224, 224))
+
+    model = nn.Sequential(
+        nn.Conv2d(3, 32, kernel_size=3),
+        nn.Conv2d(32, 32, kernel_size=3),
+        nn.AdaptiveAvgPool2d((1,1)),
+        nn.Flatten(),
+        nn.Linear(32, 10)
+    )
+
+    cam = GradCam()
+
+    cam_res = cam(x, model)
+
+
+    assert type(cam_res.cam) == torch.Tensor
+    assert cam_res.show()
+
+
+    cam_res = cam(x, model, layer=model[0])
+    assert type(cam_res.cam) == torch.Tensor
+
+    assert cam_res.show()
+
+    cam_res = cam(x, model, postprocessing=Compose([lambda x: x.squeeze(0), ToPILImage(), Resize(224), ToTensor()]))
+
+    assert type(cam_res.cam) == torch.Tensor
+    assert cam_res.show()
+
+    cam = GradCam()
+    target = 1
+    cam_res = cam(x, model, target=target)
+
+    assert type(cam_res.cam) == torch.Tensor
+    assert cam_res.show()
 
 def test_saliency_map():
     x = torch.rand((1, 3, 224, 224))
