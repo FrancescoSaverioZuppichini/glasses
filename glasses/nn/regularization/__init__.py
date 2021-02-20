@@ -49,3 +49,22 @@ class DropBlock(nn.Module):
 
     def __repr__(self):
         return f'DropBlock(p={self.p})'
+
+
+class StochasticDepth(nn.Module):
+    """Implementation of Stochastic Depth proposed in `Deep Networks with Stochastic Depth <https://arxiv.org/abs/1603.09382>`_.
+
+    The main idea is to skip one layer completely. 
+    """
+    def __init__(self, p: float = 0.5):
+        super().__init__()
+        self.p = p
+
+    def forward(self, x: Tensor) -> Tensor:
+        if self.training:
+            probs = torch.rand(x.shape[0], 1, 1, 1, device=x.device) < self.p
+            x = torch.div(x, self.p) * probs
+        return x
+
+    def __repr__(self):
+        return f'StochasticDepth(p={self.p})'

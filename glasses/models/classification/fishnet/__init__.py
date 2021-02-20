@@ -6,8 +6,8 @@ from glasses.nn.blocks import BnActConv
 from ..resnet import ResNetShorcut
 from typing import List
 from functools import partial
-from ..resnet import  ReLUInPlace, ResNetShorcut, ResNetBottleneckPreActBlock, ResNetStemC
-from ....models.base import  Encoder
+from ..resnet import ReLUInPlace, ResNetShorcut, ResNetBottleneckPreActBlock, ResNetStemC
+from ....models.base import Encoder
 from ..base import ClassificationModule
 
 FishNetShortCut = partial(BnActConv, kernel_size=1)
@@ -136,8 +136,8 @@ class FishNetBrigde(nn.Module):
         return (x * att) + att
 
 
-class FishNetTailBlock(nn.Sequential):
-    """FishNet Tail Block, simi
+class FishNetTail(nn.Sequential):
+    """FishNet Tail 
 
     Args:
         in_features (int): Number of input features
@@ -149,10 +149,9 @@ class FishNetTailBlock(nn.Sequential):
     def __init__(self, in_features: int, out_features: int, depth: int = 1,
                  block: nn.Module = FishNetBottleNeck, *args, **kwargs):
         super().__init__(block(in_features, out_features, **kwargs),
-                                   *[block(out_features, out_features, **kwargs)
-                                     for _ in range(depth-1)],
-                                   nn.MaxPool2d(kernel_size=2, stride=2))
-  
+                         *[block(out_features, out_features, **kwargs)
+                           for _ in range(depth-1)],
+                         nn.MaxPool2d(kernel_size=2, stride=2))
 
 
 class FishNetEncoder(nn.Module):
@@ -194,7 +193,7 @@ class FishNetEncoder(nn.Module):
             start_features, len(tail_depths))
 
         self.tail = nn.ModuleList([
-            FishNetTailBlock(in_features, out_features, depth=depth,
+            FishNetTail(in_features, out_features, depth=depth,
                              block=block, activation=activation, **kwargs)
             for (in_features, out_features), depth in zip(self.tail_widths, tail_depths)]
         )
@@ -214,7 +213,7 @@ class FishNetEncoder(nn.Module):
             self.head.append(FishNetHeadBlock(
                 in_features, out_features, body_w[0], depth=depth, trans_depth=trans_depth, block=block, activation=activation))
 
-        # set the widths field 
+        # set the widths field
         self.widths = [w[1] for w in self.head_widths]
 
     def forward(self, x):
@@ -310,7 +309,7 @@ class FishNet(ClassificationModule):
     Create a default model
 
     Examples:
-    
+
         >>> FishNet.fishnet99()
         >>> FishNet.fishnet150()
 

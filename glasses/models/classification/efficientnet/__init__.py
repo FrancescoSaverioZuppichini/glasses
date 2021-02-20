@@ -13,7 +13,7 @@ from ....models.base import  Encoder
 from ..resnet import ResNetLayer
 from glasses.utils.PretrainedWeightsProvider import pretrained
 from ..base import ClassificationModule
-
+from glasses.nn import StochasticDepth
 class InvertedResidualBlock(nn.Module):
     """Inverted residual block proposed originally for MobileNetV2. 
 
@@ -54,9 +54,10 @@ class InvertedResidualBlock(nn.Module):
                 'point': nn.Sequential(ConvBnAct(expanded_features,
                                                  out_features, kernel_size=1, activation=None)),
 
-                'drop': nn.Dropout2d(drop_rate) if self.should_apply_residual and drop_rate > 0 else nn.Identity()
+                'drop': StochasticDepth(drop_rate) if self.should_apply_residual and drop_rate > 0 else nn.Identity()
             })
         )
+        
 
     def forward(self, x: Tensor) -> Tensor:
         res = x
