@@ -98,7 +98,7 @@ class FPNDecoder(nn.Module):
         # we start from c_2
         self.lateral_widths = lateral_widths[:-1]
         self.widths = [prediction_width] * len(self.lateral_widths)
-        self.in_out_block_sizes = list(zip(self.lateral_widths, self.widths))
+        self.in_out_widths = list(zip(self.lateral_widths, self.widths))
 
         self.middle = block(
             start_features, pyramid_width, kernel_size=1, **kwargs)

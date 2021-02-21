@@ -80,7 +80,7 @@ class UNetEncoder(Encoder):
 
     def __init__(self, in_channels: int,  widths: List[int] = [64, 128, 256, 512, 1024], *args, **kwargs):
         super().__init__()
-        self.in_out_block_sizes = list(zip(widths, widths[1:]))
+        self.in_out_widths = list(zip(widths, widths[1:]))
         self.widths = widths
         self.stem = nn.Identity()
 
@@ -89,7 +89,7 @@ class UNetEncoder(Encoder):
                       donwsample=False, *args, **kwargs),
             *[DownLayer(in_features,
                         out_features, *args, **kwargs)
-              for (in_features, out_features) in self.in_out_block_sizes]
+              for (in_features, out_features) in self.in_out_widths]
         ])
 
     def forward(self, x: Tensor) -> Tensor:
@@ -111,11 +111,11 @@ class UNetDecoder(nn.Module):
         lateral_widths = widths if lateral_widths is None else lateral_widths
         lateral_widths.extend([0] * (len(widths) - len(lateral_widths)))
 
-        self.in_out_block_sizes = list(zip(widths, widths[1:]))
+        self.in_out_widths = list(zip(widths, widths[1:]))
         self.layers = nn.ModuleList([
             UpLayer(in_features,
                     out_features, lateral_features, **kwargs)
-            for (in_features, out_features), lateral_features in zip(self.in_out_block_sizes, lateral_widths)
+            for (in_features, out_features), lateral_features in zip(self.in_out_widths, lateral_widths)
         ])
 
     def forward(self, x: Tensor, residuals: List[Tensor]) -> Tensor:

@@ -44,12 +44,12 @@ class AlexNetEncoder(Encoder):
 
         self.stem = stem(in_channels, widths[0])
 
-        self.in_out_block_sizes = list(zip(widths[:-1], widths[1:]))
+        self.in_out_widths = list(zip(widths[:-1], widths[1:]))
         self.layers = nn.ModuleList([
             block(widths[0],
                   widths[0], activation=activation, kernel_size=3),
             *[block(in_channels, out_channels, activation=activation, kernel_size=3)
-              for (in_channels, out_channels) in self.in_out_block_sizes]
+              for (in_channels, out_channels) in self.in_out_widths]
         ])
 
         self.pool = nn.MaxPool2d(kernel_size=3, stride=2, padding=0)

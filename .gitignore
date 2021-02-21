@@ -136,3 +136,4 @@ dmypy.json
 .pyre/
 
 table-torchvision.md
+*.pyc

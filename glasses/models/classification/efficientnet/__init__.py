@@ -9,10 +9,12 @@ from functools import partial
 from glasses.nn.blocks import ConvBnAct
 from glasses.nn.att import ChannelSE
 from ....models.utils.scaler import CompoundScaler
-from ....models.base import  Encoder
+from ....models.base import Encoder
 from ..resnet import ResNetLayer
 from glasses.utils.PretrainedWeightsProvider import pretrained
 from ..base import ClassificationModule
+from glasses.nn import StochasticDepth
+
 
 class InvertedResidualBlock(nn.Module):
     """Inverted residual block proposed originally for MobileNetV2. 
@@ -54,7 +56,7 @@ class InvertedResidualBlock(nn.Module):
                 'point': nn.Sequential(ConvBnAct(expanded_features,
                                                  out_features, kernel_size=1, activation=None)),
 
-                'drop': nn.Dropout2d(drop_rate) if self.should_apply_residual and drop_rate > 0 else nn.Identity()
+                'drop': StochasticDepth(drop_rate) if self.should_apply_residual and drop_rate > 0 else nn.Identity()
             })
         )
 
@@ -106,7 +108,7 @@ class EfficientNetEncoder(Encoder):
         self.stem = stem(
             in_channels, widths[0],  activation=activation, kernel_size=3, stride=strides[0])
         strides = strides[1:]
-        self.in_out_block_sizes = list(zip(widths, widths[1:-1]))
+        self.in_out_widths = list(zip(widths, widths[1:-1]))
 
         self.layers = nn.ModuleList([
             *[EfficientNetLayer(in_features,
@@ -119,7 +121,7 @@ class EfficientNetEncoder(Encoder):
                                 drop_rate=drop_rate,
                                 activation=activation, **kwargs)
               for (in_features, out_features), n, s, t, k, se
-                in zip(self.in_out_block_sizes, depths, strides, expansions, kernel_sizes, se)]
+                in zip(self.in_out_widths, depths, strides, expansions, kernel_sizes, se)]
         ])
 
         self.layers.append(ConvBnAct(self.widths[-2], self.widths[-1],
@@ -133,21 +135,23 @@ class EfficientNetEncoder(Encoder):
 
     @property
     def stages(self):
-        # find the layers where the input is // 2 
+        # find the layers where the input is // 2
         # skip first stride because it is for the stem!
         # skip the last layer because it is just a conv-bn-act
         # and we haven't a stride for it
-        layers = np.array(self.layers[:-1])[np.array(self.strides[1:]) == 2].tolist()[:-1]
-            
+        layers = np.array(
+            self.layers[:-1])[np.array(self.strides[1:]) == 2].tolist()[:-1]
+
         return [self.stem[-1],
-               *layers]
+                *layers]
 
     @property
     def features_widths(self):
         # skip the last layer because it is just a conv-bn-act
         # and we haven't a stride for it
-        widths = np.array(self.widths[:-1])[np.array(self.strides) == 2].tolist()
-        # we also have to remove the last one, because it is the spatial size of the network output 
+        widths = np.array(
+            self.widths[:-1])[np.array(self.strides) == 2].tolist()
+        # we also have to remove the last one, because it is the spatial size of the network output
         return widths[:-1]
 
 
@@ -242,9 +246,10 @@ class EfficientNet(ClassificationModule):
         32, 16, 24, 40, 80, 112, 192, 320, 1280]
 
     def __init__(self, encoder: nn.Module = EfficientNetEncoder, head:  nn.Module = EfficientNetHead, *args, **kwargs):
-        super().__init__(encoder, partial(head, drop_rate=kwargs['drop_rate']), *args, **kwargs)
+        super().__init__(encoder, partial(
+            head, drop_rate=kwargs['drop_rate']), *args, **kwargs)
         self.initialize()
-        
+
     def initialize(self):
         # initialization copied from MobileNetV2
         for m in self.modules():
