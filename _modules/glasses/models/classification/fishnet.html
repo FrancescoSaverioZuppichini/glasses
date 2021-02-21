@@ -171,8 +171,8 @@
 <span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ResNetShorcut</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span>  <span class="n">ReLUInPlace</span><span class="p">,</span> <span class="n">ResNetShorcut</span><span class="p">,</span> <span class="n">ResNetBottleneckPreActBlock</span><span class="p">,</span> <span class="n">ResNetStemC</span>
-<span class="kn">from</span> <span class="nn">....models.base</span> <span class="kn">import</span>  <span class="n">Encoder</span>
+<span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ReLUInPlace</span><span class="p">,</span> <span class="n">ResNetShorcut</span><span class="p">,</span> <span class="n">ResNetBottleneckPreActBlock</span><span class="p">,</span> <span class="n">ResNetStemC</span>
+<span class="kn">from</span> <span class="nn">....models.base</span> <span class="kn">import</span> <span class="n">Encoder</span>
 <span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">ClassificationModule</span>
 
 <span class="n">FishNetShortCut</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">BnActConv</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -301,8 +301,8 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">att</span><span class="p">)</span> <span class="o">+</span> <span class="n">att</span></div></div>
 
 
-<div class="viewcode-block" id="FishNetTailBlock"><a class="viewcode-back" href="../../../../glasses.models.classification.fishnet.html#glasses.models.FishNetTailBlock">[docs]</a><span class="k">class</span> <span class="nc">FishNetTailBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;FishNet Tail Block, simi</span>
+<div class="viewcode-block" id="FishNetTail"><a class="viewcode-back" href="../../../../glasses.models.classification.fishnet.html#glasses.models.FishNetTail">[docs]</a><span class="k">class</span> <span class="nc">FishNetTail</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;FishNet Tail </span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        in_features (int): Number of input features</span>
@@ -314,10 +314,9 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
                  <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">FishNetBottleNeck</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">block</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
-                                   <span class="o">*</span><span class="p">[</span><span class="n">block</span><span class="p">(</span><span class="n">out_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-                                     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span><span class="o">-</span><span class="mi">1</span><span class="p">)],</span>
-                                   <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span></div>
-  
+                         <span class="o">*</span><span class="p">[</span><span class="n">block</span><span class="p">(</span><span class="n">out_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                           <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span><span class="o">-</span><span class="mi">1</span><span class="p">)],</span>
+                         <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="FishNetEncoder"><a class="viewcode-back" href="../../../../glasses.models.classification.fishnet.html#glasses.models.FishNetEncoder">[docs]</a><span class="k">class</span> <span class="nc">FishNetEncoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -359,7 +358,7 @@
             <span class="n">start_features</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tail_depths</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">tail</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
-            <span class="n">FishNetTailBlock</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
+            <span class="n">FishNetTail</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
                              <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">for</span> <span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">),</span> <span class="n">depth</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tail_widths</span><span class="p">,</span> <span class="n">tail_depths</span><span class="p">)]</span>
         <span class="p">)</span>
@@ -379,7 +378,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">FishNetHeadBlock</span><span class="p">(</span>
                 <span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">body_w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span> <span class="n">trans_depth</span><span class="o">=</span><span class="n">trans_depth</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">))</span>
 
-        <span class="c1"># set the widths field </span>
+        <span class="c1"># set the widths field</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">widths</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">head_widths</span><span class="p">]</span>
 
 <div class="viewcode-block" id="FishNetEncoder.forward"><a class="viewcode-back" href="../../../../glasses.models.classification.fishnet.html#glasses.models.FishNetEncoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
@@ -475,7 +474,7 @@
 <span class="sd">    Create a default model</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">    </span>
+
 <span class="sd">        &gt;&gt;&gt; FishNet.fishnet99()</span>
 <span class="sd">        &gt;&gt;&gt; FishNet.fishnet150()</span>
 

@@ -500,10 +500,10 @@ registered hooks while the latter silently ignores them.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="glasses.models.classification.fishnet.FishNetTailBlock">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.fishnet.</span></code><code class="sig-name descname"><span class="pre">FishNetTailBlock</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">out_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">depth:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></em>, <em class="sig-param"><span class="pre">block:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetBottleneckPreActBlock'&gt;</span></em>, <em class="sig-param"><span class="pre">shortcut=functools.partial(&lt;class</span> <span class="pre">'glasses.nn.blocks.BnActConv'&gt;</span></em>, <em class="sig-param"><span class="pre">kernel_size=1))</span></em>, <em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/fishnet.html#FishNetTailBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.fishnet.FishNetTailBlock" title="Permalink to this definition">¶</a></dt>
+<dt id="glasses.models.classification.fishnet.FishNetTail">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.fishnet.</span></code><code class="sig-name descname"><span class="pre">FishNetTail</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">out_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">depth:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></em>, <em class="sig-param"><span class="pre">block:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetBottleneckPreActBlock'&gt;</span></em>, <em class="sig-param"><span class="pre">shortcut=functools.partial(&lt;class</span> <span class="pre">'glasses.nn.blocks.BnActConv'&gt;</span></em>, <em class="sig-param"><span class="pre">kernel_size=1))</span></em>, <em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/fishnet.html#FishNetTail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.fishnet.FishNetTail" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
-<p>FishNet Tail Block, simi</p>
+<p>FishNet Tail</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -516,8 +516,8 @@ registered hooks while the latter silently ignores them.</p>
 </dl>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
-<dt id="glasses.models.classification.fishnet.FishNetTailBlock.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.fishnet.FishNetTailBlock.training" title="Permalink to this definition">¶</a></dt>
+<dt id="glasses.models.classification.fishnet.FishNetTail.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.fishnet.FishNetTail.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
