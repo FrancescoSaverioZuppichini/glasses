@@ -60,7 +60,7 @@ class VGGEncoder(Encoder):
 
         self.widths = widths
         self.out_features = widths[-1]
-        self.in_out_block_sizes = list(
+        self.in_out_widths = list(
             zip(widths[:-1], widths[1:]))
 
         self.stem = nn.Identity()
@@ -68,7 +68,7 @@ class VGGEncoder(Encoder):
             VGGLayer(in_channels, widths[0], activation=activation,
                      block=block, n=depths[0], *args, **kwargs),
             *[VGGLayer(in_channels, out_channels, activation=activation, block=block, n=n, *args, **kwargs)
-              for (in_channels, out_channels), n in zip(self.in_out_block_sizes, depths[1:])]
+              for (in_channels, out_channels), n in zip(self.in_out_widths, depths[1:])]
         ])
 
     def forward(self, x: Tensor) -> Tensor:
