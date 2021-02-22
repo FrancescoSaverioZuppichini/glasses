@@ -162,17 +162,14 @@ class EfficientNetHead(nn.Sequential):
     """
 
     def __init__(self, in_features: int, n_classes: int, drop_rate: float = 0.2):
-        super().__init__()
-        self.avg = nn.AdaptiveAvgPool2d((1, 1))
-        self.drop = nn.Dropout2d(drop_rate)
-        self.fc = nn.Linear(in_features, n_classes)
-
-    def forward(self, x):
-        x = self.avg(x)
-        x = x.view(x.size(0), -1)
-        x = self.drop(x)
-        x = self.fc(x)
-        return x
+        super().__init__(OrderedDict(
+            {
+                'avg': nn.AdaptiveAvgPool2d((1, 1)),
+                'flat': nn.Flatten(),
+                'drop': nn.Dropout2d(drop_rate),
+                'fc': nn.Linear(in_features, n_classes)
+            }
+        ))
 
 
 class EfficientNet(ClassificationModule):
@@ -245,9 +242,8 @@ class EfficientNet(ClassificationModule):
     default_widths: List[int] = [
         32, 16, 24, 40, 80, 112, 192, 320, 1280]
 
-    def __init__(self, encoder: nn.Module = EfficientNetEncoder, head:  nn.Module = EfficientNetHead, *args, **kwargs):
-        super().__init__(encoder, partial(
-            head, drop_rate=kwargs['drop_rate']), *args, **kwargs)
+    def __init__(self, encoder: nn.Module = EfficientNetEncoder, head:  nn.Module = EfficientNetHead, drop_rate: float = 0.2, *args, **kwargs):
+        super().__init__(encoder, partial(head, drop_rate=drop_rate), *args, **kwargs)
         self.initialize()
 
     def initialize(self):
@@ -360,11 +356,11 @@ class EfficientNetLite(EfficientNet):
         # in lite models the steam and head width are not scaled
         widths[0] = cls.default_widths[0]
         widths[-1] = cls.default_widths[-1]
-
+        # same thing for the depth of the steam/head
         depths[0] = cls.default_depths[0]
         depths[-1] = cls.default_depths[-1]
-        # and se is disabled are not well supported for some mobile accelerators.
-        # ot sure why since there are just convolutions.
+        # and se is disabled cuz it is not well supported for some mobile accelerators.
+        # not sure why since there are just convolutions.
         se = [False] * len(widths)
         # all swish function are replaced with ReLU6 for easier post-quantization
         return cls(*args, depths=depths,
