@@ -12,8 +12,8 @@ from .protocols import Freezable, Interpretable
 
 
 class VisionModule(nn.Module, Freezable, Interpretable):
-    """Base vision module, all models should subclass it.
-    """
+    """Base vision module, all models should subclass it."""
+
     configs: Dict[str, Config] = {}
 
     def summary(self, input_shape=(1, 3, 224, 224), device: torch.device = None):
@@ -25,18 +25,16 @@ class VisionModule(nn.Module, Freezable, Interpretable):
         Returns:
             [type]: [description]
         """
-        device = torch.device('cuda' if torch.cuda.is_available(
-        ) else 'cpu') if device is None else device
+        device = (
+            torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            if device is None
+            else device
+        )
         return summary(self.to(device), input_shape, device=device)
 
 
 class Encoder(nn.Module):
-    """Base encoder class, it allows to access the inner features.
-    """
-
-    def __init__(self):
-        super().__init__()
-        self.storage = None
+    """Base encoder class, it allows to access the inner features."""
 
     @property
     def stages(self):

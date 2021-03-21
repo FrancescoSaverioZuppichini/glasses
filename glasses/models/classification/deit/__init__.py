@@ -20,9 +20,9 @@ class DeiTTokens(ViTTokens):
 
 class DeiTClassificationHead(nn.Module):
     def __init__(self, emb_size: int = 768, n_classes: int = 1000):
-        """DeiT classification head, it relies on two heads using the `cls` and the`dist` token respectively. 
+        """DeiT classification head, it relies on two heads using the `cls` and the`dist` token respectively.
         At test time, the prediction is made by avering the results from the two, while during training both predictions are returned.
-        
+
         Args:
             emb_size (int, optional):  Embedding dimensions Defaults to 768.
             n_classes (int, optional): [description]. Defaults to 1000.
@@ -36,7 +36,7 @@ class DeiTClassificationHead(nn.Module):
         x, x_dist = x[:, 0], x[:, 1]
         x_head = self.head(x)
         x_dist_head = self.dist_head(x_dist)
-        
+
         if self.training:
             x = x_head, x_dist_head
         else:
@@ -61,36 +61,53 @@ class DeiT(ViT):
         >>> DeiT.deit_base_patch16_384()
 
 
-    Args:  
+    Args:
         ViT ([type]): [description]
     """
-    def __init__(self, *args, head: nn.Module =DeiTClassificationHead,  tokens: nn.Module = DeiTTokens, **kwargs):
+
+    def __init__(
+        self,
+        *args,
+        head: nn.Module = DeiTClassificationHead,
+        tokens: nn.Module = DeiTTokens,
+        **kwargs
+    ):
         super().__init__(*args, head=head, tokens=tokens, **kwargs)
 
     @classmethod
     @pretrained()
     def deit_tiny_patch16_224(cls, **kwargs):
-        model = cls(patch_size=16, emb_size=192, depth=12,
-                    num_heads=3, qkv_bias=True, **kwargs)
+        model = cls(
+            patch_size=16, emb_size=192, depth=12, num_heads=3, qkv_bias=True, **kwargs
+        )
 
         return model
 
     @classmethod
     @pretrained()
     def deit_small_patch16_224(cls, **kwargs):
-        model = cls(patch_size=16, emb_size=384, depth=12,
-                    num_heads=6, qkv_bias=True, **kwargs)
+        model = cls(
+            patch_size=16, emb_size=384, depth=12, num_heads=6, qkv_bias=True, **kwargs
+        )
 
         return model
 
     @classmethod
     def deit_base_patch16_224(cls, **kwargs):
-        model = cls(patch_size=16, emb_size=768, depth=12,
-                    num_heads=12, qkv_bias=True, **kwargs)
+        model = cls(
+            patch_size=16, emb_size=768, depth=12, num_heads=12, qkv_bias=True, **kwargs
+        )
         return model
 
     @classmethod
     def deit_base_patch16_384(cls, **kwargs):
-        model = cls(img_size=384, patch_size=16, emb_size=768, depth=12,
-                    num_heads=12, qkv_bias=True,  **kwargs)
+        model = cls(
+            img_size=384,
+            patch_size=16,
+            emb_size=768,
+            depth=12,
+            num_heads=12,
+            qkv_bias=True,
+            **kwargs
+        )
         return model

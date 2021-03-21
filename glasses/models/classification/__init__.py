@@ -15,5 +15,20 @@ from .fishnet import FishNet
 from .vit import ViT
 from .deit import DeiT
 
-__all__ = ['ResNet', 'DenseNet', 'ResNetXt', 'RegNet', 'ResNeSt', 'WideResNet', 'FishNet',
- 'SEResNet', 'VGG', 'MobileNet', 'AlexNet',  'EfficientNet', 'EfficientNetLite', 'ViT', 'DeiT']
+__all__ = [
+    "ResNet",
+    "DenseNet",
+    "ResNetXt",
+    "RegNet",
+    "ResNeSt",
+    "WideResNet",
+    "FishNet",
+    "SEResNet",
+    "VGG",
+    "MobileNet",
+    "AlexNet",
+    "EfficientNet",
+    "EfficientNetLite",
+    "ViT",
+    "DeiT",
+]
