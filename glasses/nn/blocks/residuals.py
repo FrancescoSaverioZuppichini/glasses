@@ -27,9 +27,14 @@ class Residual(nn.Module):
 
     """
 
-    def __init__(self, block: nn.Module,
-                 res_func: Callable[[Tensor], Tensor] = None,
-                 shortcut: nn.Module = None, *args, **kwargs):
+    def __init__(
+        self,
+        block: nn.Module,
+        res_func: Callable[[Tensor], Tensor] = None,
+        shortcut: nn.Module = None,
+        *args,
+        **kwargs
+    ):
         """
 
         Args:
@@ -55,9 +60,11 @@ class Residual(nn.Module):
 def add(x: Tensor, res: Tensor) -> Tensor:
     return x.add_(res)
 
+
 class ResidualAdd(Residual):
     def __init__(self, *args, **kwags):
         super().__init__(*args, res_func=add, **kwags)
+
 
 # ResidualAdd = partial(Residual, res_func=add)
 ResidualCat = partial(Residual, res_func=lambda x, res: torch.cat([x, res]))
@@ -80,8 +87,7 @@ class InputForward(nn.Module):
         out = None
         for block in self.layers:
             block_out = block(x)
-            out = block_out if out is None else self.aggr_func(
-                [block_out, out])
+            out = block_out if out is None else self.aggr_func([block_out, out])
         return out
 
 

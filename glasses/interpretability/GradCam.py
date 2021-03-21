@@ -10,9 +10,12 @@ from .utils import tensor2cam, find_last_layer
 
 
 class GradCamResult:
-    def __init__(self, img: torch.Tensor,
-                 cam: torch.Tensor,
-                 postpreocessing: Callable[[torch.Tensor], torch.Tensor]):
+    def __init__(
+        self,
+        img: torch.Tensor,
+        cam: torch.Tensor,
+        postpreocessing: Callable[[torch.Tensor], torch.Tensor],
+    ):
         self.img = img
         self.cam = cam
         self.postpreocessing = postpreocessing
@@ -21,7 +24,7 @@ class GradCamResult:
         img = self.img
         if self.postpreocessing is not None:
             img = self.postpreocessing(self.img)
-            
+
         self.cam_on_img = tensor2cam(img.squeeze(0), self.cam)
 
         fig = plt.figure(*args, **kwargs)
@@ -36,7 +39,15 @@ class GradCam(Interpretability):
     Implementation of GradCam proposed in `Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization <https://arxiv.org/abs/1610.02391>`_
     """
 
-    def __call__(self, x: torch.Tensor, module: nn.Module, layer: nn.Module = None, target: int = None, ctx: torch.Tensor = None, postprocessing: Callable[[torch.Tensor], torch.Tensor] = None) -> GradCamResult:
+    def __call__(
+        self,
+        x: torch.Tensor,
+        module: nn.Module,
+        layer: nn.Module = None,
+        target: int = None,
+        ctx: torch.Tensor = None,
+        postprocessing: Callable[[torch.Tensor], torch.Tensor] = None,
+    ) -> GradCamResult:
         """Run GradCam on the input given a model
 
         Args:
@@ -50,8 +61,7 @@ class GradCam(Interpretability):
         Returns:
             GradCamResult: The result of the gradcam, you can call `.show` to see it.
         """
-        layer = find_last_layer(
-            x, module, nn.Conv2d) if layer is None else layer
+        layer = find_last_layer(x, module, nn.Conv2d) if layer is None else layer
         # register forward and backward storages
         features_storage = ForwardModuleStorage(module, [layer])
         gradients_storage = BackwardModuleStorage([layer])

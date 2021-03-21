@@ -15,11 +15,19 @@ class WideResNetBottleNeckBlock(ResNetBottleneckBlock):
         width_factor (int, optional): Scales the 3x3 conv features in the bottle neck block. Defaults to 2.
     """
 
-    def __init__(self, in_features: int, out_features: int, width_factor: int = 2, reduction: int = 4, **kwargs):
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        width_factor: int = 2,
+        reduction: int = 4,
+        **kwargs
+    ):
         features = int(out_features * width_factor // reduction)
-        
-        super().__init__(in_features, out_features,
-                         features=features,  reduction=reduction, **kwargs)
+
+        super().__init__(
+            in_features, out_features, features=features, reduction=reduction, **kwargs
+        )
 
 
 class WideResNet(ResNet):
@@ -61,7 +69,7 @@ class WideResNet(ResNet):
     """
 
     @classmethod
-    @pretrained('wide_resnet50_2')
+    @pretrained("wide_resnet50_2")
     def wide_resnet50_2(cls, *args, **kwargs) -> WideResNet:
         """Creates a wide_resnet50_2 model
 
@@ -71,7 +79,7 @@ class WideResNet(ResNet):
         return cls.resnet50(*args, **kwargs, block=WideResNetBottleNeckBlock)
 
     @classmethod
-    @pretrained('wide_resnet101_2')
+    @pretrained("wide_resnet101_2")
     def wide_resnet101_2(cls, *args, **kwargs) -> WideResNet:
         """Creates a wide_resnet50_2 model
 

@@ -6,7 +6,12 @@ from glasses.nn.blocks import BnActConv
 from ..resnet import ResNetShorcut
 from typing import List
 from functools import partial
-from ..resnet import ReLUInPlace, ResNetShorcut, ResNetBottleneckPreActBlock, ResNetStemC
+from ..resnet import (
+    ReLUInPlace,
+    ResNetShorcut,
+    ResNetBottleneckPreActBlock,
+    ResNetStemC,
+)
 from ....models.base import Encoder
 from ..base import ClassificationModule
 
@@ -19,7 +24,7 @@ class FishNetChannelReductionShortcut(nn.Module):
 
     :math:`r(x)=\hat{x}=\left[\hat{x}(1), \hat{x}(2), \ldots, \hat{x}\left(c_{o u t}\right)\right], \quad \hat{x}(n)=\sum_{j=0}^{k} x(k \cdot n+j), n \in\left\{0,1, \ldots, c_{o u t}\right\}`
 
-    Where :math:`k = \frac{c_{in}}{c_{ou}}` 
+    Where :math:`k = \frac{c_{in}}{c_{ou}}`
 
     Args:
         in_features (int): Number of input features
@@ -36,8 +41,7 @@ class FishNetChannelReductionShortcut(nn.Module):
         return x_red
 
 
-FishNetBottleNeck = partial(
-    ResNetBottleneckPreActBlock, shortcut=FishNetShortCut)
+FishNetBottleNeck = partial(ResNetBottleneckPreActBlock, shortcut=FishNetShortCut)
 
 
 class FishNetBodyBlock(nn.Module):
@@ -52,18 +56,37 @@ class FishNetBodyBlock(nn.Module):
         trans_depth (int, optional): [description]. Defaults to 1.
     """
 
-    def __init__(self, in_features: int, out_features: int, trans_features: int, block: nn.Module = FishNetBottleNeck, depth: int = 1, trans_depth: int = 1, *args, **kwargs):
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        trans_features: int,
+        block: nn.Module = FishNetBottleNeck,
+        depth: int = 1,
+        trans_depth: int = 1,
+        *args,
+        **kwargs
+    ):
         super().__init__()
 
         self.transfer = nn.Sequential(
-            *[block(trans_features, trans_features) for _ in range(trans_depth)])
+            *[block(trans_features, trans_features) for _ in range(trans_depth)]
+        )
 
         self.block = nn.Sequential(
-            block(in_features,  out_features,
-                  shortcut=FishNetChannelReductionShortcut, *args, **kwargs),
-            *[block(out_features, out_features, *args, **kwargs)
-              for _ in range(depth-1)],
-            nn.Upsample(scale_factor=2))
+            block(
+                in_features,
+                out_features,
+                shortcut=FishNetChannelReductionShortcut,
+                *args,
+                **kwargs
+            ),
+            *[
+                block(out_features, out_features, *args, **kwargs)
+                for _ in range(depth - 1)
+            ],
+            nn.Upsample(scale_factor=2)
+        )
 
     def forward(self, x: Tensor, res: Tensor) -> Tensor:
         x = self.block(x)
@@ -84,21 +107,49 @@ class FishNetHeadBlock(FishNetBodyBlock):
         trans_depth (int, optional): [description]. Defaults to 1.
     """
 
-    def __init__(self, in_features: int, out_features: int, trans_features: int, block: nn.Module = FishNetBottleNeck, depth: int = 1,  trans_depth: int = 1, *args, **kwargs):
-        super().__init__(in_features, out_features,
-                         trans_features, block, depth, trans_depth, *args, **kwargs)
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        trans_features: int,
+        block: nn.Module = FishNetBottleNeck,
+        depth: int = 1,
+        trans_depth: int = 1,
+        *args,
+        **kwargs
+    ):
+        super().__init__(
+            in_features,
+            out_features,
+            trans_features,
+            block,
+            depth,
+            trans_depth,
+            *args,
+            **kwargs
+        )
 
         self.block = nn.Sequential(
-            block(in_features,  out_features,
-                  shortcut=ResNetShorcut, *args, **kwargs),
-            *[block(out_features, out_features, *args, **kwargs)
-              for _ in range(depth-1)],
-
-            nn.MaxPool2d(kernel_size=2, stride=2))
+            block(in_features, out_features, shortcut=ResNetShorcut, *args, **kwargs),
+            *[
+                block(out_features, out_features, *args, **kwargs)
+                for _ in range(depth - 1)
+            ],
+            nn.MaxPool2d(kernel_size=2, stride=2)
+        )
 
 
 class FishNetBrigde(nn.Module):
-    def __init__(self, in_features: int, out_features: int, block: nn.Module = FishNetBottleNeck, depth: int = 1, activation: nn.Module = ReLUInPlace, *args, **kwargs):
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        block: nn.Module = FishNetBottleNeck,
+        depth: int = 1,
+        activation: nn.Module = ReLUInPlace,
+        *args,
+        **kwargs
+    ):
         """A weird layer that 'bridges' the tail and the body of the model.
 
         Args:
@@ -109,24 +160,35 @@ class FishNetBrigde(nn.Module):
         """
         super().__init__()
         self.stem = nn.Sequential(
-            BnActConv(in_features, in_features //
-                      2, activation=activation, kernel_size=1, bias=False),
-            BnActConv(in_features//2, in_features *
-                      2, activation=activation, kernel_size=1),
+            BnActConv(
+                in_features,
+                in_features // 2,
+                activation=activation,
+                kernel_size=1,
+                bias=False,
+            ),
+            BnActConv(
+                in_features // 2, in_features * 2, activation=activation, kernel_size=1
+            ),
         )
 
-        self.block = nn.Sequential(FishNetBottleNeck(in_features*2, out_features, activation=activation),
-                                   *[FishNetBottleNeck(out_features, out_features, activation=activation) for _ in range(depth - 1)])
+        self.block = nn.Sequential(
+            FishNetBottleNeck(in_features * 2, out_features, activation=activation),
+            *[
+                FishNetBottleNeck(out_features, out_features, activation=activation)
+                for _ in range(depth - 1)
+            ]
+        )
         # very wrong SE implementation and application -> I have contacted the authors and he confirmed they got it wrong.
-        self.att = nn.Sequential(nn.BatchNorm2d(in_features * 2),
-                                 activation(),
-                                 nn.AdaptiveAvgPool2d(1),
-                                 nn.Conv2d(in_features*2, in_features //
-                                           16, kernel_size=1),
-                                 activation(),
-                                 nn.Conv2d(in_features//16,
-                                           out_features, kernel_size=1),
-                                 nn.Sigmoid())
+        self.att = nn.Sequential(
+            nn.BatchNorm2d(in_features * 2),
+            activation(),
+            nn.AdaptiveAvgPool2d(1),
+            nn.Conv2d(in_features * 2, in_features // 16, kernel_size=1),
+            activation(),
+            nn.Conv2d(in_features // 16, out_features, kernel_size=1),
+            nn.Sigmoid(),
+        )
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.stem(x)
@@ -137,7 +199,7 @@ class FishNetBrigde(nn.Module):
 
 
 class FishNetTail(nn.Sequential):
-    """FishNet Tail 
+    """FishNet Tail
 
     Args:
         in_features (int): Number of input features
@@ -146,12 +208,20 @@ class FishNetTail(nn.Sequential):
         block (nn.Module, optional): [description]. Defaults to FishNetBottleNeck.
     """
 
-    def __init__(self, in_features: int, out_features: int, depth: int = 1,
-                 block: nn.Module = FishNetBottleNeck, *args, **kwargs):
-        super().__init__(block(in_features, out_features, **kwargs),
-                         *[block(out_features, out_features, **kwargs)
-                           for _ in range(depth-1)],
-                         nn.MaxPool2d(kernel_size=2, stride=2))
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        depth: int = 1,
+        block: nn.Module = FishNetBottleNeck,
+        *args,
+        **kwargs
+    ):
+        super().__init__(
+            block(in_features, out_features, **kwargs),
+            *[block(out_features, out_features, **kwargs) for _ in range(depth - 1)],
+            nn.MaxPool2d(kernel_size=2, stride=2)
+        )
 
 
 class FishNetEncoder(nn.Module):
@@ -175,43 +245,91 @@ class FishNetEncoder(nn.Module):
         activation (nn.Module, optional): [description]. Defaults to ReLUInPlace.
     """
 
-    def __init__(self, in_channels: int = 3, start_features: int = 64,
-                 tail_depths: List[int] = [1, 1, 1],
-                 body_depths: List[int] = [1, 1, 1],
-                 body_trans_depths: List[int] = [1, 1, 1],
-                 head_depths: List[int] = [1, 1, 1],
-                 head_trans_depths: List[int] = [1, 1, 1],
-                 bridge_depth: int = 1,
-                 block: nn.Module = FishNetBottleNeck,
-                 stem: nn.Module = ResNetStemC,
-                 activation: nn.Module = ReLUInPlace,  *args, **kwargs):
+    def __init__(
+        self,
+        in_channels: int = 3,
+        start_features: int = 64,
+        tail_depths: List[int] = [1, 1, 1],
+        body_depths: List[int] = [1, 1, 1],
+        body_trans_depths: List[int] = [1, 1, 1],
+        head_depths: List[int] = [1, 1, 1],
+        head_trans_depths: List[int] = [1, 1, 1],
+        bridge_depth: int = 1,
+        block: nn.Module = FishNetBottleNeck,
+        stem: nn.Module = ResNetStemC,
+        activation: nn.Module = ReLUInPlace,
+        *args,
+        **kwargs
+    ):
         super().__init__()
 
         self.stem = stem(in_channels, start_features, activation)
 
         self.tail_widths, self.body_widths, self.head_widths = self.find_widths(
-            start_features, len(tail_depths))
+            start_features, len(tail_depths)
+        )
 
-        self.tail = nn.ModuleList([
-            FishNetTail(in_features, out_features, depth=depth,
-                             block=block, activation=activation, **kwargs)
-            for (in_features, out_features), depth in zip(self.tail_widths, tail_depths)]
+        self.tail = nn.ModuleList(
+            [
+                FishNetTail(
+                    in_features,
+                    out_features,
+                    depth=depth,
+                    block=block,
+                    activation=activation,
+                    **kwargs
+                )
+                for (in_features, out_features), depth in zip(
+                    self.tail_widths, tail_depths
+                )
+            ]
         )
 
         self.bridge = FishNetBrigde(
-            self.tail_widths[-1][-1], self.body_widths[0][0], depth=bridge_depth, block=block, activation=activation)
+            self.tail_widths[-1][-1],
+            self.body_widths[0][0],
+            depth=bridge_depth,
+            block=block,
+            activation=activation,
+        )
 
         self.body = nn.ModuleList([])
 
-        for i, (tail_w, (in_features, out_features), depth, trans_depth) in enumerate(zip(self.tail_widths[::-1], self.body_widths, body_depths, body_trans_depths)):
-            self.body.append(FishNetBodyBlock(
-                in_features, out_features, tail_w[0], depth=depth, trans_depth=trans_depth, block=block, activation=activation, dilation=2**i, padding=2**i))
+        for i, (tail_w, (in_features, out_features), depth, trans_depth) in enumerate(
+            zip(
+                self.tail_widths[::-1], self.body_widths, body_depths, body_trans_depths
+            )
+        ):
+            self.body.append(
+                FishNetBodyBlock(
+                    in_features,
+                    out_features,
+                    tail_w[0],
+                    depth=depth,
+                    trans_depth=trans_depth,
+                    block=block,
+                    activation=activation,
+                    dilation=2 ** i,
+                    padding=2 ** i,
+                )
+            )
 
         self.head = nn.ModuleList([])
 
-        for body_w, (in_features, out_features), depth, trans_depth in zip(self.body_widths[::-1], self.head_widths, head_depths, head_trans_depths):
-            self.head.append(FishNetHeadBlock(
-                in_features, out_features, body_w[0], depth=depth, trans_depth=trans_depth, block=block, activation=activation))
+        for body_w, (in_features, out_features), depth, trans_depth in zip(
+            self.body_widths[::-1], self.head_widths, head_depths, head_trans_depths
+        ):
+            self.head.append(
+                FishNetHeadBlock(
+                    in_features,
+                    out_features,
+                    body_w[0],
+                    depth=depth,
+                    trans_depth=trans_depth,
+                    block=block,
+                    activation=activation,
+                )
+            )
 
         # set the widths field
         self.widths = [w[1] for w in self.head_widths]
@@ -253,24 +371,22 @@ class FishNetEncoder(nn.Module):
         # from
         depth = 3
         start_features = 64
-        tail_channels = [(start_features, start_features*2)]
+        tail_channels = [(start_features, start_features * 2)]
         for i in range(depth - 1):
-            tail_channels.append(
-                (tail_channels[-1][1], tail_channels[-1][1] * 2))
+            tail_channels.append((tail_channels[-1][1], tail_channels[-1][1] * 2))
 
         in_c, transfer_c = tail_channels[-1][1], tail_channels[-2][1]
-        body_channels = [
-            (in_c, in_c), (in_c + transfer_c, (in_c + transfer_c)//2)]
+        body_channels = [(in_c, in_c), (in_c + transfer_c, (in_c + transfer_c) // 2)]
         # First body module is not change feature map channel
-        for i in range(1, depth-1):
-            transfer_c = tail_channels[-i-2][1]
+        for i in range(1, depth - 1):
+            transfer_c = tail_channels[-i - 2][1]
             in_c = body_channels[-1][1] + transfer_c
-            body_channels.append((in_c, in_c//2))
+            body_channels.append((in_c, in_c // 2))
 
         in_c = body_channels[-1][1] + tail_channels[0][0]
         head_channels = [(in_c, in_c)]
         for i in range(depth):
-            transfer_c = body_channels[-i-1][0]
+            transfer_c = body_channels[-i - 1][0]
             in_c = head_channels[-1][1] + transfer_c
             head_channels.append((in_c, in_c))
 
@@ -282,16 +398,18 @@ class FishNetHead(nn.Sequential):
     FishNet Head composed by 1x1 convs.
     """
 
-    def __init__(self, in_features: int, n_classes: int, activation: nn.Module = nn.ReLU):
+    def __init__(
+        self, in_features: int, n_classes: int, activation: nn.Module = nn.ReLU
+    ):
         super().__init__(
             nn.BatchNorm2d(in_features),
             activation(),
-            nn.Conv2d(in_features, in_features//2, 1, bias=False),
-            nn.BatchNorm2d(in_features//2),
+            nn.Conv2d(in_features, in_features // 2, 1, bias=False),
+            nn.BatchNorm2d(in_features // 2),
             activation(),
             nn.AdaptiveAvgPool2d(1),
             nn.Conv2d(in_features // 2, n_classes, 1, bias=True),
-            nn.Flatten()
+            nn.Flatten(),
         )
 
 
@@ -328,7 +446,13 @@ class FishNet(ClassificationModule):
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
 
-    def __init__(self, encoder: nn.Module = FishNetEncoder, head:  nn.Module = FishNetHead, *args, **kwargs):
+    def __init__(
+        self,
+        encoder: nn.Module = FishNetEncoder,
+        head: nn.Module = FishNetHead,
+        *args,
+        **kwargs
+    ):
         super().__init__(encoder, head, *args, **kwargs)
         self.initialize()
 
@@ -363,13 +487,17 @@ class FishNet(ClassificationModule):
         head_depths = [1, 2, 2]
         head_trans_depths = [1, 1, 4]
 
-        return FishNet(*args, start_features=start_features,
-                       tail_depths=tail_depths,
-                       bridge_depth=bridge_depth,
-                       body_depths=body_depths,
-                       body_trans_depths=body_trans_depths,
-                       head_depths=head_depths,
-                       head_trans_depths=head_trans_depths, **kwargs)
+        return FishNet(
+            *args,
+            start_features=start_features,
+            tail_depths=tail_depths,
+            bridge_depth=bridge_depth,
+            body_depths=body_depths,
+            body_trans_depths=body_trans_depths,
+            head_depths=head_depths,
+            head_trans_depths=head_trans_depths,
+            **kwargs
+        )
 
     @classmethod
     def fishnet150(self, *args, **kwargs) -> FishNet:
@@ -389,10 +517,14 @@ class FishNet(ClassificationModule):
         head_depths = [2, 2, 4]
         head_trans_depths = [2, 2, 4]
 
-        return FishNet(*args, start_features=start_features,
-                       tail_depths=tail_depths,
-                       bridge_depth=bridge_depth,
-                       body_depths=body_depths,
-                       body_trans_depths=body_trans_depths,
-                       head_depths=head_depths,
-                       head_trans_depths=head_trans_depths, **kwargs)
+        return FishNet(
+            *args,
+            start_features=start_features,
+            tail_depths=tail_depths,
+            bridge_depth=bridge_depth,
+            body_depths=body_depths,
+            body_trans_depths=body_trans_depths,
+            head_depths=head_depths,
+            head_trans_depths=head_trans_depths,
+            **kwargs
+        )

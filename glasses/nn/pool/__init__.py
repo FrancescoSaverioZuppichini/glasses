@@ -1,3 +1,3 @@
 from .SpatialPyramidPool import SpatialPyramidPool
 
-__all__ = ['SpatialPyramidPool']
+__all__ = ["SpatialPyramidPool"]
