@@ -8,19 +8,24 @@ from ...base import VisionModule
 
 
 class SegmentationModule(VisionModule):
-    """Base Segmentation Module class
-    """
+    """Base Segmentation Module class"""
 
-    def __init__(self, in_channels: int, n_classes: int,
-                 encoder: nn.Module,
-                 decoder: nn.Module,
-                 **kwargs):
+    def __init__(
+        self,
+        in_channels: int,
+        n_classes: int,
+        encoder: nn.Module,
+        decoder: nn.Module,
+        **kwargs,
+    ):
 
         super().__init__()
         self.encoder = encoder(in_channels=in_channels, **kwargs)
-        self.decoder = decoder(lateral_widths=self.encoder.features_widths[::-1],
-                               start_features=self.encoder.widths[-1],
-                               **kwargs)
+        self.decoder = decoder(
+            lateral_widths=self.encoder.features_widths[::-1],
+            start_features=self.encoder.widths[-1],
+            **kwargs,
+        )
         self.head = nn.Identity()
 
     def forward(self, x: Tensor) -> Tensor:
@@ -30,8 +35,7 @@ class SegmentationModule(VisionModule):
         # encoder must have a .features
         features = self.encoder.features
         self.residuals = features[::-1]
-        self.residuals.extend(
-            [None] * (len(self.decoder.layers) - len(self.residuals)))
+        self.residuals.extend([None] * (len(self.decoder.layers) - len(self.residuals)))
 
         x = self.decoder(x, self.residuals)
 
@@ -46,13 +50,16 @@ class SegmentationModule(VisionModule):
             name (str): A function returning a model
 
         Returns:
-            [nn.Module] A PyTorch module: 
+            [nn.Module] A PyTorch module:
         """
+
         def extract_encoder(*args, **kwargs):
             try:
                 encoder = model(*args, **kwargs).encoder
             except AttributeError:
-                raise AttributeError(f'Field .encoder was not found for {model}. Are you using a model from glasses.models?')
+                raise AttributeError(
+                    f"Field .encoder was not found for {model}. Are you using a model from glasses.models?"
+                )
             return encoder
 
-        return cls( *args, encoder=extract_encoder, **kwargs)
+        return cls(*args, encoder=extract_encoder, **kwargs)

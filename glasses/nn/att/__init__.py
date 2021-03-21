@@ -61,19 +61,29 @@ class SpatialSE(nn.Module):
         reduced_features (int, optional): If passed, use it instead of calculating the reduced features using `reduction`. Defaults to None.
     """
 
-    def __init__(self, features: int, reduction: int = 16, reduced_features: int = None, activation: nn.Module = ReLUInPlace):
+    def __init__(
+        self,
+        features: int,
+        reduction: int = 16,
+        reduced_features: int = None,
+        activation: nn.Module = ReLUInPlace,
+    ):
         super().__init__()
-        self.reduced_features = features // reduction if reduced_features is None else reduced_features
+        self.reduced_features = (
+            features // reduction if reduced_features is None else reduced_features
+        )
 
         self.avg_pool = nn.AdaptiveAvgPool2d(1)
-        self.att = nn.Sequential(OrderedDict(
-            {
-                'fc1': nn.Linear(features, self.reduced_features, bias=False),
-                'act1': activation(),
-                'fc2': nn.Linear(self.reduced_features, features, bias=False),
-                'act2': nn.Sigmoid()
-            }
-        ))
+        self.att = nn.Sequential(
+            OrderedDict(
+                {
+                    "fc1": nn.Linear(features, self.reduced_features, bias=False),
+                    "act1": activation(),
+                    "fc2": nn.Linear(self.reduced_features, features, bias=False),
+                    "act2": nn.Sigmoid(),
+                }
+            )
+        )
 
     def forward(self, x: Tensor) -> Tensor:
         b, c, _, _ = x.size()
@@ -124,14 +134,19 @@ class ChannelSE(SpatialSE):
         reduced_features (int, optional): If passed, use it instead of calculating the reduced features using `reduction`. Defaults to None.
     """
 
-    def __init__(self, features: int,  *args, activation: nn.Module = ReLUInPlace, **kwargs):
+    def __init__(
+        self, features: int, *args, activation: nn.Module = ReLUInPlace, **kwargs
+    ):
         super().__init__(features, *args, activation=activation, **kwargs)
-        self.att = nn.Sequential(OrderedDict({
-            'conv1': nn.Conv2d(features, self.reduced_features, kernel_size=1),
-            'act1': activation(),
-            'conv2': nn.Conv2d(self.reduced_features, features, kernel_size=1),
-            'act2': nn.Sigmoid()
-        })
+        self.att = nn.Sequential(
+            OrderedDict(
+                {
+                    "conv1": nn.Conv2d(features, self.reduced_features, kernel_size=1),
+                    "act1": activation(),
+                    "conv2": nn.Conv2d(self.reduced_features, features, kernel_size=1),
+                    "act2": nn.Sigmoid(),
+                }
+            )
         )
 
     def forward(self, x: Tensor) -> Tensor:
@@ -211,7 +226,9 @@ class EfficientChannelAtt(nn.Module):
         beta (int, optional): [description]. Defaults to 1.
     """
 
-    def __init__(self, features: int, kernel_size: int = 3, gamma: int = 2, beta: int = 1):
+    def __init__(
+        self, features: int, kernel_size: int = 3, gamma: int = 2, beta: int = 1
+    ):
 
         super().__init__()
         assert kernel_size % 2 == 1
@@ -231,13 +248,13 @@ class EfficientChannelAtt(nn.Module):
 
 
 class WithAtt:
-    """Utility class that adds an attention module after `.block`. 
+    """Utility class that adds an attention module after `.block`.
 
     :Usage:
 
         >>> WithAtt(ResNetBottleneckBlock, att=SpatialSE)
         >>> WithAtt(ResNetBottleneckBlock, att=EfficientChannelAtt)
-        >>> from functools import partial 
+        >>> from functools import partial
         >>> WithAtt(ResNetBottleneckBlock, att=partial(SpatialSE, reduction=8))
     """
 
@@ -245,7 +262,9 @@ class WithAtt:
         self.block = block
         self.att = att
 
-    def __call__(self, in_features: int, out_features: int, *args, **kwargs) -> nn.Module:
+    def __call__(
+        self, in_features: int, out_features: int, *args, **kwargs
+    ) -> nn.Module:
         b = self.block(in_features, out_features, *args, **kwargs)
-        b.block.add_module('se', self.att(out_features))
+        b.block.add_module("se", self.att(out_features))
         return b

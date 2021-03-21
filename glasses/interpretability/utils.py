@@ -7,8 +7,9 @@ from typing import Type
 
 
 def tensor2cam(image, cam):
-    image_with_heatmap = image2cam(image.permute(1, 2, 0).cpu().numpy(),
-                                   cam.detach().cpu().numpy())
+    image_with_heatmap = image2cam(
+        image.permute(1, 2, 0).cpu().numpy(), cam.detach().cpu().numpy()
+    )
 
     return torch.from_numpy(image_with_heatmap)
 
@@ -37,7 +38,7 @@ def find_last_layer(x: torch.Tensor, module: nn.Module, of_type: Type) -> nn.Mod
 
     >>> x = torch.rand((1,3,224,224))
     >>> model = ResNet.resnet18()
-    >>> find_last_layer(x, module, nn.Conv2d) 
+    >>> find_last_layer(x, module, nn.Conv2d)
 
     Args:
         x (torch.Tensor): [description]
@@ -56,9 +57,10 @@ def find_last_layer(x: torch.Tensor, module: nn.Module, of_type: Type) -> nn.Mod
         if isinstance(m, of_type):
             layer = m
             break
-    assert layer != None, f'layer of type {of_type} not found in {module.__name__}'
+    assert layer != None, f"layer of type {of_type} not found in {module.__name__}"
 
     return layer
+
 
 def find_first_layer(x: torch.Tensor, module: nn.Module, of_type: Type) -> nn.Module:
     """Utility function that return the first layer of a given type
@@ -68,7 +70,7 @@ def find_first_layer(x: torch.Tensor, module: nn.Module, of_type: Type) -> nn.Mo
 
     >>> x = torch.rand((1,3,224,224))
     >>> model = ResNet.resnet18()
-    >>> find_last_layer(x, module, nn.Conv2d) 
+    >>> find_last_layer(x, module, nn.Conv2d)
 
     Args:
         x (torch.Tensor): [description]
@@ -86,7 +88,7 @@ def find_first_layer(x: torch.Tensor, module: nn.Module, of_type: Type) -> nn.Mo
         if isinstance(m, of_type):
             layer = m
             break
-    assert layer != None, f'layer of type {of_type} not found in {module.__name__}'
+    assert layer != None, f"layer of type {of_type} not found in {module.__name__}"
 
     return layer
 
@@ -103,6 +105,6 @@ def convert_to_grayscale(cv2im):
     grayscale_im = np.sum(np.abs(cv2im), axis=0)
     im_max = np.percentile(grayscale_im, 99)
     im_min = np.min(grayscale_im)
-    grayscale_im = (np.clip((grayscale_im - im_min) / (im_max - im_min), 0, 1))
+    grayscale_im = np.clip((grayscale_im - im_min) / (im_max - im_min), 0, 1)
     grayscale_im = np.expand_dims(grayscale_im, axis=0)
     return grayscale_im
