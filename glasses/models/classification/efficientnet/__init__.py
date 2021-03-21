@@ -1,15 +1,15 @@
 from __future__ import annotations
-import torch
 import numpy as np
 from torch import nn
 from torch import Tensor
 from collections import OrderedDict
 from typing import List
 from functools import partial
+
 from glasses.nn.blocks import ConvBnAct
 from glasses.nn.att import ChannelSE
 from ....models.utils.scaler import CompoundScaler
-from ....models.base import Encoder
+from ....models.base import Encoder, StagesExtractor, WidthsExtractor
 from ..resnet import ResNetLayer
 from glasses.utils.PretrainedWeightsProvider import pretrained
 from ..base import ClassificationModule
@@ -17,7 +17,7 @@ from glasses.nn import StochasticDepth
 
 
 class InvertedResidualBlock(nn.Module):
-    """Inverted residual block proposed originally for MobileNetV2. 
+    """Inverted residual block proposed originally for MobileNetV2.
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetBasicBlock.png?raw=true
 
@@ -33,7 +33,18 @@ class InvertedResidualBlock(nn.Module):
         kernel_size (int, optional): [description]. Defaults to 3.
     """
 
-    def __init__(self, in_features: int, out_features: int, stride: int = 1, expansion: int = 6, activation: nn.Module = nn.SiLU, drop_rate: float = 0.2, se: bool = True, kernel_size: int = 3, **kwargs):
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        stride: int = 1,
+        expansion: int = 6,
+        activation: nn.Module = nn.SiLU,
+        drop_rate: float = 0.2,
+        se: bool = True,
+        kernel_size: int = 3,
+        **kwargs
+    ):
         super().__init__()
 
         reduced_features = in_features // 4
@@ -42,22 +53,46 @@ class InvertedResidualBlock(nn.Module):
         # in mobilenet we do not use a shortcut
         self.should_apply_residual = stride == 1 and in_features == out_features
         self.block = nn.Sequential(
-            OrderedDict({
-                'exp': ConvBnAct(in_features, expanded_features,  activation=activation, kernel_size=1) if expansion > 1 else nn.Identity(),
-                'depth':  ConvBnAct(expanded_features, expanded_features,
-                                    activation=activation,
-                                    kernel_size=kernel_size,
-                                    stride=stride,
-                                    groups=expanded_features,
-                                    **kwargs),
-                # apply se after depth-wise
-                'att':  ChannelSE(expanded_features,
-                                  reduced_features=reduced_features, activation=activation) if se else nn.Identity(),
-                'point': nn.Sequential(ConvBnAct(expanded_features,
-                                                 out_features, kernel_size=1, activation=None)),
-
-                'drop': StochasticDepth(drop_rate) if self.should_apply_residual and drop_rate > 0 else nn.Identity()
-            })
+            OrderedDict(
+                {
+                    "exp": ConvBnAct(
+                        in_features,
+                        expanded_features,
+                        activation=activation,
+                        kernel_size=1,
+                    )
+                    if expansion > 1
+                    else nn.Identity(),
+                    "depth": ConvBnAct(
+                        expanded_features,
+                        expanded_features,
+                        activation=activation,
+                        kernel_size=kernel_size,
+                        stride=stride,
+                        groups=expanded_features,
+                        **kwargs,
+                    ),
+                    # apply se after depth-wise
+                    "att": ChannelSE(
+                        expanded_features,
+                        reduced_features=reduced_features,
+                        activation=activation,
+                    )
+                    if se
+                    else nn.Identity(),
+                    "point": nn.Sequential(
+                        ConvBnAct(
+                            expanded_features,
+                            out_features,
+                            kernel_size=1,
+                            activation=None,
+                        )
+                    ),
+                    "drop": StochasticDepth(drop_rate)
+                    if self.should_apply_residual and drop_rate > 0
+                    else nn.Identity(),
+                }
+            )
         )
 
     def forward(self, x: Tensor) -> Tensor:
@@ -71,6 +106,27 @@ class InvertedResidualBlock(nn.Module):
 EfficientNetBasicBlock = InvertedResidualBlock
 EfficientNetStem = ConvBnAct
 EfficientNetLayer = partial(ResNetLayer, block=EfficientNetBasicBlock)
+
+
+def get_stages(enc: nn.Module) -> List[nn.Module]:
+    # find the layers where the input is // 2
+    # skip first stride because it is for the stem!
+    # skip the last layer because it is just a conv-bn-act
+    # and we haven't a stride for it
+    layers = np.array(enc.layers[:-1], dtype=object)[
+        np.array(enc.strides[1:]) == 2
+    ].tolist()[:-1]
+    return layers
+
+
+def get_widths(enc: nn.Module) -> List[int]:
+    # find the layers where the input is // 2
+    # skip first stride because it is for the stem!
+    # skip the last layer because it is just a conv-bn-act
+    # and we haven't a stride for it
+    layers = np.array(enc.layers[:-1])[np.array(enc.strides[1:]) == 2].tolist()[:-1]
+
+    return [enc.stem[-1], *layers]
 
 
 class EfficientNetEncoder(Encoder):
@@ -91,68 +147,78 @@ class EfficientNetEncoder(Encoder):
         activation (nn.Module, optional): [description]. Defaults to nn.SiLU.
     """
 
-    def __init__(self, in_channels: int = 3,
-                 widths: List[int] = [32, 16, 24, 40, 80, 112, 192, 320, 1280],
-                 depths: List[int] = [1, 2, 2, 3, 3, 4, 1],
-                 strides: List[int] = [2, 1, 2, 2, 2, 1, 2, 1],
-                 expansions: List[int] = [1, 6, 6, 6, 6, 6, 6],
-                 kernel_sizes: List[int] = [3, 3, 5, 3, 5, 5, 3],
-                 se: List[bool] = [True, True, True, True, True, True, True],
-                 drop_rate: float = 0.2,
-                 stem: nn.Module = EfficientNetStem,
-                 activation: nn.Module = partial(nn.SiLU, inplace=True), **kwargs):
-        super().__init__()
+    def __init__(
+        self,
+        in_channels: int = 3,
+        widths: List[int] = [32, 16, 24, 40, 80, 112, 192, 320, 1280],
+        depths: List[int] = [1, 2, 2, 3, 3, 4, 1],
+        strides: List[int] = [2, 1, 2, 2, 2, 1, 2, 1],
+        expansions: List[int] = [1, 6, 6, 6, 6, 6, 6],
+        kernel_sizes: List[int] = [3, 3, 5, 3, 5, 5, 3],
+        se: List[bool] = [True, True, True, True, True, True, True],
+        drop_rate: float = 0.2,
+        stem: nn.Module = EfficientNetStem,
+        activation: nn.Module = partial(nn.SiLU, inplace=True),
+        get_stages: StagesExtractor = get_stages,
+        get_widths: WidthsExtractor = get_widths,
+        **kwargs
+    ):
+        super().__init__(get_stages, get_widths)
 
         self.widths, self.depths = widths, depths
-        self.strides, self.expansions, self.kernel_sizes = strides, expansions, kernel_sizes
+        self.strides, self.expansions, self.kernel_sizes = (
+            strides,
+            expansions,
+            kernel_sizes,
+        )
         self.stem = stem(
-            in_channels, widths[0],  activation=activation, kernel_size=3, stride=strides[0])
+            in_channels,
+            widths[0],
+            activation=activation,
+            kernel_size=3,
+            stride=strides[0],
+        )
         strides = strides[1:]
         self.in_out_widths = list(zip(widths, widths[1:-1]))
 
-        self.layers = nn.ModuleList([
-            *[EfficientNetLayer(in_features,
-                                out_features,
-                                depth=n,
-                                stride=s,
-                                expansion=t,
-                                kernel_size=k,
-                                se=se,
-                                drop_rate=drop_rate,
-                                activation=activation, **kwargs)
-              for (in_features, out_features), n, s, t, k, se
-                in zip(self.in_out_widths, depths, strides, expansions, kernel_sizes, se)]
-        ])
+        self.layers = nn.ModuleList(
+            [
+                *[
+                    EfficientNetLayer(
+                        in_features,
+                        out_features,
+                        depth=n,
+                        stride=s,
+                        expansion=t,
+                        kernel_size=k,
+                        se=se,
+                        drop_rate=drop_rate,
+                        activation=activation,
+                        **kwargs,
+                    )
+                    for (in_features, out_features), n, s, t, k, se in zip(
+                        self.in_out_widths,
+                        depths,
+                        strides,
+                        expansions,
+                        kernel_sizes,
+                        se,
+                    )
+                ]
+            ]
+        )
 
-        self.layers.append(ConvBnAct(self.widths[-2], self.widths[-1],
-                                     activation=activation, kernel_size=1))
+        self.layers.append(
+            ConvBnAct(
+                self.widths[-2], self.widths[-1], activation=activation, kernel_size=1
+            )
+        )
 
     def forward(self, x):
         x = self.stem(x)
         for block in self.layers:
             x = block(x)
         return x
-
-    @property
-    def stages(self):
-        # find the layers where the input is // 2
-        # skip first stride because it is for the stem!
-        # skip the last layer because it is just a conv-bn-act
-        # and we haven't a stride for it
-        layers = np.array(
-            self.layers[:-1])[np.array(self.strides[1:]) == 2].tolist()[:-1]
-
-        return [self.stem[-1],
-                *layers]
-
-    @property
-    def features_widths(self):
-        # skip the last layer because it is just a conv-bn-act
-        # and we haven't a stride for it
-        widths = np.array(
-            self.widths[:-1])[np.array(self.strides) == 2].tolist()
-        # we also have to remove the last one, because it is the spatial size of the network output
-        return widths[:-1]
 
 
 class EfficientNetHead(nn.Sequential):
@@ -227,34 +293,41 @@ class EfficientNet(ClassificationModule):
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
+
     models_config = {
         # name : width_factor, depth_factor, dropout_rate
-        'efficientnet_b0': (1.0, 1.0, 0.2),
-        'efficientnet_b1': (1.0, 1.1, 0.2),
-        'efficientnet_b2': (1.1, 1.2, 0.3),
-        'efficientnet_b3': (1.2, 1.4, 0.3),
-        'efficientnet_b4': (1.4, 1.8, 0.4),
-        'efficientnet_b5': (1.6, 2.2, 0.4),
-        'efficientnet_b6': (1.8, 2.6, 0.5),
-        'efficientnet_b7': (2.0, 3.1, 0.5),
-        'efficientnet_b8': (2.2, 3.6, 0.5),
-        'efficientnet_l2': (4.3, 5.3, 0.5),
+        "efficientnet_b0": (1.0, 1.0, 0.2),
+        "efficientnet_b1": (1.0, 1.1, 0.2),
+        "efficientnet_b2": (1.1, 1.2, 0.3),
+        "efficientnet_b3": (1.2, 1.4, 0.3),
+        "efficientnet_b4": (1.4, 1.8, 0.4),
+        "efficientnet_b5": (1.6, 2.2, 0.4),
+        "efficientnet_b6": (1.8, 2.6, 0.5),
+        "efficientnet_b7": (2.0, 3.1, 0.5),
+        "efficientnet_b8": (2.2, 3.6, 0.5),
+        "efficientnet_l2": (4.3, 5.3, 0.5),
     }
 
     default_depths: List[int] = [1, 2, 2, 3, 3, 4, 1]
-    default_widths: List[int] = [
-        32, 16, 24, 40, 80, 112, 192, 320, 1280]
+    default_widths: List[int] = [32, 16, 24, 40, 80, 112, 192, 320, 1280]
 
-    def __init__(self, encoder: nn.Module = EfficientNetEncoder, head:  nn.Module = EfficientNetHead, *args, **kwargs):
-        super().__init__(encoder, partial(
-            head, drop_rate=kwargs['drop_rate']), *args, **kwargs)
+    def __init__(
+        self,
+        encoder: nn.Module = EfficientNetEncoder,
+        head: nn.Module = EfficientNetHead,
+        *args,
+        **kwargs
+    ):
+        super().__init__(
+            encoder, partial(head, drop_rate=kwargs["drop_rate"]), *args, **kwargs
+        )
         self.initialize()
 
     def initialize(self):
         # initialization copied from MobileNetV2
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight, mode='fan_out')
+                nn.init.kaiming_normal_(m.weight, mode="fan_out")
                 if m.bias is not None:
                     nn.init.zeros_(m.bias)
             elif isinstance(m, (nn.BatchNorm2d, nn.GroupNorm)):
@@ -268,54 +341,61 @@ class EfficientNet(ClassificationModule):
     @classmethod
     def from_config(cls, config, key, *args, **kwargs) -> EfficientNet:
         width_factor, depth_factor, drop_rate = config[key]
-        widths, depths = CompoundScaler()(width_factor, depth_factor,
-                                          cls.default_widths, cls.default_depths)
-        return cls(*args, depths=depths, widths=widths, drop_rate=drop_rate, **kwargs,)
+        widths, depths = CompoundScaler()(
+            width_factor, depth_factor, cls.default_widths, cls.default_depths
+        )
+        return cls(
+            *args,
+            depths=depths,
+            widths=widths,
+            drop_rate=drop_rate,
+            **kwargs,
+        )
 
     @classmethod
     @pretrained()
     def efficientnet_b0(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_b0', *args, **kwargs)
+        return cls.from_config(cls.models_config, "efficientnet_b0", *args, **kwargs)
 
     @classmethod
     @pretrained()
     def efficientnet_b1(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_b1', *args, **kwargs)
+        return cls.from_config(cls.models_config, "efficientnet_b1", *args, **kwargs)
 
     @classmethod
     @pretrained()
     def efficientnet_b2(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_b2', *args, **kwargs)
+        return cls.from_config(cls.models_config, "efficientnet_b2", *args, **kwargs)
 
     @classmethod
     @pretrained()
     def efficientnet_b3(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_b3', *args, **kwargs)
+        return cls.from_config(cls.models_config, "efficientnet_b3", *args, **kwargs)
 
     @classmethod
     @pretrained()
     def efficientnet_b4(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_b4', *args, **kwargs)
+        return cls.from_config(cls.models_config, "efficientnet_b4", *args, **kwargs)
 
     @classmethod
     def efficientnet_b5(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_b5', *args, **kwargs)
+        return cls.from_config(cls.models_config, "efficientnet_b5", *args, **kwargs)
 
     @classmethod
     def efficientnet_b6(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_b6', *args, **kwargs)
+        return cls.from_config(cls.models_config, "efficientnet_b6", *args, **kwargs)
 
     @classmethod
     def efficientnet_b7(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_b7', *args, **kwargs)
+        return cls.from_config(cls.models_config, "efficientnet_b7", *args, **kwargs)
 
     @classmethod
     def efficientnet_b8(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_b8', *args, **kwargs)
+        return cls.from_config(cls.models_config, "efficientnet_b8", *args, **kwargs)
 
     @classmethod
     def efficientnet_l2(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_l2',  *args, **kwargs)
+        return cls.from_config(cls.models_config, "efficientnet_l2", *args, **kwargs)
 
 
 class EfficientNetLite(EfficientNet):
@@ -345,18 +425,19 @@ class EfficientNetLite(EfficientNet):
 
     models_config = {
         # name : width_factor, depth_factor, dropout_rate
-        'efficientnet_lite0': (1.0, 1.0, 0.2),
-        'efficientnet_lite1': (1.0, 1.1, 0.2),
-        'efficientnet_lite2': (1.1, 1.2, 0.3),
-        'efficientnet_lite3': (1.2, 1.4, 0.3),
-        'efficientnet_lite4': (1.4, 1.8, 0.3),
+        "efficientnet_lite0": (1.0, 1.0, 0.2),
+        "efficientnet_lite1": (1.0, 1.1, 0.2),
+        "efficientnet_lite2": (1.1, 1.2, 0.3),
+        "efficientnet_lite3": (1.2, 1.4, 0.3),
+        "efficientnet_lite4": (1.4, 1.8, 0.3),
     }
 
     @classmethod
     def from_config(cls, config, key, *args, **kwargs) -> EfficientNet:
         width_factor, depth_factor, drop_rate = config[key]
-        widths, depths = CompoundScaler()(width_factor, depth_factor,
-                                          cls.default_widths, cls.default_depths)
+        widths, depths = CompoundScaler()(
+            width_factor, depth_factor, cls.default_widths, cls.default_depths
+        )
         # in lite models the steam and head width are not scaled
         widths[0] = cls.default_widths[0]
         widths[-1] = cls.default_widths[-1]
@@ -367,28 +448,32 @@ class EfficientNetLite(EfficientNet):
         # ot sure why since there are just convolutions.
         se = [False] * len(widths)
         # all swish function are replaced with ReLU6 for easier post-quantization
-        return cls(*args, depths=depths,
-                   widths=widths,
-                   se=se,
-                   drop_rate=drop_rate,
-                   activation=partial(nn.ReLU6, inplace=True),  **kwargs)
+        return cls(
+            *args,
+            depths=depths,
+            widths=widths,
+            se=se,
+            drop_rate=drop_rate,
+            activation=partial(nn.ReLU6, inplace=True),
+            **kwargs,
+        )
 
     @classmethod
     def efficientnet_lite0(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_lite0', *args, **kwargs)
+        return cls.from_config(cls.models_config, "efficientnet_lite0", *args, **kwargs)
 
     @classmethod
     def efficientnet_lite1(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_lite1', *args, **kwargs)
+        return cls.from_config(cls.models_config, "efficientnet_lite1", *args, **kwargs)
 
     @classmethod
     def efficientnet_lite2(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_lite2', *args, **kwargs)
+        return cls.from_config(cls.models_config, "efficientnet_lite2", *args, **kwargs)
 
     @classmethod
     def efficientnet_lite3(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_lite3', *args, **kwargs)
+        return cls.from_config(cls.models_config, "efficientnet_lite3", *args, **kwargs)
 
     @classmethod
     def efficientnet_lite4(cls, *args, **kwargs) -> EfficientNet:
-        return cls.from_config(cls.models_config, 'efficientnet_lite4')
+        return cls.from_config(cls.models_config, "efficientnet_lite4")

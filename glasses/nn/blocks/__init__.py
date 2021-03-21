@@ -1,4 +1,3 @@
-
 import torch.nn as nn
 from functools import partial
 from typing import Callable, Union
@@ -6,6 +5,7 @@ from torch import Tensor
 import math
 from torch.nn import functional as F
 from ..regularization import DropBlock
+
 
 class Lambda(nn.Module):
     def __init__(self, lambd: Callable[[Tensor], Tensor]):
@@ -26,42 +26,56 @@ class Lambda(nn.Module):
 
 
 class Conv2dPad(nn.Conv2d):
-    """2D Convolutions with different padding modes. 
+    """2D Convolutions with different padding modes.
 
-        'auto' will use the kernel_size to calculate the padding
-        'same' same padding as TensorFLow. It will dynamically pad the image based on its size
+    'auto' will use the kernel_size to calculate the padding
+    'same' same padding as TensorFLow. It will dynamically pad the image based on its size
 
-        Args:
-            mode (str, optional): [description]. Defaults to 'auto'.
+    Args:
+        mode (str, optional): [description]. Defaults to 'auto'.
     """
 
-    def __init__(self, *args, mode: str = 'auto', padding: int = 0, **kwargs):
+    def __init__(self, *args, mode: str = "auto", padding: int = 0, **kwargs):
 
         super().__init__(*args, **kwargs)
         self.mode = mode
         # dynamic add padding based on the kernel_size
-        if self.mode == 'auto':
-            self.padding = self._get_padding(padding) if padding != 0 else (
-                self.kernel_size[0] // 2, self.kernel_size[1] // 2)
+        if self.mode == "auto":
+            self.padding = (
+                self._get_padding(padding)
+                if padding != 0
+                else (self.kernel_size[0] // 2, self.kernel_size[1] // 2)
+            )
 
     def _get_padding(self, padding: int) -> Union[int]:
         return (padding, padding)
 
     def forward(self, x: Tensor) -> Tensor:
-        if self.mode == 'same':
+        if self.mode == "same":
             ih, iw = x.size()[-2:]
             kh, kw = self.weight.size()[-2:]
             sh, sw = self.stride
             # change the output size according to stride ! ! !
             oh, ow = math.ceil(ih / sh), math.ceil(iw / sw)
             pad_h = max(
-                (oh - 1) * self.stride[0] + (kh - 1) * self.dilation[0] + 1 - ih, 0)
+                (oh - 1) * self.stride[0] + (kh - 1) * self.dilation[0] + 1 - ih, 0
+            )
             pad_w = max(
-                (ow - 1) * self.stride[1] + (kw - 1) * self.dilation[1] + 1 - iw, 0)
+                (ow - 1) * self.stride[1] + (kw - 1) * self.dilation[1] + 1 - iw, 0
+            )
             if pad_h > 0 or pad_w > 0:
-                x = F.pad(x, [pad_w // 2, pad_w - pad_w //
-                              2, pad_h // 2, pad_h - pad_h // 2])
-            return F.conv2d(x, self.weight, self.bias, self.stride, self.padding, self.dilation, self.groups)
+                x = F.pad(
+                    x, [pad_w // 2, pad_w - pad_w // 2, pad_h // 2, pad_h - pad_h // 2]
+                )
+            return F.conv2d(
+                x,
+                self.weight,
+                self.bias,
+                self.stride,
+                self.padding,
+                self.dilation,
+                self.groups,
+            )
 
         else:
             return super().forward(x)
@@ -99,15 +113,23 @@ class ConvBnAct(nn.Sequential):
             activation (nn.Module, optional): Activation function. Defaults to nn.ReLU.
     """
 
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = nn.ReLU, conv: nn.Module = Conv2dPad,
-                 normalization: nn.Module = nn.BatchNorm2d,  bias: bool = False, **kwargs):
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        activation: nn.Module = nn.ReLU,
+        conv: nn.Module = Conv2dPad,
+        normalization: nn.Module = nn.BatchNorm2d,
+        bias: bool = False,
+        **kwargs
+    ):
         super().__init__()
-        self.add_module('conv', conv(
-            in_features, out_features, **kwargs, bias=bias))
+        self.add_module("conv", conv(in_features, out_features, **kwargs, bias=bias))
         if normalization:
-            self.add_module('bn', normalization(out_features))
+            self.add_module("bn", normalization(out_features))
         if activation:
-            self.add_module('act', activation())
+            self.add_module("act", activation())
+
 
 class ConvBnDropAct(nn.Sequential):
     """Utility module that stacks one convolution layer, a normalization layer, a regularization layer and an activation function.
@@ -121,17 +143,27 @@ class ConvBnDropAct(nn.Sequential):
                 (act): ReLU()
             )
     """
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = nn.ReLU, conv: nn.Module = Conv2dPad,
-                 normalization: nn.Module = nn.BatchNorm2d, regularization: nn.Module = DropBlock, p: float = 0.2,  bias: bool = False, **kwargs):
+
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        activation: nn.Module = nn.ReLU,
+        conv: nn.Module = Conv2dPad,
+        normalization: nn.Module = nn.BatchNorm2d,
+        regularization: nn.Module = DropBlock,
+        p: float = 0.2,
+        bias: bool = False,
+        **kwargs
+    ):
         super().__init__()
-        self.add_module('conv', conv(
-            in_features, out_features, **kwargs, bias=bias))
+        self.add_module("conv", conv(in_features, out_features, **kwargs, bias=bias))
         if normalization:
-            self.add_module('bn', normalization(out_features))
+            self.add_module("bn", normalization(out_features))
         if regularization:
-            self.add_module('reg', regularization(p=p))
+            self.add_module("reg", regularization(p=p))
         if activation:
-            self.add_module('act', activation())
+            self.add_module("act", activation())
 
 
 ReLUInPlace = partial(nn.ReLU, inplace=True)
@@ -148,16 +180,22 @@ class BnActConv(nn.Sequential):
         activation (nn.Module, optional): [description]. Defaults to nn.ReLU.
     """
 
-    def __init__(self, in_features: int, out_features: int, conv: nn.Module = Conv2dPad,
-                 normalization: nn.Module = nn.BatchNorm2d, activation: nn.Module = ReLUInPlace, *args, **kwargs):
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        conv: nn.Module = Conv2dPad,
+        normalization: nn.Module = nn.BatchNorm2d,
+        activation: nn.Module = ReLUInPlace,
+        *args,
+        **kwargs
+    ):
         super().__init__()
-        self.add_module('bn', normalization(in_features))
-        self.add_module('act', activation())
-        self.add_module('conv', conv(
-            in_features, out_features, *args, **kwargs))
+        self.add_module("bn", normalization(in_features))
+        self.add_module("act", activation())
+        self.add_module("conv", conv(in_features, out_features, *args, **kwargs))
 
 
 ConvBn = partial(ConvBnAct, activation=None)
 ConvAct = partial(ConvBnAct, normalization=None, bias=True)
 Conv3x3BnAct = partial(ConvBnAct, kernel_size=3)
-

@@ -5,13 +5,14 @@ from .Tracker import Tracker
 from pprint import pprint
 from typing import List
 
+
 @dataclass
 class ModuleTransfer:
-    """This class transfers the weight from one module to another assuming 
+    """This class transfers the weight from one module to another assuming
     they have the same set of operations but they were defined in a different way.
-    
+
     :Examples
-    
+
         >>> import torch
         >>> import torch.nn as nn
         >>> from eyes.utils import ModuleTransfer
@@ -26,8 +27,9 @@ class ModuleTransfer:
         >>> trans(x)
 
         # now module_b has the same weight of model_a
-    
+
     """
+
     src: nn.Module
     dest: nn.Module
     verbose: int = 0
@@ -42,16 +44,16 @@ class ModuleTransfer:
         """
         dest_traced = Tracker(self.dest)(x).parametrized
         src_traced = Tracker(self.src)(x).parametrized
-        
+
         src_traced = list(filter(lambda x: type(x) not in self.src_skip, src_traced))
         dest_traced = list(filter(lambda x: type(x) not in self.dest_skip, dest_traced))
 
-
         if len(dest_traced) != len(src_traced):
             raise Exception(
-                f'Numbers of operations are different. Source module has {len(src_traced)} operations while destination module has {len(dest_traced)}.')
+                f"Numbers of operations are different. Source module has {len(src_traced)} operations while destination module has {len(dest_traced)}."
+            )
 
         for dest_m, src_m in zip(dest_traced, src_traced):
             dest_m.load_state_dict(src_m.state_dict())
             if self.verbose == 1:
-                print(f'Transfered from={src_m} to={dest_m}')
+                print(f"Transfered from={src_m} to={dest_m}")

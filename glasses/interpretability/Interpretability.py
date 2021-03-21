@@ -1,5 +1,4 @@
 class Interpretability:
-    """Base class for all interpretability techniques
-    """
-    pass
+    """Base class for all interpretability techniques"""
 
+    pass
