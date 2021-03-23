@@ -5,17 +5,16 @@ import os
 import logging
 import torchvision.transforms as T
 import torch.nn as nn
-import numpy as np
 from torch import nn
 from dataclasses import dataclass
 from typing import Dict
 from torch import Tensor
 from pathlib import Path
-from PIL import Image
 from typing import Tuple
 from typing import Callable
 from functools import wraps
 from rich.progress import track
+from torchvision.transforms import InterpolationMode
 
 logging.basicConfig(level=logging.INFO)
 
@@ -39,7 +38,10 @@ class Config:
 
     @property
     def transform(self):
-        interpolations = {"bilinear": Image.BILINEAR, "bicubic": Image.BICUBIC}
+        interpolations = {
+            "bilinear": InterpolationMode.BILINEAR,
+            "bicubic": InterpolationMode.BICUBIC,
+        }
         tr = T.Compose(
             [
                 T.Resize(self.resize, interpolations[self.interpolation]),
