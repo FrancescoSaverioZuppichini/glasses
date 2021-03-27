@@ -203,10 +203,9 @@
 
 
 <div class="viewcode-block" id="Interpretable"><a class="viewcode-back" href="../../../../glasses.models.base.html#glasses.models.base.protocols.Interpretable">[docs]</a><span class="k">class</span> <span class="nc">Interpretable</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Protocol that allows the clas that subclass it to interpret an input using and instance of `Interpretability`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Protocol that allows the clas that subclass it to interpret an input using and instance of `Interpretability`&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Interpretable.interpret"><a class="viewcode-back" href="../../../../glasses.models.base.html#glasses.models.base.protocols.Interpretable.interpret">[docs]</a>    <span class="k">def</span> <span class="nf">interpret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span> <span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">using</span><span class="p">:</span> <span class="n">Interpretability</span><span class="p">(),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Interpretable.interpret"><a class="viewcode-back" href="../../../../glasses.models.base.html#glasses.models.base.protocols.Interpretable.interpret">[docs]</a>    <span class="k">def</span> <span class="nf">interpret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">using</span><span class="p">:</span> <span class="n">Interpretability</span><span class="p">(),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">using</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
 </pre></div>
 

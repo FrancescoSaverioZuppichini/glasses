@@ -180,11 +180,19 @@
 <span class="sd">        width_factor (int, optional): Scales the 3x3 conv features in the bottle neck block. Defaults to 2.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">width_factor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">reduction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">width_factor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">reduction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
         <span class="n">features</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">out_features</span> <span class="o">*</span> <span class="n">width_factor</span> <span class="o">//</span> <span class="n">reduction</span><span class="p">)</span>
-        
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span>
-                         <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">,</span>  <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="n">reduction</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="WideResNet"><a class="viewcode-back" href="../../../../glasses.models.classification.wide_resnet.html#glasses.models.WideResNet">[docs]</a><span class="k">class</span> <span class="nc">WideResNet</span><span class="p">(</span><span class="n">ResNet</span><span class="p">):</span>
@@ -226,7 +234,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="WideResNet.wide_resnet50_2"><a class="viewcode-back" href="../../../../glasses.models.classification.wide_resnet.html#glasses.models.WideResNet.wide_resnet50_2">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">(</span><span class="s1">&#39;wide_resnet50_2&#39;</span><span class="p">)</span>
+    <span class="nd">@pretrained</span><span class="p">(</span><span class="s2">&quot;wide_resnet50_2&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wide_resnet50_2</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WideResNet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a wide_resnet50_2 model</span>
 
@@ -236,7 +244,7 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">WideResNetBottleNeckBlock</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="WideResNet.wide_resnet101_2"><a class="viewcode-back" href="../../../../glasses.models.classification.wide_resnet.html#glasses.models.WideResNet.wide_resnet101_2">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">(</span><span class="s1">&#39;wide_resnet101_2&#39;</span><span class="p">)</span>
+    <span class="nd">@pretrained</span><span class="p">(</span><span class="s2">&quot;wide_resnet101_2&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">wide_resnet101_2</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WideResNet</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Creates a wide_resnet50_2 model</span>
 

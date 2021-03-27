@@ -169,40 +169,46 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
 
+
 <div class="viewcode-block" id="MutipleKeysDict"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.Storage.MutipleKeysDict">[docs]</a><span class="k">class</span> <span class="nc">MutipleKeysDict</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Allow to get values from multiple keys. Example:</span>
-<span class="sd">    </span>
+
 <span class="sd">    ```python</span>
 <span class="sd">    d = MutipleKeysDict({ &#39;a&#39; : 1, &#39;b&#39; : 2, &#39;c&#39; : 3})</span>
 <span class="sd">    d[[&#39;a&#39;, &#39;b&#39;]]</span>
 <span class="sd">    # out [1,2]</span>
 <span class="sd">    ```</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
-        
+
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
             <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span> <span class="n">item</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
         <span class="c1"># # if is a list and contains only one el, return it</span>
         <span class="c1"># if type(item) is list and len(item) == 1: item = item[0]</span>
         <span class="k">return</span> <span class="n">item</span></div>
 
-<div class="viewcode-block" id="ModuleStorage"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.Storage.ModuleStorage">[docs]</a><span class="k">class</span> <span class="nc">ModuleStorage</span><span class="p">():</span>
+
+<div class="viewcode-block" id="ModuleStorage"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.Storage.ModuleStorage">[docs]</a><span class="k">class</span> <span class="nc">ModuleStorage</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where2layers</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">where2layers</span> <span class="o">=</span> <span class="n">where2layers</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">where</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">unsubcribe</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
-    
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">MutipleKeysDict</span><span class="p">({</span> 
-            <span class="n">k</span> <span class="p">:</span> <span class="n">MutipleKeysDict</span><span class="p">()</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">where2layers</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span> <span class="k">else</span> <span class="p">[]</span> 
-            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span> 
-        <span class="p">})</span>
-    
+        <span class="k">return</span> <span class="n">MutipleKeysDict</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="n">k</span><span class="p">:</span> <span class="n">MutipleKeysDict</span><span class="p">()</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">where2layers</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span> <span class="k">else</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
@@ -211,7 +217,7 @@
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">where2layers</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
             <span class="n">names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">where2layers</span>
         <span class="k">return</span> <span class="n">names</span>
-    
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">layers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -222,49 +228,60 @@
             <span class="n">layers</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">where2layers</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">where2layers</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
             <span class="n">layers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">where2layers</span>
-        <span class="k">return</span> <span class="n">layers</span> 
-    
-<div class="viewcode-block" id="ModuleStorage.register_hooks"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.Storage.ModuleStorage.register_hooks">[docs]</a>    <span class="k">def</span> <span class="nf">register_hooks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;forward&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">layers</span>
+
+<div class="viewcode-block" id="ModuleStorage.register_hooks"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.Storage.ModuleStorage.register_hooks">[docs]</a>    <span class="k">def</span> <span class="nf">register_hooks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;forward&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loop in all the layers and register a hook. There is ONLY one hook per layer to improve</span>
 <span class="sd">        performance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
             <span class="c1"># create a hash of a layer as an identifier, this is unique</span>
-<span class="c1">#             name = f&quot;{type(layer).__name__.lower()}-{hash(layer)}&quot;</span>
-            <span class="k">if</span> <span class="n">how</span> <span class="o">==</span> <span class="s1">&#39;forward&#39;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">unsubcribe</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">register_forward_hook</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hook</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">layer</span><span class="p">)))</span>
-            <span class="k">elif</span> <span class="n">how</span> <span class="o">==</span> <span class="s1">&#39;backward&#39;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">unsubcribe</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">register_backward_hook</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hook</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">layer</span><span class="p">)))</span>
+            <span class="c1">#             name = f&quot;{type(layer).__name__.lower()}-{hash(layer)}&quot;</span>
+            <span class="k">if</span> <span class="n">how</span> <span class="o">==</span> <span class="s2">&quot;forward&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">unsubcribe</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">layer</span><span class="o">.</span><span class="n">register_forward_hook</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hook</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">layer</span><span class="p">))</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">how</span> <span class="o">==</span> <span class="s2">&quot;backward&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">unsubcribe</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">layer</span><span class="o">.</span><span class="n">register_backward_hook</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hook</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">layer</span><span class="p">))</span>
+                <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;type must be &#39;forward&#39; or &#39;backward&#39;&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[INFO] </span><span class="si">{</span><span class="n">how</span><span class="si">}</span><span class="s2"> hook registered to </span><span class="si">{</span><span class="n">layer</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
-        
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[INFO] </span><span class="si">{</span><span class="n">how</span><span class="si">}</span><span class="s2"> hook registered to </span><span class="si">{</span><span class="n">layer</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ModuleStorage.hook"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.Storage.ModuleStorage.hook">[docs]</a>    <span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2"> called&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2"> called&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">where2layers</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="c1">#       store only the outputs from the correct layers defined in self.where2layers</span>
-            <span class="k">if</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">where2layers</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">where</span><span class="p">]:</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">where</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">o</span>
+            <span class="c1">#       store only the outputs from the correct layers defined in self.where2layers</span>
+            <span class="k">if</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">where2layers</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">where</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">where</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">o</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">where2layers</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">o</span></div>
-            
+
 <div class="viewcode-block" id="ModuleStorage.clear"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.Storage.ModuleStorage.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;[INFO] clear&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[INFO] clear&quot;</span><span class="p">)</span>
         <span class="p">[</span><span class="n">un</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span> <span class="k">for</span> <span class="n">un</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unsubcribe</span><span class="p">]</span></div>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">where</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">where</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;we cannot find any layers with key </span><span class="si">{</span><span class="n">where</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">where</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;we cannot find any layers with key </span><span class="si">{</span><span class="n">where</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">where</span> <span class="o">=</span> <span class="n">where</span>
-        
+
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">items</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">MutipleKeysDict</span> <span class="k">else</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="p">[{</span><span class="n">i</span> <span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">items</span><span class="p">(</span><span class="n">v</span><span class="p">)}]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>    
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span>
+            <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">[{</span><span class="n">i</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">items</span><span class="p">(</span><span class="n">v</span><span class="p">)}]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">item</span>
-    
+
 <div class="viewcode-block" id="ModuleStorage.keys"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.Storage.ModuleStorage.keys">[docs]</a>    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div></div>
 
@@ -273,22 +290,24 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="n">module</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">register_hooks</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;forward&#39;</span><span class="p">)</span>
-        
-        
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_hooks</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s2">&quot;forward&quot;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">:</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
         <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">module</span><span class="p">(</span><span class="n">_x</span><span class="p">)</span> <span class="k">for</span> <span class="n">_x</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span></div>
-        
+
+
 <div class="viewcode-block" id="BackwardModuleStorage"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.Storage.BackwardModuleStorage">[docs]</a><span class="k">class</span> <span class="nc">BackwardModuleStorage</span><span class="p">(</span><span class="n">ModuleStorage</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">register_hooks</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;backward&#39;</span><span class="p">)</span>
-        
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_hooks</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s2">&quot;backward&quot;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">:</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
         <span class="p">[</span><span class="n">_x</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span> <span class="k">for</span> <span class="n">_x</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span></div>
 </pre></div>
 

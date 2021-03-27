@@ -169,15 +169,23 @@
 <span class="kn">from</span> <span class="nn">.Interpretability</span> <span class="kn">import</span> <span class="n">Interpretability</span>
 <span class="kn">from</span> <span class="nn">.GradCam</span> <span class="kn">import</span> <span class="n">GradCamResult</span>
 <span class="kn">from</span> <span class="nn">glasses.utils.Storage</span> <span class="kn">import</span> <span class="n">ForwardModuleStorage</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span>  <span class="n">find_last_layer</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">find_last_layer</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+
 
 <div class="viewcode-block" id="ScoreCam"><a class="viewcode-back" href="../../../glasses.interpretability.html#glasses.interpretability.ScoreCam.ScoreCam">[docs]</a><span class="k">class</span> <span class="nc">ScoreCam</span><span class="p">(</span><span class="n">Interpretability</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implementation of ScoreCam proposed in `Score-CAM: Score-Weighted Visual Explanations for Convolutional Neural Networks &lt;https://arxiv.org/abs/1910.01279&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ScoreCam.__call__"><a class="viewcode-back" href="../../../glasses.interpretability.html#glasses.interpretability.ScoreCam.ScoreCam.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">module</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">layer</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="n">target</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">postprocessing</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GradCamResult</span><span class="p">:</span>
+<div class="viewcode-block" id="ScoreCam.__call__"><a class="viewcode-back" href="../../../glasses.interpretability.html#glasses.interpretability.ScoreCam.ScoreCam.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">module</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+        <span class="n">layer</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">target</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">postprocessing</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GradCamResult</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Run GradCam on the input given a model</span>
 
 <span class="sd">        Args:</span>
@@ -190,36 +198,36 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            GradCamResult: The result of the scorecam, you can call `.show` to see it.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">layer</span> <span class="o">=</span> <span class="n">find_last_layer</span><span class="p">(</span>
-            <span class="n">x</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">)</span> <span class="k">if</span> <span class="n">layer</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">layer</span>
+        <span class="n">layer</span> <span class="o">=</span> <span class="n">find_last_layer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">)</span> <span class="k">if</span> <span class="n">layer</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">layer</span>
         <span class="c1"># register forward and backward storages</span>
         <span class="n">features_storage</span> <span class="o">=</span> <span class="n">ForwardModuleStorage</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="p">[</span><span class="n">layer</span><span class="p">])</span>
         <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
             <span class="n">out</span> <span class="o">=</span> <span class="n">module</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="c1"># get back the weights </span>
+        <span class="c1"># get back the weights</span>
         <span class="n">features</span> <span class="o">=</span> <span class="n">features_storage</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">shape</span>
         <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">target</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
         <span class="n">acts</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
         <span class="c1"># rescale the activations to match the input size</span>
-        <span class="n">acts_up</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">acts</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:],</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bilinear&#39;</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="c1"># normalize </span>
+        <span class="n">acts_up</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span>
+            <span class="n">acts</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:],</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;bilinear&quot;</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+        <span class="c1"># normalize</span>
         <span class="n">acts_up</span> <span class="o">=</span> <span class="p">(</span><span class="n">acts_up</span> <span class="o">-</span> <span class="n">acts_up</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">acts_up</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">acts_up</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
         <span class="c1"># repeat the input matching the number of acts</span>
-        <span class="n">batch</span>  <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="c1"># [1, N, H, W] -&gt; [C, N, H, W]</span>
         <span class="n">batch</span> <span class="o">*=</span> <span class="n">acts_up</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
             <span class="n">out</span> <span class="o">=</span> <span class="n">module</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
-            <span class="n">score</span> <span class="o">=</span> <span class="n">out</span><span class="p">[:,</span><span class="n">target</span><span class="p">]</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">out</span><span class="p">[:,</span> <span class="n">target</span><span class="p">]</span>
             <span class="n">features_score</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="c1"># weight eatch feature</span>
         <span class="n">features_score</span> <span class="o">=</span> <span class="n">features_score</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">cam</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">acts</span> <span class="o">*</span> <span class="n">features_score</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">GradCamResult</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">detach</span><span class="p">(),</span> <span class="n">cam</span><span class="p">,</span> <span class="n">postprocessing</span><span class="p">)</span></div></div>
-
 </pre></div>
 
            </div>

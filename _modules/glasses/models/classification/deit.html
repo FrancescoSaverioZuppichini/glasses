@@ -185,9 +185,9 @@
 
 <div class="viewcode-block" id="DeiTClassificationHead"><a class="viewcode-back" href="../../../../glasses.models.classification.deit.html#glasses.models.classification.DeiTClassificationHead">[docs]</a><span class="k">class</span> <span class="nc">DeiTClassificationHead</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">768</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;DeiT classification head, it relies on two heads using the `cls` and the`dist` token respectively. </span>
+        <span class="sd">&quot;&quot;&quot;DeiT classification head, it relies on two heads using the `cls` and the`dist` token respectively.</span>
 <span class="sd">        At test time, the prediction is made by avering the results from the two, while during training both predictions are returned.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            emb_size (int, optional):  Embedding dimensions Defaults to 768.</span>
 <span class="sd">            n_classes (int, optional): [description]. Defaults to 1000.</span>
@@ -201,7 +201,7 @@
         <span class="n">x</span><span class="p">,</span> <span class="n">x_dist</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
         <span class="n">x_head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x_dist_head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist_head</span><span class="p">(</span><span class="n">x_dist</span><span class="p">)</span>
-        
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">training</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">x_head</span><span class="p">,</span> <span class="n">x_dist_head</span>
         <span class="k">else</span><span class="p">:</span>
@@ -226,38 +226,55 @@
 <span class="sd">        &gt;&gt;&gt; DeiT.deit_base_patch16_384()</span>
 
 
-<span class="sd">    Args:  </span>
+<span class="sd">    Args:</span>
 <span class="sd">        ViT ([type]): [description]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">head</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span><span class="n">DeiTClassificationHead</span><span class="p">,</span>  <span class="n">tokens</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">DeiTTokens</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="n">head</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">DeiTClassificationHead</span><span class="p">,</span>
+        <span class="n">tokens</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">DeiTTokens</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">head</span><span class="o">=</span><span class="n">head</span><span class="p">,</span> <span class="n">tokens</span><span class="o">=</span><span class="n">tokens</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DeiT.deit_tiny_patch16_224"><a class="viewcode-back" href="../../../../glasses.models.classification.deit.html#glasses.models.classification.DeiT.deit_tiny_patch16_224">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">deit_tiny_patch16_224</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">patch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">emb_size</span><span class="o">=</span><span class="mi">192</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
-                    <span class="n">num_heads</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">qkv_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">patch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">emb_size</span><span class="o">=</span><span class="mi">192</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">num_heads</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">qkv_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">model</span></div>
 
 <div class="viewcode-block" id="DeiT.deit_small_patch16_224"><a class="viewcode-back" href="../../../../glasses.models.classification.deit.html#glasses.models.classification.DeiT.deit_small_patch16_224">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">deit_small_patch16_224</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">patch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">emb_size</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
-                    <span class="n">num_heads</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">qkv_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">patch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">emb_size</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">num_heads</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">qkv_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">model</span></div>
 
 <div class="viewcode-block" id="DeiT.deit_base_patch16_224"><a class="viewcode-back" href="../../../../glasses.models.classification.deit.html#glasses.models.classification.DeiT.deit_base_patch16_224">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">deit_base_patch16_224</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">patch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">emb_size</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
-                    <span class="n">num_heads</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">qkv_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">patch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">emb_size</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">num_heads</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">qkv_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">model</span></div>
 
 <div class="viewcode-block" id="DeiT.deit_base_patch16_384"><a class="viewcode-back" href="../../../../glasses.models.classification.deit.html#glasses.models.classification.DeiT.deit_base_patch16_384">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">deit_base_patch16_384</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">img_size</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span> <span class="n">patch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">emb_size</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
-                    <span class="n">num_heads</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">qkv_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">img_size</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span>
+            <span class="n">patch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+            <span class="n">emb_size</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span>
+            <span class="n">depth</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+            <span class="n">num_heads</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+            <span class="n">qkv_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">model</span></div></div>
 </pre></div>
 

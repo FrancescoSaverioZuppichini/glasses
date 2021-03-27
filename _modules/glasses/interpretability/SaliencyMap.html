@@ -185,6 +185,7 @@
 
         <span class="k">return</span> <span class="n">fig</span></div></div>
 
+
 <div class="viewcode-block" id="SaliencyMap"><a class="viewcode-back" href="../../../glasses.interpretability.html#glasses.interpretability.SaliencyMap.SaliencyMap">[docs]</a><span class="k">class</span> <span class="nc">SaliencyMap</span><span class="p">(</span><span class="n">Interpretability</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implementation of `Deep Inside Convolutional Networks: Visualising Image Classification Models</span>
 <span class="sd">    and Saliency Maps &lt;https://arxiv.org/abs/1312.6034&gt;`_</span>
@@ -198,7 +199,15 @@
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">ReLU</span><span class="p">):</span>
                 <span class="n">module</span><span class="o">.</span><span class="n">register_backward_hook</span><span class="p">(</span><span class="n">guide_relu</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SaliencyMap.__call__"><a class="viewcode-back" href="../../../glasses.interpretability.html#glasses.interpretability.SaliencyMap.SaliencyMap.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">module</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">layer</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">guide</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SaliencyMapResult</span><span class="p">:</span>
+<div class="viewcode-block" id="SaliencyMap.__call__"><a class="viewcode-back" href="../../../glasses.interpretability.html#glasses.interpretability.SaliencyMap.SaliencyMap.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">module</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+        <span class="n">layer</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">target</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">guide</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SaliencyMapResult</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Run SaliencyMap on the input given a model</span>
 
 <span class="sd">        Args:</span>
@@ -211,8 +220,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            SaliencyMapResult: The result of the saliency map, you can call `.show` to see it.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">layer</span> <span class="o">=</span> <span class="n">find_first_layer</span><span class="p">(</span>
-            <span class="n">x</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">)</span> <span class="k">if</span> <span class="n">layer</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">layer</span>
+        <span class="n">layer</span> <span class="o">=</span> <span class="n">find_first_layer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">)</span> <span class="k">if</span> <span class="n">layer</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">layer</span>
         <span class="n">gradients_storage</span> <span class="o">=</span> <span class="n">BackwardModuleStorage</span><span class="p">([</span><span class="n">layer</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">guide</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">guide</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>

@@ -167,32 +167,38 @@
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
+
 <div class="viewcode-block" id="CompoundScaler"><a class="viewcode-back" href="../../../../glasses.models.utils.html#glasses.models.utils.scaler.CompoundScaler">[docs]</a><span class="k">class</span> <span class="nc">CompoundScaler</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Scales `widths` and `depths`. Proposed in `EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks</span>
-<span class="sd"> &lt;https://arxiv.org/abs/1905.11946&gt;`_.</span>
+<span class="sd">    &lt;https://arxiv.org/abs/1905.11946&gt;`_.</span>
 
-<span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; scaler = CompoundScaler()</span>
-<span class="sd">        &gt;&gt;&gt; scaler(1.1, 1.2, [32, 64, 128], [2,2,3])</span>
+<span class="sd">       Examples:</span>
+<span class="sd">           &gt;&gt;&gt; scaler = CompoundScaler()</span>
+<span class="sd">           &gt;&gt;&gt; scaler(1.1, 1.2, [32, 64, 128], [2,2,3])</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="CompoundScaler.make_divisible"><a class="viewcode-back" href="../../../../glasses.models.utils.html#glasses.models.utils.scaler.CompoundScaler.make_divisible">[docs]</a>    <span class="k">def</span> <span class="nf">make_divisible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">divisor</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="CompoundScaler.make_divisible"><a class="viewcode-back" href="../../../../glasses.models.utils.html#glasses.models.utils.scaler.CompoundScaler.make_divisible">[docs]</a>    <span class="k">def</span> <span class="nf">make_divisible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">divisor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="n">new_value</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">divisor</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span> <span class="o">+</span> <span class="n">divisor</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">//</span> <span class="n">divisor</span> <span class="o">*</span> <span class="n">divisor</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">new_value</span> <span class="o">&lt;</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">value</span><span class="p">:</span>
             <span class="n">new_value</span> <span class="o">+=</span> <span class="n">divisor</span>
         <span class="k">return</span> <span class="n">new_value</span></div>
 
 <div class="viewcode-block" id="CompoundScaler.width_scaling"><a class="viewcode-back" href="../../../../glasses.models.utils.html#glasses.models.utils.scaler.CompoundScaler.width_scaling">[docs]</a>    <span class="k">def</span> <span class="nf">width_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">width_multi</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">scaled</span> <span class="o">=</span> <span class="n">width</span> <span class="k">if</span> <span class="n">width</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">make_divisible</span><span class="p">(</span><span class="n">width</span> <span class="o">*</span> <span class="n">width_multi</span><span class="p">))</span>
+        <span class="n">scaled</span> <span class="o">=</span> <span class="n">width</span> <span class="k">if</span> <span class="n">width</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">make_divisible</span><span class="p">(</span><span class="n">width</span> <span class="o">*</span> <span class="n">width_multi</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">scaled</span></div>
 
 <div class="viewcode-block" id="CompoundScaler.depth_scaling"><a class="viewcode-back" href="../../../../glasses.models.utils.html#glasses.models.utils.scaler.CompoundScaler.depth_scaling">[docs]</a>    <span class="k">def</span> <span class="nf">depth_scaling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">depth_multi</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="n">scaled</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">depth</span> <span class="o">*</span> <span class="n">depth_multi</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">scaled</span></div>
 
-<div class="viewcode-block" id="CompoundScaler.__call__"><a class="viewcode-back" href="../../../../glasses.models.utils.html#glasses.models.utils.scaler.CompoundScaler.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width_factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">depth_factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">widths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">depths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<div class="viewcode-block" id="CompoundScaler.__call__"><a class="viewcode-back" href="../../../../glasses.models.utils.html#glasses.models.utils.scaler.CompoundScaler.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">width_factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">depth_factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">widths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">depths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Scale up `widhts` and `depths` using `width_factor` and `depth_factor`</span>
 
 <span class="sd">        Args:</span>
@@ -207,7 +213,6 @@
 
         <span class="n">widths</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">width_scaling</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">width_factor</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">widths</span><span class="p">]</span>
         <span class="n">depths</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">depth_scaling</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">depth_factor</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">depths</span><span class="p">]</span>
-        
 
         <span class="k">return</span> <span class="n">widths</span><span class="p">,</span> <span class="n">depths</span></div></div>
 </pre></div>

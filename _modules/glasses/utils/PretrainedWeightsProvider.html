@@ -170,17 +170,16 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">torchvision.transforms</span> <span class="k">as</span> <span class="nn">T</span>
 <span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
 <span class="kn">from</span> <span class="nn">rich.progress</span> <span class="kn">import</span> <span class="n">track</span>
+<span class="kn">from</span> <span class="nn">torchvision.transforms</span> <span class="kn">import</span> <span class="n">InterpolationMode</span>
 
 <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 
@@ -195,23 +194,26 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        [type]: [description]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">input_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">224</span>
     <span class="n">resize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">256</span>
     <span class="n">mean</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">IMAGENET_DEFAULT_MEAN</span>
     <span class="n">std</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">IMAGENET_DEFAULT_STD</span>
-    <span class="n">interpolation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;bilinear&#39;</span>
+    <span class="n">interpolation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bilinear&quot;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">interpolations</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;bilinear&#39;</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">BILINEAR</span><span class="p">,</span>
-            <span class="s1">&#39;bicubic&#39;</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">BICUBIC</span>
+            <span class="s2">&quot;bilinear&quot;</span><span class="p">:</span> <span class="n">InterpolationMode</span><span class="o">.</span><span class="n">BILINEAR</span><span class="p">,</span>
+            <span class="s2">&quot;bicubic&quot;</span><span class="p">:</span> <span class="n">InterpolationMode</span><span class="o">.</span><span class="n">BICUBIC</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="n">tr</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
-            <span class="n">T</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resize</span><span class="p">,</span> <span class="n">interpolations</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">interpolation</span><span class="p">]),</span>
-            <span class="n">T</span><span class="o">.</span><span class="n">CenterCrop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">),</span>
-            <span class="n">T</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
-        <span class="p">])</span>
+        <span class="n">tr</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">T</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resize</span><span class="p">,</span> <span class="n">interpolations</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">interpolation</span><span class="p">]),</span>
+                <span class="n">T</span><span class="o">.</span><span class="n">CenterCrop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">),</span>
+                <span class="n">T</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">std</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">tr</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">))</span>
@@ -238,19 +240,28 @@
         <span class="n">provider</span> <span class="o">=</span> <span class="n">PretrainedWeightsProvider</span><span class="p">()</span>
 
         <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span>  <span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">excluding</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">],</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span>
+            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+            <span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">excluding</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">],</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
             <span class="n">model</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">pretrained</span><span class="p">:</span>
                 <span class="n">state_dict</span> <span class="o">=</span> <span class="n">provider</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
                 <span class="n">model</span> <span class="o">=</span> <span class="n">load_pretrained_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">,</span> <span class="n">excluding</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">model</span>
+
         <span class="k">return</span> <span class="n">wrapper</span>
+
     <span class="k">return</span> <span class="n">decorator</span></div>
 
 
-<div class="viewcode-block" id="load_pretrained_model"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.PretrainedWeightsProvider.load_pretrained_model">[docs]</a><span class="k">def</span> <span class="nf">load_pretrained_model</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
-                          <span class="n">state_dict</span><span class="p">:</span> <span class="n">StateDict</span><span class="p">,</span>
-                          <span class="n">excluding</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">],</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
+<div class="viewcode-block" id="load_pretrained_model"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.PretrainedWeightsProvider.load_pretrained_model">[docs]</a><span class="k">def</span> <span class="nf">load_pretrained_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+    <span class="n">state_dict</span><span class="p">:</span> <span class="n">StateDict</span><span class="p">,</span>
+    <span class="n">excluding</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">],</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Load the pretrained weights to the model. Optionally, you can exclude some sub-module.</span>
 
 <span class="sd">    Usage:</span>
@@ -287,8 +298,7 @@
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model doesn&#39;t contain </span><span class="si">{</span><span class="n">excluded</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">excluded_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Weights starting with `</span><span class="si">{</span><span class="n">excluded_key</span><span class="si">}</span><span class="s2">` won&#39;t be loaded.&quot;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Weights starting with `</span><span class="si">{</span><span class="n">excluded_key</span><span class="si">}</span><span class="s2">` won&#39;t be loaded.&quot;</span><span class="p">)</span>
         <span class="c1"># copy in the new state the old weights</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">state_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">excluded_key</span><span class="p">):</span>
@@ -310,11 +320,13 @@
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_response</span><span class="p">()</span>
         <span class="n">chunk_size</span> <span class="o">=</span> <span class="n">chunk_size</span> <span class="o">*</span> <span class="mi">8</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">total_length</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-            <span class="n">bar</span> <span class="o">=</span> <span class="n">track</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">),</span>
-                        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Downloading...&quot;</span><span class="p">,</span>
-                        <span class="n">total</span><span class="o">=</span><span class="n">total_length</span> <span class="o">//</span> <span class="n">chunk_size</span><span class="p">)</span>
+            <span class="n">bar</span> <span class="o">=</span> <span class="n">track</span><span class="p">(</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">),</span>
+                <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Downloading...&quot;</span><span class="p">,</span>
+                <span class="n">total</span><span class="o">=</span><span class="n">total_length</span> <span class="o">//</span> <span class="n">chunk_size</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">bar</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">chunk</span><span class="p">:</span>
                     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
@@ -322,26 +334,24 @@
 
 
 <div class="viewcode-block" id="GoogleDriveUrlHandler"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.PretrainedWeightsProvider.GoogleDriveUrlHandler">[docs]</a><span class="k">class</span> <span class="nc">GoogleDriveUrlHandler</span><span class="p">(</span><span class="n">BasicUrlHandler</span><span class="p">):</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file_id</span> <span class="o">=</span> <span class="n">file_id</span>
 
 <div class="viewcode-block" id="GoogleDriveUrlHandler.get_confirm_token"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.PretrainedWeightsProvider.GoogleDriveUrlHandler.get_confirm_token">[docs]</a>    <span class="k">def</span> <span class="nf">get_confirm_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;download_warning&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;download_warning&quot;</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">value</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="GoogleDriveUrlHandler.get_response"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.PretrainedWeightsProvider.GoogleDriveUrlHandler.get_response">[docs]</a>    <span class="k">def</span> <span class="nf">get_response</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Request</span><span class="p">:</span>
         <span class="n">session</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
 
-        <span class="n">response</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_id</span><span class="p">},</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_id</span><span class="p">},</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_confirm_token</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">token</span><span class="p">:</span>
-            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_id</span><span class="p">,</span> <span class="s1">&#39;confirm&#39;</span><span class="p">:</span> <span class="n">token</span><span class="p">}</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_id</span><span class="p">,</span> <span class="s2">&quot;confirm&quot;</span><span class="p">:</span> <span class="n">token</span><span class="p">}</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">response</span></div></div>
@@ -363,61 +373,150 @@
 <span class="sd">        &gt;&gt;&gt; provider = PretrainedWeightsProvider(override=True)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">BASE_URL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;https://cv-glasses.s3.eu-central-1.amazonaws.com&#39;</span>
-    <span class="n">BASE_DIR</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">hub</span><span class="o">.</span><span class="n">get_dir</span><span class="p">())</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;glasses&#39;</span><span class="p">)</span>
+    <span class="n">BASE_URL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;https://cv-glasses.s3.eu-central-1.amazonaws.com&quot;</span>
+    <span class="n">BASE_DIR</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">hub</span><span class="o">.</span><span class="n">get_dir</span><span class="p">())</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;glasses&quot;</span><span class="p">)</span>
     <span class="n">save_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">BASE_DIR</span>
     <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1</span>
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">override</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="n">weights_zoo</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;densenet121&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/densenet121.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;densenet169&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/densenet169.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;densenet201&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/densenet201.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;dummy&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/dummy.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;efficientnet_b0&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/efficientnet_b0.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;efficientnet_b1&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/efficientnet_b1.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;efficientnet_b2&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/efficientnet_b2.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;efficientnet_b3&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/efficientnet_b3.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;regnetx_002&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnetx_002.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;regnetx_004&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnetx_004.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;regnetx_006&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnetx_006.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;regnetx_008&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnetx_008.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;regnetx_016&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnetx_016.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;regnetx_032&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnetx_032.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;regnety_002&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnety_002.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;regnety_004&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnety_004.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;regnety_006&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnety_006.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;regnety_008&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnety_008.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;regnety_016&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnety_016.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;regnety_032&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnety_032.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;resnet18&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/resnet18.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;resnet26&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/resnet26.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;resnet26d&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/resnet26d.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;resnet34&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/resnet34.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;resnet34d&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/resnet34d.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;deit_tiny_patch16_224&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/deit_tiny_patch16_224.pth?raw=true&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;deit_small_patch16_224&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/deit_small_patch16_224.pth?raw=true&#39;</span><span class="p">),</span>
+        <span class="s2">&quot;densenet121&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/densenet121.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;densenet169&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/densenet169.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;densenet201&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/densenet201.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;dummy&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/dummy.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_b0&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/efficientnet_b0.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_b1&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/efficientnet_b1.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_b2&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/efficientnet_b2.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_b3&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/efficientnet_b3.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;regnetx_002&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnetx_002.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;regnetx_004&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnetx_004.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;regnetx_006&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnetx_006.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;regnetx_008&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnetx_008.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;regnetx_016&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnetx_016.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;regnetx_032&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnetx_032.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;regnety_002&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnety_002.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;regnety_004&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnety_004.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;regnety_006&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnety_006.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;regnety_008&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnety_008.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;regnety_016&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnety_016.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;regnety_032&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/regnety_032.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;resnet18&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/resnet18.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;resnet26&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/resnet26.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;resnet26d&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/resnet26d.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;resnet34&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/resnet34.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;resnet34d&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/resnet34d.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;deit_tiny_patch16_224&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/deit_tiny_patch16_224.pth?raw=true&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;deit_small_patch16_224&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/deit_small_patch16_224.pth?raw=true&quot;</span>
+        <span class="p">),</span>
         <span class="c1"># aws stored</span>
-        <span class="s1">&#39;cse_resnet50&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/cse_resnet50.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;densenet161&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/densenet161.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;resnet101&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/resnet101.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;resnet152&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/resnet152.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;resnet50&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/resnet50.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;resnet50d&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/resnet50d.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;resnext101_32x8d&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/resnext101_32x8d.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;resnext50_32x4d&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/resnext50_32x4d.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;vgg11&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg11.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;vgg11_bn&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg11_bn.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;vgg13&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg13.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;vgg13_bn&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg13_bn.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;vgg16&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg16.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;vgg16_bn&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg16_bn.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;vgg19&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg19.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;vgg19_bn&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg19_bn.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;wide_resnet101_2&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/wide_resnet101_2.pth&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;wide_resnet50_2&#39;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span><span class="s1">&#39;https://glasses-weights.s3.eu-central-1.amazonaws.com/wide_resnet50_2.pth&#39;</span><span class="p">),</span>
-
+        <span class="s2">&quot;cse_resnet50&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/cse_resnet50.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;densenet161&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/densenet161.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;resnet101&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/resnet101.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;resnet152&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/resnet152.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;resnet50&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/resnet50.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;resnet50d&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/resnet50d.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;resnext101_32x8d&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/resnext101_32x8d.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;resnext50_32x4d&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/resnext50_32x4d.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;vgg11&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg11.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;vgg11_bn&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg11_bn.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;vgg13&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg13.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;vgg13_bn&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg13_bn.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;vgg16&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg16.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;vgg16_bn&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg16_bn.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;vgg19&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg19.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;vgg19_bn&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/vgg19_bn.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;wide_resnet101_2&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/wide_resnet101_2.pth&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;wide_resnet50_2&quot;</span><span class="p">:</span> <span class="n">BasicUrlHandler</span><span class="p">(</span>
+            <span class="s2">&quot;https://glasses-weights.s3.eu-central-1.amazonaws.com/wide_resnet50_2.pth&quot;</span>
+        <span class="p">),</span>
     <span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -425,17 +524,19 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
             <span class="n">default_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-                <span class="s1">&#39;HOME&#39;</span><span class="p">,</span> <span class="n">default_dir</span><span class="p">))</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.glasses/&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;HOME&quot;</span><span class="p">,</span> <span class="n">default_dir</span><span class="p">))</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span>
+                <span class="s2">&quot;.glasses/&quot;</span>
+            <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;GLASSES_HOME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;GLASSES_HOME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights_zoo</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;No weights for model &quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">&quot;. Available models are </span><span class="si">{</span><span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights_zoo</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="sa">f</span><span class="s1">&#39;No weights for model &quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">&quot;. Available models are </span><span class="si">{</span><span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights_zoo</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="p">)</span>
 
-        <span class="n">save_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">.pth&#39;</span>
+        <span class="n">save_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">.pth&quot;</span>
 
         <span class="n">should_download</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">save_path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
 
@@ -444,7 +545,7 @@
             <span class="n">handler</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chunk_size</span><span class="p">)</span>
 
         <span class="n">weights</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Loaded </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1"> pretrained weights.&#39;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loaded </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> pretrained weights.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">weights</span></div>
 
     <span class="c1"># def __contains__(self, key: str) -&gt; bool:</span>

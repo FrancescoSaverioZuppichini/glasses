@@ -170,13 +170,14 @@
 <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
+
 <div class="viewcode-block" id="ModuleTransfer"><a class="viewcode-back" href="../../../glasses.utils.html#glasses.utils.ModuleTransfer.ModuleTransfer">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">ModuleTransfer</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;This class transfers the weight from one module to another assuming </span>
+    <span class="sd">&quot;&quot;&quot;This class transfers the weight from one module to another assuming</span>
 <span class="sd">    they have the same set of operations but they were defined in a different way.</span>
-<span class="sd">    </span>
+
 <span class="sd">    :Examples</span>
-<span class="sd">    </span>
+
 <span class="sd">        &gt;&gt;&gt; import torch</span>
 <span class="sd">        &gt;&gt;&gt; import torch.nn as nn</span>
 <span class="sd">        &gt;&gt;&gt; from eyes.utils import ModuleTransfer</span>
@@ -191,8 +192,9 @@
 <span class="sd">        &gt;&gt;&gt; trans(x)</span>
 
 <span class="sd">        # now module_b has the same weight of model_a</span>
-<span class="sd">    </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">src</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span>
     <span class="n">dest</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span>
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
@@ -207,19 +209,19 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dest_traced</span> <span class="o">=</span> <span class="n">Tracker</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">parametrized</span>
         <span class="n">src_traced</span> <span class="o">=</span> <span class="n">Tracker</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">src</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">parametrized</span>
-        
+
         <span class="n">src_traced</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">src_skip</span><span class="p">,</span> <span class="n">src_traced</span><span class="p">))</span>
         <span class="n">dest_traced</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest_skip</span><span class="p">,</span> <span class="n">dest_traced</span><span class="p">))</span>
 
-
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dest_traced</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">src_traced</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Numbers of operations are different. Source module has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">src_traced</span><span class="p">)</span><span class="si">}</span><span class="s1"> operations while destination module has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dest_traced</span><span class="p">)</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+                <span class="sa">f</span><span class="s2">&quot;Numbers of operations are different. Source module has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">src_traced</span><span class="p">)</span><span class="si">}</span><span class="s2"> operations while destination module has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dest_traced</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">dest_m</span><span class="p">,</span> <span class="n">src_m</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dest_traced</span><span class="p">,</span> <span class="n">src_traced</span><span class="p">):</span>
             <span class="n">dest_m</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">src_m</span><span class="o">.</span><span class="n">state_dict</span><span class="p">())</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Transfered from=</span><span class="si">{</span><span class="n">src_m</span><span class="si">}</span><span class="s1"> to=</span><span class="si">{</span><span class="n">dest_m</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Transfered from=</span><span class="si">{</span><span class="n">src_m</span><span class="si">}</span><span class="s2"> to=</span><span class="si">{</span><span class="n">dest_m</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

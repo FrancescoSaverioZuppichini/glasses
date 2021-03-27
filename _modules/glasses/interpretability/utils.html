@@ -172,8 +172,9 @@
 
 
 <div class="viewcode-block" id="tensor2cam"><a class="viewcode-back" href="../../../glasses.interpretability.html#glasses.interpretability.utils.tensor2cam">[docs]</a><span class="k">def</span> <span class="nf">tensor2cam</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cam</span><span class="p">):</span>
-    <span class="n">image_with_heatmap</span> <span class="o">=</span> <span class="n">image2cam</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span>
-                                   <span class="n">cam</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+    <span class="n">image_with_heatmap</span> <span class="o">=</span> <span class="n">image2cam</span><span class="p">(</span>
+        <span class="n">image</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">cam</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">image_with_heatmap</span><span class="p">)</span></div>
 
@@ -202,7 +203,7 @@
 
 <span class="sd">    &gt;&gt;&gt; x = torch.rand((1,3,224,224))</span>
 <span class="sd">    &gt;&gt;&gt; model = ResNet.resnet18()</span>
-<span class="sd">    &gt;&gt;&gt; find_last_layer(x, module, nn.Conv2d) </span>
+<span class="sd">    &gt;&gt;&gt; find_last_layer(x, module, nn.Conv2d)</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        x (torch.Tensor): [description]</span>
@@ -221,9 +222,10 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">of_type</span><span class="p">):</span>
             <span class="n">layer</span> <span class="o">=</span> <span class="n">m</span>
             <span class="k">break</span>
-    <span class="k">assert</span> <span class="n">layer</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;layer of type </span><span class="si">{</span><span class="n">of_type</span><span class="si">}</span><span class="s1"> not found in </span><span class="si">{</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">assert</span> <span class="n">layer</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;layer of type </span><span class="si">{</span><span class="n">of_type</span><span class="si">}</span><span class="s2"> not found in </span><span class="si">{</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
 
     <span class="k">return</span> <span class="n">layer</span></div>
+
 
 <div class="viewcode-block" id="find_first_layer"><a class="viewcode-back" href="../../../glasses.interpretability.html#glasses.interpretability.utils.find_first_layer">[docs]</a><span class="k">def</span> <span class="nf">find_first_layer</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">module</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">of_type</span><span class="p">:</span> <span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Utility function that return the first layer of a given type</span>
@@ -233,7 +235,7 @@
 
 <span class="sd">    &gt;&gt;&gt; x = torch.rand((1,3,224,224))</span>
 <span class="sd">    &gt;&gt;&gt; model = ResNet.resnet18()</span>
-<span class="sd">    &gt;&gt;&gt; find_last_layer(x, module, nn.Conv2d) </span>
+<span class="sd">    &gt;&gt;&gt; find_last_layer(x, module, nn.Conv2d)</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        x (torch.Tensor): [description]</span>
@@ -251,7 +253,7 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">of_type</span><span class="p">):</span>
             <span class="n">layer</span> <span class="o">=</span> <span class="n">m</span>
             <span class="k">break</span>
-    <span class="k">assert</span> <span class="n">layer</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;layer of type </span><span class="si">{</span><span class="n">of_type</span><span class="si">}</span><span class="s1"> not found in </span><span class="si">{</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">assert</span> <span class="n">layer</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;layer of type </span><span class="si">{</span><span class="n">of_type</span><span class="si">}</span><span class="s2"> not found in </span><span class="si">{</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
 
     <span class="k">return</span> <span class="n">layer</span></div>
 
@@ -268,7 +270,7 @@
     <span class="n">grayscale_im</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">cv2im</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">im_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">grayscale_im</span><span class="p">,</span> <span class="mi">99</span><span class="p">)</span>
     <span class="n">im_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">grayscale_im</span><span class="p">)</span>
-    <span class="n">grayscale_im</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">((</span><span class="n">grayscale_im</span> <span class="o">-</span> <span class="n">im_min</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">im_max</span> <span class="o">-</span> <span class="n">im_min</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">grayscale_im</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">((</span><span class="n">grayscale_im</span> <span class="o">-</span> <span class="n">im_min</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">im_max</span> <span class="o">-</span> <span class="n">im_min</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">grayscale_im</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">grayscale_im</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">grayscale_im</span></div>
 </pre></div>

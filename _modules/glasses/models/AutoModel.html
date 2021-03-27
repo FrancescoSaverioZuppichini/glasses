@@ -188,99 +188,101 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">zoo</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">({</span>
-        <span class="s1">&#39;resnet18&#39;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">,</span>
-        <span class="s1">&#39;resnet26&#39;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">,</span>
-        <span class="s1">&#39;resnet26d&#39;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26d</span><span class="p">,</span>
-        <span class="s1">&#39;resnet34&#39;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet34</span><span class="p">,</span>
-        <span class="s1">&#39;resnet34d&#39;</span><span class="p">:</span>  <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet34d</span><span class="p">,</span>
-        <span class="s1">&#39;resnet50&#39;</span><span class="p">:</span>  <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">,</span>
-        <span class="s1">&#39;resnet50d&#39;</span><span class="p">:</span>  <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50d</span><span class="p">,</span>
-        <span class="s1">&#39;resnet101&#39;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet101</span><span class="p">,</span>
-        <span class="s1">&#39;resnet152&#39;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet152</span><span class="p">,</span>
-        <span class="s1">&#39;resnet200&#39;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet200</span><span class="p">,</span>
-        <span class="s1">&#39;se_resnet18&#39;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">se_resnet18</span><span class="p">,</span>
-        <span class="s1">&#39;se_resnet34&#39;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">se_resnet34</span><span class="p">,</span>
-        <span class="s1">&#39;se_resnet50&#39;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">se_resnet50</span><span class="p">,</span>
-        <span class="s1">&#39;se_resnet101&#39;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">se_resnet101</span><span class="p">,</span>
-        <span class="s1">&#39;se_resnet152&#39;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">se_resnet152</span><span class="p">,</span>
-        <span class="s1">&#39;cse_resnet18&#39;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet18</span><span class="p">,</span>
-        <span class="s1">&#39;cse_resnet34&#39;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet34</span><span class="p">,</span>
-        <span class="s1">&#39;cse_resnet50&#39;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet50</span><span class="p">,</span>
-        <span class="s1">&#39;cse_resnet101&#39;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet101</span><span class="p">,</span>
-        <span class="s1">&#39;cse_resnet152&#39;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet152</span><span class="p">,</span>
-        <span class="s1">&#39;resnext50_32x4d&#39;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">,</span>
-        <span class="s1">&#39;resnext101_32x8d&#39;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x8d</span><span class="p">,</span>
-        <span class="s1">&#39;resnext101_32x16d&#39;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x16d</span><span class="p">,</span>
-        <span class="s1">&#39;resnext101_32x32d&#39;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x32d</span><span class="p">,</span>
-        <span class="s1">&#39;resnext101_32x48d&#39;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x48d</span><span class="p">,</span>
-        <span class="s1">&#39;regnetx_002&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_002</span><span class="p">,</span>
-        <span class="s1">&#39;regnetx_004&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">,</span>
-        <span class="s1">&#39;regnetx_006&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_006</span><span class="p">,</span>
-        <span class="s1">&#39;regnetx_008&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_008</span><span class="p">,</span>
-        <span class="s1">&#39;regnetx_016&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_016</span><span class="p">,</span>
-        <span class="s1">&#39;regnetx_032&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_032</span><span class="p">,</span>
-        <span class="s1">&#39;regnety_002&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_002</span><span class="p">,</span>
-        <span class="s1">&#39;regnety_004&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_004</span><span class="p">,</span>
-        <span class="s1">&#39;regnety_006&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_006</span><span class="p">,</span>
-        <span class="s1">&#39;regnety_008&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_008</span><span class="p">,</span>
-        <span class="s1">&#39;regnety_016&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_016</span><span class="p">,</span>
-        <span class="s1">&#39;regnety_032&#39;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_032</span><span class="p">,</span>
-        <span class="s1">&#39;resnest14d&#39;</span> <span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest14d</span><span class="p">,</span>
-        <span class="s1">&#39;resnest26d&#39;</span> <span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest26d</span><span class="p">,</span>
-        <span class="s1">&#39;resnest50d&#39;</span> <span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest50d</span><span class="p">,</span>
-        <span class="s1">&#39;resnest50d_1s4x24d&#39;</span> <span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest50d_1s4x24d</span><span class="p">,</span>
-        <span class="s1">&#39;resnest50d_4s2x40d&#39;</span> <span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest50d_4s2x40d</span><span class="p">,</span>
-        <span class="s1">&#39;resnest101e&#39;</span> <span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest101e</span><span class="p">,</span>
-        <span class="s1">&#39;resnest200e&#39;</span> <span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest200e</span><span class="p">,</span>
-        <span class="s1">&#39;resnest269e&#39;</span> <span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest269e</span><span class="p">,</span>
-        <span class="s1">&#39;wide_resnet50_2&#39;</span><span class="p">:</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet50_2</span><span class="p">,</span>
-        <span class="s1">&#39;wide_resnet101_2&#39;</span><span class="p">:</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet101_2</span><span class="p">,</span>
-        <span class="s1">&#39;densenet121&#39;</span><span class="p">:</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">,</span>
-        <span class="s1">&#39;densenet169&#39;</span><span class="p">:</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet169</span><span class="p">,</span>
-        <span class="s1">&#39;densenet201&#39;</span><span class="p">:</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet201</span><span class="p">,</span>
-        <span class="s1">&#39;densenet161&#39;</span><span class="p">:</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet161</span><span class="p">,</span>
-        <span class="s1">&#39;fishnet99&#39;</span><span class="p">:</span>  <span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">,</span>
-        <span class="s1">&#39;fishnet150&#39;</span><span class="p">:</span> <span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet150</span><span class="p">,</span>
-        <span class="s1">&#39;vgg11&#39;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">,</span>
-        <span class="s1">&#39;vgg13&#39;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg13</span><span class="p">,</span>
-        <span class="s1">&#39;vgg16&#39;</span><span class="p">:</span>  <span class="n">VGG</span><span class="o">.</span><span class="n">vgg16</span><span class="p">,</span>
-        <span class="s1">&#39;vgg19&#39;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg19</span><span class="p">,</span>
-        <span class="s1">&#39;vgg11_bn&#39;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg11_bn</span><span class="p">,</span>
-        <span class="s1">&#39;vgg13_bn&#39;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg13_bn</span><span class="p">,</span>
-        <span class="s1">&#39;vgg16_bn&#39;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg16_bn</span><span class="p">,</span>
-        <span class="s1">&#39;vgg19_bn&#39;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg19_bn</span><span class="p">,</span>
-        <span class="s1">&#39;efficientnet_b0&#39;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">,</span>
-        <span class="s1">&#39;efficientnet_b1&#39;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b1</span><span class="p">,</span>
-        <span class="s1">&#39;efficientnet_b2&#39;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b2</span><span class="p">,</span>
-        <span class="s1">&#39;efficientnet_b3&#39;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b3</span><span class="p">,</span>
-        <span class="s1">&#39;efficientnet_b4&#39;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b4</span><span class="p">,</span>
-        <span class="s1">&#39;efficientnet_b5&#39;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b5</span><span class="p">,</span>
-        <span class="s1">&#39;efficientnet_b6&#39;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b6</span><span class="p">,</span>
-        <span class="s1">&#39;efficientnet_b7&#39;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b7</span><span class="p">,</span>
-        <span class="s1">&#39;efficientnet_b8&#39;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b8</span><span class="p">,</span>
-        <span class="s1">&#39;efficientnet_l2&#39;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_l2</span><span class="p">,</span>
-        <span class="s1">&#39;efficientnet_lite0&#39;</span><span class="p">:</span> <span class="n">EfficientNetLite</span><span class="o">.</span><span class="n">efficientnet_lite0</span><span class="p">,</span>
-        <span class="s1">&#39;efficientnet_lite1&#39;</span><span class="p">:</span> <span class="n">EfficientNetLite</span><span class="o">.</span><span class="n">efficientnet_lite1</span><span class="p">,</span>
-        <span class="s1">&#39;efficientnet_lite2&#39;</span><span class="p">:</span> <span class="n">EfficientNetLite</span><span class="o">.</span><span class="n">efficientnet_lite2</span><span class="p">,</span>
-        <span class="s1">&#39;efficientnet_lite3&#39;</span><span class="p">:</span> <span class="n">EfficientNetLite</span><span class="o">.</span><span class="n">efficientnet_lite3</span><span class="p">,</span>
-        <span class="s1">&#39;efficientnet_lite4&#39;</span><span class="p">:</span> <span class="n">EfficientNetLite</span><span class="o">.</span><span class="n">efficientnet_lite4</span><span class="p">,</span>
-        <span class="s1">&#39;vit_small_patch16_224&#39;</span><span class="p">:</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_small_patch16_224</span><span class="p">,</span>
-        <span class="s1">&#39;vit_base_patch16_224&#39;</span><span class="p">:</span>  <span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_224</span><span class="p">,</span>
-        <span class="s1">&#39;vit_base_patch16_384&#39;</span><span class="p">:</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_384</span><span class="p">,</span>
-        <span class="s1">&#39;vit_base_patch32_384&#39;</span><span class="p">:</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch32_384</span><span class="p">,</span>
-        <span class="s1">&#39;vit_huge_patch16_224&#39;</span><span class="p">:</span>  <span class="n">ViT</span><span class="o">.</span><span class="n">vit_huge_patch16_224</span><span class="p">,</span>
-        <span class="s1">&#39;vit_huge_patch32_384&#39;</span><span class="p">:</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_huge_patch32_384</span><span class="p">,</span>
-        <span class="s1">&#39;vit_large_patch16_224&#39;</span><span class="p">:</span>  <span class="n">ViT</span><span class="o">.</span><span class="n">vit_large_patch16_224</span><span class="p">,</span>
-        <span class="s1">&#39;vit_large_patch16_384&#39;</span><span class="p">:</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_large_patch16_384</span><span class="p">,</span>
-        <span class="s1">&#39;vit_large_patch32_384&#39;</span><span class="p">:</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_large_patch32_384</span><span class="p">,</span>
-        <span class="s1">&#39;deit_tiny_patch16_224&#39;</span><span class="p">:</span> <span class="n">DeiT</span><span class="o">.</span><span class="n">deit_tiny_patch16_224</span><span class="p">,</span>
-        <span class="s1">&#39;deit_small_patch16_224&#39;</span><span class="p">:</span> <span class="n">DeiT</span><span class="o">.</span><span class="n">deit_small_patch16_224</span><span class="p">,</span>
-        <span class="s1">&#39;deit_base_patch16_224&#39;</span><span class="p">:</span> <span class="n">DeiT</span><span class="o">.</span><span class="n">deit_base_patch16_224</span><span class="p">,</span>
-        <span class="s1">&#39;deit_base_patch16_384&#39;</span><span class="p">:</span> <span class="n">DeiT</span><span class="o">.</span><span class="n">deit_base_patch16_384</span><span class="p">,</span>
-        <span class="s1">&#39;mobilenetv2&#39;</span><span class="p">:</span> <span class="n">MobileNet</span><span class="o">.</span><span class="n">mobilenet_v2</span><span class="p">,</span>
-        <span class="s1">&#39;unet&#39;</span><span class="p">:</span> <span class="n">UNet</span>
-    <span class="p">})</span>
+    <span class="n">zoo</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;resnet18&quot;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">,</span>
+            <span class="s2">&quot;resnet26&quot;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">,</span>
+            <span class="s2">&quot;resnet26d&quot;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26d</span><span class="p">,</span>
+            <span class="s2">&quot;resnet34&quot;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet34</span><span class="p">,</span>
+            <span class="s2">&quot;resnet34d&quot;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet34d</span><span class="p">,</span>
+            <span class="s2">&quot;resnet50&quot;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">,</span>
+            <span class="s2">&quot;resnet50d&quot;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50d</span><span class="p">,</span>
+            <span class="s2">&quot;resnet101&quot;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet101</span><span class="p">,</span>
+            <span class="s2">&quot;resnet152&quot;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet152</span><span class="p">,</span>
+            <span class="s2">&quot;resnet200&quot;</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet200</span><span class="p">,</span>
+            <span class="s2">&quot;se_resnet18&quot;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">se_resnet18</span><span class="p">,</span>
+            <span class="s2">&quot;se_resnet34&quot;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">se_resnet34</span><span class="p">,</span>
+            <span class="s2">&quot;se_resnet50&quot;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">se_resnet50</span><span class="p">,</span>
+            <span class="s2">&quot;se_resnet101&quot;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">se_resnet101</span><span class="p">,</span>
+            <span class="s2">&quot;se_resnet152&quot;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">se_resnet152</span><span class="p">,</span>
+            <span class="s2">&quot;cse_resnet18&quot;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet18</span><span class="p">,</span>
+            <span class="s2">&quot;cse_resnet34&quot;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet34</span><span class="p">,</span>
+            <span class="s2">&quot;cse_resnet50&quot;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet50</span><span class="p">,</span>
+            <span class="s2">&quot;cse_resnet101&quot;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet101</span><span class="p">,</span>
+            <span class="s2">&quot;cse_resnet152&quot;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet152</span><span class="p">,</span>
+            <span class="s2">&quot;resnext50_32x4d&quot;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">,</span>
+            <span class="s2">&quot;resnext101_32x8d&quot;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x8d</span><span class="p">,</span>
+            <span class="s2">&quot;resnext101_32x16d&quot;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x16d</span><span class="p">,</span>
+            <span class="s2">&quot;resnext101_32x32d&quot;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x32d</span><span class="p">,</span>
+            <span class="s2">&quot;resnext101_32x48d&quot;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x48d</span><span class="p">,</span>
+            <span class="s2">&quot;regnetx_002&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_002</span><span class="p">,</span>
+            <span class="s2">&quot;regnetx_004&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">,</span>
+            <span class="s2">&quot;regnetx_006&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_006</span><span class="p">,</span>
+            <span class="s2">&quot;regnetx_008&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_008</span><span class="p">,</span>
+            <span class="s2">&quot;regnetx_016&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_016</span><span class="p">,</span>
+            <span class="s2">&quot;regnetx_032&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_032</span><span class="p">,</span>
+            <span class="s2">&quot;regnety_002&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_002</span><span class="p">,</span>
+            <span class="s2">&quot;regnety_004&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_004</span><span class="p">,</span>
+            <span class="s2">&quot;regnety_006&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_006</span><span class="p">,</span>
+            <span class="s2">&quot;regnety_008&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_008</span><span class="p">,</span>
+            <span class="s2">&quot;regnety_016&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_016</span><span class="p">,</span>
+            <span class="s2">&quot;regnety_032&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_032</span><span class="p">,</span>
+            <span class="s2">&quot;resnest14d&quot;</span><span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest14d</span><span class="p">,</span>
+            <span class="s2">&quot;resnest26d&quot;</span><span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest26d</span><span class="p">,</span>
+            <span class="s2">&quot;resnest50d&quot;</span><span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest50d</span><span class="p">,</span>
+            <span class="s2">&quot;resnest50d_1s4x24d&quot;</span><span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest50d_1s4x24d</span><span class="p">,</span>
+            <span class="s2">&quot;resnest50d_4s2x40d&quot;</span><span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest50d_4s2x40d</span><span class="p">,</span>
+            <span class="s2">&quot;resnest101e&quot;</span><span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest101e</span><span class="p">,</span>
+            <span class="s2">&quot;resnest200e&quot;</span><span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest200e</span><span class="p">,</span>
+            <span class="s2">&quot;resnest269e&quot;</span><span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest269e</span><span class="p">,</span>
+            <span class="s2">&quot;wide_resnet50_2&quot;</span><span class="p">:</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet50_2</span><span class="p">,</span>
+            <span class="s2">&quot;wide_resnet101_2&quot;</span><span class="p">:</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet101_2</span><span class="p">,</span>
+            <span class="s2">&quot;densenet121&quot;</span><span class="p">:</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">,</span>
+            <span class="s2">&quot;densenet169&quot;</span><span class="p">:</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet169</span><span class="p">,</span>
+            <span class="s2">&quot;densenet201&quot;</span><span class="p">:</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet201</span><span class="p">,</span>
+            <span class="s2">&quot;densenet161&quot;</span><span class="p">:</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet161</span><span class="p">,</span>
+            <span class="s2">&quot;fishnet99&quot;</span><span class="p">:</span> <span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">,</span>
+            <span class="s2">&quot;fishnet150&quot;</span><span class="p">:</span> <span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet150</span><span class="p">,</span>
+            <span class="s2">&quot;vgg11&quot;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">,</span>
+            <span class="s2">&quot;vgg13&quot;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg13</span><span class="p">,</span>
+            <span class="s2">&quot;vgg16&quot;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg16</span><span class="p">,</span>
+            <span class="s2">&quot;vgg19&quot;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg19</span><span class="p">,</span>
+            <span class="s2">&quot;vgg11_bn&quot;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg11_bn</span><span class="p">,</span>
+            <span class="s2">&quot;vgg13_bn&quot;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg13_bn</span><span class="p">,</span>
+            <span class="s2">&quot;vgg16_bn&quot;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg16_bn</span><span class="p">,</span>
+            <span class="s2">&quot;vgg19_bn&quot;</span><span class="p">:</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg19_bn</span><span class="p">,</span>
+            <span class="s2">&quot;efficientnet_b0&quot;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">,</span>
+            <span class="s2">&quot;efficientnet_b1&quot;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b1</span><span class="p">,</span>
+            <span class="s2">&quot;efficientnet_b2&quot;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b2</span><span class="p">,</span>
+            <span class="s2">&quot;efficientnet_b3&quot;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b3</span><span class="p">,</span>
+            <span class="s2">&quot;efficientnet_b4&quot;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b4</span><span class="p">,</span>
+            <span class="s2">&quot;efficientnet_b5&quot;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b5</span><span class="p">,</span>
+            <span class="s2">&quot;efficientnet_b6&quot;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b6</span><span class="p">,</span>
+            <span class="s2">&quot;efficientnet_b7&quot;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b7</span><span class="p">,</span>
+            <span class="s2">&quot;efficientnet_b8&quot;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b8</span><span class="p">,</span>
+            <span class="s2">&quot;efficientnet_l2&quot;</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_l2</span><span class="p">,</span>
+            <span class="s2">&quot;efficientnet_lite0&quot;</span><span class="p">:</span> <span class="n">EfficientNetLite</span><span class="o">.</span><span class="n">efficientnet_lite0</span><span class="p">,</span>
+            <span class="s2">&quot;efficientnet_lite1&quot;</span><span class="p">:</span> <span class="n">EfficientNetLite</span><span class="o">.</span><span class="n">efficientnet_lite1</span><span class="p">,</span>
+            <span class="s2">&quot;efficientnet_lite2&quot;</span><span class="p">:</span> <span class="n">EfficientNetLite</span><span class="o">.</span><span class="n">efficientnet_lite2</span><span class="p">,</span>
+            <span class="s2">&quot;efficientnet_lite3&quot;</span><span class="p">:</span> <span class="n">EfficientNetLite</span><span class="o">.</span><span class="n">efficientnet_lite3</span><span class="p">,</span>
+            <span class="s2">&quot;efficientnet_lite4&quot;</span><span class="p">:</span> <span class="n">EfficientNetLite</span><span class="o">.</span><span class="n">efficientnet_lite4</span><span class="p">,</span>
+            <span class="s2">&quot;vit_small_patch16_224&quot;</span><span class="p">:</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_small_patch16_224</span><span class="p">,</span>
+            <span class="s2">&quot;vit_base_patch16_224&quot;</span><span class="p">:</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_224</span><span class="p">,</span>
+            <span class="s2">&quot;vit_base_patch16_384&quot;</span><span class="p">:</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_384</span><span class="p">,</span>
+            <span class="s2">&quot;vit_base_patch32_384&quot;</span><span class="p">:</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch32_384</span><span class="p">,</span>
+            <span class="s2">&quot;vit_huge_patch16_224&quot;</span><span class="p">:</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_huge_patch16_224</span><span class="p">,</span>
+            <span class="s2">&quot;vit_huge_patch32_384&quot;</span><span class="p">:</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_huge_patch32_384</span><span class="p">,</span>
+            <span class="s2">&quot;vit_large_patch16_224&quot;</span><span class="p">:</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_large_patch16_224</span><span class="p">,</span>
+            <span class="s2">&quot;vit_large_patch16_384&quot;</span><span class="p">:</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_large_patch16_384</span><span class="p">,</span>
+            <span class="s2">&quot;vit_large_patch32_384&quot;</span><span class="p">:</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_large_patch32_384</span><span class="p">,</span>
+            <span class="s2">&quot;deit_tiny_patch16_224&quot;</span><span class="p">:</span> <span class="n">DeiT</span><span class="o">.</span><span class="n">deit_tiny_patch16_224</span><span class="p">,</span>
+            <span class="s2">&quot;deit_small_patch16_224&quot;</span><span class="p">:</span> <span class="n">DeiT</span><span class="o">.</span><span class="n">deit_small_patch16_224</span><span class="p">,</span>
+            <span class="s2">&quot;deit_base_patch16_224&quot;</span><span class="p">:</span> <span class="n">DeiT</span><span class="o">.</span><span class="n">deit_base_patch16_224</span><span class="p">,</span>
+            <span class="s2">&quot;deit_base_patch16_384&quot;</span><span class="p">:</span> <span class="n">DeiT</span><span class="o">.</span><span class="n">deit_base_patch16_384</span><span class="p">,</span>
+            <span class="s2">&quot;mobilenetv2&quot;</span><span class="p">:</span> <span class="n">MobileNet</span><span class="o">.</span><span class="n">mobilenet_v2</span><span class="p">,</span>
+            <span class="s2">&quot;unet&quot;</span><span class="p">:</span> <span class="n">UNet</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">EnvironmentError</span><span class="p">(</span>
@@ -309,7 +311,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">zoo</span><span class="p">:</span>
             <span class="n">suggestions</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">get_close_matches</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">zoo</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Model </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2"> does not exists.&quot;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Model &quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; does not exists.&#39;</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">suggestions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39; Did you mean &quot;</span><span class="si">{</span><span class="n">suggestions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">?&quot;&#39;</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
@@ -337,14 +339,14 @@
         <span class="c1"># check if key is valid</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">PretrainedWeightsProvider</span><span class="o">.</span><span class="n">weights_zoo</span><span class="p">:</span>
             <span class="n">suggestions</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">get_close_matches</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">zoo</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Model </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2"> does not exists.&quot;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Model &quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; does not exists.&#39;</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">suggestions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39; Did you mean &quot;</span><span class="si">{</span><span class="n">suggestions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">?&quot;&#39;</span>
 
             <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;Available pretrained models are </span><span class="si">{</span><span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">PretrainedWeightsProvider</span><span class="o">.</span><span class="n">weights_zoo</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="si">}</span><span class="s1">&#39;</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
-        <span class="n">model</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span>  <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">model</span></div>
 
 <div class="viewcode-block" id="AutoModel.models"><a class="viewcode-back" href="../../../glasses.models.html#glasses.models.AutoModel.AutoModel.models">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -376,7 +378,12 @@
         <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">no_wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Pretrained&quot;</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">no_wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="p">[</span><span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">PretrainedWeightsProvider</span><span class="o">.</span><span class="n">weights_zoo</span> <span class="k">else</span> <span class="s1">&#39;false&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">zoo</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+        <span class="p">[</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span>
+                <span class="n">k</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">PretrainedWeightsProvider</span><span class="o">.</span><span class="n">weights_zoo</span> <span class="k">else</span> <span class="s2">&quot;false&quot;</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">zoo</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="p">]</span>
 
         <span class="k">return</span> <span class="n">table</span></div></div>
 </pre></div>
