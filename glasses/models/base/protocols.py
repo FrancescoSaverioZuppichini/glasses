@@ -36,8 +36,7 @@ class Freezable:
 
 
 class Interpretable:
-    """Protocol that allows the clas that subclass it to interpret an input using and instance of `Interpretability`
-    """
+    """Protocol that allows the clas that subclass it to interpret an input using and instance of `Interpretability`"""
 
-    def interpret(self, x : torch.Tensor, using: Interpretability(), *args, **kwargs):
+    def interpret(self, x: torch.Tensor, using: Interpretability(), *args, **kwargs):
         return using(x, self, *args, **kwargs)

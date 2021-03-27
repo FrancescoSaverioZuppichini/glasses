@@ -20,6 +20,7 @@ class SaliencyMapResult:
 
         return fig
 
+
 class SaliencyMap(Interpretability):
     """Implementation of `Deep Inside Convolutional Networks: Visualising Image Classification Models
     and Saliency Maps <https://arxiv.org/abs/1312.6034>`_
@@ -33,7 +34,15 @@ class SaliencyMap(Interpretability):
             if isinstance(module, ReLU):
                 module.register_backward_hook(guide_relu)
 
-    def __call__(self, x: torch.Tensor, module: nn.Module, layer: nn.Module = None, ctx: torch.Tensor = None, target: int = None, guide: bool = True) -> SaliencyMapResult:
+    def __call__(
+        self,
+        x: torch.Tensor,
+        module: nn.Module,
+        layer: nn.Module = None,
+        ctx: torch.Tensor = None,
+        target: int = None,
+        guide: bool = True,
+    ) -> SaliencyMapResult:
         """Run SaliencyMap on the input given a model
 
         Args:
@@ -46,8 +55,7 @@ class SaliencyMap(Interpretability):
         Returns:
             SaliencyMapResult: The result of the saliency map, you can call `.show` to see it.
         """
-        layer = find_first_layer(
-            x, module, nn.Conv2d) if layer is None else layer
+        layer = find_first_layer(x, module, nn.Conv2d) if layer is None else layer
         gradients_storage = BackwardModuleStorage([layer])
         if guide:
             self.guide(module)

@@ -10,13 +10,34 @@ from ...base import Encoder
 
 
 class UNetBasicBlock(nn.Sequential):
-    """Basic Block for UNet. It is composed by a double 3x3 conv.
-    """
+    """Basic Block for UNet. It is composed by a double 3x3 conv."""
 
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = partial(nn.ReLU, inplace=True), *args, **kwargs):
-        super().__init__(ConvBnAct(in_features, out_features, kernel_size=3, activation=activation, *args, **kwargs),
-                         ConvBnAct(
-            out_features, out_features, kernel_size=3, activation=activation, *args, **kwargs))
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        activation: nn.Module = partial(nn.ReLU, inplace=True),
+        *args,
+        **kwargs
+    ):
+        super().__init__(
+            ConvBnAct(
+                in_features,
+                out_features,
+                kernel_size=3,
+                activation=activation,
+                *args,
+                **kwargs
+            ),
+            ConvBnAct(
+                out_features,
+                out_features,
+                kernel_size=3,
+                activation=activation,
+                *args,
+                **kwargs
+            ),
+        )
 
 
 DownBlock = UNetBasicBlock
@@ -24,7 +45,7 @@ UpBlock = UNetBasicBlock
 
 
 class DownLayer(nn.Module):
-    """UNet down layer (left side). 
+    """UNet down layer (left side).
 
     Args:
         out_features (int): Number of input features
@@ -34,12 +55,21 @@ class DownLayer(nn.Module):
 
     """
 
-    def __init__(self, in_features: int, out_features: int, donwsample: bool = True, block: nn.Module = DownBlock, *args, **kwargs):
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        donwsample: bool = True,
+        block: nn.Module = DownBlock,
+        *args,
+        **kwargs
+    ):
         super().__init__()
 
         self.block = nn.Sequential(
             nn.MaxPool2d(2, stride=2) if donwsample else nn.Identity(),
-            block(in_features, out_features, *args, **kwargs))
+            block(in_features, out_features, *args, **kwargs),
+        )
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.block(x)
@@ -47,7 +77,7 @@ class DownLayer(nn.Module):
 
 
 class UpLayer(nn.Module):
-    """UNet up layer (right side). 
+    """UNet up layer (right side).
 
     Args:
         out_features (int): Number of input features
@@ -56,14 +86,24 @@ class UpLayer(nn.Module):
 
     """
 
-    def __init__(self, in_features: int, out_features: int, lateral_features: int = None, block: nn.Module = UpBlock, *args, **kwargs):
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        lateral_features: int = None,
+        block: nn.Module = UpBlock,
+        *args,
+        **kwargs
+    ):
         super().__init__()
-        lateral_features = out_features if lateral_features is None else lateral_features
-        self.up = nn.ConvTranspose2d(
-            in_features, out_features, 2, 2)
+        lateral_features = (
+            out_features if lateral_features is None else lateral_features
+        )
+        self.up = nn.ConvTranspose2d(in_features, out_features, 2, 2)
 
-        self.block = block(out_features + lateral_features,
-                           out_features, *args, **kwargs)
+        self.block = block(
+            out_features + lateral_features, out_features, *args, **kwargs
+        )
 
     def forward(self, x: Tensor, res: Tensor) -> Tensor:
         x = self.up(x)
@@ -75,22 +115,29 @@ class UpLayer(nn.Module):
 
 
 class UNetEncoder(Encoder):
-    """UNet Encoder composed of several layers of convolutions aimed to increased the features space and decrease the resolution.
-    """
+    """UNet Encoder composed of several layers of convolutions aimed to increased the features space and decrease the resolution."""
 
-    def __init__(self, in_channels: int,  widths: List[int] = [64, 128, 256, 512, 1024], *args, **kwargs):
+    def __init__(
+        self,
+        in_channels: int,
+        widths: List[int] = [64, 128, 256, 512, 1024],
+        *args,
+        **kwargs
+    ):
         super().__init__()
         self.in_out_widths = list(zip(widths, widths[1:]))
         self.widths = widths
         self.stem = nn.Identity()
 
-        self.layers = nn.ModuleList([
-            DownLayer(in_channels, widths[0],
-                      donwsample=False, *args, **kwargs),
-            *[DownLayer(in_features,
-                        out_features, *args, **kwargs)
-              for (in_features, out_features) in self.in_out_widths]
-        ])
+        self.layers = nn.ModuleList(
+            [
+                DownLayer(in_channels, widths[0], donwsample=False, *args, **kwargs),
+                *[
+                    DownLayer(in_features, out_features, *args, **kwargs)
+                    for (in_features, out_features) in self.in_out_widths
+                ],
+            ]
+        )
 
     def forward(self, x: Tensor) -> Tensor:
         for layer in self.layers:
@@ -104,7 +151,14 @@ class UNetDecoder(nn.Module):
     UNet Decoder composed of several layer of upsampling layers aimed to decrease the features space and increase the resolution.
     """
 
-    def __init__(self, start_features: int = 512, widths: List[int] = [256, 128, 64, 32], lateral_widths: List[int] = None, *args, **kwargs):
+    def __init__(
+        self,
+        start_features: int = 512,
+        widths: List[int] = [256, 128, 64, 32],
+        lateral_widths: List[int] = None,
+        *args,
+        **kwargs
+    ):
         super().__init__()
         widths = [start_features, *widths]
         self.widths = widths
@@ -112,17 +166,21 @@ class UNetDecoder(nn.Module):
         lateral_widths.extend([0] * (len(widths) - len(lateral_widths)))
 
         self.in_out_widths = list(zip(widths, widths[1:]))
-        self.layers = nn.ModuleList([
-            UpLayer(in_features,
-                    out_features, lateral_features, **kwargs)
-            for (in_features, out_features), lateral_features in zip(self.in_out_widths, lateral_widths)
-        ])
+        self.layers = nn.ModuleList(
+            [
+                UpLayer(in_features, out_features, lateral_features, **kwargs)
+                for (in_features, out_features), lateral_features in zip(
+                    self.in_out_widths, lateral_widths
+                )
+            ]
+        )
 
     def forward(self, x: Tensor, residuals: List[Tensor]) -> Tensor:
         for layer, res in zip(self.layers, residuals):
             x = layer(x, res)
 
         return x
+
 
 class UNet(SegmentationModule):
     """Implementation of Unet proposed in `U-Net: Convolutional Networks for Biomedical Image Segmentation <https://arxiv.org/abs/1505.04597>`_
@@ -159,11 +217,14 @@ class UNet(SegmentationModule):
        ecoder (nn.Module, optional): [description]. Defaults to UNetDecoder.
     """
 
-    def __init__(self, in_channels: int = 1, n_classes: int = 2,
-                 encoder: Encoder = UNetEncoder,
-                 decoder: nn.Module = UNetDecoder,
-                 **kwargs):
+    def __init__(
+        self,
+        in_channels: int = 1,
+        n_classes: int = 2,
+        encoder: Encoder = UNetEncoder,
+        decoder: nn.Module = UNetDecoder,
+        **kwargs
+    ):
 
         super().__init__(in_channels, n_classes, encoder, decoder, **kwargs)
-        self.head = nn.Conv2d(
-            self.decoder.widths[-1], n_classes, kernel_size=1)
+        self.head = nn.Conv2d(self.decoder.widths[-1], n_classes, kernel_size=1)
