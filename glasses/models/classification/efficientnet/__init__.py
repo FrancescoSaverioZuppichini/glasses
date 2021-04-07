@@ -47,7 +47,6 @@ class InvertedResidualBlock(nn.Module):
     ):
         super().__init__()
 
-        reduced_features = in_features // 4
         expanded_features = in_features * expansion
         # do not apply residual when downsamping and when features are different
         # in mobilenet we do not use a shortcut
@@ -75,7 +74,7 @@ class InvertedResidualBlock(nn.Module):
                     # apply se after depth-wise
                     "att": ChannelSE(
                         expanded_features,
-                        reduced_features=reduced_features,
+                        reduced_features=in_features // 4,
                         activation=activation,
                     )
                     if se
@@ -193,8 +192,8 @@ class EfficientNetEncoder(Encoder):
 
     def forward(self, x):
         x = self.stem(x)
-        for block in self.layers:
-            x = block(x)
+        for layer in self.layers:
+            x = layer(x)
         return x
 
     @property

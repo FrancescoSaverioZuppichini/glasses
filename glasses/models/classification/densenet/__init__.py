@@ -74,10 +74,9 @@ class DenseBottleNeckBlock(DenseNetBasicBlock):
         out_features: int,
         activation: nn.Module = ReLUInPlace,
         expansion: int = 4,
-        *args,
         **kwargs
     ):
-        super().__init__(in_features, out_features, activation, *args, **kwargs)
+        super().__init__(in_features, out_features, activation, **kwargs)
         self.expansion = expansion
         self.expanded_features = out_features * self.expansion
 
@@ -91,7 +90,6 @@ class DenseBottleNeckBlock(DenseNetBasicBlock):
                         self.expanded_features,
                         kernel_size=1,
                         bias=False,
-                        *args,
                         **kwargs
                     ),
                     "bn2": nn.BatchNorm2d(self.expanded_features),
@@ -101,7 +99,6 @@ class DenseBottleNeckBlock(DenseNetBasicBlock):
                         out_features,
                         kernel_size=3,
                         bias=False,
-                        *args,
                         **kwargs
                     ),
                 }
@@ -109,7 +106,7 @@ class DenseBottleNeckBlock(DenseNetBasicBlock):
         )
 
 
-class TransitionBlock(nn.Module):
+class TransitionBlock(nn.Sequential):
     """A transition block is used to downsample the output using 1x1 conv followed by 2x2 average pooling.
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNetTransitionBlock.png?raw=true
@@ -124,8 +121,7 @@ class TransitionBlock(nn.Module):
     def __init__(
         self, in_features: int, factor: int = 2, activation: nn.Module = ReLUInPlace
     ):
-        super().__init__()
-        self.block = nn.Sequential(
+        super().__init__(
             OrderedDict(
                 {
                     "bn": nn.BatchNorm2d(in_features),
@@ -138,12 +134,8 @@ class TransitionBlock(nn.Module):
             )
         )
 
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.block(x)
-        return x
 
-
-class DenseNetLayer(nn.Module):
+class DenseNetLayer(nn.Sequential):
     """A DenseNet layer is composed by `n` `blocks` stacked together followed by a transition to downsample the output features.
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DenseNetLayer.png?raw=true
@@ -166,9 +158,8 @@ class DenseNetLayer(nn.Module):
         *args,
         **kwargs
     ):
-        super().__init__()
         self.out_features = grow_rate * n + in_features
-        self.block = nn.Sequential(
+        super().__init__(
             # in each block, the number of features is equal to the input size + the outputs of all the previos layers (grow_rate * i)
             *[
                 block(grow_rate * i + in_features, grow_rate, *args, **kwargs)
@@ -179,10 +170,6 @@ class DenseNetLayer(nn.Module):
             if transition_block
             else nn.Identity()
         )
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.block(x)
-        return x
 
 
 class DenseNetEncoder(ResNetEncoder):

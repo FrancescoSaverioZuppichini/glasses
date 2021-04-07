@@ -129,16 +129,17 @@ class MultiHeadAttention(nn.Module):
         )
 
         queries, keys, values = qkv[0], qkv[1], qkv[2]
-        # sum up over the last axis
-        energy = torch.einsum("bhqd, bhkd -> bhqk", queries, keys) * self.scaling
+        # dot product, Q V^T, here we don't transpose before, so this is why
+        # the sum is made on the last index of  K
+        energy = torch.einsum("bhij, bhkj -> bhik", queries, keys) * self.scaling
         if mask is not None:
             fill_value = torch.finfo(torch.float32).min
             energy.mask_fill(~mask, fill_value)
 
         att = F.softmax(energy, dim=-1)
         att = self.att_drop(att)
-        # sum up over the third axis
-        out = torch.einsum("bhal, bhlv -> bhav ", att, values)
+        # dot product
+        out = torch.einsum("bhij, bhjk -> bhik ", att, values)
         out = rearrange(out, "b h n d -> b n (h d)")
         out = self.projection(out)
         return out
