@@ -170,8 +170,8 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ReLUInPlace</span>
 <span class="kn">from</span> <span class="nn">glasses.nn.blocks</span> <span class="kn">import</span> <span class="n">ConvAct</span>
-<span class="kn">from</span> <span class="nn">....models.base</span> <span class="kn">import</span> <span class="n">VisionModule</span><span class="p">,</span> <span class="n">Encoder</span>
-
+<span class="kn">from</span> <span class="nn">....models.base</span> <span class="kn">import</span> <span class="n">Encoder</span>
+<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">ClassificationModule</span>
 
 <span class="n">AlexNetBasicBlock</span> <span class="o">=</span> <span class="n">ConvAct</span>
 
@@ -240,7 +240,7 @@
             <span class="p">]</span>
         <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
 <div class="viewcode-block" id="AlexNetEncoder.forward"><a class="viewcode-back" href="../../../../glasses.models.classification.alexnet.html#glasses.models.AlexNetEncoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -256,20 +256,16 @@
 <span class="sd">    correct class by means of fully connected layers. Dropout is used to decrease the overfitting.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">filter_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">6</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">drop_p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">OrderedDict</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="s2">&quot;pool&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_size</span><span class="p">)),</span>
+                    <span class="s2">&quot;pool&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">((</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)),</span>
                     <span class="s2">&quot;flat&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span>
-                    <span class="s2">&quot;drop1&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span>
-                    <span class="s2">&quot;fc1&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">filter_size</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_size</span> <span class="o">*</span> <span class="n">in_features</span><span class="p">,</span> <span class="mi">4096</span>
-                    <span class="p">),</span>
+                    <span class="s2">&quot;drop1&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">drop_p</span><span class="p">),</span>
+                    <span class="s2">&quot;fc1&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">6</span> <span class="o">*</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">in_features</span><span class="p">,</span> <span class="mi">4096</span><span class="p">),</span>
                     <span class="s2">&quot;act1&quot;</span><span class="p">:</span> <span class="n">ReLUInPlace</span><span class="p">(),</span>
-                    <span class="s2">&quot;drop2&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span>
+                    <span class="s2">&quot;drop2&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">drop_p</span><span class="p">),</span>
                     <span class="s2">&quot;fc2&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4096</span><span class="p">,</span> <span class="mi">4096</span><span class="p">),</span>
                     <span class="s2">&quot;act2&quot;</span><span class="p">:</span> <span class="n">ReLUInPlace</span><span class="p">(),</span>
                     <span class="s2">&quot;fc3&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4096</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">),</span>
@@ -278,7 +274,7 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="AlexNet"><a class="viewcode-back" href="../../../../glasses.models.classification.alexnet.html#glasses.models.AlexNet">[docs]</a><span class="k">class</span> <span class="nc">AlexNet</span><span class="p">(</span><span class="n">VisionModule</span><span class="p">):</span>
+<div class="viewcode-block" id="AlexNet"><a class="viewcode-back" href="../../../../glasses.models.classification.alexnet.html#glasses.models.AlexNet">[docs]</a><span class="k">class</span> <span class="nc">AlexNet</span><span class="p">(</span><span class="n">ClassificationModule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implementation of AlexNet proposed in `ImageNet Classification with Deep Convolutional Neural Networks &lt;https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf&gt;`_,</span>
 <span class="sd">    according to the `variation &lt;https://pytorch.org/docs/stable/_modules/torchvision/models/alexnet.html&gt;`_ implemented in torchvision.</span>
 
@@ -307,15 +303,13 @@
 <span class="sd">        n_classes (int, optional): Number of classes. Default is 1000.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">AlexNetEncoder</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">AlexNetHead</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">widths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">n_classes</span><span class="p">)</span>
-
-<div class="viewcode-block" id="AlexNet.forward"><a class="viewcode-back" href="../../../../glasses.models.classification.alexnet.html#glasses.models.AlexNet.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x</span></div></div>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">encoder</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">AlexNetEncoder</span><span class="p">,</span>
+        <span class="n">head</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">AlexNetHead</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">encoder</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
