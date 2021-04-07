@@ -28,7 +28,7 @@ class InvertedResidualBlock(nn.Module):
         stride (int, optional): Stide used in the depth convolution. Defaults to 1.
         expansion (int, optional): The expansion ratio applied. Defaults to 6.
         activation (nn.Module, optional): The activation funtion used. Defaults to nn.SiLU.
-        drop_rate (float, optional): If > 0, add a  nn.Dropout2d at the end of the block. Defaults to 0.2.
+        drop_rate (float, optional): If > 0, add a  StochasticDepth at the end of the block. Defaults to 0.2.
         se (bool, optional): If True, add a ChannelSE module after the depth convolution. Defaults to True.
         kernel_size (int, optional): [description]. Defaults to 3.
     """
@@ -224,17 +224,12 @@ class EfficientNetHead(nn.Sequential):
     """
 
     def __init__(self, in_features: int, n_classes: int, drop_rate: float = 0.2):
-        super().__init__()
-        self.avg = nn.AdaptiveAvgPool2d((1, 1))
-        self.drop = nn.Dropout2d(drop_rate)
-        self.fc = nn.Linear(in_features, n_classes)
-
-    def forward(self, x):
-        x = self.avg(x)
-        x = x.view(x.size(0), -1)
-        x = self.drop(x)
-        x = self.fc(x)
-        return x
+        super().__init__(
+            nn.AdaptiveAvgPool2d((1, 1)),
+            nn.Flatten(),
+            nn.Dropout2d(drop_rate),
+            nn.Linear(in_features, n_classes),
+        )
 
 
 class EfficientNet(ClassificationModule):
