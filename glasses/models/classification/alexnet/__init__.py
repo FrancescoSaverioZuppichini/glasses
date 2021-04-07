@@ -5,8 +5,8 @@ from collections import OrderedDict
 from typing import List
 from ..resnet import ReLUInPlace
 from glasses.nn.blocks import ConvAct
-from ....models.base import VisionModule, Encoder
-
+from ....models.base import Encoder
+from ..base import ClassificationModule
 
 AlexNetBasicBlock = ConvAct
 
@@ -75,7 +75,7 @@ class AlexNetEncoder(Encoder):
             ]
         )
 
-        self.pool = nn.MaxPool2d(kernel_size=3, stride=2, padding=0)
+        self.pool = nn.MaxPool2d(kernel_size=3, stride=2)
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.stem(x)
@@ -91,20 +91,16 @@ class AlexNetHead(nn.Sequential):
     correct class by means of fully connected layers. Dropout is used to decrease the overfitting.
     """
 
-    filter_size: int = 6
-
-    def __init__(self, in_features: int, n_classes: int):
+    def __init__(self, in_features: int, n_classes: int, drop_p: float = 0.5):
         super().__init__(
             OrderedDict(
                 {
-                    "pool": nn.AdaptiveAvgPool2d((self.filter_size, self.filter_size)),
+                    "pool": nn.AdaptiveAvgPool2d((6, 6)),
                     "flat": nn.Flatten(),
-                    "drop1": nn.Dropout(p=0.5),
-                    "fc1": nn.Linear(
-                        self.filter_size * self.filter_size * in_features, 4096
-                    ),
+                    "drop1": nn.Dropout(drop_p),
+                    "fc1": nn.Linear(6 * 6 * in_features, 4096),
                     "act1": ReLUInPlace(),
-                    "drop2": nn.Dropout(p=0.5),
+                    "drop2": nn.Dropout(drop_p),
                     "fc2": nn.Linear(4096, 4096),
                     "act2": ReLUInPlace(),
                     "fc3": nn.Linear(4096, n_classes),
@@ -113,7 +109,7 @@ class AlexNetHead(nn.Sequential):
         )
 
 
-class AlexNet(VisionModule):
+class AlexNet(ClassificationModule):
     """Implementation of AlexNet proposed in `ImageNet Classification with Deep Convolutional Neural Networks <https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf>`_,
     according to the `variation <https://pytorch.org/docs/stable/_modules/torchvision/models/alexnet.html>`_ implemented in torchvision.
 
@@ -142,12 +138,10 @@ class AlexNet(VisionModule):
         n_classes (int, optional): Number of classes. Default is 1000.
     """
 
-    def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
-        super().__init__()
-        self.encoder = AlexNetEncoder(in_channels, *args, **kwargs)
-        self.head = AlexNetHead(self.encoder.widths[-1], n_classes)
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.encoder(x)
-        x = self.head(x)
-        return x
+    def __init__(
+        self,
+        encoder: nn.Module = AlexNetEncoder,
+        head: nn.Module = AlexNetHead,
+        **kwargs,
+    ):
+        super().__init__(encoder, head, **kwargs)

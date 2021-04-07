@@ -15,7 +15,7 @@ from ..base import ClassificationModule
 VGGBasicBlock = partial(ConvAct, kernel_size=3, bias=True)
 
 
-class VGGLayer(nn.Module):
+class VGGLayer(nn.Sequential):
     """This class implements a VGG layer, which is composed by a number of blocks (default is VGGBasicBlock, which is a simple
     convolution-activation transformation) eventually followed by maxpooling.
 
@@ -32,22 +32,15 @@ class VGGLayer(nn.Module):
         in_features: int,
         out_features: int,
         block: nn.Module = VGGBasicBlock,
-        n: int = 1,
-        maxpool: nn.Module = nn.MaxPool2d,
-        *args,
+        pool: nn.Module = nn.MaxPool2d,
+        depth: int = 1,
         **kwargs
     ):
-        super().__init__()
-        self.block = nn.Sequential(
-            block(in_features, out_features, *args, **kwargs),
-            *[block(out_features, out_features, *args, **kwargs) for _ in range(n - 1)]
+        super().__init__(
+            block(in_features, out_features, **kwargs),
+            *[block(out_features, out_features, **kwargs) for _ in range(depth - 1)],
+            pool(kernel_size=2, stride=2),
         )
-
-        self.block.add_module("maxpool", maxpool(kernel_size=2, stride=2))
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.block(x)
-        return x
 
 
 class VGGEncoder(Encoder):
@@ -86,9 +79,9 @@ class VGGEncoder(Encoder):
                     widths[0],
                     activation=activation,
                     block=block,
-                    n=depths[0],
+                    depth=depths[0],
                     *args,
-                    **kwargs
+                    **kwargs,
                 ),
                 *[
                     VGGLayer(
@@ -96,11 +89,11 @@ class VGGEncoder(Encoder):
                         out_channels,
                         activation=activation,
                         block=block,
-                        n=n,
+                        depth=depth,
                         *args,
-                        **kwargs
+                        **kwargs,
                     )
-                    for (in_channels, out_channels), n in zip(
+                    for (in_channels, out_channels), depth in zip(
                         self.in_out_widths, depths[1:]
                     )
                 ],
@@ -108,8 +101,8 @@ class VGGEncoder(Encoder):
         )
 
     def forward(self, x: Tensor) -> Tensor:
-        for block in self.layers:
-            x = block(x)
+        for layer in self.layers:
+            x = layer(x)
         return x
 
 
@@ -182,14 +175,9 @@ class VGG(ClassificationModule):
     """
 
     def __init__(
-        self,
-        encoder: nn.Module = VGGEncoder,
-        head: nn.Module = VGGHead,
-        *args,
-        **kwargs
+        self, encoder: nn.Module = VGGEncoder, head: nn.Module = VGGHead, **kwargs
     ):
-        super().__init__(encoder, head, *args, **kwargs)
-        self.initialize()
+        super().__init__(encoder, head, **kwargs)
 
     def initialize(self):
         for m in self.modules():
@@ -281,7 +269,7 @@ class VGG(ClassificationModule):
             depths=[2, 2, 2, 2, 2],
             kernel_size=3,
             bias=True,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -300,7 +288,7 @@ class VGG(ClassificationModule):
             depths=[2, 2, 3, 3, 3],
             kernel_size=3,
             bias=True,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -319,5 +307,5 @@ class VGG(ClassificationModule):
             depths=[2, 2, 4, 4, 4],
             kernel_size=3,
             bias=True,
-            **kwargs
+            **kwargs,
         )

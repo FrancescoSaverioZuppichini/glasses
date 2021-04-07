@@ -18,6 +18,10 @@ class ClassificationModule(VisionModule):
         super().__init__()
         self.encoder = encoder(in_channels=in_channels, **kwargs)
         self.head = head(self.encoder.widths[-1], n_classes)
+        self.initialize()
+
+    def initialize(self):
+        pass
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.encoder(x)

@@ -290,7 +290,7 @@ class ResNetBottleneckPreActBlock(ResNetBottleneckBlock):
         self.act = nn.Identity()
 
 
-class ResNetLayer(nn.Module):
+class ResNetLayer(nn.Sequential):
     def __init__(
         self,
         in_features: int,
@@ -301,16 +301,11 @@ class ResNetLayer(nn.Module):
         *args,
         **kwargs
     ):
-        super().__init__()
-        # 'We perform stride directly by convolutional layers that have a stride of 2.'
-        self.block = nn.Sequential(
+        super().__init__(
+            # 'We perform stride directly by convolutional layers that have a stride of 2.'
             block(in_features, out_features, stride=stride, **kwargs),
             *[block(out_features, out_features, **kwargs) for _ in range(depth - 1)]
         )
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.block(x)
-        return x
 
 
 class ResNetStem(nn.Sequential):
@@ -423,8 +418,8 @@ class ResNetEncoder(Encoder):
 
     def forward(self, x):
         x = self.stem(x)
-        for block in self.layers:
-            x = block(x)
+        for layer in self.layers:
+            x = layer(x)
         return x
 
     @property
@@ -502,14 +497,9 @@ class ResNet(ClassificationModule):
     """
 
     def __init__(
-        self,
-        encoder: nn.Module = ResNetEncoder,
-        head: nn.Module = ResNetHead,
-        *args,
-        **kwargs
+        self, encoder: nn.Module = ResNetEncoder, head: nn.Module = ResNetHead, **kwargs
     ):
-        super().__init__(encoder, head, *args, **kwargs)
-        self.initialize()
+        super().__init__(encoder, head, **kwargs)
 
     def initialize(self):
         for m in self.modules():

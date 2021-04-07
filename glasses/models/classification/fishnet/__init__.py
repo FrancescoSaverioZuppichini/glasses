@@ -115,7 +115,6 @@ class FishNetHeadBlock(FishNetBodyBlock):
         block: nn.Module = FishNetBottleNeck,
         depth: int = 1,
         trans_depth: int = 1,
-        *args,
         **kwargs
     ):
         super().__init__(
@@ -125,16 +124,12 @@ class FishNetHeadBlock(FishNetBodyBlock):
             block,
             depth,
             trans_depth,
-            *args,
             **kwargs
         )
 
         self.block = nn.Sequential(
-            block(in_features, out_features, shortcut=ResNetShorcut, *args, **kwargs),
-            *[
-                block(out_features, out_features, *args, **kwargs)
-                for _ in range(depth - 1)
-            ],
+            block(in_features, out_features, shortcut=ResNetShorcut, **kwargs),
+            *[block(out_features, out_features, **kwargs) for _ in range(depth - 1)],
             nn.MaxPool2d(kernel_size=2, stride=2)
         )
 
@@ -147,8 +142,6 @@ class FishNetBrigde(nn.Module):
         block: nn.Module = FishNetBottleNeck,
         depth: int = 1,
         activation: nn.Module = ReLUInPlace,
-        *args,
-        **kwargs
     ):
         """A weird layer that 'bridges' the tail and the body of the model.
 
@@ -258,7 +251,6 @@ class FishNetEncoder(nn.Module):
         block: nn.Module = FishNetBottleNeck,
         stem: nn.Module = ResNetStemC,
         activation: nn.Module = ReLUInPlace,
-        *args,
         **kwargs
     ):
         super().__init__()
@@ -454,12 +446,6 @@ class FishNet(ClassificationModule):
         **kwargs
     ):
         super().__init__(encoder, head, *args, **kwargs)
-        self.initialize()
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.encoder(x)
-        x = self.head(x)
-        return x
 
     def initialize(self):
         for m in self.modules():
