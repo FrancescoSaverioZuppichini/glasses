@@ -5,7 +5,7 @@ from glasses.nn.blocks import Conv2dPad, BnActConv, ConvBnAct
 from collections import OrderedDict
 from typing import List
 from functools import partial
-from glasses.utils.PretrainedWeightsProvider import pretrained
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 from ....models.base import Encoder
 from ..base import ClassificationModule
 

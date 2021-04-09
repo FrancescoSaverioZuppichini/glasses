@@ -2,7 +2,7 @@ from __future__ import annotations
 from torch import nn
 from functools import partial
 from ..resnet import ResNet, ResNetBottleneckBlock
-from glasses.utils.PretrainedWeightsProvider import pretrained
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 
 ReLUInPlace = partial(nn.ReLU, inplace=True)
 

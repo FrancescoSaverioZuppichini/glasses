@@ -9,7 +9,7 @@ from ..resnet import ReLUInPlace
 from glasses.nn.blocks import Conv2dPad
 from ..base import ClassificationModule
 
-from glasses.utils.PretrainedWeightsProvider import pretrained
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 
 
 class DenseNetBasicBlock(nn.Module):

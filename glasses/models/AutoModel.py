@@ -1,10 +1,13 @@
 import difflib
+import logging
 from typing import List, OrderedDict
-from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
+from glasses.utils.weights import PretrainedWeightsProvider
 from torch import nn
 from .classification import *
 from .segmentation import *
 from rich.table import Table
+
+logger = logging.getLogger(__name__)
 
 
 class AutoModel:
@@ -22,6 +25,8 @@ class AutoModel:
         KeyError: Raised if the name of the model is not found.
 
     """
+
+    provider = PretrainedWeightsProvider()
 
     zoo = OrderedDict(
         {
@@ -171,17 +176,10 @@ class AutoModel:
         Returns:
             nn.Module: A fully instantiated pretrained model
         """
-        # check if key is valid
-        if name not in PretrainedWeightsProvider.weights_zoo:
-            suggestions = difflib.get_close_matches(name, AutoModel.zoo.keys())
-            msg = f'Model "{name}" does not exists.'
-            if len(suggestions) > 0:
-                msg += f' Did you mean "{suggestions[0]}?"'
-
-            msg += f'Available pretrained models are {",".join(list(PretrainedWeightsProvider.weights_zoo.keys()))}'
-            raise KeyError(msg)
-
-        model = AutoModel.from_name(name, *args, pretrained=True, **kwargs)
+        weights = AutoModel.provider[name]
+        model = AutoModel.from_name(name, *args, **kwargs)
+        model.load_state_dict(weights)
+        logging.info(f"Loaded pretrained weights for {name}")
         return model
 
     @staticmethod
@@ -200,7 +198,7 @@ class AutoModel:
         Returns:
             List[str]: [description]
         """
-        return PretrainedWeightsProvider.weights_zoo.keys()
+        return AutoModel.provider.weights_zoo
 
     @staticmethod
     def models_table() -> Table:
@@ -214,9 +212,7 @@ class AutoModel:
         table.add_column("Pretrained", justify="left", no_wrap=True)
 
         [
-            table.add_row(
-                k, "true" if k in PretrainedWeightsProvider.weights_zoo else "false"
-            )
+            table.add_row(k, "true" if k in AutoModel.provider.weights_zoo else "false")
             for k in AutoModel.zoo.keys()
         ]
 

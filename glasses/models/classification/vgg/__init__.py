@@ -5,7 +5,7 @@ from typing import List
 from functools import partial
 from ..resnet import ReLUInPlace
 from glasses.nn.blocks import ConvAct, ConvBnAct
-from glasses.utils.PretrainedWeightsProvider import pretrained
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 from ....models.base import Encoder
 from ..base import ClassificationModule
 

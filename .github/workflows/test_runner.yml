@@ -23,7 +23,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pytest  torch torchvision coverage requests tqdm einops timm pretrainedmodels efficientnet_pytorch torchinfo opencv-python matplotlib numpy rich
+        pip install flake8 pytest  torch torchvision coverage requests tqdm einops timm pretrainedmodels efficientnet_pytorch torchinfo opencv-python matplotlib numpy  huggingface_hub rich
         pip install git+https://github.com/sksq96/pytorch-summary.git
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8

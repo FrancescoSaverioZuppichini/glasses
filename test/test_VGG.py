@@ -1,6 +1,6 @@
 import torch
 from glasses.models.classification import VGG
-from glasses.utils.PretrainedWeightsProvider import PretrainedWeightsProvider
+from glasses.utils.weights.PretrainedWeightsProvider import PretrainedWeightsProvider
 
 
 def test_vgg():
@@ -32,7 +32,6 @@ def test_vgg():
         # pred = model(x)
         # assert pred.shape[-1] == 1000
 
-
         model = VGG().vgg11_bn()
         pred = model(x)
         assert pred.shape[-1] == 1000
@@ -48,7 +47,6 @@ def test_vgg():
         # model = VGG().vgg19_bn()
         # pred = model(x)
         # assert pred.shape[-1] == 1000
-
 
         model = VGG().vgg13_bn()
         pred = model(x)

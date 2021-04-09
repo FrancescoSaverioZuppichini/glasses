@@ -1,10 +1,8 @@
 import torch
 import torch.nn as nn
-from glasses.utils.PretrainedWeightsProvider import (
+from glasses.utils.weights.PretrainedWeightsProvider import (
     PretrainedWeightsProvider,
     Config,
-    GoogleDriveUrlHandler,
-    BasicUrlHandler,
     pretrained,
     load_pretrained_model,
 )
@@ -13,14 +11,7 @@ from pathlib import Path
 import os
 from pytest import raises
 from torchvision.transforms import InterpolationMode
-
-
-PretrainedWeightsProvider.weights_zoo["dummy"] = BasicUrlHandler(
-    "https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/dummy.pth?raw=true"
-)
-PretrainedWeightsProvider.weights_zoo["dummy1"] = BasicUrlHandler(
-    "https://github.com/FrancescoSaverioZuppichini/glasses-weights/blob/main/dummy.pth?raw=true"
-)
+from transfer_weights import HFHubStorage
 
 
 class Dummy(nn.Sequential):
@@ -38,69 +29,58 @@ class Dummy(nn.Sequential):
         return cls()
 
 
-def test_PretrainedWeightsProvider():
-    google_handler = GoogleDriveUrlHandler(
-        "https://docs.google.com/uc?export=download",
-        file_id="19wLg526wenvhJMPSLPYMlnMgCS6n6jVA",
-    )
-    save_path = Path("./test.jpg")
-    google_handler(save_path=Path("./test.jpg"))
-    assert save_path.exists()
+# def test_PretrainedWeightsProvider():
+#     storage = HFHubStorage()
+#     dummy_state = Dummy().state_dict()
+#     dummy_prov_state = provider["dummy"]
 
-    provider = PretrainedWeightsProvider(BASE_DIR=Path("."))
-    with pytest.raises(KeyError):
-        provider["IDontExists"]
+#     for mod, mod_prov in zip(dummy_state.keys(), dummy_prov_state.keys()):
+#         assert str(mod) == str(mod_prov)
 
-    dummy_state = Dummy().state_dict()
-    dummy_prov_state = provider["dummy"]
+#     model = Dummy.dummy(pretrained=True)
+#     assert type(model) is Dummy
 
-    for mod, mod_prov in zip(dummy_state.keys(), dummy_prov_state.keys()):
-        assert str(mod) == str(mod_prov)
+#     model = Dummy.dummy1(pretrained=True)
 
-    model = Dummy.dummy(pretrained=True)
-    assert type(model) is Dummy
+#     assert type(model) is Dummy
 
-    model = Dummy.dummy1(pretrained=True)
+#     cfg = Config(interpolation="bilinear")
 
-    assert type(model) is Dummy
+#     assert cfg.transform.transforms[0].interpolation == InterpolationMode.BILINEAR
 
-    cfg = Config(interpolation="bilinear")
+#     cfg = Config(interpolation="bicubic")
 
-    assert cfg.transform.transforms[0].interpolation == InterpolationMode.BILINEAR
-
-    cfg = Config(interpolation="bicubic")
-
-    assert cfg.transform.transforms[0].interpolation == InterpolationMode.BICUBIC
+#     assert cfg.transform.transforms[0].interpolation == InterpolationMode.BICUBIC
 
 
-def test_pretrained():
-    def get_params():
-        dummy = Dummy()
-        temp = Dummy()
-        nn.init.zeros_(temp[0].weight)
+# def test_pretrained():
+#     def get_params():
+#         dummy = Dummy()
+#         temp = Dummy()
+#         nn.init.zeros_(temp[0].weight)
 
-        state_dict = dummy.state_dict()
-        new_state_dict = temp.state_dict()
+#         state_dict = dummy.state_dict()
+#         new_state_dict = temp.state_dict()
 
-        return dummy, state_dict, new_state_dict
+#         return dummy, state_dict, new_state_dict
 
-    model, state_dict, new_state_dict = get_params()
+#     model, state_dict, new_state_dict = get_params()
 
-    load_pretrained_model(model, new_state_dict, excluding=None)
+#     load_pretrained_model(model, new_state_dict, excluding=None)
 
-    assert torch.equal(model[0].weight, torch.zeros(model[0].weight.shape))
+#     assert torch.equal(model[0].weight, torch.zeros(model[0].weight.shape))
 
-    model, state_dict, new_state_dict = get_params()
+#     model, state_dict, new_state_dict = get_params()
 
-    load_pretrained_model(model, state_dict, excluding=None)
+#     load_pretrained_model(model, state_dict, excluding=None)
 
-    assert not torch.equal(model[0].weight, torch.zeros(model[0].weight.shape))
+#     assert not torch.equal(model[0].weight, torch.zeros(model[0].weight.shape))
 
-    model, state_dict, new_state_dict = get_params()
+#     model, state_dict, new_state_dict = get_params()
 
-    load_pretrained_model(model, new_state_dict, excluding=lambda x: x[0])
+#     load_pretrained_model(model, new_state_dict, excluding=lambda x: x[0])
 
-    assert not torch.equal(model[0].weight, torch.zeros(model[0].weight.shape))
+#     assert not torch.equal(model[0].weight, torch.zeros(model[0].weight.shape))
 
-    with pytest.raises(AttributeError):
-        load_pretrained_model(model, new_state_dict, excluding=lambda x: x.no_exist)
+#     with pytest.raises(AttributeError):
+#         load_pretrained_model(model, new_state_dict, excluding=lambda x: x.no_exist)
