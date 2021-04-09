@@ -176,7 +176,7 @@ class PretrainedWeightsProvider:
             )
             self.save_dir.mkdir(exist_ok=True)
         os.environ["GLASSES_HOME"] = str(self.save_dir)
-
+        # we also need to know which models are pretrained
         with open("pretrained_models.txt", "r") as f:
             data = f.read()
             self.weights_zoo = data.split(",")
