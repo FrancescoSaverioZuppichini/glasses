@@ -134,6 +134,15 @@ class EfficientNetEncoder(Encoder):
         expansions: List[int] = [1, 6, 6, 6, 6, 6, 6],
         kernel_sizes: List[int] = [3, 3, 5, 3, 5, 5, 3],
         se: List[bool] = [True, True, True, True, True, True, True],
+        blocks: List[nn.Module] = [
+            EfficientNetBasicBlock,
+            EfficientNetBasicBlock,
+            EfficientNetBasicBlock,
+            EfficientNetBasicBlock,
+            EfficientNetBasicBlock,
+            EfficientNetBasicBlock,
+            EfficientNetBasicBlock,
+        ],
         drop_rate: float = 0.2,
         stem: nn.Module = EfficientNetStem,
         activation: nn.Module = partial(nn.SiLU, inplace=True),
@@ -170,15 +179,17 @@ class EfficientNetEncoder(Encoder):
                         se=se,
                         drop_rate=drop_rate,
                         activation=activation,
+                        block=block,
                         **kwargs,
                     )
-                    for (in_features, out_features), n, s, t, k, se in zip(
+                    for (in_features, out_features), n, s, t, k, se, block in zip(
                         self.in_out_widths,
                         depths,
                         strides,
                         expansions,
                         kernel_sizes,
                         se,
+                        blocks,
                     )
                 ]
             ]
@@ -224,17 +235,12 @@ class EfficientNetHead(nn.Sequential):
     """
 
     def __init__(self, in_features: int, n_classes: int, drop_rate: float = 0.2):
-        super().__init__()
-        self.avg = nn.AdaptiveAvgPool2d((1, 1))
-        self.drop = nn.Dropout2d(drop_rate)
-        self.fc = nn.Linear(in_features, n_classes)
-
-    def forward(self, x):
-        x = self.avg(x)
-        x = x.view(x.size(0), -1)
-        x = self.drop(x)
-        x = self.fc(x)
-        return x
+        super().__init__(
+            nn.AdaptiveAvgPool2d((1, 1)),
+            nn.Flatten(),
+            nn.Dropout2d(drop_rate),
+            nn.Linear(in_features, n_classes),
+        )
 
 
 class EfficientNet(ClassificationModule):
@@ -311,13 +317,10 @@ class EfficientNet(ClassificationModule):
         self,
         encoder: nn.Module = EfficientNetEncoder,
         head: nn.Module = EfficientNetHead,
-        *args,
+        drop_rate: float = 0.2,
         **kwargs
     ):
-        super().__init__(
-            encoder, partial(head, drop_rate=kwargs["drop_rate"]), *args, **kwargs
-        )
-        self.initialize()
+        super().__init__(encoder, partial(head, drop_rate=drop_rate), **kwargs)
 
     def initialize(self):
         # initialization copied from MobileNetV2
