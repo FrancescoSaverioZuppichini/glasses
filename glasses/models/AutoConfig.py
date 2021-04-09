@@ -1,5 +1,5 @@
 from glasses.models import *
-from glasses.utils.PretrainedWeightsProvider import Config
+from glasses.utils.weights.PretrainedWeightsProvider import Config
 from torch import nn
 
 

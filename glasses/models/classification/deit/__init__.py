@@ -2,9 +2,9 @@ from __future__ import annotations
 import torch
 from torch import nn
 from torch import Tensor
-from glasses.utils.PretrainedWeightsProvider import pretrained
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 from ..vit import ViT, ViTTokens
-from glasses.utils.PretrainedWeightsProvider import pretrained
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 
 
 class DeiTTokens(ViTTokens):

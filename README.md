@@ -12,7 +12,7 @@
 Compact, concise and customizable 
 deep learning computer vision library
 
-**So far I have the [following](#pretrained-models) pretrainde weights. I am working on porting more. They are hosted on GitHub if < 100MB and on AWS (thaks to Francis Ukpeh) if > 100MB.***
+**Models have been stored into the [hugging face hub!](https://huggingface.co/glasses)***
 
 Doc is [here](https://francescosaveriozuppichini.github.io/glasses/index.html)
 

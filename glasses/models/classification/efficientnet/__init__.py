@@ -11,7 +11,7 @@ from glasses.nn.att import ChannelSE
 from ....models.utils.scaler import CompoundScaler
 from ....models.base import Encoder
 from ..resnet import ResNetLayer
-from glasses.utils.PretrainedWeightsProvider import pretrained
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 from ..base import ClassificationModule
 from glasses.nn import StochasticDepth
 

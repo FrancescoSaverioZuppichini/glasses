@@ -3,7 +3,7 @@ import numpy as np
 from torch import nn
 from glasses.nn.blocks import ConvBnAct
 from functools import partial
-from glasses.utils.PretrainedWeightsProvider import pretrained
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 from ....models.base import Encoder
 from ..resnet import ResNet, ResNetEncoder, ResNetBottleneckBlock
 from glasses.nn.att import ChannelSE

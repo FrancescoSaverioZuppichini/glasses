@@ -2,7 +2,7 @@ from __future__ import annotations
 from torch import nn
 from ..resnet import ResNetBasicBlock, ResNetBottleneckBlock, ResNet
 from glasses.nn.att import SpatialSE, ChannelSE, WithAtt
-from glasses.utils.PretrainedWeightsProvider import pretrained
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 
 SENetBasicBlock = WithAtt(ResNetBasicBlock, att=SpatialSE)
 SENetBottleneckBlock = WithAtt(ResNetBottleneckBlock, att=SpatialSE)

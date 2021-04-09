@@ -4,7 +4,7 @@ from typing import Dict
 
 import torch
 import torch.nn as nn
-from glasses.utils.PretrainedWeightsProvider import Config
+from glasses.utils.weights.PretrainedWeightsProvider import Config
 from glasses.utils.Storage import ForwardModuleStorage
 from torchinfo import summary
 
