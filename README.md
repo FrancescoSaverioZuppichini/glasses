@@ -12,7 +12,7 @@
 Compact, concise and customizable 
 deep learning computer vision library
 
-**So far I have the [following](#pretrained-models) pretrainde weights. I am working on porting more. They are hosted on GitHub if < 100MB and on AWS (thaks to Francis Ukpeh) if > 100MB.***
+**Models have been stored into the [hugging face hub!](https://huggingface.co/glasses)***
 
 Doc is [here](https://francescosaveriozuppichini.github.io/glasses/index.html)
 
@@ -78,7 +78,7 @@ from torch import nn
 # load one model
 model = AutoModel.from_pretrained('resnet18')
 cfg = AutoConfig.from_name('resnet18')
-model.summary(device='cpu' ) # thanks to torchsummary
+model.summary(device='cpu' ) # thanks to torchinfo
 AutoModel.models_table() 
 ```
 

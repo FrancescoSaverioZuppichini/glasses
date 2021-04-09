@@ -3,7 +3,7 @@ tqdm==4.46.0
 torchvision
 torch
 requests==2.23.0
-torchsummary
+torchinfo
 opencv-python
 matplotlib
 einops

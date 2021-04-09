@@ -5,7 +5,7 @@ from glasses.nn.blocks import Conv2dPad, BnActConv, ConvBnAct
 from collections import OrderedDict
 from typing import List
 from functools import partial
-from glasses.utils.PretrainedWeightsProvider import pretrained
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 from ....models.base import Encoder
 from ..base import ClassificationModule
 
@@ -27,9 +27,11 @@ class ResNetShorcut(nn.Sequential):
 
     def __init__(self, in_features: int, out_features: int, stride: int = 2):
         super().__init__()
-        self.conv = Conv2dPad(in_features, out_features,
-                              kernel_size=1, stride=stride, bias=False)
+        self.conv = Conv2dPad(
+            in_features, out_features, kernel_size=1, stride=stride, bias=False
+        )
         self.bn = nn.BatchNorm2d(out_features)
+
 
 class ResNetShorcutD(nn.Sequential):
     """Shorcut function proposed in `Bag of Tricks for Image Classification with Convolutional Neural Networks <https://arxiv.org/pdf/1812.01187.pdf>`_
@@ -42,12 +44,17 @@ class ResNetShorcutD(nn.Sequential):
     """
 
     def __init__(self, in_features: int, out_features: int, stride: int = 2):
-        super().__init__(OrderedDict({
-            'pool': nn.AvgPool2d((2, 2)) if stride == 2 else nn.Identity(),
-            'conv': Conv2dPad(in_features, out_features,
-                              kernel_size=1,  bias=False),
-            'bn': nn.BatchNorm2d(out_features)
-        }))
+        super().__init__(
+            OrderedDict(
+                {
+                    "pool": nn.AvgPool2d((2, 2)) if stride == 2 else nn.Identity(),
+                    "conv": Conv2dPad(
+                        in_features, out_features, kernel_size=1, bias=False
+                    ),
+                    "bn": nn.BatchNorm2d(out_features),
+                }
+            )
+        )
 
 
 class ResNetBasicBlock(nn.Module):
@@ -69,24 +76,43 @@ class ResNetBasicBlock(nn.Module):
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
     """
 
-    def __init__(self, in_features: int, out_features: int,
-                 activation: nn.Module = ReLUInPlace,
-                 stride: int = 1, shortcut: nn.Module = ResNetShorcut, **kwargs):
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        activation: nn.Module = ReLUInPlace,
+        stride: int = 1,
+        shortcut: nn.Module = ResNetShorcut,
+        **kwargs
+    ):
         super().__init__()
         self.should_apply_shortcut = in_features != out_features or stride != 1
 
         self.block = nn.Sequential(
             OrderedDict(
                 {
-                    'conv1': Conv2dPad(in_features, out_features, kernel_size=3, stride=stride, bias=False,  **kwargs),
-                    'bn1': nn.BatchNorm2d(out_features),
-                    'act1': activation(),
-                    'conv2': Conv2dPad(out_features, out_features, kernel_size=3, bias=False),
-                    'bn2': nn.BatchNorm2d(out_features),
+                    "conv1": Conv2dPad(
+                        in_features,
+                        out_features,
+                        kernel_size=3,
+                        stride=stride,
+                        bias=False,
+                        **kwargs
+                    ),
+                    "bn1": nn.BatchNorm2d(out_features),
+                    "act1": activation(),
+                    "conv2": Conv2dPad(
+                        out_features, out_features, kernel_size=3, bias=False
+                    ),
+                    "bn2": nn.BatchNorm2d(out_features),
                 }
-            ))
-        self.shortcut = shortcut(
-            in_features, out_features, stride=stride) if self.should_apply_shortcut else nn.Identity()
+            )
+        )
+        self.shortcut = (
+            shortcut(in_features, out_features, stride=stride)
+            if self.should_apply_shortcut
+            else nn.Identity()
+        )
 
         self.act = activation()
 
@@ -119,17 +145,33 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
         reduction (int, optional): [description]. Defaults to 4.
     """
 
-    def __init__(self, in_features: int, out_features: int, features: int = None, activation: nn.Module = ReLUInPlace, reduction: int = 4, stride=1, shortcut=ResNetShorcut, **kwargs):
-        super().__init__(in_features, out_features, activation, stride, shortcut=shortcut)
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        features: int = None,
+        activation: nn.Module = ReLUInPlace,
+        reduction: int = 4,
+        stride=1,
+        shortcut=ResNetShorcut,
+        **kwargs
+    ):
+        super().__init__(
+            in_features, out_features, activation, stride, shortcut=shortcut
+        )
         print
         self.features = out_features // reduction if features is None else features
         self.block = nn.Sequential(
-            ConvBnAct(in_features, self.features,
-                      activation=activation, kernel_size=1),
-            ConvBnAct(self.features, self.features, activation=activation,
-                      kernel_size=3, stride=stride, **kwargs),
-            ConvBnAct(self.features, out_features,
-                      activation=None, kernel_size=1),
+            ConvBnAct(in_features, self.features, activation=activation, kernel_size=1),
+            ConvBnAct(
+                self.features,
+                self.features,
+                activation=activation,
+                kernel_size=3,
+                stride=stride,
+                **kwargs
+            ),
+            ConvBnAct(self.features, out_features, activation=None, kernel_size=1),
         )
 
 
@@ -142,20 +184,44 @@ class ResNetBasicPreActBlock(ResNetBasicBlock):
         out_features (int): Number of ouimport inspect
     """
 
-    def __init__(self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace, stride: int = 1, shortcut: nn.Module = ResNetShorcut, **kwargs):
-        super().__init__(in_features, out_features, activation,
-                         stride=stride, shortcut=shortcut, **kwargs)
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        activation: nn.Module = ReLUInPlace,
+        stride: int = 1,
+        shortcut: nn.Module = ResNetShorcut,
+        **kwargs
+    ):
+        super().__init__(
+            in_features,
+            out_features,
+            activation,
+            stride=stride,
+            shortcut=shortcut,
+            **kwargs
+        )
         self.block = nn.Sequential(
             OrderedDict(
                 {
-                    'bn1': nn.BatchNorm2d(in_features),
-                    'act1': activation(),
-                    'conv1': Conv2dPad(in_features, out_features, kernel_size=3, bias=False, stride=stride, **kwargs),
-                    'bn2': nn.BatchNorm2d(out_features),
-                    'act2': activation(),
-                    'conv2': Conv2dPad(out_features, out_features, kernel_size=3, bias=False),
+                    "bn1": nn.BatchNorm2d(in_features),
+                    "act1": activation(),
+                    "conv1": Conv2dPad(
+                        in_features,
+                        out_features,
+                        kernel_size=3,
+                        bias=False,
+                        stride=stride,
+                        **kwargs
+                    ),
+                    "bn2": nn.BatchNorm2d(out_features),
+                    "act2": activation(),
+                    "conv2": Conv2dPad(
+                        out_features, out_features, kernel_size=3, bias=False
+                    ),
                 }
-            ))
+            )
+        )
 
         self.act = nn.Identity()
 
@@ -173,45 +239,88 @@ class ResNetBottleneckPreActBlock(ResNetBottleneckBlock):
         conv (nn.Module, optional): [description]. Defaults to nn.Conv2d.
     """
 
-    def __init__(self, in_features: int, out_features: int,  features: int = None, activation: nn.Module = ReLUInPlace, reduction: int = 4, stride=1, shortcut=ResNetShorcut, **kwargs):
-        super().__init__(in_features, out_features, features,
-                         activation, stride=stride, shortcut=shortcut, **kwargs)
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        features: int = None,
+        activation: nn.Module = ReLUInPlace,
+        reduction: int = 4,
+        stride=1,
+        shortcut=ResNetShorcut,
+        **kwargs
+    ):
+        super().__init__(
+            in_features,
+            out_features,
+            features,
+            activation,
+            stride=stride,
+            shortcut=shortcut,
+            **kwargs
+        )
         # TODO I am not sure it is correct
         features = out_features // reduction
         self.block = nn.Sequential(
-            BnActConv(in_features, self.features, activation=activation,
-                      kernel_size=1, bias=False),
-            BnActConv(self.features, self.features, activation=activation, bias=False,
-                      kernel_size=3, stride=stride, **kwargs),
-            BnActConv(self.features, out_features,
-                      activation=activation, bias=False, kernel_size=1)
+            BnActConv(
+                in_features,
+                self.features,
+                activation=activation,
+                kernel_size=1,
+                bias=False,
+            ),
+            BnActConv(
+                self.features,
+                self.features,
+                activation=activation,
+                bias=False,
+                kernel_size=3,
+                stride=stride,
+                **kwargs
+            ),
+            BnActConv(
+                self.features,
+                out_features,
+                activation=activation,
+                bias=False,
+                kernel_size=1,
+            ),
         )
 
         self.act = nn.Identity()
 
 
-class ResNetLayer(nn.Module):
-    def __init__(self, in_features: int, out_features: int, block: nn.Module = ResNetBasicBlock, depth: int = 1, stride: int = 2, *args, **kwargs):
-        super().__init__()
-        # 'We perform stride directly by convolutional layers that have a stride of 2.'
-        self.block = nn.Sequential(
-            block(in_features, out_features,
-                  stride=stride,  **kwargs),
-            *[block(out_features,
-                    out_features, **kwargs) for _ in range(depth - 1)]
+class ResNetLayer(nn.Sequential):
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        block: nn.Module = ResNetBasicBlock,
+        depth: int = 1,
+        stride: int = 2,
+        *args,
+        **kwargs
+    ):
+        super().__init__(
+            # 'We perform stride directly by convolutional layers that have a stride of 2.'
+            block(in_features, out_features, stride=stride, **kwargs),
+            *[block(out_features, out_features, **kwargs) for _ in range(depth - 1)]
         )
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.block(x)
-        return x
 
 
 class ResNetStem(nn.Sequential):
-    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace):
+    def __init__(
+        self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace
+    ):
         super().__init__(
-            ConvBnAct(in_features, out_features,
-                      activation=activation, kernel_size=7, stride=2),
-            nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
+            ConvBnAct(
+                in_features,
+                out_features,
+                activation=activation,
+                kernel_size=7,
+                stride=2,
+            ),
+            nn.MaxPool2d(kernel_size=3, stride=2, padding=1),
         )
 
 
@@ -223,15 +332,27 @@ class ResNetStemC(nn.Sequential):
     times more expensive than a 3 × 3 convolution. So this tweak replacing the 7 × 7 convolution in the input stem with three conservative 3 × 3 convolution
     """
 
-    def __init__(self, in_features: int, out_features: int,  activation: nn.Module = ReLUInPlace):
+    def __init__(
+        self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace
+    ):
         super().__init__(
-            ConvBnAct(in_features, out_features // 2,
-                      activation=activation, kernel_size=3, stride=2),
-            ConvBnAct(out_features // 2, out_features // 2,
-                      activation=activation, kernel_size=3),
-            ConvBnAct(out_features // 2,
-                      out_features, activation=activation, kernel_size=3),
-            nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
+            ConvBnAct(
+                in_features,
+                out_features // 2,
+                activation=activation,
+                kernel_size=3,
+                stride=2,
+            ),
+            ConvBnAct(
+                out_features // 2,
+                out_features // 2,
+                activation=activation,
+                kernel_size=3,
+            ),
+            ConvBnAct(
+                out_features // 2, out_features, activation=activation, kernel_size=3
+            ),
+            nn.MaxPool2d(kernel_size=3, stride=2, padding=1),
         )
 
 
@@ -249,8 +370,18 @@ class ResNetEncoder(Encoder):
         stem (nn.Module, optional): Stem used. Defaults to ResNetStem.
     """
 
-    def __init__(self, in_channels: int = 3, start_features: int = 64,  widths: List[int] = [64, 128, 256, 512], depths: List[int] = [2, 2, 2, 2],
-                 activation: nn.Module = ReLUInPlace, block: nn.Module = ResNetBasicBlock, stem: nn.Module = ResNetStem, downsample_first: bool = False, **kwargs):
+    def __init__(
+        self,
+        in_channels: int = 3,
+        start_features: int = 64,
+        widths: List[int] = [64, 128, 256, 512],
+        depths: List[int] = [2, 2, 2, 2],
+        activation: nn.Module = ReLUInPlace,
+        block: nn.Module = ResNetBasicBlock,
+        stem: nn.Module = ResNetStem,
+        downsample_first: bool = False,
+        **kwargs
+    ):
 
         super().__init__()
         self.widths = widths
@@ -258,25 +389,42 @@ class ResNetEncoder(Encoder):
         self.in_out_widths = list(zip(widths, widths[1:]))
         self.stem = stem(in_channels, start_features, activation)
 
-        self.layers = nn.ModuleList([
-            ResNetLayer(start_features, widths[0], depth=depths[0], activation=activation,
-                        block=block, stride=2 if downsample_first else 1, **kwargs),
-            *[ResNetLayer(in_features,
-                          out_features, depth=n, activation=activation,
-                          block=block,  **kwargs)
-              for (in_features, out_features), n in zip(self.in_out_widths, depths[1:])]
-        ])
+        self.layers = nn.ModuleList(
+            [
+                ResNetLayer(
+                    start_features,
+                    widths[0],
+                    depth=depths[0],
+                    activation=activation,
+                    block=block,
+                    stride=2 if downsample_first else 1,
+                    **kwargs
+                ),
+                *[
+                    ResNetLayer(
+                        in_features,
+                        out_features,
+                        depth=n,
+                        activation=activation,
+                        block=block,
+                        **kwargs
+                    )
+                    for (in_features, out_features), n in zip(
+                        self.in_out_widths, depths[1:]
+                    )
+                ],
+            ]
+        )
 
     def forward(self, x):
         x = self.stem(x)
-        for block in self.layers:
-            x = block(x)
+        for layer in self.layers:
+            x = layer(x)
         return x
 
     @property
     def stages(self):
-        return [self.stem[-2],
-                *self.layers[:-1]]
+        return [self.stem[-2], *self.layers[:-1]]
 
     @property
     def features_widths(self):
@@ -348,22 +496,22 @@ class ResNet(ClassificationModule):
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
 
-    def __init__(self, encoder: nn.Module = ResNetEncoder, head:  nn.Module = ResNetHead, *args, **kwargs):
-        super().__init__(encoder, head, *args, **kwargs)
-        self.initialize()
+    def __init__(
+        self, encoder: nn.Module = ResNetEncoder, head: nn.Module = ResNetHead, **kwargs
+    ):
+        super().__init__(encoder, head, **kwargs)
 
     def initialize(self):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(
-                    m.weight, mode='fan_out', nonlinearity='relu')
+                nn.init.kaiming_normal_(m.weight, mode="fan_out", nonlinearity="relu")
             elif isinstance(m, (nn.BatchNorm2d, nn.GroupNorm)):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
 
     @classmethod
     @pretrained()
-    def resnet18(cls, *args,  block=ResNetBasicBlock, **kwargs) -> ResNet:
+    def resnet18(cls, *args, block=ResNetBasicBlock, **kwargs) -> ResNet:
         """Creates a resnet18 model
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet18.png?raw=true
@@ -377,33 +525,44 @@ class ResNet(ClassificationModule):
 
     @classmethod
     @pretrained()
-    def resnet26(cls, *args,  block=ResNetBottleneckBlock, **kwargs) -> ResNet:
+    def resnet26(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
         """Creates a resnet26 model
 
         Returns:
             ResNet: A resnet26 model
         """
-        model = cls(*args, **kwargs, block=block,
-                    widths=[256, 512, 1024, 2048], depths=[2, 2, 2, 2])
+        model = cls(
+            *args,
+            **kwargs,
+            block=block,
+            widths=[256, 512, 1024, 2048],
+            depths=[2, 2, 2, 2]
+        )
 
         return model
 
     @classmethod
     @pretrained()
-    def resnet26d(cls, *args,  block=ResNetBottleneckBlock, **kwargs) -> ResNet:
+    def resnet26d(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
         """Creates a resnet26d model
 
         Returns:
             ResNet: A resnet26d model
         """
-        model = cls(*args, **kwargs, stem=ResNetStemC, block=partial(block, shortcut=ResNetShorcutD),
-                    widths=[256, 512, 1024, 2048], depths=[2, 2, 2, 2])
+        model = cls(
+            *args,
+            **kwargs,
+            stem=ResNetStemC,
+            block=partial(block, shortcut=ResNetShorcutD),
+            widths=[256, 512, 1024, 2048],
+            depths=[2, 2, 2, 2]
+        )
 
         return model
 
     @classmethod
     @pretrained()
-    def resnet34(cls, *args,  block=ResNetBasicBlock, **kwargs) -> ResNet:
+    def resnet34(cls, *args, block=ResNetBasicBlock, **kwargs) -> ResNet:
         """Creates a resnet34 model
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet34.png?raw=true
@@ -415,7 +574,7 @@ class ResNet(ClassificationModule):
 
     @classmethod
     @pretrained()
-    def resnet34d(cls, *args,  block=ResNetBasicBlock, **kwargs) -> ResNet:
+    def resnet34d(cls, *args, block=ResNetBasicBlock, **kwargs) -> ResNet:
         """Creates a resnet34 model
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNet34.png?raw=true
@@ -423,8 +582,13 @@ class ResNet(ClassificationModule):
         Returns:
             ResNet: A resnet34 model
         """
-        model = cls(*args, **kwargs, stem=ResNetStemC, block=partial(block, shortcut=ResNetShorcutD),
-                    depths=[3, 4, 6, 3])
+        model = cls(
+            *args,
+            **kwargs,
+            stem=ResNetStemC,
+            block=partial(block, shortcut=ResNetShorcutD),
+            depths=[3, 4, 6, 3]
+        )
         return model
 
     @classmethod
@@ -437,7 +601,13 @@ class ResNet(ClassificationModule):
         Returns:
             ResNet: A resnet50 model
         """
-        return cls(*args, **kwargs, block=block, widths=[256, 512, 1024, 2048], depths=[3, 4, 6, 3])
+        return cls(
+            *args,
+            **kwargs,
+            block=block,
+            widths=[256, 512, 1024, 2048],
+            depths=[3, 4, 6, 3]
+        )
 
     @classmethod
     @pretrained()
@@ -449,7 +619,14 @@ class ResNet(ClassificationModule):
         Returns:
             ResNet: A resnet50d model
         """
-        return cls(*args, **kwargs,  stem=ResNetStemC, block=partial(block, shortcut=ResNetShorcutD), widths=[256, 512, 1024, 2048], depths=[3, 4, 6, 3])
+        return cls(
+            *args,
+            **kwargs,
+            stem=ResNetStemC,
+            block=partial(block, shortcut=ResNetShorcutD),
+            widths=[256, 512, 1024, 2048],
+            depths=[3, 4, 6, 3]
+        )
 
     @classmethod
     @pretrained()
@@ -461,7 +638,13 @@ class ResNet(ClassificationModule):
         Returns:
             ResNet: A resnet101 model
         """
-        return cls(*args, **kwargs, block=block,  widths=[256, 512, 1024, 2048], depths=[3, 4, 23, 3])
+        return cls(
+            *args,
+            **kwargs,
+            block=block,
+            widths=[256, 512, 1024, 2048],
+            depths=[3, 4, 23, 3]
+        )
 
     @classmethod
     @pretrained()
@@ -473,7 +656,13 @@ class ResNet(ClassificationModule):
         Returns:
             ResNet: A resnet152 model
         """
-        return cls(*args, **kwargs, block=block,  widths=[256, 512, 1024, 2048], depths=[3, 8, 36, 3])
+        return cls(
+            *args,
+            **kwargs,
+            block=block,
+            widths=[256, 512, 1024, 2048],
+            depths=[3, 8, 36, 3]
+        )
 
     @classmethod
     def resnet200(cls, *args, block=ResNetBottleneckBlock, **kwargs):
@@ -482,4 +671,10 @@ class ResNet(ClassificationModule):
         Returns:
             ResNet: A resnet200 model
         """
-        return cls(*args, **kwargs, block=block,  widths=[256, 512, 1024, 2048], depths=[3, 24, 36, 3])
+        return cls(
+            *args,
+            **kwargs,
+            block=block,
+            widths=[256, 512, 1024, 2048],
+            depths=[3, 24, 36, 3]
+        )

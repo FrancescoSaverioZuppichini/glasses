@@ -5,8 +5,8 @@ from typing import List
 from functools import partial
 from ..resnet import ReLUInPlace
 from glasses.nn.blocks import ConvAct, ConvBnAct
-from glasses.utils.PretrainedWeightsProvider import  pretrained
-from ....models.base import  Encoder
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
+from ....models.base import Encoder
 from ..base import ClassificationModule
 
 """Implementations of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition <https://arxiv.org/pdf/1409.1556.pdf>`_
@@ -15,8 +15,8 @@ from ..base import ClassificationModule
 VGGBasicBlock = partial(ConvAct, kernel_size=3, bias=True)
 
 
-class VGGLayer(nn.Module):
-    """ This class implements a VGG layer, which is composed by a number of blocks (default is VGGBasicBlock, which is a simple 
+class VGGLayer(nn.Sequential):
+    """This class implements a VGG layer, which is composed by a number of blocks (default is VGGBasicBlock, which is a simple
     convolution-activation transformation) eventually followed by maxpooling.
 
     Args:
@@ -27,19 +27,20 @@ class VGGLayer(nn.Module):
         maxpool (nn.Module, optional): [description]. Defaults to nn.MaxPool2d.
     """
 
-    def __init__(self, in_features: int, out_features: int, block: nn.Module = VGGBasicBlock, n: int = 1, maxpool: nn.Module = nn.MaxPool2d, *args, **kwargs):
-        super().__init__()
-        self.block = nn.Sequential(
-            block(in_features, out_features, *args, **kwargs),
-            *[block(out_features,
-                    out_features, *args, **kwargs) for _ in range(n - 1)]
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        block: nn.Module = VGGBasicBlock,
+        pool: nn.Module = nn.MaxPool2d,
+        depth: int = 1,
+        **kwargs
+    ):
+        super().__init__(
+            block(in_features, out_features, **kwargs),
+            *[block(out_features, out_features, **kwargs) for _ in range(depth - 1)],
+            pool(kernel_size=2, stride=2),
         )
-
-        self.block.add_module('maxpool', maxpool(kernel_size=2, stride=2))
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.block(x)
-        return x
 
 
 class VGGEncoder(Encoder):
@@ -53,27 +54,55 @@ class VGGEncoder(Encoder):
         block (nn.Module, optional): [description]. Defaults to VGGBasicBlock.
     """
 
-    def __init__(self, in_channels: int = 3, widths: List[int] = [64, 128, 256, 512, 512], depths: List[int] = [1, 1, 2, 2, 2],
-                 activation: nn.Module = ReLUInPlace, block: nn.Module = VGGBasicBlock, *args, **kwargs):
+    def __init__(
+        self,
+        in_channels: int = 3,
+        widths: List[int] = [64, 128, 256, 512, 512],
+        depths: List[int] = [1, 1, 2, 2, 2],
+        activation: nn.Module = ReLUInPlace,
+        block: nn.Module = VGGBasicBlock,
+        *args,
+        **kwargs
+    ):
 
         super().__init__()
 
         self.widths = widths
         self.out_features = widths[-1]
-        self.in_out_block_sizes = list(
-            zip(widths[:-1], widths[1:]))
+        self.in_out_widths = list(zip(widths[:-1], widths[1:]))
 
         self.stem = nn.Identity()
-        self.layers = nn.ModuleList([
-            VGGLayer(in_channels, widths[0], activation=activation,
-                     block=block, n=depths[0], *args, **kwargs),
-            *[VGGLayer(in_channels, out_channels, activation=activation, block=block, n=n, *args, **kwargs)
-              for (in_channels, out_channels), n in zip(self.in_out_block_sizes, depths[1:])]
-        ])
+        self.layers = nn.ModuleList(
+            [
+                VGGLayer(
+                    in_channels,
+                    widths[0],
+                    activation=activation,
+                    block=block,
+                    depth=depths[0],
+                    *args,
+                    **kwargs,
+                ),
+                *[
+                    VGGLayer(
+                        in_channels,
+                        out_channels,
+                        activation=activation,
+                        block=block,
+                        depth=depth,
+                        *args,
+                        **kwargs,
+                    )
+                    for (in_channels, out_channels), depth in zip(
+                        self.in_out_widths, depths[1:]
+                    )
+                ],
+            ]
+        )
 
     def forward(self, x: Tensor) -> Tensor:
-        for block in self.layers:
-            x = block(x)
+        for layer in self.layers:
+            x = layer(x)
         return x
 
 
@@ -96,7 +125,7 @@ class VGGHead(nn.Sequential):
             nn.Linear(4096, 4096),
             nn.ReLU(True),
             nn.Dropout(),
-            nn.Linear(4096, n_classes)
+            nn.Linear(4096, n_classes),
         )
 
 
@@ -115,7 +144,7 @@ class VGG(ClassificationModule):
         >>> VGG.vgg16_bn()
         >>> VGG.vgg19_bn()
 
-    Please be aware that the `bn` models uses BatchNorm but they are very old and people back then don't know the bias is superfluous 
+    Please be aware that the `bn` models uses BatchNorm but they are very old and people back then don't know the bias is superfluous
     in a conv followed by a batchnorm.
 
     Customization
@@ -145,10 +174,10 @@ class VGG(ClassificationModule):
         n_classes (int, optional): Number of classes. Defaults to 1000.
     """
 
-    def __init__(self, encoder: nn.Module = VGGEncoder, head:  nn.Module = VGGHead, *args, **kwargs):
-        super().__init__(encoder, head, *args, **kwargs)
-        self.initialize()
-
+    def __init__(
+        self, encoder: nn.Module = VGGEncoder, head: nn.Module = VGGHead, **kwargs
+    ):
+        super().__init__(encoder, head, **kwargs)
 
     def initialize(self):
         for m in self.modules():
@@ -222,7 +251,7 @@ class VGG(ClassificationModule):
         Returns:
             VGG: A vgg13 model
         """
-        return VGG(*args, block=ConvBnAct,  kernel_size=3, bias=True, **kwargs)
+        return VGG(*args, block=ConvBnAct, kernel_size=3, bias=True, **kwargs)
 
     @classmethod
     @pretrained()
@@ -234,7 +263,14 @@ class VGG(ClassificationModule):
         Returns:
             VGG: A vgg13 model
         """
-        return VGG(*args, block=ConvBnAct, depths=[2, 2, 2, 2, 2], kernel_size=3, bias=True, **kwargs)
+        return VGG(
+            *args,
+            block=ConvBnAct,
+            depths=[2, 2, 2, 2, 2],
+            kernel_size=3,
+            bias=True,
+            **kwargs,
+        )
 
     @classmethod
     @pretrained()
@@ -246,7 +282,14 @@ class VGG(ClassificationModule):
         Returns:
             VGG: A vgg16 model
         """
-        return VGG(*args, block=ConvBnAct, depths=[2, 2, 3, 3, 3], kernel_size=3, bias=True, **kwargs)
+        return VGG(
+            *args,
+            block=ConvBnAct,
+            depths=[2, 2, 3, 3, 3],
+            kernel_size=3,
+            bias=True,
+            **kwargs,
+        )
 
     @classmethod
     @pretrained()
@@ -258,4 +301,11 @@ class VGG(ClassificationModule):
         Returns:
             VGG: A vgg19 model
         """
-        return VGG(*args,  block=ConvBnAct, depths=[2, 2, 4, 4, 4], kernel_size=3, bias=True, **kwargs)
+        return VGG(
+            *args,
+            block=ConvBnAct,
+            depths=[2, 2, 4, 4, 4],
+            kernel_size=3,
+            bias=True,
+            **kwargs,
+        )

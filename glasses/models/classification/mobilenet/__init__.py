@@ -1,8 +1,7 @@
 from __future__ import annotations
 from torch import nn
 from ..efficientnet import EfficientNet
-from glasses.utils.PretrainedWeightsProvider import pretrained
-
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 
 
 class MobileNet(EfficientNet):
@@ -11,7 +10,7 @@ class MobileNet(EfficientNet):
     MobileNet is a special case of EfficientNet.
 
     Examples:
-    
+
         Default model
 
         >>> MobileNet.mobilenet_v2()
@@ -23,11 +22,15 @@ class MobileNet(EfficientNet):
 
     @classmethod
     def mobilenet_v2(cls, *args, **kwargs) -> EfficientNet:
-        return cls(depths=[1, 2, 3, 4, 3, 3, 1],
-                   widths=[32, 16, 24, 32, 64, 96, 160, 320, 1280],
-                   strides=[2, 1, 2, 2, 2, 1, 2, 1],
-                   expansions=[1, 6, 6, 6, 6, 6, 6],
-                   kernel_sizes=[3, 3, 3, 3, 3, 3, 3],
-                   se=[False, False, False, False, False, False, False],
-                   drop_rate=0,
-                   activation=nn.ReLU6,  *args, **kwargs)
+        return cls(
+            depths=[1, 2, 3, 4, 3, 3, 1],
+            widths=[32, 16, 24, 32, 64, 96, 160, 320, 1280],
+            strides=[2, 1, 2, 2, 2, 1, 2, 1],
+            expansions=[1, 6, 6, 6, 6, 6, 6],
+            kernel_sizes=[3, 3, 3, 3, 3, 3, 3],
+            se=[False, False, False, False, False, False, False],
+            drop_rate=0,
+            activation=nn.ReLU6,
+            *args,
+            **kwargs
+        )

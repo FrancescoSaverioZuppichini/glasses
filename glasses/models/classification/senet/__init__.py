@@ -2,7 +2,7 @@ from __future__ import annotations
 from torch import nn
 from ..resnet import ResNetBasicBlock, ResNetBottleneckBlock, ResNet
 from glasses.nn.att import SpatialSE, ChannelSE, WithAtt
-from glasses.utils.PretrainedWeightsProvider import pretrained
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 
 SENetBasicBlock = WithAtt(ResNetBasicBlock, att=SpatialSE)
 SENetBottleneckBlock = WithAtt(ResNetBottleneckBlock, att=SpatialSE)
@@ -12,10 +12,10 @@ CSENetBottleneckBlock = WithAtt(ResNetBottleneckBlock, att=ChannelSE)
 
 
 class SEResNet(ResNet):
-    """Implementation of Squeeze and Excitation ResNet using booth the original spatial se 
-    and the channel se proposed in  
+    """Implementation of Squeeze and Excitation ResNet using booth the original spatial se
+    and the channel se proposed in
     `Concurrent Spatial and Channel ‘Squeeze & Excitation’ in Fully Convolutional Networks <https://arxiv.org/abs/1803.02579>`_
-    The models with the channel se are labelab with prefix `c` 
+    The models with the channel se are labelab with prefix `c`
     """
 
     @classmethod

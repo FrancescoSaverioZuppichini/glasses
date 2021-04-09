@@ -5,8 +5,8 @@ from collections import OrderedDict
 from typing import List
 from ..resnet import ReLUInPlace
 from glasses.nn.blocks import ConvAct
-from ....models.base import VisionModule, Encoder
-
+from ....models.base import Encoder
+from ..base import ClassificationModule
 
 AlexNetBasicBlock = ConvAct
 
@@ -20,12 +20,24 @@ class AlexNetStem(nn.Sequential):
         super().__init__(
             OrderedDict(
                 {
-                    'conv1': nn.Conv2d(in_channels, 64, kernel_size=(11, 11), stride=(4, 4), padding=(2, 2)),
-                    'act1': ReLUInPlace(),
-                    'pool1': nn.MaxPool2d(kernel_size=3, stride=2, padding=0),
-                    'conv2': nn.Conv2d(64, out_features, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2)),
-                    'act2': ReLUInPlace(),
-                    'pool2': nn.MaxPool2d(kernel_size=3, stride=2, padding=0),
+                    "conv1": nn.Conv2d(
+                        in_channels,
+                        64,
+                        kernel_size=(11, 11),
+                        stride=(4, 4),
+                        padding=(2, 2),
+                    ),
+                    "act1": ReLUInPlace(),
+                    "pool1": nn.MaxPool2d(kernel_size=3, stride=2, padding=0),
+                    "conv2": nn.Conv2d(
+                        64,
+                        out_features,
+                        kernel_size=(5, 5),
+                        stride=(1, 1),
+                        padding=(2, 2),
+                    ),
+                    "act2": ReLUInPlace(),
+                    "pool2": nn.MaxPool2d(kernel_size=3, stride=2, padding=0),
                 }
             )
         )
@@ -36,23 +48,34 @@ class AlexNetEncoder(Encoder):
     AlexNet encoder
     """
 
-    def __init__(self, in_channels: int = 3, stem: nn.Module = AlexNetStem,  widths: List[int] = [192, 384, 256, 256],
-                 activation: nn.Module = ReLUInPlace, block: nn.Module = AlexNetBasicBlock):
+    def __init__(
+        self,
+        in_channels: int = 3,
+        stem: nn.Module = AlexNetStem,
+        widths: List[int] = [192, 384, 256, 256],
+        activation: nn.Module = ReLUInPlace,
+        block: nn.Module = AlexNetBasicBlock,
+    ):
         super().__init__()
 
         self.widths = widths
 
         self.stem = stem(in_channels, widths[0])
 
-        self.in_out_block_sizes = list(zip(widths[:-1], widths[1:]))
-        self.layers = nn.ModuleList([
-            block(widths[0],
-                  widths[0], activation=activation, kernel_size=3),
-            *[block(in_channels, out_channels, activation=activation, kernel_size=3)
-              for (in_channels, out_channels) in self.in_out_block_sizes]
-        ])
+        self.in_out_widths = list(zip(widths[:-1], widths[1:]))
+        self.layers = nn.ModuleList(
+            [
+                block(widths[0], widths[0], activation=activation, kernel_size=3),
+                *[
+                    block(
+                        in_channels, out_channels, activation=activation, kernel_size=3
+                    )
+                    for (in_channels, out_channels) in self.in_out_widths
+                ],
+            ]
+        )
 
-        self.pool = nn.MaxPool2d(kernel_size=3, stride=2, padding=0)
+        self.pool = nn.MaxPool2d(kernel_size=3, stride=2)
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.stem(x)
@@ -67,24 +90,27 @@ class AlexNetHead(nn.Sequential):
     This class represents the classifier of AlexNet. It converts the filters into 6x6 by means of the average pooling. Then, it maps the output to the
     correct class by means of fully connected layers. Dropout is used to decrease the overfitting.
     """
-    filter_size: int = 6
 
-    def __init__(self, in_features: int, n_classes: int):
-        super().__init__(OrderedDict({
-            'pool': nn.AdaptiveAvgPool2d((self.filter_size, self.filter_size)),
-            'flat': nn.Flatten(),
-            'drop1': nn.Dropout(p=0.5),
-            'fc1': nn.Linear(self.filter_size * self.filter_size * in_features, 4096),
-            'act1': ReLUInPlace(),
-            'drop2': nn.Dropout(p=0.5),
-            'fc2': nn.Linear(4096, 4096),
-            'act2': ReLUInPlace(),
-            'fc3': nn.Linear(4096, n_classes)
-        }))
+    def __init__(self, in_features: int, n_classes: int, drop_p: float = 0.5):
+        super().__init__(
+            OrderedDict(
+                {
+                    "pool": nn.AdaptiveAvgPool2d((6, 6)),
+                    "flat": nn.Flatten(),
+                    "drop1": nn.Dropout(drop_p),
+                    "fc1": nn.Linear(6 * 6 * in_features, 4096),
+                    "act1": ReLUInPlace(),
+                    "drop2": nn.Dropout(drop_p),
+                    "fc2": nn.Linear(4096, 4096),
+                    "act2": ReLUInPlace(),
+                    "fc3": nn.Linear(4096, n_classes),
+                }
+            )
+        )
 
 
-class AlexNet(VisionModule):
-    """Implementation of AlexNet proposed in `ImageNet Classification with Deep Convolutional Neural Networks <https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf>`_, 
+class AlexNet(ClassificationModule):
+    """Implementation of AlexNet proposed in `ImageNet Classification with Deep Convolutional Neural Networks <https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf>`_,
     according to the `variation <https://pytorch.org/docs/stable/_modules/torchvision/models/alexnet.html>`_ implemented in torchvision.
 
     Examples:
@@ -112,12 +138,10 @@ class AlexNet(VisionModule):
         n_classes (int, optional): Number of classes. Default is 1000.
     """
 
-    def __init__(self, in_channels: int = 3, n_classes: int = 1000, *args, **kwargs):
-        super().__init__()
-        self.encoder = AlexNetEncoder(in_channels, *args, **kwargs)
-        self.head = AlexNetHead(self.encoder.widths[-1], n_classes)
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.encoder(x)
-        x = self.head(x)
-        return x
+    def __init__(
+        self,
+        encoder: nn.Module = AlexNetEncoder,
+        head: nn.Module = AlexNetHead,
+        **kwargs,
+    ):
+        super().__init__(encoder, head, **kwargs)

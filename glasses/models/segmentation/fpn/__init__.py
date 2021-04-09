@@ -11,7 +11,13 @@ from ....models.classification.resnet import ResNetEncoder
 
 
 class FPNSegmentationBlock(nn.Module):
-    def __init__(self, in_features: int, out_features: int, block: nn.Module = ConvBnAct, **kwargs):
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        block: nn.Module = ConvBnAct,
+        **kwargs,
+    ):
         """FPN segmentation (smooth) layer used to smooth and upsample the decoder features
 
         Args:
@@ -20,10 +26,8 @@ class FPNSegmentationBlock(nn.Module):
             block (nn.Module, optional): [description]. Defaults to ConvBnAct.
         """
         super().__init__()
-        self.block = block(in_features, out_features,
-                           kernel_size=3, **kwargs)
-        self.up = nn.UpsamplingNearest2d(
-            scale_factor=2)
+        self.block = block(in_features, out_features, kernel_size=3, **kwargs)
+        self.up = nn.UpsamplingNearest2d(scale_factor=2)
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.block(x)
@@ -41,12 +45,17 @@ class FPNUpLayer(nn.Module):
 
     """
 
-    def __init__(self, in_features: int, out_features: int,  block: nn.Module = ConvBnAct, upsample: bool = True,  **kwargs):
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        block: nn.Module = ConvBnAct,
+        upsample: bool = True,
+        **kwargs,
+    ):
         super().__init__()
-        self.up = nn.UpsamplingNearest2d(
-            scale_factor=2) if upsample else nn.Identity()
-        self.block = block(in_features, out_features,
-                           kernel_size=1, **kwargs)
+        self.up = nn.UpsamplingNearest2d(scale_factor=2) if upsample else nn.Identity()
+        self.block = block(in_features, out_features, kernel_size=1, **kwargs)
 
     def forward(self, x: Tensor, res: Tensor) -> Tensor:
         out = self.up(x)
@@ -58,8 +67,13 @@ class FPNUpLayer(nn.Module):
 
 class PFPNSegmentationLayer(nn.Sequential):
     def __init__(self, in_features: int, out_features: int, depth: int = 1, **kwargs):
-        super().__init__(FPNSegmentationBlock(in_features, out_features, **kwargs),
-                         *[FPNSegmentationBlock(out_features, out_features, **kwargs) for _ in range(depth)])
+        super().__init__(
+            FPNSegmentationBlock(in_features, out_features, **kwargs),
+            *[
+                FPNSegmentationBlock(out_features, out_features, **kwargs)
+                for _ in range(depth)
+            ],
+        )
 
 
 class FPNSegmentationLayer(PFPNSegmentationLayer):
@@ -68,17 +82,28 @@ class FPNSegmentationLayer(PFPNSegmentationLayer):
 
 
 class FPNSegmentationBranch(nn.Module):
-    def __init__(self, in_features: int = 256, out_features: int = 128, depth: int = 3, layer=FPNSegmentationLayer, block: nn.Module = ConvBnAct,  **kwargs):
+    def __init__(
+        self,
+        in_features: int = 256,
+        out_features: int = 128,
+        depth: int = 3,
+        layer=FPNSegmentationLayer,
+        block: nn.Module = ConvBnAct,
+        **kwargs,
+    ):
         super().__init__()
-        self.layers = nn.ModuleList([
-            # we iterate backward using the number of layers to keep track
-            # of how many times we have to upsample
-            *[layer(in_features, out_features,
-                    depth=i - 1, block=block, **kwargs)
-              for i in range(depth, 0, -1)],
-            # latest one doesn't need to upsample
-            block(in_features, out_features, kernel_size=3, **kwargs),
-        ])
+        self.layers = nn.ModuleList(
+            [
+                # we iterate backward using the number of layers to keep track
+                # of how many times we have to upsample
+                *[
+                    layer(in_features, out_features, depth=i - 1, block=block, **kwargs)
+                    for i in range(depth, 0, -1)
+                ],
+                # latest one doesn't need to upsample
+                block(in_features, out_features, kernel_size=3, **kwargs),
+            ]
+        )
 
     def forward(self, x: Tensor, residuals: List[Tensor]) -> Tensor:
         features = []
@@ -93,23 +118,38 @@ class FPNDecoder(nn.Module):
     FPN Decoder composed of several layer of upsampling layers aimed to decrease the features space and increase the resolution.
     """
 
-    def __init__(self, start_features: int = 512, pyramid_width: int = 256,  prediction_width: int = 128, lateral_widths: List[int] = None, segmentation_branch: nn.Module = FPNSegmentationBranch, block: nn.Module = ConvBnAct,  **kwargs):
+    def __init__(
+        self,
+        start_features: int = 512,
+        pyramid_width: int = 256,
+        prediction_width: int = 128,
+        lateral_widths: List[int] = None,
+        segmentation_branch: nn.Module = FPNSegmentationBranch,
+        block: nn.Module = ConvBnAct,
+        **kwargs,
+    ):
         super().__init__()
         # we start from c_2
         self.lateral_widths = lateral_widths[:-1]
         self.widths = [prediction_width] * len(self.lateral_widths)
-        self.in_out_block_sizes = list(zip(self.lateral_widths, self.widths))
+        self.in_out_widths = list(zip(self.lateral_widths, self.widths))
 
-        self.middle = block(
-            start_features, pyramid_width, kernel_size=1, **kwargs)
+        self.middle = block(start_features, pyramid_width, kernel_size=1, **kwargs)
 
-        self.layers = nn.ModuleList([
-            FPNUpLayer(lateral_features, pyramid_width, **kwargs)
-            for lateral_features in self.lateral_widths
-        ])
+        self.layers = nn.ModuleList(
+            [
+                FPNUpLayer(lateral_features, pyramid_width, **kwargs)
+                for lateral_features in self.lateral_widths
+            ]
+        )
 
         self.segmentation_branch = segmentation_branch(
-            pyramid_width, prediction_width, depth=len(self.layers), block=block, **kwargs)
+            pyramid_width,
+            prediction_width,
+            depth=len(self.layers),
+            block=block,
+            **kwargs,
+        )
 
     def forward(self, x: Tensor, residuals: List[Tensor]) -> Tensor:
         x = self.middle(x)
@@ -128,9 +168,9 @@ class Merge(nn.Module):
         policy (str, optional): [description]. Defaults to 'sum'.
     """
 
-    def __init__(self, policy: str = 'sum'):
+    def __init__(self, policy: str = "sum"):
         super().__init__()
-        assert policy in ['sum'], f'Policy {policy} is not supported.'
+        assert policy in ["sum"], f"Policy {policy} is not supported."
         self.policy = policy
 
     def forward(self, features):
@@ -145,7 +185,7 @@ class FPN(SegmentationModule):
 
     .. warning::
         This model should be used only to extract features from an image, the output is a vector of shape [B, N, <prediction_width>, :math:`S_i`, :math:`S_i`].
-        Where :math:`S_i` is the spatial shape of the :math:`i-th` stage of the encoder. 
+        Where :math:`S_i` is the spatial shape of the :math:`i-th` stage of the encoder.
         For image segmentation please use `PFPN`.
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/PPFN.png?raw=true
@@ -180,10 +220,14 @@ class FPN(SegmentationModule):
        ecoder (nn.Module, optional): [description]. Defaults to FPNDecoder.
     """
 
-    def __init__(self, in_channels: int = 1, n_classes: int = 2,
-                 encoder: Encoder = ResNetEncoder,
-                 decoder: nn.Module = FPNDecoder,
-                 **kwargs):
+    def __init__(
+        self,
+        in_channels: int = 1,
+        n_classes: int = 2,
+        encoder: Encoder = ResNetEncoder,
+        decoder: nn.Module = FPNDecoder,
+        **kwargs,
+    ):
 
         super().__init__(in_channels, n_classes, encoder, decoder, **kwargs)
         self.head = nn.Identity()
@@ -198,7 +242,7 @@ PFPNDecoder = partial(FPNDecoder, segmentation_branch=PFPNSegmentationBranch)
 class PFPN(FPN):
     r"""Implementation of Panoptic Feature Pyramid Networks proposed in `Panoptic Feature Pyramid Networks <https://arxiv.org/pdf/1901.02446.pdf>`_
 
-    Basically, each features obtained from the segmentation branch is upsampled to match :math:`\frac{1}{4}` of the input, in the `ResNet` case :math:`58`. 
+    Basically, each features obtained from the segmentation branch is upsampled to match :math:`\frac{1}{4}` of the input, in the `ResNet` case :math:`58`.
     Then, the features are merged by summing them to obtain a single vector that is upsampled to the input spatial shape.
 
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/PFPN.png?raw=true
@@ -233,9 +277,12 @@ class PFPN(FPN):
        ecoder (nn.Module, optional): [description]. Defaults to PFPNDecoder.
     """
 
-    def __init__(self, *args, n_classes: int = 2, decoder: nn.Module = PFPNDecoder, **kwargs):
+    def __init__(
+        self, *args, n_classes: int = 2, decoder: nn.Module = PFPNDecoder, **kwargs
+    ):
         super().__init__(*args, decoder=decoder, **kwargs)
         self.head = nn.Sequential(
             Merge(),
             nn.UpsamplingNearest2d(scale_factor=4),
-            nn.Conv2d(self.decoder.widths[-1], n_classes, kernel_size=1))
+            nn.Conv2d(self.decoder.widths[-1], n_classes, kernel_size=1),
+        )
