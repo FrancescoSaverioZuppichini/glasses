@@ -100,7 +100,7 @@
 <li class="toctree-l3"><a class="reference internal" href="glasses.models.base.html">glasses.models.base package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="glasses.models.classification.html">glasses.models.classification package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="glasses.models.classification.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="glasses.models.classification.html#module-glasses.models.classification">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.models.classification.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.models.segmentation.html">glasses.models.segmentation package</a></li>
@@ -109,8 +109,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoConfig">glasses.models.AutoConfig module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoModel">glasses.models.AutoModel module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#glasses-models-automodel-module">glasses.models.AutoModel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
@@ -193,160 +193,8 @@
             
   <div class="section" id="glasses-models-classification-deit-package">
 <h1>glasses.models.classification.deit package<a class="headerlink" href="#glasses-models-classification-deit-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-glasses.models.classification.deit">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.models.classification.deit" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="glasses.models.classification.deit.DeiT">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.deit.</span></code><code class="sig-name descname"><span class="pre">DeiT</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">head:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.deit.DeiTClassificationHead'&gt;</span></em>, <em class="sig-param"><span class="pre">tokens:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.deit.DeiTTokens'&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/deit.html#DeiT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.deit.DeiT" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViT" title="glasses.models.classification.vit.ViT"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.vit.ViT</span></code></a></p>
-<p>Implementation of DeiT proposed in <a class="reference external" href="https://arxiv.org/pdf/2010.11929.pdf">Training data-efficient image transformers &amp; distillation through attention</a></p>
-<p>An attention based distillation is proposed where a new token is added to the model, the <cite>dist</cite> token.</p>
-<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DeiT.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DeiT.png?raw=true" />
-<p class="rubric">Examples</p>
-<p>Default models</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">DeiT</span><span class="o">.</span><span class="n">deit_tiny_patch16_224</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">DeiT</span><span class="o">.</span><span class="n">deit_small_patch16_224</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">DeiT</span><span class="o">.</span><span class="n">deit_base_patch16_224</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">DeiT</span><span class="o">.</span><span class="n">deit_base_patch16_384</span><span class="p">()</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>ViT</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p>
-</dd>
-</dl>
-<p>Implementation of Vision Transformer (ViT) proposed in <a class="reference external" href="https://arxiv.org/pdf/2010.11929.pdf">An Image Is Worth 16x16 Words: Transformers For Image Recognition At Scale</a></p>
-<p>The following image from the authors shows the architecture.</p>
-<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ViT.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ViT.png?raw=true" />
-<p class="rubric">Examples</p>
-<p>Default models</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_small_patch16_224</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_224</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_384</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch32_384</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_huge_patch16_224</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_huge_patch32_384</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_large_patch16_224</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_large_patch16_384</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_large_patch32_384</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>You can easily customize your model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_224</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_224</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block, default is TransformerEncoderBlock</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_224</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">MyCoolTransformerBlock</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ViT</span><span class="o">.</span><span class="n">vit_base_patch16_224</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get the features from the encoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1">#[[torch.Size([1, 197, 768]),  torch.Size([1, 197, 768]), ...]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the tokens, you have to subclass ViTTokens</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyTokens</span><span class="p">(</span><span class="n">ViTTokens</span><span class="p">):</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="gp">&gt;&gt;&gt; </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">emb_size</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">my_new_token</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">emb_size</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ViT</span><span class="p">(</span><span class="n">tokens</span><span class="o">=</span><span class="n">MyTokens</span><span class="p">)</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 3.</p></li>
-<li><p><strong>patch_size</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 16.</p></li>
-<li><p><strong>emb_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Embedding dimensions Defaults to 768.</p></li>
-<li><p><strong>img_size</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 224.</p></li>
-<li><p><strong>tokens</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – A module that contains the tokens as his parameters. Defaults to ViTTokens.</p></li>
-<li><p><strong>depth</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 12.</p></li>
-<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1000.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt id="glasses.models.classification.deit.DeiT.deit_base_patch16_224">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">deit_base_patch16_224</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/deit.html#DeiT.deit_base_patch16_224"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.deit.DeiT.deit_base_patch16_224" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="glasses.models.classification.deit.DeiT.deit_base_patch16_384">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">deit_base_patch16_384</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/deit.html#DeiT.deit_base_patch16_384"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.deit.DeiT.deit_base_patch16_384" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="glasses.models.classification.deit.DeiT.deit_small_patch16_224">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">deit_small_patch16_224</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/deit.html#DeiT.deit_small_patch16_224"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.deit.DeiT.deit_small_patch16_224" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="glasses.models.classification.deit.DeiT.deit_tiny_patch16_224">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">deit_tiny_patch16_224</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/deit.html#DeiT.deit_tiny_patch16_224"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.deit.DeiT.deit_tiny_patch16_224" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="glasses.models.classification.deit.DeiT.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.deit.DeiT.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="glasses.models.classification.deit.DeiTClassificationHead">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.deit.</span></code><code class="sig-name descname"><span class="pre">DeiTClassificationHead</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">emb_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">768</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_classes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/deit.html#DeiTClassificationHead"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.deit.DeiTClassificationHead" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>DeiT classification head, it relies on two heads using the <cite>cls</cite> and the`dist` token respectively.
-At test time, the prediction is made by avering the results from the two, while during training both predictions are returned.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>emb_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Embedding dimensions Defaults to 768.</p></li>
-<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1000.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt id="glasses.models.classification.deit.DeiTClassificationHead.forward">
-<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/models/classification/deit.html#DeiTClassificationHead.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.deit.DeiTClassificationHead.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="glasses.models.classification.deit.DeiTClassificationHead.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.deit.DeiTClassificationHead.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="glasses.models.classification.deit.DeiTTokens">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.deit.</span></code><code class="sig-name descname"><span class="pre">DeiTTokens</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">emb_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/deit.html#DeiTTokens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.deit.DeiTTokens" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViTTokens" title="glasses.models.classification.vit.ViTTokens"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.vit.ViTTokens</span></code></a></p>
-<p>Tokens for DeiT, it contains the <cite>cls</cite> token present in ViT plus a special token, <cite>dist</cite>, used for distillation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>emb_size</strong> (<em>int</em>) – Embedding dimensions</p>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt id="glasses.models.classification.deit.DeiTTokens.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.deit.DeiTTokens.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

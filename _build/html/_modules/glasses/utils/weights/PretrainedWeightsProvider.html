@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>glasses.utils.weights.PretrainedWeightsProvider &mdash; Glasses  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Glasses
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Notes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Notes/tutorials/Interpretability.html">Interpretability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Notes/tutorials/Segmentation.html">Segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Notes/tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Notes/tutorials/installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">glasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glasses.nn.html">glasses.nn package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glasses.models.html">glasses.models package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glasses.utils.html">glasses.utils package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glasses.data.html">glasses.data package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glasses.interpretability.html">glasses.interpretability package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Glasses</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>glasses.utils.weights.PretrainedWeightsProvider</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for glasses.utils.weights.PretrainedWeightsProvider</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">torchvision.transforms</span> <span class="k">as</span> <span class="nn">T</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">rich.progress</span> <span class="kn">import</span> <span class="n">track</span>
+<span class="kn">from</span> <span class="nn">torchvision.transforms</span> <span class="kn">import</span> <span class="n">InterpolationMode</span>
+<span class="kn">from</span> <span class="nn">.HFModelHub</span> <span class="kn">import</span> <span class="n">HFModelHub</span>
+
+<span class="n">IMAGENET_DEFAULT_MEAN</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">])</span>
+<span class="n">IMAGENET_DEFAULT_STD</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">])</span>
+
+<span class="n">ORGANIZATION_NAME</span> <span class="o">=</span> <span class="s2">&quot;glasses&quot;</span>
+
+
+<div class="viewcode-block" id="Config"><a class="viewcode-back" href="../../../../glasses.utils.weights.html#glasses.utils.weights.PretrainedWeightsProvider.Config">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Describe one configuration for a pretrained model.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        [type]: [description]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">input_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">224</span>
+    <span class="n">resize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">256</span>
+    <span class="n">mean</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">IMAGENET_DEFAULT_MEAN</span>
+    <span class="n">std</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">IMAGENET_DEFAULT_STD</span>
+    <span class="n">interpolation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bilinear&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">interpolations</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;bilinear&quot;</span><span class="p">:</span> <span class="n">InterpolationMode</span><span class="o">.</span><span class="n">BILINEAR</span><span class="p">,</span>
+            <span class="s2">&quot;bicubic&quot;</span><span class="p">:</span> <span class="n">InterpolationMode</span><span class="o">.</span><span class="n">BICUBIC</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">tr</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">T</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resize</span><span class="p">,</span> <span class="n">interpolations</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">interpolation</span><span class="p">]),</span>
+                <span class="n">T</span><span class="o">.</span><span class="n">CenterCrop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">),</span>
+                <span class="n">T</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">std</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tr</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">tr</span></div>
+
+
+<span class="n">StateDict</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="pretrained"><a class="viewcode-back" href="../../../../glasses.utils.weights.html#glasses.utils.weights.PretrainedWeightsProvider.pretrained">[docs]</a><span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Decorator to fetch the pretrained model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            func ([Callable]): The function to which the decorator is applied</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            [Callable]: The decorated funtion</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">if</span> <span class="n">_name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_name</span>
+        <span class="n">provider</span> <span class="o">=</span> <span class="n">PretrainedWeightsProvider</span><span class="p">()</span>
+
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span>
+            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+            <span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">excluding</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">],</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">pretrained</span><span class="p">:</span>
+                <span class="n">state_dict</span> <span class="o">=</span> <span class="n">provider</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                <span class="n">model</span> <span class="o">=</span> <span class="n">load_pretrained_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">,</span> <span class="n">excluding</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">model</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="k">return</span> <span class="n">decorator</span></div>
+
+
+<div class="viewcode-block" id="load_pretrained_model"><a class="viewcode-back" href="../../../../glasses.utils.weights.html#glasses.utils.weights.PretrainedWeightsProvider.load_pretrained_model">[docs]</a><span class="k">def</span> <span class="nf">load_pretrained_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+    <span class="n">state_dict</span><span class="p">:</span> <span class="n">StateDict</span><span class="p">,</span>
+    <span class="n">excluding</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">],</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Load the pretrained weights to the model. Optionally, you can exclude some sub-module.</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">        &gt;&gt;&gt; load_pretrained_model(your_model, pretrained_state_dict)</span>
+<span class="sd">        &gt;&gt;&gt; #load the pretrained weights but not in `model.head`</span>
+<span class="sd">        &gt;&gt;&gt; load_pretrained_model(your_model, pretrained_state_dict, excluding: lambda model: model.head)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (nn.Module): A PyTorch Module</span>
+<span class="sd">        state_dict (Dict[AnyStr, Tensor]): The state dict you want to use</span>
+<span class="sd">        excluding (Callable[[nn.Module], nn.Module], optional): [description]. A function telling which sub-module you want to exclude</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        AttributeError: Raising if you return a wrong sub-module from `excluding`</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        nn.Module: The model with the new state dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">excluded</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">excluded_key</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">excluding</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">excluded</span> <span class="o">=</span> <span class="n">excluding</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+    <span class="n">old_state_dict</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span>
+    <span class="c1"># find the key name of the module we want to exluce</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_modules</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">module</span> <span class="ow">is</span> <span class="n">excluded</span><span class="p">:</span>
+            <span class="n">excluded_key</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="n">wrong_module</span> <span class="o">=</span> <span class="n">excluded</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">excluded_key</span> <span class="ow">is</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">wrong_module</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model doesn&#39;t contain </span><span class="si">{</span><span class="n">excluded</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">excluded_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Weights starting with `</span><span class="si">{</span><span class="n">excluded_key</span><span class="si">}</span><span class="s2">` won&#39;t be loaded.&quot;</span><span class="p">)</span>
+        <span class="c1"># copy in the new state the old weights</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">state_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">excluded_key</span><span class="p">):</span>
+                <span class="n">state_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_state_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="c1"># apply it to the model</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">model</span></div>
+
+
+<div class="viewcode-block" id="PretrainedWeightsProvider"><a class="viewcode-back" href="../../../../glasses.utils.weights.html#glasses.utils.weights.PretrainedWeightsProvider.PretrainedWeightsProvider">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">PretrainedWeightsProvider</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class allows to retrieve pretrained models weights (state dict).</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; provider = PretrainedWeightsProvider()</span>
+<span class="sd">        &gt;&gt;&gt; provider[&#39;resnet18&#39;] # get a pre-trained resnet18 model</span>
+<span class="sd">        # see all the outputs</span>
+<span class="sd">        &gt;&gt;&gt; provider = PretrainedWeightsProvider(verbose=1)</span>
+<span class="sd">        # change save dir</span>
+<span class="sd">        &gt;&gt;&gt; provider = PretrainedWeightsProvider(save_dir=Path(&#39;./awesome/&#39;))</span>
+<span class="sd">        # override model even if already downloaded</span>
+<span class="sd">        &gt;&gt;&gt; provider = PretrainedWeightsProvider(override=True)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">BASE_DIR</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">hub</span><span class="o">.</span><span class="n">get_dir</span><span class="p">())</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;glasses&quot;</span><span class="p">)</span>
+    <span class="n">save_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">BASE_DIR</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">override</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="n">default_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;HOME&quot;</span><span class="p">,</span> <span class="n">default_dir</span><span class="p">))</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span>
+                <span class="s2">&quot;.glasses/&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;GLASSES_HOME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_dir</span><span class="p">)</span>
+        <span class="c1"># we also need to know which models are pretrained</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;pretrained_models.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weights_zoo</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateDict</span><span class="p">:</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">HFModelHub</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ORGANIZATION_NAME</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">weights</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

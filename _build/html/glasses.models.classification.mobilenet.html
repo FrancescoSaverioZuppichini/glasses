@@ -100,7 +100,7 @@
 <li class="toctree-l3"><a class="reference internal" href="glasses.models.base.html">glasses.models.base package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="glasses.models.classification.html">glasses.models.classification package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="glasses.models.classification.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="glasses.models.classification.html#module-glasses.models.classification">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.models.classification.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.models.segmentation.html">glasses.models.segmentation package</a></li>
@@ -109,8 +109,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoConfig">glasses.models.AutoConfig module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoModel">glasses.models.AutoModel module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#glasses-models-automodel-module">glasses.models.AutoModel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
@@ -193,40 +193,8 @@
             
   <div class="section" id="glasses-models-classification-mobilenet-package">
 <h1>glasses.models.classification.mobilenet package<a class="headerlink" href="#glasses-models-classification-mobilenet-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-glasses.models.classification.mobilenet">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.models.classification.mobilenet" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="glasses.models.classification.mobilenet.MobileNet">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.mobilenet.</span></code><code class="sig-name descname"><span class="pre">MobileNet</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">encoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.efficientnet.EfficientNetEncoder'&gt;</span></em>, <em class="sig-param"><span class="pre">head:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.efficientnet.EfficientNetHead'&gt;</span></em>, <em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/mobilenet.html#MobileNet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.mobilenet.MobileNet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="glasses.models.classification.efficientnet.html#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></code></a></p>
-<p>Implementation of MobileNet v2 proposed in <a class="reference external" href="https://arxiv.org/pdf/1801.04381.pdf">MobileNetV2: Inverted Residuals and Linear Bottlenecks</a></p>
-<p>MobileNet is a special case of EfficientNet.</p>
-<p class="rubric">Examples</p>
-<p>Default model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">MobileNet</span><span class="o">.</span><span class="n">mobilenet_v2</span><span class="p">()</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</p></li>
-<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of classes. Defaults to 1000.</p></li>
-</ul>
-</dd>
-</dl>
-<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
-<dl class="py method">
-<dt id="glasses.models.classification.mobilenet.MobileNet.mobilenet_v2">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">mobilenet_v2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="glasses.models.classification.efficientnet.html#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/mobilenet.html#MobileNet.mobilenet_v2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.mobilenet.MobileNet.mobilenet_v2" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="glasses.models.classification.mobilenet.MobileNet.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.mobilenet.MobileNet.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

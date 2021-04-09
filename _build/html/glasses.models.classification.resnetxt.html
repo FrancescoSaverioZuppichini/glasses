@@ -100,7 +100,7 @@
 <li class="toctree-l3"><a class="reference internal" href="glasses.models.base.html">glasses.models.base package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="glasses.models.classification.html">glasses.models.classification package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="glasses.models.classification.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="glasses.models.classification.html#module-glasses.models.classification">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.models.classification.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.models.segmentation.html">glasses.models.segmentation package</a></li>
@@ -109,8 +109,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoConfig">glasses.models.AutoConfig module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoModel">glasses.models.AutoModel module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#glasses-models-automodel-module">glasses.models.AutoModel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
@@ -193,152 +193,8 @@
             
   <div class="section" id="glasses-models-classification-resnetxt-package">
 <h1>glasses.models.classification.resnetxt package<a class="headerlink" href="#glasses-models-classification-resnetxt-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-glasses.models.classification.resnetxt">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.models.classification.resnetxt" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="glasses.models.classification.resnetxt.ResNetXt">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.resnetxt.</span></code><code class="sig-name descname"><span class="pre">ResNetXt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">encoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetEncoder'&gt;</span></em>, <em class="sig-param"><span class="pre">head:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetHead'&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNet" title="glasses.models.classification.resnet.ResNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNet</span></code></a></p>
-<p>Implementation of ResNetXt proposed in <a class="reference external" href="https://arxiv.org/pdf/1611.05431.pdf">“Aggregated Residual Transformation for Deep Neural Networks”</a></p>
-<p>Create a default model</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x8d</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create a resnetxt18_32x4d</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">ResNetXtBottleNeckBlock</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">base_width</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>You can easily customize your model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the initial convolution</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store each feature</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get the features from the encoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1">#[torch.Size([1, 64, 112, 112]), torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14])]</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</p></li>
-<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of classes. Defaults to 1000.</p></li>
-</ul>
-</dd>
-</dl>
-<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
-<dl class="py method">
-<dt id="glasses.models.classification.resnetxt.ResNetXt.resnext101_32x16d">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnext101_32x16d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnetxt.ResNetXt" title="glasses.models.classification.resnetxt.ResNetXt"><span class="pre">glasses.models.classification.resnetxt.ResNetXt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt.resnext101_32x16d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.resnext101_32x16d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a resnext101_32x16d model</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A resnext101_32x16d model</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="glasses.models.html#glasses.models.ResNet" title="glasses.models.ResNet">ResNet</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="glasses.models.classification.resnetxt.ResNetXt.resnext101_32x32d">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnext101_32x32d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnetxt.ResNetXt" title="glasses.models.classification.resnetxt.ResNetXt"><span class="pre">glasses.models.classification.resnetxt.ResNetXt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt.resnext101_32x32d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.resnext101_32x32d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a resnext101_32x32d model</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A resnext101_32x32d model</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="glasses.models.html#glasses.models.ResNet" title="glasses.models.ResNet">ResNet</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="glasses.models.classification.resnetxt.ResNetXt.resnext101_32x48d">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnext101_32x48d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnetxt.ResNetXt" title="glasses.models.classification.resnetxt.ResNetXt"><span class="pre">glasses.models.classification.resnetxt.ResNetXt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt.resnext101_32x48d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.resnext101_32x48d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a resnext101_32x48d model</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A resnext101_32x48d model</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="glasses.models.html#glasses.models.ResNet" title="glasses.models.ResNet">ResNet</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="glasses.models.classification.resnetxt.ResNetXt.resnext101_32x8d">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnext101_32x8d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnetxt.ResNetXt" title="glasses.models.classification.resnetxt.ResNetXt"><span class="pre">glasses.models.classification.resnetxt.ResNetXt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt.resnext101_32x8d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.resnext101_32x8d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a resnext101_32x8d model</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A resnext101_32x8d model</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="glasses.models.html#glasses.models.ResNet" title="glasses.models.ResNet">ResNet</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="glasses.models.classification.resnetxt.ResNetXt.resnext50_32x4d">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnext50_32x4d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnetxt.ResNetXt" title="glasses.models.classification.resnetxt.ResNetXt"><span class="pre">glasses.models.classification.resnetxt.ResNetXt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt.resnext50_32x4d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.resnext50_32x4d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a resnext50_32x4d model</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A resnext50_32x4d model</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="glasses.models.html#glasses.models.ResNet" title="glasses.models.ResNet">ResNet</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="glasses.models.classification.resnetxt.ResNetXt.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.resnetxt.</span></code><code class="sig-name descname"><span class="pre">ResNetXtBottleNeckBlock</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_width</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduction</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXtBottleNeckBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNetBottleneckBlock" title="glasses.models.classification.resnet.ResNetBottleneckBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNetBottleneckBlock</span></code></a></p>
-<p>Basic ResNetXt block build on top of ResNetBottleneckBlock.
-It uses <cite>base_width</cite> to compute the inner features of the 3x3 conv.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>in_features</strong> (<em>int</em>) – Number of input features</p></li>
-<li><p><strong>out_features</strong> (<em>int</em>) – Number of output features</p></li>
-<li><p><strong>groups</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 32.</p></li>
-<li><p><strong>base_width</strong> (<em>int</em><em>, </em><em>optional</em>) – width factor uses to compute the inner features in the 3x3 conv. Defaults to 4.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt id="glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

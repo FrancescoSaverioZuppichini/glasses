@@ -12,10 +12,10 @@ glasses.utils.ModuleTransfer module
    :undoc-members:
    :show-inheritance:
 
-glasses.utils.PretrainedWeightsProvider module
+glasses.utils.weights.PretrainedWeightsProvider module
 ----------------------------------------------
 
-.. automodule:: glasses.utils.PretrainedWeightsProvider
+.. automodule:: glasses.utils.weights.PretrainedWeightsProvider
    :members:
    :undoc-members:
    :show-inheritance:

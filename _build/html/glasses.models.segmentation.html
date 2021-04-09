@@ -32,7 +32,6 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -102,7 +101,7 @@
 <li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.html">glasses.models.classification package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">glasses.models.segmentation package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-glasses.models.segmentation">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.models.utils.html">glasses.models.utils package</a></li>
@@ -110,8 +109,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoConfig">glasses.models.AutoConfig module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoModel">glasses.models.AutoModel module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#glasses-models-automodel-module">glasses.models.AutoModel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
@@ -202,154 +201,8 @@
 </ul>
 </div>
 </div>
-<div class="section" id="module-glasses.models.segmentation">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.models.segmentation" title="Permalink to this headline">¶</a></h2>
-<p>Segmantation models</p>
-<dl class="py class">
-<dt id="glasses.models.segmentation.FPN">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.segmentation.</span></code><code class="sig-name descname"><span class="pre">FPN</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_channels:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></em>, <em class="sig-param"><span class="pre">n_classes:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2</span></em>, <em class="sig-param"><span class="pre">encoder:</span> <span class="pre">glasses.models.base.Encoder</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetEncoder'&gt;</span></em>, <em class="sig-param"><span class="pre">decoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.segmentation.fpn.FPNDecoder'&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#FPN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.FPN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="glasses.models.segmentation.base.html#glasses.models.segmentation.base.SegmentationModule" title="glasses.models.segmentation.base.SegmentationModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.segmentation.base.SegmentationModule</span></code></a></p>
-<p>Implementation of Feature Pyramid Networks proposed in <a class="reference external" href="https://arxiv.org/abs/1612.03144">Feature Pyramid Networks for Object Detection</a></p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This model should be used only to extract features from an image, the output is a vector of shape [B, N, &lt;prediction_width&gt;, <span class="math notranslate nohighlight">\(S_i\)</span>, <span class="math notranslate nohighlight">\(S_i\)</span>].
-Where <span class="math notranslate nohighlight">\(S_i\)</span> is the spatial shape of the <span class="math notranslate nohighlight">\(i-th\)</span> stage of the encoder.
-For image segmentation please use <cite>PFPN</cite>.</p>
-</div>
-<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/PPFN.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/PPFN.png?raw=true" />
-<p class="rubric">Examples</p>
-<p>Default models</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">FPN</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>You can easily customize your model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">FPN</span><span class="p">(</span><span class="n">activation</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 2 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">FPN</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change encoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">FPN</span> <span class="o">=</span> <span class="n">FPN</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">encoder</span><span class="p">,)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">FPN</span> <span class="o">=</span> <span class="n">FPN</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b2</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">encoder</span><span class="p">,)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change decoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">FPN</span><span class="p">(</span><span class="n">decoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">FPNDecoder</span><span class="p">,</span> <span class="n">pyramid_width</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">prediction_width</span><span class="o">=</span><span class="mi">32</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block to decoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">FPN</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># all *Decoder class can be directly used</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">FPN</span> <span class="o">=</span> <span class="n">FPN</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
-<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 2.</p></li>
-<li><p><strong>encoder</strong> (<a class="reference internal" href="glasses.models.base.html#glasses.models.base.Encoder" title="glasses.models.base.Encoder"><em>Encoder</em></a><em>, </em><em>optional</em>) – [description]. Defaults to ResNetEncoder.</p></li>
-<li><p><strong>ecoder</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to FPNDecoder.</p></li>
-</ul>
-</dd>
-</dl>
-<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
-<dl class="py attribute">
-<dt id="glasses.models.segmentation.FPN.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.segmentation.FPN.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="glasses.models.segmentation.PFPN">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.segmentation.</span></code><code class="sig-name descname"><span class="pre">PFPN</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">n_classes:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2</span></em>, <em class="sig-param"><span class="pre">decoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'glasses.models.segmentation.fpn.FPNDecoder'&gt;</span></em>, <em class="sig-param"><span class="pre">segmentation_branch=functools.partial(&lt;class</span> <span class="pre">'glasses.models.segmentation.fpn.FPNSegmentationBranch'&gt;</span></em>, <em class="sig-param"><span class="pre">layer=&lt;class</span> <span class="pre">'glasses.models.segmentation.fpn.PFPNSegmentationLayer'&gt;))</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#PFPN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.PFPN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.FPN" title="glasses.models.segmentation.fpn.FPN"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.segmentation.fpn.FPN</span></code></a></p>
-<p>Implementation of Panoptic Feature Pyramid Networks proposed in <a class="reference external" href="https://arxiv.org/pdf/1901.02446.pdf">Panoptic Feature Pyramid Networks</a></p>
-<p>Basically, each features obtained from the segmentation branch is upsampled to match <span class="math notranslate nohighlight">\(\frac{1}{4}\)</span> of the input, in the <cite>ResNet</cite> case <span class="math notranslate nohighlight">\(58\)</span>.
-Then, the features are merged by summing them to obtain a single vector that is upsampled to the input spatial shape.</p>
-<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/PFPN.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/PFPN.png?raw=true" />
-<p class="rubric">Examples</p>
-<p>Create a default model</p>
-<blockquote>
-<div><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">PFPN</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>You can easily customize your model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">PFPN</span><span class="p">(</span><span class="n">activation</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 2 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">PFPN</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change encoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pfpn</span> <span class="o">=</span> <span class="n">PFPN</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">encoder</span><span class="p">,)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pfpn</span> <span class="o">=</span> <span class="n">PFPN</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b2</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">encoder</span><span class="p">,)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change decoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">PFPN</span><span class="p">(</span><span class="n">decoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">PFPNDecoder</span><span class="p">,</span> <span class="n">pyramid_width</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">prediction_width</span><span class="o">=</span><span class="mi">32</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block to decoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">PFPN</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># all *Decoder class can be directly used</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pfpn</span> <span class="o">=</span> <span class="n">PFPN</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span>
-</pre></div>
-</div>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
-<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 2.</p></li>
-<li><p><strong>encoder</strong> (<a class="reference internal" href="glasses.models.base.html#glasses.models.base.Encoder" title="glasses.models.base.Encoder"><em>Encoder</em></a><em>, </em><em>optional</em>) – [description]. Defaults to ResNetEncoder.</p></li>
-<li><p><strong>ecoder</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to PFPNDecoder.</p></li>
-</ul>
-</dd>
-</dl>
-<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
-<dl class="py attribute">
-<dt id="glasses.models.segmentation.PFPN.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.segmentation.PFPN.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="glasses.models.segmentation.UNet">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.segmentation.</span></code><code class="sig-name descname"><span class="pre">UNet</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_channels:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></em>, <em class="sig-param"><span class="pre">n_classes:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2</span></em>, <em class="sig-param"><span class="pre">encoder:</span> <span class="pre">glasses.models.base.Encoder</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.segmentation.unet.UNetEncoder'&gt;</span></em>, <em class="sig-param"><span class="pre">decoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.segmentation.unet.UNetDecoder'&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/segmentation/unet.html#UNet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.UNet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="glasses.models.segmentation.base.html#glasses.models.segmentation.base.SegmentationModule" title="glasses.models.segmentation.base.SegmentationModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.segmentation.base.SegmentationModule</span></code></a></p>
-<p>Implementation of Unet proposed in <a class="reference external" href="https://arxiv.org/abs/1505.04597">U-Net: Convolutional Networks for Biomedical Image Segmentation</a></p>
-<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/UNet.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/UNet.png?raw=true" />
-<p class="rubric">Examples</p>
-<p>Default models</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>You can easily customize your model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">(</span><span class="n">activation</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 2 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change encoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">unet</span> <span class="o">=</span> <span class="n">UNet</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">encoder</span><span class="p">,)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">unet</span> <span class="o">=</span> <span class="n">UNet</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b2</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">encoder</span><span class="p">,)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change decoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">(</span><span class="n">decoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">UNetDecoder</span><span class="p">,</span> <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">16</span><span class="p">]))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block to decoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">UNet</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">UNetEncoder</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># all *Decoder class can be directly used</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">unet</span> <span class="o">=</span> <span class="n">UNet</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
-<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 2.</p></li>
-<li><p><strong>encoder</strong> (<a class="reference internal" href="glasses.models.base.html#glasses.models.base.Encoder" title="glasses.models.base.Encoder"><em>Encoder</em></a><em>, </em><em>optional</em>) – [description]. Defaults to UNetEncoder.</p></li>
-<li><p><strong>ecoder</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to UNetDecoder.</p></li>
-</ul>
-</dd>
-</dl>
-<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
-<dl class="py attribute">
-<dt id="glasses.models.segmentation.UNet.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.segmentation.UNet.training" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
