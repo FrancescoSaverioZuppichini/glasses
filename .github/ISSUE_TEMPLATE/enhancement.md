@@ -2,7 +2,7 @@
 name: Enhancement
 about: Add or change a features
 title: "[Enhancement]"
-labels: Enhancement
+labels: enhancement
 assignees: ''
 
 ---
