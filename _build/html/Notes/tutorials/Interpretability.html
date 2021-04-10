@@ -202,10 +202,10 @@
 </div>
 <p><img alt="png" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/tutorials/interpretability/output_3_1.png?raw=true" /></p>
 <p>Then we can create a model using <code class="docutils literal notranslate"><span class="pre">AutoModel</span></code>, a simple <code class="docutils literal notranslate"><span class="pre">resnet18</span></code> will do just fine.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.models</span> <span class="kn">import</span> <span class="n">AutoModel</span><span class="p">,</span> <span class="n">AutoConfig</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.models</span> <span class="kn">import</span> <span class="n">AutoModel</span><span class="p">,</span> <span class="n">AutoTransform</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;resnet18&#39;</span><span class="p">)</span>
-<span class="n">cfg</span> <span class="o">=</span> <span class="n">AutoConfig</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="s1">&#39;resnet18&#39;</span><span class="p">)</span>
+<span class="n">cfg</span> <span class="o">=</span> <span class="n">AutoTransform</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="s1">&#39;resnet18&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">INFO</span><span class="p">:</span><span class="n">root</span><span class="p">:</span><span class="n">Loaded</span> <span class="n">resnet18</span> <span class="n">pretrained</span> <span class="n">weights</span><span class="o">.</span>

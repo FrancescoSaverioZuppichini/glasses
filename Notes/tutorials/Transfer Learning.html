@@ -189,18 +189,18 @@
 <p>Even if your dataset may be different than ImageNet, the pre-trained models have learned useful weights that can be easily adapt to your new dataset.</p>
 <div class="section" id="loading-a-model">
 <h3>Loading a Model<a class="headerlink" href="#loading-a-model" title="Permalink to this headline">¶</a></h3>
-<p>You can use <code class="docutils literal notranslate"><span class="pre">AutoModel</span></code> and <code class="docutils literal notranslate"><span class="pre">AutoConfig</span></code> to load your model and your preprocessing function. In this tutorial, we are going to use <code class="docutils literal notranslate"><span class="pre">resnet34</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.models</span> <span class="kn">import</span> <span class="n">AutoModel</span><span class="p">,</span> <span class="n">AutoConfig</span>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">AutoModel</span></code> and <code class="docutils literal notranslate"><span class="pre">AutoTransform</span></code> to load your model and your preprocessing function. In this tutorial, we are going to use <code class="docutils literal notranslate"><span class="pre">resnet34</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glasses.models</span> <span class="kn">import</span> <span class="n">AutoModel</span><span class="p">,</span> <span class="n">AutoTransform</span>
 
 <span class="n">resnet34</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;resnet34&#39;</span><span class="p">)</span> 
-<span class="n">cfg</span> <span class="o">=</span> <span class="n">AutoConfig</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="s1">&#39;resnet34&#39;</span><span class="p">)</span>
+<span class="n">cfg</span> <span class="o">=</span> <span class="n">AutoTransform</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="s1">&#39;resnet34&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>You can also call <code class="docutils literal notranslate"><span class="pre">.summary()</span></code> to see your models parameters</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">resnet34</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">AutoConfig</span></code> returns the correct configuration for a specific model. This is crucial because you need to properly preprocess your input in the same way it was done when the model was originally trained. <code class="docutils literal notranslate"><span class="pre">cfg</span></code> returns a <code class="docutils literal notranslate"><span class="pre">Config</span></code> object that contains the correct PyTorch transformation.</p>
+<p><code class="docutils literal notranslate"><span class="pre">AutoTransform</span></code> returns the correct configuration for a specific model. This is crucial because you need to properly preprocess your input in the same way it was done when the model was originally trained. <code class="docutils literal notranslate"><span class="pre">cfg</span></code> returns a <code class="docutils literal notranslate"><span class="pre">Config</span></code> object that contains the correct PyTorch transformation.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">transform</span>
 <span class="n">tr</span>
 </pre></div>

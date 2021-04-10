@@ -289,51 +289,6 @@ generated when running <code class="xref py py-obj docutils literal notranslate"
 <div class="section" id="module-glasses.utils.weights.PretrainedWeightsProvider">
 <span id="glasses-utils-weights-pretrainedweightsprovider-module"></span><h2>glasses.utils.weights.PretrainedWeightsProvider module<a class="headerlink" href="#module-glasses.utils.weights.PretrainedWeightsProvider" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="glasses.utils.weights.PretrainedWeightsProvider.Config">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.utils.weights.PretrainedWeightsProvider.</span></code><code class="sig-name descname"><span class="pre">Config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">224</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resize</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">tensor([0.4850,</span> <span class="pre">0.4560,</span> <span class="pre">0.4060])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">tensor([0.2290,</span> <span class="pre">0.2240,</span> <span class="pre">0.2250])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolation</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'bilinear'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/weights/PretrainedWeightsProvider.html#Config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.Config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Describe one configuration for a pretrained model.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>[description]</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>[type]</p>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt id="glasses.utils.weights.PretrainedWeightsProvider.Config.input_size">
-<code class="sig-name descname"><span class="pre">input_size</span></code><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">224</span></em><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.Config.input_size" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="glasses.utils.weights.PretrainedWeightsProvider.Config.interpolation">
-<code class="sig-name descname"><span class="pre">interpolation</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><em class="property"> <span class="pre">=</span> <span class="pre">'bilinear'</span></em><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.Config.interpolation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="glasses.utils.weights.PretrainedWeightsProvider.Config.mean">
-<code class="sig-name descname"><span class="pre">mean</span></code><em class="property"><span class="pre">:</span> <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">tensor([0.4850,</span> <span class="pre">0.4560,</span> <span class="pre">0.4060])</span></em><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.Config.mean" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="glasses.utils.weights.PretrainedWeightsProvider.Config.resize">
-<code class="sig-name descname"><span class="pre">resize</span></code><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">256</span></em><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.Config.resize" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="glasses.utils.weights.PretrainedWeightsProvider.Config.std">
-<code class="sig-name descname"><span class="pre">std</span></code><em class="property"><span class="pre">:</span> <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">tensor([0.2290,</span> <span class="pre">0.2240,</span> <span class="pre">0.2250])</span></em><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.Config.std" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="glasses.utils.weights.PretrainedWeightsProvider.Config.transform">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">transform</span></code><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.Config.transform" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt id="glasses.utils.weights.PretrainedWeightsProvider.PretrainedWeightsProvider">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.utils.weights.PretrainedWeightsProvider.</span></code><code class="sig-name descname"><span class="pre">PretrainedWeightsProvider</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">BASE_DIR</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pathlib.Path</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">PosixPath('/home/runner/.cache/torch/hub/glasses')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pathlib.Path</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">PosixPath('/home/runner/.cache/torch/hub/glasses')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">override</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/weights/PretrainedWeightsProvider.html#PretrainedWeightsProvider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.PretrainedWeightsProvider" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>

@@ -44,10 +44,10 @@ Then we can create a model using `AutoModel`, a simple `resnet18` will do just f
 
 
 ```python
-from glasses.models import AutoModel, AutoConfig
+from glasses.models import AutoModel, AutoTransform
 
 model = AutoModel.from_pretrained('resnet18')
-cfg = AutoConfig.from_name('resnet18')
+cfg = AutoTransform.from_name('resnet18')
 ```
 
     INFO:root:Loaded resnet18 pretrained weights.

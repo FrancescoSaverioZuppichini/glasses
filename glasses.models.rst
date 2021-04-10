@@ -15,10 +15,10 @@ Subpackages
 Submodules
 ----------
 
-glasses.models.AutoConfig module
+glasses.models.AutoTransform module
 --------------------------------
 
-.. automodule:: glasses.models.AutoConfig
+.. automodule:: glasses.models.AutoTransform
    :members:
    :undoc-members:
    :show-inheritance:

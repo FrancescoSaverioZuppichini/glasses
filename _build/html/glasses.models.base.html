@@ -109,8 +109,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoConfig">glasses.models.AutoConfig module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#glasses-models-automodel-module">glasses.models.AutoModel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoTransform">glasses.models.AutoTransform module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-contents">Module contents</a></li>
 </ul>
 </li>
@@ -242,7 +242,7 @@
 <p>Protocol that allows the clas that subclass it to interpret an input using and instance of <cite>Interpretability</cite></p>
 <dl class="py method">
 <dt id="glasses.models.base.protocols.Interpretable.interpret">
-<code class="sig-name descname"><span class="pre">interpret</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">x:</span> <span class="pre">torch.Tensor</span></em>, <em class="sig-param"><span class="pre">using:</span> <span class="pre">&lt;glasses.interpretability.Interpretability.Interpretability</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f69d2303b50&gt;</span></em>, <em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/base/protocols.html#Interpretable.interpret"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.base.protocols.Interpretable.interpret" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">interpret</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">x:</span> <span class="pre">torch.Tensor</span></em>, <em class="sig-param"><span class="pre">using:</span> <span class="pre">&lt;glasses.interpretability.Interpretability.Interpretability</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7f95cad64f70&gt;</span></em>, <em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/base/protocols.html#Interpretable.interpret"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.base.protocols.Interpretable.interpret" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -284,11 +284,6 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code>, <a class="reference internal" href="#glasses.models.base.protocols.Freezable" title="glasses.models.base.protocols.Freezable"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.base.protocols.Freezable</span></code></a>, <a class="reference internal" href="#glasses.models.base.protocols.Interpretable" title="glasses.models.base.protocols.Interpretable"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.base.protocols.Interpretable</span></code></a></p>
 <p>Base vision module, all models should subclass it.</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
-<dl class="py attribute">
-<dt id="glasses.models.base.VisionModule.configs">
-<code class="sig-name descname"><span class="pre">configs</span></code><em class="property"><span class="pre">:</span> <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="glasses.utils.weights.html#glasses.utils.weights.PretrainedWeightsProvider.Config" title="glasses.utils.weights.PretrainedWeightsProvider.Config"><span class="pre">glasses.utils.weights.PretrainedWeightsProvider.Config</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">{}</span></em><a class="headerlink" href="#glasses.models.base.VisionModule.configs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt id="glasses.models.base.VisionModule.summary">
 <code class="sig-name descname"><span class="pre">summary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1,</span> <span class="pre">3,</span> <span class="pre">224,</span> <span class="pre">224)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.device</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/base.html#VisionModule.summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.base.VisionModule.summary" title="Permalink to this definition">¶</a></dt>
@@ -305,6 +300,11 @@
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.base.VisionModule.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.base.VisionModule.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 

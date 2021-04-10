@@ -1,0 +1,465 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>glasses.models.AutoTransform &mdash; Glasses  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Glasses
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Notes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/Interpretability.html">Interpretability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/Segmentation.html">Segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">glasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glasses.nn.html">glasses.nn package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glasses.models.html">glasses.models package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glasses.utils.html">glasses.utils package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glasses.data.html">glasses.data package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glasses.interpretability.html">glasses.interpretability package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Glasses</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>glasses.models.AutoTransform</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for glasses.models.AutoTransform</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torchvision.transforms</span> <span class="k">as</span> <span class="nn">T</span>
+<span class="kn">from</span> <span class="nn">glasses.models</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">torchvision.transforms</span> <span class="kn">import</span> <span class="n">InterpolationMode</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+<span class="n">IMAGENET_DEFAULT_MEAN</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">])</span>
+<span class="n">IMAGENET_DEFAULT_STD</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">])</span>
+
+
+<div class="viewcode-block" id="Transform"><a class="viewcode-back" href="../../../glasses.models.html#glasses.models.AutoTransform.Transform">[docs]</a><span class="k">class</span> <span class="nc">Transform</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">Compose</span><span class="p">):</span>
+    <span class="n">interpolations</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;bilinear&quot;</span><span class="p">:</span> <span class="n">InterpolationMode</span><span class="o">.</span><span class="n">BILINEAR</span><span class="p">,</span>
+        <span class="s2">&quot;bicubic&quot;</span><span class="p">:</span> <span class="n">InterpolationMode</span><span class="o">.</span><span class="n">BICUBIC</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">input_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">resize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">std</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">mean</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">interpolation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bilinear&quot;</span><span class="p">,</span>
+        <span class="n">transforms</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(),</span>
+    <span class="p">):</span>
+        <span class="n">base_transforms</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="n">resize</span><span class="p">,</span> <span class="n">Transform</span><span class="o">.</span><span class="n">interpolations</span><span class="p">[</span><span class="n">interpolation</span><span class="p">]),</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">CenterCrop</span><span class="p">(</span><span class="n">input_size</span><span class="p">),</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">mean</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">std</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">base_transforms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="n">std</span><span class="p">))</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">([</span><span class="o">*</span><span class="n">base_transforms</span><span class="p">,</span> <span class="o">*</span><span class="n">transforms</span><span class="p">])</span></div>
+
+
+<span class="n">ImageNetTransform</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
+    <span class="n">Transform</span><span class="p">,</span>
+    <span class="n">input_size</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+    <span class="n">resize</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+    <span class="n">mean</span><span class="o">=</span><span class="n">IMAGENET_DEFAULT_MEAN</span><span class="p">,</span>
+    <span class="n">std</span><span class="o">=</span><span class="n">IMAGENET_DEFAULT_STD</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="AutoTransform"><a class="viewcode-back" href="../../../glasses.models.html#glasses.models.AutoTransform.AutoTransform">[docs]</a><span class="k">class</span> <span class="nc">AutoTransform</span><span class="p">:</span>
+
+    <span class="n">zoo</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(),</span>
+        <span class="s2">&quot;resnet26&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span><span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;resnet26d&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span><span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;resnet50d&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span><span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;cse_resnet50&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span><span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;resnest200e&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">320</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="mi">320</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;resnest269e&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">461</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="mi">416</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_b0&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_b1&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">240</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="mi">240</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_b2&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">260</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="mi">260</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_b3&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_b4&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">380</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="mi">380</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_b5&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">456</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="mi">456</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_b6&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">528</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="mi">528</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_b7&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_b8&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">672</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="mi">672</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_l2&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_lite0&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_lite1&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">240</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">240</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_lite2&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">260</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">260</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_lite3&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">280</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">280</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;efficientnet_lite4&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;unet&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span><span class="n">resize</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+        <span class="s2">&quot;vit_base_patch16_224&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;vit_base_patch16_384&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;vit_base_patch32_384&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;vit_huge_patch16_224&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;vit_huge_patch32_384&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;vit_large_patch16_224&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;vit_large_patch16_384&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;vit_large_patch32_384&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;vit_small_patch16_224&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;deit_tiny_patch16_224&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;deit_small_patch16_224&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;deit_base_patch16_224&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;deit_base_patch16_384&quot;</span><span class="p">:</span> <span class="n">ImageNetTransform</span><span class="p">(</span>
+            <span class="n">resize</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span>
+            <span class="n">input_size</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">EnvironmentError</span><span class="p">(</span>
+            <span class="s2">&quot;AutoTransform is designed to be instantiated &quot;</span>
+            <span class="s2">&quot;using the `AutoModel.from_name(model_name)` method.&quot;</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="AutoTransform.from_name"><a class="viewcode-back" href="../../../glasses.models.html#glasses.models.AutoTransform.AutoTransform.from_name">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ImageNetTransform</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns a ImageNetTransformuration from a given model name.</span>
+<span class="sd">        If the name is not found, it returns a default one.</span>
+
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; AutoTransform.from_name(&#39;resnet18&#39;)</span>
+
+<span class="sd">            You can access the preprocess `transformation`, you should use it</span>
+<span class="sd">            to preprocess your inputs.</span>
+
+<span class="sd">            &gt;&gt;&gt; cfg =  AutoTransform.from_name(&#39;resnet18&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; cfg.transform</span>
+
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): [description]</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Config: The model&#39;s config</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="n">AutoTransform</span><span class="o">.</span><span class="n">zoo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">AutoTransform</span><span class="o">.</span><span class="n">zoo</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">cfg</span></div>
+
+<div class="viewcode-block" id="AutoTransform.names"><a class="viewcode-back" href="../../../glasses.models.html#glasses.models.AutoTransform.AutoTransform.names">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">names</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">AutoTransform</span><span class="o">.</span><span class="n">zoo</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

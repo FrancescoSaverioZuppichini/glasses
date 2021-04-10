@@ -15,14 +15,14 @@ Even if your dataset may be different than ImageNet, the pre-trained models have
 
 ### Loading a Model
 
-You can use `AutoModel` and `AutoConfig` to load your model and your preprocessing function. In this tutorial, we are going to use `resnet34`.
+You can use `AutoModel` and `AutoTransform` to load your model and your preprocessing function. In this tutorial, we are going to use `resnet34`.
 
 
 ```python
-from glasses.models import AutoModel, AutoConfig
+from glasses.models import AutoModel, AutoTransform
 
 resnet34 = AutoModel.from_pretrained('resnet34') 
-cfg = AutoConfig.from_name('resnet34')
+cfg = AutoTransform.from_name('resnet34')
 ```
 
 You can also call `.summary()` to see your models parameters
@@ -32,7 +32,7 @@ You can also call `.summary()` to see your models parameters
 resnet34.summary()
 ```
 
-`AutoConfig` returns the correct configuration for a specific model. This is crucial because you need to properly preprocess your input in the same way it was done when the model was originally trained. `cfg` returns a `Config` object that contains the correct PyTorch transformation. 
+`AutoTransform` returns the correct configuration for a specific model. This is crucial because you need to properly preprocess your input in the same way it was done when the model was originally trained. `cfg` returns a `Config` object that contains the correct PyTorch transformation. 
 
 
 ```python
