@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 from glasses.utils.weights.PretrainedWeightsProvider import (
     PretrainedWeightsProvider,
-    Config,
     pretrained,
     load_pretrained_model,
 )
