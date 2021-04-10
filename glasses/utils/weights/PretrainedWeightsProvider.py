@@ -1,60 +1,18 @@
 import torch
-import requests
-import sys
 import os
 import logging
-import torchvision.transforms as T
 import torch.nn as nn
 from torch import nn
 from dataclasses import dataclass
 from typing import Dict
 from torch import Tensor
 from pathlib import Path
-from typing import Tuple
 from typing import Callable
 from functools import wraps
-from rich.progress import track
-from torchvision.transforms import InterpolationMode
 from .HFModelHub import HFModelHub
 
-IMAGENET_DEFAULT_MEAN = torch.Tensor([0.485, 0.456, 0.406])
-IMAGENET_DEFAULT_STD = torch.Tensor([0.229, 0.224, 0.225])
 
 ORGANIZATION_NAME = "glasses"
-
-
-@dataclass
-class Config:
-    """Describe one configuration for a pretrained model.
-
-    Returns:
-        [type]: [description]
-    """
-
-    input_size: int = 224
-    resize: int = 256
-    mean: Tuple[float] = IMAGENET_DEFAULT_MEAN
-    std: Tuple[float] = IMAGENET_DEFAULT_STD
-    interpolation: str = "bilinear"
-
-    @property
-    def transform(self):
-        interpolations = {
-            "bilinear": InterpolationMode.BILINEAR,
-            "bicubic": InterpolationMode.BICUBIC,
-        }
-        tr = T.Compose(
-            [
-                T.Resize(self.resize, interpolations[self.interpolation]),
-                T.CenterCrop(self.input_size),
-                T.ToTensor(),
-            ]
-        )
-
-        if self.mean != None or self.std != None:
-            tr.transforms.append(T.Normalize(mean=self.mean, std=self.std))
-
-        return tr
 
 
 StateDict = Dict[str, Tensor]

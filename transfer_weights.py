@@ -1,5 +1,5 @@
 from timm.models.layers import config
-from glasses.models.AutoConfig import AutoConfig
+from glasses.models.AutoTransform import AutoTransform
 import logging
 from argparse import ArgumentParser
 from dataclasses import dataclass
@@ -51,7 +51,7 @@ def vit_clone(key: str):
     src = timm.create_model(key, pretrained="True")
     dst = AutoModel.from_name(key)
 
-    cfg = AutoConfig.from_name(key)
+    cfg = AutoTransform.from_name(key)
 
     dst = clone_model(
         src,
@@ -73,7 +73,7 @@ def deit_clone(key: str):
 
     dst = AutoModel.from_name(key)
 
-    cfg = AutoConfig.from_name(f"vit_{'_'.join(key.split('_')[1:])}")
+    cfg = AutoTransform.from_name(f"vit_{'_'.join(key.split('_')[1:])}")
 
     dst = clone_model(
         src,

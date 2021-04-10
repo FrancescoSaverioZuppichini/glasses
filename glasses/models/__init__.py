@@ -1,4 +1,4 @@
-from .AutoConfig import AutoConfig
+from .AutoTransform import AutoTransform
 from .AutoModel import AutoModel
 from .base import *
 from .classification import *

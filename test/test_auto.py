@@ -1,7 +1,7 @@
 import pytest
-from glasses.models import AutoConfig, AutoModel, ResNet
+from glasses.models import AutoTransform, AutoModel, ResNet
+from glasses.models.AutoTransform import Transform
 from glasses.utils.weights.PretrainedWeightsProvider import (
-    Config,
     PretrainedWeightsProvider,
     pretrained,
 )
@@ -47,10 +47,10 @@ def test_AutoModel():
     assert type(AutoModel.from_name("resnet18").summary()) == ModelStatistics
 
 
-def test_AutoConfig():
-    cfg = AutoConfig.from_name("resnet18")
-    assert isinstance(cfg, Config)
-    cfg = AutoConfig.from_name("resnetasddsadas")
-    assert len(list(AutoConfig.names())) > 0
+def test_AutoTransform():
+    cfg = AutoTransform.from_name("resnet18")
+    assert isinstance(cfg, Transform)
+    cfg = AutoTransform.from_name("resnetasddsadas")
+    assert len(list(AutoTransform.names())) > 0
     with pytest.raises(EnvironmentError):
-        AutoConfig()
+        AutoTransform()
