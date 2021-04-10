@@ -14,7 +14,7 @@ from tqdm.autonotebook import tqdm
 
 from glasses.models import *
 from glasses.models.AutoModel import AutoModel
-from glasses.models.AutoConfig import AutoConfig
+from glasses.models.AutoTransform import AutoTransform
 from glasses.utils.weights.PretrainedWeightsProvider import PretrainedWeightsProvider
 
 models = list(PretrainedWeightsProvider.weights_zoo.keys())
@@ -106,7 +106,7 @@ def benchmark_all() -> pd.DataFrame:
             if key not in df.index:
                 try:
                     model = AutoModel.from_pretrained(key)
-                    cfg = AutoConfig.from_name(key)
+                    cfg = AutoTransform.from_name(key)
                     tr = cfg.transform
 
                     batch_size = 64

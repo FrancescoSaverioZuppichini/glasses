@@ -73,11 +73,11 @@ The API are shared across **all** models!
 
 ```python
 import torch
-from glasses.models import AutoModel, AutoConfig
+from glasses.models import AutoModel, AutoTransform
 from torch import nn
 # load one model
 model = AutoModel.from_pretrained('resnet18')
-cfg = AutoConfig.from_name('resnet18')
+cfg = AutoTransform.from_name('resnet18')
 model.summary(device='cpu' ) # thanks to torchinfo
 AutoModel.models_table() 
 ```
@@ -232,14 +232,14 @@ Assuming you want to load `efficientnet_b1`:
 
 
 ```python
-from glasses.models import EfficientNet, AutoModel, AutoConfig
+from glasses.models import EfficientNet, AutoModel, AutoTransform
 
 # load it using AutoModel
 model = AutoModel.from_pretrained('efficientnet_b1')
 # or from its own class
 model = EfficientNet.efficientnet_b1(pretrained=True)
 # you may also need to get the correct transformation that must be applied on the input
-cfg = AutoConfig.from_name('efficientnet_b1')
+cfg = AutoTransform.from_name('efficientnet_b1')
 transform = cfg.transform
 ```
 
