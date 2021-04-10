@@ -4,7 +4,6 @@ from typing import Dict
 
 import torch
 import torch.nn as nn
-from glasses.utils.weights.PretrainedWeightsProvider import Config
 from glasses.utils.Storage import ForwardModuleStorage
 from torchinfo import summary
 
@@ -13,8 +12,6 @@ from .protocols import Freezable, Interpretable
 
 class VisionModule(nn.Module, Freezable, Interpretable):
     """Base vision module, all models should subclass it."""
-
-    configs: Dict[str, Config] = {}
 
     def summary(self, input_shape=(1, 3, 224, 224), device: torch.device = None):
         """Useful method to run `torchinfo` directly from the model
