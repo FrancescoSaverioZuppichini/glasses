@@ -221,7 +221,7 @@ class AutoTransform:
     def __init__(self):
         raise EnvironmentError(
             "AutoTransform is designed to be instantiated "
-            "using the `AutoModel.from_name(model_name)` method."
+            "using the `AutoTransform.from_name(model_name)` method."
         )
 
     @staticmethod
