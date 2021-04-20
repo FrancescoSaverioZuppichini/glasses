@@ -236,8 +236,7 @@ class AutoTransform:
             You can access the preprocess `transformation`, you should use it
             to preprocess your inputs.
 
-            >>> cfg =  AutoTransform.from_name('resnet18')
-            >>> cfg.transform
+            >>> tr =  AutoTransform.from_name('resnet18')
 
 
         Args:
