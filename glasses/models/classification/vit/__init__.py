@@ -96,7 +96,7 @@ class MultiHeadAttention(nn.Module):
         emb_size: int = 768,
         num_heads: int = 12,
         att_drop_p: float = 0.0,
-        projection_drop_p: float = 0.0,
+        projection_drop_p: float = 0.2,
         qkv_bias: bool = False,
     ):
         """
@@ -181,7 +181,7 @@ class TransformerEncoderBlock(nn.Sequential):
         self,
         emb_size: int = 768,
         forward_expansion: int = 4,
-        forward_drop_p: float = 0.0,
+        forward_drop_p: float = 0.2,
         activation: nn.Module = nn.GELU,
         **kwargs,
     ):
