@@ -9,7 +9,6 @@ from pathlib import Path
 from typing import Dict
 from glasses.utils.weights.HFModelHub import HFModelHub
 from glasses.utils.weights.PretrainedWeightsProvider import (
-    ORGANIZATION_NAME,
     PretrainedWeightsProvider,
 )
 
@@ -166,7 +165,7 @@ def clone_model(
 
 @dataclass
 class LocalStorage:
-    root: Path = PretrainedWeightsProvider.BASE_DIR
+    root: Path = Path("/tmp/glasses")
     override: bool = False
 
     def __post_init__(self):
@@ -214,7 +213,7 @@ class HFHubStorage:
                 save_directory=f"/tmp/{key}",
                 model_id=key,
                 push_to_hub=True,
-                organization=ORGANIZATION_NAME,
+                organization="glasses",
             )
         except OSError:
             logging.info(f"{key} already stored!")

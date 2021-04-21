@@ -12,9 +12,6 @@ from functools import wraps
 from .HFModelHub import HFModelHub
 
 
-ORGANIZATION_NAME = "glasses"
-
-
 StateDict = Dict[str, Tensor]
 
 
@@ -103,7 +100,6 @@ def load_pretrained_model(
     return model
 
 
-@dataclass
 class PretrainedWeightsProvider:
     """
     This class allows to retrieve pretrained models weights (state dict).
@@ -119,26 +115,13 @@ class PretrainedWeightsProvider:
         >>> provider = PretrainedWeightsProvider(override=True)
     """
 
-    BASE_DIR: Path = Path(torch.hub.get_dir()) / Path("glasses")
-    save_dir: Path = BASE_DIR
-    verbose: int = 0
-    override: bool = False
-
-    def __post_init__(self):
-        try:
-            self.save_dir.mkdir(exist_ok=True)
-        except FileNotFoundError:
-            default_dir = str(Path(__file__).resolve().parent)
-            self.save_dir = Path(os.environ.get("HOME", default_dir)) / Path(
-                ".glasses/"
-            )
-            self.save_dir.mkdir(exist_ok=True)
-        os.environ["GLASSES_HOME"] = str(self.save_dir)
+    def __init__(self):
         # we also need to know which models are pretrained
         with open("pretrained_models.txt", "r") as f:
             data = f.read()
             self.weights_zoo = data.split(",")
 
     def __getitem__(self, key: str) -> StateDict:
-        weights = HFModelHub.from_pretrained(f"{ORGANIZATION_NAME}/{key}")
+        # we fully relies on the hugging face hub now
+        weights = HFModelHub.from_pretrained(f"glasses/{key}")
         return weights
