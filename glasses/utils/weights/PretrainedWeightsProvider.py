@@ -115,6 +115,12 @@ class PretrainedWeightsProvider:
         >>> provider = PretrainedWeightsProvider(override=True)
     """
 
+    def __init__(self):
+        # we also need to know which models are pretrained
+        with open("pretrained_models.txt", "r") as f:
+            data = f.read()
+            self.weights_zoo = data.split(",")
+
     def __getitem__(self, key: str) -> StateDict:
         # we fully relies on the hugging face hub now
         weights = HFModelHub.from_pretrained(f"glasses/{key}")
