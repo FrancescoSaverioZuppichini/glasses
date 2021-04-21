@@ -100,7 +100,7 @@
 <li class="toctree-l3"><a class="reference internal" href="glasses.models.base.html">glasses.models.base package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="glasses.models.classification.html">glasses.models.classification package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="glasses.models.classification.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="glasses.models.classification.html#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.models.classification.html#module-glasses.models.classification">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.models.segmentation.html">glasses.models.segmentation package</a></li>
@@ -108,9 +108,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#glasses-models-automodel-module">glasses.models.AutoModel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoModel">glasses.models.AutoModel module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoTransform">glasses.models.AutoTransform module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
@@ -193,8 +193,342 @@
             
   <div class="section" id="glasses-models-classification-efficientnet-package">
 <h1>glasses.models.classification.efficientnet package<a class="headerlink" href="#glasses-models-classification-efficientnet-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-glasses.models.classification.efficientnet">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.models.classification.efficientnet" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="glasses.models.classification.efficientnet.EfficientNet">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.efficientnet.</span></code><code class="sig-name descname"><span class="pre">EfficientNet</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">encoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.efficientnet.EfficientNetEncoder'&gt;</span></em>, <em class="sig-param"><span class="pre">head:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.efficientnet.EfficientNetHead'&gt;</span></em>, <em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.models.classification.base.html#glasses.models.classification.base.ClassificationModule" title="glasses.models.classification.base.ClassificationModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.base.ClassificationModule</span></code></a></p>
+<p>Implementation of EfficientNet proposed in <a class="reference external" href="https://arxiv.org/abs/1905.11946">EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks</a></p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNet.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNet.png?raw=true" />
+<p>The basic architecture is similar to MobileNetV2 as was computed by using  <a class="reference external" href="https://arxiv.org/abs/1905.11946">Progressive Neural Architecture Search</a> .</p>
+<p>The following table shows the basic architecture (EfficientNet-efficientnet_b0):</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetModelsTable.jpeg?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetModelsTable.jpeg?raw=true" />
+<p>Then, the architecture is scaled up from <cite>-efficientnet_b0</cite> to <cite>-efficientnet_b7</cite> using compound scaling.</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetScaling.jpg?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetScaling.jpg?raw=true" />
+<p class="rubric">Examples</p>
+<p>Default models</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b1</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b2</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b3</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b4</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b5</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b6</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b7</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b8</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_l2</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can easily customize your model</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">block</span><span class="o">=...</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store each feature</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get the features from the encoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># [torch.Size([1, 32, 112, 112]), torch.Size([1, 24, 56, 56]), torch.Size([1, 40, 28, 28]), torch.Size([1, 80, 14, 14])]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</p></li>
+<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of classes. Defaults to 1000.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py attribute">
+<dt id="glasses.models.classification.efficientnet.EfficientNet.default_depths">
+<code class="sig-name descname"><span class="pre">default_depths</span></code><em class="property"><span class="pre">:</span> <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">1]</span></em><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet.default_depths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.classification.efficientnet.EfficientNet.default_widths">
+<code class="sig-name descname"><span class="pre">default_widths</span></code><em class="property"><span class="pre">:</span> <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">[32,</span> <span class="pre">16,</span> <span class="pre">24,</span> <span class="pre">40,</span> <span class="pre">80,</span> <span class="pre">112,</span> <span class="pre">192,</span> <span class="pre">320,</span> <span class="pre">1280]</span></em><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet.default_widths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNet.efficientnet_b0">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">efficientnet_b0</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNet.efficientnet_b0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet.efficientnet_b0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNet.efficientnet_b1">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">efficientnet_b1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNet.efficientnet_b1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet.efficientnet_b1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNet.efficientnet_b2">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">efficientnet_b2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNet.efficientnet_b2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet.efficientnet_b2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNet.efficientnet_b3">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">efficientnet_b3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNet.efficientnet_b3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet.efficientnet_b3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNet.efficientnet_b4">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">efficientnet_b4</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNet.efficientnet_b4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet.efficientnet_b4" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNet.efficientnet_b5">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">efficientnet_b5</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNet.efficientnet_b5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet.efficientnet_b5" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNet.efficientnet_b6">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">efficientnet_b6</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNet.efficientnet_b6"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet.efficientnet_b6" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNet.efficientnet_b7">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">efficientnet_b7</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNet.efficientnet_b7"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet.efficientnet_b7" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNet.efficientnet_b8">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">efficientnet_b8</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNet.efficientnet_b8"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet.efficientnet_b8" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNet.efficientnet_l2">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">efficientnet_l2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNet.efficientnet_l2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet.efficientnet_l2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNet.from_config">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNet.from_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet.from_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNet.initialize">
+<code class="sig-name descname"><span class="pre">initialize</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNet.initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet.initialize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.classification.efficientnet.EfficientNet.models_config">
+<code class="sig-name descname"><span class="pre">models_config</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{'efficientnet_b0':</span> <span class="pre">(1.0,</span> <span class="pre">1.0,</span> <span class="pre">0.2),</span> <span class="pre">'efficientnet_b1':</span> <span class="pre">(1.0,</span> <span class="pre">1.1,</span> <span class="pre">0.2),</span> <span class="pre">'efficientnet_b2':</span> <span class="pre">(1.1,</span> <span class="pre">1.2,</span> <span class="pre">0.3),</span> <span class="pre">'efficientnet_b3':</span> <span class="pre">(1.2,</span> <span class="pre">1.4,</span> <span class="pre">0.3),</span> <span class="pre">'efficientnet_b4':</span> <span class="pre">(1.4,</span> <span class="pre">1.8,</span> <span class="pre">0.4),</span> <span class="pre">'efficientnet_b5':</span> <span class="pre">(1.6,</span> <span class="pre">2.2,</span> <span class="pre">0.4),</span> <span class="pre">'efficientnet_b6':</span> <span class="pre">(1.8,</span> <span class="pre">2.6,</span> <span class="pre">0.5),</span> <span class="pre">'efficientnet_b7':</span> <span class="pre">(2.0,</span> <span class="pre">3.1,</span> <span class="pre">0.5),</span> <span class="pre">'efficientnet_b8':</span> <span class="pre">(2.2,</span> <span class="pre">3.6,</span> <span class="pre">0.5),</span> <span class="pre">'efficientnet_l2':</span> <span class="pre">(4.3,</span> <span class="pre">5.3,</span> <span class="pre">0.5)}</span></em><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet.models_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.classification.efficientnet.EfficientNet.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNet.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.classification.efficientnet.EfficientNetBasicBlock">
+<code class="sig-prename descclassname"><span class="pre">glasses.models.classification.efficientnet.</span></code><code class="sig-name descname"><span class="pre">EfficientNetBasicBlock</span></code><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetBasicBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#glasses.models.classification.efficientnet.InvertedResidualBlock" title="glasses.models.classification.efficientnet.InvertedResidualBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.efficientnet.InvertedResidualBlock</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.classification.efficientnet.EfficientNetEncoder">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.efficientnet.</span></code><code class="sig-name descname"><span class="pre">EfficientNetEncoder</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_channels:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">3,</span> <span class="pre">widths:</span> <span class="pre">List[int]</span> <span class="pre">=</span> <span class="pre">[32,</span> <span class="pre">16,</span> <span class="pre">24,</span> <span class="pre">40,</span> <span class="pre">80,</span> <span class="pre">112,</span> <span class="pre">192,</span> <span class="pre">320,</span> <span class="pre">1280],</span> <span class="pre">depths:</span> <span class="pre">List[int]</span> <span class="pre">=</span> <span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">1],</span> <span class="pre">strides:</span> <span class="pre">List[int]</span> <span class="pre">=</span> <span class="pre">[2,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">2,</span> <span class="pre">2,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">1],</span> <span class="pre">expansions:</span> <span class="pre">List[int]</span> <span class="pre">=</span> <span class="pre">[1,</span> <span class="pre">6,</span> <span class="pre">6,</span> <span class="pre">6,</span> <span class="pre">6,</span> <span class="pre">6,</span> <span class="pre">6],</span> <span class="pre">kernel_sizes:</span> <span class="pre">List[int]</span> <span class="pre">=</span> <span class="pre">[3,</span> <span class="pre">3,</span> <span class="pre">5,</span> <span class="pre">3,</span> <span class="pre">5,</span> <span class="pre">5,</span> <span class="pre">3],</span> <span class="pre">se:</span> <span class="pre">List[bool]</span> <span class="pre">=</span> <span class="pre">[True,</span> <span class="pre">True,</span> <span class="pre">True,</span> <span class="pre">True,</span> <span class="pre">True,</span> <span class="pre">True,</span> <span class="pre">True],</span> <span class="pre">drop_rate:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.2,</span> <span class="pre">stem:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.blocks.ConvBnAct'&gt;,</span> <span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'torch.nn.modules.activation.SiLU'&gt;,</span> <span class="pre">inplace=True),</span> <span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNetEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetEncoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.models.base.html#glasses.models.base.Encoder" title="glasses.models.base.Encoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.base.Encoder</span></code></a></p>
+<p>EfficientNet encoder composed by multiple different layers with increasing features.</p>
+<p>Be awere that <cite>widths</cite> and <cite>strides</cite> also includes the width and stride for the steam in the first position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 3.</p></li>
+<li><p><strong>widths</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [32, 16, 24, 40, 80, 112, 192, 320, 1280].</p></li>
+<li><p><strong>depths</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [1, 2, 2, 3, 3, 4, 1].</p></li>
+<li><p><strong>strides</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [2, 1, 2, 2, 2, 1, 2, 1].</p></li>
+<li><p><strong>expansions</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [1, 6, 6, 6, 6, 6, 6].</p></li>
+<li><p><strong>kernel_sizes</strong> (<em>List</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [3, 3, 5, 3, 5, 5, 3].</p></li>
+<li><p><strong>se</strong> (<em>List</em><em>[</em><em>bool</em><em>]</em><em>, </em><em>optional</em>) – [description]. Defaults to [True, True, True, True, True, True, True].</p></li>
+<li><p><strong>drop_rate</strong> (<em>float</em><em>, </em><em>optional</em>) – [description]. Defaults to 0.2.</p></li>
+<li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to nn.SiLU.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNetEncoder.features_widths">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">features_widths</span></code><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetEncoder.features_widths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNetEncoder.forward">
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNetEncoder.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetEncoder.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNetEncoder.stages">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">stages</span></code><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetEncoder.stages" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.classification.efficientnet.EfficientNetEncoder.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetEncoder.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.classification.efficientnet.EfficientNetHead">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.efficientnet.</span></code><code class="sig-name descname"><span class="pre">EfficientNetHead</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_classes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_rate</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNetHead"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetHead" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
+<p>This class represents the head of EfficientNet. It performs a global pooling, dropout and maps the output to the
+correct class by using a fully connected layer.</p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNetHead.forward">
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNetHead.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetHead.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.classification.efficientnet.EfficientNetHead.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetHead.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.classification.efficientnet.EfficientNetLite">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.efficientnet.</span></code><code class="sig-name descname"><span class="pre">EfficientNetLite</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">encoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.efficientnet.EfficientNetEncoder'&gt;</span></em>, <em class="sig-param"><span class="pre">head:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.efficientnet.EfficientNetHead'&gt;</span></em>, <em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNetLite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetLite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></code></a></p>
+<p>Implementations of EfficientNetLite proposed in <a class="reference external" href="https://blog.tensorflow.org/2020/03/higher-accuracy-on-vision-models-with-efficientnet-lite.html">Higher accuracy on vision models with EfficientNet-Lite</a></p>
+<p>Main differences from the EfficientNet implementation are:</p>
+<ul class="simple">
+<li><p>Removed squeeze-and-excitation networks since they are not well supported</p></li>
+<li><p>Replaced all swish activations with RELU6, which significantly improved the quality of post-training quantization (explained later)</p></li>
+<li><p>Fixed the stem and head while scaling models up in order to reduce the size and computations of scaled models</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<p>Create a default model</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNetLite</span><span class="o">.</span><span class="n">efficientnet_lite0</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNetLite</span><span class="o">.</span><span class="n">efficientnet_lite1</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNetLite</span><span class="o">.</span><span class="n">efficientnet_lite2</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNetLite</span><span class="o">.</span><span class="n">efficientnet_lite3</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNetLite</span><span class="o">.</span><span class="n">efficientnet_lite4</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</p></li>
+<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of classes. Defaults to 1000.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNetLite.efficientnet_lite0">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">efficientnet_lite0</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNetLite.efficientnet_lite0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetLite.efficientnet_lite0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNetLite.efficientnet_lite1">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">efficientnet_lite1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNetLite.efficientnet_lite1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetLite.efficientnet_lite1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNetLite.efficientnet_lite2">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">efficientnet_lite2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNetLite.efficientnet_lite2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetLite.efficientnet_lite2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNetLite.efficientnet_lite3">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">efficientnet_lite3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNetLite.efficientnet_lite3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetLite.efficientnet_lite3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNetLite.efficientnet_lite4">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">efficientnet_lite4</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNetLite.efficientnet_lite4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetLite.efficientnet_lite4" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.EfficientNetLite.from_config">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#EfficientNetLite.from_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetLite.from_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.classification.efficientnet.EfficientNetLite.models_config">
+<code class="sig-name descname"><span class="pre">models_config</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{'efficientnet_lite0':</span> <span class="pre">(1.0,</span> <span class="pre">1.0,</span> <span class="pre">0.2),</span> <span class="pre">'efficientnet_lite1':</span> <span class="pre">(1.0,</span> <span class="pre">1.1,</span> <span class="pre">0.2),</span> <span class="pre">'efficientnet_lite2':</span> <span class="pre">(1.1,</span> <span class="pre">1.2,</span> <span class="pre">0.3),</span> <span class="pre">'efficientnet_lite3':</span> <span class="pre">(1.2,</span> <span class="pre">1.4,</span> <span class="pre">0.3),</span> <span class="pre">'efficientnet_lite4':</span> <span class="pre">(1.4,</span> <span class="pre">1.8,</span> <span class="pre">0.3)}</span></em><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetLite.models_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.classification.efficientnet.EfficientNetLite.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.efficientnet.EfficientNetLite.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.classification.efficientnet.InvertedResidualBlock">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.efficientnet.</span></code><code class="sig-name descname"><span class="pre">InvertedResidualBlock</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">out_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">stride:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></em>, <em class="sig-param"><span class="pre">expansion:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">6</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.activation.SiLU'&gt;</span></em>, <em class="sig-param"><span class="pre">drop_rate:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.2</span></em>, <em class="sig-param"><span class="pre">se:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></em>, <em class="sig-param"><span class="pre">kernel_size:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">3</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#InvertedResidualBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.InvertedResidualBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Inverted residual block proposed originally for MobileNetV2.</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetBasicBlock.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetBasicBlock.png?raw=true" />
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<em>int</em>) – Number of input features</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – Number of output features</p></li>
+<li><p><strong>stride</strong> (<em>int</em><em>, </em><em>optional</em>) – Stide used in the depth convolution. Defaults to 1.</p></li>
+<li><p><strong>expansion</strong> (<em>int</em><em>, </em><em>optional</em>) – The expansion ratio applied. Defaults to 6.</p></li>
+<li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The activation funtion used. Defaults to nn.SiLU.</p></li>
+<li><p><strong>drop_rate</strong> (<em>float</em><em>, </em><em>optional</em>) – If &gt; 0, add a  nn.Dropout2d at the end of the block. Defaults to 0.2.</p></li>
+<li><p><strong>se</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, add a ChannelSE module after the depth convolution. Defaults to True.</p></li>
+<li><p><strong>kernel_size</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 3.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py method">
+<dt id="glasses.models.classification.efficientnet.InvertedResidualBlock.forward">
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/models/classification/efficientnet.html#InvertedResidualBlock.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.efficientnet.InvertedResidualBlock.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.classification.efficientnet.InvertedResidualBlock.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.efficientnet.InvertedResidualBlock.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 

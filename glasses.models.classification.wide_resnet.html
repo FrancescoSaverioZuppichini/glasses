@@ -100,7 +100,7 @@
 <li class="toctree-l3"><a class="reference internal" href="glasses.models.base.html">glasses.models.base package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="glasses.models.classification.html">glasses.models.classification package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="glasses.models.classification.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="glasses.models.classification.html#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.models.classification.html#module-glasses.models.classification">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.models.segmentation.html">glasses.models.segmentation package</a></li>
@@ -108,9 +108,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#glasses-models-automodel-module">glasses.models.AutoModel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoModel">glasses.models.AutoModel module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoTransform">glasses.models.AutoTransform module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
@@ -193,8 +193,106 @@
             
   <div class="section" id="glasses-models-classification-wide-resnet-package">
 <h1>glasses.models.classification.wide_resnet package<a class="headerlink" href="#glasses-models-classification-wide-resnet-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-glasses.models.classification.wide_resnet">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.models.classification.wide_resnet" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="glasses.models.classification.wide_resnet.WideResNet">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.wide_resnet.</span></code><code class="sig-name descname"><span class="pre">WideResNet</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">encoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetEncoder'&gt;</span></em>, <em class="sig-param"><span class="pre">head:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetHead'&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/wide_resnet.html#WideResNet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.wide_resnet.WideResNet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNet" title="glasses.models.classification.resnet.ResNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNet</span></code></a></p>
+<p>Implementation of Wide ResNet proposed in <a class="reference external" href="https://arxiv.org/pdf/1605.07146.pdf">“Wide Residual Networks”</a></p>
+<p>Create a default model</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet50_2</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet101_2</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create a wide_resnet18_4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WideResNetBottleNeckBlock</span><span class="p">,</span> <span class="n">width_factor</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can easily customize your model</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the initial convolution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store each feature</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet50_2</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">x</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># [torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7])]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</p></li>
+<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of classes. Defaults to 1000.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py attribute">
+<dt id="glasses.models.classification.wide_resnet.WideResNet.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.wide_resnet.WideResNet.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.wide_resnet.WideResNet.wide_resnet101_2">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">wide_resnet101_2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.wide_resnet.WideResNet" title="glasses.models.classification.wide_resnet.WideResNet"><span class="pre">glasses.models.classification.wide_resnet.WideResNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/wide_resnet.html#WideResNet.wide_resnet101_2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.wide_resnet.WideResNet.wide_resnet101_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a wide_resnet50_2 model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A wide_resnet50_2 model</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="glasses.models.html#glasses.models.ResNet" title="glasses.models.ResNet">ResNet</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.wide_resnet.WideResNet.wide_resnet50_2">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">wide_resnet50_2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.wide_resnet.WideResNet" title="glasses.models.classification.wide_resnet.WideResNet"><span class="pre">glasses.models.classification.wide_resnet.WideResNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/wide_resnet.html#WideResNet.wide_resnet50_2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.wide_resnet.WideResNet.wide_resnet50_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a wide_resnet50_2 model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A wide_resnet50_2 model</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="glasses.models.html#glasses.models.ResNet" title="glasses.models.ResNet">ResNet</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.classification.wide_resnet.WideResNetBottleNeckBlock">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.wide_resnet.</span></code><code class="sig-name descname"><span class="pre">WideResNetBottleNeckBlock</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_factor</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduction</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/wide_resnet.html#WideResNetBottleNeckBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.wide_resnet.WideResNetBottleNeckBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNetBottleneckBlock" title="glasses.models.classification.resnet.ResNetBottleneckBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNetBottleneckBlock</span></code></a></p>
+<p>Wide resnet bottle neck block, you can control the width of the inner features with the width_factor parameter
+:param in_features: [description]
+:type in_features: [type]
+:param out_features: [description]
+:type out_features: [type]
+:param width_factor: Scales the 3x3 conv features in the bottle neck block. Defaults to 2.
+:type width_factor: int, optional</p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py attribute">
+<dt id="glasses.models.classification.wide_resnet.WideResNetBottleNeckBlock.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.wide_resnet.WideResNetBottleNeckBlock.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 

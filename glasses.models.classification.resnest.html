@@ -100,7 +100,7 @@
 <li class="toctree-l3"><a class="reference internal" href="glasses.models.base.html">glasses.models.base package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="glasses.models.classification.html">glasses.models.classification package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="glasses.models.classification.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="glasses.models.classification.html#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.models.classification.html#module-glasses.models.classification">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.models.segmentation.html">glasses.models.segmentation package</a></li>
@@ -108,9 +108,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#glasses-models-automodel-module">glasses.models.AutoModel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoModel">glasses.models.AutoModel module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoTransform">glasses.models.AutoTransform module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
@@ -193,8 +193,189 @@
             
   <div class="section" id="glasses-models-classification-resnest-package">
 <h1>glasses.models.classification.resnest package<a class="headerlink" href="#glasses-models-classification-resnest-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-glasses.models.classification.resnest">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.models.classification.resnest" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="glasses.models.classification.resnest.ResNeSt">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.resnest.</span></code><code class="sig-name descname"><span class="pre">ResNeSt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">encoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnest.ResNeStEncoder'&gt;</span></em>, <em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/resnest.html#ResNeSt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnest.ResNeSt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNet" title="glasses.models.classification.resnet.ResNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNet</span></code></a></p>
+<p>Implementation of ResNeSt proposed in <a class="reference external" href="https://arxiv.org/abs/2004.08955">“ResNeSt: Split-Attention Networks”</a>.</p>
+<p>This model beats EfficientNet both in speed and accuracy.</p>
+<p>Create a default model</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest14d</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest26d</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest50d</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest50d_1s4x24d</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest50d_4s2x40d</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># &#39;e&#39; models have a bigger start_features (128), resulting in a 64 stem width</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest101e</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest200e</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest269e</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create a ResNeSt50_2s4s40d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnet50d</span><span class="p">(</span><span class="n">radix</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">base_width</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can easily customize your model</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest50d</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest50d</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest50d</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store each feature</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest50d</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get the features from the encoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#[torch.Size([1, 64, 112, 112]), torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14])]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</p></li>
+<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of classes. Defaults to 1000.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py method">
+<dt id="glasses.models.classification.resnest.ResNeSt.resnest101e">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnest101e</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnest.ResNeSt" title="glasses.models.classification.resnest.ResNeSt"><span class="pre">glasses.models.classification.resnest.ResNeSt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnest.html#ResNeSt.resnest101e"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnest.ResNeSt.resnest101e" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.resnest.ResNeSt.resnest14d">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnest14d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnest.ResNeSt" title="glasses.models.classification.resnest.ResNeSt"><span class="pre">glasses.models.classification.resnest.ResNeSt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnest.html#ResNeSt.resnest14d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnest.ResNeSt.resnest14d" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.resnest.ResNeSt.resnest200e">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnest200e</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnest.ResNeSt" title="glasses.models.classification.resnest.ResNeSt"><span class="pre">glasses.models.classification.resnest.ResNeSt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnest.html#ResNeSt.resnest200e"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnest.ResNeSt.resnest200e" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.resnest.ResNeSt.resnest269e">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnest269e</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnest.ResNeSt" title="glasses.models.classification.resnest.ResNeSt"><span class="pre">glasses.models.classification.resnest.ResNeSt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnest.html#ResNeSt.resnest269e"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnest.ResNeSt.resnest269e" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.resnest.ResNeSt.resnest26d">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnest26d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnest.ResNeSt" title="glasses.models.classification.resnest.ResNeSt"><span class="pre">glasses.models.classification.resnest.ResNeSt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnest.html#ResNeSt.resnest26d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnest.ResNeSt.resnest26d" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.resnest.ResNeSt.resnest50d">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnest50d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnest.ResNeSt" title="glasses.models.classification.resnest.ResNeSt"><span class="pre">glasses.models.classification.resnest.ResNeSt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnest.html#ResNeSt.resnest50d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnest.ResNeSt.resnest50d" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.resnest.ResNeSt.resnest50d_1s4x24d">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnest50d_1s4x24d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnest.ResNeSt" title="glasses.models.classification.resnest.ResNeSt"><span class="pre">glasses.models.classification.resnest.ResNeSt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnest.html#ResNeSt.resnest50d_1s4x24d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnest.ResNeSt.resnest50d_1s4x24d" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.resnest.ResNeSt.resnest50d_4s2x40d">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnest50d_4s2x40d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnest.ResNeSt" title="glasses.models.classification.resnest.ResNeSt"><span class="pre">glasses.models.classification.resnest.ResNeSt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnest.html#ResNeSt.resnest50d_4s2x40d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnest.ResNeSt.resnest50d_4s2x40d" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="glasses.models.classification.resnest.ResNeSt.resnest50d_fast">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnest50d_fast</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnest.ResNeSt" title="glasses.models.classification.resnest.ResNeSt"><span class="pre">glasses.models.classification.resnest.ResNeSt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnest.html#ResNeSt.resnest50d_fast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnest.ResNeSt.resnest50d_fast" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.classification.resnest.ResNeSt.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.resnest.ResNeSt.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.classification.resnest.ResNeStBottleneckBlock">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.resnest.</span></code><code class="sig-name descname"><span class="pre">ResNeStBottleneckBlock</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">out_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">stride:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></em>, <em class="sig-param"><span class="pre">radix:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2</span></em>, <em class="sig-param"><span class="pre">groups:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></em>, <em class="sig-param"><span class="pre">fast:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></em>, <em class="sig-param"><span class="pre">reduction:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">4</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></em>, <em class="sig-param"><span class="pre">inplace=True)</span></em>, <em class="sig-param"><span class="pre">drop_block_p:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/resnest.html#ResNeStBottleneckBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnest.ResNeStBottleneckBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.models.classification.resnetxt.html#glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock" title="glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock</span></code></a></p>
+<p>Implementation of ResNeSt Bottleneck Block proposed in proposed in <a class="reference external" href="https://arxiv.org/abs/2004.08955">“ResNeSt: Split-Attention Networks”</a>.
+It subclasses <cite>ResNetXtBottleNeckBlock</cite> to use the inner features calculation based on the reduction and groups widths.</p>
+<p>It uses <cite>SplitAttention</cite> after the 3x3 conv and an <cite>AvgPool2d</cite> layer instead of a strided 3x3 convolution to downsample the input.</p>
+<p>DropBlock is added after every convolution operation.</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNeStBlock.jpg?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNeStBlock.jpg?raw=true" />
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>reduction</strong> (<em>int</em><em>, </em><em>optional</em>) – Reduction used in the bottleneck. Defaults to 4.</p></li>
+<li><p><strong>stride</strong> (<em>int</em><em>, </em><em>optional</em>) – Stride that was originally applied to the 3x3 conv. Defaults to 1.</p></li>
+<li><p><strong>radix</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of subgroups. Defaults to 2.</p></li>
+<li><p><strong>groups</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of groups. Defaults to 1.</p></li>
+<li><p><strong>fast</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, the pooling is applied before the 3x3 conv, this improves performance. Defaults to True.</p></li>
+<li><p><strong>activation</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to ReLUInPlace.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="glasses.models.classification.resnest.ResNeStBottleneckBlock.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.resnest.ResNeStBottleneckBlock.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.classification.resnest.ResNeStEncoder">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.resnest.</span></code><code class="sig-name descname"><span class="pre">ResNeStEncoder</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_channels:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">3,</span> <span class="pre">start_features:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">64,</span> <span class="pre">widths:</span> <span class="pre">List[int]</span> <span class="pre">=</span> <span class="pre">[64,</span> <span class="pre">128,</span> <span class="pre">256,</span> <span class="pre">512],</span> <span class="pre">depths:</span> <span class="pre">List[int]</span> <span class="pre">=</span> <span class="pre">[2,</span> <span class="pre">2,</span> <span class="pre">2,</span> <span class="pre">2],</span> <span class="pre">stem:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetStemC'&gt;,</span> <span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;,</span> <span class="pre">inplace=True),</span> <span class="pre">block:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnest.ResNeStBottleneckBlock'&gt;,</span> <span class="pre">downsample_first:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">drop_block_p:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.2,</span> <span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/resnest.html#ResNeStEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnest.ResNeStEncoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNetEncoder" title="glasses.models.classification.resnet.ResNetEncoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNetEncoder</span></code></a></p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py attribute">
+<dt id="glasses.models.classification.resnest.ResNeStEncoder.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.resnest.ResNeStEncoder.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.classification.resnest.SplitAtt">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.resnest.</span></code><code class="sig-name descname"><span class="pre">SplitAtt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radix</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/resnest.html#SplitAtt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnest.SplitAtt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Implementation of Split Attention proposed in <a class="reference external" href="https://arxiv.org/abs/2004.08955">“ResNeSt: Split-Attention Networks”</a></p>
+<p>Grouped convolution have been proved to be impirically better (ResNetXt). The main idea is to apply an attention group-wise.</p>
+<p>Einops is used to improve the readibility of this module</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<em>int</em>) – number of input features</p></li>
+<li><p><strong>features</strong> (<em>int</em>) – attention’s features</p></li>
+<li><p><strong>radix</strong> (<em>int</em>) – number of subgroups (<cite>radix</cite>) in the groups</p></li>
+<li><p><strong>groups</strong> (<em>int</em>) – number of groups, each group contains <cite>radix</cite> subgroups</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="glasses.models.classification.resnest.SplitAtt.forward">
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/models/classification/resnest.html#SplitAtt.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnest.SplitAtt.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.classification.resnest.SplitAtt.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.resnest.SplitAtt.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 

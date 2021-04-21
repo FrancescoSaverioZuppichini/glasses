@@ -171,7 +171,7 @@
 <span class="kn">from</span> <span class="nn">glasses.nn.blocks.residuals</span> <span class="kn">import</span> <span class="n">ResidualAdd</span>
 <span class="kn">from</span> <span class="nn">glasses.nn.blocks</span> <span class="kn">import</span> <span class="n">Lambda</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">glasses.utils.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">pretrained</span>
+<span class="kn">from</span> <span class="nn">glasses.utils.weights.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">pretrained</span>
 <span class="kn">from</span> <span class="nn">....models.base</span> <span class="kn">import</span> <span class="n">Encoder</span><span class="p">,</span> <span class="n">VisionModule</span>
 <span class="kn">from</span> <span class="nn">einops</span> <span class="kn">import</span> <span class="n">rearrange</span><span class="p">,</span> <span class="n">reduce</span><span class="p">,</span> <span class="n">repeat</span>
 <span class="kn">from</span> <span class="nn">einops.layers.torch</span> <span class="kn">import</span> <span class="n">Rearrange</span><span class="p">,</span> <span class="n">Reduce</span>
@@ -261,7 +261,7 @@
         <span class="n">emb_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">768</span><span class="p">,</span>
         <span class="n">num_heads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
         <span class="n">att_drop_p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">projection_drop_p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">projection_drop_p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
         <span class="n">qkv_bias</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -346,7 +346,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">emb_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">768</span><span class="p">,</span>
         <span class="n">forward_expansion</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="n">forward_drop_p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">forward_drop_p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
         <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">GELU</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>

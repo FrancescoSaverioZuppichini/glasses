@@ -280,11 +280,65 @@
 <span class="sd">        &gt;&gt;&gt; provider = PretrainedWeightsProvider(override=True)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># we also need to know which models are pretrained</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;pretrained_models.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">weights_zoo</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+    <span class="c1"># [TODO] This is bad practices, I should find about a better idea to get the name of the pretrained weights</span>
+    <span class="n">weights_zoo</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;resnet18&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;resnet26&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;resnet26d&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;resnet34&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;resnet34d&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;resnet50&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;resnet50d&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;resnet101&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;resnet152&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cse_resnet50&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;resnext50_32x4d&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;resnext101_32x8d&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;wide_resnet50_2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;wide_resnet101_2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;regnetx_002&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;regnetx_004&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;regnetx_006&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;regnetx_008&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;regnetx_016&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;regnetx_032&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;regnety_002&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;regnety_004&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;regnety_006&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;regnety_008&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;regnety_016&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;regnety_032&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;densenet121&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;densenet169&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;densenet201&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;densenet161&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vgg11&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vgg13&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vgg16&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vgg19&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vgg11_bn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vgg13_bn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vgg16_bn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vgg19_bn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;efficientnet_b0&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;efficientnet_b1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;efficientnet_b2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;efficientnet_b3&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vit_base_patch16_224&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vit_base_patch16_384&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vit_base_patch32_384&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vit_huge_patch16_224&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vit_huge_patch32_384&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vit_large_patch16_224&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vit_large_patch16_384&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vit_large_patch32_384&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;deit_tiny_patch16_224&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;deit_small_patch16_224&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;deit_base_patch16_224&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;deit_base_patch16_384&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;efficientnet_b5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;efficientnet_b6&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateDict</span><span class="p">:</span>
         <span class="c1"># we fully relies on the hugging face hub now</span>

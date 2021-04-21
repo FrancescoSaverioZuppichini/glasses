@@ -32,6 +32,7 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -101,16 +102,16 @@
 <li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.html">glasses.models.classification package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="glasses.models.segmentation.html">glasses.models.segmentation package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="glasses.models.segmentation.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="glasses.models.segmentation.html#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.models.segmentation.html#module-glasses.models.segmentation">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.models.utils.html">glasses.models.utils package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#glasses-models-automodel-module">glasses.models.AutoModel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoModel">glasses.models.AutoModel module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models.AutoTransform">glasses.models.AutoTransform module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.html#module-glasses.models">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
@@ -193,8 +194,300 @@
             
   <div class="section" id="glasses-models-segmentation-fpn-package">
 <h1>glasses.models.segmentation.fpn package<a class="headerlink" href="#glasses-models-segmentation-fpn-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-glasses.models.segmentation.fpn">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.models.segmentation.fpn" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="glasses.models.segmentation.fpn.FPN">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.segmentation.fpn.</span></code><code class="sig-name descname"><span class="pre">FPN</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_channels:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></em>, <em class="sig-param"><span class="pre">n_classes:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2</span></em>, <em class="sig-param"><span class="pre">encoder:</span> <span class="pre">glasses.models.base.Encoder</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetEncoder'&gt;</span></em>, <em class="sig-param"><span class="pre">decoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.segmentation.fpn.FPNDecoder'&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#FPN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.FPN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="glasses.models.segmentation.base.html#glasses.models.segmentation.base.SegmentationModule" title="glasses.models.segmentation.base.SegmentationModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.segmentation.base.SegmentationModule</span></code></a></p>
+<p>Implementation of Feature Pyramid Networks proposed in <a class="reference external" href="https://arxiv.org/abs/1612.03144">Feature Pyramid Networks for Object Detection</a></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This model should be used only to extract features from an image, the output is a vector of shape [B, N, &lt;prediction_width&gt;, <span class="math notranslate nohighlight">\(S_i\)</span>, <span class="math notranslate nohighlight">\(S_i\)</span>].
+Where <span class="math notranslate nohighlight">\(S_i\)</span> is the spatial shape of the <span class="math notranslate nohighlight">\(i-th\)</span> stage of the encoder.
+For image segmentation please use <cite>PFPN</cite>.</p>
+</div>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/PPFN.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/PPFN.png?raw=true" />
+<p class="rubric">Examples</p>
+<p>Default models</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">FPN</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can easily customize your model</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">FPN</span><span class="p">(</span><span class="n">activation</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 2 )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">FPN</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change encoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">FPN</span> <span class="o">=</span> <span class="n">FPN</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">encoder</span><span class="p">,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">FPN</span> <span class="o">=</span> <span class="n">FPN</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b2</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">encoder</span><span class="p">,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change decoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">FPN</span><span class="p">(</span><span class="n">decoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">FPNDecoder</span><span class="p">,</span> <span class="n">pyramid_width</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">prediction_width</span><span class="o">=</span><span class="mi">32</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block to decoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">FPN</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># all *Decoder class can be directly used</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">FPN</span> <span class="o">=</span> <span class="n">FPN</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
+<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 2.</p></li>
+<li><p><strong>encoder</strong> (<a class="reference internal" href="glasses.models.base.html#glasses.models.base.Encoder" title="glasses.models.base.Encoder"><em>Encoder</em></a><em>, </em><em>optional</em>) – [description]. Defaults to ResNetEncoder.</p></li>
+<li><p><strong>ecoder</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to FPNDecoder.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py attribute">
+<dt id="glasses.models.segmentation.fpn.FPN.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.segmentation.fpn.FPN.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.segmentation.fpn.FPNDecoder">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.segmentation.fpn.</span></code><code class="sig-name descname"><span class="pre">FPNDecoder</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">start_features:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">512</span></em>, <em class="sig-param"><span class="pre">pyramid_width:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">256</span></em>, <em class="sig-param"><span class="pre">prediction_width:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">128</span></em>, <em class="sig-param"><span class="pre">lateral_widths:</span> <span class="pre">Optional[List[int]]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">segmentation_branch:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.segmentation.fpn.FPNSegmentationBranch'&gt;</span></em>, <em class="sig-param"><span class="pre">block:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.blocks.ConvBnAct'&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#FPNDecoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNDecoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>FPN Decoder composed of several layer of upsampling layers aimed to decrease the features space and increase the resolution.</p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py method">
+<dt id="glasses.models.segmentation.fpn.FPNDecoder.forward">
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">residuals</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#FPNDecoder.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNDecoder.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.segmentation.fpn.FPNDecoder.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNDecoder.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.segmentation.fpn.FPNSegmentationBlock">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.segmentation.fpn.</span></code><code class="sig-name descname"><span class="pre">FPNSegmentationBlock</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">out_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">block:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.blocks.ConvBnAct'&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#FPNSegmentationBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNSegmentationBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>FPN segmentation (smooth) layer used to smooth and upsample the decoder features</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>out_features</strong> (<em>int</em>) – [description]</p></li>
+<li><p><strong>block</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to ConvBnAct.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="glasses.models.segmentation.fpn.FPNSegmentationBlock.forward">
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#FPNSegmentationBlock.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNSegmentationBlock.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.segmentation.fpn.FPNSegmentationBlock.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNSegmentationBlock.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.segmentation.fpn.FPNSegmentationBranch">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.segmentation.fpn.</span></code><code class="sig-name descname"><span class="pre">FPNSegmentationBranch</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_features:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">256</span></em>, <em class="sig-param"><span class="pre">out_features:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">128</span></em>, <em class="sig-param"><span class="pre">depth:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">3</span></em>, <em class="sig-param"><span class="pre">layer=&lt;class</span> <span class="pre">'glasses.models.segmentation.fpn.FPNSegmentationLayer'&gt;</span></em>, <em class="sig-param"><span class="pre">block:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.blocks.ConvBnAct'&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#FPNSegmentationBranch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNSegmentationBranch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py method">
+<dt id="glasses.models.segmentation.fpn.FPNSegmentationBranch.forward">
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">residuals</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#FPNSegmentationBranch.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNSegmentationBranch.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.segmentation.fpn.FPNSegmentationBranch.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNSegmentationBranch.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.segmentation.fpn.FPNSegmentationLayer">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.segmentation.fpn.</span></code><code class="sig-name descname"><span class="pre">FPNSegmentationLayer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#FPNSegmentationLayer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNSegmentationLayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#glasses.models.segmentation.fpn.PFPNSegmentationLayer" title="glasses.models.segmentation.fpn.PFPNSegmentationLayer"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.segmentation.fpn.PFPNSegmentationLayer</span></code></a></p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py attribute">
+<dt id="glasses.models.segmentation.fpn.FPNSegmentationLayer.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNSegmentationLayer.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.segmentation.fpn.FPNUpLayer">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.segmentation.fpn.</span></code><code class="sig-name descname"><span class="pre">FPNUpLayer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">out_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">block:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.blocks.ConvBnAct'&gt;</span></em>, <em class="sig-param"><span class="pre">upsample:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#FPNUpLayer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNUpLayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>FPN up layer (right side).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>out_features</strong> (<em>int</em>) – Number of input features</p></li>
+<li><p><strong>out_features</strong> – Number of output features</p></li>
+<li><p><strong>block</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – Block used. Defaults to UpBlock.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py method">
+<dt id="glasses.models.segmentation.fpn.FPNUpLayer.forward">
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#FPNUpLayer.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNUpLayer.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.segmentation.fpn.FPNUpLayer.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.segmentation.fpn.FPNUpLayer.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.segmentation.fpn.Merge">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.segmentation.fpn.</span></code><code class="sig-name descname"><span class="pre">Merge</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'sum'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#Merge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.Merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>This layer merges all the features by summing them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>policy</strong> (<em>str</em><em>, </em><em>optional</em>) – [description]. Defaults to ‘sum’.</p>
+</dd>
+</dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py method">
+<dt id="glasses.models.segmentation.fpn.Merge.forward">
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#Merge.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.Merge.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="glasses.models.segmentation.fpn.Merge.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.segmentation.fpn.Merge.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.segmentation.fpn.PFPN">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.segmentation.fpn.</span></code><code class="sig-name descname"><span class="pre">PFPN</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">n_classes:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2</span></em>, <em class="sig-param"><span class="pre">decoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'glasses.models.segmentation.fpn.FPNDecoder'&gt;</span></em>, <em class="sig-param"><span class="pre">segmentation_branch=functools.partial(&lt;class</span> <span class="pre">'glasses.models.segmentation.fpn.FPNSegmentationBranch'&gt;</span></em>, <em class="sig-param"><span class="pre">layer=&lt;class</span> <span class="pre">'glasses.models.segmentation.fpn.PFPNSegmentationLayer'&gt;))</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#PFPN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.PFPN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#glasses.models.segmentation.fpn.FPN" title="glasses.models.segmentation.fpn.FPN"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.segmentation.fpn.FPN</span></code></a></p>
+<p>Implementation of Panoptic Feature Pyramid Networks proposed in <a class="reference external" href="https://arxiv.org/pdf/1901.02446.pdf">Panoptic Feature Pyramid Networks</a></p>
+<p>Basically, each features obtained from the segmentation branch is upsampled to match <span class="math notranslate nohighlight">\(\frac{1}{4}\)</span> of the input, in the <cite>ResNet</cite> case <span class="math notranslate nohighlight">\(58\)</span>.
+Then, the features are merged by summing them to obtain a single vector that is upsampled to the input spatial shape.</p>
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/PFPN.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/PFPN.png?raw=true" />
+<p class="rubric">Examples</p>
+<p>Create a default model</p>
+<blockquote>
+<div><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">PFPN</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can easily customize your model</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">PFPN</span><span class="p">(</span><span class="n">activation</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 2 )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">PFPN</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change encoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pfpn</span> <span class="o">=</span> <span class="n">PFPN</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">encoder</span><span class="p">,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pfpn</span> <span class="o">=</span> <span class="n">PFPN</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b2</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">encoder</span><span class="p">,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change decoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">PFPN</span><span class="p">(</span><span class="n">decoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">PFPNDecoder</span><span class="p">,</span> <span class="n">pyramid_width</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">prediction_width</span><span class="o">=</span><span class="mi">32</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block to decoder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">PFPN</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># all *Decoder class can be directly used</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pfpn</span> <span class="o">=</span> <span class="n">PFPN</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_channels</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 1.</p></li>
+<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 2.</p></li>
+<li><p><strong>encoder</strong> (<a class="reference internal" href="glasses.models.base.html#glasses.models.base.Encoder" title="glasses.models.base.Encoder"><em>Encoder</em></a><em>, </em><em>optional</em>) – [description]. Defaults to ResNetEncoder.</p></li>
+<li><p><strong>ecoder</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – [description]. Defaults to PFPNDecoder.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py attribute">
+<dt id="glasses.models.segmentation.fpn.PFPN.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.segmentation.fpn.PFPN.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt id="glasses.models.segmentation.fpn.PFPNDecoder">
+<code class="sig-prename descclassname"><span class="pre">glasses.models.segmentation.fpn.</span></code><code class="sig-name descname"><span class="pre">PFPNDecoder</span></code><em class="property"> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'glasses.models.segmentation.fpn.FPNDecoder'&gt;,</span> <span class="pre">segmentation_branch=functools.partial(&lt;class</span> <span class="pre">'glasses.models.segmentation.fpn.FPNSegmentationBranch'&gt;,</span> <span class="pre">layer=&lt;class</span> <span class="pre">'glasses.models.segmentation.fpn.PFPNSegmentationLayer'&gt;))</span></em><a class="headerlink" href="#glasses.models.segmentation.fpn.PFPNDecoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Panoptic FPN Decoder that uses  <a class="reference internal" href="#glasses.models.segmentation.fpn.PFPNSegmentationBranch" title="glasses.models.segmentation.fpn.PFPNSegmentationBranch"><code class="xref py py-func docutils literal notranslate"><span class="pre">PFPNSegmentationBranch()</span></code></a> as segmentation branch</p>
+</dd></dl>
+
+<dl class="py data">
+<dt id="glasses.models.segmentation.fpn.PFPNSegmentationBranch">
+<code class="sig-prename descclassname"><span class="pre">glasses.models.segmentation.fpn.</span></code><code class="sig-name descname"><span class="pre">PFPNSegmentationBranch</span></code><em class="property"> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'glasses.models.segmentation.fpn.FPNSegmentationBranch'&gt;,</span> <span class="pre">layer=&lt;class</span> <span class="pre">'glasses.models.segmentation.fpn.PFPNSegmentationLayer'&gt;)</span></em><a class="headerlink" href="#glasses.models.segmentation.fpn.PFPNSegmentationBranch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Panoptic FPN Segmentation Branch that upsample every features to match <span class="math notranslate nohighlight">\(\frac{1}{4}\)</span> of the spatial dimension of the input</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="glasses.models.segmentation.fpn.PFPNSegmentationLayer">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.segmentation.fpn.</span></code><code class="sig-name descname"><span class="pre">PFPNSegmentationLayer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/segmentation/fpn.html#PFPNSegmentationLayer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.segmentation.fpn.PFPNSegmentationLayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
+<p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
+<dl class="py attribute">
+<dt id="glasses.models.segmentation.fpn.PFPNSegmentationLayer.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.segmentation.fpn.PFPNSegmentationLayer.training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
