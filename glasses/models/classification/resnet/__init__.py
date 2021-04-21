@@ -83,7 +83,7 @@ class ResNetBasicBlock(nn.Module):
         activation: nn.Module = ReLUInPlace,
         stride: int = 1,
         shortcut: nn.Module = ResNetShorcut,
-        **kwargs
+        **kwargs,
     ):
         super().__init__()
         self.should_apply_shortcut = in_features != out_features or stride != 1
@@ -97,7 +97,7 @@ class ResNetBasicBlock(nn.Module):
                         kernel_size=3,
                         stride=stride,
                         bias=False,
-                        **kwargs
+                        **kwargs,
                     ),
                     "bn1": nn.BatchNorm2d(out_features),
                     "act1": activation(),
@@ -118,8 +118,11 @@ class ResNetBasicBlock(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         res = x
+        print(f"x:{x.shape}")
         x = self.block(x)
+        print(f"x_block:{x.shape}")
         res = self.shortcut(res)
+        print(f"res:{res.shape}")
         x += res
         x = self.act(x)
         return x
@@ -154,7 +157,7 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
         reduction: int = 4,
         stride=1,
         shortcut=ResNetShorcut,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             in_features, out_features, activation, stride, shortcut=shortcut
@@ -169,7 +172,7 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
                 activation=activation,
                 kernel_size=3,
                 stride=stride,
-                **kwargs
+                **kwargs,
             ),
             ConvBnAct(self.features, out_features, activation=None, kernel_size=1),
         )
@@ -191,7 +194,7 @@ class ResNetBasicPreActBlock(ResNetBasicBlock):
         activation: nn.Module = ReLUInPlace,
         stride: int = 1,
         shortcut: nn.Module = ResNetShorcut,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             in_features,
@@ -199,7 +202,7 @@ class ResNetBasicPreActBlock(ResNetBasicBlock):
             activation,
             stride=stride,
             shortcut=shortcut,
-            **kwargs
+            **kwargs,
         )
         self.block = nn.Sequential(
             OrderedDict(
@@ -212,7 +215,7 @@ class ResNetBasicPreActBlock(ResNetBasicBlock):
                         kernel_size=3,
                         bias=False,
                         stride=stride,
-                        **kwargs
+                        **kwargs,
                     ),
                     "bn2": nn.BatchNorm2d(out_features),
                     "act2": activation(),
@@ -248,7 +251,7 @@ class ResNetBottleneckPreActBlock(ResNetBottleneckBlock):
         reduction: int = 4,
         stride=1,
         shortcut=ResNetShorcut,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             in_features,
@@ -257,7 +260,7 @@ class ResNetBottleneckPreActBlock(ResNetBottleneckBlock):
             activation,
             stride=stride,
             shortcut=shortcut,
-            **kwargs
+            **kwargs,
         )
         # TODO I am not sure it is correct
         features = out_features // reduction
@@ -276,7 +279,7 @@ class ResNetBottleneckPreActBlock(ResNetBottleneckBlock):
                 bias=False,
                 kernel_size=3,
                 stride=stride,
-                **kwargs
+                **kwargs,
             ),
             BnActConv(
                 self.features,
@@ -299,12 +302,12 @@ class ResNetLayer(nn.Sequential):
         depth: int = 1,
         stride: int = 2,
         *args,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             # 'We perform stride directly by convolutional layers that have a stride of 2.'
             block(in_features, out_features, stride=stride, **kwargs),
-            *[block(out_features, out_features, **kwargs) for _ in range(depth - 1)]
+            *[block(out_features, out_features, **kwargs) for _ in range(depth - 1)],
         )
 
 
@@ -380,7 +383,7 @@ class ResNetEncoder(Encoder):
         block: nn.Module = ResNetBasicBlock,
         stem: nn.Module = ResNetStem,
         downsample_first: bool = False,
-        **kwargs
+        **kwargs,
     ):
 
         super().__init__()
@@ -398,7 +401,7 @@ class ResNetEncoder(Encoder):
                     activation=activation,
                     block=block,
                     stride=2 if downsample_first else 1,
-                    **kwargs
+                    **kwargs,
                 ),
                 *[
                     ResNetLayer(
@@ -407,7 +410,7 @@ class ResNetEncoder(Encoder):
                         depth=n,
                         activation=activation,
                         block=block,
-                        **kwargs
+                        **kwargs,
                     )
                     for (in_features, out_features), n in zip(
                         self.in_out_widths, depths[1:]
@@ -536,7 +539,7 @@ class ResNet(ClassificationModule):
             **kwargs,
             block=block,
             widths=[256, 512, 1024, 2048],
-            depths=[2, 2, 2, 2]
+            depths=[2, 2, 2, 2],
         )
 
         return model
@@ -555,7 +558,7 @@ class ResNet(ClassificationModule):
             stem=ResNetStemC,
             block=partial(block, shortcut=ResNetShorcutD),
             widths=[256, 512, 1024, 2048],
-            depths=[2, 2, 2, 2]
+            depths=[2, 2, 2, 2],
         )
 
         return model
@@ -587,7 +590,7 @@ class ResNet(ClassificationModule):
             **kwargs,
             stem=ResNetStemC,
             block=partial(block, shortcut=ResNetShorcutD),
-            depths=[3, 4, 6, 3]
+            depths=[3, 4, 6, 3],
         )
         return model
 
@@ -606,7 +609,7 @@ class ResNet(ClassificationModule):
             **kwargs,
             block=block,
             widths=[256, 512, 1024, 2048],
-            depths=[3, 4, 6, 3]
+            depths=[3, 4, 6, 3],
         )
 
     @classmethod
@@ -625,7 +628,7 @@ class ResNet(ClassificationModule):
             stem=ResNetStemC,
             block=partial(block, shortcut=ResNetShorcutD),
             widths=[256, 512, 1024, 2048],
-            depths=[3, 4, 6, 3]
+            depths=[3, 4, 6, 3],
         )
 
     @classmethod
@@ -643,7 +646,7 @@ class ResNet(ClassificationModule):
             **kwargs,
             block=block,
             widths=[256, 512, 1024, 2048],
-            depths=[3, 4, 23, 3]
+            depths=[3, 4, 23, 3],
         )
 
     @classmethod
@@ -661,7 +664,7 @@ class ResNet(ClassificationModule):
             **kwargs,
             block=block,
             widths=[256, 512, 1024, 2048],
-            depths=[3, 8, 36, 3]
+            depths=[3, 8, 36, 3],
         )
 
     @classmethod
@@ -676,5 +679,5 @@ class ResNet(ClassificationModule):
             **kwargs,
             block=block,
             widths=[256, 512, 1024, 2048],
-            depths=[3, 24, 36, 3]
+            depths=[3, 24, 36, 3],
         )

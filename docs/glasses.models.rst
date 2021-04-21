@@ -15,18 +15,18 @@ Subpackages
 Submodules
 ----------
 
-glasses.models.AutoTransform module
---------------------------------
-
-.. automodule:: glasses.models.AutoTransform
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 glasses.models.AutoModel module
 -------------------------------
 
 .. automodule:: glasses.models.AutoModel
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+glasses.models.AutoTransform module
+-----------------------------------
+
+.. automodule:: glasses.models.AutoTransform
    :members:
    :undoc-members:
    :show-inheritance:
