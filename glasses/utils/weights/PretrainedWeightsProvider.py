@@ -12,9 +12,6 @@ from functools import wraps
 from .HFModelHub import HFModelHub
 
 
-ORGANIZATION_NAME = "glasses"
-
-
 StateDict = Dict[str, Tensor]
 
 
@@ -103,7 +100,6 @@ def load_pretrained_model(
     return model
 
 
-@dataclass
 class PretrainedWeightsProvider:
     """
     This class allows to retrieve pretrained models weights (state dict).
@@ -119,26 +115,67 @@ class PretrainedWeightsProvider:
         >>> provider = PretrainedWeightsProvider(override=True)
     """
 
-    BASE_DIR: Path = Path(torch.hub.get_dir()) / Path("glasses")
-    save_dir: Path = BASE_DIR
-    verbose: int = 0
-    override: bool = False
-
-    def __post_init__(self):
-        try:
-            self.save_dir.mkdir(exist_ok=True)
-        except FileNotFoundError:
-            default_dir = str(Path(__file__).resolve().parent)
-            self.save_dir = Path(os.environ.get("HOME", default_dir)) / Path(
-                ".glasses/"
-            )
-            self.save_dir.mkdir(exist_ok=True)
-        os.environ["GLASSES_HOME"] = str(self.save_dir)
-        # we also need to know which models are pretrained
-        with open("pretrained_models.txt", "r") as f:
-            data = f.read()
-            self.weights_zoo = data.split(",")
+    # [TODO] This is bad practices, I should find about a better idea to get the name of the pretrained weights
+    weights_zoo = [
+        "resnet18",
+        "resnet26",
+        "resnet26d",
+        "resnet34",
+        "resnet34d",
+        "resnet50",
+        "resnet50d",
+        "resnet101",
+        "resnet152",
+        "cse_resnet50",
+        "resnext50_32x4d",
+        "resnext101_32x8d",
+        "wide_resnet50_2",
+        "wide_resnet101_2",
+        "regnetx_002",
+        "regnetx_004",
+        "regnetx_006",
+        "regnetx_008",
+        "regnetx_016",
+        "regnetx_032",
+        "regnety_002",
+        "regnety_004",
+        "regnety_006",
+        "regnety_008",
+        "regnety_016",
+        "regnety_032",
+        "densenet121",
+        "densenet169",
+        "densenet201",
+        "densenet161",
+        "vgg11",
+        "vgg13",
+        "vgg16",
+        "vgg19",
+        "vgg11_bn",
+        "vgg13_bn",
+        "vgg16_bn",
+        "vgg19_bn",
+        "efficientnet_b0",
+        "efficientnet_b1",
+        "efficientnet_b2",
+        "efficientnet_b3",
+        "vit_base_patch16_224",
+        "vit_base_patch16_384",
+        "vit_base_patch32_384",
+        "vit_huge_patch16_224",
+        "vit_huge_patch32_384",
+        "vit_large_patch16_224",
+        "vit_large_patch16_384",
+        "vit_large_patch32_384",
+        "deit_tiny_patch16_224",
+        "deit_small_patch16_224",
+        "deit_base_patch16_224",
+        "deit_base_patch16_384",
+        "efficientnet_b5",
+        "efficientnet_b6",
+    ]
 
     def __getitem__(self, key: str) -> StateDict:
-        weights = HFModelHub.from_pretrained(f"{ORGANIZATION_NAME}/{key}")
+        # we fully relies on the hugging face hub now
+        weights = HFModelHub.from_pretrained(f"glasses/{key}")
         return weights

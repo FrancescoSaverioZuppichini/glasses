@@ -66,9 +66,9 @@ pip install git+https://github.com/FrancescoSaverioZuppichini/glasses
 
 ### Motivations
 
-Almost all existing implementations of the most famous model are written with very bad coding practices, what today is called *research code*. I struggled myself to understand some of the implementations that in the end were just a few lines of code. 
+Almost all existing implementations of the most famous model are written with very bad coding practices, what today is called *research code*. I struggled to understand some of the implementations even if in the end were just a few lines of code. 
 
-Most of them are missing a global structure, they used tons of code repetition, they are not easily customizable and not tested. Since I do computer vision for living, so I needed a way to make my life easier.
+Most of them are missing a global structure, they used tons of code repetition, they are not easily customizable and not tested. Since I do computer vision for living, I needed a way to make my life easier.
 
 ## Getting started
 
@@ -80,8 +80,14 @@ import torch
 from glasses.models import AutoModel, AutoTransform
 # load one model
 model = AutoModel.from_pretrained('resnet18').eval()
+# and its correct input transformation
 tr = AutoTransform.from_name('resnet18')
 model.summary(device='cpu' ) # thanks to torchinfo
+```
+
+
+```python
+# at any time, see all the models
 AutoModel.models_table() 
 ```
 
@@ -108,9 +114,10 @@ from PIL import Image
 from io import BytesIO
 from glasses.interpretability import GradCam, SaliencyMap
 from torchvision.transforms import Normalize
+# get a cute dog 🐶
 r = requests.get('https://i.insider.com/5df126b679d7570ad2044f3e?width=700&format=jpeg&auto=webp')
 im = Image.open(BytesIO(r.content))
-# un normalize when done
+# un-normalize when done
 mean, std = tr.transforms[-1].mean, tr.transforms[-1].std
 postprocessing = Normalize(-mean / std, (1.0 / std))
 # apply preprocessing
@@ -125,15 +132,34 @@ _ = model.interpret(x, using=GradCam(), postprocessing=postprocessing).show()
 
 ```python
 from glasses.models import ResNet
+from torch import nn
 # change activation
+model = AutoModel.from_pretrained('resnet18', activation = nn.SELU).eval()
+# or directly from the model class
 ResNet.resnet18(activation = nn.SELU)
 # change number of classes
 ResNet.resnet18(n_classes=100)
 # freeze only the convolution weights
-model = ResNet.resnet18(pretrained=True)
+model = AutoModel.from_pretrained('resnet18') # or also ResNet.resnet18(pretrained=True) 
 model.freeze(who=model.encoder)
-# get the last layer, usuful to hook to it if you want to get the embeeded vector
-model.encoder.layers[-1]
+```
+
+Get the **inner features**
+
+
+```python
+# model.encoder has special hooks ready to be activated
+# call the .features to trigger them
+model.encoder.features
+x = torch.randn((1, 3, 224, 224))
+model(x)
+[f.shape for f in model.encoder.features]
+```
+
+Change inner block
+
+
+```python
 # what about resnet with inverted residuals?
 from glasses.models.classification.efficientnet import InvertedResidualBlock
 ResNet.resnet18(block = InvertedResidualBlock)
@@ -154,7 +180,9 @@ unet = UNet(decoder=partial(UNetDecoder, widths=[256, 128, 64, 32, 16]))
 # maybe resnet was better
 unet = UNet(encoder=lambda **kwargs: ResNet.resnet26(**kwargs).encoder)
 # same API
-unet.summary(input_shape=(1,224,224))
+# unet.summary(input_shape=(1,224,224))
+
+unet
 ```
 
 ### More examples
@@ -245,18 +273,6 @@ model = EfficientNet.efficientnet_b1(pretrained=True)
 # you may also need to get the correct transformation that must be applied on the input
 tr = AutoTransform.from_name('efficientnet_b1')
 ```
-
-
-
-
-    Transform(
-        Resize(size=240, interpolation=bicubic)
-        CenterCrop(size=(240, 240))
-        ToTensor()
-        Normalize(mean=tensor([0.4850, 0.4560, 0.4060]), std=tensor([0.2290, 0.2240, 0.2250]))
-    )
-
-
 
 In this case, `tr` is 
 
@@ -371,7 +387,7 @@ enc(torch.randn((1,3,224,224)))
 print([f.shape for f in enc.features])
 ```
 
-**Remember** each model has always a `.decoder` field
+**Remember** each model has always a `.encoder` field
 
 
 ```python
