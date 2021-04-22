@@ -51,13 +51,14 @@ class PatchEmbedding(nn.Module):
 
         Example:
 
-            Change the tokens
+            .. code-block:: python
 
-            >>> class MyTokens(ViTTokens):
-            >>>     def __init__(self, emb_size: int):
-            >>>         super().__init__(emb_size)
-            >>>         self.my_new_token = nn.Parameter(torch.randn(1, 1, emb_size))
-            >>> PatchEmbedding(tokens=MyTokens)
+                # Change the tokens
+                class MyTokens(ViTTokens):
+                    def __init__(self, emb_size: int):
+                        super().__init__(emb_size)
+                        self.my_new_token = nn.Parameter(torch.randn(1, 1, emb_size))
+                PatchEmbedding(tokens=MyTokens)
 
         Args:
             in_channels (int, optional): Number of input's channels. Defaults to 3.
@@ -283,6 +284,61 @@ class ViTClassificationHead(nn.Sequential):
 
 
 class ViT(nn.Sequential, VisionModule):
+    """
+    Implementation of Vision Transformer (ViT) proposed in `An Image Is Worth 16x16 Words: Transformers For Image Recognition At Scale <https://arxiv.org/pdf/2010.11929.pdf>`_
+
+    The following image from the authors shows the architecture.
+
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ViT.png?raw=true
+
+    .. code-block:: python
+
+        ViT.vit_small_patch16_224()
+        ViT.vit_base_patch16_224()
+        ViT.vit_base_patch16_384()
+        ViT.vit_base_patch32_384()
+        ViT.vit_huge_patch16_224()
+        ViT.vit_huge_patch32_384()
+        ViT.vit_large_patch16_224()
+        ViT.vit_large_patch16_384()
+        ViT.vit_large_patch32_384()
+
+    Examples:
+
+        .. code-block:: python
+
+            # change activation
+            ViT.vit_base_patch16_224(activation = nn.SELU)
+            # change number of classes (default is 1000 )
+            ViT.vit_base_patch16_224(n_classes=100)
+            # pass a different block, default is TransformerEncoderBlock
+            ViT.vit_base_patch16_224(block=MyCoolTransformerBlock)
+            # get features
+            model = ViT.vit_base_patch16_224
+            # first call .features, this will activate the forward hooks and tells the model you'll like to get the features
+            model.encoder.features
+            model(torch.randn((1,3,224,224)))
+            # get the features from the encoder
+            features = model.encoder.features
+            print([x.shape for x in features])
+            #[[torch.Size([1, 197, 768]),  torch.Size([1, 197, 768]), ...]
+            # change the tokens, you have to subclass ViTTokens
+            class MyTokens(ViTTokens):
+                def __init__(self, emb_size: int):
+                    super().__init__(emb_size)
+                    self.my_new_token = nn.Parameter(torch.randn(1, 1, emb_size))
+            ViT(tokens=MyTokens)
+
+    Args:
+        in_channels (int, optional): [description]. Defaults to 3.
+        patch_size (int, optional): [description]. Defaults to 16.
+        emb_size (int, optional):  Embedding dimensions Defaults to 768.
+        img_size (int, optional): [description]. Defaults to 224.
+        tokens (nn.Module, optional): A module that contains the tokens as his parameters. Defaults to ViTTokens.
+        depth (int, optional): [description]. Defaults to 12.
+        n_classes (int, optional): [description]. Defaults to 1000.
+    """
+
     def __init__(
         self,
         embedding: nn.Module = PatchEmbedding,
@@ -297,61 +353,6 @@ class ViT(nn.Sequential, VisionModule):
         n_classes: int = 1000,
         **kwargs,
     ):
-        """
-        Implementation of Vision Transformer (ViT) proposed in `An Image Is Worth 16x16 Words: Transformers For Image Recognition At Scale <https://arxiv.org/pdf/2010.11929.pdf>`_
-
-        The following image from the authors shows the architecture.
-
-        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ViT.png?raw=true
-
-        Examples:
-
-            Default models
-
-            >>> ViT.vit_small_patch16_224()
-            >>> ViT.vit_base_patch16_224()
-            >>> ViT.vit_base_patch16_384()
-            >>> ViT.vit_base_patch32_384()
-            >>> ViT.vit_huge_patch16_224()
-            >>> ViT.vit_huge_patch32_384()
-            >>> ViT.vit_large_patch16_224()
-            >>> ViT.vit_large_patch16_384()
-            >>> ViT.vit_large_patch32_384()
-
-            You can easily customize your model
-
-
-            >>> # change activation
-            >>> ViT.vit_base_patch16_224(activation = nn.SELU)
-            >>> # change number of classes (default is 1000 )
-            >>> ViT.vit_base_patch16_224(n_classes=100)
-            >>> # pass a different block, default is TransformerEncoderBlock
-            >>> ViT.vit_base_patch16_224(block=MyCoolTransformerBlock)
-            >>> # get features
-            >>> model = ViT.vit_base_patch16_224
-            >>> # first call .features, this will activate the forward hooks and tells the model you'll like to get the features
-            >>> model.encoder.features
-            >>> model(torch.randn((1,3,224,224)))
-            >>> # get the features from the encoder
-            >>> features = model.encoder.features
-            >>> print([x.shape for x in features])
-            >>> #[[torch.Size([1, 197, 768]),  torch.Size([1, 197, 768]), ...]
-            >>> # change the tokens, you have to subclass ViTTokens
-            >>> class MyTokens(ViTTokens):
-            >>>     def __init__(self, emb_size: int):
-            >>>         super().__init__(emb_size)
-            >>>         self.my_new_token = nn.Parameter(torch.randn(1, 1, emb_size))
-            >>> ViT(tokens=MyTokens)
-
-        Args:
-            in_channels (int, optional): [description]. Defaults to 3.
-            patch_size (int, optional): [description]. Defaults to 16.
-            emb_size (int, optional):  Embedding dimensions Defaults to 768.
-            img_size (int, optional): [description]. Defaults to 224.
-            tokens (nn.Module, optional): A module that contains the tokens as his parameters. Defaults to ViTTokens.
-            depth (int, optional): [description]. Defaults to 12.
-            n_classes (int, optional): [description]. Defaults to 1000.
-        """
         super().__init__(
             OrderedDict(
                 {

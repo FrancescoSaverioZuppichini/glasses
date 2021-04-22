@@ -1,40 +1,45 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>benchmark module &mdash; Glasses  documentation</title>
   
 
   
-  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="glasses package" href="glasses.html" />
+    <link rel="prev" title="glasses" href="modules.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -71,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -86,8 +92,16 @@
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/installation.html">Installation</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package Reference</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">glasses</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">glasses</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">benchmark module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.html">glasses package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models_table.html">models_table module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="temp.html">temp module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transfer_weights.html">transfer_weights module</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.models.html">glasses.models package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
@@ -98,6 +112,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -132,18 +147,22 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">glasses</a> &raquo;</li>
         
       <li>benchmark module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/benchmark.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -157,23 +176,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-benchmark">
-<span id="benchmark-module"></span><h1>benchmark module<a class="headerlink" href="#module-benchmark" title="Permalink to this headline">¶</a></h1>
-<dl class="py function">
-<dt id="benchmark.benchmark">
-<code class="sig-prename descclassname">benchmark.</code><code class="sig-name descname">benchmark</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="n">transform</span></em>, <em class="sig-param"><span class="n">batch_size</span><span class="o">=</span><span class="default_value">64</span></em>, <em class="sig-param"><span class="n">device</span><span class="o">=</span><span class="default_value">device(type='cuda')</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/benchmark.html#benchmark"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#benchmark.benchmark" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="benchmark.benchmark_all">
-<code class="sig-prename descclassname">benchmark.</code><code class="sig-name descname">benchmark_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/benchmark.html#benchmark_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#benchmark.benchmark_all" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="benchmark.get_img_id">
-<code class="sig-prename descclassname">benchmark.</code><code class="sig-name descname">get_img_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image_name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/benchmark.html#get_img_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#benchmark.get_img_id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+  <div class="section" id="benchmark-module">
+<h1>benchmark module<a class="headerlink" href="#benchmark-module" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
@@ -181,20 +185,29 @@
            
           </div>
           <footer>
-  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="glasses.html" class="btn btn-neutral float-right" title="glasses package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="modules.html" class="btn btn-neutral float-left" title="glasses" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
+        &#169; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -202,7 +215,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

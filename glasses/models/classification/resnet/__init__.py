@@ -83,7 +83,7 @@ class ResNetBasicBlock(nn.Module):
         activation: nn.Module = ReLUInPlace,
         stride: int = 1,
         shortcut: nn.Module = ResNetShorcut,
-        **kwargs
+        **kwargs,
     ):
         super().__init__()
         self.should_apply_shortcut = in_features != out_features or stride != 1
@@ -97,7 +97,7 @@ class ResNetBasicBlock(nn.Module):
                         kernel_size=3,
                         stride=stride,
                         bias=False,
-                        **kwargs
+                        **kwargs,
                     ),
                     "bn1": nn.BatchNorm2d(out_features),
                     "act1": activation(),
@@ -154,12 +154,12 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
         reduction: int = 4,
         stride=1,
         shortcut=ResNetShorcut,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             in_features, out_features, activation, stride, shortcut=shortcut
         )
-        print
+
         self.features = out_features // reduction if features is None else features
         self.block = nn.Sequential(
             ConvBnAct(in_features, self.features, activation=activation, kernel_size=1),
@@ -169,7 +169,7 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
                 activation=activation,
                 kernel_size=3,
                 stride=stride,
-                **kwargs
+                **kwargs,
             ),
             ConvBnAct(self.features, out_features, activation=None, kernel_size=1),
         )
@@ -191,7 +191,7 @@ class ResNetBasicPreActBlock(ResNetBasicBlock):
         activation: nn.Module = ReLUInPlace,
         stride: int = 1,
         shortcut: nn.Module = ResNetShorcut,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             in_features,
@@ -199,7 +199,7 @@ class ResNetBasicPreActBlock(ResNetBasicBlock):
             activation,
             stride=stride,
             shortcut=shortcut,
-            **kwargs
+            **kwargs,
         )
         self.block = nn.Sequential(
             OrderedDict(
@@ -212,7 +212,7 @@ class ResNetBasicPreActBlock(ResNetBasicBlock):
                         kernel_size=3,
                         bias=False,
                         stride=stride,
-                        **kwargs
+                        **kwargs,
                     ),
                     "bn2": nn.BatchNorm2d(out_features),
                     "act2": activation(),
@@ -248,7 +248,7 @@ class ResNetBottleneckPreActBlock(ResNetBottleneckBlock):
         reduction: int = 4,
         stride=1,
         shortcut=ResNetShorcut,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             in_features,
@@ -257,7 +257,7 @@ class ResNetBottleneckPreActBlock(ResNetBottleneckBlock):
             activation,
             stride=stride,
             shortcut=shortcut,
-            **kwargs
+            **kwargs,
         )
         # TODO I am not sure it is correct
         features = out_features // reduction
@@ -276,7 +276,7 @@ class ResNetBottleneckPreActBlock(ResNetBottleneckBlock):
                 bias=False,
                 kernel_size=3,
                 stride=stride,
-                **kwargs
+                **kwargs,
             ),
             BnActConv(
                 self.features,
@@ -299,12 +299,12 @@ class ResNetLayer(nn.Sequential):
         depth: int = 1,
         stride: int = 2,
         *args,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             # 'We perform stride directly by convolutional layers that have a stride of 2.'
             block(in_features, out_features, stride=stride, **kwargs),
-            *[block(out_features, out_features, **kwargs) for _ in range(depth - 1)]
+            *[block(out_features, out_features, **kwargs) for _ in range(depth - 1)],
         )
 
 
@@ -380,7 +380,7 @@ class ResNetEncoder(Encoder):
         block: nn.Module = ResNetBasicBlock,
         stem: nn.Module = ResNetStem,
         downsample_first: bool = False,
-        **kwargs
+        **kwargs,
     ):
 
         super().__init__()
@@ -398,7 +398,7 @@ class ResNetEncoder(Encoder):
                     activation=activation,
                     block=block,
                     stride=2 if downsample_first else 1,
-                    **kwargs
+                    **kwargs,
                 ),
                 *[
                     ResNetLayer(
@@ -407,7 +407,7 @@ class ResNetEncoder(Encoder):
                         depth=n,
                         activation=activation,
                         block=block,
-                        **kwargs
+                        **kwargs,
                     )
                     for (in_features, out_features), n in zip(
                         self.in_out_widths, depths[1:]
@@ -447,49 +447,50 @@ class ResNetHead(nn.Sequential):
 class ResNet(ClassificationModule):
     """Implementation of ResNet proposed in `Deep Residual Learning for Image Recognition <https://arxiv.org/abs/1512.03385>`_
 
-    Examples:
+    .. code-block:: python
 
-        Default models
-
-        >>> ResNet.resnet18()
-        >>> ResNet.resnet26()
-        >>> ResNet.resnet34()
-        >>> ResNet.resnet50()
-        >>> ResNet.resnet101()
-        >>> ResNet.resnet152()
-        >>> ResNet.resnet200()
+        ResNet.resnet18()
+        ResNet.resnet26()
+        ResNet.resnet34()
+        ResNet.resnet50()
+        ResNet.resnet101()
+        ResNet.resnet152()
+        ResNet.resnet200()
 
         Variants (d) proposed in `Bag of Tricks for Image Classification with Convolutional Neural Networks <https://arxiv.org/pdf/1812.01187.pdf>`_
 
-        >>> ResNet.resnet26d()
-        >>> ResNet.resnet34d()
-        >>> ResNet.resnet50d()
-        >>> # You can construct your own one by chaning `stem` and `block`
-        >>> resnet101d = ResNet.resnet101(stem=ResNetStemC, block=partial(ResNetBottleneckBlock, shortcut=ResNetShorcutD))
+        ResNet.resnet26d()
+        ResNet.resnet34d()
+        ResNet.resnet50d()
+        # You can construct your own one by chaning `stem` and `block`
+        resnet101d = ResNet.resnet101(stem=ResNetStemC, block=partial(ResNetBottleneckBlock, shortcut=ResNetShorcutD))
 
-        You can easily customize your model
 
-        >>> # change activation
-        >>> ResNet.resnet18(activation = nn.SELU)
-        >>> # change number of classes (default is 1000 )
-        >>> ResNet.resnet18(n_classes=100)
-        >>> # pass a different block
-        >>> ResNet.resnet18(block=SENetBasicBlock)
-        >>> # change the steam
-        >>> model = ResNet.resnet18(stem=ResNetStemC)
-        >>> change shortcut
-        >>> model = ResNet.resnet18(block=partial(ResNetBasicBlock, shortcut=ResNetShorcutD))
-        >>> # store each feature
-        >>> x = torch.rand((1, 3, 224, 224))
-        >>> # get features
-        >>> model = ResNet.resnet18()
-        >>> # first call .features, this will activate the forward hooks and tells the model you'll like to get the features
-        >>> model.encoder.features
-        >>> model(torch.randn((1,3,224,224)))
-        >>> # get the features from the encoder
-        >>> features = model.encoder.features
-        >>> print([x.shape for x in features])
-        >>> #[torch.Size([1, 64, 112, 112]), torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14])]
+    Examples:
+
+        .. code-block:: python
+
+            # change activation
+            ResNet.resnet18(activation = nn.SELU)
+            # change number of classes (default is 1000 )
+            ResNet.resnet18(n_classes=100)
+            # pass a different block
+            ResNet.resnet18(block=SENetBasicBlock)
+            # change the steam
+            model = ResNet.resnet18(stem=ResNetStemC)
+            change shortcut
+            model = ResNet.resnet18(block=partial(ResNetBasicBlock, shortcut=ResNetShorcutD))
+            # store each feature
+            x = torch.rand((1, 3, 224, 224))
+            # get features
+            model = ResNet.resnet18()
+            # first call .features, this will activate the forward hooks and tells the model you'll like to get the features
+            model.encoder.features
+            model(torch.randn((1,3,224,224)))
+            # get the features from the encoder
+            features = model.encoder.features
+            print([x.shape for x in features])
+            #[torch.Size([1, 64, 112, 112]), torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14])]
 
     Args:
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
@@ -536,7 +537,7 @@ class ResNet(ClassificationModule):
             **kwargs,
             block=block,
             widths=[256, 512, 1024, 2048],
-            depths=[2, 2, 2, 2]
+            depths=[2, 2, 2, 2],
         )
 
         return model
@@ -555,7 +556,7 @@ class ResNet(ClassificationModule):
             stem=ResNetStemC,
             block=partial(block, shortcut=ResNetShorcutD),
             widths=[256, 512, 1024, 2048],
-            depths=[2, 2, 2, 2]
+            depths=[2, 2, 2, 2],
         )
 
         return model
@@ -587,7 +588,7 @@ class ResNet(ClassificationModule):
             **kwargs,
             stem=ResNetStemC,
             block=partial(block, shortcut=ResNetShorcutD),
-            depths=[3, 4, 6, 3]
+            depths=[3, 4, 6, 3],
         )
         return model
 
@@ -606,7 +607,7 @@ class ResNet(ClassificationModule):
             **kwargs,
             block=block,
             widths=[256, 512, 1024, 2048],
-            depths=[3, 4, 6, 3]
+            depths=[3, 4, 6, 3],
         )
 
     @classmethod
@@ -625,7 +626,7 @@ class ResNet(ClassificationModule):
             stem=ResNetStemC,
             block=partial(block, shortcut=ResNetShorcutD),
             widths=[256, 512, 1024, 2048],
-            depths=[3, 4, 6, 3]
+            depths=[3, 4, 6, 3],
         )
 
     @classmethod
@@ -643,7 +644,7 @@ class ResNet(ClassificationModule):
             **kwargs,
             block=block,
             widths=[256, 512, 1024, 2048],
-            depths=[3, 4, 23, 3]
+            depths=[3, 4, 23, 3],
         )
 
     @classmethod
@@ -661,7 +662,7 @@ class ResNet(ClassificationModule):
             **kwargs,
             block=block,
             widths=[256, 512, 1024, 2048],
-            depths=[3, 8, 36, 3]
+            depths=[3, 8, 36, 3],
         )
 
     @classmethod
@@ -676,5 +677,5 @@ class ResNet(ClassificationModule):
             **kwargs,
             block=block,
             widths=[256, 512, 1024, 2048],
-            depths=[3, 24, 36, 3]
+            depths=[3, 24, 36, 3],
         )

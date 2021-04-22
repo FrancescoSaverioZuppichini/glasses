@@ -9,11 +9,9 @@ class MobileNet(EfficientNet):
 
     MobileNet is a special case of EfficientNet.
 
-    Examples:
+    .. code-block:: python
 
-        Default model
-
-        >>> MobileNet.mobilenet_v2()
+        MobileNet.mobilenet_v2()
 
     Args:
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
