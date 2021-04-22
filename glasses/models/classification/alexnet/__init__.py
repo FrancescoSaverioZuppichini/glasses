@@ -120,6 +120,7 @@ class AlexNet(ClassificationModule):
 
 
     Examples:
+
         .. code-block:: python
 
             # change activation

@@ -104,16 +104,16 @@ latex_engine = "xelatex"
 #         return True if name in members else skip
 
 
-def docstring(app, what, name, obj, options, lines):
-    md = "\n".join(lines)
-    ast = commonmark.Parser().parse(md)
-    rst = commonmark.ReStructuredTextRenderer().render(ast)
-    lines.clear()
-    lines += rst.splitlines()
+# def docstring(app, what, name, obj, options, lines):
+#     md = "\n".join(lines)
+#     ast = commonmark.Parser().parse(md)
+#     rst = commonmark.ReStructuredTextRenderer().render(ast)
+#     lines.clear()
+#     lines += rst.splitlines()
 
 
-def setup(app):
-    app.connect("autodoc-process-docstring", docstring)
+# def setup(app):
+#     app.connect("autodoc-process-docstring", docstring)
 
 
 autoclass_content = "both"

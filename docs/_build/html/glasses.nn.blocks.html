@@ -32,6 +32,7 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -198,8 +199,15 @@
 <dl class="py data">
 <dt id="glasses.nn.blocks.residuals.Cat2d">
 <code class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.residuals.</span></code><code class="sig-name descname"><span class="pre">Cat2d</span></code><em class="property"> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'glasses.nn.blocks.residuals.InputForward'&gt;,</span> <span class="pre">aggr_func=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;)</span></em><a class="headerlink" href="#glasses.nn.blocks.residuals.Cat2d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Pass the input to multiple modules and concatenates the output, for 1D input you can use <code class="docutils literal notranslate"><span class="pre">Cat</span></code>, while for 2D inputs, such as images, you can use <code class="docutils literal notranslate"><span class="pre">Cat2d</span></code>.</p>
+<dd><p>Pass the input to multiple modules and concatenates the output, for 1D input you can use <cite>Cat</cite>, while for 2D inputs, such as images, you can use <cite>Cat2d</cite>.</p>
 <img alt="https://raw.githubusercontent.com/FrancescoSaverioZuppichini/torchlego/develop/doc/images/Cat.png" src="https://raw.githubusercontent.com/FrancescoSaverioZuppichini/torchlego/develop/doc/images/Cat.png" />
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blocks</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">48</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Cat2d</span><span class="p">(</span><span class="n">blocks</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+<span class="go"># torch.Size([1, 128, 46, 46])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py class">
@@ -214,10 +222,13 @@
 <code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/blocks/residuals.html#InputForward.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.residuals.InputForward.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Although the recipe for forward pass needs to be defined within
-this function, one should call the :class:<code class="docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
 instead of this since the former takes care of running the
 registered hooks while the latter silently ignores them.</p>
+</div>
 </dd></dl>
 
 <dl class="py attribute">
@@ -231,21 +242,27 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.nn.blocks.residuals.Residual">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.residuals.</span></code><code class="sig-name descname"><span class="pre">Residual</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res_func</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shortcut</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks/residuals.html#Residual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.residuals.Residual" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>It applies residual connection to a <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> where the output becomes</p>
-<p>:math:<code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">F(x)</span> <span class="pre">+</span> <span class="pre">x</span></code></p>
+<p>It applies residual connection to a <cite>nn.Module</cite> where the output becomes</p>
+<p><span class="math notranslate nohighlight">\(y = F(x) + x\)</span></p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">block</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span> <span class="o">//</span> <span class="n">does</span> <span class="n">nothing</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">Residual</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">res_func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">res</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">//</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
 <img alt="https://github.com/FrancescoSaverioZuppichini/torchlego/blob/develop/doc/images/Residual.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/torchlego/blob/develop/doc/images/Residual.png?raw=true" />
-<p>You can also pass a <code class="docutils literal notranslate"><span class="pre">shortcut</span></code> function</p>
-<blockquote>
-<div><p>res = Residual(block, res_func=lambda x, res: x + res, shortcut=lambda x: x * 2)
-res(x) // tensor([3])</p>
-</div></blockquote>
+<p>You can also pass a <cite>shortcut</cite> function</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">Residual</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">res_func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">res</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">//</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
 <img alt="https://github.com/FrancescoSaverioZuppichini/torchlego/blob/develop/doc/images/Residual_shorcut.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/torchlego/blob/develop/doc/images/Residual_shorcut.png?raw=true" />
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>block</strong> (<em>nn.Module</em>) – A Pytorch module</p></li>
 <li><p><strong>res_func</strong> (<em>Callable</em><em>[</em><em>[</em><em>Tensor</em><em>]</em><em>, </em><em>Tensor</em><em>]</em><em>, </em><em>optional</em>) – The residual function. Defaults to None.</p></li>
-<li><p><strong>shortcut</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – A function applied before the input is passed to <code class="docutils literal notranslate"><span class="pre">block</span></code>. Defaults to None.</p></li>
+<li><p><strong>shortcut</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – A function applied before the input is passed to <cite>block</cite>. Defaults to None.</p></li>
 </ul>
 </dd>
 </dl>
@@ -254,10 +271,13 @@ res(x) // tensor([3])</p>
 <code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/blocks/residuals.html#Residual.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.residuals.Residual.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Although the recipe for forward pass needs to be defined within
-this function, one should call the :class:<code class="docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
 instead of this since the former takes care of running the
 registered hooks while the latter silently ignores them.</p>
+</div>
 </dd></dl>
 
 <dl class="py attribute">
@@ -274,7 +294,7 @@ registered hooks while the latter silently ignores them.</p>
 <p>Args:
 block (nn.Module): A Pytorch module
 res_func (Callable[[Tensor], Tensor], optional): The residual function. Defaults to None.
-shortcut (nn.Module, optional): A function applied before the input is passed to <code class="docutils literal notranslate"><span class="pre">block</span></code>. Defaults to None.</p>
+shortcut (nn.Module, optional): A function applied before the input is passed to <cite>block</cite>. Defaults to None.</p>
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.residuals.ResidualAdd.training">
 <code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.residuals.ResidualAdd.training" title="Permalink to this definition">¶</a></dt>
@@ -342,10 +362,13 @@ shortcut (nn.Module, optional): A function applied before the input is passed to
 <code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#Conv2dPad.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Although the recipe for forward pass needs to be defined within
-this function, one should call the :class:<code class="docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
 instead of this since the former takes care of running the
 registered hooks while the latter silently ignores them.</p>
+</div>
 </dd></dl>
 
 <dl class="py attribute">
@@ -405,7 +428,30 @@ registered hooks while the latter silently ignores them.</p>
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.</span></code><code class="sig-name descname"><span class="pre">ConvBnAct</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">out_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></em>, <em class="sig-param"><span class="pre">conv:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.blocks.Conv2dPad'&gt;</span></em>, <em class="sig-param"><span class="pre">normalization:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.batchnorm.BatchNorm2d'&gt;</span></em>, <em class="sig-param"><span class="pre">bias:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#ConvBnAct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.ConvBnAct" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
 <p>Utility module that stacks one convolution layer, a normalization layer and an activation function.</p>
-<p>We also provide additional modules built on top of this one: <code class="docutils literal notranslate"><span class="pre">ConvBn</span></code>, <code class="docutils literal notranslate"><span class="pre">ConvAct</span></code>, <code class="docutils literal notranslate"><span class="pre">Conv3x3BnAct</span></code>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ConvBnAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">    ConvBnAct(</span>
+<span class="go">        (conv): Conv2dPad(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))</span>
+<span class="go">        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)</span>
+<span class="go">        (act): ReLU()</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ConvBnAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">normalization</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">)</span>
+<span class="go">    ConvBnAct(</span>
+<span class="go">        (conv): Conv2dPad(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))</span>
+<span class="go">        (act): ReLU()</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ConvBnAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">)</span>
+<span class="go">    ConvBnAct(</span>
+<span class="go">        (conv): Conv2dPad(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))</span>
+<span class="go">        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+<p>We also provide additional modules built on top of this one: <cite>ConvBn</cite>, <cite>ConvAct</cite>, <cite>Conv3x3BnAct</cite>
 :param out_features: Number of input features
 :type out_features: int
 :param out_features: Number of output features
@@ -429,6 +475,16 @@ registered hooks while the latter silently ignores them.</p>
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.</span></code><code class="sig-name descname"><span class="pre">ConvBnDropAct</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">out_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></em>, <em class="sig-param"><span class="pre">conv:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.blocks.Conv2dPad'&gt;</span></em>, <em class="sig-param"><span class="pre">normalization:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.batchnorm.BatchNorm2d'&gt;</span></em>, <em class="sig-param"><span class="pre">regularization:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.regularization.DropBlock'&gt;</span></em>, <em class="sig-param"><span class="pre">p:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.2</span></em>, <em class="sig-param"><span class="pre">bias:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#ConvBnDropAct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.ConvBnDropAct" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
 <p>Utility module that stacks one convolution layer, a normalization layer, a regularization layer and an activation function.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ConvBnDropAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">    ConvBnAct(</span>
+<span class="go">        (conv): Conv2dPad(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))</span>
+<span class="go">        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)</span>
+<span class="go">        (reg): DropBlock(p=0.2)</span>
+<span class="go">        (act): ReLU()</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
 <dt id="glasses.nn.blocks.ConvBnDropAct.training">
@@ -447,15 +503,23 @@ registered hooks while the latter silently ignores them.</p>
 <dd class="field-odd"><p><strong>lambd</strong> (<em>Callable</em><em>[</em><em>Tensor</em><em>]</em>) – A function that does something on a tensor</p>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">add_two</span> <span class="o">=</span> <span class="n">Lambda</span><span class="p">(</span><span class="n">lambd</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_two</span><span class="p">(</span><span class="n">Tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">]))</span> <span class="o">//</span> <span class="mi">2</span>
+</pre></div>
+</div>
 <dl class="py method">
 <dt id="glasses.nn.blocks.Lambda.forward">
 <code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#Lambda.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.Lambda.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Although the recipe for forward pass needs to be defined within
-this function, one should call the :class:<code class="docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
 instead of this since the former takes care of running the
 registered hooks while the latter silently ignores them.</p>
+</div>
 </dd></dl>
 
 <dl class="py attribute">

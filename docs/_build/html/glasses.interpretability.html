@@ -190,7 +190,7 @@
 <dt id="glasses.interpretability.GradCam.GradCam">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.interpretability.GradCam.</span></code><code class="sig-name descname"><span class="pre">GradCam</span></code><a class="reference internal" href="_modules/glasses/interpretability/GradCam.html#GradCam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.GradCam.GradCam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#glasses.interpretability.Interpretability.Interpretability" title="glasses.interpretability.Interpretability.Interpretability"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.interpretability.Interpretability.Interpretability</span></code></a></p>
-<p>Implementation of GradCam proposed in <a href="#id1"><span class="problematic" id="id2">``</span></a>Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization &lt;<a class="reference external" href="https://arxiv.org/abs/1610.02391">https://arxiv.org/abs/1610.02391</a>&gt;``_</p>
+<p>Implementation of GradCam proposed in <a class="reference external" href="https://arxiv.org/abs/1610.02391">Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization</a></p>
 <dl class="py method">
 <dt id="glasses.interpretability.GradCam.GradCam.__call__">
 <code class="sig-name descname"><span class="pre">__call__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocessing</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.interpretability.GradCam.GradCamResult" title="glasses.interpretability.GradCam.GradCamResult"><span class="pre">glasses.interpretability.GradCam.GradCamResult</span></a><a class="reference internal" href="_modules/glasses/interpretability/GradCam.html#GradCam.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.GradCam.GradCam.__call__" title="Permalink to this definition">¶</a></dt>
@@ -200,14 +200,14 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<em>torch.Tensor</em>) – Input tensor, e.g. an image</p></li>
 <li><p><strong>module</strong> (<em>nn.Module</em>) – Model</p></li>
-<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <code class="docutils literal notranslate"><span class="pre">None</span></code> then the last conv layer will be used. Defaults to None.</p></li>
-<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <code class="docutils literal notranslate"><span class="pre">None</span></code> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
-<li><p><strong>ctx</strong> (<em>torch.Tensor</em><em>, </em><em>optional</em>) – The tensor w.r we derive, if <code class="docutils literal notranslate"><span class="pre">None</span></code> we will use the one-hot encoding of the target. Defaults to None.</p></li>
+<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <cite>None</cite> then the last conv layer will be used. Defaults to None.</p></li>
+<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <cite>None</cite> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
+<li><p><strong>ctx</strong> (<em>torch.Tensor</em><em>, </em><em>optional</em>) – The tensor w.r we derive, if <cite>None</cite> we will use the one-hot encoding of the target. Defaults to None.</p></li>
 <li><p><strong>postprocessing</strong> (<em>Callable</em><em>[</em><em>[</em><em>torch.Tensor</em><em>]</em><em>, </em><em>torch.Tensor</em><em>]</em><em>, </em><em>optional</em>) – A function used to post process the output, e.g. de-normalize. Defaults to None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The result of the gradcam, you can call <code class="docutils literal notranslate"><span class="pre">.show</span></code> to see it.</p>
+<dd class="field-even"><p>The result of the gradcam, you can call <cite>.show</cite> to see it.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#glasses.interpretability.GradCam.GradCamResult" title="glasses.interpretability.GradCam.GradCamResult">GradCamResult</a></p>
@@ -245,7 +245,8 @@
 <dt id="glasses.interpretability.SaliencyMap.SaliencyMap">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.interpretability.SaliencyMap.</span></code><code class="sig-name descname"><span class="pre">SaliencyMap</span></code><a class="reference internal" href="_modules/glasses/interpretability/SaliencyMap.html#SaliencyMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.SaliencyMap.SaliencyMap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#glasses.interpretability.Interpretability.Interpretability" title="glasses.interpretability.Interpretability.Interpretability"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.interpretability.Interpretability.Interpretability</span></code></a></p>
-<p>Implementation of <a href="#id3"><span class="problematic" id="id4">``</span></a>Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps &lt;<a class="reference external" href="https://arxiv.org/abs/1312.6034">https://arxiv.org/abs/1312.6034</a>&gt;``_</p>
+<p>Implementation of <a class="reference external" href="https://arxiv.org/abs/1312.6034">Deep Inside Convolutional Networks: Visualising Image Classification Models
+and Saliency Maps</a></p>
 <dl class="py method">
 <dt id="glasses.interpretability.SaliencyMap.SaliencyMap.__call__">
 <code class="sig-name descname"><span class="pre">__call__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guide</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.interpretability.SaliencyMap.SaliencyMapResult" title="glasses.interpretability.SaliencyMap.SaliencyMapResult"><span class="pre">glasses.interpretability.SaliencyMap.SaliencyMapResult</span></a><a class="reference internal" href="_modules/glasses/interpretability/SaliencyMap.html#SaliencyMap.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.SaliencyMap.SaliencyMap.__call__" title="Permalink to this definition">¶</a></dt>
@@ -255,13 +256,13 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<em>torch.Tensor</em>) – Input tensor, e.g. an image</p></li>
 <li><p><strong>module</strong> (<em>nn.Module</em>) – Model</p></li>
-<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <code class="docutils literal notranslate"><span class="pre">None</span></code> then the last conv layer will be used. Defaults to None.</p></li>
-<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <code class="docutils literal notranslate"><span class="pre">None</span></code> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
-<li><p><strong>ctx</strong> (<em>torch.Tensor</em><em>, </em><em>optional</em>) – The tensor w.r we derive, if <code class="docutils literal notranslate"><span class="pre">None</span></code> we will use the one-hot encoding of the target. Defaults to None.</p></li>
+<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <cite>None</cite> then the last conv layer will be used. Defaults to None.</p></li>
+<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <cite>None</cite> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
+<li><p><strong>ctx</strong> (<em>torch.Tensor</em><em>, </em><em>optional</em>) – The tensor w.r we derive, if <cite>None</cite> we will use the one-hot encoding of the target. Defaults to None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The result of the saliency map, you can call <code class="docutils literal notranslate"><span class="pre">.show</span></code> to see it.</p>
+<dd class="field-even"><p>The result of the saliency map, you can call <cite>.show</cite> to see it.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#glasses.interpretability.SaliencyMap.SaliencyMapResult" title="glasses.interpretability.SaliencyMap.SaliencyMapResult">SaliencyMapResult</a></p>
@@ -294,7 +295,7 @@
 <dt id="glasses.interpretability.ScoreCam.ScoreCam">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.interpretability.ScoreCam.</span></code><code class="sig-name descname"><span class="pre">ScoreCam</span></code><a class="reference internal" href="_modules/glasses/interpretability/ScoreCam.html#ScoreCam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.ScoreCam.ScoreCam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#glasses.interpretability.Interpretability.Interpretability" title="glasses.interpretability.Interpretability.Interpretability"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.interpretability.Interpretability.Interpretability</span></code></a></p>
-<p>Implementation of ScoreCam proposed in <a href="#id5"><span class="problematic" id="id6">``</span></a>Score-CAM: Score-Weighted Visual Explanations for Convolutional Neural Networks &lt;<a class="reference external" href="https://arxiv.org/abs/1910.01279">https://arxiv.org/abs/1910.01279</a>&gt;``_</p>
+<p>Implementation of ScoreCam proposed in <a class="reference external" href="https://arxiv.org/abs/1910.01279">Score-CAM: Score-Weighted Visual Explanations for Convolutional Neural Networks</a></p>
 <dl class="py method">
 <dt id="glasses.interpretability.ScoreCam.ScoreCam.__call__">
 <code class="sig-name descname"><span class="pre">__call__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocessing</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.interpretability.GradCam.GradCamResult" title="glasses.interpretability.GradCam.GradCamResult"><span class="pre">glasses.interpretability.GradCam.GradCamResult</span></a><a class="reference internal" href="_modules/glasses/interpretability/ScoreCam.html#ScoreCam.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.ScoreCam.ScoreCam.__call__" title="Permalink to this definition">¶</a></dt>
@@ -304,13 +305,13 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<em>torch.Tensor</em>) – Input tensor, e.g. an image</p></li>
 <li><p><strong>module</strong> (<em>nn.Module</em>) – Model</p></li>
-<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <code class="docutils literal notranslate"><span class="pre">None</span></code> then the last conv layer will be used. Defaults to None.</p></li>
-<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <code class="docutils literal notranslate"><span class="pre">None</span></code> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
+<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <cite>None</cite> then the last conv layer will be used. Defaults to None.</p></li>
+<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <cite>None</cite> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
 <li><p><strong>postprocessing</strong> (<em>Callable</em><em>[</em><em>[</em><em>torch.Tensor</em><em>]</em><em>, </em><em>torch.Tensor</em><em>]</em><em>, </em><em>optional</em>) – A function used to post process the output, e.g. de-normalize. Defaults to None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The result of the scorecam, you can call <code class="docutils literal notranslate"><span class="pre">.show</span></code> to see it.</p>
+<dd class="field-even"><p>The result of the scorecam, you can call <cite>.show</cite> to see it.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#glasses.interpretability.GradCam.GradCamResult" title="glasses.interpretability.GradCam.GradCamResult">GradCamResult</a></p>
@@ -326,9 +327,9 @@
 <dl class="py function">
 <dt id="glasses.interpretability.utils.convert_to_grayscale">
 <code class="sig-prename descclassname"><span class="pre">glasses.interpretability.utils.</span></code><code class="sig-name descname"><span class="pre">convert_to_grayscale</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cv2im</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/interpretability/utils.html#convert_to_grayscale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.utils.convert_to_grayscale" title="Permalink to this definition">¶</a></dt>
-<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Converts</span> <span class="mi">3</span><span class="n">d</span> <span class="n">image</span> <span class="n">to</span> <span class="n">grayscale</span>
-</pre></div>
-</div>
+<dd><blockquote>
+<div><p>Converts 3d image to grayscale</p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>cv2im</strong> (<em>numpy arr</em>) – RGB image with shape (D,W,H)</p>
@@ -349,22 +350,26 @@
 <dd><p>Utility function that return the first layer of a given type</p>
 <dl class="field-list simple">
 <dt class="field-odd">Example</dt>
-<dd class="field-odd"><p>x = torch.rand((1,3,224,224))
-model = ResNet.resnet18()
-find_last_layer(x, module, nn.Conv2d)</p>
-</dd>
-<dt class="field-even">Parameters</dt>
-<dd class="field-even"><ul class="simple">
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_last_layer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<em>torch.Tensor</em>) – [description]</p></li>
 <li><p><strong>module</strong> (<em>nn.Module</em>) – [description]</p></li>
 <li><p><strong>of_type</strong> (<em>Type</em>) – [description]</p></li>
 </ul>
 </dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>[description]</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[description]</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>nn.Module</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nn.Module</p>
 </dd>
 </dl>
 </dd></dl>
@@ -375,22 +380,26 @@ find_last_layer(x, module, nn.Conv2d)</p>
 <dd><p>Utility function that return the last layer of a given type</p>
 <dl class="field-list simple">
 <dt class="field-odd">Example</dt>
-<dd class="field-odd"><p>x = torch.rand((1,3,224,224))
-model = ResNet.resnet18()
-find_last_layer(x, module, nn.Conv2d)</p>
-</dd>
-<dt class="field-even">Parameters</dt>
-<dd class="field-even"><ul class="simple">
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_last_layer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<em>torch.Tensor</em>) – [description]</p></li>
 <li><p><strong>module</strong> (<em>nn.Module</em>) – [description]</p></li>
 <li><p><strong>of_type</strong> (<em>Type</em>) – [description]</p></li>
 </ul>
 </dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>[description]</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[description]</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>nn.Module</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>nn.Module</p>
 </dd>
 </dl>
 </dd></dl>
@@ -412,7 +421,7 @@ find_last_layer(x, module, nn.Conv2d)</p>
 <dt id="glasses.interpretability.GradCam">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.interpretability.</span></code><code class="sig-name descname"><span class="pre">GradCam</span></code><a class="reference internal" href="_modules/glasses/interpretability/GradCam.html#GradCam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.GradCam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#glasses.interpretability.Interpretability.Interpretability" title="glasses.interpretability.Interpretability.Interpretability"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.interpretability.Interpretability.Interpretability</span></code></a></p>
-<p>Implementation of GradCam proposed in <a href="#id7"><span class="problematic" id="id8">``</span></a>Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization &lt;<a class="reference external" href="https://arxiv.org/abs/1610.02391">https://arxiv.org/abs/1610.02391</a>&gt;``_</p>
+<p>Implementation of GradCam proposed in <a class="reference external" href="https://arxiv.org/abs/1610.02391">Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization</a></p>
 <dl class="py method">
 <dt id="glasses.interpretability.GradCam.__call__">
 <code class="sig-name descname"><span class="pre">__call__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocessing</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.interpretability.GradCam.GradCamResult" title="glasses.interpretability.GradCam.GradCamResult"><span class="pre">glasses.interpretability.GradCam.GradCamResult</span></a><a class="reference internal" href="_modules/glasses/interpretability/GradCam.html#GradCam.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.GradCam.__call__" title="Permalink to this definition">¶</a></dt>
@@ -422,14 +431,14 @@ find_last_layer(x, module, nn.Conv2d)</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<em>torch.Tensor</em>) – Input tensor, e.g. an image</p></li>
 <li><p><strong>module</strong> (<em>nn.Module</em>) – Model</p></li>
-<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <code class="docutils literal notranslate"><span class="pre">None</span></code> then the last conv layer will be used. Defaults to None.</p></li>
-<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <code class="docutils literal notranslate"><span class="pre">None</span></code> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
-<li><p><strong>ctx</strong> (<em>torch.Tensor</em><em>, </em><em>optional</em>) – The tensor w.r we derive, if <code class="docutils literal notranslate"><span class="pre">None</span></code> we will use the one-hot encoding of the target. Defaults to None.</p></li>
+<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <cite>None</cite> then the last conv layer will be used. Defaults to None.</p></li>
+<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <cite>None</cite> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
+<li><p><strong>ctx</strong> (<em>torch.Tensor</em><em>, </em><em>optional</em>) – The tensor w.r we derive, if <cite>None</cite> we will use the one-hot encoding of the target. Defaults to None.</p></li>
 <li><p><strong>postprocessing</strong> (<em>Callable</em><em>[</em><em>[</em><em>torch.Tensor</em><em>]</em><em>, </em><em>torch.Tensor</em><em>]</em><em>, </em><em>optional</em>) – A function used to post process the output, e.g. de-normalize. Defaults to None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The result of the gradcam, you can call <code class="docutils literal notranslate"><span class="pre">.show</span></code> to see it.</p>
+<dd class="field-even"><p>The result of the gradcam, you can call <cite>.show</cite> to see it.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#glasses.interpretability.GradCam.GradCamResult" title="glasses.interpretability.GradCam.GradCamResult">GradCamResult</a></p>
@@ -450,7 +459,8 @@ find_last_layer(x, module, nn.Conv2d)</p>
 <dt id="glasses.interpretability.SaliencyMap">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.interpretability.</span></code><code class="sig-name descname"><span class="pre">SaliencyMap</span></code><a class="reference internal" href="_modules/glasses/interpretability/SaliencyMap.html#SaliencyMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.SaliencyMap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#glasses.interpretability.Interpretability.Interpretability" title="glasses.interpretability.Interpretability.Interpretability"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.interpretability.Interpretability.Interpretability</span></code></a></p>
-<p>Implementation of <a href="#id9"><span class="problematic" id="id10">``</span></a>Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps &lt;<a class="reference external" href="https://arxiv.org/abs/1312.6034">https://arxiv.org/abs/1312.6034</a>&gt;``_</p>
+<p>Implementation of <a class="reference external" href="https://arxiv.org/abs/1312.6034">Deep Inside Convolutional Networks: Visualising Image Classification Models
+and Saliency Maps</a></p>
 <dl class="py method">
 <dt id="glasses.interpretability.SaliencyMap.__call__">
 <code class="sig-name descname"><span class="pre">__call__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guide</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.interpretability.SaliencyMap.SaliencyMapResult" title="glasses.interpretability.SaliencyMap.SaliencyMapResult"><span class="pre">glasses.interpretability.SaliencyMap.SaliencyMapResult</span></a><a class="reference internal" href="_modules/glasses/interpretability/SaliencyMap.html#SaliencyMap.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.SaliencyMap.__call__" title="Permalink to this definition">¶</a></dt>
@@ -460,13 +470,13 @@ find_last_layer(x, module, nn.Conv2d)</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<em>torch.Tensor</em>) – Input tensor, e.g. an image</p></li>
 <li><p><strong>module</strong> (<em>nn.Module</em>) – Model</p></li>
-<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <code class="docutils literal notranslate"><span class="pre">None</span></code> then the last conv layer will be used. Defaults to None.</p></li>
-<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <code class="docutils literal notranslate"><span class="pre">None</span></code> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
-<li><p><strong>ctx</strong> (<em>torch.Tensor</em><em>, </em><em>optional</em>) – The tensor w.r we derive, if <code class="docutils literal notranslate"><span class="pre">None</span></code> we will use the one-hot encoding of the target. Defaults to None.</p></li>
+<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <cite>None</cite> then the last conv layer will be used. Defaults to None.</p></li>
+<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <cite>None</cite> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
+<li><p><strong>ctx</strong> (<em>torch.Tensor</em><em>, </em><em>optional</em>) – The tensor w.r we derive, if <cite>None</cite> we will use the one-hot encoding of the target. Defaults to None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The result of the saliency map, you can call <code class="docutils literal notranslate"><span class="pre">.show</span></code> to see it.</p>
+<dd class="field-even"><p>The result of the saliency map, you can call <cite>.show</cite> to see it.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#glasses.interpretability.SaliencyMap.SaliencyMapResult" title="glasses.interpretability.SaliencyMap.SaliencyMapResult">SaliencyMapResult</a></p>
@@ -485,7 +495,7 @@ find_last_layer(x, module, nn.Conv2d)</p>
 <dt id="glasses.interpretability.ScoreCam">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.interpretability.</span></code><code class="sig-name descname"><span class="pre">ScoreCam</span></code><a class="reference internal" href="_modules/glasses/interpretability/ScoreCam.html#ScoreCam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.ScoreCam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#glasses.interpretability.Interpretability.Interpretability" title="glasses.interpretability.Interpretability.Interpretability"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.interpretability.Interpretability.Interpretability</span></code></a></p>
-<p>Implementation of ScoreCam proposed in <a href="#id11"><span class="problematic" id="id12">``</span></a>Score-CAM: Score-Weighted Visual Explanations for Convolutional Neural Networks &lt;<a class="reference external" href="https://arxiv.org/abs/1910.01279">https://arxiv.org/abs/1910.01279</a>&gt;``_</p>
+<p>Implementation of ScoreCam proposed in <a class="reference external" href="https://arxiv.org/abs/1910.01279">Score-CAM: Score-Weighted Visual Explanations for Convolutional Neural Networks</a></p>
 <dl class="py method">
 <dt id="glasses.interpretability.ScoreCam.__call__">
 <code class="sig-name descname"><span class="pre">__call__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocessing</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.interpretability.GradCam.GradCamResult" title="glasses.interpretability.GradCam.GradCamResult"><span class="pre">glasses.interpretability.GradCam.GradCamResult</span></a><a class="reference internal" href="_modules/glasses/interpretability/ScoreCam.html#ScoreCam.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.interpretability.ScoreCam.__call__" title="Permalink to this definition">¶</a></dt>
@@ -495,13 +505,13 @@ find_last_layer(x, module, nn.Conv2d)</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<em>torch.Tensor</em>) – Input tensor, e.g. an image</p></li>
 <li><p><strong>module</strong> (<em>nn.Module</em>) – Model</p></li>
-<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <code class="docutils literal notranslate"><span class="pre">None</span></code> then the last conv layer will be used. Defaults to None.</p></li>
-<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <code class="docutils literal notranslate"><span class="pre">None</span></code> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
+<li><p><strong>layer</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – The layer we wish to interpreter, if <cite>None</cite> then the last conv layer will be used. Defaults to None.</p></li>
+<li><p><strong>target</strong> (<em>int</em><em>, </em><em>optional</em>) – The target tensor, if <cite>None</cite> the model output (after softmax and argmax) wil be used. Defaults to None.</p></li>
 <li><p><strong>postprocessing</strong> (<em>Callable</em><em>[</em><em>[</em><em>torch.Tensor</em><em>]</em><em>, </em><em>torch.Tensor</em><em>]</em><em>, </em><em>optional</em>) – A function used to post process the output, e.g. de-normalize. Defaults to None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The result of the scorecam, you can call <code class="docutils literal notranslate"><span class="pre">.show</span></code> to see it.</p>
+<dd class="field-even"><p>The result of the scorecam, you can call <cite>.show</cite> to see it.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#glasses.interpretability.GradCam.GradCamResult" title="glasses.interpretability.GradCam.GradCamResult">GradCamResult</a></p>

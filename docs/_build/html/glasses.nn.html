@@ -201,39 +201,39 @@
 <dt id="glasses.nn.ChannelSE">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.</span></code><code class="sig-name descname"><span class="pre">ChannelSE</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></em>, <em class="sig-param"><span class="pre">inplace=True)</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#ChannelSE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.ChannelSE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.nn.att.html#glasses.nn.att.SpatialSE" title="glasses.nn.att.SpatialSE"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.att.SpatialSE</span></code></a></p>
-<p>Modified implementation of Squeeze and Excitation Module proposed in <a href="#id1"><span class="problematic" id="id2">``</span></a>Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks &lt;<a class="reference external" href="https://arxiv.org/abs/1803.02579">https://arxiv.org/abs/1803.02579</a>&gt;``_</p>
+<p>Modified implementation of Squeeze and Excitation Module proposed in <a class="reference external" href="https://arxiv.org/abs/1803.02579">Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks</a></p>
 <p>It squeezes channel-wise and excitates spatially.</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ChannelSE.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ChannelSE.png?raw=true" />
 <p class="rubric">Examples</p>
-<p>Add <code class="docutils literal notranslate"><span class="pre">ChannelSE</span></code> to your own model is very simple.</p>
-<blockquote>
-<div><p>nn.Sequential(
-nn.Conv2d(32, 64, kernel_size=3),
-ChannelSE(64, reduction=4)
-nn.ReLU(),
-)</p>
-</div></blockquote>
+<p>Add <cite>ChannelSE</cite> to your own model is very simple.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">ChannelSE</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+</pre></div>
+</div>
 <p>You can also direcly specify the number of features inside the module</p>
-<blockquote>
-<div><p>nn.Sequential(
-nn.Conv2d(32, 64, kernel_size=3),
-ChannelSE(64, reduced_features=10)
-nn.ReLU(),
-)</p>
-</div></blockquote>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">ChannelSE</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">reduced_features</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+</pre></div>
+</div>
 <p>Creating the cseresnet50</p>
-<blockquote>
-<div><p>from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock
-from glasses.nn.att import EfficientChannelAtt, WithAtt
-se_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=ChannelSE))
-se_resnet50.summary()</p>
-</div></blockquote>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">ChannelSE</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>features</strong> (<em>int</em>) – Number of features</p></li>
 <li><p><strong>reduction</strong> (<em>int</em><em>, </em><em>optional</em>) – Reduction ratio used to downsample the input. Defaults to 16.</p></li>
-<li><p><strong>reduced_features</strong> (<em>int</em><em>, </em><em>optional</em>) – If passed, use it instead of calculating the reduced features using <code class="docutils literal notranslate"><span class="pre">reduction</span></code>. Defaults to None.</p></li>
+<li><p><strong>reduced_features</strong> (<em>int</em><em>, </em><em>optional</em>) – If passed, use it instead of calculating the reduced features using <cite>reduction</cite>. Defaults to None.</p></li>
 </ul>
 </dd>
 </dl>
@@ -243,10 +243,13 @@ se_resnet50.summary()</p>
 <code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/att.html#ChannelSE.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.ChannelSE.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Although the recipe for forward pass needs to be defined within
-this function, one should call the :class:<code class="docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
 instead of this since the former takes care of running the
 registered hooks while the latter silently ignores them.</p>
+</div>
 </dd></dl>
 
 <dl class="py attribute">
@@ -284,10 +287,13 @@ registered hooks while the latter silently ignores them.</p>
 <code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#Conv2dPad.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.Conv2dPad.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Although the recipe for forward pass needs to be defined within
-this function, one should call the :class:<code class="docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
 instead of this since the former takes care of running the
 registered hooks while the latter silently ignores them.</p>
+</div>
 </dd></dl>
 
 <dl class="py attribute">
@@ -342,7 +348,30 @@ registered hooks while the latter silently ignores them.</p>
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.</span></code><code class="sig-name descname"><span class="pre">ConvBnAct</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">out_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></em>, <em class="sig-param"><span class="pre">conv:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.blocks.Conv2dPad'&gt;</span></em>, <em class="sig-param"><span class="pre">normalization:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.batchnorm.BatchNorm2d'&gt;</span></em>, <em class="sig-param"><span class="pre">bias:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#ConvBnAct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.ConvBnAct" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
 <p>Utility module that stacks one convolution layer, a normalization layer and an activation function.</p>
-<p>We also provide additional modules built on top of this one: <code class="docutils literal notranslate"><span class="pre">ConvBn</span></code>, <code class="docutils literal notranslate"><span class="pre">ConvAct</span></code>, <code class="docutils literal notranslate"><span class="pre">Conv3x3BnAct</span></code>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ConvBnAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">    ConvBnAct(</span>
+<span class="go">        (conv): Conv2dPad(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))</span>
+<span class="go">        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)</span>
+<span class="go">        (act): ReLU()</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ConvBnAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">normalization</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">)</span>
+<span class="go">    ConvBnAct(</span>
+<span class="go">        (conv): Conv2dPad(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))</span>
+<span class="go">        (act): ReLU()</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ConvBnAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">)</span>
+<span class="go">    ConvBnAct(</span>
+<span class="go">        (conv): Conv2dPad(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))</span>
+<span class="go">        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+<p>We also provide additional modules built on top of this one: <cite>ConvBn</cite>, <cite>ConvAct</cite>, <cite>Conv3x3BnAct</cite>
 :param out_features: Number of input features
 :type out_features: int
 :param out_features: Number of output features
@@ -365,7 +394,7 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.nn.DropBlock">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.</span></code><code class="sig-name descname"><span class="pre">DropBlock</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/regularization.html#DropBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.DropBlock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>Implementation of Drop Block proposed in <a href="#id3"><span class="problematic" id="id4">``</span></a>DropBlock: A regularization method for convolutional networks &lt;<a class="reference external" href="https://arxiv.org/abs/1810.12890">https://arxiv.org/abs/1810.12890</a>&gt;``_</p>
+<p>Implementation of Drop Block proposed in <a class="reference external" href="https://arxiv.org/abs/1810.12890">DropBlock: A regularization method for convolutional networks</a></p>
 <p>Similar to dropout but it maskes clusters of close pixels. The following image shows normal Dropout (b) and Drop Block (c)</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlock.jpg?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlock.jpg?raw=true" />
 <p>The following picture shows the effect of DropBlock on an input image</p>
@@ -400,10 +429,13 @@ registered hooks while the latter silently ignores them.</p>
 <code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/regularization.html#DropBlock.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.DropBlock.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Although the recipe for forward pass needs to be defined within
-this function, one should call the :class:<code class="docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
 instead of this since the former takes care of running the
 registered hooks while the latter silently ignores them.</p>
+</div>
 </dd></dl>
 
 <dl class="py attribute">
@@ -417,8 +449,16 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.nn.EfficientChannelAtt">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.</span></code><code class="sig-name descname"><span class="pre">EfficientChannelAtt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#EfficientChannelAtt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.EfficientChannelAtt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>Implementation of Efficient Channel Attention proposed in <a href="#id5"><span class="problematic" id="id6">``</span></a>ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks &lt;<a class="reference external" href="https://arxiv.org/pdf/1910.03151.pdf">https://arxiv.org/pdf/1910.03151.pdf</a>&gt;``_</p>
+<p>Implementation of Efficient Channel Attention proposed in <a class="reference external" href="https://arxiv.org/pdf/1910.03151.pdf">ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks</a></p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true" />
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># create ecaresnet50</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">eca_resnet50</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">EfficientChannelAtt</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">eca_resnet50</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -435,10 +475,13 @@ registered hooks while the latter silently ignores them.</p>
 <code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/att.html#EfficientChannelAtt.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.EfficientChannelAtt.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Although the recipe for forward pass needs to be defined within
-this function, one should call the :class:<code class="docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
 instead of this since the former takes care of running the
 registered hooks while the latter silently ignores them.</p>
+</div>
 </dd></dl>
 
 <dl class="py attribute">
@@ -452,39 +495,39 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.nn.SpatialChannelSE">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.</span></code><code class="sig-name descname"><span class="pre">SpatialChannelSE</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialChannelSE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.SpatialChannelSE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>Implementation of Spatial and Channel Squeeze and Excitation Module proposed in <a href="#id7"><span class="problematic" id="id8">``</span></a>Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks &lt;<a class="reference external" href="https://arxiv.org/abs/1803.02579">https://arxiv.org/abs/1803.02579</a>&gt;``_</p>
+<p>Implementation of Spatial and Channel Squeeze and Excitation Module proposed in <a class="reference external" href="https://arxiv.org/abs/1803.02579">Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks</a></p>
 <p>This module combines booth Spatial and Channel Squeeze and Excitation</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/SpatialAndChannelSE.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/SpatialAndChannelSE.png?raw=true" />
 <p class="rubric">Examples</p>
-<p>Add <code class="docutils literal notranslate"><span class="pre">SpatialChannelSE</span></code> to your own model is very simple.</p>
-<blockquote>
-<div><p>nn.Sequential(
-nn.Conv2d(32, 64, kernel_size=3),
-SpatialChannelSE(64, reduction=4)
-nn.ReLU(),
-)</p>
-</div></blockquote>
+<p>Add <cite>SpatialChannelSE</cite> to your own model is very simple.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">SpatialChannelSE</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+</pre></div>
+</div>
 <p>You can also direcly specify the number of features inside the module</p>
-<blockquote>
-<div><p>nn.Sequential(
-nn.Conv2d(32, 64, kernel_size=3),
-SpatialChannelSE(64, reduced_features=10)
-nn.ReLU(),
-)</p>
-</div></blockquote>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">SpatialChannelSE</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">reduced_features</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+</pre></div>
+</div>
 <p>Creating scseresnet50</p>
-<blockquote>
-<div><p>from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock
-from glasses.nn.att import EfficientChannelAtt, WithAtt
-se_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=SpatialChannelSE))
-se_resnet50.summary()</p>
-</div></blockquote>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">SpatialChannelSE</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>features</strong> (<em>int</em>) – Number of features</p></li>
 <li><p><strong>reduction</strong> (<em>int</em><em>, </em><em>optional</em>) – Reduction ratio used to downsample the input. Defaults to 16.</p></li>
-<li><p><strong>reduced_features</strong> (<em>int</em><em>, </em><em>optional</em>) – If passed, use it instead of calculating the reduced features using <code class="docutils literal notranslate"><span class="pre">reduction</span></code>. Defaults to None.</p></li>
+<li><p><strong>reduced_features</strong> (<em>int</em><em>, </em><em>optional</em>) – If passed, use it instead of calculating the reduced features using <cite>reduction</cite>. Defaults to None.</p></li>
 </ul>
 </dd>
 </dl>
@@ -494,10 +537,13 @@ se_resnet50.summary()</p>
 <code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialChannelSE.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.SpatialChannelSE.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Although the recipe for forward pass needs to be defined within
-this function, one should call the :class:<code class="docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
 instead of this since the former takes care of running the
 registered hooks while the latter silently ignores them.</p>
+</div>
 </dd></dl>
 
 <dl class="py attribute">
@@ -511,8 +557,14 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.nn.SpatialPyramidPool">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.</span></code><code class="sig-name descname"><span class="pre">SpatialPyramidPool</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">num_pools:</span> <span class="pre">List[int]</span> <span class="pre">=</span> <span class="pre">[1,</span> <span class="pre">4,</span> <span class="pre">16],</span> <span class="pre">pool:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.pooling.AdaptiveMaxPool2d'&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/pool/SpatialPyramidPool.html#SpatialPyramidPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.SpatialPyramidPool" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>Implementation of <a href="#id9"><span class="problematic" id="id10">``</span></a>Spatial Pyramid Pooling in Deep Convolutional Networks  for Visual Recognition &lt;<a class="reference external" href="https://arxiv.org/pdf/1406.4729.pdf">https://arxiv.org/pdf/1406.4729.pdf</a>&gt;``_</p>
+<p>Implementation of <a class="reference external" href="https://arxiv.org/pdf/1406.4729.pdf">Spatial Pyramid Pooling in Deep Convolutional Networks  for Visual Recognition</a></p>
 <p>It generate fixed length representation regardless of image dimensions.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">14</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">SpatialPyramidPool</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># torch.Size([4, 256, 21])</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -527,10 +579,13 @@ registered hooks while the latter silently ignores them.</p>
 <code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/pool/SpatialPyramidPool.html#SpatialPyramidPool.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.SpatialPyramidPool.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Although the recipe for forward pass needs to be defined within
-this function, one should call the :class:<code class="docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
 instead of this since the former takes care of running the
 registered hooks while the latter silently ignores them.</p>
+</div>
 </dd></dl>
 
 <dl class="py attribute">
@@ -544,51 +599,51 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.nn.SpatialSE">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.</span></code><code class="sig-name descname"><span class="pre">SpatialSE</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">reduction:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">16</span></em>, <em class="sig-param"><span class="pre">reduced_features:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></em>, <em class="sig-param"><span class="pre">inplace=True)</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialSE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.SpatialSE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>Implementation of Squeeze and Excitation Module proposed in <a href="#id11"><span class="problematic" id="id12">``</span></a>Squeeze-and-Excitation Networks &lt;<a class="reference external" href="https://arxiv.org/abs/1709.01507">https://arxiv.org/abs/1709.01507</a>&gt;``_
+<p>Implementation of Squeeze and Excitation Module proposed in <a class="reference external" href="https://arxiv.org/abs/1709.01507">Squeeze-and-Excitation Networks</a>
 The idea is to apply a learned an channel-wise attention.</p>
 <p>It squeezes spatially and excitates channel-wise.</p>
 <p>The authors reported a bigger performance increase where the number of features are higher.</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/se.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/se.png?raw=true" />
-<p>Further visualisation from <a href="#id13"><span class="problematic" id="id14">``</span></a>Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks &lt;<a class="reference external" href="https://arxiv.org/abs/1803.02579">https://arxiv.org/abs/1803.02579</a>&gt;``_</p>
+<p>Further visualisation from <a class="reference external" href="https://arxiv.org/abs/1803.02579">Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks</a></p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/SpatialSE.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/SpatialSE.png?raw=true" />
 <p class="rubric">Examples</p>
-<p>Add <code class="docutils literal notranslate"><span class="pre">SpatialSE</span></code> to your own model is very simple.</p>
-<blockquote>
-<div><p>nn.Sequential(
-nn.Conv2d(32, 64, kernel_size=3),
-SpatialSE(64, reduction=4)
-nn.ReLU(),
-)</p>
-</div></blockquote>
+<p>Add <cite>SpatialSE</cite> to your own model is very simple.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">SpatialSE</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+</pre></div>
+</div>
 <p>You can also direcly specify the number of features inside the module</p>
-<blockquote>
-<div><p>nn.Sequential(
-nn.Conv2d(32, 64, kernel_size=3),
-SpatialSE(64, reduced_features=10)
-nn.ReLU(),
-)</p>
-</div></blockquote>
-<p>The following example shows a more advance scenarion where we add Squeeze ad Excitation to a <code class="docutils literal notranslate"><span class="pre">ResNetBasicBlock</span></code>.</p>
-<blockquote>
-<div><p>class SENetBasicBlock(ResNetBasicBlock):
-def <a href="#id15"><span class="problematic" id="id16">**</span></a>init**(self, in_features: int, out_features: int, reduction: int =16, <a href="#id17"><span class="problematic" id="id18">*</span></a>args, <a href="#id19"><span class="problematic" id="id20">**</span></a>kwargs):
-super().**init**(in_features, out_features, <a href="#id21"><span class="problematic" id="id22">*</span></a>args, <a href="#id23"><span class="problematic" id="id24">**</span></a>kwargs)
-# add se to the <code class="docutils literal notranslate"><span class="pre">.block</span></code>
-self.block.add_module(‘se’, SpatialSE(out_features))</p>
-</div></blockquote>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">SpatialSE</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">reduced_features</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The following example shows a more advance scenarion where we add Squeeze ad Excitation to a <cite>ResNetBasicBlock</cite>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">SENetBasicBlock</span><span class="p">(</span><span class="n">ResNetBasicBlock</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">reduction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="c1"># add se to the `.block`</span>
+<span class="gp">&gt;&gt;&gt; </span>       <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s1">&#39;se&#39;</span><span class="p">,</span> <span class="n">SpatialSE</span><span class="p">(</span><span class="n">out_features</span><span class="p">))</span>
+</pre></div>
+</div>
 <p>Creating the original seresnet50</p>
-<blockquote>
-<div><p>from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock
-from glasses.nn.att import EfficientChannelAtt, WithAtt
-se_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=SpatialSE))
-se_resnet50.summary()</p>
-</div></blockquote>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">SpatialSE</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>features</strong> (<em>int</em>) – Number of features</p></li>
 <li><p><strong>reduction</strong> (<em>int</em><em>, </em><em>optional</em>) – Reduction ratio used to downsample the input. Defaults to 16.</p></li>
-<li><p><strong>reduced_features</strong> (<em>int</em><em>, </em><em>optional</em>) – If passed, use it instead of calculating the reduced features using <code class="docutils literal notranslate"><span class="pre">reduction</span></code>. Defaults to None.</p></li>
+<li><p><strong>reduced_features</strong> (<em>int</em><em>, </em><em>optional</em>) – If passed, use it instead of calculating the reduced features using <cite>reduction</cite>. Defaults to None.</p></li>
 </ul>
 </dd>
 </dl>
@@ -598,10 +653,13 @@ se_resnet50.summary()</p>
 <code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialSE.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.SpatialSE.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Although the recipe for forward pass needs to be defined within
-this function, one should call the :class:<code class="docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
 instead of this since the former takes care of running the
 registered hooks while the latter silently ignores them.</p>
+</div>
 </dd></dl>
 
 <dl class="py attribute">
@@ -615,7 +673,7 @@ registered hooks while the latter silently ignores them.</p>
 <dt id="glasses.nn.StochasticDepth">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.</span></code><code class="sig-name descname"><span class="pre">StochasticDepth</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/regularization.html#StochasticDepth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.StochasticDepth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>Implementation of Stochastic Depth proposed in <a href="#id25"><span class="problematic" id="id26">``</span></a>Deep Networks with Stochastic Depth &lt;<a class="reference external" href="https://arxiv.org/abs/1603.09382">https://arxiv.org/abs/1603.09382</a>&gt;``_.</p>
+<p>Implementation of Stochastic Depth proposed in <a class="reference external" href="https://arxiv.org/abs/1603.09382">Deep Networks with Stochastic Depth</a>.</p>
 <p>The main idea is to skip one layer completely.</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
@@ -623,10 +681,13 @@ registered hooks while the latter silently ignores them.</p>
 <code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/regularization.html#StochasticDepth.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.StochasticDepth.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Although the recipe for forward pass needs to be defined within
-this function, one should call the :class:<code class="docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
 instead of this since the former takes care of running the
 registered hooks while the latter silently ignores them.</p>
+</div>
 </dd></dl>
 
 <dl class="py attribute">

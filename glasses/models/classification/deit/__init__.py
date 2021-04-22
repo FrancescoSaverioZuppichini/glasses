@@ -59,12 +59,13 @@ class DeiT(ViT):
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DeiT.png?raw=true
 
-        ```python
-        DeiT.deit_tiny_patch16_224()
-        DeiT.deit_small_patch16_224()
-        DeiT.deit_base_patch16_224()
-        DeiT.deit_base_patch16_384()
-        ```
+        .. code-block::
+
+            DeiT.deit_tiny_patch16_224()
+            DeiT.deit_small_patch16_224()
+            DeiT.deit_base_patch16_224()
+            DeiT.deit_base_patch16_384()
+
 
         Args:
             head (nn.Module, optional): [description]. Defaults to DeiTClassificationHead.

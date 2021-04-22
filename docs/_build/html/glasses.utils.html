@@ -203,7 +203,8 @@
 <p>This class transfers the weight from one module to another assuming
 they have the same set of operations but they were defined in a different way.</p>
 <p>:Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
+<blockquote>
+<div><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">eyes.utils</span> <span class="kn">import</span> <span class="n">ModuleTransfer</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model_a</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">())</span>
@@ -215,14 +216,14 @@ they have the same set of operations but they were defined in a different way.</
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">trans</span> <span class="o">=</span> <span class="n">ModuleTransfer</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">model_a</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">model_b</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">trans</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-<span class="go"># now module_b has the same weight of model_a</span>
 </pre></div>
 </div>
+<p># now module_b has the same weight of model_a</p>
+</div></blockquote>
 <dl class="py method">
 <dt id="glasses.utils.ModuleTransfer.ModuleTransfer.__call__">
 <code class="sig-name descname"><span class="pre">__call__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/ModuleTransfer.html#ModuleTransfer.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Transfer the weights of <code class="docutils literal notranslate"><span class="pre">self.src</span></code> to <code class="docutils literal notranslate"><span class="pre">self.dest</span></code> by performing a forward pass using <code class="docutils literal notranslate"><span class="pre">x</span></code> as input.
+<dd><p>Transfer the weights of <cite>self.src</cite> to <cite>self.dest</cite> by performing a forward pass using <cite>x</cite> as input.
 Under the hood we tracked all the operations in booth modules.
 :param x: [The input to the modules]
 :type x: torch.tensor</p>
@@ -314,11 +315,11 @@ performance.</p>
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.utils.Storage.</span></code><code class="sig-name descname"><span class="pre">MutipleKeysDict</span></code><a class="reference internal" href="_modules/glasses/utils/Storage.html#MutipleKeysDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.Storage.MutipleKeysDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.OrderedDict</span></code></p>
 <p>Allow to get values from multiple keys. Example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">MutipleKeysDict</span><span class="p">({</span> <span class="s1">&#39;a&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">})</span>
-<span class="n">d</span><span class="p">[[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">]]</span>
-<span class="c1"># out [1,2]</span>
-</pre></div>
-</div>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">d</span> <span class="pre">=</span> <span class="pre">MutipleKeysDict({</span> <span class="pre">'a'</span> <span class="pre">:</span> <span class="pre">1,</span> <span class="pre">'b'</span> <span class="pre">:</span> <span class="pre">2,</span> <span class="pre">'c'</span> <span class="pre">:</span> <span class="pre">3})</span>
+<span class="pre">d[['a',</span> <span class="pre">'b']]</span>
+<span class="pre">#</span> <span class="pre">out</span> <span class="pre">[1,2]</span>
+<span class="pre">`</span></code></p>
 </dd></dl>
 
 </div>
@@ -329,14 +330,26 @@ performance.</p>
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.utils.Tracker.</span></code><code class="sig-name descname"><span class="pre">Tracker</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">module:</span> <span class="pre">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="pre">traced:</span> <span class="pre">List[torch.nn.modules.module.Module]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em>, <em class="sig-param"><span class="pre">handles:</span> <span class="pre">list</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Tracker.html#Tracker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.Tracker.Tracker" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>This class tracks all the operations of a given module by performing a forward pass.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.utils</span> <span class="kn">import</span> <span class="n">Tracker</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tr</span> <span class="o">=</span> <span class="n">Tracker</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tr</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">traced</span><span class="p">)</span> <span class="c1"># all operations</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-----&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">parametrized</span><span class="p">)</span> <span class="c1"># all operations with learnable params</span>
+</pre></div>
+</div>
 <p>outputs</p>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a>[Linear(in_features=1, out_features=64, bias=True),
-ReLU(),
-Linear(in_features=64, out_features=10, bias=True),
-ReLU()]
-**</p>
-<p>[Linear(in_features=1, out_features=64, bias=True),
-Linear(in_features=64, out_features=10, bias=True)]``</p>
+<p><code class="docutils literal notranslate"><span class="pre">[Linear(in_features=1,</span> <span class="pre">out_features=64,</span> <span class="pre">bias=True),</span>
+<span class="pre">ReLU(),</span>
+<span class="pre">Linear(in_features=64,</span> <span class="pre">out_features=10,</span> <span class="pre">bias=True),</span>
+<span class="pre">ReLU()]</span>
+<span class="pre">-----</span>
+<span class="pre">[Linear(in_features=1,</span> <span class="pre">out_features=64,</span> <span class="pre">bias=True),</span>
+<span class="pre">Linear(in_features=64,</span> <span class="pre">out_features=10,</span> <span class="pre">bias=True)]</span></code></p>
 <dl class="py attribute">
 <dt id="glasses.utils.Tracker.Tracker.handles">
 <code class="sig-name descname"><span class="pre">handles</span></code><em class="property"><span class="pre">:</span> <span class="pre">list</span></em><a class="headerlink" href="#glasses.utils.Tracker.Tracker.handles" title="Permalink to this definition">¶</a></dt>
