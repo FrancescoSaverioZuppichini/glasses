@@ -1,38 +1,41 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>glasses.nn.att package &mdash; Glasses  documentation</title>
   
 
   
-  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="glasses.nn.blocks package" href="glasses.nn.blocks.html" />
@@ -73,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -99,6 +103,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.blocks.html">glasses.nn.blocks package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="glasses.nn.pool.html">glasses.nn.pool package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.nn.regularization.html">glasses.nn.regularization package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="glasses.nn.html#module-glasses.nn">Module contents</a></li>
@@ -113,6 +118,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -147,11 +153,13 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="modules.html">glasses</a> &raquo;</li>
         
@@ -164,7 +172,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/glasses.nn.att.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -184,7 +192,7 @@
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.nn.att" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="glasses.nn.att.ChannelSE">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.att.</code><code class="sig-name descname">ChannelSE</code><span class="sig-paren">(</span><em class="sig-param">features: int</em>, <em class="sig-param">*args</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">inplace=True)</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#ChannelSE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.ChannelSE" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.att.</span></code><code class="sig-name descname"><span class="pre">ChannelSE</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></em>, <em class="sig-param"><span class="pre">inplace=True)</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#ChannelSE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.ChannelSE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#glasses.nn.att.SpatialSE" title="glasses.nn.att.SpatialSE"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.att.SpatialSE</span></code></a></p>
 <p>Modified implementation of Squeeze and Excitation Module proposed in <a class="reference external" href="https://arxiv.org/abs/1803.02579">Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks</a></p>
 <p>It squeezes channel-wise and excitates spatially.</p>
@@ -207,8 +215,8 @@
 </pre></div>
 </div>
 <p>Creating the cseresnet50</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="k">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="k">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">ChannelSE</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
@@ -225,7 +233,7 @@
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.nn.att.ChannelSE.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/att.html#ChannelSE.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.ChannelSE.forward" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/att.html#ChannelSE.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.ChannelSE.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -239,21 +247,21 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py attribute">
 <dt id="glasses.nn.att.ChannelSE.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.att.ChannelSE.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.att.ChannelSE.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt id="glasses.nn.att.EfficientChannelAtt">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.att.</code><code class="sig-name descname">EfficientChannelAtt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">features</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">kernel_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">gamma</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">2</span></em>, <em class="sig-param"><span class="n">beta</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#EfficientChannelAtt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.EfficientChannelAtt" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.att.</span></code><code class="sig-name descname"><span class="pre">EfficientChannelAtt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#EfficientChannelAtt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.EfficientChannelAtt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>Implementation of Efficient Channel Attention proposed in <a class="reference external" href="https://arxiv.org/pdf/1910.03151.pdf">ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks</a></p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true" />
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># create ecaresnet50</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="k">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="k">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">eca_resnet50</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">EfficientChannelAtt</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">eca_resnet50</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
@@ -271,7 +279,7 @@ registered hooks while the latter silently ignores them.</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.nn.att.EfficientChannelAtt.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/att.html#EfficientChannelAtt.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.EfficientChannelAtt.forward" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/att.html#EfficientChannelAtt.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.EfficientChannelAtt.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -285,14 +293,14 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py attribute">
 <dt id="glasses.nn.att.EfficientChannelAtt.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.att.EfficientChannelAtt.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.att.EfficientChannelAtt.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt id="glasses.nn.att.SpatialChannelSE">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.att.</code><code class="sig-name descname">SpatialChannelSE</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialChannelSE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.SpatialChannelSE" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.att.</span></code><code class="sig-name descname"><span class="pre">SpatialChannelSE</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialChannelSE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.SpatialChannelSE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>Implementation of Spatial and Channel Squeeze and Excitation Module proposed in <a class="reference external" href="https://arxiv.org/abs/1803.02579">Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks</a></p>
 <p>This module combines booth Spatial and Channel Squeeze and Excitation</p>
@@ -315,8 +323,8 @@ registered hooks while the latter silently ignores them.</p>
 </pre></div>
 </div>
 <p>Creating scseresnet50</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="k">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="k">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">SpatialChannelSE</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
@@ -333,7 +341,7 @@ registered hooks while the latter silently ignores them.</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.nn.att.SpatialChannelSE.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/att.html#SpatialChannelSE.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.SpatialChannelSE.forward" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialChannelSE.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.SpatialChannelSE.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -347,14 +355,14 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py attribute">
 <dt id="glasses.nn.att.SpatialChannelSE.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.att.SpatialChannelSE.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.att.SpatialChannelSE.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt id="glasses.nn.att.SpatialSE">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.att.</code><code class="sig-name descname">SpatialSE</code><span class="sig-paren">(</span><em class="sig-param">features: int</em>, <em class="sig-param">reduction: int = 16</em>, <em class="sig-param">reduced_features: Optional[int] = None</em>, <em class="sig-param">activation: torch.nn.modules.module.Module = functools.partial(&lt;class 'torch.nn.modules.activation.ReLU'&gt;</em>, <em class="sig-param">inplace=True)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialSE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.SpatialSE" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.att.</span></code><code class="sig-name descname"><span class="pre">SpatialSE</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">reduction:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">16</span></em>, <em class="sig-param"><span class="pre">reduced_features:</span> <span class="pre">Optional[int]</span> <span class="pre">=</span> <span class="pre">None</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></em>, <em class="sig-param"><span class="pre">inplace=True)</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialSE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.SpatialSE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>Implementation of Squeeze and Excitation Module proposed in <a class="reference external" href="https://arxiv.org/abs/1709.01507">Squeeze-and-Excitation Networks</a>
 The idea is to apply a learned an channel-wise attention.</p>
@@ -382,15 +390,15 @@ The idea is to apply a learned an channel-wise attention.</p>
 </div>
 <p>The following example shows a more advance scenarion where we add Squeeze ad Excitation to a <cite>ResNetBasicBlock</cite>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">SENetBasicBlock</span><span class="p">(</span><span class="n">ResNetBasicBlock</span><span class="p">):</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">reduction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">reduction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="gp">&gt;&gt;&gt; </span>       <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>       <span class="c1"># add se to the `.block`</span>
 <span class="gp">&gt;&gt;&gt; </span>       <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s1">&#39;se&#39;</span><span class="p">,</span> <span class="n">SpatialSE</span><span class="p">(</span><span class="n">out_features</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Creating the original seresnet50</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="k">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="k">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">SpatialSE</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
@@ -407,7 +415,7 @@ The idea is to apply a learned an channel-wise attention.</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
 <dt id="glasses.nn.att.SpatialSE.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="_modules/glasses/nn/att.html#SpatialSE.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.SpatialSE.forward" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/att.html#SpatialSE.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.SpatialSE.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -421,21 +429,21 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py attribute">
 <dt id="glasses.nn.att.SpatialSE.training">
-<code class="sig-name descname">training</code><em class="property">: bool</em><a class="headerlink" href="#glasses.nn.att.SpatialSE.training" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.att.SpatialSE.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt id="glasses.nn.att.WithAtt">
-<em class="property">class </em><code class="sig-prename descclassname">glasses.nn.att.</code><code class="sig-name descname">WithAtt</code><span class="sig-paren">(</span><em class="sig-param">block: torch.nn.modules.module.Module</em>, <em class="sig-param">att: torch.nn.modules.module.Module = &lt;class 'glasses.nn.att.SpatialSE'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#WithAtt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#glasses.nn.att.WithAtt" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.att.</span></code><code class="sig-name descname"><span class="pre">WithAtt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">block:</span> <span class="pre">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="pre">att:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.att.SpatialSE'&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#WithAtt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.att.WithAtt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Utility class that adds an attention module after <cite>.block</cite>.</p>
 <dl class="field-list">
 <dt class="field-odd">Usage</dt>
 <dd class="field-odd"><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">SpatialSE</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">EfficientChannelAtt</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">SpatialSE</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="mi">8</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -451,29 +459,29 @@ registered hooks while the latter silently ignores them.</p>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="glasses.nn.blocks.html" class="btn btn-neutral float-right" title="glasses.nn.blocks package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="glasses.nn.activation.html" class="btn btn-neutral float-left" title="glasses.nn.activation package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="glasses.nn.blocks.html" class="btn btn-neutral float-right" title="glasses.nn.blocks package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="glasses.nn.activation.html" class="btn btn-neutral float-left" title="glasses.nn.activation package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala
+        &#169; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -481,7 +489,6 @@ registered hooks while the latter silently ignores them.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

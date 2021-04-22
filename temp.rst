@@ -1,7 +1,7 @@
-setup module
-============
+temp module
+===========
 
-.. automodule:: setup
+.. automodule:: temp
    :members:
    :undoc-members:
    :show-inheritance:
