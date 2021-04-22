@@ -47,7 +47,7 @@ class ResNetShorcutD(nn.Sequential):
         super().__init__(
             OrderedDict(
                 {
-                    "pool": nn.AvgPool2d((2, 2)) if stride == 2 else nn.Identity(),
+                    "pool": nn.AvgPool2d((2, 2), ceil_mode=True) if stride == 2 else nn.Identity(),
                     "conv": Conv2dPad(
                         in_features, out_features, kernel_size=1, bias=False
                     ),
@@ -118,8 +118,11 @@ class ResNetBasicBlock(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         res = x
+        print(f"x:{x.shape}")
         x = self.block(x)
+        print(f"x_block:{x.shape}")
         res = self.shortcut(res)
+        print(f"res:{res.shape}")
         x += res
         x = self.act(x)
         return x
