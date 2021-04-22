@@ -212,7 +212,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">OrderedDict</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="s2">&quot;pool&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="k">if</span> <span class="n">stride</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">(),</span>
+                    <span class="s2">&quot;pool&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">ceil_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">stride</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">(),</span>
                     <span class="s2">&quot;conv&quot;</span><span class="p">:</span> <span class="n">Conv2dPad</span><span class="p">(</span>
                         <span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span>
                     <span class="p">),</span>
@@ -248,7 +248,7 @@
         <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ReLUInPlace</span><span class="p">,</span>
         <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">shortcut</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ResNetShorcut</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">should_apply_shortcut</span> <span class="o">=</span> <span class="n">in_features</span> <span class="o">!=</span> <span class="n">out_features</span> <span class="ow">or</span> <span class="n">stride</span> <span class="o">!=</span> <span class="mi">1</span>
@@ -262,7 +262,7 @@
                         <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                         <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>
                         <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                        <span class="o">**</span><span class="n">kwargs</span>
+                        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="s2">&quot;bn1&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">out_features</span><span class="p">),</span>
                     <span class="s2">&quot;act1&quot;</span><span class="p">:</span> <span class="n">activation</span><span class="p">(),</span>
@@ -283,8 +283,11 @@
 
 <div class="viewcode-block" id="ResNetBasicBlock.forward"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNetBasicBlock.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x:</span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x_block:</span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortcut</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;res:</span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">+=</span> <span class="n">res</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
@@ -319,7 +322,7 @@
         <span class="n">reduction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
         <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcut</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">shortcut</span>
@@ -334,7 +337,7 @@
                 <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
                 <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                 <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>
-                <span class="o">**</span><span class="n">kwargs</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">ConvBnAct</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
         <span class="p">)</span></div>
@@ -356,7 +359,7 @@
         <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ReLUInPlace</span><span class="p">,</span>
         <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">shortcut</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ResNetShorcut</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">in_features</span><span class="p">,</span>
@@ -364,7 +367,7 @@
             <span class="n">activation</span><span class="p">,</span>
             <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>
             <span class="n">shortcut</span><span class="o">=</span><span class="n">shortcut</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
             <span class="n">OrderedDict</span><span class="p">(</span>
@@ -377,7 +380,7 @@
                         <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                         <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                         <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>
-                        <span class="o">**</span><span class="n">kwargs</span>
+                        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="s2">&quot;bn2&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">out_features</span><span class="p">),</span>
                     <span class="s2">&quot;act2&quot;</span><span class="p">:</span> <span class="n">activation</span><span class="p">(),</span>
@@ -413,7 +416,7 @@
         <span class="n">reduction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
         <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcut</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">in_features</span><span class="p">,</span>
@@ -422,7 +425,7 @@
             <span class="n">activation</span><span class="p">,</span>
             <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>
             <span class="n">shortcut</span><span class="o">=</span><span class="n">shortcut</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="c1"># TODO I am not sure it is correct</span>
         <span class="n">features</span> <span class="o">=</span> <span class="n">out_features</span> <span class="o">//</span> <span class="n">reduction</span>
@@ -441,7 +444,7 @@
                 <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                 <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                 <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>
-                <span class="o">**</span><span class="n">kwargs</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">BnActConv</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span>
@@ -464,12 +467,12 @@
         <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
         <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="c1"># &#39;We perform stride directly by convolutional layers that have a stride of 2.&#39;</span>
             <span class="n">block</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
-            <span class="o">*</span><span class="p">[</span><span class="n">block</span><span class="p">(</span><span class="n">out_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+            <span class="o">*</span><span class="p">[</span><span class="n">block</span><span class="p">(</span><span class="n">out_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)],</span>
         <span class="p">)</span></div>
 
 
@@ -545,7 +548,7 @@
         <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ResNetBasicBlock</span><span class="p">,</span>
         <span class="n">stem</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ResNetStem</span><span class="p">,</span>
         <span class="n">downsample_first</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -563,7 +566,7 @@
                     <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
                     <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span>
                     <span class="n">stride</span><span class="o">=</span><span class="mi">2</span> <span class="k">if</span> <span class="n">downsample_first</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span>
-                    <span class="o">**</span><span class="n">kwargs</span>
+                    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="o">*</span><span class="p">[</span>
                     <span class="n">ResNetLayer</span><span class="p">(</span>
@@ -572,7 +575,7 @@
                         <span class="n">depth</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
                         <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
                         <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span>
-                        <span class="o">**</span><span class="n">kwargs</span>
+                        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
                     <span class="p">)</span>
                     <span class="k">for</span> <span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">),</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">in_out_widths</span><span class="p">,</span> <span class="n">depths</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
@@ -701,7 +704,7 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span>
             <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">],</span>
-            <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+            <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">model</span></div>
@@ -720,7 +723,7 @@
             <span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">,</span>
             <span class="n">block</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcutD</span><span class="p">),</span>
             <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">],</span>
-            <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+            <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">model</span></div>
@@ -752,7 +755,7 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">,</span>
             <span class="n">block</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcutD</span><span class="p">),</span>
-            <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+            <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">model</span></div>
 
@@ -771,7 +774,7 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span>
             <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">],</span>
-            <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+            <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ResNet.resnet50d"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNet.resnet50d">[docs]</a>    <span class="nd">@classmethod</span>
@@ -790,7 +793,7 @@
             <span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">,</span>
             <span class="n">block</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcutD</span><span class="p">),</span>
             <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">],</span>
-            <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+            <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ResNet.resnet101"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNet.resnet101">[docs]</a>    <span class="nd">@classmethod</span>
@@ -808,7 +811,7 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span>
             <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">],</span>
-            <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+            <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ResNet.resnet152"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNet.resnet152">[docs]</a>    <span class="nd">@classmethod</span>
@@ -826,7 +829,7 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span>
             <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">],</span>
-            <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+            <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ResNet.resnet200"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNet.resnet200">[docs]</a>    <span class="nd">@classmethod</span>
@@ -841,7 +844,7 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span>
             <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">],</span>
-            <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+            <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
         <span class="p">)</span></div></div>
 </pre></div>
 
