@@ -45,6 +45,26 @@ class DeiTClassificationHead(nn.Module):
 
 
 class DeiT(ViT):
+    """
+    Implementation of DeiT proposed in `Training data-efficient image transformers & distillation through attention <https://arxiv.org/pdf/2010.11929.pdf>`_
+
+    An attention based distillation is proposed where a new token is added to the model, the `dist` token.
+
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DeiT.png?raw=true
+
+    .. code-block::
+
+        DeiT.deit_tiny_patch16_224()
+        DeiT.deit_small_patch16_224()
+        DeiT.deit_base_patch16_224()
+        DeiT.deit_base_patch16_384()
+
+
+    Args:
+        head (nn.Module, optional): [description]. Defaults to DeiTClassificationHead.
+        tokens (nn.Module, optional): [description]. Defaults to DeiTTokens.
+    """
+
     def __init__(
         self,
         *args,
@@ -52,25 +72,6 @@ class DeiT(ViT):
         tokens: nn.Module = DeiTTokens,
         **kwargs
     ):
-        """
-        Implementation of DeiT proposed in `Training data-efficient image transformers & distillation through attention <https://arxiv.org/pdf/2010.11929.pdf>`_
-
-        An attention based distillation is proposed where a new token is added to the model, the `dist` token.
-
-        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DeiT.png?raw=true
-
-        .. code-block::
-
-            DeiT.deit_tiny_patch16_224()
-            DeiT.deit_small_patch16_224()
-            DeiT.deit_base_patch16_224()
-            DeiT.deit_base_patch16_384()
-
-
-        Args:
-            head (nn.Module, optional): [description]. Defaults to DeiTClassificationHead.
-            tokens (nn.Module, optional): [description]. Defaults to DeiTTokens.
-        """
         super().__init__(*args, head=head, tokens=tokens, **kwargs)
 
     @classmethod
