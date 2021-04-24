@@ -1,11 +1,11 @@
-from .att import ChannelSE, EfficientChannelAtt, SpatialChannelSE, SpatialSE
+from .att import ChannelSE, ECA, SpatialChannelSE, SpatialSE
 from .blocks import BnActConv, Conv2dPad, ConvAct, ConvBn, ConvBnAct, Lambda
 from .pool import SpatialPyramidPool
 from .regularization import DropBlock, StochasticDepth
 
 __all__ = [
     "ChannelSE",
-    "EfficientChannelAtt",
+    "ECA",
     "SpatialChannelSE",
     "SpatialSE",
     "ConvBnAct",

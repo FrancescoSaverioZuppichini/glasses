@@ -17,7 +17,7 @@ from glasses.models.AutoModel import AutoModel
 from glasses.models.AutoTransform import AutoTransform
 from glasses.utils.weights.PretrainedWeightsProvider import PretrainedWeightsProvider
 
-models = list(PretrainedWeightsProvider.weights_zoo.keys())
+models = PretrainedWeightsProvider.weights_zoo
 
 batch_sizes = {
     "efficientnet_b0": 256,
@@ -54,7 +54,8 @@ def benchmark(
     )
 
     evaluator = ImageNetEvaluator(model_name="test", paper_arxiv_id="1905.11946")
-    model.eval()
+    model.eval().to(device)
+
     num_batches = int(
         math.ceil(len(valid_loader.dataset) / float(valid_loader.batch_size))
     )

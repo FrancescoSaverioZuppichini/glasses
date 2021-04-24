@@ -6,6 +6,13 @@ from torch import nn
 from .classification import *
 from .segmentation import *
 from rich.table import Table
+from .classification.resnet import (
+    ResNet,
+    ResNetBottleneckBlockD,
+    ResNetStemT,
+)
+from ..nn.att import ECA, WithAtt
+from functools import partial
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +57,21 @@ class AutoModel:
             "cse_resnet50": SEResNet.cse_resnet50,
             "cse_resnet101": SEResNet.cse_resnet101,
             "cse_resnet152": SEResNet.cse_resnet152,
+            "eca_resnet26t": partial(
+                ResNet.resnet26,
+                stem=ResNetStemT,
+                block=WithAtt(ResNetBottleneckBlockD, att=ECA),
+            ),
+            "eca_resnet50t": partial(
+                ResNet.resnet50,
+                stem=ResNetStemT,
+                block=WithAtt(ResNetBottleneckBlockD, att=ECA),
+            ),
+            "eca_resnet101t": partial(
+                ResNet.resnet101,
+                stem=ResNetStemT,
+                block=WithAtt(ResNetBottleneckBlockD, att=ECA),
+            ),
             "resnext50_32x4d": ResNetXt.resnext50_32x4d,
             "resnext101_32x8d": ResNetXt.resnext101_32x8d,
             "resnext101_32x16d": ResNetXt.resnext101_32x16d,
@@ -61,12 +83,18 @@ class AutoModel:
             "regnetx_008": RegNet.regnetx_008,
             "regnetx_016": RegNet.regnetx_016,
             "regnetx_032": RegNet.regnetx_032,
+            "regnetx_040": RegNet.regnetx_040,
+            "regnetx_064": RegNet.regnetx_064,
+            "regnetx_080": RegNet.regnetx_080,
             "regnety_002": RegNet.regnety_002,
             "regnety_004": RegNet.regnety_004,
             "regnety_006": RegNet.regnety_006,
             "regnety_008": RegNet.regnety_008,
             "regnety_016": RegNet.regnety_016,
             "regnety_032": RegNet.regnety_032,
+            "regnety_040": RegNet.regnety_040,
+            "regnety_064": RegNet.regnety_064,
+            "regnety_080": RegNet.regnety_080,
             "resnest14d": ResNeSt.resnest14d,
             "resnest26d": ResNeSt.resnest26d,
             "resnest50d": ResNeSt.resnest50d,
@@ -119,7 +147,7 @@ class AutoModel:
             "deit_small_patch16_224": DeiT.deit_small_patch16_224,
             "deit_base_patch16_224": DeiT.deit_base_patch16_224,
             "deit_base_patch16_384": DeiT.deit_base_patch16_384,
-            "mobilenetv2": MobileNet.mobilenet_v2,
+            "mobilenet_v2": MobileNet.mobilenet_v2,
             "unet": UNet,
         }
     )

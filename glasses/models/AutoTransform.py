@@ -52,7 +52,33 @@ class AutoTransform:
         "resnet26": ImageNetTransform(interpolation="bicubic"),
         "resnet26d": ImageNetTransform(interpolation="bicubic"),
         "resnet50d": ImageNetTransform(interpolation="bicubic"),
-        "cse_resnet50": ImageNetTransform(interpolation="bicubic"),
+        "eca_resnet26t": ImageNetTransform(
+            resize=320, input_size=320, interpolation="bicubic"
+        ),
+        "eca_resnet50t": ImageNetTransform(
+            resize=320, input_size=320, interpolation="bicubic"
+        ),
+        "eca_resnet101t": ImageNetTransform(
+            resize=320, input_size=320, interpolation="bicubic"
+        ),
+        "regnetx_002": ImageNetTransform(interpolation="bicubic"),
+        "regnetx_004": ImageNetTransform(interpolation="bicubic"),
+        "regnetx_006": ImageNetTransform(interpolation="bicubic"),
+        "regnetx_008": ImageNetTransform(interpolation="bicubic"),
+        "regnetx_016": ImageNetTransform(interpolation="bicubic"),
+        "regnetx_032": ImageNetTransform(interpolation="bicubic"),
+        "regnetx_040": ImageNetTransform(interpolation="bicubic"),
+        "regnetx_064": ImageNetTransform(interpolation="bicubic"),
+        "regnetx_080": ImageNetTransform(interpolation="bicubic"),
+        "regnety_002": ImageNetTransform(interpolation="bicubic"),
+        "regnety_004": ImageNetTransform(interpolation="bicubic"),
+        "regnety_006": ImageNetTransform(interpolation="bicubic"),
+        "regnety_008": ImageNetTransform(interpolation="bicubic"),
+        "regnety_016": ImageNetTransform(interpolation="bicubic"),
+        "regnety_032": ImageNetTransform(interpolation="bicubic"),
+        "regnety_040": ImageNetTransform(interpolation="bicubic"),
+        "regnety_064": ImageNetTransform(interpolation="bicubic"),
+        "regnety_080": ImageNetTransform(interpolation="bicubic"),
         "resnest200e": ImageNetTransform(
             resize=320, input_size=320, interpolation="bicubic"
         ),
