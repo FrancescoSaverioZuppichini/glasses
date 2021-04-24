@@ -118,11 +118,8 @@ class ResNetBasicBlock(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         res = x
-        print(f"x:{x.shape}")
         x = self.block(x)
-        print(f"x_block:{x.shape}")
         res = self.shortcut(res)
-        print(f"res:{res.shape}")
         x += res
         x = self.act(x)
         return x
