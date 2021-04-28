@@ -420,7 +420,7 @@
     <span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">stem</span> <span class="o">=</span> <span class="n">stem</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">start_features</span><span class="p">,</span> <span class="n">activation</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stem</span> <span class="o">=</span> <span class="n">stem</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">start_features</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">tail_widths</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">body_widths</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">head_widths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_widths</span><span class="p">(</span>
             <span class="n">start_features</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tail_depths</span><span class="p">)</span>

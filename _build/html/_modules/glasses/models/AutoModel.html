@@ -171,6 +171,14 @@
 <span class="kn">from</span> <span class="nn">.classification</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.segmentation</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">rich.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">.classification.resnet</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ResNet</span><span class="p">,</span>
+    <span class="n">ResNetBottleneckBlockD</span><span class="p">,</span>
+    <span class="n">ResNetStemT</span><span class="p">,</span>
+    <span class="n">ResNetStemC</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">..nn.att</span> <span class="kn">import</span> <span class="n">ECA</span><span class="p">,</span> <span class="n">WithAtt</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -215,6 +223,46 @@
             <span class="s2">&quot;cse_resnet50&quot;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet50</span><span class="p">,</span>
             <span class="s2">&quot;cse_resnet101&quot;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet101</span><span class="p">,</span>
             <span class="s2">&quot;cse_resnet152&quot;</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet152</span><span class="p">,</span>
+            <span class="s2">&quot;eca_resnet18t&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span>
+                <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">,</span>
+                <span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemT</span><span class="p">,</span>
+                <span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlockD</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">ECA</span><span class="p">),</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;eca_resnet26t&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span>
+                <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">,</span>
+                <span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemT</span><span class="p">,</span>
+                <span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlockD</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">ECA</span><span class="p">),</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;eca_resnet50t&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span>
+                <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">,</span>
+                <span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemT</span><span class="p">,</span>
+                <span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlockD</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">ECA</span><span class="p">),</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;eca_resnet101t&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span>
+                <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet101</span><span class="p">,</span>
+                <span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemT</span><span class="p">,</span>
+                <span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlockD</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">ECA</span><span class="p">),</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;eca_resnet18d&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span>
+                <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">,</span>
+                <span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">,</span>
+                <span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlockD</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">ECA</span><span class="p">),</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;eca_resnet26d&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span>
+                <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">,</span>
+                <span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">,</span>
+                <span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlockD</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">ECA</span><span class="p">),</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;eca_resnet50d&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span>
+                <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">,</span>
+                <span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">,</span>
+                <span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlockD</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">ECA</span><span class="p">),</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;eca_resnet101d&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span>
+                <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet101</span><span class="p">,</span>
+                <span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">,</span>
+                <span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlockD</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">ECA</span><span class="p">),</span>
+            <span class="p">),</span>
             <span class="s2">&quot;resnext50_32x4d&quot;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">,</span>
             <span class="s2">&quot;resnext101_32x8d&quot;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x8d</span><span class="p">,</span>
             <span class="s2">&quot;resnext101_32x16d&quot;</span><span class="p">:</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x16d</span><span class="p">,</span>
@@ -226,12 +274,18 @@
             <span class="s2">&quot;regnetx_008&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_008</span><span class="p">,</span>
             <span class="s2">&quot;regnetx_016&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_016</span><span class="p">,</span>
             <span class="s2">&quot;regnetx_032&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_032</span><span class="p">,</span>
+            <span class="s2">&quot;regnetx_040&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_040</span><span class="p">,</span>
+            <span class="s2">&quot;regnetx_064&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_064</span><span class="p">,</span>
+            <span class="s2">&quot;regnetx_080&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_080</span><span class="p">,</span>
             <span class="s2">&quot;regnety_002&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_002</span><span class="p">,</span>
             <span class="s2">&quot;regnety_004&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_004</span><span class="p">,</span>
             <span class="s2">&quot;regnety_006&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_006</span><span class="p">,</span>
             <span class="s2">&quot;regnety_008&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_008</span><span class="p">,</span>
             <span class="s2">&quot;regnety_016&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_016</span><span class="p">,</span>
             <span class="s2">&quot;regnety_032&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_032</span><span class="p">,</span>
+            <span class="s2">&quot;regnety_040&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_040</span><span class="p">,</span>
+            <span class="s2">&quot;regnety_064&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_064</span><span class="p">,</span>
+            <span class="s2">&quot;regnety_080&quot;</span><span class="p">:</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnety_080</span><span class="p">,</span>
             <span class="s2">&quot;resnest14d&quot;</span><span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest14d</span><span class="p">,</span>
             <span class="s2">&quot;resnest26d&quot;</span><span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest26d</span><span class="p">,</span>
             <span class="s2">&quot;resnest50d&quot;</span><span class="p">:</span> <span class="n">ResNeSt</span><span class="o">.</span><span class="n">resnest50d</span><span class="p">,</span>
@@ -284,7 +338,7 @@
             <span class="s2">&quot;deit_small_patch16_224&quot;</span><span class="p">:</span> <span class="n">DeiT</span><span class="o">.</span><span class="n">deit_small_patch16_224</span><span class="p">,</span>
             <span class="s2">&quot;deit_base_patch16_224&quot;</span><span class="p">:</span> <span class="n">DeiT</span><span class="o">.</span><span class="n">deit_base_patch16_224</span><span class="p">,</span>
             <span class="s2">&quot;deit_base_patch16_384&quot;</span><span class="p">:</span> <span class="n">DeiT</span><span class="o">.</span><span class="n">deit_base_patch16_384</span><span class="p">,</span>
-            <span class="s2">&quot;mobilenetv2&quot;</span><span class="p">:</span> <span class="n">MobileNet</span><span class="o">.</span><span class="n">mobilenet_v2</span><span class="p">,</span>
+            <span class="s2">&quot;mobilenet_v2&quot;</span><span class="p">:</span> <span class="n">MobileNet</span><span class="o">.</span><span class="n">mobilenet_v2</span><span class="p">,</span>
             <span class="s2">&quot;unet&quot;</span><span class="p">:</span> <span class="n">UNet</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">)</span>

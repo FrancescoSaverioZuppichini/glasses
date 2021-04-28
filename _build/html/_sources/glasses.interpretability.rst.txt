@@ -28,14 +28,6 @@ glasses.interpretability.SaliencyMap module
    :undoc-members:
    :show-inheritance:
 
-glasses.interpretability.ScoreCam module
-----------------------------------------
-
-.. automodule:: glasses.interpretability.ScoreCam
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 glasses.interpretability.utils module
 -------------------------------------
 

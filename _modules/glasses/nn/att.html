@@ -168,6 +168,7 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">einops.layers.torch</span> <span class="kn">import</span> <span class="n">Rearrange</span><span class="p">,</span> <span class="n">Reduce</span>
 
 <span class="n">ReLUInPlace</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -217,7 +218,7 @@
 <span class="sd">        Creating the original seresnet50</span>
 
 <span class="sd">        &gt;&gt;&gt; from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock</span>
-<span class="sd">        &gt;&gt;&gt; from glasses.nn.att import EfficientChannelAtt, WithAtt</span>
+<span class="sd">        &gt;&gt;&gt; from glasses.nn.att import ECA, WithAtt</span>
 <span class="sd">        &gt;&gt;&gt; se_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=SpatialSE))</span>
 <span class="sd">        &gt;&gt;&gt; se_resnet50.summary()</span>
 <span class="sd">    Args:</span>
@@ -289,7 +290,7 @@
 <span class="sd">        Creating the cseresnet50</span>
 
 <span class="sd">        &gt;&gt;&gt; from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock</span>
-<span class="sd">        &gt;&gt;&gt; from glasses.nn.att import EfficientChannelAtt, WithAtt</span>
+<span class="sd">        &gt;&gt;&gt; from glasses.nn.att import ECA, WithAtt</span>
 <span class="sd">        &gt;&gt;&gt; se_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=ChannelSE))</span>
 <span class="sd">        &gt;&gt;&gt; se_resnet50.summary()</span>
 
@@ -348,7 +349,7 @@
 <span class="sd">        Creating scseresnet50</span>
 
 <span class="sd">        &gt;&gt;&gt; from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock</span>
-<span class="sd">        &gt;&gt;&gt; from glasses.nn.att import EfficientChannelAtt, WithAtt</span>
+<span class="sd">        &gt;&gt;&gt; from glasses.nn.att import ECA, WithAtt</span>
 <span class="sd">        &gt;&gt;&gt; se_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=SpatialChannelSE))</span>
 <span class="sd">        &gt;&gt;&gt; se_resnet50.summary()</span>
 
@@ -371,17 +372,17 @@
         <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">s_se</span> <span class="o">+</span> <span class="n">c_se</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="EfficientChannelAtt"><a class="viewcode-back" href="../../../glasses.nn.att.html#glasses.nn.EfficientChannelAtt">[docs]</a><span class="k">class</span> <span class="nc">EfficientChannelAtt</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="viewcode-block" id="ECA"><a class="viewcode-back" href="../../../glasses.nn.att.html#glasses.nn.ECA">[docs]</a><span class="k">class</span> <span class="nc">ECA</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implementation of Efficient Channel Attention proposed in `ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks &lt;https://arxiv.org/pdf/1910.03151.pdf&gt;`_</span>
 
-<span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true</span>
+<span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ECA.png?raw=true</span>
 
 <span class="sd">    Examples:</span>
 
 <span class="sd">        &gt;&gt;&gt; # create ecaresnet50</span>
-<span class="sd">        &gt;&gt;&gt; from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock</span>
-<span class="sd">        &gt;&gt;&gt; from glasses.nn.att import EfficientChannelAtt, WithAtt</span>
-<span class="sd">        &gt;&gt;&gt; eca_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=EfficientChannelAtt))</span>
+<span class="sd">        &gt;&gt;&gt; from glasses.models.classification.resnet import ResNet, ResNetBottleneckBlock</span>
+<span class="sd">        &gt;&gt;&gt; from glasses.nn.att import ECA, WithAtt</span>
+<span class="sd">        &gt;&gt;&gt; eca_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=ECA))</span>
 <span class="sd">        &gt;&gt;&gt; eca_resnet50.summary()</span>
 
 <span class="sd">    Args:</span>
@@ -401,15 +402,16 @@
         <span class="n">t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">beta</span><span class="p">)</span> <span class="o">/</span> <span class="n">gamma</span><span class="p">)</span>
         <span class="n">k</span> <span class="o">=</span> <span class="n">t</span> <span class="k">if</span> <span class="n">t</span> <span class="o">%</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">t</span> <span class="o">+</span> <span class="mi">1</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv1d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">k</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">att</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">Reduce</span><span class="p">(</span><span class="s2">&quot;b c h w -&gt; b 1 c&quot;</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Conv1d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">k</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+            <span class="n">Rearrange</span><span class="p">(</span><span class="s2">&quot;b 1 c -&gt; b c 1 1&quot;</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">(),</span>
+        <span class="p">)</span>
 
-<div class="viewcode-block" id="EfficientChannelAtt.forward"><a class="viewcode-back" href="../../../glasses.nn.att.html#glasses.nn.EfficientChannelAtt.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">))</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="n">expand_as</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div></div>
+<div class="viewcode-block" id="ECA.forward"><a class="viewcode-back" href="../../../glasses.nn.att.html#glasses.nn.ECA.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">att</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span></div></div>
 
 
 <div class="viewcode-block" id="WithAtt"><a class="viewcode-back" href="../../../glasses.nn.att.html#glasses.nn.WithAtt">[docs]</a><span class="k">class</span> <span class="nc">WithAtt</span><span class="p">:</span>
@@ -418,7 +420,7 @@
 <span class="sd">    :Usage:</span>
 
 <span class="sd">        &gt;&gt;&gt; WithAtt(ResNetBottleneckBlock, att=SpatialSE)</span>
-<span class="sd">        &gt;&gt;&gt; WithAtt(ResNetBottleneckBlock, att=EfficientChannelAtt)</span>
+<span class="sd">        &gt;&gt;&gt; WithAtt(ResNetBottleneckBlock, att=ECA)</span>
 <span class="sd">        &gt;&gt;&gt; from functools import partial</span>
 <span class="sd">        &gt;&gt;&gt; WithAtt(ResNetBottleneckBlock, att=partial(SpatialSE, reduction=8))</span>
 <span class="sd">    &quot;&quot;&quot;</span>

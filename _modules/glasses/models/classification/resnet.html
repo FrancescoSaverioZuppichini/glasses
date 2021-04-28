@@ -212,7 +212,9 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">OrderedDict</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="s2">&quot;pool&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">ceil_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">stride</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">(),</span>
+                    <span class="s2">&quot;pool&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">ceil_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">stride</span> <span class="o">==</span> <span class="mi">2</span>
+                    <span class="k">else</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">(),</span>
                     <span class="s2">&quot;conv&quot;</span><span class="p">:</span> <span class="n">Conv2dPad</span><span class="p">(</span>
                         <span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span>
                     <span class="p">),</span>
@@ -283,11 +285,8 @@
 
 <div class="viewcode-block" id="ResNetBasicBlock.forward"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNetBasicBlock.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">x</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x:</span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x_block:</span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortcut</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;res:</span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">+=</span> <span class="n">res</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span></div></div>
@@ -327,7 +326,6 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">shortcut</span>
         <span class="p">)</span>
-        <span class="nb">print</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">out_features</span> <span class="o">//</span> <span class="n">reduction</span> <span class="k">if</span> <span class="n">features</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">features</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
             <span class="n">ConvBnAct</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
@@ -427,7 +425,6 @@
             <span class="n">shortcut</span><span class="o">=</span><span class="n">shortcut</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="c1"># TODO I am not sure it is correct</span>
         <span class="n">features</span> <span class="o">=</span> <span class="n">out_features</span> <span class="o">//</span> <span class="n">reduction</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
             <span class="n">BnActConv</span><span class="p">(</span>
@@ -458,6 +455,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span></div>
 
 
+<span class="n">ResNetBottleneckBlockD</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcutD</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="ResNetLayer"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNetLayer">[docs]</a><span class="k">class</span> <span class="nc">ResNetLayer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -466,7 +466,6 @@
         <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ResNetBasicBlock</span><span class="p">,</span>
         <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
-        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -492,36 +491,53 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ResNetStemC"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNetStemC">[docs]</a><span class="k">class</span> <span class="nc">ResNetStemC</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
+<div class="viewcode-block" id="ResNetStem3x3"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNetStem3x3">[docs]</a><span class="k">class</span> <span class="nc">ResNetStem3x3</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Modified stem proposed in `Bag of Tricks for Image Classification with Convolutional Neural Networks &lt;https://arxiv.org/pdf/1812.01187.pdf&gt;`_</span>
 
 <span class="sd">    The observation is that the computational cost of a convolution is quadratic to the kernel width or height. A 7 × 7 convolution is 5.4</span>
-<span class="sd">    times more expensive than a 3 × 3 convolution. So this tweak replacing the 7 × 7 convolution in the input stem with three conservative 3 × 3 convolution</span>
+<span class="sd">    times more expensive than a 3 × 3 convolution. So this tweak replacing the 7 × 7 convolution in the input stem with three conservative 3 × 3 convolution.</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        in_features (int): [description]</span>
+<span class="sd">        out_features (int): [description]</span>
+<span class="sd">        widths (List[int], optional): Widths of the inner stem. Defaults to [32, 32], 32 - in, 32 - out.</span>
+<span class="sd">        activation (nn.Module, optional): [description]. Defaults to nn.ReLU.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ReLUInPlace</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">widths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span>
+        <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">,</span>
     <span class="p">):</span>
+
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">ConvBnAct</span><span class="p">(</span>
                 <span class="n">in_features</span><span class="p">,</span>
-                <span class="n">out_features</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="n">widths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
                 <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                 <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
             <span class="p">),</span>
-            <span class="n">ConvBnAct</span><span class="p">(</span>
-                <span class="n">out_features</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
-                <span class="n">out_features</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
-                <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
-                <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="n">ConvBnAct</span><span class="p">(</span>
-                <span class="n">out_features</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span>
-            <span class="p">),</span>
+            <span class="o">*</span><span class="p">[</span>
+                <span class="n">ConvBnAct</span><span class="p">(</span>
+                    <span class="n">in_features</span><span class="p">,</span>
+                    <span class="n">out_features</span><span class="p">,</span>
+                    <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
+                    <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">widths</span><span class="p">,</span> <span class="n">widths</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+            <span class="p">],</span>
+            <span class="n">ConvBnAct</span><span class="p">(</span><span class="n">widths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
             <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
         <span class="p">)</span></div>
+
+
+<span class="n">ResNetStemC</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">ResNetStem3x3</span><span class="p">,</span> <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">])</span>
+<span class="n">ResNetStemT</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">ResNetStem3x3</span><span class="p">,</span> <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">24</span><span class="p">,</span> <span class="mi">32</span><span class="p">])</span>
 
 
 <div class="viewcode-block" id="ResNetEncoder"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNetEncoder">[docs]</a><span class="k">class</span> <span class="nc">ResNetEncoder</span><span class="p">(</span><span class="n">Encoder</span><span class="p">):</span>
@@ -555,7 +571,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">widths</span> <span class="o">=</span> <span class="n">widths</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start_features</span> <span class="o">=</span> <span class="n">start_features</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">in_out_widths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">widths</span><span class="p">,</span> <span class="n">widths</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stem</span> <span class="o">=</span> <span class="n">stem</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">start_features</span><span class="p">,</span> <span class="n">activation</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stem</span> <span class="o">=</span> <span class="n">stem</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">start_features</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">(</span>
             <span class="p">[</span>
@@ -719,11 +735,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">model</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
             <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">,</span>
             <span class="n">block</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcutD</span><span class="p">),</span>
             <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">],</span>
             <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">model</span></div>

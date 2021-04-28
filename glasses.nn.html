@@ -223,7 +223,7 @@
 </div>
 <p>Creating the cseresnet50</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">ECA</span><span class="p">,</span> <span class="n">WithAtt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">ChannelSE</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
@@ -446,16 +446,16 @@ registered hooks while the latter silently ignores them.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="glasses.nn.EfficientChannelAtt">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.</span></code><code class="sig-name descname"><span class="pre">EfficientChannelAtt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#EfficientChannelAtt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.EfficientChannelAtt" title="Permalink to this definition">¶</a></dt>
+<dt id="glasses.nn.ECA">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.</span></code><code class="sig-name descname"><span class="pre">ECA</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/att.html#ECA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.ECA" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>Implementation of Efficient Channel Attention proposed in <a class="reference external" href="https://arxiv.org/pdf/1910.03151.pdf">ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks</a></p>
-<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true" />
+<img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ECA.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ECA.png?raw=true" />
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># create ecaresnet50</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">eca_resnet50</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">EfficientChannelAtt</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">ECA</span><span class="p">,</span> <span class="n">WithAtt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">eca_resnet50</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">ECA</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">eca_resnet50</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -471,8 +471,8 @@ registered hooks while the latter silently ignores them.</p>
 </dl>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
-<dt id="glasses.nn.EfficientChannelAtt.forward">
-<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/att.html#EfficientChannelAtt.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.EfficientChannelAtt.forward" title="Permalink to this definition">¶</a></dt>
+<dt id="glasses.nn.ECA.forward">
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/att.html#ECA.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.ECA.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -485,8 +485,8 @@ registered hooks while the latter silently ignores them.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.nn.EfficientChannelAtt.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.EfficientChannelAtt.training" title="Permalink to this definition">¶</a></dt>
+<dt id="glasses.nn.ECA.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.ECA.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -517,7 +517,7 @@ registered hooks while the latter silently ignores them.</p>
 </div>
 <p>Creating scseresnet50</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">ECA</span><span class="p">,</span> <span class="n">WithAtt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">SpatialChannelSE</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>
@@ -633,7 +633,7 @@ The idea is to apply a learned an channel-wise attention.</p>
 </div>
 <p>Creating the original seresnet50</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.models.classification.resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">EfficientChannelAtt</span><span class="p">,</span> <span class="n">WithAtt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">ECA</span><span class="p">,</span> <span class="n">WithAtt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">SpatialSE</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">se_resnet50</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 </pre></div>

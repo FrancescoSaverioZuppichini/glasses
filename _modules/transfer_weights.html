@@ -175,6 +175,7 @@
 <span class="kn">from</span> <span class="nn">glasses.utils.weights.HFModelHub</span> <span class="kn">import</span> <span class="n">HFModelHub</span>
 <span class="kn">from</span> <span class="nn">glasses.utils.weights.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">PretrainedWeightsProvider</span><span class="p">,</span>
+    <span class="n">pretrained</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">boto3</span>
@@ -199,6 +200,7 @@
     <span class="n">vgg19</span><span class="p">,</span>
     <span class="n">wide_resnet50_2</span><span class="p">,</span>
     <span class="n">wide_resnet101_2</span><span class="p">,</span>
+    <span class="n">mobilenetv2</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">tqdm.autonotebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
@@ -268,18 +270,26 @@
     <span class="s2">&quot;resnext101_32x8d&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">resnext101_32x8d</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="s2">&quot;wide_resnet50_2&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">wide_resnet50_2</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="s2">&quot;wide_resnet101_2&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">wide_resnet101_2</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="s2">&quot;eca_resnet26t&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">,</span> <span class="s2">&quot;ecaresnet26t&quot;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="s2">&quot;eca_resnet50t&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">,</span> <span class="s2">&quot;ecaresnet50t&quot;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="s2">&quot;eca_resnet50d&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">,</span> <span class="s2">&quot;ecaresnet50d&quot;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="s2">&quot;eca_resnet101d&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">,</span> <span class="s2">&quot;ecaresnet101d&quot;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="s2">&quot;regnetx_002&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="s2">&quot;regnetx_004&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="s2">&quot;regnetx_006&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="s2">&quot;regnetx_008&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="s2">&quot;regnetx_016&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="s2">&quot;regnetx_032&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;regnetx_040&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;regnetx_064&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="s2">&quot;regnety_002&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="s2">&quot;regnety_004&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="s2">&quot;regnety_006&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="s2">&quot;regnety_008&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="s2">&quot;regnety_016&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="s2">&quot;regnety_032&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;regnety_040&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;regnety_064&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="s2">&quot;densenet121&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">densenet121</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="s2">&quot;densenet169&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">densenet169</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="s2">&quot;densenet201&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">densenet201</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
@@ -292,13 +302,14 @@
     <span class="s2">&quot;vgg13_bn&quot;</span><span class="p">:</span> <span class="n">pretrainedmodels</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;vgg13_bn&quot;</span><span class="p">],</span>
     <span class="s2">&quot;vgg16_bn&quot;</span><span class="p">:</span> <span class="n">pretrainedmodels</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;vgg16_bn&quot;</span><span class="p">],</span>
     <span class="s2">&quot;vgg19_bn&quot;</span><span class="p">:</span> <span class="n">pretrainedmodels</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">&quot;vgg19_bn&quot;</span><span class="p">],</span>
-    <span class="c1"># &#39;mobilenet_v2&#39;: [partial(mobilenet_v2, pretrained=True), MobileNetV2],</span>
     <span class="s2">&quot;efficientnet_b0&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">,</span> <span class="s2">&quot;efficientnet_b0&quot;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="s2">&quot;efficientnet_b1&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">,</span> <span class="s2">&quot;efficientnet_b1&quot;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="s2">&quot;efficientnet_b2&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">,</span> <span class="s2">&quot;efficientnet_b2&quot;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="s2">&quot;efficientnet_b3&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">,</span> <span class="s2">&quot;efficientnet_b3&quot;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-    <span class="s2">&quot;efficientnet_b5&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">,</span> <span class="s2">&quot;efficientnet_b5&quot;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-    <span class="s2">&quot;efficientnet_b6&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">,</span> <span class="s2">&quot;efficientnet_b6&quot;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="s2">&quot;efficientnet_lite0&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span>
+        <span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">,</span> <span class="s2">&quot;efficientnet_lite0&quot;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">),</span>
+    <span class="c1"># # &quot;mobilenet_v2&quot;: partial(mobilenetv2, pretrained=True),</span>
     <span class="s2">&quot;vit_base_patch16_224&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">vit_clone</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
     <span class="s2">&quot;vit_base_patch16_384&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">vit_clone</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
     <span class="s2">&quot;vit_base_patch32_384&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">vit_clone</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>

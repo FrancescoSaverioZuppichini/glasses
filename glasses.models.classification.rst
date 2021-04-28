@@ -8,8 +8,6 @@ Subpackages
    :maxdepth: 1
 
    glasses.models.classification.alexnet
-   glasses.models.classification.base
-   glasses.models.classification.deit
    glasses.models.classification.densenet
    glasses.models.classification.efficientnet
    glasses.models.classification.fishnet

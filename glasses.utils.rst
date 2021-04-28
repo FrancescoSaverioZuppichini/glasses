@@ -1,14 +1,6 @@
 glasses.utils package
 =====================
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 1
-
-   glasses.utils.weights
-
 Submodules
 ----------
 
@@ -16,6 +8,14 @@ glasses.utils.ModuleTransfer module
 -----------------------------------
 
 .. automodule:: glasses.utils.ModuleTransfer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+glasses.utils.weights.PretrainedWeightsProvider module
+----------------------------------------------
+
+.. automodule:: glasses.utils.weights.PretrainedWeightsProvider
    :members:
    :undoc-members:
    :show-inheritance:
