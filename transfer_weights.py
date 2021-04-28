@@ -10,6 +10,7 @@ from typing import Dict
 from glasses.utils.weights.HFModelHub import HFModelHub
 from glasses.utils.weights.PretrainedWeightsProvider import (
     PretrainedWeightsProvider,
+    pretrained,
 )
 
 import boto3
@@ -34,6 +35,7 @@ from torchvision.models import (
     vgg19,
     wide_resnet50_2,
     wide_resnet101_2,
+    mobilenetv2,
 )
 from tqdm.autonotebook import tqdm
 
@@ -103,18 +105,26 @@ zoo_source = {
     "resnext101_32x8d": partial(resnext101_32x8d, pretrained=True),
     "wide_resnet50_2": partial(wide_resnet50_2, pretrained=True),
     "wide_resnet101_2": partial(wide_resnet101_2, pretrained=True),
+    "eca_resnet26t": partial(timm.create_model, "ecaresnet26t", pretrained=True),
+    "eca_resnet50t": partial(timm.create_model, "ecaresnet50t", pretrained=True),
+    "eca_resnet50d": partial(timm.create_model, "ecaresnet50d", pretrained=True),
+    "eca_resnet101d": partial(timm.create_model, "ecaresnet101d", pretrained=True),
     "regnetx_002": None,
     "regnetx_004": None,
     "regnetx_006": None,
     "regnetx_008": None,
     "regnetx_016": None,
     "regnetx_032": None,
+    "regnetx_040": None,
+    "regnetx_064": None,
     "regnety_002": None,
     "regnety_004": None,
     "regnety_006": None,
     "regnety_008": None,
     "regnety_016": None,
     "regnety_032": None,
+    "regnety_040": None,
+    "regnety_064": None,
     "densenet121": partial(densenet121, pretrained=True),
     "densenet169": partial(densenet169, pretrained=True),
     "densenet201": partial(densenet201, pretrained=True),
@@ -127,13 +137,14 @@ zoo_source = {
     "vgg13_bn": pretrainedmodels.__dict__["vgg13_bn"],
     "vgg16_bn": pretrainedmodels.__dict__["vgg16_bn"],
     "vgg19_bn": pretrainedmodels.__dict__["vgg19_bn"],
-    # 'mobilenet_v2': [partial(mobilenet_v2, pretrained=True), MobileNetV2],
     "efficientnet_b0": partial(timm.create_model, "efficientnet_b0", pretrained=True),
     "efficientnet_b1": partial(timm.create_model, "efficientnet_b1", pretrained=True),
     "efficientnet_b2": partial(timm.create_model, "efficientnet_b2", pretrained=True),
     "efficientnet_b3": partial(timm.create_model, "efficientnet_b3", pretrained=True),
-    "efficientnet_b5": partial(timm.create_model, "efficientnet_b5", pretrained=True),
-    "efficientnet_b6": partial(timm.create_model, "efficientnet_b6", pretrained=True),
+    "efficientnet_lite0": partial(
+        timm.create_model, "efficientnet_lite0", pretrained=True
+    ),
+    # # "mobilenet_v2": partial(mobilenetv2, pretrained=True),
     "vit_base_patch16_224": (vit_clone, True),
     "vit_base_patch16_384": (vit_clone, True),
     "vit_base_patch32_384": (vit_clone, True),

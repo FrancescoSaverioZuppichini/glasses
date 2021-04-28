@@ -3,6 +3,7 @@ from torch import Tensor
 from collections import OrderedDict
 from functools import partial
 import math
+from einops.layers.torch import Rearrange, Reduce
 
 ReLUInPlace = partial(nn.ReLU, inplace=True)
 
@@ -52,7 +53,7 @@ class SpatialSE(nn.Module):
         Creating the original seresnet50
 
         >>> from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock
-        >>> from glasses.nn.att import EfficientChannelAtt, WithAtt
+        >>> from glasses.nn.att import ECA, WithAtt
         >>> se_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=SpatialSE))
         >>> se_resnet50.summary()
     Args:
@@ -124,7 +125,7 @@ class ChannelSE(SpatialSE):
         Creating the cseresnet50
 
         >>> from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock
-        >>> from glasses.nn.att import EfficientChannelAtt, WithAtt
+        >>> from glasses.nn.att import ECA, WithAtt
         >>> se_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=ChannelSE))
         >>> se_resnet50.summary()
 
@@ -183,7 +184,7 @@ class SpatialChannelSE(nn.Module):
         Creating scseresnet50
 
         >>> from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock
-        >>> from glasses.nn.att import EfficientChannelAtt, WithAtt
+        >>> from glasses.nn.att import ECA, WithAtt
         >>> se_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=SpatialChannelSE))
         >>> se_resnet50.summary()
 
@@ -206,17 +207,17 @@ class SpatialChannelSE(nn.Module):
         return x * (s_se + c_se)
 
 
-class EfficientChannelAtt(nn.Module):
+class ECA(nn.Module):
     """Implementation of Efficient Channel Attention proposed in `ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks <https://arxiv.org/pdf/1910.03151.pdf>`_
 
-    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ECA.png?raw=true
 
     Examples:
 
         >>> # create ecaresnet50
-        >>> from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock
-        >>> from glasses.nn.att import EfficientChannelAtt, WithAtt
-        >>> eca_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=EfficientChannelAtt))
+        >>> from glasses.models.classification.resnet import ResNet, ResNetBottleneckBlock
+        >>> from glasses.nn.att import ECA, WithAtt
+        >>> eca_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=ECA))
         >>> eca_resnet50.summary()
 
     Args:
@@ -236,15 +237,16 @@ class EfficientChannelAtt(nn.Module):
         t = int(abs(math.log(features, 2) + beta) / gamma)
         k = t if t % 2 else t + 1
 
-        self.pool = nn.AdaptiveAvgPool2d(1)
-        self.conv = nn.Conv1d(1, 1, kernel_size=k, padding=k // 2, bias=False)
-        self.act = nn.Sigmoid()
+        self.att = nn.Sequential(
+            Reduce("b c h w -> b 1 c", reduction="mean"),
+            nn.Conv1d(1, 1, kernel_size=k, padding=k // 2, bias=False),
+            Rearrange("b 1 c -> b c 1 1"),
+            nn.Sigmoid(),
+        )
 
     def forward(self, x: Tensor) -> Tensor:
-        y = self.pool(x)
-        y = self.conv(y.squeeze(-1).transpose(-1, -2))
-        y = y.transpose(-1, -2).unsqueeze(-1)
-        return x * y.expand_as(x)
+        y = self.att(x)
+        return x * y
 
 
 class WithAtt:
@@ -253,7 +255,7 @@ class WithAtt:
     :Usage:
 
         >>> WithAtt(ResNetBottleneckBlock, att=SpatialSE)
-        >>> WithAtt(ResNetBottleneckBlock, att=EfficientChannelAtt)
+        >>> WithAtt(ResNetBottleneckBlock, att=ECA)
         >>> from functools import partial
         >>> WithAtt(ResNetBottleneckBlock, att=partial(SpatialSE, reduction=8))
     """
