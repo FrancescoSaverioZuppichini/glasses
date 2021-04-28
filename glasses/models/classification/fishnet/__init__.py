@@ -416,22 +416,23 @@ class FishNet(ClassificationModule):
     .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/FishNet.png?raw=true
 
 
-    Create a default model
+
+    .. code-block:: python
+
+        FishNet.fishnet99()
+        FishNet.fishnet150()
+
 
     Examples:
 
-        >>> FishNet.fishnet99()
-        >>> FishNet.fishnet150()
+        .. code-block:: python
 
-
-        You can easily customize your model
-
-        >>> FishNet.fishnet99(activation = nn.SELU)
-        >>> # change number of classes (default is 1000 )
-        >>> FishNet.fishnet99(n_classes=100)
-        >>> # pass a different block
-        >>> block = lambda in_ch, out_ch, **kwargs: nn.Sequential(FishNetBottleNeck(in_ch, out_ch), SpatialSE(out_ch))
-        >>> FishNet.fishnet99(block=block)
+            FishNet.fishnet99(activation = nn.SELU)
+            # change number of classes (default is 1000 )
+            FishNet.fishnet99(n_classes=100)
+            # pass a different block
+            block = lambda in_ch, out_ch, **kwargs: nn.Sequential(FishNetBottleNeck(in_ch, out_ch), SpatialSE(out_ch))
+            FishNet.fishnet99(block=block)
 
     Args:
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.

@@ -113,23 +113,22 @@ class AlexNet(ClassificationModule):
     """Implementation of AlexNet proposed in `ImageNet Classification with Deep Convolutional Neural Networks <https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf>`_,
     according to the `variation <https://pytorch.org/docs/stable/_modules/torchvision/models/alexnet.html>`_ implemented in torchvision.
 
-    Examples:
 
-        Default model
+    .. code-block:: python
 
-        >>> net = AlexNet()
+        net = AlexNet()
 
-    Customization
-
-    You can easily customize this model
 
     Examples:
-        >>> # change activation
-        >>> AlexNet(activation = nn.SELU)
-        >>> # change number of classes (default is 1000 )
-        >>> AlexNet(n_classes=100)
-        >>> # pass a different block
-        >>> AlexNet(block=SENetBasicBlock)
+
+        .. code-block:: python
+
+            # change activation
+            AlexNet(activation = nn.SELU)
+            # change number of classes (default is 1000 )
+            AlexNet(n_classes=100)
+            # pass a different block
+            AlexNet(block=SENetBasicBlock)
 
 
 

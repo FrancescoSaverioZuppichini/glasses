@@ -199,39 +199,41 @@ class ResNeSt(ResNet):
 
     This model beats EfficientNet both in speed and accuracy.
 
-    Create a default model
+    .. code-block:: python
+
+        ResNeSt.resnest14d()
+        ResNeSt.resnest26d()
+        ResNeSt.resnest50d()
+        ResNeSt.resnest50d_1s4x24d()
+        ResNeSt.resnest50d_4s2x40d()
+        # 'e' models have a bigger start_features (128), resulting in a 64 stem width
+        ResNeSt.resnest101e()
+        ResNeSt.resnest200e()
+        ResNeSt.resnest269e()
+        # create a ResNeSt50_2s4s40d
+        ResNeSt.resnet50d(radix=2, groups=4, base_width=80)
+
 
     Examples:
-        >>> ResNeSt.resnest14d()
-        >>> ResNeSt.resnest26d()
-        >>> ResNeSt.resnest50d()
-        >>> ResNeSt.resnest50d_1s4x24d()
-        >>> ResNeSt.resnest50d_4s2x40d()
-        >>> # 'e' models have a bigger start_features (128), resulting in a 64 stem width
-        >>> ResNeSt.resnest101e()
-        >>> ResNeSt.resnest200e()
-        >>> ResNeSt.resnest269e()
-        >>> # create a ResNeSt50_2s4s40d
-        >>> ResNeSt.resnet50d(radix=2, groups=4, base_width=80)
 
-        You can easily customize your model
+        .. code-block:: python
 
-        >>> # change activation
-        >>> ResNeSt.resnest50d(activation = nn.SELU)
-        >>> # change number of classes (default is 1000 )
-        >>> ResNeSt.resnest50d(n_classes=100)
-        >>> # pass a different block
-        >>> ResNeSt.resnest50d(block=SENetBasicBlock)
-        >>> # store each feature
-        >>> x = torch.rand((1, 3, 224, 224))
-        >>> model = ResNeSt.resnest50d()
-        >>> # first call .features, this will activate the forward hooks and tells the model you'll like to get the features
-        >>> model.encoder.features
-        >>> model(torch.randn((1,3,224,224)))
-        >>> # get the features from the encoder
-        >>> features = model.encoder.features
-        >>> print([x.shape for x in features])
-        >>> #[torch.Size([1, 64, 112, 112]), torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14])]
+            # change activation
+            ResNeSt.resnest50d(activation = nn.SELU)
+            # change number of classes (default is 1000 )
+            ResNeSt.resnest50d(n_classes=100)
+            # pass a different block
+            ResNeSt.resnest50d(block=SENetBasicBlock)
+            # store each feature
+            x = torch.rand((1, 3, 224, 224))
+            model = ResNeSt.resnest50d()
+            # first call .features, this will activate the forward hooks and tells the model you'll like to get the features
+            model.encoder.features
+            model(torch.randn((1,3,224,224)))
+            # get the features from the encoder
+            features = model.encoder.features
+            print([x.shape for x in features])
+            #[torch.Size([1, 64, 112, 112]), torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14])]
 
     Args:
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.

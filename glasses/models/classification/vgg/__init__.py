@@ -59,9 +59,7 @@ class VGGEncoder(Encoder):
         in_channels: int = 3,
         widths: List[int] = [64, 128, 256, 512, 512],
         depths: List[int] = [1, 1, 2, 2, 2],
-        activation: nn.Module = ReLUInPlace,
         block: nn.Module = VGGBasicBlock,
-        *args,
         **kwargs
     ):
 
@@ -77,20 +75,16 @@ class VGGEncoder(Encoder):
                 VGGLayer(
                     in_channels,
                     widths[0],
-                    activation=activation,
                     block=block,
                     depth=depths[0],
-                    *args,
                     **kwargs,
                 ),
                 *[
                     VGGLayer(
                         in_channels,
                         out_channels,
-                        activation=activation,
                         block=block,
                         depth=depth,
-                        *args,
                         **kwargs,
                     )
                     for (in_channels, out_channels), depth in zip(
@@ -132,42 +126,32 @@ class VGGHead(nn.Sequential):
 class VGG(ClassificationModule):
     """Implementation of VGG proposed in `Very Deep Convolutional Networks For Large-Scale Image Recognition <https://arxiv.org/pdf/1409.1556.pdf>`_
 
-    Create a default model
+    .. code-block:: python
 
-    Examples:
-        >>> VGG.vgg11()
-        >>> VGG.vgg13()
-        >>> VGG.vgg16()
-        >>> VGG.vgg19()
-        >>> VGG.vgg11_bn()
-        >>> VGG.vgg13_bn()
-        >>> VGG.vgg16_bn()
-        >>> VGG.vgg19_bn()
+        VGG.vgg11()
+        VGG.vgg13()
+        VGG.vgg16()
+        VGG.vgg19()
+        VGG.vgg11_bn()
+        VGG.vgg13_bn()
+        VGG.vgg16_bn()
+        VGG.vgg19_bn()
 
     Please be aware that the `bn` models uses BatchNorm but they are very old and people back then don't know the bias is superfluous
     in a conv followed by a batchnorm.
 
-    Customization
-
-    You can easily create your custom VGG-like model
-
     Examples:
-        >>> # change activation
-        >>> VGG.vgg11(activation = nn.SELU)
-        >>> # change number of classes (default is 1000 )
-        >>> VGG.vgg11(n_classes=100)
-        >>> # pass a different block
-        >>> from nn.models.classification.senet import SENetBasicBlock
-        >>> VGG.vgg11(block=SENetBasicBlock)
-        >>> # store the features tensor after every block
-        >>> x = torch.rand((1, 3, 224, 224))
-        >>> model = VGG.vgg11()
-        >>> features = []
-        >>> for block in model.encoder.layers:
-            >>> x = block(x)
-            >>> features.append(x)
-        >>> print([x.shape for x in features])
-        >>> # [torch.Size([1, 64, 112, 112]), torch.Size([1, 128, 56, 56]), torch.Size([1, 256, 28, 28]), torch.Size([1, 512, 14, 14]), torch.Size([1, 512, 7, 7])]
+
+        .. code-block:: python
+
+            # change activation
+            VGG.vgg11(activation = nn.SELU)
+            # change number of classes (default is 1000 )
+            VGG.vgg11(n_classes=100)
+            # pass a different block
+            from nn.models.classification.senet import SENetBasicBlock
+            VGG.vgg11(block=SENetBasicBlock)
+            # store the features tensor after every block
 
     Args:
         in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.
