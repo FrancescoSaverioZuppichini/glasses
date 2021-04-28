@@ -1,28 +1,22 @@
 import math
 import time
-from pathlib import Path
-from pprint import pprint
-
 import numpy as np
 import pandas as pd
 import torch
 import torch.nn as nn
+from pathlib import Path
+from pprint import pprint
 from sotabencheval.image_classification import ImageNetEvaluator
 from torchvision.datasets import ImageNet
-
 from tqdm.autonotebook import tqdm
-
 from glasses.models import *
 from glasses.models.AutoModel import AutoModel
 from glasses.models.AutoTransform import AutoTransform
 from glasses.utils.weights.PretrainedWeightsProvider import PretrainedWeightsProvider
 
-models = list(PretrainedWeightsProvider.weights_zoo.keys())
+models = PretrainedWeightsProvider.weights_zoo
 
-batch_sizes = {
-    "efficientnet_b0": 256,
-    "efficientnet_b1": 128,
-}
+batch_sizes = {"efficientnet_b0": 256, "efficientnet_b1": 128, "efficientnet_b5": 8}
 
 
 provider = PretrainedWeightsProvider()
@@ -54,7 +48,8 @@ def benchmark(
     )
 
     evaluator = ImageNetEvaluator(model_name="test", paper_arxiv_id="1905.11946")
-    model.eval()
+    model.eval().to(device)
+
     num_batches = int(
         math.ceil(len(valid_loader.dataset) / float(valid_loader.batch_size))
     )
@@ -106,16 +101,15 @@ def benchmark_all() -> pd.DataFrame:
             if key not in df.index:
                 try:
                     model = AutoModel.from_pretrained(key)
-                    cfg = AutoTransform.from_name(key)
-                    tr = cfg.transform
+                    tr = AutoTransform.from_name(key)
 
                     batch_size = 64
 
-                    # if key in batch_sizes:
-                    #     batch_size = batch_sizes[key]
+                    if key in batch_sizes:
+                        batch_size = batch_sizes[key]
 
                     bar.set_description(
-                        f"{key}, size={cfg.input_size}, batch_size={batch_size}"
+                        f"{key}, size={tr.transforms[0].size}, batch_size={batch_size}"
                     )
 
                     top1, top5, time = benchmark(model.to(device), tr, batch_size)

@@ -47,7 +47,9 @@ class ResNetShorcutD(nn.Sequential):
         super().__init__(
             OrderedDict(
                 {
-                    "pool": nn.AvgPool2d((2, 2), ceil_mode=True) if stride == 2 else nn.Identity(),
+                    "pool": nn.AvgPool2d((2, 2), ceil_mode=True)
+                    if stride == 2
+                    else nn.Identity(),
                     "conv": Conv2dPad(
                         in_features, out_features, kernel_size=1, bias=False
                     ),
@@ -118,11 +120,8 @@ class ResNetBasicBlock(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         res = x
-        print(f"x:{x.shape}")
         x = self.block(x)
-        print(f"x_block:{x.shape}")
         res = self.shortcut(res)
-        print(f"res:{res.shape}")
         x += res
         x = self.act(x)
         return x
@@ -162,7 +161,6 @@ class ResNetBottleneckBlock(ResNetBasicBlock):
         super().__init__(
             in_features, out_features, activation, stride, shortcut=shortcut
         )
-
         self.features = out_features // reduction if features is None else features
         self.block = nn.Sequential(
             ConvBnAct(in_features, self.features, activation=activation, kernel_size=1),
@@ -262,7 +260,6 @@ class ResNetBottleneckPreActBlock(ResNetBottleneckBlock):
             shortcut=shortcut,
             **kwargs,
         )
-        # TODO I am not sure it is correct
         features = out_features // reduction
         self.block = nn.Sequential(
             BnActConv(
@@ -293,6 +290,9 @@ class ResNetBottleneckPreActBlock(ResNetBottleneckBlock):
         self.act = nn.Identity()
 
 
+ResNetBottleneckBlockD = partial(ResNetBottleneckBlock, shortcut=ResNetShorcutD)
+
+
 class ResNetLayer(nn.Sequential):
     def __init__(
         self,
@@ -301,7 +301,6 @@ class ResNetLayer(nn.Sequential):
         block: nn.Module = ResNetBasicBlock,
         depth: int = 1,
         stride: int = 2,
-        *args,
         **kwargs,
     ):
         super().__init__(
@@ -327,36 +326,53 @@ class ResNetStem(nn.Sequential):
         )
 
 
-class ResNetStemC(nn.Sequential):
+class ResNetStem3x3(nn.Sequential):
     """
     Modified stem proposed in `Bag of Tricks for Image Classification with Convolutional Neural Networks <https://arxiv.org/pdf/1812.01187.pdf>`_
 
     The observation is that the computational cost of a convolution is quadratic to the kernel width or height. A 7 × 7 convolution is 5.4
-    times more expensive than a 3 × 3 convolution. So this tweak replacing the 7 × 7 convolution in the input stem with three conservative 3 × 3 convolution
+    times more expensive than a 3 × 3 convolution. So this tweak replacing the 7 × 7 convolution in the input stem with three conservative 3 × 3 convolution.
+
+
+    Args:
+        in_features (int): [description]
+        out_features (int): [description]
+        widths (List[int], optional): Widths of the inner stem. Defaults to [32, 32], 32 - in, 32 - out.
+        activation (nn.Module, optional): [description]. Defaults to nn.ReLU.
     """
 
     def __init__(
-        self, in_features: int, out_features: int, activation: nn.Module = ReLUInPlace
+        self,
+        in_features: int,
+        out_features: int,
+        widths: List[int] = [32, 32],
+        activation: nn.Module = nn.ReLU,
     ):
+
         super().__init__(
             ConvBnAct(
                 in_features,
-                out_features // 2,
+                widths[0],
                 activation=activation,
                 kernel_size=3,
                 stride=2,
             ),
-            ConvBnAct(
-                out_features // 2,
-                out_features // 2,
-                activation=activation,
-                kernel_size=3,
-            ),
-            ConvBnAct(
-                out_features // 2, out_features, activation=activation, kernel_size=3
-            ),
+            *[
+                ConvBnAct(
+                    in_features,
+                    out_features,
+                    activation=activation,
+                    kernel_size=3,
+                )
+                for in_features, out_features in zip(widths, widths[1:])
+            ],
+            ConvBnAct(widths[-1], out_features, activation=activation, kernel_size=3),
             nn.MaxPool2d(kernel_size=3, stride=2, padding=1),
         )
+
+
+ResNetStemC = partial(ResNetStem3x3, widths=[32, 32])
+ResNetStemT = partial(ResNetStem3x3, widths=[24, 32])
 
 
 class ResNetEncoder(Encoder):
@@ -390,7 +406,7 @@ class ResNetEncoder(Encoder):
         self.widths = widths
         self.start_features = start_features
         self.in_out_widths = list(zip(widths, widths[1:]))
-        self.stem = stem(in_channels, start_features, activation)
+        self.stem = stem(in_channels, start_features, activation=activation)
 
         self.layers = nn.ModuleList(
             [
@@ -555,11 +571,11 @@ class ResNet(ClassificationModule):
         """
         model = cls(
             *args,
-            **kwargs,
             stem=ResNetStemC,
             block=partial(block, shortcut=ResNetShorcutD),
             widths=[256, 512, 1024, 2048],
             depths=[2, 2, 2, 2],
+            **kwargs,
         )
 
         return model

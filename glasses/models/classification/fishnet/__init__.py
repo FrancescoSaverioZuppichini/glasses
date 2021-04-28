@@ -255,7 +255,7 @@ class FishNetEncoder(nn.Module):
     ):
         super().__init__()
 
-        self.stem = stem(in_channels, start_features, activation)
+        self.stem = stem(in_channels, start_features, activation=activation)
 
         self.tail_widths, self.body_widths, self.head_widths = self.find_widths(
             start_features, len(tail_depths)
