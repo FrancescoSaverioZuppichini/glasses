@@ -581,22 +581,23 @@
 <span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/FishNet.png?raw=true</span>
 
 
-<span class="sd">    Create a default model</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        FishNet.fishnet99()</span>
+<span class="sd">        FishNet.fishnet150()</span>
+
 
 <span class="sd">    Examples:</span>
 
-<span class="sd">        &gt;&gt;&gt; FishNet.fishnet99()</span>
-<span class="sd">        &gt;&gt;&gt; FishNet.fishnet150()</span>
+<span class="sd">        .. code-block:: python</span>
 
-
-<span class="sd">        You can easily customize your model</span>
-
-<span class="sd">        &gt;&gt;&gt; FishNet.fishnet99(activation = nn.SELU)</span>
-<span class="sd">        &gt;&gt;&gt; # change number of classes (default is 1000 )</span>
-<span class="sd">        &gt;&gt;&gt; FishNet.fishnet99(n_classes=100)</span>
-<span class="sd">        &gt;&gt;&gt; # pass a different block</span>
-<span class="sd">        &gt;&gt;&gt; block = lambda in_ch, out_ch, **kwargs: nn.Sequential(FishNetBottleNeck(in_ch, out_ch), SpatialSE(out_ch))</span>
-<span class="sd">        &gt;&gt;&gt; FishNet.fishnet99(block=block)</span>
+<span class="sd">            FishNet.fishnet99(activation = nn.SELU)</span>
+<span class="sd">            # change number of classes (default is 1000 )</span>
+<span class="sd">            FishNet.fishnet99(n_classes=100)</span>
+<span class="sd">            # pass a different block</span>
+<span class="sd">            block = lambda in_ch, out_ch, **kwargs: nn.Sequential(FishNetBottleNeck(in_ch, out_ch), SpatialSE(out_ch))</span>
+<span class="sd">            FishNet.fishnet99(block=block)</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</span>

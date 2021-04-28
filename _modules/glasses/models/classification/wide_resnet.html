@@ -175,8 +175,8 @@
 <div class="viewcode-block" id="WideResNetBottleNeckBlock"><a class="viewcode-back" href="../../../../glasses.models.classification.wide_resnet.html#glasses.models.WideResNetBottleNeckBlock">[docs]</a><span class="k">class</span> <span class="nc">WideResNetBottleNeckBlock</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Wide resnet bottle neck block, you can control the width of the inner features with the width_factor parameter</span>
 <span class="sd">    Args:</span>
-<span class="sd">        in_features ([type]): [description]</span>
-<span class="sd">        out_features ([type]): [description]</span>
+<span class="sd">        in_features (int): [description]</span>
+<span class="sd">        out_features (int): [description]</span>
 <span class="sd">        width_factor (int, optional): Scales the 3x3 conv features in the bottle neck block. Defaults to 2.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -200,33 +200,36 @@
 
 <span class="sd">    Create a default model</span>
 
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        WideResNet.wide_resnet50_2()</span>
+<span class="sd">        WideResNet.wide_resnet101_2()</span>
+<span class="sd">        # create a wide_resnet18_4</span>
+<span class="sd">        WideResNet.resnet18(block=WideResNetBottleNeckBlock, width_factor=4)</span>
+
 <span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; WideResNet.wide_resnet50_2()</span>
-<span class="sd">        &gt;&gt;&gt; WideResNet.wide_resnet101_2()</span>
-<span class="sd">        &gt;&gt;&gt; # create a wide_resnet18_4</span>
-<span class="sd">        &gt;&gt;&gt; WideResNet.resnet18(block=WideResNetBottleNeckBlock, width_factor=4)</span>
 
-<span class="sd">        You can easily customize your model</span>
+<span class="sd">        .. code-block:: python</span>
 
-<span class="sd">        &gt;&gt;&gt; # change activation</span>
-<span class="sd">        &gt;&gt;&gt; WideResNet.resnext50_32x4d(activation = nn.SELU)</span>
-<span class="sd">        &gt;&gt;&gt; # change number of classes (default is 1000 )</span>
-<span class="sd">        &gt;&gt;&gt; WideResNet.resnext50_32x4d(n_classes=100)</span>
-<span class="sd">        &gt;&gt;&gt; # pass a different block</span>
-<span class="sd">        &gt;&gt;&gt; WideResNet.resnext50_32x4d(block=SENetBasicBlock)</span>
-<span class="sd">        &gt;&gt;&gt; # change the initial convolution</span>
-<span class="sd">        &gt;&gt;&gt; model = WideResNet.resnext50_32x4d</span>
-<span class="sd">        &gt;&gt;&gt; model.encoder.gate.conv1 = nn.Conv2d(3, 64, kernel_size=3)</span>
-<span class="sd">        &gt;&gt;&gt; # store each feature</span>
-<span class="sd">        &gt;&gt;&gt; x = torch.rand((1, 3, 224, 224))</span>
-<span class="sd">        &gt;&gt;&gt; model = WideResNet.wide_resnet50_2()</span>
-<span class="sd">        &gt;&gt;&gt; features = []</span>
-<span class="sd">        &gt;&gt;&gt; x = model.encoder.gate(x)</span>
-<span class="sd">        &gt;&gt;&gt; for block in model.encoder.layers:</span>
-<span class="sd">        &gt;&gt;&gt;     x = block(x)</span>
-<span class="sd">        &gt;&gt;&gt;     features.append(x)</span>
-<span class="sd">        &gt;&gt;&gt; print([x.shape for x in features])</span>
-<span class="sd">        &gt;&gt;&gt; # [torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7])]</span>
+<span class="sd">            # change activation</span>
+<span class="sd">            WideResNet.resnext50_32x4d(activation = nn.SELU)</span>
+<span class="sd">            # change number of classes (default is 1000 )</span>
+<span class="sd">            WideResNet.resnext50_32x4d(n_classes=100)</span>
+<span class="sd">            # pass a different block</span>
+<span class="sd">            WideResNet.resnext50_32x4d(block=SENetBasicBlock)</span>
+<span class="sd">            # change the initial convolution</span>
+<span class="sd">            model = WideResNet.resnext50_32x4d</span>
+<span class="sd">            model.encoder.gate.conv1 = nn.Conv2d(3, 64, kernel_size=3)</span>
+<span class="sd">            # store each feature</span>
+<span class="sd">            x = torch.rand((1, 3, 224, 224))</span>
+<span class="sd">            model = WideResNet.wide_resnet50_2()</span>
+<span class="sd">            features = []</span>
+<span class="sd">            x = model.encoder.gate(x)</span>
+<span class="sd">            for block in model.encoder.layers:</span>
+<span class="sd">                x = block(x)</span>
+<span class="sd">                features.append(x)</span>
+<span class="sd">            print([x.shape for x in features])</span>
+<span class="sd">            # [torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7])]</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</span>

@@ -278,23 +278,22 @@
     <span class="sd">&quot;&quot;&quot;Implementation of AlexNet proposed in `ImageNet Classification with Deep Convolutional Neural Networks &lt;https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf&gt;`_,</span>
 <span class="sd">    according to the `variation &lt;https://pytorch.org/docs/stable/_modules/torchvision/models/alexnet.html&gt;`_ implemented in torchvision.</span>
 
-<span class="sd">    Examples:</span>
 
-<span class="sd">        Default model</span>
+<span class="sd">    .. code-block:: python</span>
 
-<span class="sd">        &gt;&gt;&gt; net = AlexNet()</span>
+<span class="sd">        net = AlexNet()</span>
 
-<span class="sd">    Customization</span>
-
-<span class="sd">    You can easily customize this model</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; # change activation</span>
-<span class="sd">        &gt;&gt;&gt; AlexNet(activation = nn.SELU)</span>
-<span class="sd">        &gt;&gt;&gt; # change number of classes (default is 1000 )</span>
-<span class="sd">        &gt;&gt;&gt; AlexNet(n_classes=100)</span>
-<span class="sd">        &gt;&gt;&gt; # pass a different block</span>
-<span class="sd">        &gt;&gt;&gt; AlexNet(block=SENetBasicBlock)</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            # change activation</span>
+<span class="sd">            AlexNet(activation = nn.SELU)</span>
+<span class="sd">            # change number of classes (default is 1000 )</span>
+<span class="sd">            AlexNet(n_classes=100)</span>
+<span class="sd">            # pass a different block</span>
+<span class="sd">            AlexNet(block=SENetBasicBlock)</span>
 
 
 

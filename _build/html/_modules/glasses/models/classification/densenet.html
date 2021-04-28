@@ -400,33 +400,36 @@
 
 <span class="sd">    Create a default models</span>
 
+<span class="sd">    .. code-block::</span>
+
+<span class="sd">        DenseNet.densenet121()</span>
+<span class="sd">        DenseNet.densenet161()</span>
+<span class="sd">        DenseNet.densenet169()</span>
+<span class="sd">        DenseNet.densenet201()</span>
+
 <span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; DenseNet.densenet121()</span>
-<span class="sd">        &gt;&gt;&gt; DenseNet.densenet161()</span>
-<span class="sd">        &gt;&gt;&gt; DenseNet.densenet169()</span>
-<span class="sd">        &gt;&gt;&gt; DenseNet.densenet201()</span>
 
-<span class="sd">    You can easily customize your model</span>
+<span class="sd">        .. code-block::</span>
 
-<span class="sd">        &gt;&gt;&gt; # change activation</span>
-<span class="sd">        &gt;&gt;&gt; DenseNet.densenet121(activation = nn.SELU)</span>
-<span class="sd">        &gt;&gt;&gt; # change number of classes (default is 1000 )</span>
-<span class="sd">        &gt;&gt;&gt; DenseNet.densenet121(n_classes=100)</span>
-<span class="sd">        &gt;&gt;&gt; # pass a different block</span>
-<span class="sd">        &gt;&gt;&gt; DenseNet.densenet121(block=...)</span>
-<span class="sd">        &gt;&gt;&gt; # change the initial convolution</span>
-<span class="sd">        &gt;&gt;&gt; model = DenseNet.densenet121()</span>
-<span class="sd">        &gt;&gt;&gt; model.encoder.gate.conv1 = nn.Conv2d(3, 64, kernel_size=3)</span>
-<span class="sd">        &gt;&gt;&gt; # store each feature</span>
-<span class="sd">        &gt;&gt;&gt; x = torch.rand((1, 3, 224, 224))</span>
-<span class="sd">        &gt;&gt;&gt; model = DenseNet.densenet121()</span>
-<span class="sd">        &gt;&gt;&gt; # first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
-<span class="sd">        &gt;&gt;&gt; model.encoder.features</span>
-<span class="sd">        &gt;&gt;&gt; model(torch.randn((1,3,224,224)))</span>
-<span class="sd">        &gt;&gt;&gt; # get the features from the encoder</span>
-<span class="sd">        &gt;&gt;&gt; features = model.encoder.features</span>
-<span class="sd">        &gt;&gt;&gt; print([x.shape for x in features])</span>
-<span class="sd">        &gt;&gt;&gt; # [torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7]), torch.Size([1, 1024, 7, 7])]</span>
+<span class="sd">            # change activation</span>
+<span class="sd">            DenseNet.densenet121(activation = nn.SELU)</span>
+<span class="sd">            # change number of classes (default is 1000 )</span>
+<span class="sd">            DenseNet.densenet121(n_classes=100)</span>
+<span class="sd">            # pass a different block</span>
+<span class="sd">            DenseNet.densenet121(block=...)</span>
+<span class="sd">            # change the initial convolution</span>
+<span class="sd">            model = DenseNet.densenet121()</span>
+<span class="sd">            model.encoder.gate.conv1 = nn.Conv2d(3, 64, kernel_size=3)</span>
+<span class="sd">            # store each feature</span>
+<span class="sd">            x = torch.rand((1, 3, 224, 224))</span>
+<span class="sd">            model = DenseNet.densenet121()</span>
+<span class="sd">            # first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
+<span class="sd">            model.encoder.features</span>
+<span class="sd">            model(torch.randn((1,3,224,224)))</span>
+<span class="sd">            # get the features from the encoder</span>
+<span class="sd">            features = model.encoder.features</span>
+<span class="sd">            print([x.shape for x in features])</span>
+<span class="sd">            # [torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7]), torch.Size([1, 1024, 7, 7])]</span>
 
 
 <span class="sd">    Args:</span>

@@ -11,6 +11,7 @@ Subpackages
    glasses.nn.att
    glasses.nn.blocks
    glasses.nn.pool
+   glasses.nn.regularization
 
 Module contents
 ---------------

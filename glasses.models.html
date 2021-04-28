@@ -389,20 +389,16 @@ to preprocess your inputs.</p>
 <dd><p>Bases: <a class="reference internal" href="glasses.models.classification.base.html#glasses.models.classification.base.ClassificationModule" title="glasses.models.classification.base.ClassificationModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.base.ClassificationModule</span></code></a></p>
 <p>Implementation of AlexNet proposed in <a class="reference external" href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf">ImageNet Classification with Deep Convolutional Neural Networks</a>,
 according to the <a class="reference external" href="https://pytorch.org/docs/stable/_modules/torchvision/models/alexnet.html">variation</a> implemented in torchvision.</p>
-<p class="rubric">Examples</p>
-<p>Default model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">AlexNet</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span> <span class="o">=</span> <span class="n">AlexNet</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Customization</p>
-<p>You can easily customize this model</p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">AlexNet</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">AlexNet</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">AlexNet</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># change activation</span>
+<span class="n">AlexNet</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="c1"># change number of classes (default is 1000 )</span>
+<span class="n">AlexNet</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="c1"># pass a different block</span>
+<span class="n">AlexNet</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -427,33 +423,32 @@ according to the <a class="reference external" href="https://pytorch.org/docs/st
 <dd><p>Bases: <a class="reference internal" href="glasses.models.classification.base.html#glasses.models.classification.base.ClassificationModule" title="glasses.models.classification.base.ClassificationModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.base.ClassificationModule</span></code></a></p>
 <p>Implementation of DenseNet proposed in <a class="reference external" href="https://arxiv.org/abs/1608.06993">Densely Connected Convolutional Networks</a></p>
 <p>Create a default models</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet161</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet169</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet201</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">()</span>
+<span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet161</span><span class="p">()</span>
+<span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet169</span><span class="p">()</span>
+<span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet201</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>You can easily customize your model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">(</span><span class="n">block</span><span class="o">=...</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the initial convolution</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store each feature</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get the features from the encoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># [torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7]), torch.Size([1, 1024, 7, 7])]</span>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># change activation</span>
+<span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="c1"># change number of classes (default is 1000 )</span>
+<span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="c1"># pass a different block</span>
+<span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">(</span><span class="n">block</span><span class="o">=...</span><span class="p">)</span>
+<span class="c1"># change the initial convolution</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1"># store each feature</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">DenseNet</span><span class="o">.</span><span class="n">densenet121</span><span class="p">()</span>
+<span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
+<span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
+<span class="c1"># get the features from the encoder</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
+<span class="c1"># [torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7]), torch.Size([1, 1024, 7, 7])]</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -557,36 +552,34 @@ registered hooks while the latter silently ignores them.</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetModelsTable.jpeg?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetModelsTable.jpeg?raw=true" />
 <p>Then, the architecture is scaled up from <cite>-efficientnet_b0</cite> to <cite>-efficientnet_b7</cite> using compound scaling.</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetScaling.jpg?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetScaling.jpg?raw=true" />
-<p class="rubric">Examples</p>
-<p>Default models</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b1</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b2</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b3</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b4</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b5</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b6</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b7</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b8</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_l2</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b1</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b2</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b3</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b4</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b5</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b6</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b7</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b8</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_l2</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>You can easily customize your model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">block</span><span class="o">=...</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store each feature</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get the features from the encoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># [torch.Size([1, 32, 112, 112]), torch.Size([1, 24, 56, 56]), torch.Size([1, 40, 28, 28]), torch.Size([1, 80, 14, 14])]</span>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="c1"># change number of classes (default is 1000 )</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="c1"># pass a different block</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">block</span><span class="o">=...</span><span class="p">)</span>
+<span class="c1"># store each feature</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">()</span>
+<span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
+<span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
+<span class="c1"># get the features from the encoder</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
+<span class="c1"># [torch.Size([1, 32, 112, 112]), torch.Size([1, 24, 56, 56]), torch.Size([1, 40, 28, 28]), torch.Size([1, 80, 14, 14])]</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -755,19 +748,17 @@ registered hooks while the latter silently ignores them.</p>
 The author’s code is terrible, I have based mostly of my implemente on this amazing repo <a class="reference external" href="https://github.com/zsef123/Fishnet-PyTorch">Fishnet-PyTorch</a>.</p>
 <p>The following image is taken from the paper and shows the architecture detail.</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/FishNet.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/FishNet.png?raw=true" />
-<p>Create a default model</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet150</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">()</span>
+<span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet150</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>You can easily customize your model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">block</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">FishNetBottleNeck</span><span class="p">(</span><span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">),</span> <span class="n">SpatialSE</span><span class="p">(</span><span class="n">out_ch</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">)</span>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="c1"># change number of classes (default is 1000 )</span>
+<span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="c1"># pass a different block</span>
+<span class="n">block</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">FishNetBottleNeck</span><span class="p">(</span><span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">),</span> <span class="n">SpatialSE</span><span class="p">(</span><span class="n">out_ch</span><span class="p">))</span>
+<span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -825,9 +816,7 @@ The author’s code is terrible, I have based mostly of my implemente on this am
 <dd><p>Bases: <a class="reference internal" href="glasses.models.classification.efficientnet.html#glasses.models.classification.efficientnet.EfficientNet" title="glasses.models.classification.efficientnet.EfficientNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.efficientnet.EfficientNet</span></code></a></p>
 <p>Implementation of MobileNet v2 proposed in <a class="reference external" href="https://arxiv.org/pdf/1801.04381.pdf">MobileNetV2: Inverted Residuals and Linear Bottlenecks</a></p>
 <p>MobileNet is a special case of EfficientNet.</p>
-<p class="rubric">Examples</p>
-<p>Default model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">MobileNet</span><span class="o">.</span><span class="n">mobilenet_v2</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">MobileNet</span><span class="o">.</span><span class="n">mobilenet_v2</span><span class="p">()</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -856,47 +845,45 @@ The author’s code is terrible, I have based mostly of my implemente on this am
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.</span></code><code class="sig-name descname"><span class="pre">ResNet</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">encoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetEncoder'&gt;</span></em>, <em class="sig-param"><span class="pre">head:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetHead'&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/resnet.html#ResNet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.ResNet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.models.classification.base.html#glasses.models.classification.base.ClassificationModule" title="glasses.models.classification.base.ClassificationModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.base.ClassificationModule</span></code></a></p>
 <p>Implementation of ResNet proposed in <a class="reference external" href="https://arxiv.org/abs/1512.03385">Deep Residual Learning for Image Recognition</a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>ResNet.resnet18()
+ResNet.resnet26()
+ResNet.resnet34()
+ResNet.resnet50()
+ResNet.resnet101()
+ResNet.resnet152()
+ResNet.resnet200()
+
+Variants (d) proposed in `Bag of Tricks for Image Classification with Convolutional Neural Networks &lt;https://arxiv.org/pdf/1812.01187.pdf&gt;`_
+
+ResNet.resnet26d()
+ResNet.resnet34d()
+ResNet.resnet50d()
+# You can construct your own one by chaning `stem` and `block`
+resnet101d = ResNet.resnet101(stem=ResNetStemC, block=partial(ResNetBottleneckBlock, shortcut=ResNetShorcutD))
+</pre></div>
+</div>
 <p class="rubric">Examples</p>
-<p>Default models</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet34</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet101</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet152</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet200</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>Variants (d) proposed in <a class="reference external" href="https://arxiv.org/pdf/1812.01187.pdf">Bag of Tricks for Image Classification with Convolutional Neural Networks</a></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet26d</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet34d</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50d</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># You can construct your own one by chaning `stem` and `block`</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">resnet101d</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcutD</span><span class="p">))</span>
-</pre></div>
-</div>
-<p>You can easily customize your model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the steam</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">change</span> <span class="n">shortcut</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcutD</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store each feature</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get the features from the encoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1">#[torch.Size([1, 64, 112, 112]), torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14])]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># change activation</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="c1"># change number of classes (default is 1000 )</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="c1"># pass a different block</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
+<span class="c1"># change the steam</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">)</span>
+<span class="n">change</span> <span class="n">shortcut</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcutD</span><span class="p">))</span>
+<span class="c1"># store each feature</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="c1"># get features</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">()</span>
+<span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
+<span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
+<span class="c1"># get the features from the encoder</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
+<span class="c1">#[torch.Size([1, 64, 112, 112]), torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14])]</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -1073,33 +1060,32 @@ The author’s code is terrible, I have based mostly of my implemente on this am
 <dd><p>Bases: <a class="reference internal" href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNet" title="glasses.models.classification.resnet.ResNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNet</span></code></a></p>
 <p>Implementation of ResNetXt proposed in <a class="reference external" href="https://arxiv.org/pdf/1611.05431.pdf">“Aggregated Residual Transformation for Deep Neural Networks”</a></p>
 <p>Create a default model</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x8d</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create a resnetxt18_32x4d</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">ResNetXtBottleNeckBlock</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">base_width</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">()</span>
+<span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext101_32x8d</span><span class="p">()</span>
+<span class="c1"># create a resnetxt18_32x4d</span>
+<span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">ResNetXtBottleNeckBlock</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">base_width</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>You can easily customize your model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the initial convolution</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store each feature</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get the features from the encoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1">#[torch.Size([1, 64, 112, 112]), torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14])]</span>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># change activation</span>
+<span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="c1"># change number of classes (default is 1000 )</span>
+<span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="c1"># pass a different block</span>
+<span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
+<span class="c1"># change the initial convolution</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span>
+<span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1"># store each feature</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">ResNetXt</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">()</span>
+<span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
+<span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
+<span class="c1"># get the features from the encoder</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
+<span class="c1">#[torch.Size([1, 64, 112, 112]), torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14])]</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -1394,39 +1380,27 @@ The models with the channel se are labelab with prefix <cite>c</cite></p>
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.</span></code><code class="sig-name descname"><span class="pre">VGG</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">encoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.vgg.VGGEncoder'&gt;</span></em>, <em class="sig-param"><span class="pre">head:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.vgg.VGGHead'&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/vgg.html#VGG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.VGG" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.models.classification.base.html#glasses.models.classification.base.ClassificationModule" title="glasses.models.classification.base.ClassificationModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.base.ClassificationModule</span></code></a></p>
 <p>Implementation of VGG proposed in <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">Very Deep Convolutional Networks For Large-Scale Image Recognition</a></p>
-<p>Create a default model</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg13</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg16</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg19</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11_bn</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg13_bn</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg16_bn</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg19_bn</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">()</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg13</span><span class="p">()</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg16</span><span class="p">()</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg19</span><span class="p">()</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg11_bn</span><span class="p">()</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg13_bn</span><span class="p">()</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg16_bn</span><span class="p">()</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg19_bn</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Please be aware that the <cite>bn</cite> models uses BatchNorm but they are very old and people back then don’t know the bias is superfluous
 in a conv followed by a batchnorm.</p>
-<p>Customization</p>
-<p>You can easily create your custom VGG-like model</p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nn.models.classification.senet</span> <span class="kn">import</span> <span class="n">SENetBasicBlock</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store the features tensor after every block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
-<span class="go">    &gt;&gt;&gt; x = block(x)</span>
-<span class="go">    &gt;&gt;&gt; features.append(x)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># [torch.Size([1, 64, 112, 112]), torch.Size([1, 128, 56, 56]), torch.Size([1, 256, 28, 28]), torch.Size([1, 512, 14, 14]), torch.Size([1, 512, 7, 7])]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># change activation</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="c1"># change number of classes (default is 1000 )</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="c1"># pass a different block</span>
+<span class="kn">from</span> <span class="nn">nn.models.classification.senet</span> <span class="kn">import</span> <span class="n">SENetBasicBlock</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
+<span class="c1"># store the features tensor after every block</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -1576,33 +1550,32 @@ in a conv followed by a batchnorm.</p>
 <dd><p>Bases: <a class="reference internal" href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNet" title="glasses.models.classification.resnet.ResNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNet</span></code></a></p>
 <p>Implementation of Wide ResNet proposed in <a class="reference external" href="https://arxiv.org/pdf/1605.07146.pdf">“Wide Residual Networks”</a></p>
 <p>Create a default model</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet50_2</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet101_2</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create a wide_resnet18_4</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WideResNetBottleNeckBlock</span><span class="p">,</span> <span class="n">width_factor</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet50_2</span><span class="p">()</span>
+<span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet101_2</span><span class="p">()</span>
+<span class="c1"># create a wide_resnet18_4</span>
+<span class="n">WideResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WideResNetBottleNeckBlock</span><span class="p">,</span> <span class="n">width_factor</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>You can easily customize your model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the initial convolution</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store each feature</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet50_2</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">x</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># [torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7])]</span>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># change activation</span>
+<span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="c1"># change number of classes (default is 1000 )</span>
+<span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="c1"># pass a different block</span>
+<span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
+<span class="c1"># change the initial convolution</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span>
+<span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1"># store each feature</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet50_2</span><span class="p">()</span>
+<span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
+<span class="c1"># [torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7])]</span>
 </pre></div>
 </div>
 <dl class="field-list simple">

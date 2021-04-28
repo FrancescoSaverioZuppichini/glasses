@@ -201,33 +201,32 @@
 <dd><p>Bases: <a class="reference internal" href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNet" title="glasses.models.classification.resnet.ResNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNet</span></code></a></p>
 <p>Implementation of Wide ResNet proposed in <a class="reference external" href="https://arxiv.org/pdf/1605.07146.pdf">“Wide Residual Networks”</a></p>
 <p>Create a default model</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet50_2</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet101_2</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create a wide_resnet18_4</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WideResNetBottleNeckBlock</span><span class="p">,</span> <span class="n">width_factor</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet50_2</span><span class="p">()</span>
+<span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet101_2</span><span class="p">()</span>
+<span class="c1"># create a wide_resnet18_4</span>
+<span class="n">WideResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">WideResNetBottleNeckBlock</span><span class="p">,</span> <span class="n">width_factor</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>You can easily customize your model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the initial convolution</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store each feature</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet50_2</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">x</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># [torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7])]</span>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># change activation</span>
+<span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="c1"># change number of classes (default is 1000 )</span>
+<span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="c1"># pass a different block</span>
+<span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
+<span class="c1"># change the initial convolution</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">resnext50_32x4d</span>
+<span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1"># store each feature</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">WideResNet</span><span class="o">.</span><span class="n">wide_resnet50_2</span><span class="p">()</span>
+<span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">gate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
+<span class="c1"># [torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14]), torch.Size([1, 512, 7, 7])]</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -280,9 +279,9 @@
 <dd><p>Bases: <a class="reference internal" href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNetBottleneckBlock" title="glasses.models.classification.resnet.ResNetBottleneckBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNetBottleneckBlock</span></code></a></p>
 <p>Wide resnet bottle neck block, you can control the width of the inner features with the width_factor parameter
 :param in_features: [description]
-:type in_features: [type]
+:type in_features: int
 :param out_features: [description]
-:type out_features: [type]
+:type out_features: int
 :param width_factor: Scales the 3x3 conv features in the bottle neck block. Defaults to 2.
 :type width_factor: int, optional</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>

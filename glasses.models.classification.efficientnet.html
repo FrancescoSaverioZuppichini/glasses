@@ -206,36 +206,34 @@
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetModelsTable.jpeg?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetModelsTable.jpeg?raw=true" />
 <p>Then, the architecture is scaled up from <cite>-efficientnet_b0</cite> to <cite>-efficientnet_b7</cite> using compound scaling.</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetScaling.jpg?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientNetScaling.jpg?raw=true" />
-<p class="rubric">Examples</p>
-<p>Default models</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b1</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b2</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b3</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b4</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b5</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b6</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b7</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b8</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_l2</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b1</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b2</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b3</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b4</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b5</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b6</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b7</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b8</span><span class="p">()</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_l2</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>You can easily customize your model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">block</span><span class="o">=...</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store each feature</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get the features from the encoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># [torch.Size([1, 32, 112, 112]), torch.Size([1, 24, 56, 56]), torch.Size([1, 40, 28, 28]), torch.Size([1, 80, 14, 14])]</span>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="c1"># change number of classes (default is 1000 )</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="c1"># pass a different block</span>
+<span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">(</span><span class="n">block</span><span class="o">=...</span><span class="p">)</span>
+<span class="c1"># store each feature</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">EfficientNet</span><span class="o">.</span><span class="n">efficientnet_b0</span><span class="p">()</span>
+<span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
+<span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
+<span class="c1"># get the features from the encoder</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
+<span class="c1"># [torch.Size([1, 32, 112, 112]), torch.Size([1, 24, 56, 56]), torch.Size([1, 40, 28, 28]), torch.Size([1, 80, 14, 14])]</span>
 </pre></div>
 </div>
 <dl class="field-list simple">

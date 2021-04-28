@@ -207,48 +207,48 @@ constrains based on the best performing models sampled by the current search spa
 <p>For example, to go from <span class="math notranslate nohighlight">\(AnyNet_A\)</span> to <span class="math notranslate nohighlight">\(AnyNet_B\)</span> they fixed the bottleneck ratio <span class="math notranslate nohighlight">\(b_i\)</span> for all stage <span class="math notranslate nohighlight">\(i\)</span>. The following table
 shows all the restrictions applied from one search space to the next one.</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/RegNetDesignSpaceTable.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/RegNetDesignSpaceTable.png?raw=true" />
-<p>The paper is really well written and very interesting paper, I highly recommended to read it.</p>
-<p class="rubric">Examples</p>
-<p>Default models</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_002</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_006</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_008</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_016</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_040</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_064</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_080</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_120</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_160</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_320</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Y variants (with SE)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnety_002</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># ...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_320</span><span class="p">()</span>
+<p>The paper is really well written and very interesting, I highly recommended read it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_002</span><span class="p">()</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">()</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_006</span><span class="p">()</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_008</span><span class="p">()</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_016</span><span class="p">()</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_040</span><span class="p">()</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_064</span><span class="p">()</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_080</span><span class="p">()</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_120</span><span class="p">()</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_160</span><span class="p">()</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_320</span><span class="p">()</span>
+<span class="c1"># Y variants (with SE)</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">regnety_002</span><span class="p">()</span>
+<span class="c1"># ...</span>
+<span class="n">ResNet</span><span class="o">.</span><span class="n">regnetx_320</span><span class="p">()</span>
+
+<span class="n">You</span> <span class="n">can</span> <span class="n">easily</span> <span class="n">customize</span> <span class="n">your</span> <span class="n">model</span>
 </pre></div>
 </div>
-<p>You can easily customize your model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">RegNetYBotteneckBlock</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change the steam</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">(</span><span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">change</span> <span class="n">shortcut</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">RegNetYBotteneckBlock</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcutD</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store each feature</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># get the features from the encoder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1">#[torch.Size([1, 32, 112, 112]), torch.Size([1, 32, 56, 56]), torch.Size([1, 64, 28, 28]), torch.Size([1, 160, 14, 14])]</span>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># change activation</span>
+<span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="c1"># change number of classes (default is 1000 )</span>
+<span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="c1"># pass a different block</span>
+<span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">RegNetYBotteneckBlock</span><span class="p">)</span>
+<span class="c1"># change the steam</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">(</span><span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemC</span><span class="p">)</span>
+<span class="n">change</span> <span class="n">shortcut</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">RegNetYBotteneckBlock</span><span class="p">,</span> <span class="n">shortcut</span><span class="o">=</span><span class="n">ResNetShorcutD</span><span class="p">))</span>
+<span class="c1"># store each feature</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
+<span class="c1"># get features</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">RegNet</span><span class="o">.</span><span class="n">regnetx_004</span><span class="p">()</span>
+<span class="c1"># first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
+<span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">224</span><span class="p">,</span><span class="mi">224</span><span class="p">)))</span>
+<span class="c1"># get the features from the encoder</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">features</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
+<span class="c1">#[torch.Size([1, 32, 112, 112]), torch.Size([1, 32, 56, 56]), torch.Size([1, 64, 28, 28]), torch.Size([1, 160, 14, 14])]</span>
 </pre></div>
 </div>
 <dl class="field-list simple">

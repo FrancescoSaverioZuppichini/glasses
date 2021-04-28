@@ -631,49 +631,50 @@
 <div class="viewcode-block" id="ResNet"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNet">[docs]</a><span class="k">class</span> <span class="nc">ResNet</span><span class="p">(</span><span class="n">ClassificationModule</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implementation of ResNet proposed in `Deep Residual Learning for Image Recognition &lt;https://arxiv.org/abs/1512.03385&gt;`_</span>
 
-<span class="sd">    Examples:</span>
+<span class="sd">    .. code-block:: python</span>
 
-<span class="sd">        Default models</span>
-
-<span class="sd">        &gt;&gt;&gt; ResNet.resnet18()</span>
-<span class="sd">        &gt;&gt;&gt; ResNet.resnet26()</span>
-<span class="sd">        &gt;&gt;&gt; ResNet.resnet34()</span>
-<span class="sd">        &gt;&gt;&gt; ResNet.resnet50()</span>
-<span class="sd">        &gt;&gt;&gt; ResNet.resnet101()</span>
-<span class="sd">        &gt;&gt;&gt; ResNet.resnet152()</span>
-<span class="sd">        &gt;&gt;&gt; ResNet.resnet200()</span>
+<span class="sd">        ResNet.resnet18()</span>
+<span class="sd">        ResNet.resnet26()</span>
+<span class="sd">        ResNet.resnet34()</span>
+<span class="sd">        ResNet.resnet50()</span>
+<span class="sd">        ResNet.resnet101()</span>
+<span class="sd">        ResNet.resnet152()</span>
+<span class="sd">        ResNet.resnet200()</span>
 
 <span class="sd">        Variants (d) proposed in `Bag of Tricks for Image Classification with Convolutional Neural Networks &lt;https://arxiv.org/pdf/1812.01187.pdf&gt;`_</span>
 
-<span class="sd">        &gt;&gt;&gt; ResNet.resnet26d()</span>
-<span class="sd">        &gt;&gt;&gt; ResNet.resnet34d()</span>
-<span class="sd">        &gt;&gt;&gt; ResNet.resnet50d()</span>
-<span class="sd">        &gt;&gt;&gt; # You can construct your own one by chaning `stem` and `block`</span>
-<span class="sd">        &gt;&gt;&gt; resnet101d = ResNet.resnet101(stem=ResNetStemC, block=partial(ResNetBottleneckBlock, shortcut=ResNetShorcutD))</span>
+<span class="sd">        ResNet.resnet26d()</span>
+<span class="sd">        ResNet.resnet34d()</span>
+<span class="sd">        ResNet.resnet50d()</span>
+<span class="sd">        # You can construct your own one by chaning `stem` and `block`</span>
+<span class="sd">        resnet101d = ResNet.resnet101(stem=ResNetStemC, block=partial(ResNetBottleneckBlock, shortcut=ResNetShorcutD))</span>
 
-<span class="sd">        You can easily customize your model</span>
 
-<span class="sd">        &gt;&gt;&gt; # change activation</span>
-<span class="sd">        &gt;&gt;&gt; ResNet.resnet18(activation = nn.SELU)</span>
-<span class="sd">        &gt;&gt;&gt; # change number of classes (default is 1000 )</span>
-<span class="sd">        &gt;&gt;&gt; ResNet.resnet18(n_classes=100)</span>
-<span class="sd">        &gt;&gt;&gt; # pass a different block</span>
-<span class="sd">        &gt;&gt;&gt; ResNet.resnet18(block=SENetBasicBlock)</span>
-<span class="sd">        &gt;&gt;&gt; # change the steam</span>
-<span class="sd">        &gt;&gt;&gt; model = ResNet.resnet18(stem=ResNetStemC)</span>
-<span class="sd">        &gt;&gt;&gt; change shortcut</span>
-<span class="sd">        &gt;&gt;&gt; model = ResNet.resnet18(block=partial(ResNetBasicBlock, shortcut=ResNetShorcutD))</span>
-<span class="sd">        &gt;&gt;&gt; # store each feature</span>
-<span class="sd">        &gt;&gt;&gt; x = torch.rand((1, 3, 224, 224))</span>
-<span class="sd">        &gt;&gt;&gt; # get features</span>
-<span class="sd">        &gt;&gt;&gt; model = ResNet.resnet18()</span>
-<span class="sd">        &gt;&gt;&gt; # first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
-<span class="sd">        &gt;&gt;&gt; model.encoder.features</span>
-<span class="sd">        &gt;&gt;&gt; model(torch.randn((1,3,224,224)))</span>
-<span class="sd">        &gt;&gt;&gt; # get the features from the encoder</span>
-<span class="sd">        &gt;&gt;&gt; features = model.encoder.features</span>
-<span class="sd">        &gt;&gt;&gt; print([x.shape for x in features])</span>
-<span class="sd">        &gt;&gt;&gt; #[torch.Size([1, 64, 112, 112]), torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14])]</span>
+<span class="sd">    Examples:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            # change activation</span>
+<span class="sd">            ResNet.resnet18(activation = nn.SELU)</span>
+<span class="sd">            # change number of classes (default is 1000 )</span>
+<span class="sd">            ResNet.resnet18(n_classes=100)</span>
+<span class="sd">            # pass a different block</span>
+<span class="sd">            ResNet.resnet18(block=SENetBasicBlock)</span>
+<span class="sd">            # change the steam</span>
+<span class="sd">            model = ResNet.resnet18(stem=ResNetStemC)</span>
+<span class="sd">            change shortcut</span>
+<span class="sd">            model = ResNet.resnet18(block=partial(ResNetBasicBlock, shortcut=ResNetShorcutD))</span>
+<span class="sd">            # store each feature</span>
+<span class="sd">            x = torch.rand((1, 3, 224, 224))</span>
+<span class="sd">            # get features</span>
+<span class="sd">            model = ResNet.resnet18()</span>
+<span class="sd">            # first call .features, this will activate the forward hooks and tells the model you&#39;ll like to get the features</span>
+<span class="sd">            model.encoder.features</span>
+<span class="sd">            model(torch.randn((1,3,224,224)))</span>
+<span class="sd">            # get the features from the encoder</span>
+<span class="sd">            features = model.encoder.features</span>
+<span class="sd">            print([x.shape for x in features])</span>
+<span class="sd">            #[torch.Size([1, 64, 112, 112]), torch.Size([1, 64, 56, 56]), torch.Size([1, 128, 28, 28]), torch.Size([1, 256, 14, 14])]</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        in_channels (int, optional): Number of channels in the input Image (3 for RGB and 1 for Gray). Defaults to 3.</span>

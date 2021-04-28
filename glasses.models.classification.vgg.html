@@ -200,39 +200,27 @@
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.vgg.</span></code><code class="sig-name descname"><span class="pre">VGG</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">encoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.vgg.VGGEncoder'&gt;</span></em>, <em class="sig-param"><span class="pre">head:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.vgg.VGGHead'&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/vgg.html#VGG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.vgg.VGG" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.models.classification.base.html#glasses.models.classification.base.ClassificationModule" title="glasses.models.classification.base.ClassificationModule"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.base.ClassificationModule</span></code></a></p>
 <p>Implementation of VGG proposed in <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">Very Deep Convolutional Networks For Large-Scale Image Recognition</a></p>
-<p>Create a default model</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg13</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg16</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg19</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11_bn</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg13_bn</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg16_bn</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg19_bn</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">()</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg13</span><span class="p">()</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg16</span><span class="p">()</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg19</span><span class="p">()</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg11_bn</span><span class="p">()</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg13_bn</span><span class="p">()</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg16_bn</span><span class="p">()</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg19_bn</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Please be aware that the <cite>bn</cite> models uses BatchNorm but they are very old and people back then don’t know the bias is superfluous
 in a conv followed by a batchnorm.</p>
-<p>Customization</p>
-<p>You can easily create your custom VGG-like model</p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># change activation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nn.models.classification.senet</span> <span class="kn">import</span> <span class="n">SENetBasicBlock</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># store the features tensor after every block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
-<span class="go">    &gt;&gt;&gt; x = block(x)</span>
-<span class="go">    &gt;&gt;&gt; features.append(x)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">features</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># [torch.Size([1, 64, 112, 112]), torch.Size([1, 128, 56, 56]), torch.Size([1, 256, 28, 28]), torch.Size([1, 512, 14, 14]), torch.Size([1, 512, 7, 7])]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># change activation</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="c1"># change number of classes (default is 1000 )</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="c1"># pass a different block</span>
+<span class="kn">from</span> <span class="nn">nn.models.classification.senet</span> <span class="kn">import</span> <span class="n">SENetBasicBlock</span>
+<span class="n">VGG</span><span class="o">.</span><span class="n">vgg11</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">SENetBasicBlock</span><span class="p">)</span>
+<span class="c1"># store the features tensor after every block</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -378,7 +366,7 @@ in a conv followed by a batchnorm.</p>
 
 <dl class="py class">
 <dt id="glasses.models.classification.vgg.VGGEncoder">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.vgg.</span></code><code class="sig-name descname"><span class="pre">VGGEncoder</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_channels:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">3,</span> <span class="pre">widths:</span> <span class="pre">List[int]</span> <span class="pre">=</span> <span class="pre">[64,</span> <span class="pre">128,</span> <span class="pre">256,</span> <span class="pre">512,</span> <span class="pre">512],</span> <span class="pre">depths:</span> <span class="pre">List[int]</span> <span class="pre">=</span> <span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">2,</span> <span class="pre">2],</span> <span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;,</span> <span class="pre">inplace=True),</span> <span class="pre">block:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'glasses.nn.blocks.ConvBnAct'&gt;,</span> <span class="pre">normalization=None,</span> <span class="pre">bias=True,</span> <span class="pre">kernel_size=3),</span> <span class="pre">*args,</span> <span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/vgg.html#VGGEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.vgg.VGGEncoder" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.vgg.</span></code><code class="sig-name descname"><span class="pre">VGGEncoder</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_channels:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">3,</span> <span class="pre">widths:</span> <span class="pre">List[int]</span> <span class="pre">=</span> <span class="pre">[64,</span> <span class="pre">128,</span> <span class="pre">256,</span> <span class="pre">512,</span> <span class="pre">512],</span> <span class="pre">depths:</span> <span class="pre">List[int]</span> <span class="pre">=</span> <span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">2,</span> <span class="pre">2],</span> <span class="pre">block:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'glasses.nn.blocks.ConvBnAct'&gt;,</span> <span class="pre">normalization=None,</span> <span class="pre">bias=True,</span> <span class="pre">kernel_size=3),</span> <span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/vgg.html#VGGEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.vgg.VGGEncoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.models.base.html#glasses.models.base.Encoder" title="glasses.models.base.Encoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.base.Encoder</span></code></a></p>
 <p>VGG encoder, composed by default by a sequence of VGGLayer modules with an increasing number of output features.</p>
 <dl class="field-list simple">

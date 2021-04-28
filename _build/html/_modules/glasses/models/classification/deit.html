@@ -210,24 +210,24 @@
 
 
 <div class="viewcode-block" id="DeiT"><a class="viewcode-back" href="../../../../glasses.models.classification.deit.html#glasses.models.classification.DeiT">[docs]</a><span class="k">class</span> <span class="nc">DeiT</span><span class="p">(</span><span class="n">ViT</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Implementation of DeiT proposed in `Training data-efficient image transformers &amp; distillation through attention &lt;https://arxiv.org/pdf/2010.11929.pdf&gt;`_</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implementation of DeiT proposed in `Training data-efficient image transformers &amp; distillation through attention &lt;https://arxiv.org/pdf/2010.11929.pdf&gt;`_</span>
 
 <span class="sd">    An attention based distillation is proposed where a new token is added to the model, the `dist` token.</span>
 
 <span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DeiT.png?raw=true</span>
 
-<span class="sd">    Examples:</span>
+<span class="sd">    .. code-block::</span>
 
-<span class="sd">        Default models</span>
-
-<span class="sd">        &gt;&gt;&gt; DeiT.deit_tiny_patch16_224()</span>
-<span class="sd">        &gt;&gt;&gt; DeiT.deit_small_patch16_224()</span>
-<span class="sd">        &gt;&gt;&gt; DeiT.deit_base_patch16_224()</span>
-<span class="sd">        &gt;&gt;&gt; DeiT.deit_base_patch16_384()</span>
+<span class="sd">        DeiT.deit_tiny_patch16_224()</span>
+<span class="sd">        DeiT.deit_small_patch16_224()</span>
+<span class="sd">        DeiT.deit_base_patch16_224()</span>
+<span class="sd">        DeiT.deit_base_patch16_384()</span>
 
 
 <span class="sd">    Args:</span>
-<span class="sd">        ViT ([type]): [description]</span>
+<span class="sd">        head (nn.Module, optional): [description]. Defaults to DeiTClassificationHead.</span>
+<span class="sd">        tokens (nn.Module, optional): [description]. Defaults to DeiTTokens.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>

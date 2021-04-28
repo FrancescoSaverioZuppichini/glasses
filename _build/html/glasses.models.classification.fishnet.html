@@ -205,19 +205,17 @@
 The author’s code is terrible, I have based mostly of my implemente on this amazing repo <a class="reference external" href="https://github.com/zsef123/Fishnet-PyTorch">Fishnet-PyTorch</a>.</p>
 <p>The following image is taken from the paper and shows the architecture detail.</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/FishNet.png?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/FishNet.png?raw=true" />
-<p>Create a default model</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet150</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">()</span>
+<span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet150</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>You can easily customize your model</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># change number of classes (default is 1000 )</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass a different block</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">block</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">FishNetBottleNeck</span><span class="p">(</span><span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">),</span> <span class="n">SpatialSE</span><span class="p">(</span><span class="n">out_ch</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">)</span>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">activation</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">SELU</span><span class="p">)</span>
+<span class="c1"># change number of classes (default is 1000 )</span>
+<span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="c1"># pass a different block</span>
+<span class="n">block</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">FishNetBottleNeck</span><span class="p">(</span><span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">),</span> <span class="n">SpatialSE</span><span class="p">(</span><span class="n">out_ch</span><span class="p">))</span>
+<span class="n">FishNet</span><span class="o">.</span><span class="n">fishnet99</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
