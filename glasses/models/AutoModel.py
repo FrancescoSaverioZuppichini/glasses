@@ -10,6 +10,7 @@ from .classification.resnet import (
     ResNet,
     ResNetBottleneckBlockD,
     ResNetStemT,
+    ResNetStemC,
 )
 from ..nn.att import ECA, WithAtt
 from functools import partial
@@ -57,6 +58,11 @@ class AutoModel:
             "cse_resnet50": SEResNet.cse_resnet50,
             "cse_resnet101": SEResNet.cse_resnet101,
             "cse_resnet152": SEResNet.cse_resnet152,
+            "eca_resnet18t": partial(
+                ResNet.resnet18,
+                stem=ResNetStemT,
+                block=WithAtt(ResNetBottleneckBlockD, att=ECA),
+            ),
             "eca_resnet26t": partial(
                 ResNet.resnet26,
                 stem=ResNetStemT,
@@ -70,6 +76,26 @@ class AutoModel:
             "eca_resnet101t": partial(
                 ResNet.resnet101,
                 stem=ResNetStemT,
+                block=WithAtt(ResNetBottleneckBlockD, att=ECA),
+            ),
+            "eca_resnet18d": partial(
+                ResNet.resnet26,
+                stem=ResNetStemC,
+                block=WithAtt(ResNetBottleneckBlockD, att=ECA),
+            ),
+            "eca_resnet26d": partial(
+                ResNet.resnet26,
+                stem=ResNetStemC,
+                block=WithAtt(ResNetBottleneckBlockD, att=ECA),
+            ),
+            "eca_resnet50d": partial(
+                ResNet.resnet50,
+                stem=ResNetStemC,
+                block=WithAtt(ResNetBottleneckBlockD, att=ECA),
+            ),
+            "eca_resnet101d": partial(
+                ResNet.resnet101,
+                stem=ResNetStemC,
                 block=WithAtt(ResNetBottleneckBlockD, att=ECA),
             ),
             "resnext50_32x4d": ResNetXt.resnext50_32x4d,

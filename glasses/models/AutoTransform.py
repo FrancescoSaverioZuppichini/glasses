@@ -55,12 +55,19 @@ class AutoTransform:
         "eca_resnet26t": ImageNetTransform(
             resize=320, input_size=320, interpolation="bicubic"
         ),
+        "eca_resnet26t": ImageNetTransform(
+            resize=320, input_size=320, interpolation="bicubic"
+        ),
         "eca_resnet50t": ImageNetTransform(
             resize=320, input_size=320, interpolation="bicubic"
         ),
         "eca_resnet101t": ImageNetTransform(
             resize=320, input_size=320, interpolation="bicubic"
         ),
+        "eca_resnet18d": ImageNetTransform(interpolation="bicubic"),
+        "eca_resnet26d": ImageNetTransform(interpolation="bicubic"),
+        "eca_resnet50d": ImageNetTransform(interpolation="bicubic"),
+        "eca_resnet101d": ImageNetTransform(interpolation="bicubic"),
         "regnetx_002": ImageNetTransform(interpolation="bicubic"),
         "regnetx_004": ImageNetTransform(interpolation="bicubic"),
         "regnetx_006": ImageNetTransform(interpolation="bicubic"),
