@@ -7,7 +7,7 @@ from functools import partial
 from io import BytesIO
 from pathlib import Path
 from typing import Dict
-from glasses.utils.weights.HFModelHub import HFModelHub
+from glasses.utils.weights.storage import LocalStorage, HuggingFaceStorage
 from glasses.utils.weights.PretrainedWeightsProvider import (
     PretrainedWeightsProvider,
     pretrained,
@@ -174,71 +174,9 @@ def clone_model(
     return dst
 
 
-@dataclass
-class LocalStorage:
-    root: Path = Path("/tmp/glasses")
-    override: bool = False
-
-    def __post_init__(self):
-        self.root.mkdir(exist_ok=True)
-        self.models_files = list(self.root.glob("*.pth"))
-
-    def __call__(self, key: str, model: nn.Module, bar: tqdm):
-        save_path = self.root / Path(f"{key}.pth")
-
-        torch.save(model.state_dict(), save_path)
-        assert save_path.exists()
-        model.load_state_dict(torch.load(save_path))
-
-    def __contains__(self, el: "str") -> bool:
-        return el in [file.stem for file in self.models_files]
-
-
-class AWSSTorage:
-    def __init__(self):
-        self.s3 = boto3.resource("s3")
-
-    def __call__(self, key: str, model: nn.Module, bar: tqdm):
-        buffer = BytesIO()
-        torch.save(model.state_dict(), buffer)
-        buffer.seek(0)
-
-        bar.reset(total=buffer.getbuffer().nbytes)
-        bar.set_description("📤")
-        obj = self.s3.Object("glasses-weights", f"{key}.pth")
-
-        obj.upload_fileobj(
-            buffer, ExtraArgs={"ACL": "public-read"}, Callback=lambda x: bar.update(x)
-        )
-
-    def __contains__(self, el: "str") -> bool:
-        return False
-
-
-class HFHubStorage:
-    def __call__(self, key: str, model: nn.Module, bar: tqdm):
-        try:
-            HFModelHub.save_pretrained(
-                model,
-                config={},
-                save_directory=f"/tmp/{key}",
-                model_id=key,
-                push_to_hub=True,
-                organization="glasses",
-            )
-        except OSError:
-            logging.info(f"{key} already stored!")
-            # OSError is raised when we have no changes to push!
-
-    def __contains__(self, el: "str") -> bool:
-        return False
-
-
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument(
-        "--storage", type=str, choices=["local", "aws", "hf"], default="hf"
-    )
+    parser.add_argument("--storage", type=str, choices=["local", "hf"], default="hf")
     parser.add_argument("-o", type=Path)
 
     args = parser.parse_args()
@@ -252,7 +190,7 @@ if __name__ == "__main__":
     if args.o is not None:
         save_dir = args.o
         save_dir.mkdir(exist_ok=True)
-    storages = {"local": LocalStorage, "aws": AWSSTorage, "hf": HFHubStorage}
+    storages = {"local": LocalStorage, "hf": HuggingFaceStorage}
     storage = storages[args.storage]()
 
     if args.storage == "local":
@@ -275,4 +213,4 @@ if __name__ == "__main__":
             else:
                 src, dst = src_def(), AutoModel.from_name(key)
                 cloned = clone_model(src, dst)
-            storage(key, cloned, uploading_bar)
+            storage.put(key, cloned)
