@@ -1,5 +1,4 @@
 import torch
-from torch._C import dtype
 import torch.nn as nn
 from glasses.utils.weights.PretrainedWeightsProvider import (
     PretrainedWeightsProvider,
@@ -8,11 +7,8 @@ from glasses.utils.weights.PretrainedWeightsProvider import (
 )
 from glasses.models.AutoTransform import Transform
 import pytest
-from pathlib import Path
 import os
-from pytest import raises
 from torchvision.transforms import InterpolationMode
-from transfer_weights import HFHubStorage
 from PIL import Image
 import numpy as np
 from requests.exceptions import HTTPError
