@@ -2,6 +2,8 @@ import torch
 from torch import nn
 import pytest
 from glasses.models.classification.vit import ViT, ViTClassificationHead
+from glasses.models.classification.deepvit import DeepVit
+
 from functools import partial
 
 
@@ -24,6 +26,12 @@ def test_features():
     features = model.encoder.features
 
     assert len(features) == len(model.encoder.layers) - 1
+
+def test_deepvit():
+    x = torch.rand((1, 3, 224, 224))
+    model = DeepVit()
+    pred = model(x)
+    assert pred.shape[-1] == 1000
 
 def test_vit():
     x = torch.rand((1, 3, 224, 224))

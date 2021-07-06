@@ -38,6 +38,7 @@ class PatchEmbedding(nn.Module):
         emb_size: int = 768,
         img_size: int = 224,
         tokens: nn.Module = ViTTokens,
+        drop_p: float = 0.2,
     ):
         """
 
@@ -79,6 +80,7 @@ class PatchEmbedding(nn.Module):
         self.positions = nn.Parameter(
             torch.randn((img_size // patch_size) ** 2 + len(self.tokens), emb_size)
         )
+        self.drop = nn.Dropout(drop_p)
 
     def forward(self, x: Tensor) -> Tensor:
         x = self.projection(x)
@@ -88,6 +90,7 @@ class PatchEmbedding(nn.Module):
         x = torch.cat([*tokens, x], dim=1)
         # add position embedding
         x += self.positions
+        x = self.drop(x)
         return x
 
 
@@ -100,8 +103,27 @@ class MultiHeadAttention(nn.Module):
         projection_drop_p: float = 0.2,
         qkv_bias: bool = False,
     ):
-        """
+        r"""
         Classic multi head attention proposed in `Attention Is All You Need <https://arxiv.org/abs/1706.03762>`_
+
+        The Attention is computed by:
+
+        .. math::
+
+            \begin{equation}
+            \operatorname{Attention}(Q, K, V)=\operatorname{softmax}\left(\frac{Q K^{T}}{\sqrt{d_{k}}}\right) V
+            \end{equation}
+
+        We used multi head attention
+
+        .. math::
+
+            \begin{equation}
+            \begin{aligned}
+            \operatorname{MultiHead}(Q, K, V) &=\text { Concat }\left(\text { head }_{1}, \ldots, \text { head }_{\mathrm{h}}\right) W^{O} \\
+            \text { where head }_{\mathrm{i}} &=\operatorname{Attention}\left(Q W_{i}^{Q}, K W_{i}^{K}, V W_{i}^{V}\right)
+            \end{aligned}
+            \end{equation}
 
         Args:
             emb_size (int, optional):  Embedding dimensions Defaults to 768.
@@ -120,19 +142,17 @@ class MultiHeadAttention(nn.Module):
         self.projection = nn.Sequential(
             nn.Linear(emb_size, emb_size), nn.Dropout(projection_drop_p)
         )
-
         self.scaling = (self.emb_size // num_heads) ** -0.5
 
-    def forward(self, x: Tensor, mask: Tensor = None) -> Tensor:
+    def attend(self, x: Tensor, mask: Tensor = None) -> Tensor:
         # split keys, queries and values in num_heads
-        qkv = rearrange(
+        queries, keys, values = rearrange(
             self.qkv(x), "b n (qkv h d) -> (qkv) b h n d", h=self.num_heads, qkv=3
         )
-
-        queries, keys, values = qkv[0], qkv[1], qkv[2]
         # dot product, Q V^T, here we don't transpose before, so this is why
         # the sum is made on the last index of  K
         energy = torch.einsum("bhij, bhkj -> bhik", queries, keys) * self.scaling
+
         if mask is not None:
             fill_value = torch.finfo(torch.float32).min
             energy.mask_fill(~mask, fill_value)
@@ -141,7 +161,11 @@ class MultiHeadAttention(nn.Module):
         att = self.att_drop(att)
         # dot product
         out = torch.einsum("bhij, bhjk -> bhik ", att, values)
-        out = rearrange(out, "b h n d -> b n (h d)")
+        return out
+
+    def forward(self, x: Tensor, mask: Tensor = None) -> Tensor:
+        attended = self.attend(x, mask)
+        out = rearrange(attended, "b h n d -> b n (h d)")
         out = self.projection(out)
         return out
 
@@ -181,6 +205,7 @@ class TransformerEncoderBlock(nn.Sequential):
     def __init__(
         self,
         emb_size: int = 768,
+        attention: nn.Module = MultiHeadAttention,
         forward_expansion: int = 4,
         forward_drop_p: float = 0.2,
         activation: nn.Module = nn.GELU,
@@ -196,13 +221,15 @@ class TransformerEncoderBlock(nn.Sequential):
 
         Args:
             emb_size (int, optional):  Embedding dimensions Defaults to 768.
-            forward_expansion (int, optional): [description]. Defaults to 4.
-            forward_drop_p (float, optional): [description]. Defaults to 0..
+            attention (nn.Module, optional): The attention we want to use. Defaults to nn.Attention.
+            forward_expansion (int, optional): The expaction factor applied to the forward layer. Defaults to 4.
+            forward_drop_p (float, optional): Drop out applied to the forward layer. Defaults to 0..
         """
         super().__init__(
             ResidualAdd(
                 nn.Sequential(
-                    nn.LayerNorm(emb_size), MultiHeadAttention(emb_size, **kwargs)
+                    nn.LayerNorm(emb_size), 
+                    attention(emb_size, **kwargs)
                 )
             ),
             ResidualAdd(
