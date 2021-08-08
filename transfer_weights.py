@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Dict
 from glasses.utils.weights.HFModelHub import HFModelHub
 from glasses.utils.weights.PretrainedWeightsProvider import (
-    PretrainedWeightsProvider,
+    HFPretrainedWeightsProvider,
     pretrained,
 )
 
@@ -45,7 +45,7 @@ from glasses.utils.ModuleTransfer import ModuleTransfer
 from glasses.models.classification.vit import ViTTokens
 from glasses.models.classification.deit import DeiTTokens
 
-provider = PretrainedWeightsProvider()
+provider = HFPretrainedWeightsProvider()
 
 
 def vit_clone(key: str):

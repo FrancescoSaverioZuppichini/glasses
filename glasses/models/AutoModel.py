@@ -1,7 +1,7 @@
 import difflib
 import logging
 from typing import List, OrderedDict
-from glasses.utils.weights import PretrainedWeightsProvider
+from glasses.utils.weights import PretrainedWeightsProvider, HFPretrainedWeightsProvider
 from torch import nn
 from .classification import *
 from .segmentation import *
@@ -34,7 +34,7 @@ class AutoModel:
 
     """
 
-    provider = PretrainedWeightsProvider()
+    provider: PretrainedWeightsProvider = HFPretrainedWeightsProvider()
 
     zoo = OrderedDict(
         {
@@ -214,7 +214,7 @@ class AutoModel:
         return model
 
     @staticmethod
-    def from_pretrained(name: str, *args, **kwargs) -> nn.Module:
+    def from_pretrained(name: str, provider: PretrainedWeightsProvider = None, *args, **kwargs) -> nn.Module:
         """Instantiates one of the pretrained model classes of the library.
 
         Examples:
@@ -230,7 +230,8 @@ class AutoModel:
         Returns:
             nn.Module: A fully instantiated pretrained model
         """
-        weights = AutoModel.provider[name]
+        provider = AutoModel.provider if provider is None else provider
+        weights = provider[name]
         model = AutoModel.from_name(name, *args, **kwargs)
         model.load_state_dict(weights)
         logging.info(f"Loaded pretrained weights for {name}")
@@ -249,10 +250,14 @@ class AutoModel:
     def pretrained_models() -> List[str]:
         """List the available pretrained models name
 
+        .. warning::
+            Due to back-compatibility, this function returns the `pretrained_models` in the default provider defined in
+            `AutoModel.provider`. It will be fixed in the future
+
         Returns:
             List[str]: [description]
         """
-        return AutoModel.provider.weights_zoo
+        return AutoModel.provider.models
 
     @staticmethod
     def models_table() -> Table:

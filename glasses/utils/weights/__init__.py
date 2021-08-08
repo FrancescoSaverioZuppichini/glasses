@@ -1,1 +1,1 @@
-from .PretrainedWeightsProvider import PretrainedWeightsProvider
+from .PretrainedWeightsProvider import PretrainedWeightsProvider, LocalPretrainedWeightsProvider, HFPretrainedWeightsProvider

@@ -5,6 +5,7 @@ temp.py
 # IDEs
 .vscode/
 .idea/
+imagenet_val_targets.pkl
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
