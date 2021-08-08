@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,10 +31,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -85,14 +88,14 @@
               
             
             
-              <p class="caption"><span class="caption-text">Notes</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Notes</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Interpretability.html">Interpretability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Segmentation.html">Segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/installation.html">Installation</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Package Reference</span></p>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="modules.html">glasses</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a><ul class="current">
@@ -197,8 +200,8 @@
 <div class="section" id="module-glasses.nn.blocks.residuals">
 <span id="glasses-nn-blocks-residuals-module"></span><h2>glasses.nn.blocks.residuals module<a class="headerlink" href="#module-glasses.nn.blocks.residuals" title="Permalink to this headline">¶</a></h2>
 <dl class="py data">
-<dt id="glasses.nn.blocks.residuals.Cat2d">
-<code class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.residuals.</span></code><code class="sig-name descname"><span class="pre">Cat2d</span></code><em class="property"> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'glasses.nn.blocks.residuals.InputForward'&gt;,</span> <span class="pre">aggr_func=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;)</span></em><a class="headerlink" href="#glasses.nn.blocks.residuals.Cat2d" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.residuals.Cat2d">
+<span class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.residuals.</span></span><span class="sig-name descname"><span class="pre">Cat2d</span></span><em class="property"> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'glasses.nn.blocks.residuals.InputForward'&gt;,</span> <span class="pre">aggr_func=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;)</span></em><a class="headerlink" href="#glasses.nn.blocks.residuals.Cat2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pass the input to multiple modules and concatenates the output, for 1D input you can use <cite>Cat</cite>, while for 2D inputs, such as images, you can use <cite>Cat2d</cite>.</p>
 <img alt="https://raw.githubusercontent.com/FrancescoSaverioZuppichini/torchlego/develop/doc/images/Cat.png" src="https://raw.githubusercontent.com/FrancescoSaverioZuppichini/torchlego/develop/doc/images/Cat.png" />
 <p class="rubric">Examples</p>
@@ -211,15 +214,15 @@
 </dd></dl>
 
 <dl class="py class">
-<dt id="glasses.nn.blocks.residuals.InputForward">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.residuals.</span></code><code class="sig-name descname"><span class="pre">InputForward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blocks</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggr_func</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks/residuals.html#InputForward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.residuals.InputForward" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.residuals.InputForward">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.residuals.</span></span><span class="sig-name descname"><span class="pre">InputForward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blocks</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggr_func</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks/residuals.html#InputForward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.residuals.InputForward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>This module passes the input to multiple modules and applies a aggregation function on the result.</p>
 <img alt="https://raw.githubusercontent.com/FrancescoSaverioZuppichini/torchlego/develop/doc/images/InputForward.png" src="https://raw.githubusercontent.com/FrancescoSaverioZuppichini/torchlego/develop/doc/images/InputForward.png" />
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
-<dt id="glasses.nn.blocks.residuals.InputForward.forward">
-<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/blocks/residuals.html#InputForward.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.residuals.InputForward.forward" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.residuals.InputForward.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="reference internal" href="_modules/glasses/nn/blocks/residuals.html#InputForward.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.residuals.InputForward.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -232,15 +235,15 @@ registered hooks while the latter silently ignores them.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.residuals.InputForward.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.residuals.InputForward.training" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.residuals.InputForward.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.residuals.InputForward.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="glasses.nn.blocks.residuals.Residual">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.residuals.</span></code><code class="sig-name descname"><span class="pre">Residual</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res_func</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shortcut</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks/residuals.html#Residual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.residuals.Residual" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.residuals.Residual">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.residuals.</span></span><span class="sig-name descname"><span class="pre">Residual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res_func</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shortcut</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks/residuals.html#Residual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.residuals.Residual" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>It applies residual connection to a <cite>nn.Module</cite> where the output becomes</p>
 <p><span class="math notranslate nohighlight">\(y = F(x) + x\)</span></p>
@@ -267,8 +270,8 @@ registered hooks while the latter silently ignores them.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="glasses.nn.blocks.residuals.Residual.forward">
-<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/blocks/residuals.html#Residual.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.residuals.Residual.forward" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.residuals.Residual.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="reference internal" href="_modules/glasses/nn/blocks/residuals.html#Residual.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.residuals.Residual.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -281,38 +284,43 @@ registered hooks while the latter silently ignores them.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.residuals.Residual.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.residuals.Residual.training" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.residuals.Residual.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.residuals.Residual.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="glasses.nn.blocks.residuals.ResidualAdd">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.residuals.</span></code><code class="sig-name descname"><span class="pre">ResidualAdd</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwags</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks/residuals.html#ResidualAdd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.residuals.ResidualAdd" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.residuals.ResidualAdd">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.residuals.</span></span><span class="sig-name descname"><span class="pre">ResidualAdd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwags</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks/residuals.html#ResidualAdd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.residuals.ResidualAdd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#glasses.nn.blocks.residuals.Residual" title="glasses.nn.blocks.residuals.Residual"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.nn.blocks.residuals.Residual</span></code></a></p>
-<p>Args:
-block (nn.Module): A Pytorch module
-res_func (Callable[[Tensor], Tensor], optional): The residual function. Defaults to None.
-shortcut (nn.Module, optional): A function applied before the input is passed to <cite>block</cite>. Defaults to None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>block</strong> (<em>nn.Module</em>) – A Pytorch module</p></li>
+<li><p><strong>res_func</strong> (<em>Callable</em><em>[</em><em>[</em><em>Tensor</em><em>]</em><em>, </em><em>Tensor</em><em>]</em><em>, </em><em>optional</em>) – The residual function. Defaults to None.</p></li>
+<li><p><strong>shortcut</strong> (<em>nn.Module</em><em>, </em><em>optional</em>) – A function applied before the input is passed to <cite>block</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.residuals.ResidualAdd.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.residuals.ResidualAdd.training" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.residuals.ResidualAdd.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.residuals.ResidualAdd.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
-<dt id="glasses.nn.blocks.residuals.add">
-<code class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.residuals.</span></code><code class="sig-name descname"><span class="pre">add</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/blocks/residuals.html#add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.residuals.add" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.residuals.add">
+<span class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.residuals.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="reference internal" href="_modules/glasses/nn/blocks/residuals.html#add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.residuals.add" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 <div class="section" id="module-glasses.nn.blocks">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.nn.blocks" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="glasses.nn.blocks.BnActConv">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.</span></code><code class="sig-name descname"><span class="pre">BnActConv</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">out_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">conv:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.blocks.Conv2dPad'&gt;</span></em>, <em class="sig-param"><span class="pre">normalization:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.batchnorm.BatchNorm2d'&gt;</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></em>, <em class="sig-param"><span class="pre">inplace=True)</span></em>, <em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#BnActConv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.BnActConv" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.BnActConv">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.</span></span><span class="sig-name descname"><span class="pre">BnActConv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">out_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">conv:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.blocks.Conv2dPad'&gt;</span></em>, <em class="sig-param"><span class="pre">normalization:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.batchnorm.BatchNorm2d'&gt;</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">functools.partial(&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></em>, <em class="sig-param"><span class="pre">inplace=True)</span></em>, <em class="sig-param"><span class="pre">*args</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#BnActConv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.BnActConv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
 <p>A Sequential layer composed by a normalization, an activation and a convolution layer. This is usually known as a ‘Preactivation Block’</p>
 <dl class="field-list simple">
@@ -328,15 +336,15 @@ shortcut (nn.Module, optional): A function applied before the input is passed to
 </dl>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.BnActConv.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.BnActConv.training" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.BnActConv.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.BnActConv.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="glasses.nn.blocks.Conv2dPad">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.</span></code><code class="sig-name descname"><span class="pre">Conv2dPad</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#Conv2dPad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Conv2dPad">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.</span></span><span class="sig-name descname"><span class="pre">Conv2dPad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#Conv2dPad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.conv.Conv2d</span></code></p>
 <p>2D Convolutions with different padding modes.</p>
 <p>‘auto’ will use the kernel_size to calculate the padding
@@ -348,18 +356,18 @@ shortcut (nn.Module, optional): A function applied before the input is passed to
 </dl>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.Conv2dPad.bias">
-<code class="sig-name descname"><span class="pre">bias</span></code><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.bias" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Conv2dPad.bias">
+<span class="sig-name descname"><span class="pre">bias</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.bias" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.Conv2dPad.dilation">
-<code class="sig-name descname"><span class="pre">dilation</span></code><em class="property"><span class="pre">:</span> <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">…</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.dilation" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Conv2dPad.dilation">
+<span class="sig-name descname"><span class="pre">dilation</span></span><em class="property"><span class="pre">:</span> <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.dilation" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="glasses.nn.blocks.Conv2dPad.forward">
-<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#Conv2dPad.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.forward" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Conv2dPad.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="reference internal" href="_modules/glasses/nn/blocks.html#Conv2dPad.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -372,60 +380,60 @@ registered hooks while the latter silently ignores them.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.Conv2dPad.groups">
-<code class="sig-name descname"><span class="pre">groups</span></code><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.groups" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Conv2dPad.groups">
+<span class="sig-name descname"><span class="pre">groups</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.groups" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.Conv2dPad.kernel_size">
-<code class="sig-name descname"><span class="pre">kernel_size</span></code><em class="property"><span class="pre">:</span> <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">…</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.kernel_size" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Conv2dPad.kernel_size">
+<span class="sig-name descname"><span class="pre">kernel_size</span></span><em class="property"><span class="pre">:</span> <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.kernel_size" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.Conv2dPad.out_channels">
-<code class="sig-name descname"><span class="pre">out_channels</span></code><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.out_channels" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Conv2dPad.out_channels">
+<span class="sig-name descname"><span class="pre">out_channels</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.out_channels" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.Conv2dPad.output_padding">
-<code class="sig-name descname"><span class="pre">output_padding</span></code><em class="property"><span class="pre">:</span> <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">…</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.output_padding" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Conv2dPad.output_padding">
+<span class="sig-name descname"><span class="pre">output_padding</span></span><em class="property"><span class="pre">:</span> <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.output_padding" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.Conv2dPad.padding">
-<code class="sig-name descname"><span class="pre">padding</span></code><em class="property"><span class="pre">:</span> <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">…</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.padding" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Conv2dPad.padding">
+<span class="sig-name descname"><span class="pre">padding</span></span><em class="property"><span class="pre">:</span> <span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.padding" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.Conv2dPad.padding_mode">
-<code class="sig-name descname"><span class="pre">padding_mode</span></code><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.padding_mode" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Conv2dPad.padding_mode">
+<span class="sig-name descname"><span class="pre">padding_mode</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.padding_mode" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.Conv2dPad.stride">
-<code class="sig-name descname"><span class="pre">stride</span></code><em class="property"><span class="pre">:</span> <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">…</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.stride" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Conv2dPad.stride">
+<span class="sig-name descname"><span class="pre">stride</span></span><em class="property"><span class="pre">:</span> <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.stride" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.Conv2dPad.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.training" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Conv2dPad.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.Conv2dPad.transposed">
-<code class="sig-name descname"><span class="pre">transposed</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.transposed" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Conv2dPad.transposed">
+<span class="sig-name descname"><span class="pre">transposed</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.transposed" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.Conv2dPad.weight">
-<code class="sig-name descname"><span class="pre">weight</span></code><em class="property"><span class="pre">:</span> <span class="pre">torch.Tensor</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.weight" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Conv2dPad.weight">
+<span class="sig-name descname"><span class="pre">weight</span></span><em class="property"><span class="pre">:</span> <span class="pre">torch.Tensor</span></em><a class="headerlink" href="#glasses.nn.blocks.Conv2dPad.weight" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="glasses.nn.blocks.ConvBnAct">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.</span></code><code class="sig-name descname"><span class="pre">ConvBnAct</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">out_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></em>, <em class="sig-param"><span class="pre">conv:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.blocks.Conv2dPad'&gt;</span></em>, <em class="sig-param"><span class="pre">normalization:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.batchnorm.BatchNorm2d'&gt;</span></em>, <em class="sig-param"><span class="pre">bias:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#ConvBnAct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.ConvBnAct" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.ConvBnAct">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.</span></span><span class="sig-name descname"><span class="pre">ConvBnAct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">out_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></em>, <em class="sig-param"><span class="pre">conv:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.blocks.Conv2dPad'&gt;</span></em>, <em class="sig-param"><span class="pre">normalization:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.batchnorm.BatchNorm2d'&gt;</span></em>, <em class="sig-param"><span class="pre">bias:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#ConvBnAct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.ConvBnAct" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
 <p>Utility module that stacks one convolution layer, a normalization layer and an activation function.</p>
 <p class="rubric">Example</p>
@@ -464,15 +472,15 @@ registered hooks while the latter silently ignores them.</p>
 :type activation: nn.Module, optional</p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.ConvBnAct.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.ConvBnAct.training" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.ConvBnAct.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.ConvBnAct.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="glasses.nn.blocks.ConvBnDropAct">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.</span></code><code class="sig-name descname"><span class="pre">ConvBnDropAct</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">out_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></em>, <em class="sig-param"><span class="pre">conv:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.blocks.Conv2dPad'&gt;</span></em>, <em class="sig-param"><span class="pre">normalization:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.batchnorm.BatchNorm2d'&gt;</span></em>, <em class="sig-param"><span class="pre">regularization:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.regularization.DropBlock'&gt;</span></em>, <em class="sig-param"><span class="pre">p:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.2</span></em>, <em class="sig-param"><span class="pre">bias:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#ConvBnDropAct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.ConvBnDropAct" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.ConvBnDropAct">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.</span></span><span class="sig-name descname"><span class="pre">ConvBnDropAct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">in_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">out_features:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">activation:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.activation.ReLU'&gt;</span></em>, <em class="sig-param"><span class="pre">conv:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.blocks.Conv2dPad'&gt;</span></em>, <em class="sig-param"><span class="pre">normalization:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'torch.nn.modules.batchnorm.BatchNorm2d'&gt;</span></em>, <em class="sig-param"><span class="pre">regularization:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.nn.regularization.DropBlock'&gt;</span></em>, <em class="sig-param"><span class="pre">p:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.2</span></em>, <em class="sig-param"><span class="pre">bias:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#ConvBnDropAct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.ConvBnDropAct" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.container.Sequential</span></code></p>
 <p>Utility module that stacks one convolution layer, a normalization layer, a regularization layer and an activation function.</p>
 <p class="rubric">Example</p>
@@ -487,15 +495,15 @@ registered hooks while the latter silently ignores them.</p>
 </div>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.ConvBnDropAct.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.ConvBnDropAct.training" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.ConvBnDropAct.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.ConvBnDropAct.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="glasses.nn.blocks.Lambda">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.</span></code><code class="sig-name descname"><span class="pre">Lambda</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lambd</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#Lambda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.Lambda" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Lambda">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.nn.blocks.</span></span><span class="sig-name descname"><span class="pre">Lambda</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lambd</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#Lambda"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.Lambda" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
 <p>An utility Module, it allows custom function to be passed</p>
 <dl class="field-list simple">
@@ -509,8 +517,8 @@ registered hooks while the latter silently ignores them.</p>
 </pre></div>
 </div>
 <dl class="py method">
-<dt id="glasses.nn.blocks.Lambda.forward">
-<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.Tensor</span><a class="reference internal" href="_modules/glasses/nn/blocks.html#Lambda.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.Lambda.forward" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Lambda.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="reference internal" href="_modules/glasses/nn/blocks.html#Lambda.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.nn.blocks.Lambda.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -523,8 +531,8 @@ registered hooks while the latter silently ignores them.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.nn.blocks.Lambda.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.Lambda.training" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.nn.blocks.Lambda.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.nn.blocks.Lambda.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

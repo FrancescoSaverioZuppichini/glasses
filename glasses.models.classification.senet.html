@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -84,14 +87,14 @@
               
             
             
-              <p class="caption"><span class="caption-text">Notes</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Notes</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Interpretability.html">Interpretability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Segmentation.html">Segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/installation.html">Installation</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Package Reference</span></p>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="modules.html">glasses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a></li>
@@ -196,8 +199,8 @@
 <div class="section" id="module-glasses.models.classification.senet">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.models.classification.senet" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="glasses.models.classification.senet.SEResNet">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.senet.</span></code><code class="sig-name descname"><span class="pre">SEResNet</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">encoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetEncoder'&gt;</span></em>, <em class="sig-param"><span class="pre">head:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetHead'&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.senet.SEResNet">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.models.classification.senet.</span></span><span class="sig-name descname"><span class="pre">SEResNet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">encoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetEncoder'&gt;</span></em>, <em class="sig-param"><span class="pre">head:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetHead'&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNet" title="glasses.models.classification.resnet.ResNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNet</span></code></a></p>
 <p>Implementation of Squeeze and Excitation ResNet using booth the original spatial se
 and the channel se proposed in
@@ -205,8 +208,8 @@ and the channel se proposed in
 The models with the channel se are labelab with prefix <cite>c</cite></p>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
-<dt id="glasses.models.classification.senet.SEResNet.cse_resnet101">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">cse_resnet101</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.cse_resnet101"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.cse_resnet101" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.senet.SEResNet.cse_resnet101">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">cse_resnet101</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a></span></span><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.cse_resnet101"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.cse_resnet101" title="Permalink to this definition">¶</a></dt>
 <dd><p>SE resnet101 with Channel Squeeze and Excitation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -219,8 +222,8 @@ The models with the channel se are labelab with prefix <cite>c</cite></p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="glasses.models.classification.senet.SEResNet.cse_resnet152">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">cse_resnet152</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.cse_resnet152"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.cse_resnet152" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.senet.SEResNet.cse_resnet152">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">cse_resnet152</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a></span></span><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.cse_resnet152"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.cse_resnet152" title="Permalink to this definition">¶</a></dt>
 <dd><p>SE resnet152 with Channel Squeeze and Excitation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -233,8 +236,8 @@ The models with the channel se are labelab with prefix <cite>c</cite></p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="glasses.models.classification.senet.SEResNet.cse_resnet18">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">cse_resnet18</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.cse_resnet18"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.cse_resnet18" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.senet.SEResNet.cse_resnet18">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">cse_resnet18</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a></span></span><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.cse_resnet18"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.cse_resnet18" title="Permalink to this definition">¶</a></dt>
 <dd><p>SE resnet18 with Channel Squeeze and Excitation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -247,8 +250,8 @@ The models with the channel se are labelab with prefix <cite>c</cite></p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="glasses.models.classification.senet.SEResNet.cse_resnet34">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">cse_resnet34</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.cse_resnet34"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.cse_resnet34" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.senet.SEResNet.cse_resnet34">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">cse_resnet34</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a></span></span><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.cse_resnet34"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.cse_resnet34" title="Permalink to this definition">¶</a></dt>
 <dd><p>SE resnet34 with Channel Squeeze and Excitation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -261,8 +264,8 @@ The models with the channel se are labelab with prefix <cite>c</cite></p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="glasses.models.classification.senet.SEResNet.cse_resnet50">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">cse_resnet50</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.cse_resnet50"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.cse_resnet50" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.senet.SEResNet.cse_resnet50">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">cse_resnet50</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a></span></span><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.cse_resnet50"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.cse_resnet50" title="Permalink to this definition">¶</a></dt>
 <dd><p>SE resnet50 with Channel Squeeze and Excitation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -275,8 +278,8 @@ The models with the channel se are labelab with prefix <cite>c</cite></p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="glasses.models.classification.senet.SEResNet.se_resnet101">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">se_resnet101</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.se_resnet101"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.se_resnet101" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.senet.SEResNet.se_resnet101">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">se_resnet101</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a></span></span><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.se_resnet101"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.se_resnet101" title="Permalink to this definition">¶</a></dt>
 <dd><p>Original SE resnet101 with Spatial Squeeze and Excitation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -289,8 +292,8 @@ The models with the channel se are labelab with prefix <cite>c</cite></p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="glasses.models.classification.senet.SEResNet.se_resnet152">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">se_resnet152</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.se_resnet152"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.se_resnet152" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.senet.SEResNet.se_resnet152">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">se_resnet152</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a></span></span><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.se_resnet152"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.se_resnet152" title="Permalink to this definition">¶</a></dt>
 <dd><p>Original SE resnet152 with Spatial Squeeze and Excitation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -303,8 +306,8 @@ The models with the channel se are labelab with prefix <cite>c</cite></p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="glasses.models.classification.senet.SEResNet.se_resnet18">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">se_resnet18</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.se_resnet18"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.se_resnet18" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.senet.SEResNet.se_resnet18">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">se_resnet18</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a></span></span><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.se_resnet18"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.se_resnet18" title="Permalink to this definition">¶</a></dt>
 <dd><p>Original SE resnet18 with Spatial Squeeze and Excitation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -317,8 +320,8 @@ The models with the channel se are labelab with prefix <cite>c</cite></p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="glasses.models.classification.senet.SEResNet.se_resnet34">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">se_resnet34</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.se_resnet34"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.se_resnet34" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.senet.SEResNet.se_resnet34">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">se_resnet34</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a></span></span><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.se_resnet34"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.se_resnet34" title="Permalink to this definition">¶</a></dt>
 <dd><p>Original SE resnet34 with Spatial Squeeze and Excitation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -331,8 +334,8 @@ The models with the channel se are labelab with prefix <cite>c</cite></p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="glasses.models.classification.senet.SEResNet.se_resnet50">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">se_resnet50</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.se_resnet50"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.se_resnet50" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.senet.SEResNet.se_resnet50">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">se_resnet50</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#glasses.models.classification.senet.SEResNet" title="glasses.models.classification.senet.SEResNet"><span class="pre">glasses.models.classification.senet.SEResNet</span></a></span></span><a class="reference internal" href="_modules/glasses/models/classification/senet.html#SEResNet.se_resnet50"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.se_resnet50" title="Permalink to this definition">¶</a></dt>
 <dd><p>Original SE resnet50 with Spatial Squeeze and Excitation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -345,8 +348,8 @@ The models with the channel se are labelab with prefix <cite>c</cite></p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.models.classification.senet.SEResNet.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.training" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.senet.SEResNet.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.senet.SEResNet.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

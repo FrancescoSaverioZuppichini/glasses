@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -84,14 +87,14 @@
               
             
             
-              <p class="caption"><span class="caption-text">Notes</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Notes</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Interpretability.html">Interpretability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Segmentation.html">Segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/installation.html">Installation</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Package Reference</span></p>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="modules.html">glasses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a></li>
@@ -196,8 +199,8 @@
 <div class="section" id="module-glasses.models.classification.resnetxt">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.models.classification.resnetxt" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="glasses.models.classification.resnetxt.ResNetXt">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.resnetxt.</span></code><code class="sig-name descname"><span class="pre">ResNetXt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">encoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetEncoder'&gt;</span></em>, <em class="sig-param"><span class="pre">head:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetHead'&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.resnetxt.ResNetXt">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.models.classification.resnetxt.</span></span><span class="sig-name descname"><span class="pre">ResNetXt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">encoder:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetEncoder'&gt;</span></em>, <em class="sig-param"><span class="pre">head:</span> <span class="pre">torch.nn.modules.module.Module</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'glasses.models.classification.resnet.ResNetHead'&gt;</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNet" title="glasses.models.classification.resnet.ResNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNet</span></code></a></p>
 <p>Implementation of ResNetXt proposed in <a class="reference external" href="https://arxiv.org/pdf/1611.05431.pdf">“Aggregated Residual Transformation for Deep Neural Networks”</a></p>
 <p>Create a default model</p>
@@ -239,8 +242,8 @@
 </dl>
 <p>Initializes internal Module state, shared by both nn.Module and ScriptModule.</p>
 <dl class="py method">
-<dt id="glasses.models.classification.resnetxt.ResNetXt.resnext101_32x16d">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnext101_32x16d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnetxt.ResNetXt" title="glasses.models.classification.resnetxt.ResNetXt"><span class="pre">glasses.models.classification.resnetxt.ResNetXt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt.resnext101_32x16d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.resnext101_32x16d" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.resnetxt.ResNetXt.resnext101_32x16d">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">resnext101_32x16d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#glasses.models.classification.resnetxt.ResNetXt" title="glasses.models.classification.resnetxt.ResNetXt"><span class="pre">glasses.models.classification.resnetxt.ResNetXt</span></a></span></span><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt.resnext101_32x16d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.resnext101_32x16d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a resnext101_32x16d model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -253,8 +256,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="glasses.models.classification.resnetxt.ResNetXt.resnext101_32x32d">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnext101_32x32d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnetxt.ResNetXt" title="glasses.models.classification.resnetxt.ResNetXt"><span class="pre">glasses.models.classification.resnetxt.ResNetXt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt.resnext101_32x32d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.resnext101_32x32d" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.resnetxt.ResNetXt.resnext101_32x32d">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">resnext101_32x32d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#glasses.models.classification.resnetxt.ResNetXt" title="glasses.models.classification.resnetxt.ResNetXt"><span class="pre">glasses.models.classification.resnetxt.ResNetXt</span></a></span></span><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt.resnext101_32x32d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.resnext101_32x32d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a resnext101_32x32d model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -267,8 +270,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="glasses.models.classification.resnetxt.ResNetXt.resnext101_32x48d">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnext101_32x48d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnetxt.ResNetXt" title="glasses.models.classification.resnetxt.ResNetXt"><span class="pre">glasses.models.classification.resnetxt.ResNetXt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt.resnext101_32x48d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.resnext101_32x48d" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.resnetxt.ResNetXt.resnext101_32x48d">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">resnext101_32x48d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#glasses.models.classification.resnetxt.ResNetXt" title="glasses.models.classification.resnetxt.ResNetXt"><span class="pre">glasses.models.classification.resnetxt.ResNetXt</span></a></span></span><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt.resnext101_32x48d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.resnext101_32x48d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a resnext101_32x48d model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -281,8 +284,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="glasses.models.classification.resnetxt.ResNetXt.resnext101_32x8d">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnext101_32x8d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnetxt.ResNetXt" title="glasses.models.classification.resnetxt.ResNetXt"><span class="pre">glasses.models.classification.resnetxt.ResNetXt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt.resnext101_32x8d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.resnext101_32x8d" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.resnetxt.ResNetXt.resnext101_32x8d">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">resnext101_32x8d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#glasses.models.classification.resnetxt.ResNetXt" title="glasses.models.classification.resnetxt.ResNetXt"><span class="pre">glasses.models.classification.resnetxt.ResNetXt</span></a></span></span><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt.resnext101_32x8d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.resnext101_32x8d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a resnext101_32x8d model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -295,8 +298,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="glasses.models.classification.resnetxt.ResNetXt.resnext50_32x4d">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">resnext50_32x4d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#glasses.models.classification.resnetxt.ResNetXt" title="glasses.models.classification.resnetxt.ResNetXt"><span class="pre">glasses.models.classification.resnetxt.ResNetXt</span></a><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt.resnext50_32x4d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.resnext50_32x4d" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.resnetxt.ResNetXt.resnext50_32x4d">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">resnext50_32x4d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#glasses.models.classification.resnetxt.ResNetXt" title="glasses.models.classification.resnetxt.ResNetXt"><span class="pre">glasses.models.classification.resnetxt.ResNetXt</span></a></span></span><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXt.resnext50_32x4d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.resnext50_32x4d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a resnext50_32x4d model</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -309,15 +312,15 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="glasses.models.classification.resnetxt.ResNetXt.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.training" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.resnetxt.ResNetXt.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXt.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.models.classification.resnetxt.</span></code><code class="sig-name descname"><span class="pre">ResNetXtBottleNeckBlock</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_width</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduction</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXtBottleNeckBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.models.classification.resnetxt.</span></span><span class="sig-name descname"><span class="pre">ResNetXtBottleNeckBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_features</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_width</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduction</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/models/classification/resnetxt.html#ResNetXtBottleNeckBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="glasses.models.classification.resnet.html#glasses.models.classification.resnet.ResNetBottleneckBlock" title="glasses.models.classification.resnet.ResNetBottleneckBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.models.classification.resnet.ResNetBottleneckBlock</span></code></a></p>
 <p>Basic ResNetXt block build on top of ResNetBottleneckBlock.
 It uses <cite>base_width</cite> to compute the inner features of the 3x3 conv.</p>
@@ -332,8 +335,8 @@ It uses <cite>base_width</cite> to compute the inner features of the 3x3 conv.</
 </dd>
 </dl>
 <dl class="py attribute">
-<dt id="glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock.training">
-<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock.training" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock.training">
+<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#glasses.models.classification.resnetxt.ResNetXtBottleNeckBlock.training" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

@@ -1,0 +1,429 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>glasses.utils.weights.storage.hubs.HFModelHub &mdash; Glasses  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../../" src="../../../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../../_static/jquery.js"></script>
+        <script src="../../../../../../_static/underscore.js"></script>
+        <script src="../../../../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../../index.html" class="icon icon-home"> Glasses
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Notes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../Notes/tutorials/Interpretability.html">Interpretability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../Notes/tutorials/Segmentation.html">Segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../Notes/tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../Notes/tutorials/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../modules.html">glasses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../glasses.nn.html">glasses.nn package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../glasses.models.html">glasses.models package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../glasses.utils.html">glasses.utils package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../glasses.data.html">glasses.data package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../glasses.interpretability.html">glasses.interpretability package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../index.html">Glasses</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>glasses.utils.weights.storage.hubs.HFModelHub</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for glasses.utils.weights.storage.hubs.HFModelHub</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">huggingface_hub.constants</span> <span class="kn">import</span> <span class="n">CONFIG_NAME</span><span class="p">,</span> <span class="n">PYTORCH_WEIGHTS_NAME</span>
+<span class="kn">from</span> <span class="nn">huggingface_hub.file_download</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">cached_download</span><span class="p">,</span>
+    <span class="n">hf_hub_url</span><span class="p">,</span>
+    <span class="n">is_torch_available</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">huggingface_hub.hf_api</span> <span class="kn">import</span> <span class="n">HfApi</span><span class="p">,</span> <span class="n">HfFolder</span>
+<span class="kn">from</span> <span class="nn">huggingface_hub.repository</span> <span class="kn">import</span> <span class="n">Repository</span>
+
+<span class="n">StateDict</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="HFModelHub"><a class="viewcode-back" href="../../../../../../glasses.utils.weights.storage.hubs.html#glasses.utils.weights.storage.hubs.HFModelHub.HFModelHub">[docs]</a><span class="k">class</span> <span class="nc">HFModelHub</span><span class="p">:</span>
+<div class="viewcode-block" id="HFModelHub.save_pretrained"><a class="viewcode-back" href="../../../../../../glasses.utils.weights.storage.hubs.html#glasses.utils.weights.storage.hubs.HFModelHub.HFModelHub.save_pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">save_pretrained</span><span class="p">(</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+        <span class="n">save_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">push_to_hub</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saving weights in local directory.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            save_directory (:obj:`str`):</span>
+<span class="sd">                Specify directory in which you want to save weights.</span>
+<span class="sd">            config (:obj:`dict`, `optional`):</span>
+<span class="sd">                specify config (must be dict) incase you want to save it.</span>
+<span class="sd">            push_to_hub (:obj:`bool`, `optional`, defaults to :obj:`False`):</span>
+<span class="sd">                Set it to `True` in case you want to push your weights to huggingface_hub</span>
+<span class="sd">            model_id (:obj:`str`, `optional`, defaults to :obj:`save_directory`):</span>
+<span class="sd">                Repo name in huggingface_hub. If not specified, repo name will be same as `save_directory`</span>
+<span class="sd">            kwargs (:obj:`Dict`, `optional`):</span>
+<span class="sd">                kwargs will be passed to `push_to_hub`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">save_directory</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># saving config</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_directory</span><span class="p">,</span> <span class="n">CONFIG_NAME</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># saving model weights</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_directory</span><span class="p">,</span> <span class="n">PYTORCH_WEIGHTS_NAME</span><span class="p">)</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="n">path</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">push_to_hub</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">HFModelHub</span><span class="o">.</span><span class="n">push_to_hub</span><span class="p">(</span><span class="n">save_directory</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HFModelHub.from_pretrained"><a class="viewcode-back" href="../../../../../../glasses.utils.weights.storage.hubs.html#glasses.utils.weights.storage.hubs.HFModelHub.HFModelHub.from_pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_pretrained</span><span class="p">(</span>
+        <span class="n">pretrained_model_name_or_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">map_location</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cpu&quot;</span><span class="p">,</span>
+        <span class="n">force_download</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">resume_download</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">proxies</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">use_auth_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cache_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">local_files_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateDict</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Instantiate a pretrained pytorch model from a pre-trained model configuration from huggingface-hub.</span>
+<span class="sd">        The model is set in evaluation mode by default using ``model.eval()`` (Dropout modules are deactivated). To</span>
+<span class="sd">        train the model, you should first set it back in training mode with ``model.train()``.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            pretrained_model_name_or_path (:obj:`str` or :obj:`os.PathLike`, `optional`):</span>
+<span class="sd">                Can be either:</span>
+<span class="sd">                    - A string, the `model id` of a pretrained model hosted inside a model repo on huggingface.co.</span>
+<span class="sd">                      Valid model ids can be located at the root-level, like ``bert-base-uncased``, or namespaced under</span>
+<span class="sd">                      a user or organization name, like ``dbmdz/bert-base-german-cased``.</span>
+<span class="sd">                    - You can add `revision` by appending `@` at the end of model_id simply like this: ``dbmdz/bert-base-german-cased@main``</span>
+<span class="sd">                      Revision is the specific model version to use. It can be a branch name, a tag name, or a commit id,</span>
+<span class="sd">                      since we use a git-based system for storing models and other artifacts on huggingface.co, so ``revision`` can be any identifier allowed by git.</span>
+<span class="sd">                    - A path to a `directory` containing model weights saved using</span>
+<span class="sd">                      :func:`~transformers.PreTrainedModel.save_pretrained`, e.g., ``./my_model_directory/``.</span>
+<span class="sd">                    - :obj:`None` if you are both providing the configuration and state dictionary (resp. with keyword</span>
+<span class="sd">                      arguments ``config`` and ``state_dict``).</span>
+<span class="sd">            cache_dir (:obj:`Union[str, os.PathLike]`, `optional`):</span>
+<span class="sd">                Path to a directory in which a downloaded pretrained model configuration should be cached if the</span>
+<span class="sd">                standard cache should not be used.</span>
+<span class="sd">            force_download (:obj:`bool`, `optional`, defaults to :obj:`False`):</span>
+<span class="sd">                Whether or not to force the (re-)download of the model weights and configuration files, overriding the</span>
+<span class="sd">                cached versions if they exist.</span>
+<span class="sd">            resume_download (:obj:`bool`, `optional`, defaults to :obj:`False`):</span>
+<span class="sd">                Whether or not to delete incompletely received files. Will attempt to resume the download if such a</span>
+<span class="sd">                file exists.</span>
+<span class="sd">            proxies (:obj:`Dict[str, str], `optional`):</span>
+<span class="sd">                A dictionary of proxy servers to use by protocol or endpoint, e.g., :obj:`{&#39;http&#39;: &#39;foo.bar:3128&#39;,</span>
+<span class="sd">                &#39;http://hostname&#39;: &#39;foo.bar:4012&#39;}`. The proxies are used on each request.</span>
+<span class="sd">            local_files_only(:obj:`bool`, `optional`, defaults to :obj:`False`):</span>
+<span class="sd">                Whether or not to only look at local files (i.e., do not try to download the model).</span>
+<span class="sd">            use_auth_token (:obj:`str` or `bool`, `optional`):</span>
+<span class="sd">                The token to use as HTTP bearer authorization for remote files. If :obj:`True`, will use the token</span>
+<span class="sd">                generated when running :obj:`transformers-cli login` (stored in :obj:`~/.huggingface`).</span>
+<span class="sd">            model_kwargs (:obj:`Dict`, `optional`)::</span>
+<span class="sd">                model_kwargs will be passed to the model during initialization</span>
+<span class="sd">        .. note::</span>
+<span class="sd">            Passing :obj:`use_auth_token=True` is required when you want to use a private model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">model_id</span> <span class="o">=</span> <span class="n">pretrained_model_name_or_path</span>
+        <span class="n">map_location</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="n">map_location</span><span class="p">)</span>
+
+        <span class="n">revision</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">model_id</span><span class="p">,</span> <span class="n">revision</span> <span class="o">=</span> <span class="n">model_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">model_id</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">()</span> <span class="ow">and</span> <span class="n">CONFIG_NAME</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">model_id</span><span class="p">):</span>
+            <span class="n">config_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">CONFIG_NAME</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">config_url</span> <span class="o">=</span> <span class="n">hf_hub_url</span><span class="p">(</span>
+                    <span class="n">model_id</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">CONFIG_NAME</span><span class="p">,</span> <span class="n">revision</span><span class="o">=</span><span class="n">revision</span>
+                <span class="p">)</span>
+                <span class="n">config_file</span> <span class="o">=</span> <span class="n">cached_download</span><span class="p">(</span>
+                    <span class="n">config_url</span><span class="p">,</span>
+                    <span class="n">cache_dir</span><span class="o">=</span><span class="n">cache_dir</span><span class="p">,</span>
+                    <span class="n">force_download</span><span class="o">=</span><span class="n">force_download</span><span class="p">,</span>
+                    <span class="n">proxies</span><span class="o">=</span><span class="n">proxies</span><span class="p">,</span>
+                    <span class="n">resume_download</span><span class="o">=</span><span class="n">resume_download</span><span class="p">,</span>
+                    <span class="n">local_files_only</span><span class="o">=</span><span class="n">local_files_only</span><span class="p">,</span>
+                    <span class="n">use_auth_token</span><span class="o">=</span><span class="n">use_auth_token</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;config.json NOT FOUND in HuggingFace Hub&quot;</span><span class="p">)</span>
+                <span class="n">config_file</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">model_id</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LOADING weights from local directory&quot;</span><span class="p">)</span>
+            <span class="n">model_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">PYTORCH_WEIGHTS_NAME</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">model_url</span> <span class="o">=</span> <span class="n">hf_hub_url</span><span class="p">(</span>
+                <span class="n">model_id</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">PYTORCH_WEIGHTS_NAME</span><span class="p">,</span> <span class="n">revision</span><span class="o">=</span><span class="n">revision</span>
+            <span class="p">)</span>
+            <span class="n">model_file</span> <span class="o">=</span> <span class="n">cached_download</span><span class="p">(</span>
+                <span class="n">model_url</span><span class="p">,</span>
+                <span class="n">cache_dir</span><span class="o">=</span><span class="n">cache_dir</span><span class="p">,</span>
+                <span class="n">force_download</span><span class="o">=</span><span class="n">force_download</span><span class="p">,</span>
+                <span class="n">proxies</span><span class="o">=</span><span class="n">proxies</span><span class="p">,</span>
+                <span class="n">resume_download</span><span class="o">=</span><span class="n">resume_download</span><span class="p">,</span>
+                <span class="n">local_files_only</span><span class="o">=</span><span class="n">local_files_only</span><span class="p">,</span>
+                <span class="n">use_auth_token</span><span class="o">=</span><span class="n">use_auth_token</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">model_file</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">config_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">config</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                <span class="c1"># we are not using config</span>
+
+        <span class="n">state_dict</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_file</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="n">map_location</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">state_dict</span></div>
+
+<div class="viewcode-block" id="HFModelHub.push_to_hub"><a class="viewcode-back" href="../../../../../../glasses.utils.weights.storage.hubs.html#glasses.utils.weights.storage.hubs.HFModelHub.HFModelHub.push_to_hub">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">push_to_hub</span><span class="p">(</span>
+        <span class="n">save_directory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">model_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">repo_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">commit_message</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;add model&quot;</span><span class="p">,</span>
+        <span class="n">organization</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">private</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters:</span>
+<span class="sd">            save_directory (:obj:`Union[str, os.PathLike]`):</span>
+<span class="sd">                Directory having model weights &amp; config.</span>
+<span class="sd">            model_id (:obj:`str`, `optional`, defaults to :obj:`save_directory`):</span>
+<span class="sd">                Repo name in huggingface_hub. If not specified, repo name will be same as `save_directory`</span>
+<span class="sd">            repo_url (:obj:`str`, `optional`):</span>
+<span class="sd">                Specify this in case you want to push to existing repo in hub.</span>
+<span class="sd">            organization (:obj:`str`, `optional`):</span>
+<span class="sd">                Organization in which you want to push your model.</span>
+<span class="sd">            private (:obj:`bool`, `optional`):</span>
+<span class="sd">                private: Whether the model repo should be private (requires a paid huggingface.co account)</span>
+<span class="sd">            commit_message (:obj:`str`, `optional`, defaults to :obj:`add model`):</span>
+<span class="sd">                Message to commit while pushing</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            url to commit on remote repo.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">model_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">model_id</span> <span class="o">=</span> <span class="n">save_directory</span>
+
+        <span class="n">token</span> <span class="o">=</span> <span class="n">HfFolder</span><span class="o">.</span><span class="n">get_token</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">repo_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">repo_url</span> <span class="o">=</span> <span class="n">HfApi</span><span class="p">()</span><span class="o">.</span><span class="n">create_repo</span><span class="p">(</span>
+                <span class="n">token</span><span class="p">,</span>
+                <span class="n">model_id</span><span class="p">,</span>
+                <span class="n">organization</span><span class="o">=</span><span class="n">organization</span><span class="p">,</span>
+                <span class="n">private</span><span class="o">=</span><span class="n">private</span><span class="p">,</span>
+                <span class="n">repo_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">repo</span> <span class="o">=</span> <span class="n">Repository</span><span class="p">(</span><span class="n">save_directory</span><span class="p">,</span> <span class="n">clone_from</span><span class="o">=</span><span class="n">repo_url</span><span class="p">,</span> <span class="n">use_auth_token</span><span class="o">=</span><span class="n">token</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">repo</span><span class="o">.</span><span class="n">push_to_hub</span><span class="p">(</span><span class="n">commit_message</span><span class="o">=</span><span class="n">commit_message</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

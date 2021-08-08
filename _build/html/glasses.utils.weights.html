@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -38,7 +41,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="models_table module" href="models_table.html" />
+    <link rel="next" title="glasses.utils.weights.storage package" href="glasses.utils.weights.storage.html" />
     <link rel="prev" title="glasses.utils package" href="glasses.utils.html" /> 
 </head>
 
@@ -84,14 +87,14 @@
               
             
             
-              <p class="caption"><span class="caption-text">Notes</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Notes</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Interpretability.html">Interpretability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Segmentation.html">Segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/installation.html">Installation</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Package Reference</span></p>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="modules.html">glasses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a></li>
@@ -99,8 +102,8 @@
 <li class="toctree-l1 current"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="glasses.utils.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">glasses.utils.weights package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-glasses.utils.weights.HFModelHub">glasses.utils.weights.HFModelHub module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-glasses.utils.weights.PretrainedWeightsProvider">glasses.utils.weights.PretrainedWeightsProvider module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-glasses.utils.weights">Module contents</a></li>
 </ul>
@@ -191,106 +194,22 @@
             
   <div class="section" id="glasses-utils-weights-package">
 <h1>glasses.utils.weights package<a class="headerlink" href="#glasses-utils-weights-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="glasses.utils.weights.storage.html">glasses.utils.weights.storage package</a></li>
+</ul>
+</div>
+</div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-glasses.utils.weights.HFModelHub">
-<span id="glasses-utils-weights-hfmodelhub-module"></span><h2>glasses.utils.weights.HFModelHub module<a class="headerlink" href="#module-glasses.utils.weights.HFModelHub" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="glasses.utils.weights.HFModelHub.HFModelHub">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.utils.weights.HFModelHub.</span></code><code class="sig-name descname"><span class="pre">HFModelHub</span></code><a class="reference internal" href="_modules/glasses/utils/weights/HFModelHub.html#HFModelHub"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.weights.HFModelHub.HFModelHub" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt id="glasses.utils.weights.HFModelHub.HFModelHub.from_pretrained">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">from_pretrained</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pretrained_model_name_or_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">map_location</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'cpu'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_download</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resume_download</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxies</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_auth_token</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_files_only</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="_modules/glasses/utils/weights/HFModelHub.html#HFModelHub.from_pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.weights.HFModelHub.HFModelHub.from_pretrained" title="Permalink to this definition">¶</a></dt>
-<dd><p>Instantiate a pretrained pytorch model from a pre-trained model configuration from huggingface-hub.
-The model is set in evaluation mode by default using <code class="docutils literal notranslate"><span class="pre">model.eval()</span></code> (Dropout modules are deactivated). To
-train the model, you should first set it back in training mode with <code class="docutils literal notranslate"><span class="pre">model.train()</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>pretrained_model_name_or_path</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">os.PathLike</span></code>, <cite>optional</cite>) – <dl class="simple">
-<dt>Can be either:</dt><dd><ul>
-<li><p>A string, the <cite>model id</cite> of a pretrained model hosted inside a model repo on huggingface.co.
-Valid model ids can be located at the root-level, like <code class="docutils literal notranslate"><span class="pre">bert-base-uncased</span></code>, or namespaced under
-a user or organization name, like <code class="docutils literal notranslate"><span class="pre">dbmdz/bert-base-german-cased</span></code>.</p></li>
-<li><p>You can add <cite>revision</cite> by appending <cite>&#64;</cite> at the end of model_id simply like this: <code class="docutils literal notranslate"><span class="pre">dbmdz/bert-base-german-cased&#64;main</span></code>
-Revision is the specific model version to use. It can be a branch name, a tag name, or a commit id,
-since we use a git-based system for storing models and other artifacts on huggingface.co, so <code class="docutils literal notranslate"><span class="pre">revision</span></code> can be any identifier allowed by git.</p></li>
-<li><p>A path to a <cite>directory</cite> containing model weights saved using
-<code class="xref py py-func docutils literal notranslate"><span class="pre">save_pretrained()</span></code>, e.g., <code class="docutils literal notranslate"><span class="pre">./my_model_directory/</span></code>.</p></li>
-<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code> if you are both providing the configuration and state dictionary (resp. with keyword
-arguments <code class="docutils literal notranslate"><span class="pre">config</span></code> and <code class="docutils literal notranslate"><span class="pre">state_dict</span></code>).</p></li>
-</ul>
-</dd>
-</dl>
-</p></li>
-<li><p><strong>cache_dir</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Union[str,</span> <span class="pre">os.PathLike]</span></code>, <cite>optional</cite>) – Path to a directory in which a downloaded pretrained model configuration should be cached if the
-standard cache should not be used.</p></li>
-<li><p><strong>force_download</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>optional</cite>, defaults to <code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code>) – Whether or not to force the (re-)download of the model weights and configuration files, overriding the
-cached versions if they exist.</p></li>
-<li><p><strong>resume_download</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>optional</cite>, defaults to <code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code>) – Whether or not to delete incompletely received files. Will attempt to resume the download if such a
-file exists.</p></li>
-<li><p><strong>proxies</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">str],</span> <span class="pre">`optional</span></code>) – A dictionary of proxy servers to use by protocol or endpoint, e.g., <code class="xref py py-obj docutils literal notranslate"><span class="pre">{'http':</span> <span class="pre">'foo.bar:3128',</span>
-<span class="pre">'http://hostname':</span> <span class="pre">'foo.bar:4012'}</span></code>. The proxies are used on each request.</p></li>
-<li><p><strong>local_files_only</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>optional</cite>, defaults to <code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code>) – Whether or not to only look at local files (i.e., do not try to download the model).</p></li>
-<li><p><strong>use_auth_token</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code> or <cite>bool</cite>, <cite>optional</cite>) – The token to use as HTTP bearer authorization for remote files. If <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>, will use the token
-generated when running <code class="xref py py-obj docutils literal notranslate"><span class="pre">transformers-cli</span> <span class="pre">login</span></code> (stored in <code class="xref py py-obj docutils literal notranslate"><span class="pre">huggingface</span></code>).</p></li>
-<li><p><strong>model_kwargs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict</span></code>, <cite>optional</cite>) – model_kwargs will be passed to the model during initialization</p></li>
-</ul>
-</dd>
-</dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Passing <code class="xref py py-obj docutils literal notranslate"><span class="pre">use_auth_token=True</span></code> is required when you want to use a private model.</p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt id="glasses.utils.weights.HFModelHub.HFModelHub.push_to_hub">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">push_to_hub</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_directory</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo_url</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commit_message</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'add</span> <span class="pre">model'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">organization</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">private</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="reference internal" href="_modules/glasses/utils/weights/HFModelHub.html#HFModelHub.push_to_hub"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.weights.HFModelHub.HFModelHub.push_to_hub" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>save_directory</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Union[str,</span> <span class="pre">os.PathLike]</span></code>) – Directory having model weights &amp; config.</p></li>
-<li><p><strong>model_id</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, <cite>optional</cite>, defaults to <code class="xref py py-obj docutils literal notranslate"><span class="pre">save_directory</span></code>) – Repo name in huggingface_hub. If not specified, repo name will be same as <cite>save_directory</cite></p></li>
-<li><p><strong>repo_url</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, <cite>optional</cite>) – Specify this in case you want to push to existing repo in hub.</p></li>
-<li><p><strong>organization</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, <cite>optional</cite>) – Organization in which you want to push your model.</p></li>
-<li><p><strong>private</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>optional</cite>) – private: Whether the model repo should be private (requires a paid huggingface.co account)</p></li>
-<li><p><strong>commit_message</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, <cite>optional</cite>, defaults to <code class="xref py py-obj docutils literal notranslate"><span class="pre">add</span> <span class="pre">model</span></code>) – Message to commit while pushing</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>url to commit on remote repo.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="glasses.utils.weights.HFModelHub.HFModelHub.save_pretrained">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">save_pretrained</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_directory</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">push_to_hub</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/weights/HFModelHub.html#HFModelHub.save_pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.weights.HFModelHub.HFModelHub.save_pretrained" title="Permalink to this definition">¶</a></dt>
-<dd><p>Saving weights in local directory.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>save_directory</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Specify directory in which you want to save weights.</p></li>
-<li><p><strong>config</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>, <cite>optional</cite>) – specify config (must be dict) incase you want to save it.</p></li>
-<li><p><strong>push_to_hub</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>optional</cite>, defaults to <code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code>) – Set it to <cite>True</cite> in case you want to push your weights to huggingface_hub</p></li>
-<li><p><strong>model_id</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, <cite>optional</cite>, defaults to <code class="xref py py-obj docutils literal notranslate"><span class="pre">save_directory</span></code>) – Repo name in huggingface_hub. If not specified, repo name will be same as <cite>save_directory</cite></p></li>
-<li><p><strong>kwargs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict</span></code>, <cite>optional</cite>) – kwargs will be passed to <cite>push_to_hub</cite></p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="module-glasses.utils.weights.PretrainedWeightsProvider">
 <span id="glasses-utils-weights-pretrainedweightsprovider-module"></span><h2>glasses.utils.weights.PretrainedWeightsProvider module<a class="headerlink" href="#module-glasses.utils.weights.PretrainedWeightsProvider" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="glasses.utils.weights.PretrainedWeightsProvider.PretrainedWeightsProvider">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">glasses.utils.weights.PretrainedWeightsProvider.</span></code><code class="sig-name descname"><span class="pre">PretrainedWeightsProvider</span></code><a class="reference internal" href="_modules/glasses/utils/weights/PretrainedWeightsProvider.html#PretrainedWeightsProvider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.PretrainedWeightsProvider" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.utils.weights.PretrainedWeightsProvider.PretrainedWeightsProvider">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.utils.weights.PretrainedWeightsProvider.</span></span><span class="sig-name descname"><span class="pre">PretrainedWeightsProvider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">storage:</span> <span class="pre">&lt;module</span> <span class="pre">'glasses.utils.weights.storage.Storage'</span> <span class="pre">from</span> <span class="pre">'/home/runner/work/glasses/glasses/glasses/utils/weights/storage/Storage.py'&gt;</span> <span class="pre">=</span> <span class="pre">HuggingFaceStorage(root=PosixPath('/tmp'))</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/weights/PretrainedWeightsProvider.html#PretrainedWeightsProvider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.PretrainedWeightsProvider" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>This class allows to retrieve pretrained models weights (state dict).</p>
 <p class="rubric">Example</p>
@@ -305,15 +224,15 @@ generated when running <code class="xref py py-obj docutils literal notranslate"
 </pre></div>
 </div>
 <dl class="py attribute">
-<dt id="glasses.utils.weights.PretrainedWeightsProvider.PretrainedWeightsProvider.weights_zoo">
-<code class="sig-name descname"><span class="pre">weights_zoo</span></code><em class="property"> <span class="pre">=</span> <span class="pre">['resnet18',</span> <span class="pre">'resnet26',</span> <span class="pre">'resnet26d',</span> <span class="pre">'resnet34',</span> <span class="pre">'resnet34d',</span> <span class="pre">'resnet50',</span> <span class="pre">'resnet50d',</span> <span class="pre">'resnet101',</span> <span class="pre">'resnet152',</span> <span class="pre">'cse_resnet50',</span> <span class="pre">'resnext50_32x4d',</span> <span class="pre">'resnext101_32x8d',</span> <span class="pre">'wide_resnet50_2',</span> <span class="pre">'wide_resnet101_2',</span> <span class="pre">'eca_resnet26t',</span> <span class="pre">'eca_resnet50t',</span> <span class="pre">'eca_resnet50d',</span> <span class="pre">'eca_resnet101d',</span> <span class="pre">'regnetx_002',</span> <span class="pre">'regnetx_004',</span> <span class="pre">'regnetx_006',</span> <span class="pre">'regnetx_008',</span> <span class="pre">'regnetx_016',</span> <span class="pre">'regnetx_032',</span> <span class="pre">'regnetx_040',</span> <span class="pre">'regnetx_064',</span> <span class="pre">'regnety_002',</span> <span class="pre">'regnety_004',</span> <span class="pre">'regnety_006',</span> <span class="pre">'regnety_008',</span> <span class="pre">'regnety_016',</span> <span class="pre">'regnety_032',</span> <span class="pre">'regnety_040',</span> <span class="pre">'regnety_064',</span> <span class="pre">'densenet121',</span> <span class="pre">'densenet169',</span> <span class="pre">'densenet201',</span> <span class="pre">'densenet161',</span> <span class="pre">'vgg11',</span> <span class="pre">'vgg13',</span> <span class="pre">'vgg16',</span> <span class="pre">'vgg19',</span> <span class="pre">'vgg11_bn',</span> <span class="pre">'vgg13_bn',</span> <span class="pre">'vgg16_bn',</span> <span class="pre">'vgg19_bn',</span> <span class="pre">'efficientnet_b0',</span> <span class="pre">'efficientnet_b1',</span> <span class="pre">'efficientnet_b2',</span> <span class="pre">'efficientnet_b3',</span> <span class="pre">'efficientnet_lite0',</span> <span class="pre">'vit_base_patch16_224',</span> <span class="pre">'vit_base_patch16_384',</span> <span class="pre">'vit_base_patch32_384',</span> <span class="pre">'vit_huge_patch16_224',</span> <span class="pre">'vit_huge_patch32_384',</span> <span class="pre">'vit_large_patch16_224',</span> <span class="pre">'vit_large_patch16_384',</span> <span class="pre">'vit_large_patch32_384',</span> <span class="pre">'deit_tiny_patch16_224',</span> <span class="pre">'deit_small_patch16_224',</span> <span class="pre">'deit_base_patch16_224',</span> <span class="pre">'deit_base_patch16_384']</span></em><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.PretrainedWeightsProvider.weights_zoo" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.utils.weights.PretrainedWeightsProvider.PretrainedWeightsProvider.weights_zoo">
+<span class="sig-name descname"><span class="pre">weights_zoo</span></span><em class="property"> <span class="pre">=</span> <span class="pre">['resnet18',</span> <span class="pre">'resnet26',</span> <span class="pre">'resnet26d',</span> <span class="pre">'resnet34',</span> <span class="pre">'resnet34d',</span> <span class="pre">'resnet50',</span> <span class="pre">'resnet50d',</span> <span class="pre">'resnet101',</span> <span class="pre">'resnet152',</span> <span class="pre">'cse_resnet50',</span> <span class="pre">'resnext50_32x4d',</span> <span class="pre">'resnext101_32x8d',</span> <span class="pre">'wide_resnet50_2',</span> <span class="pre">'wide_resnet101_2',</span> <span class="pre">'eca_resnet26t',</span> <span class="pre">'eca_resnet50t',</span> <span class="pre">'eca_resnet50d',</span> <span class="pre">'eca_resnet101d',</span> <span class="pre">'regnetx_002',</span> <span class="pre">'regnetx_004',</span> <span class="pre">'regnetx_006',</span> <span class="pre">'regnetx_008',</span> <span class="pre">'regnetx_016',</span> <span class="pre">'regnetx_032',</span> <span class="pre">'regnetx_040',</span> <span class="pre">'regnetx_064',</span> <span class="pre">'regnety_002',</span> <span class="pre">'regnety_004',</span> <span class="pre">'regnety_006',</span> <span class="pre">'regnety_008',</span> <span class="pre">'regnety_016',</span> <span class="pre">'regnety_032',</span> <span class="pre">'regnety_040',</span> <span class="pre">'regnety_064',</span> <span class="pre">'densenet121',</span> <span class="pre">'densenet169',</span> <span class="pre">'densenet201',</span> <span class="pre">'densenet161',</span> <span class="pre">'vgg11',</span> <span class="pre">'vgg13',</span> <span class="pre">'vgg16',</span> <span class="pre">'vgg19',</span> <span class="pre">'vgg11_bn',</span> <span class="pre">'vgg13_bn',</span> <span class="pre">'vgg16_bn',</span> <span class="pre">'vgg19_bn',</span> <span class="pre">'efficientnet_b0',</span> <span class="pre">'efficientnet_b1',</span> <span class="pre">'efficientnet_b2',</span> <span class="pre">'efficientnet_b3',</span> <span class="pre">'efficientnet_lite0',</span> <span class="pre">'vit_base_patch16_224',</span> <span class="pre">'vit_base_patch16_384',</span> <span class="pre">'vit_base_patch32_384',</span> <span class="pre">'vit_huge_patch16_224',</span> <span class="pre">'vit_huge_patch32_384',</span> <span class="pre">'vit_large_patch16_224',</span> <span class="pre">'vit_large_patch16_384',</span> <span class="pre">'vit_large_patch32_384',</span> <span class="pre">'deit_tiny_patch16_224',</span> <span class="pre">'deit_small_patch16_224',</span> <span class="pre">'deit_base_patch16_224',</span> <span class="pre">'deit_base_patch16_384']</span></em><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.PretrainedWeightsProvider.weights_zoo" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
-<dt id="glasses.utils.weights.PretrainedWeightsProvider.load_pretrained_model">
-<code class="sig-prename descclassname"><span class="pre">glasses.utils.weights.PretrainedWeightsProvider.</span></code><code class="sig-name descname"><span class="pre">load_pretrained_model</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluding</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.nn.modules.module.Module</span><a class="reference internal" href="_modules/glasses/utils/weights/PretrainedWeightsProvider.html#load_pretrained_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.load_pretrained_model" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.utils.weights.PretrainedWeightsProvider.load_pretrained_model">
+<span class="sig-prename descclassname"><span class="pre">glasses.utils.weights.PretrainedWeightsProvider.</span></span><span class="sig-name descname"><span class="pre">load_pretrained_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluding</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.nn.modules.module.Module</span></span></span><a class="reference internal" href="_modules/glasses/utils/weights/PretrainedWeightsProvider.html#load_pretrained_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.load_pretrained_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load the pretrained weights to the model. Optionally, you can exclude some sub-module.</p>
 <dl>
 <dt>Usage:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">load_pretrained_model</span><span class="p">(</span><span class="n">your_model</span><span class="p">,</span> <span class="n">pretrained_state_dict</span><span class="p">)</span>
@@ -344,8 +263,8 @@ generated when running <code class="xref py py-obj docutils literal notranslate"
 </dd></dl>
 
 <dl class="py function">
-<dt id="glasses.utils.weights.PretrainedWeightsProvider.pretrained">
-<code class="sig-prename descclassname"><span class="pre">glasses.utils.weights.PretrainedWeightsProvider.</span></code><code class="sig-name descname"><span class="pre">pretrained</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Callable</span><a class="reference internal" href="_modules/glasses/utils/weights/PretrainedWeightsProvider.html#pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.pretrained" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="glasses.utils.weights.PretrainedWeightsProvider.pretrained">
+<span class="sig-prename descclassname"><span class="pre">glasses.utils.weights.PretrainedWeightsProvider.</span></span><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="reference internal" href="_modules/glasses/utils/weights/PretrainedWeightsProvider.html#pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.pretrained" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -360,7 +279,7 @@ generated when running <code class="xref py py-obj docutils literal notranslate"
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="models_table.html" class="btn btn-neutral float-right" title="models_table module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="glasses.utils.weights.storage.html" class="btn btn-neutral float-right" title="glasses.utils.weights.storage package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="glasses.utils.html" class="btn btn-neutral float-left" title="glasses.utils package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

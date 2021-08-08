@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -82,14 +85,14 @@
               
             
             
-              <p class="caption"><span class="caption-text">Notes</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Notes</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Interpretability.html">Interpretability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Segmentation.html">Segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/installation.html">Installation</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Package Reference</span></p>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">glasses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a></li>
@@ -241,8 +244,6 @@
       <li><a href="glasses.models.html#glasses.models.AutoModel.AutoModel">AutoModel (class in glasses.models.AutoModel)</a>
 </li>
       <li><a href="glasses.models.html#glasses.models.AutoTransform.AutoTransform">AutoTransform (class in glasses.models.AutoTransform)</a>
-</li>
-      <li><a href="transfer_weights.html#transfer_weights.AWSSTorage">AWSSTorage (class in transfer_weights)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -642,9 +643,9 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="glasses.models.base.html#glasses.models.base.Encoder.features">features() (glasses.models.base.Encoder property)</a>
+      <li><a href="glasses.models.base.html#glasses.models.base.Encoder.features">features (glasses.models.base.Encoder property)</a>
 </li>
-      <li><a href="glasses.models.base.html#glasses.models.base.Encoder.features_widths">features_widths() (glasses.models.base.Encoder property)</a>
+      <li><a href="glasses.models.base.html#glasses.models.base.Encoder.features_widths">features_widths (glasses.models.base.Encoder property)</a>
 
       <ul>
         <li><a href="glasses.models.classification.efficientnet.html#glasses.models.classification.efficientnet.EfficientNetEncoder.features_widths">(glasses.models.classification.efficientnet.EfficientNetEncoder property)</a>
@@ -855,7 +856,7 @@
       <li><a href="glasses.models.html#glasses.models.AutoModel.AutoModel.from_pretrained">from_pretrained() (glasses.models.AutoModel.AutoModel static method)</a>
 
       <ul>
-        <li><a href="glasses.utils.weights.html#glasses.utils.weights.HFModelHub.HFModelHub.from_pretrained">(glasses.utils.weights.HFModelHub.HFModelHub static method)</a>
+        <li><a href="glasses.utils.weights.storage.hubs.html#glasses.utils.weights.storage.hubs.HFModelHub.HFModelHub.from_pretrained">(glasses.utils.weights.storage.hubs.HFModelHub.HFModelHub static method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -864,6 +865,14 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glasses.utils.weights.storage.html#glasses.utils.weights.storage.HuggingFaceStorage.HuggingFaceStorage.get">get() (glasses.utils.weights.storage.HuggingFaceStorage.HuggingFaceStorage method)</a>
+
+      <ul>
+        <li><a href="glasses.utils.weights.storage.html#glasses.utils.weights.storage.LocalStorage.LocalStorage.get">(glasses.utils.weights.storage.LocalStorage.LocalStorage method)</a>
+</li>
+        <li><a href="glasses.utils.weights.storage.html#glasses.utils.weights.storage.Storage.Storage.get">(glasses.utils.weights.storage.Storage.Storage method)</a>
+</li>
+      </ul></li>
       <li>
     glasses
 
@@ -1053,8 +1062,6 @@
         <li><a href="glasses.models.classification.senet.html#module-glasses.models.classification.senet">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     glasses.models.classification.vgg
 
@@ -1076,6 +1083,8 @@
         <li><a href="glasses.models.classification.wide_resnet.html#module-glasses.models.classification.wide_resnet">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     glasses.models.segmentation
 
@@ -1175,6 +1184,13 @@
 </li>
       </ul></li>
       <li>
+    glasses.types
+
+      <ul>
+        <li><a href="glasses.html#module-glasses.types">module</a>
+</li>
+      </ul></li>
+      <li>
     glasses.utils
 
       <ul>
@@ -1210,17 +1226,52 @@
 </li>
       </ul></li>
       <li>
-    glasses.utils.weights.HFModelHub
-
-      <ul>
-        <li><a href="glasses.utils.weights.html#module-glasses.utils.weights.HFModelHub">module</a>
-</li>
-      </ul></li>
-      <li>
     glasses.utils.weights.PretrainedWeightsProvider
 
       <ul>
         <li><a href="glasses.utils.weights.html#module-glasses.utils.weights.PretrainedWeightsProvider">module</a>
+</li>
+      </ul></li>
+      <li>
+    glasses.utils.weights.storage
+
+      <ul>
+        <li><a href="glasses.utils.weights.storage.html#module-glasses.utils.weights.storage">module</a>
+</li>
+      </ul></li>
+      <li>
+    glasses.utils.weights.storage.hubs
+
+      <ul>
+        <li><a href="glasses.utils.weights.storage.hubs.html#module-glasses.utils.weights.storage.hubs">module</a>
+</li>
+      </ul></li>
+      <li>
+    glasses.utils.weights.storage.hubs.HFModelHub
+
+      <ul>
+        <li><a href="glasses.utils.weights.storage.hubs.html#module-glasses.utils.weights.storage.hubs.HFModelHub">module</a>
+</li>
+      </ul></li>
+      <li>
+    glasses.utils.weights.storage.HuggingFaceStorage
+
+      <ul>
+        <li><a href="glasses.utils.weights.storage.html#module-glasses.utils.weights.storage.HuggingFaceStorage">module</a>
+</li>
+      </ul></li>
+      <li>
+    glasses.utils.weights.storage.LocalStorage
+
+      <ul>
+        <li><a href="glasses.utils.weights.storage.html#module-glasses.utils.weights.storage.LocalStorage">module</a>
+</li>
+      </ul></li>
+      <li>
+    glasses.utils.weights.storage.Storage
+
+      <ul>
+        <li><a href="glasses.utils.weights.storage.html#module-glasses.utils.weights.storage.Storage">module</a>
 </li>
       </ul></li>
       <li><a href="glasses.interpretability.html#glasses.interpretability.GradCam">GradCam (class in glasses.interpretability)</a>
@@ -1251,13 +1302,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.utils.html#glasses.utils.Tracker.Tracker.handles">handles (glasses.utils.Tracker.Tracker attribute)</a>
 </li>
-      <li><a href="transfer_weights.html#transfer_weights.HFHubStorage">HFHubStorage (class in transfer_weights)</a>
+      <li><a href="glasses.utils.weights.storage.hubs.html#glasses.utils.weights.storage.hubs.HFModelHub.HFModelHub">HFModelHub (class in glasses.utils.weights.storage.hubs.HFModelHub)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="glasses.utils.weights.html#glasses.utils.weights.HFModelHub.HFModelHub">HFModelHub (class in glasses.utils.weights.HFModelHub)</a>
-</li>
       <li><a href="glasses.utils.html#glasses.utils.Storage.ModuleStorage.hook">hook() (glasses.utils.Storage.ModuleStorage method)</a>
+</li>
+      <li><a href="glasses.utils.weights.storage.html#glasses.utils.weights.storage.HuggingFaceStorage.HuggingFaceStorage">HuggingFaceStorage (class in glasses.utils.weights.storage.HuggingFaceStorage)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1337,13 +1388,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.nn.blocks.html#glasses.nn.blocks.Lambda">Lambda (class in glasses.nn.blocks)</a>
 </li>
-      <li><a href="glasses.utils.html#glasses.utils.Storage.ModuleStorage.layers">layers() (glasses.utils.Storage.ModuleStorage property)</a>
+      <li><a href="glasses.utils.html#glasses.utils.Storage.ModuleStorage.layers">layers (glasses.utils.Storage.ModuleStorage property)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.utils.weights.html#glasses.utils.weights.PretrainedWeightsProvider.load_pretrained_model">load_pretrained_model() (in module glasses.utils.weights.PretrainedWeightsProvider)</a>
 </li>
-      <li><a href="transfer_weights.html#transfer_weights.LocalStorage">LocalStorage (class in transfer_weights)</a>
+      <li><a href="glasses.utils.weights.storage.html#glasses.utils.weights.storage.LocalStorage.LocalStorage">LocalStorage (class in glasses.utils.weights.storage.LocalStorage)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1485,6 +1536,8 @@
 </li>
         <li><a href="glasses.nn.regularization.html#module-glasses.nn.regularization">glasses.nn.regularization</a>
 </li>
+        <li><a href="glasses.html#module-glasses.types">glasses.types</a>
+</li>
         <li><a href="glasses.utils.html#module-glasses.utils">glasses.utils</a>
 </li>
         <li><a href="glasses.utils.html#module-glasses.utils.ModuleTransfer">glasses.utils.ModuleTransfer</a>
@@ -1495,9 +1548,19 @@
 </li>
         <li><a href="glasses.utils.weights.html#module-glasses.utils.weights">glasses.utils.weights</a>
 </li>
-        <li><a href="glasses.utils.weights.html#module-glasses.utils.weights.HFModelHub">glasses.utils.weights.HFModelHub</a>
-</li>
         <li><a href="glasses.utils.weights.html#module-glasses.utils.weights.PretrainedWeightsProvider">glasses.utils.weights.PretrainedWeightsProvider</a>
+</li>
+        <li><a href="glasses.utils.weights.storage.html#module-glasses.utils.weights.storage">glasses.utils.weights.storage</a>
+</li>
+        <li><a href="glasses.utils.weights.storage.hubs.html#module-glasses.utils.weights.storage.hubs">glasses.utils.weights.storage.hubs</a>
+</li>
+        <li><a href="glasses.utils.weights.storage.hubs.html#module-glasses.utils.weights.storage.hubs.HFModelHub">glasses.utils.weights.storage.hubs.HFModelHub</a>
+</li>
+        <li><a href="glasses.utils.weights.storage.html#module-glasses.utils.weights.storage.HuggingFaceStorage">glasses.utils.weights.storage.HuggingFaceStorage</a>
+</li>
+        <li><a href="glasses.utils.weights.storage.html#module-glasses.utils.weights.storage.LocalStorage">glasses.utils.weights.storage.LocalStorage</a>
+</li>
+        <li><a href="glasses.utils.weights.storage.html#module-glasses.utils.weights.storage.Storage">glasses.utils.weights.storage.Storage</a>
 </li>
         <li><a href="transfer_weights.html#module-transfer_weights">transfer_weights</a>
 </li>
@@ -1520,18 +1583,20 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="glasses.models.html#glasses.models.AutoTransform.AutoTransform.names">names() (glasses.models.AutoTransform.AutoTransform static method)</a>
-
-      <ul>
-        <li><a href="glasses.utils.html#glasses.utils.Storage.ModuleStorage.names">(glasses.utils.Storage.ModuleStorage property)</a>
+      <li><a href="glasses.utils.html#glasses.utils.Storage.ModuleStorage.names">names (glasses.utils.Storage.ModuleStorage property)</a>
 </li>
-      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glasses.models.html#glasses.models.AutoTransform.AutoTransform.names">names() (glasses.models.AutoTransform.AutoTransform static method)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="glasses.utils.weights.storage.html#glasses.utils.weights.storage.HuggingFaceStorage.HuggingFaceStorage.ORGANIZATION">ORGANIZATION (glasses.utils.weights.storage.HuggingFaceStorage.HuggingFaceStorage attribute)</a>
+</li>
       <li><a href="glasses.nn.blocks.html#glasses.nn.blocks.Conv2dPad.out_channels">out_channels (glasses.nn.blocks.Conv2dPad attribute)</a>
 
       <ul>
@@ -1546,7 +1611,7 @@
         <li><a href="glasses.nn.html#glasses.nn.Conv2dPad.output_padding">(glasses.nn.Conv2dPad attribute)</a>
 </li>
       </ul></li>
-      <li><a href="transfer_weights.html#transfer_weights.LocalStorage.override">override (transfer_weights.LocalStorage attribute)</a>
+      <li><a href="glasses.utils.weights.storage.html#glasses.utils.weights.storage.LocalStorage.LocalStorage.override">override (glasses.utils.weights.storage.LocalStorage.LocalStorage attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1566,7 +1631,7 @@
         <li><a href="glasses.nn.html#glasses.nn.Conv2dPad.padding_mode">(glasses.nn.Conv2dPad attribute)</a>
 </li>
       </ul></li>
-      <li><a href="glasses.utils.html#glasses.utils.Tracker.Tracker.parametrized">parametrized() (glasses.utils.Tracker.Tracker property)</a>
+      <li><a href="glasses.utils.html#glasses.utils.Tracker.Tracker.parametrized">parametrized (glasses.utils.Tracker.Tracker property)</a>
 </li>
       <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.PatchEmbedding">PatchEmbedding (class in glasses.models.classification.vit)</a>
 </li>
@@ -1576,12 +1641,12 @@
         <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.PFPN">(class in glasses.models.segmentation.fpn)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.PFPNDecoder">PFPNDecoder (in module glasses.models.segmentation.fpn)</a>
 </li>
       <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.PFPNSegmentationBranch">PFPNSegmentationBranch (in module glasses.models.segmentation.fpn)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.models.segmentation.fpn.html#glasses.models.segmentation.fpn.PFPNSegmentationLayer">PFPNSegmentationLayer (class in glasses.models.segmentation.fpn)</a>
 </li>
       <li><a href="glasses.models.classification.vit.html#glasses.models.classification.vit.ViTClassificationHead.POLICIES">POLICIES (glasses.models.classification.vit.ViTClassificationHead attribute)</a>
@@ -1594,8 +1659,16 @@
 </li>
       <li><a href="glasses.models.html#glasses.models.AutoModel.AutoModel.provider">provider (glasses.models.AutoModel.AutoModel attribute)</a>
 </li>
-      <li><a href="glasses.utils.weights.html#glasses.utils.weights.HFModelHub.HFModelHub.push_to_hub">push_to_hub() (glasses.utils.weights.HFModelHub.HFModelHub static method)</a>
+      <li><a href="glasses.utils.weights.storage.hubs.html#glasses.utils.weights.storage.hubs.HFModelHub.HFModelHub.push_to_hub">push_to_hub() (glasses.utils.weights.storage.hubs.HFModelHub.HFModelHub static method)</a>
 </li>
+      <li><a href="glasses.utils.weights.storage.html#glasses.utils.weights.storage.HuggingFaceStorage.HuggingFaceStorage.put">put() (glasses.utils.weights.storage.HuggingFaceStorage.HuggingFaceStorage method)</a>
+
+      <ul>
+        <li><a href="glasses.utils.weights.storage.html#glasses.utils.weights.storage.LocalStorage.LocalStorage.put">(glasses.utils.weights.storage.LocalStorage.LocalStorage method)</a>
+</li>
+        <li><a href="glasses.utils.weights.storage.html#glasses.utils.weights.storage.Storage.Storage.put">(glasses.utils.weights.storage.Storage.Storage method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -1814,14 +1887,14 @@
         <li><a href="glasses.models.classification.resnest.html#glasses.models.classification.resnest.ResNeSt.resnest26d">(glasses.models.classification.resnest.ResNeSt class method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.models.classification.html#glasses.models.classification.ResNeSt.resnest50d">resnest50d() (glasses.models.classification.ResNeSt class method)</a>
 
       <ul>
         <li><a href="glasses.models.classification.resnest.html#glasses.models.classification.resnest.ResNeSt.resnest50d">(glasses.models.classification.resnest.ResNeSt class method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="glasses.models.classification.html#glasses.models.classification.ResNeSt.resnest50d_1s4x24d">resnest50d_1s4x24d() (glasses.models.classification.ResNeSt class method)</a>
 
       <ul>
@@ -2004,8 +2077,12 @@
         <li><a href="glasses.models.html#glasses.models.ResNetXt.resnext50_32x4d">(glasses.models.ResNetXt class method)</a>
 </li>
       </ul></li>
-      <li><a href="transfer_weights.html#transfer_weights.LocalStorage.root">root (transfer_weights.LocalStorage attribute)</a>
+      <li><a href="glasses.utils.weights.storage.html#glasses.utils.weights.storage.HuggingFaceStorage.HuggingFaceStorage.root">root (glasses.utils.weights.storage.HuggingFaceStorage.HuggingFaceStorage attribute)</a>
+
+      <ul>
+        <li><a href="glasses.utils.weights.storage.html#glasses.utils.weights.storage.LocalStorage.LocalStorage.root">(glasses.utils.weights.storage.LocalStorage.LocalStorage attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -2020,7 +2097,7 @@
       </ul></li>
       <li><a href="glasses.interpretability.html#glasses.interpretability.SaliencyMap.SaliencyMapResult">SaliencyMapResult (class in glasses.interpretability.SaliencyMap)</a>
 </li>
-      <li><a href="glasses.utils.weights.html#glasses.utils.weights.HFModelHub.HFModelHub.save_pretrained">save_pretrained() (glasses.utils.weights.HFModelHub.HFModelHub static method)</a>
+      <li><a href="glasses.utils.weights.storage.hubs.html#glasses.utils.weights.storage.hubs.HFModelHub.HFModelHub.save_pretrained">save_pretrained() (glasses.utils.weights.storage.hubs.HFModelHub.HFModelHub static method)</a>
 </li>
       <li><a href="glasses.interpretability.html#glasses.interpretability.ScoreCam">ScoreCam (class in glasses.interpretability)</a>
 
@@ -2114,7 +2191,7 @@
 </li>
       <li><a href="glasses.utils.html#glasses.utils.ModuleTransfer.ModuleTransfer.src_skip">src_skip (glasses.utils.ModuleTransfer.ModuleTransfer attribute)</a>
 </li>
-      <li><a href="glasses.models.base.html#glasses.models.base.Encoder.stages">stages() (glasses.models.base.Encoder property)</a>
+      <li><a href="glasses.models.base.html#glasses.models.base.Encoder.stages">stages (glasses.models.base.Encoder property)</a>
 
       <ul>
         <li><a href="glasses.models.classification.efficientnet.html#glasses.models.classification.efficientnet.EfficientNetEncoder.stages">(glasses.models.classification.efficientnet.EfficientNetEncoder property)</a>
@@ -2128,6 +2205,8 @@
         <li><a href="glasses.nn.regularization.html#glasses.nn.regularization.StochasticDepth">(class in glasses.nn.regularization)</a>
 </li>
       </ul></li>
+      <li><a href="glasses.utils.weights.storage.html#glasses.utils.weights.storage.Storage.Storage">Storage (class in glasses.utils.weights.storage.Storage)</a>
+</li>
       <li><a href="glasses.nn.blocks.html#glasses.nn.blocks.Conv2dPad.stride">stride (glasses.nn.blocks.Conv2dPad attribute)</a>
 
       <ul>
