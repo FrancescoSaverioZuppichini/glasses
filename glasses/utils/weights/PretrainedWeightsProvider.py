@@ -9,7 +9,7 @@ from torch import Tensor
 from pathlib import Path
 from typing import Callable
 from functools import wraps
-from .HFModelHub import HFModelHub
+from .storage import HuggingFaceStorage, Storage
 
 
 StateDict = Dict[str, Tensor]
@@ -182,7 +182,9 @@ class PretrainedWeightsProvider:
         "deit_base_patch16_384",
     ]
 
+    def __init__(self, storage: Storage = HuggingFaceStorage()):
+        self.storage = storage
+
     def __getitem__(self, key: str) -> StateDict:
-        # we fully relies on the hugging face hub now
-        weights = HFModelHub.from_pretrained(f"glasses/{key}")
+        weights = self.storage.get(key)
         return weights
