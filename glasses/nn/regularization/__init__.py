@@ -67,9 +67,11 @@ class StochasticDepth(nn.Module):
         self.p = p
 
     def forward(self, x: Tensor) -> Tensor:
-        if self.training:
+        if self.training and self.p > 0:
             probs = torch.rand(x.shape[0], 1, 1, 1, device=x.device) < self.p
-            x = torch.div(x, self.p) * probs
+            # we divide to scale the input activations
+            # https://wandb.ai/wandb_fc/pytorch-image-models/reports/Revisiting-ResNets-Improved-Training-and-Scaling-Strategies--Vmlldzo2NDE3NTM
+            x = x.div_(self.p).mul_(probs)
         return x
 
     def __repr__(self):
