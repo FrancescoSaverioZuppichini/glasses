@@ -176,10 +176,13 @@
 <div class="viewcode-block" id="SpatialPyramidPool"><a class="viewcode-back" href="../../../../glasses.nn.pool.html#glasses.nn.SpatialPyramidPool">[docs]</a><span class="k">class</span> <span class="nc">SpatialPyramidPool</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Implementation of `Spatial Pyramid Pooling in Deep Convolutional Networks  for Visual Recognition &lt;https://arxiv.org/pdf/1406.4729.pdf&gt;`_</span>
 
+
+<span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/SPP.png?raw=true</span>
+
 <span class="sd">    It generate fixed length representation regardless of image dimensions.</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; features = torch.randn((4, 256, 14, 14))</span>
+<span class="sd">        &gt;&gt;&gt; x = torch.randn((4, 256, 14, 14))</span>
 <span class="sd">        &gt;&gt;&gt; SpatialPyramidPool()(x).shape</span>
 <span class="sd">        &gt;&gt;&gt; # torch.Size([4, 256, 21])</span>
 
