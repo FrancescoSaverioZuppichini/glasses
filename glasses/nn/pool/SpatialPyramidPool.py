@@ -8,10 +8,13 @@ from math import sqrt
 class SpatialPyramidPool(nn.Module):
     """Implementation of `Spatial Pyramid Pooling in Deep Convolutional Networks  for Visual Recognition <https://arxiv.org/pdf/1406.4729.pdf>`_
 
+
+    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/SPP.png?raw=true
+
     It generate fixed length representation regardless of image dimensions.
 
     Examples:
-        >>> features = torch.randn((4, 256, 14, 14))
+        >>> x = torch.randn((4, 256, 14, 14))
         >>> SpatialPyramidPool()(x).shape
         >>> # torch.Size([4, 256, 21])
 
