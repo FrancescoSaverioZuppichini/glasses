@@ -16,6 +16,17 @@ class DropBlock(nn.Module):
 
         .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlockGrogu.png
 
+        .. note::
+
+            [From the paper] We found that DropBlock with a fixed `keep_prob` during training does not
+            work well. Applying small value of `keep_prob` hurts learning at the beginning. Instead, gradually
+            decreasing `keep_prob` over time from 1 to the target value is more robust and adds improvement for
+            the most values of `keep_prob`. In our experiments, we use a linear scheme of decreasing the value of
+            `keep_prob`, which tends to work well across many hyperparameter settings. This linear scheme is
+            similar to ScheduledDropPath.
+
+            `keep_prob` is `p` in our implementation.
+
         Args:
             block_size (int, optional): Dimension of the pixel cluster. Defaults to 7.
             p (float, optional): probability, the bigger the mode clusters. Defaults to 0.5.
@@ -49,6 +60,8 @@ class DropBlock(nn.Module):
                 stride=(1, 1),
                 padding=(self.block_size // 2, self.block_size // 2),
             )
+            # we normalize the input by dividing by the number of items  in the masks (mask_block.numel())
+            # and the numers of ones (mask_block.sum())
             x = mask_block * x * (mask_block.numel() / mask_block.sum())
         return x
 
@@ -67,9 +80,11 @@ class StochasticDepth(nn.Module):
         self.p = p
 
     def forward(self, x: Tensor) -> Tensor:
-        if self.training:
+        if self.training and self.p > 0:
             probs = torch.rand(x.shape[0], 1, 1, 1, device=x.device) < self.p
-            x = torch.div(x, self.p) * probs
+            # we divide to scale the input activations
+            # https://wandb.ai/wandb_fc/pytorch-image-models/reports/Revisiting-ResNets-Improved-Training-and-Scaling-Strategies--Vmlldzo2NDE3NTM
+            x = x.div_(self.p).mul_(probs)
         return x
 
     def __repr__(self):
