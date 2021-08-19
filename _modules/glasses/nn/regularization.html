@@ -184,6 +184,17 @@
 
 <span class="sd">        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlockGrogu.png</span>
 
+<span class="sd">        .. note::</span>
+
+<span class="sd">            [From the paper] We found that DropBlock with a fixed `keep_prob` during training does not</span>
+<span class="sd">            work well. Applying small value of `keep_prob` hurts learning at the beginning. Instead, gradually</span>
+<span class="sd">            decreasing `keep_prob` over time from 1 to the target value is more robust and adds improvement for</span>
+<span class="sd">            the most values of `keep_prob`. In our experiments, we use a linear scheme of decreasing the value of</span>
+<span class="sd">            `keep_prob`, which tends to work well across many hyperparameter settings. This linear scheme is</span>
+<span class="sd">            similar to ScheduledDropPath.</span>
+
+<span class="sd">            `keep_prob` is `p` in our implementation.</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            block_size (int, optional): Dimension of the pixel cluster. Defaults to 7.</span>
 <span class="sd">            p (float, optional): probability, the bigger the mode clusters. Defaults to 0.5.</span>
@@ -217,6 +228,8 @@
                 <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
                 <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block_size</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_size</span> <span class="o">//</span> <span class="mi">2</span><span class="p">),</span>
             <span class="p">)</span>
+            <span class="c1"># we normalize the input by dividing by the number of items  in the masks (mask_block.numel())</span>
+            <span class="c1"># and the numers of ones (mask_block.sum())</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">mask_block</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">mask_block</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">/</span> <span class="n">mask_block</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">x</span></div>
 

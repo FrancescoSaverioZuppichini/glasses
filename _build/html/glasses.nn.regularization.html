@@ -202,6 +202,16 @@
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlock.jpg?raw=true" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlock.jpg?raw=true" />
 <p>The following picture shows the effect of DropBlock on an input image</p>
 <img alt="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlockGrogu.png" src="https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlockGrogu.png" />
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>[From the paper] We found that DropBlock with a fixed <cite>keep_prob</cite> during training does not
+work well. Applying small value of <cite>keep_prob</cite> hurts learning at the beginning. Instead, gradually
+decreasing <cite>keep_prob</cite> over time from 1 to the target value is more robust and adds improvement for
+the most values of <cite>keep_prob</cite>. In our experiments, we use a linear scheme of decreasing the value of
+<cite>keep_prob</cite>, which tends to work well across many hyperparameter settings. This linear scheme is
+similar to ScheduledDropPath.</p>
+<p><cite>keep_prob</cite> is <cite>p</cite> in our implementation.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
