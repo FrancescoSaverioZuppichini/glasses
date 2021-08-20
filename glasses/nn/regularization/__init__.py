@@ -8,13 +8,13 @@ class DropBlock(nn.Module):
     def __init__(self, block_size: int = 7, p: float = 0.5):
         """Implementation of Drop Block proposed in `DropBlock: A regularization method for convolutional networks <https://arxiv.org/abs/1810.12890>`_
 
-        Similar to dropout but it maskes clusters of close pixels. The following image shows normal Dropout (b) and Drop Block (c)
+        Similar to dropout but it maskes clusters of close pixels. The following image shows the approach (from the paper)
 
-        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlock.jpg?raw=true
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlock.png?raw=true
 
         The following picture shows the effect of DropBlock on an input image
 
-        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlockGrogu.png
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlockGrogu.png?raw=true
 
         .. note::
 
