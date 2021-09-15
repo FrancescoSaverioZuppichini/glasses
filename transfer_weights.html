@@ -1,72 +1,33 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>transfer_weights module &mdash; Glasses  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="setup module" href="setup.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="index.html" class="icon icon-home"> Glasses
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -74,18 +35,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Notes</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Interpretability.html">Interpretability</a></li>
@@ -110,137 +60,78 @@
 <li class="toctree-l1"><a class="reference internal" href="glasses.interpretability.html">glasses.interpretability package</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Glasses</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="modules.html">glasses</a> &raquo;</li>
-        
       <li>transfer_weights module</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/transfer_weights.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="module-transfer_weights">
-<span id="transfer-weights-module"></span><h1>transfer_weights module<a class="headerlink" href="#module-transfer_weights" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="module-transfer_weights">
+<span id="transfer-weights-module"></span><h1>transfer_weights module<a class="headerlink" href="#module-transfer_weights" title="Permalink to this headline"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="transfer_weights.clone_model">
-<span class="sig-prename descclassname"><span class="pre">transfer_weights.</span></span><span class="sig-name descname"><span class="pre">clone_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">tensor([[[[0.5795,</span> <span class="pre">0.8629,</span> <span class="pre">0.0079,</span> <span class="pre">...,</span> <span class="pre">0.5392,</span> <span class="pre">0.8596,</span> <span class="pre">0.4864],</span> <span class="pre">[0.9112,</span> <span class="pre">0.1647,</span> <span class="pre">0.9488,</span> <span class="pre">...,</span> <span class="pre">0.2529,</span> <span class="pre">0.4029,</span> <span class="pre">0.0471],</span> <span class="pre">[0.7814,</span> <span class="pre">0.2308,</span> <span class="pre">0.9884,</span> <span class="pre">...,</span> <span class="pre">0.1058,</span> <span class="pre">0.9238,</span> <span class="pre">0.8476],</span> <span class="pre">...,</span> <span class="pre">[0.8741,</span> <span class="pre">0.4674,</span> <span class="pre">0.2292,</span> <span class="pre">...,</span> <span class="pre">0.1408,</span> <span class="pre">0.1293,</span> <span class="pre">0.6581],</span> <span class="pre">[0.7011,</span> <span class="pre">0.8838,</span> <span class="pre">0.7659,</span> <span class="pre">...,</span> <span class="pre">0.2926,</span> <span class="pre">0.2109,</span> <span class="pre">0.8192],</span> <span class="pre">[0.2760,</span> <span class="pre">0.0773,</span> <span class="pre">0.5278,</span> <span class="pre">...,</span> <span class="pre">0.9960,</span> <span class="pre">0.0989,</span> <span class="pre">0.9791]],</span> <span class="pre">[[0.8731,</span> <span class="pre">0.6651,</span> <span class="pre">0.4529,</span> <span class="pre">...,</span> <span class="pre">0.7908,</span> <span class="pre">0.4301,</span> <span class="pre">0.3487],</span> <span class="pre">[0.3515,</span> <span class="pre">0.4115,</span> <span class="pre">0.8974,</span> <span class="pre">...,</span> <span class="pre">0.7503,</span> <span class="pre">0.8519,</span> <span class="pre">0.3054],</span> <span class="pre">[0.5462,</span> <span class="pre">0.0676,</span> <span class="pre">0.3787,</span> <span class="pre">...,</span> <span class="pre">0.7564,</span> <span class="pre">0.7070,</span> <span class="pre">0.1489],</span> <span class="pre">...,</span> <span class="pre">[0.0686,</span> <span class="pre">0.1318,</span> <span class="pre">0.1981,</span> <span class="pre">...,</span> <span class="pre">0.6574,</span> <span class="pre">0.2635,</span> <span class="pre">0.5476],</span> <span class="pre">[0.2170,</span> <span class="pre">0.5110,</span> <span class="pre">0.1322,</span> <span class="pre">...,</span> <span class="pre">0.0225,</span> <span class="pre">0.9078,</span> <span class="pre">0.0886],</span> <span class="pre">[0.6942,</span> <span class="pre">0.2849,</span> <span class="pre">0.8326,</span> <span class="pre">...,</span> <span class="pre">0.0672,</span> <span class="pre">0.6937,</span> <span class="pre">0.4917]],</span> <span class="pre">[[0.8310,</span> <span class="pre">0.8072,</span> <span class="pre">0.6185,</span> <span class="pre">...,</span> <span class="pre">0.5130,</span> <span class="pre">0.1093,</span> <span class="pre">0.0152],</span> <span class="pre">[0.4428,</span> <span class="pre">0.8807,</span> <span class="pre">0.6418,</span> <span class="pre">...,</span> <span class="pre">0.4716,</span> <span class="pre">0.3296,</span> <span class="pre">0.7550],</span> <span class="pre">[0.7365,</span> <span class="pre">0.4056,</span> <span class="pre">0.8619,</span> <span class="pre">...,</span> <span class="pre">0.5143,</span> <span class="pre">0.1867,</span> <span class="pre">0.1221],</span> <span class="pre">...,</span> <span class="pre">[0.7523,</span> <span class="pre">0.7922,</span> <span class="pre">0.1876,</span> <span class="pre">...,</span> <span class="pre">0.4305,</span> <span class="pre">0.8662,</span> <span class="pre">0.7063],</span> <span class="pre">[0.0186,</span> <span class="pre">0.7837,</span> <span class="pre">0.2628,</span> <span class="pre">...,</span> <span class="pre">0.2563,</span> <span class="pre">0.9390,</span> <span class="pre">0.1222],</span> <span class="pre">[0.3133,</span> <span class="pre">0.4711,</span> <span class="pre">0.1198,</span> <span class="pre">...,</span> <span class="pre">0.4157,</span> <span class="pre">0.4539,</span> <span class="pre">0.3538]]]])</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.nn.modules.module.Module</span></span></span><a class="reference internal" href="_modules/transfer_weights.html#clone_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#transfer_weights.clone_model" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">transfer_weights.</span></span><span class="sig-name descname"><span class="pre">clone_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">tensor([[[[0.7974,</span> <span class="pre">0.3430,</span> <span class="pre">0.1989,</span> <span class="pre">...,</span> <span class="pre">0.5858,</span> <span class="pre">0.0955,</span> <span class="pre">0.0562],</span> <span class="pre">[0.7639,</span> <span class="pre">0.6231,</span> <span class="pre">0.2865,</span> <span class="pre">...,</span> <span class="pre">0.7042,</span> <span class="pre">0.7400,</span> <span class="pre">0.5733],</span> <span class="pre">[0.0303,</span> <span class="pre">0.8975,</span> <span class="pre">0.7462,</span> <span class="pre">...,</span> <span class="pre">0.0909,</span> <span class="pre">0.9510,</span> <span class="pre">0.6664],</span> <span class="pre">...,</span> <span class="pre">[0.3426,</span> <span class="pre">0.8832,</span> <span class="pre">0.4634,</span> <span class="pre">...,</span> <span class="pre">0.1257,</span> <span class="pre">0.5501,</span> <span class="pre">0.2819],</span> <span class="pre">[0.5540,</span> <span class="pre">0.6619,</span> <span class="pre">0.2258,</span> <span class="pre">...,</span> <span class="pre">0.0912,</span> <span class="pre">0.2712,</span> <span class="pre">0.3555],</span> <span class="pre">[0.2333,</span> <span class="pre">0.7126,</span> <span class="pre">0.7600,</span> <span class="pre">...,</span> <span class="pre">0.4096,</span> <span class="pre">0.8128,</span> <span class="pre">0.3916]],</span> <span class="pre">[[0.1147,</span> <span class="pre">0.6211,</span> <span class="pre">0.7106,</span> <span class="pre">...,</span> <span class="pre">0.7250,</span> <span class="pre">0.3986,</span> <span class="pre">0.8026],</span> <span class="pre">[0.8818,</span> <span class="pre">0.0350,</span> <span class="pre">0.9669,</span> <span class="pre">...,</span> <span class="pre">0.8420,</span> <span class="pre">0.3064,</span> <span class="pre">0.5296],</span> <span class="pre">[0.4374,</span> <span class="pre">0.0945,</span> <span class="pre">0.8581,</span> <span class="pre">...,</span> <span class="pre">0.7573,</span> <span class="pre">0.0776,</span> <span class="pre">0.7608],</span> <span class="pre">...,</span> <span class="pre">[0.0025,</span> <span class="pre">0.4495,</span> <span class="pre">0.3338,</span> <span class="pre">...,</span> <span class="pre">0.5706,</span> <span class="pre">0.8056,</span> <span class="pre">0.0324],</span> <span class="pre">[0.9646,</span> <span class="pre">0.3356,</span> <span class="pre">0.2508,</span> <span class="pre">...,</span> <span class="pre">0.3727,</span> <span class="pre">0.5358,</span> <span class="pre">0.8351],</span> <span class="pre">[0.4022,</span> <span class="pre">0.5063,</span> <span class="pre">0.6582,</span> <span class="pre">...,</span> <span class="pre">0.8648,</span> <span class="pre">0.1374,</span> <span class="pre">0.9032]],</span> <span class="pre">[[0.6901,</span> <span class="pre">0.2128,</span> <span class="pre">0.1363,</span> <span class="pre">...,</span> <span class="pre">0.5817,</span> <span class="pre">0.7692,</span> <span class="pre">0.4681],</span> <span class="pre">[0.3900,</span> <span class="pre">0.4537,</span> <span class="pre">0.1221,</span> <span class="pre">...,</span> <span class="pre">0.5001,</span> <span class="pre">0.8082,</span> <span class="pre">0.8631],</span> <span class="pre">[0.4051,</span> <span class="pre">0.8834,</span> <span class="pre">0.6197,</span> <span class="pre">...,</span> <span class="pre">0.5312,</span> <span class="pre">0.6802,</span> <span class="pre">0.1188],</span> <span class="pre">...,</span> <span class="pre">[0.4405,</span> <span class="pre">0.8352,</span> <span class="pre">0.5952,</span> <span class="pre">...,</span> <span class="pre">0.2928,</span> <span class="pre">0.5329,</span> <span class="pre">0.7651],</span> <span class="pre">[0.7605,</span> <span class="pre">0.8496,</span> <span class="pre">0.5389,</span> <span class="pre">...,</span> <span class="pre">0.9588,</span> <span class="pre">0.8349,</span> <span class="pre">0.9163],</span> <span class="pre">[0.5290,</span> <span class="pre">0.7700,</span> <span class="pre">0.2177,</span> <span class="pre">...,</span> <span class="pre">0.8427,</span> <span class="pre">0.9530,</span> <span class="pre">0.1664]]]])</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.nn.modules.module.Module</span></span></span><a class="reference internal" href="_modules/transfer_weights.html#clone_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#transfer_weights.clone_model" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="transfer_weights.deit_clone">
-<span class="sig-prename descclassname"><span class="pre">transfer_weights.</span></span><span class="sig-name descname"><span class="pre">deit_clone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/transfer_weights.html#deit_clone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#transfer_weights.deit_clone" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">transfer_weights.</span></span><span class="sig-name descname"><span class="pre">deit_clone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/transfer_weights.html#deit_clone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#transfer_weights.deit_clone" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="transfer_weights.vit_clone">
-<span class="sig-prename descclassname"><span class="pre">transfer_weights.</span></span><span class="sig-name descname"><span class="pre">vit_clone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/transfer_weights.html#vit_clone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#transfer_weights.vit_clone" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">transfer_weights.</span></span><span class="sig-name descname"><span class="pre">vit_clone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/transfer_weights.html#vit_clone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#transfer_weights.vit_clone" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="setup.html" class="btn btn-neutral float-left" title="setup module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala.
-
-    </p>
+    <p>&#169; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
