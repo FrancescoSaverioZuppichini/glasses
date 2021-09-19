@@ -1,8 +1,8 @@
+import math
 from torch import nn
 from torch import Tensor
 from collections import OrderedDict
 from functools import partial
-import math
 from einops.layers.torch import Rearrange, Reduce
 
 ReLUInPlace = partial(nn.ReLU, inplace=True)

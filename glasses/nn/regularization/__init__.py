@@ -66,7 +66,7 @@ class DropBlock(nn.Module):
         return x
 
     def __repr__(self):
-        return f"DropBlock(p={self.p})"
+        return f"{self.__class__.__name__}(p={self.p})"
 
 
 class StochasticDepth(nn.Module):
@@ -88,4 +88,4 @@ class StochasticDepth(nn.Module):
         return x
 
     def __repr__(self):
-        return f"StochasticDepth(p={self.p})"
+        return f"{self.__class__.__name__}(p={self.p})"
