@@ -1,12 +1,16 @@
 from typing import Any
+from abc import ABC, abstractmethod
 
 
-class Storage:
+class Storage(ABC):
+    @abstractmethod
     def put(self, *args: Any, **kwargs: Any):
-        raise NotImplemented
+        pass
 
+    @abstractmethod
     def get(self, key: str, **kwargs: Any) -> Any:
-        raise NotImplemented
+        pass
 
+    @abstractmethod
     def __contains__(self, key: str) -> bool:
-        raise NotImplemented
+        pass

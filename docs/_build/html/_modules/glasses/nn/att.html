@@ -1,179 +1,321 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-
-<!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-  <meta charset="utf-8" />
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>glasses.nn.att &mdash; Glasses  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
+    <meta name="generator" content="sphinx-4.1.1, furo 2021.09.08"/>
+        <title>glasses.nn.att - Glasses documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=c7c65a82b42f6b978e58466c1e9ef2509836d916" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/doctools.js"></script>
     
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
     
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" /> 
-</head>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
 
-<body class="wy-body-for-nav">
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
 
-   
-  <div class="wy-grid-for-nav">
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-          
 
-          
-            <a href="../../../index.html" class="icon icon-home"> Glasses
-          
 
-          
-          </a>
-
-          
-            
-            
-          
-
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Notes</span></p>
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">Glasses  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
+  
+  
+  <span class="sidebar-brand-text">Glasses  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Notes</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/Interpretability.html">Interpretability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/Segmentation.html">Segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/Transfer%20Learning.html">Transfer Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../Notes/tutorials/installation.html">Installation</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Package Reference</span></p>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">glasses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../glasses.nn.html">glasses.nn package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../glasses.models.html">glasses.models package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../glasses.utils.html">glasses.utils package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../glasses.data.html">glasses.data package</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../modules.html">glasses</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../benchmark.html">benchmark module</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../glasses.html">glasses package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../glasses.data.html">glasses.data package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../glasses.data.visualisation.html">glasses.data.visualisation package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.interpretability.html">glasses.interpretability package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../glasses.models.html">glasses.models package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../glasses.models.base.html">glasses.models.base package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../glasses.models.classification.html">glasses.models.classification package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.classification.alexnet.html">glasses.models.classification.alexnet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.classification.base.html">glasses.models.classification.base package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.classification.deit.html">glasses.models.classification.deit package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.classification.densenet.html">glasses.models.classification.densenet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.classification.efficientnet.html">glasses.models.classification.efficientnet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.classification.fishnet.html">glasses.models.classification.fishnet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.classification.mobilenet.html">glasses.models.classification.mobilenet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.classification.regnet.html">glasses.models.classification.regnet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.classification.resnest.html">glasses.models.classification.resnest package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.classification.resnet.html">glasses.models.classification.resnet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.classification.resnetxt.html">glasses.models.classification.resnetxt package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.classification.senet.html">glasses.models.classification.senet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.classification.vgg.html">glasses.models.classification.vgg package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.classification.vit.html">glasses.models.classification.vit package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.classification.wide_resnet.html">glasses.models.classification.wide_resnet package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../glasses.models.segmentation.html">glasses.models.segmentation package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.segmentation.base.html">glasses.models.segmentation.base package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.segmentation.fpn.html">glasses.models.segmentation.fpn package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../../glasses.models.segmentation.unet.html">glasses.models.segmentation.unet package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../glasses.models.utils.html">glasses.models.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../glasses.nn.html">glasses.nn package</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../glasses.nn.activation.html">glasses.nn.activation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../glasses.nn.att.html">glasses.nn.att package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../glasses.nn.blocks.html">glasses.nn.blocks package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../glasses.nn.pool.html">glasses.nn.pool package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../glasses.nn.regularization.html">glasses.nn.regularization package</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../glasses.utils.html">glasses.utils package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../glasses.utils.weights.html">glasses.utils.weights package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5 has-children"><a class="reference internal" href="../../../glasses.utils.weights.storage.html">glasses.utils.weights.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../../glasses.utils.weights.storage.hubs.html">glasses.utils.weights.storage.hubs package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../models_table.html">models_table module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../setup.html">setup module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../temp.html">temp module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../transfer_weights.html">transfer_weights module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../glasses.nn.html">glasses.nn package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../glasses.nn.activation.html">glasses.nn.activation package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../glasses.nn.att.html">glasses.nn.att package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../glasses.nn.blocks.html">glasses.nn.blocks package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../glasses.nn.pool.html">glasses.nn.pool package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../glasses.nn.regularization.html">glasses.nn.regularization package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../glasses.models.html">glasses.models package</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../glasses.models.base.html">glasses.models.base package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../glasses.models.classification.html">glasses.models.classification package</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.classification.alexnet.html">glasses.models.classification.alexnet package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.classification.base.html">glasses.models.classification.base package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.classification.deit.html">glasses.models.classification.deit package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.classification.densenet.html">glasses.models.classification.densenet package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.classification.efficientnet.html">glasses.models.classification.efficientnet package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.classification.fishnet.html">glasses.models.classification.fishnet package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.classification.mobilenet.html">glasses.models.classification.mobilenet package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.classification.regnet.html">glasses.models.classification.regnet package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.classification.resnest.html">glasses.models.classification.resnest package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.classification.resnet.html">glasses.models.classification.resnet package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.classification.resnetxt.html">glasses.models.classification.resnetxt package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.classification.senet.html">glasses.models.classification.senet package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.classification.vgg.html">glasses.models.classification.vgg package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.classification.vit.html">glasses.models.classification.vit package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.classification.wide_resnet.html">glasses.models.classification.wide_resnet package</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../glasses.models.segmentation.html">glasses.models.segmentation package</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.segmentation.base.html">glasses.models.segmentation.base package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.segmentation.fpn.html">glasses.models.segmentation.fpn package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../glasses.models.segmentation.unet.html">glasses.models.segmentation.unet package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../glasses.models.utils.html">glasses.models.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../glasses.utils.html">glasses.utils package</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../glasses.utils.weights.html">glasses.utils.weights package</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../glasses.utils.weights.storage.html">glasses.utils.weights.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../glasses.utils.weights.storage.hubs.html">glasses.utils.weights.storage.hubs package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../glasses.data.html">glasses.data package</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../glasses.data.visualisation.html">glasses.data.visualisation package</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glasses.interpretability.html">glasses.interpretability package</a></li>
 </ul>
 
-            
-          
-        </div>
-        
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">Glasses</a>
-        
-      </nav>
-
-
-      <div class="wy-nav-content">
-        
-        <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-        
-      <li>glasses.nn.att</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-      </li>
-    
-  </ul>
-
-  
-  <hr/>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-            
-  <h1>Source code for glasses.nn.att</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for glasses.nn.att</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">einops.layers.torch</span> <span class="kn">import</span> <span class="n">Rearrange</span><span class="p">,</span> <span class="n">Reduce</span>
 
 <span class="n">ReLUInPlace</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="SpatialSE"><a class="viewcode-back" href="../../../glasses.nn.att.html#glasses.nn.SpatialSE">[docs]</a><span class="k">class</span> <span class="nc">SpatialSE</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Implementation of Squeeze and Excitation Module proposed in `Squeeze-and-Excitation Networks &lt;https://arxiv.org/abs/1709.01507&gt;`_</span>
+    <span class="sd">"""Implementation of Squeeze and Excitation Module proposed in `Squeeze-and-Excitation Networks &lt;https://arxiv.org/abs/1709.01507&gt;`_</span>
 <span class="sd">    The idea is to apply a learned an channel-wise attention.</span>
 
 <span class="sd">    It squeezes spatially and excitates channel-wise.</span>
@@ -211,20 +353,20 @@
 <span class="sd">        &gt;&gt;&gt;     def __init__(self, in_features: int, out_features: int, reduction: int =16, *args, **kwargs):</span>
 <span class="sd">        &gt;&gt;&gt;        super().__init__(in_features, out_features, *args, **kwargs)</span>
 <span class="sd">        &gt;&gt;&gt;        # add se to the `.block`</span>
-<span class="sd">        &gt;&gt;&gt;        self.block.add_module(&#39;se&#39;, SpatialSE(out_features))</span>
+<span class="sd">        &gt;&gt;&gt;        self.block.add_module('se', SpatialSE(out_features))</span>
 
 
 <span class="sd">        Creating the original seresnet50</span>
 
 <span class="sd">        &gt;&gt;&gt; from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock</span>
-<span class="sd">        &gt;&gt;&gt; from glasses.nn.att import EfficientChannelAtt, WithAtt</span>
+<span class="sd">        &gt;&gt;&gt; from glasses.nn.att import ECA, WithAtt</span>
 <span class="sd">        &gt;&gt;&gt; se_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=SpatialSE))</span>
 <span class="sd">        &gt;&gt;&gt; se_resnet50.summary()</span>
 <span class="sd">    Args:</span>
 <span class="sd">        features (int): Number of features</span>
 <span class="sd">        reduction (int, optional): Reduction ratio used to downsample the input. Defaults to 16.</span>
 <span class="sd">        reduced_features (int, optional): If passed, use it instead of calculating the reduced features using `reduction`. Defaults to None.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -242,10 +384,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">att</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
             <span class="n">OrderedDict</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="s2">&quot;fc1&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduced_features</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-                    <span class="s2">&quot;act1&quot;</span><span class="p">:</span> <span class="n">activation</span><span class="p">(),</span>
-                    <span class="s2">&quot;fc2&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reduced_features</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-                    <span class="s2">&quot;act2&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">(),</span>
+                    <span class="s2">"fc1"</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduced_features</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                    <span class="s2">"act1"</span><span class="p">:</span> <span class="n">activation</span><span class="p">(),</span>
+                    <span class="s2">"fc2"</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reduced_features</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                    <span class="s2">"act2"</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">(),</span>
                 <span class="p">}</span>
             <span class="p">)</span>
         <span class="p">)</span>
@@ -261,7 +403,7 @@
 
 
 <div class="viewcode-block" id="ChannelSE"><a class="viewcode-back" href="../../../glasses.nn.att.html#glasses.nn.ChannelSE">[docs]</a><span class="k">class</span> <span class="nc">ChannelSE</span><span class="p">(</span><span class="n">SpatialSE</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Modified implementation of Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks &lt;https://arxiv.org/abs/1803.02579&gt;`_</span>
+    <span class="sd">"""Modified implementation of Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks &lt;https://arxiv.org/abs/1803.02579&gt;`_</span>
 
 <span class="sd">    It squeezes channel-wise and excitates spatially.</span>
 
@@ -289,7 +431,7 @@
 <span class="sd">        Creating the cseresnet50</span>
 
 <span class="sd">        &gt;&gt;&gt; from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock</span>
-<span class="sd">        &gt;&gt;&gt; from glasses.nn.att import EfficientChannelAtt, WithAtt</span>
+<span class="sd">        &gt;&gt;&gt; from glasses.nn.att import ECA, WithAtt</span>
 <span class="sd">        &gt;&gt;&gt; se_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=ChannelSE))</span>
 <span class="sd">        &gt;&gt;&gt; se_resnet50.summary()</span>
 
@@ -297,7 +439,7 @@
 <span class="sd">        features (int): Number of features</span>
 <span class="sd">        reduction (int, optional): Reduction ratio used to downsample the input. Defaults to 16.</span>
 <span class="sd">        reduced_features (int, optional): If passed, use it instead of calculating the reduced features using `reduction`. Defaults to None.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">activation</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">ReLUInPlace</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
@@ -306,10 +448,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">att</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
             <span class="n">OrderedDict</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="s2">&quot;conv1&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduced_features</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-                    <span class="s2">&quot;act1&quot;</span><span class="p">:</span> <span class="n">activation</span><span class="p">(),</span>
-                    <span class="s2">&quot;conv2&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reduced_features</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-                    <span class="s2">&quot;act2&quot;</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">(),</span>
+                    <span class="s2">"conv1"</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduced_features</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="s2">"act1"</span><span class="p">:</span> <span class="n">activation</span><span class="p">(),</span>
+                    <span class="s2">"conv2"</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reduced_features</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="s2">"act2"</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">(),</span>
                 <span class="p">}</span>
             <span class="p">)</span>
         <span class="p">)</span>
@@ -322,7 +464,7 @@
 
 
 <div class="viewcode-block" id="SpatialChannelSE"><a class="viewcode-back" href="../../../glasses.nn.att.html#glasses.nn.SpatialChannelSE">[docs]</a><span class="k">class</span> <span class="nc">SpatialChannelSE</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Implementation of Spatial and Channel Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks &lt;https://arxiv.org/abs/1803.02579&gt;`_</span>
+    <span class="sd">"""Implementation of Spatial and Channel Squeeze and Excitation Module proposed in `Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks &lt;https://arxiv.org/abs/1803.02579&gt;`_</span>
 
 <span class="sd">    This module combines booth Spatial and Channel Squeeze and Excitation</span>
 
@@ -348,7 +490,7 @@
 <span class="sd">        Creating scseresnet50</span>
 
 <span class="sd">        &gt;&gt;&gt; from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock</span>
-<span class="sd">        &gt;&gt;&gt; from glasses.nn.att import EfficientChannelAtt, WithAtt</span>
+<span class="sd">        &gt;&gt;&gt; from glasses.nn.att import ECA, WithAtt</span>
 <span class="sd">        &gt;&gt;&gt; se_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=SpatialChannelSE))</span>
 <span class="sd">        &gt;&gt;&gt; se_resnet50.summary()</span>
 
@@ -357,7 +499,7 @@
 <span class="sd">        features (int): Number of features</span>
 <span class="sd">        reduction (int, optional): Reduction ratio used to downsample the input. Defaults to 16.</span>
 <span class="sd">        reduced_features (int, optional): If passed, use it instead of calculating the reduced features using `reduction`. Defaults to None.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -371,17 +513,17 @@
         <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">s_se</span> <span class="o">+</span> <span class="n">c_se</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="EfficientChannelAtt"><a class="viewcode-back" href="../../../glasses.nn.att.html#glasses.nn.EfficientChannelAtt">[docs]</a><span class="k">class</span> <span class="nc">EfficientChannelAtt</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Implementation of Efficient Channel Attention proposed in `ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks &lt;https://arxiv.org/pdf/1910.03151.pdf&gt;`_</span>
+<div class="viewcode-block" id="ECA"><a class="viewcode-back" href="../../../glasses.nn.att.html#glasses.nn.ECA">[docs]</a><span class="k">class</span> <span class="nc">ECA</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">"""Implementation of Efficient Channel Attention proposed in `ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks &lt;https://arxiv.org/pdf/1910.03151.pdf&gt;`_</span>
 
-<span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/EfficientChannelAtt.png?raw=true</span>
+<span class="sd">    .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/ECA.png?raw=true</span>
 
 <span class="sd">    Examples:</span>
 
 <span class="sd">        &gt;&gt;&gt; # create ecaresnet50</span>
-<span class="sd">        &gt;&gt;&gt; from glasses.nn.models.classification.resnet import ResNet, ResNetBottleneckBlock</span>
-<span class="sd">        &gt;&gt;&gt; from glasses.nn.att import EfficientChannelAtt, WithAtt</span>
-<span class="sd">        &gt;&gt;&gt; eca_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=EfficientChannelAtt))</span>
+<span class="sd">        &gt;&gt;&gt; from glasses.models.classification.resnet import ResNet, ResNetBottleneckBlock</span>
+<span class="sd">        &gt;&gt;&gt; from glasses.nn.att import ECA, WithAtt</span>
+<span class="sd">        &gt;&gt;&gt; eca_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=ECA))</span>
 <span class="sd">        &gt;&gt;&gt; eca_resnet50.summary()</span>
 
 <span class="sd">    Args:</span>
@@ -389,7 +531,7 @@
 <span class="sd">        kernel_size (int, optional): [description]. Defaults to 3.</span>
 <span class="sd">        gamma (int, optional): [description]. Defaults to 2.</span>
 <span class="sd">        beta (int, optional): [description]. Defaults to 1.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">gamma</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">beta</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
@@ -401,27 +543,28 @@
         <span class="n">t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">beta</span><span class="p">)</span> <span class="o">/</span> <span class="n">gamma</span><span class="p">)</span>
         <span class="n">k</span> <span class="o">=</span> <span class="n">t</span> <span class="k">if</span> <span class="n">t</span> <span class="o">%</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">t</span> <span class="o">+</span> <span class="mi">1</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv1d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">k</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">att</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">Reduce</span><span class="p">(</span><span class="s2">"b c h w -&gt; b 1 c"</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s2">"mean"</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Conv1d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">k</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+            <span class="n">Rearrange</span><span class="p">(</span><span class="s2">"b 1 c -&gt; b c 1 1"</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">(),</span>
+        <span class="p">)</span>
 
-<div class="viewcode-block" id="EfficientChannelAtt.forward"><a class="viewcode-back" href="../../../glasses.nn.att.html#glasses.nn.EfficientChannelAtt.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">))</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="n">expand_as</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div></div>
+<div class="viewcode-block" id="ECA.forward"><a class="viewcode-back" href="../../../glasses.nn.att.html#glasses.nn.ECA.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">att</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span></div></div>
 
 
 <div class="viewcode-block" id="WithAtt"><a class="viewcode-back" href="../../../glasses.nn.att.html#glasses.nn.WithAtt">[docs]</a><span class="k">class</span> <span class="nc">WithAtt</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Utility class that adds an attention module after `.block`.</span>
+    <span class="sd">"""Utility class that adds an attention module after `.block`.</span>
 
 <span class="sd">    :Usage:</span>
 
 <span class="sd">        &gt;&gt;&gt; WithAtt(ResNetBottleneckBlock, att=SpatialSE)</span>
-<span class="sd">        &gt;&gt;&gt; WithAtt(ResNetBottleneckBlock, att=EfficientChannelAtt)</span>
+<span class="sd">        &gt;&gt;&gt; WithAtt(ResNetBottleneckBlock, att=ECA)</span>
 <span class="sd">        &gt;&gt;&gt; from functools import partial</span>
 <span class="sd">        &gt;&gt;&gt; WithAtt(ResNetBottleneckBlock, att=partial(SpatialSE, reduction=8))</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">att</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span> <span class="o">=</span> <span class="n">SpatialSE</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">block</span>
@@ -431,51 +574,38 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">b</span><span class="o">.</span><span class="n">block</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s2">&quot;se&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">att</span><span class="p">(</span><span class="n">out_features</span><span class="p">))</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">block</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s2">"se"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">att</span><span class="p">(</span><span class="n">out_features</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">b</span></div>
 </pre></div>
-
-           </div>
-           
-          </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
-        &#169; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala.
-
-    </p>
-  </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
-
-</footer>
-        </div>
+        </article>
       </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
 
-    </section>
-
+        <div class="related-information">
+              Copyright &#169; 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
   </div>
-  
-
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script>
-
-  
-  
-    
-   
-
-</body>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/scripts/main.js"></script>
+    </body>
 </html>
