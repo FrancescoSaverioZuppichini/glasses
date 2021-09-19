@@ -13,6 +13,17 @@ Subpackages
    glasses.nn
    glasses.utils
 
+Submodules
+----------
+
+glasses.types module
+--------------------
+
+.. automodule:: glasses.types
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

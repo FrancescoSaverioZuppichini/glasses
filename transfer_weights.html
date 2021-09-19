@@ -1,42 +1,162 @@
-<!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="setup module" href="setup.html" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>transfer_weights module &mdash; Glasses  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.09.08"/>
+        <title>transfer_weights module - Glasses documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=c7c65a82b42f6b978e58466c1e9ef2509836d916" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: rgb(81,82,146);
+  --color-brand-content: rgb(81,82,146);
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-    <script src="_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="setup module" href="setup.html" /> 
-</head>
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Glasses
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Notes</span></p>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Glasses  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Glasses  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Notes</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Interpretability.html">Interpretability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Notes/tutorials/Segmentation.html">Segmentation</a></li>
@@ -45,93 +165,205 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">glasses</a><ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">glasses</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="benchmark.html">benchmark module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="glasses.html">glasses package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="models_table.html">models_table module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">transfer_weights module</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="glasses.html">glasses package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="glasses.data.html">glasses.data package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasses.data.visualisation.html">glasses.data.visualisation package</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="glasses.models.html">glasses.models package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="glasses.data.html">glasses.data package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.interpretability.html">glasses.interpretability package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="glasses.models.html">glasses.models package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasses.models.base.html">glasses.models.base package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="glasses.models.classification.html">glasses.models.classification package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.classification.alexnet.html">glasses.models.classification.alexnet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.classification.base.html">glasses.models.classification.base package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.classification.deit.html">glasses.models.classification.deit package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.classification.densenet.html">glasses.models.classification.densenet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.classification.efficientnet.html">glasses.models.classification.efficientnet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.classification.fishnet.html">glasses.models.classification.fishnet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.classification.mobilenet.html">glasses.models.classification.mobilenet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.classification.regnet.html">glasses.models.classification.regnet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.classification.resnest.html">glasses.models.classification.resnest package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.classification.resnet.html">glasses.models.classification.resnet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.classification.resnetxt.html">glasses.models.classification.resnetxt package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.classification.senet.html">glasses.models.classification.senet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.classification.vgg.html">glasses.models.classification.vgg package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.classification.vit.html">glasses.models.classification.vit package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.classification.wide_resnet.html">glasses.models.classification.wide_resnet package</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="glasses.models.segmentation.html">glasses.models.segmentation package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.segmentation.base.html">glasses.models.segmentation.base package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.segmentation.fpn.html">glasses.models.segmentation.fpn package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="glasses.models.segmentation.unet.html">glasses.models.segmentation.unet package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.models.utils.html">glasses.models.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasses.nn.activation.html">glasses.nn.activation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.nn.att.html">glasses.nn.att package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.nn.blocks.html">glasses.nn.blocks package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.nn.pool.html">glasses.nn.pool package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasses.nn.regularization.html">glasses.nn.regularization package</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="glasses.utils.weights.html">glasses.utils.weights package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5 has-children"><a class="reference internal" href="glasses.utils.weights.storage.html">glasses.utils.weights.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l6"><a class="reference internal" href="glasses.utils.weights.storage.hubs.html">glasses.utils.weights.storage.hubs package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="models_table.html">models_table module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">transfer_weights module</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="glasses.nn.html">glasses.nn package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.activation.html">glasses.nn.activation package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.att.html">glasses.nn.att package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.blocks.html">glasses.nn.blocks package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.pool.html">glasses.nn.pool package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.nn.regularization.html">glasses.nn.regularization package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="glasses.models.html">glasses.models package</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.base.html">glasses.models.base package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="glasses.models.classification.html">glasses.models.classification package</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.alexnet.html">glasses.models.classification.alexnet package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.base.html">glasses.models.classification.base package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.deit.html">glasses.models.classification.deit package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.densenet.html">glasses.models.classification.densenet package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.efficientnet.html">glasses.models.classification.efficientnet package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.fishnet.html">glasses.models.classification.fishnet package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.mobilenet.html">glasses.models.classification.mobilenet package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.regnet.html">glasses.models.classification.regnet package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.resnest.html">glasses.models.classification.resnest package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.resnet.html">glasses.models.classification.resnet package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.resnetxt.html">glasses.models.classification.resnetxt package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.senet.html">glasses.models.classification.senet package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.vgg.html">glasses.models.classification.vgg package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.vit.html">glasses.models.classification.vit package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.classification.wide_resnet.html">glasses.models.classification.wide_resnet package</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="glasses.models.segmentation.html">glasses.models.segmentation package</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.segmentation.base.html">glasses.models.segmentation.base package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.segmentation.fpn.html">glasses.models.segmentation.fpn package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasses.models.segmentation.unet.html">glasses.models.segmentation.unet package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasses.models.utils.html">glasses.models.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="glasses.utils.html">glasses.utils package</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="glasses.utils.weights.html">glasses.utils.weights package</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="glasses.utils.weights.storage.html">glasses.utils.weights.storage package</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasses.utils.weights.storage.hubs.html">glasses.utils.weights.storage.hubs package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="glasses.data.html">glasses.data package</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasses.data.visualisation.html">glasses.data.visualisation package</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="glasses.interpretability.html">glasses.interpretability package</a></li>
 </ul>
 
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Glasses</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="modules.html">glasses</a> &raquo;</li>
-      <li>transfer_weights module</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="_sources/transfer_weights.rst.txt" rel="nofollow"> View page source</a>
-      </li>
-  </ul>
-  <hr/>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <section id="module-transfer_weights">
-<span id="transfer-weights-module"></span><h1>transfer_weights module<a class="headerlink" href="#module-transfer_weights" title="Permalink to this headline"></a></h1>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="module-transfer_weights">
+<span id="transfer-weights-module"></span><h1>transfer_weights module<a class="headerlink" href="#module-transfer_weights" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="transfer_weights.clone_model">
-<span class="sig-prename descclassname"><span class="pre">transfer_weights.</span></span><span class="sig-name descname"><span class="pre">clone_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">tensor([[[[0.7974,</span> <span class="pre">0.3430,</span> <span class="pre">0.1989,</span> <span class="pre">...,</span> <span class="pre">0.5858,</span> <span class="pre">0.0955,</span> <span class="pre">0.0562],</span> <span class="pre">[0.7639,</span> <span class="pre">0.6231,</span> <span class="pre">0.2865,</span> <span class="pre">...,</span> <span class="pre">0.7042,</span> <span class="pre">0.7400,</span> <span class="pre">0.5733],</span> <span class="pre">[0.0303,</span> <span class="pre">0.8975,</span> <span class="pre">0.7462,</span> <span class="pre">...,</span> <span class="pre">0.0909,</span> <span class="pre">0.9510,</span> <span class="pre">0.6664],</span> <span class="pre">...,</span> <span class="pre">[0.3426,</span> <span class="pre">0.8832,</span> <span class="pre">0.4634,</span> <span class="pre">...,</span> <span class="pre">0.1257,</span> <span class="pre">0.5501,</span> <span class="pre">0.2819],</span> <span class="pre">[0.5540,</span> <span class="pre">0.6619,</span> <span class="pre">0.2258,</span> <span class="pre">...,</span> <span class="pre">0.0912,</span> <span class="pre">0.2712,</span> <span class="pre">0.3555],</span> <span class="pre">[0.2333,</span> <span class="pre">0.7126,</span> <span class="pre">0.7600,</span> <span class="pre">...,</span> <span class="pre">0.4096,</span> <span class="pre">0.8128,</span> <span class="pre">0.3916]],</span> <span class="pre">[[0.1147,</span> <span class="pre">0.6211,</span> <span class="pre">0.7106,</span> <span class="pre">...,</span> <span class="pre">0.7250,</span> <span class="pre">0.3986,</span> <span class="pre">0.8026],</span> <span class="pre">[0.8818,</span> <span class="pre">0.0350,</span> <span class="pre">0.9669,</span> <span class="pre">...,</span> <span class="pre">0.8420,</span> <span class="pre">0.3064,</span> <span class="pre">0.5296],</span> <span class="pre">[0.4374,</span> <span class="pre">0.0945,</span> <span class="pre">0.8581,</span> <span class="pre">...,</span> <span class="pre">0.7573,</span> <span class="pre">0.0776,</span> <span class="pre">0.7608],</span> <span class="pre">...,</span> <span class="pre">[0.0025,</span> <span class="pre">0.4495,</span> <span class="pre">0.3338,</span> <span class="pre">...,</span> <span class="pre">0.5706,</span> <span class="pre">0.8056,</span> <span class="pre">0.0324],</span> <span class="pre">[0.9646,</span> <span class="pre">0.3356,</span> <span class="pre">0.2508,</span> <span class="pre">...,</span> <span class="pre">0.3727,</span> <span class="pre">0.5358,</span> <span class="pre">0.8351],</span> <span class="pre">[0.4022,</span> <span class="pre">0.5063,</span> <span class="pre">0.6582,</span> <span class="pre">...,</span> <span class="pre">0.8648,</span> <span class="pre">0.1374,</span> <span class="pre">0.9032]],</span> <span class="pre">[[0.6901,</span> <span class="pre">0.2128,</span> <span class="pre">0.1363,</span> <span class="pre">...,</span> <span class="pre">0.5817,</span> <span class="pre">0.7692,</span> <span class="pre">0.4681],</span> <span class="pre">[0.3900,</span> <span class="pre">0.4537,</span> <span class="pre">0.1221,</span> <span class="pre">...,</span> <span class="pre">0.5001,</span> <span class="pre">0.8082,</span> <span class="pre">0.8631],</span> <span class="pre">[0.4051,</span> <span class="pre">0.8834,</span> <span class="pre">0.6197,</span> <span class="pre">...,</span> <span class="pre">0.5312,</span> <span class="pre">0.6802,</span> <span class="pre">0.1188],</span> <span class="pre">...,</span> <span class="pre">[0.4405,</span> <span class="pre">0.8352,</span> <span class="pre">0.5952,</span> <span class="pre">...,</span> <span class="pre">0.2928,</span> <span class="pre">0.5329,</span> <span class="pre">0.7651],</span> <span class="pre">[0.7605,</span> <span class="pre">0.8496,</span> <span class="pre">0.5389,</span> <span class="pre">...,</span> <span class="pre">0.9588,</span> <span class="pre">0.8349,</span> <span class="pre">0.9163],</span> <span class="pre">[0.5290,</span> <span class="pre">0.7700,</span> <span class="pre">0.2177,</span> <span class="pre">...,</span> <span class="pre">0.8427,</span> <span class="pre">0.9530,</span> <span class="pre">0.1664]]]])</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.nn.modules.module.Module</span></span></span><a class="reference internal" href="_modules/transfer_weights.html#clone_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#transfer_weights.clone_model" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">transfer_weights.</span></span><span class="sig-name descname"><span class="pre">clone_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">tensor([[[[0.0240,</span> <span class="pre">0.1821,</span> <span class="pre">0.0512,</span> <span class="pre">...,</span> <span class="pre">0.5987,</span> <span class="pre">0.3491,</span> <span class="pre">0.0259],</span> <span class="pre">[0.6510,</span> <span class="pre">0.7787,</span> <span class="pre">0.8911,</span> <span class="pre">...,</span> <span class="pre">0.8875,</span> <span class="pre">0.4233,</span> <span class="pre">0.9867],</span> <span class="pre">[0.4820,</span> <span class="pre">0.7544,</span> <span class="pre">0.0178,</span> <span class="pre">...,</span> <span class="pre">0.3407,</span> <span class="pre">0.6830,</span> <span class="pre">0.5988],</span> <span class="pre">...,</span> <span class="pre">[0.2892,</span> <span class="pre">0.3362,</span> <span class="pre">0.5971,</span> <span class="pre">...,</span> <span class="pre">0.6224,</span> <span class="pre">0.7377,</span> <span class="pre">0.2287],</span> <span class="pre">[0.4362,</span> <span class="pre">0.1618,</span> <span class="pre">0.5067,</span> <span class="pre">...,</span> <span class="pre">0.4442,</span> <span class="pre">0.4150,</span> <span class="pre">0.0012],</span> <span class="pre">[0.3150,</span> <span class="pre">0.8557,</span> <span class="pre">0.8950,</span> <span class="pre">...,</span> <span class="pre">0.9466,</span> <span class="pre">0.0175,</span> <span class="pre">0.2251]],</span> <span class="pre">[[0.0488,</span> <span class="pre">0.7942,</span> <span class="pre">0.2425,</span> <span class="pre">...,</span> <span class="pre">0.5407,</span> <span class="pre">0.7839,</span> <span class="pre">0.5046],</span> <span class="pre">[0.9293,</span> <span class="pre">0.4634,</span> <span class="pre">0.4981,</span> <span class="pre">...,</span> <span class="pre">0.0592,</span> <span class="pre">0.8721,</span> <span class="pre">0.9530],</span> <span class="pre">[0.0486,</span> <span class="pre">0.6147,</span> <span class="pre">0.3995,</span> <span class="pre">...,</span> <span class="pre">0.3514,</span> <span class="pre">0.1658,</span> <span class="pre">0.5865],</span> <span class="pre">...,</span> <span class="pre">[0.6597,</span> <span class="pre">0.6686,</span> <span class="pre">0.1731,</span> <span class="pre">...,</span> <span class="pre">0.8497,</span> <span class="pre">0.8888,</span> <span class="pre">0.7096],</span> <span class="pre">[0.4016,</span> <span class="pre">0.5691,</span> <span class="pre">0.9926,</span> <span class="pre">...,</span> <span class="pre">0.0893,</span> <span class="pre">0.1505,</span> <span class="pre">0.5145],</span> <span class="pre">[0.8520,</span> <span class="pre">0.4371,</span> <span class="pre">0.3092,</span> <span class="pre">...,</span> <span class="pre">0.4428,</span> <span class="pre">0.6259,</span> <span class="pre">0.0621]],</span> <span class="pre">[[0.8432,</span> <span class="pre">0.1435,</span> <span class="pre">0.0188,</span> <span class="pre">...,</span> <span class="pre">0.7276,</span> <span class="pre">0.4356,</span> <span class="pre">0.6004],</span> <span class="pre">[0.6903,</span> <span class="pre">0.2330,</span> <span class="pre">0.5283,</span> <span class="pre">...,</span> <span class="pre">0.7873,</span> <span class="pre">0.8826,</span> <span class="pre">0.3317],</span> <span class="pre">[0.9490,</span> <span class="pre">0.5570,</span> <span class="pre">0.4328,</span> <span class="pre">...,</span> <span class="pre">0.7524,</span> <span class="pre">0.9395,</span> <span class="pre">0.7899],</span> <span class="pre">...,</span> <span class="pre">[0.3284,</span> <span class="pre">0.1877,</span> <span class="pre">0.2742,</span> <span class="pre">...,</span> <span class="pre">0.5846,</span> <span class="pre">0.8741,</span> <span class="pre">0.2229],</span> <span class="pre">[0.1765,</span> <span class="pre">0.0385,</span> <span class="pre">0.8653,</span> <span class="pre">...,</span> <span class="pre">0.7442,</span> <span class="pre">0.9668,</span> <span class="pre">0.3984],</span> <span class="pre">[0.8134,</span> <span class="pre">0.6203,</span> <span class="pre">0.4966,</span> <span class="pre">...,</span> <span class="pre">0.0474,</span> <span class="pre">0.9293,</span> <span class="pre">0.8753]]]])</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">torch.nn.modules.module.Module</span></span></span><a class="reference internal" href="_modules/transfer_weights.html#clone_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#transfer_weights.clone_model" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
 <dl class="py function">
 <dt class="sig sig-object py" id="transfer_weights.deit_clone">
-<span class="sig-prename descclassname"><span class="pre">transfer_weights.</span></span><span class="sig-name descname"><span class="pre">deit_clone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/transfer_weights.html#deit_clone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#transfer_weights.deit_clone" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">transfer_weights.</span></span><span class="sig-name descname"><span class="pre">deit_clone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/transfer_weights.html#deit_clone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#transfer_weights.deit_clone" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
 <dl class="py function">
 <dt class="sig sig-object py" id="transfer_weights.vit_clone">
-<span class="sig-prename descclassname"><span class="pre">transfer_weights.</span></span><span class="sig-name descname"><span class="pre">vit_clone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/transfer_weights.html#vit_clone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#transfer_weights.vit_clone" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">transfer_weights.</span></span><span class="sig-name descname"><span class="pre">vit_clone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/transfer_weights.html#vit_clone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#transfer_weights.vit_clone" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
 </section>
 
-
-           </div>
-          </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="setup.html" class="btn btn-neutral float-left" title="setup module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-    </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
+        </article>
       </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+      <footer>
+        
+        <div class="related-pages">
+          
+          <a class="prev-page" href="setup.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">setup module</div>
+                
+              </div>
+            </a>
+        </div>
 
-</body>
+        <div class="related-information">
+              Copyright &#169; 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
+            <a class="muted-link" href="_sources/transfer_weights.rst.txt"
+               rel="nofollow">
+              Show Source
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/main.js"></script>
+    </body>
 </html>
