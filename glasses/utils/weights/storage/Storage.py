@@ -1,6 +1,7 @@
 from typing import Any
 from abc import ABC, abstractmethod
 
+
 class Storage(ABC):
     @abstractmethod
     def put(self, *args: Any, **kwargs: Any):

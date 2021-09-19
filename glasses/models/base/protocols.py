@@ -3,6 +3,7 @@ from glasses.interpretability import Interpretability
 from torch import nn
 from typing import Optional
 
+
 class Freezable:
     """
     A protocol that allows to freeze and unfreeze weights of the class that uses it

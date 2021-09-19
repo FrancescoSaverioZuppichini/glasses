@@ -186,4 +186,3 @@ class PretrainedWeightsProvider:
     def __getitem__(self, key: str) -> StateDict:
         weights = self.storage.get(key)
         return weights
-

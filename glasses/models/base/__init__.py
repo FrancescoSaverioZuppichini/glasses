@@ -9,7 +9,11 @@ from .protocols import Freezable, Interpretable
 class VisionModule(nn.Module, Freezable, Interpretable):
     """Base vision module, all models should subclass it."""
 
-    def summary(self, input_shape: Tuple[int]=(1, 3, 224, 224), device: Optional[torch.device] = None):
+    def summary(
+        self,
+        input_shape: Tuple[int] = (1, 3, 224, 224),
+        device: Optional[torch.device] = None,
+    ):
         """Useful method to run `torchinfo` directly from the model
 
         Args:
