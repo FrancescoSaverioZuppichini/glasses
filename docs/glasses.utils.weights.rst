@@ -1,16 +1,16 @@
 glasses.utils.weights package
 =============================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 1
+
+   glasses.utils.weights.storage
+
 Submodules
 ----------
-
-glasses.utils.weights.HFModelHub module
----------------------------------------
-
-.. automodule:: glasses.utils.weights.HFModelHub
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 glasses.utils.weights.PretrainedWeightsProvider module
 ------------------------------------------------------

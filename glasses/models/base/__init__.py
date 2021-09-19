@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from glasses.utils.Storage import ForwardModuleStorage
 from torchinfo import summary
-from typing import Dict, Tuple, List
+from typing import Dict, Tuple, List, Optional
 from .protocols import Freezable, Interpretable
 
 

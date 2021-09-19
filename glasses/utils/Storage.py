@@ -1,9 +1,12 @@
-import torch
-import numpy as np
 from functools import partial, reduce
 from collections import OrderedDict
-from pprint import pprint
 
+"""Local copy with minor changes of `PytorchModuleStorage <https://github.com/FrancescoSaverioZuppichini/PytorchModuleStorage>`_
+
+.. warning::
+    The `PytorchModuleStorage` are not great and I wish to update the library and make it a dependency of glasses.
+    This is why typing is missing here.
+"""
 
 class MutipleKeysDict(OrderedDict):
     """
