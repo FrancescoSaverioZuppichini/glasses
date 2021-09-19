@@ -68,6 +68,12 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # a list of builtin themes.
 #
 html_theme = 'furo'
+html_theme_options = {
+    "light_css_variables": {
+        "color-brand-primary": "rgb(81,82,146)",
+        "color-brand-content": "rgb(81,82,146)",
+    },
+}
 # html_theme = "sphinx_rtd_theme"
 # html_theme_options = {
 #     'pytorch_project': 'docs',
