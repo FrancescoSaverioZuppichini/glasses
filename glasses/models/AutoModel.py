@@ -189,7 +189,7 @@ class AutoModel:
         """Instantiates one of the model classes of the library.
 
         Examples:
-            >>> AutoModel.models() # odict_keys(['resnet18', 'resnet26', .... ])
+            >>> AutoModel.models() # dict_keys(['resnet18', 'resnet26', .... ])
             >>> AutoModel.from_name('resnet18')
             >>> AutoModel.from_name('resnet18', activation=nn.SELU)
 
