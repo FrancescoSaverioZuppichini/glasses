@@ -3,10 +3,8 @@ import os
 import logging
 import torch.nn as nn
 from torch import nn
-from dataclasses import dataclass
 from typing import Dict
 from torch import Tensor
-from pathlib import Path
 from typing import Callable
 from functools import wraps
 from .storage import HuggingFaceStorage, Storage
@@ -188,3 +186,4 @@ class PretrainedWeightsProvider:
     def __getitem__(self, key: str) -> StateDict:
         weights = self.storage.get(key)
         return weights
+
