@@ -12,7 +12,7 @@ __pycache__/
 temp.py
 # C extensions
 *.so
-
+docs/*.rst
 # Distribution / packaging
 .Python
 build/

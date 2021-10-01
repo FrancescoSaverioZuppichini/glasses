@@ -9,15 +9,24 @@ from glasses.nn.blocks import Conv3x3BnAct, ConvBnAct
 from typing import List
 from functools import partial
 
+
 class VoVNetBlock(nn.Module):
-    def __init__(self, in_features: int, out_features: int, stage_features: int, n: int = 5, block=Conv3x3BnAct):
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        stage_features: int = 64,
+        repeat: int = 5,
+        block: nn.Module = Conv3x3BnAct,
+    ):
         super().__init__()
         self.blocks = nn.Sequential(
             block(in_features, stage_features),
-            *[block(stage_features, stage_features) for _ in range(n - 1)]
+            *[block(stage_features, stage_features) for _ in range(repeat - 1)],
         )
         self.aggregate = ConvBnAct(
-            in_features + (stage_features * n),  out_features, kernel_size=1)
+            in_features + (stage_features * repeat), out_features, kernel_size=1
+        )
 
     def forward(self, x: Tensor) -> Tensor:
         features = [x]
@@ -30,24 +39,41 @@ class VoVNetBlock(nn.Module):
 
 
 class VoVNetLayer(nn.Sequential):
-    def __init__(self,  in_features: int, out_features: int, pool: nn.Module = nn.MaxPool2d, *args, **kwargs):
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        depth: int,
+        pool: nn.Module = nn.MaxPool2d,
+        block: nn.Module = VoVNetBlock,
+        **kwargs
+    ):
         super().__init__(
-            VoVNetBlock(in_features, out_features, *args, **kwargs),
-            pool(kernel_size=3, stride=2),
+            block(in_features, out_features, **kwargs),
+            *[
+                block(out_features, out_features, use_residual=True, **kwargs)
+                for _ in range(depth - 1)
+            ],
+            pool(kernel_size=3, stride=2, padding=1),
         )
 
-VoVNetStem = partial(ResNetStem3x3, out_features=128, widths=[64, 64])
+
+VoVNetStem = partial(ResNetStem3x3, widths=[64, 64])
+
 
 class VoVEncoder(Encoder):
-    def __init__(self,
-                 in_channels: int = 3,
-                 start_features: int = 64, 
-                 widths: List[int] = [256, 512, 768, 1024], 
-                 depths: List[int] = [1, 1, 2, 2],
-                 stages_widths: List[int] = [128, 160, 192, 224],
-                 activation: nn.Module = ReLUInPlace, 
-                 block: nn.Module = VoVNetBlock,
-                 stem: nn.Module = ResNetStem3x3, **kwargs):
+    def __init__(
+        self,
+        in_channels: int = 3,
+        start_features: int = 128,
+        widths: List[int] = [256, 512, 768, 1024],
+        depths: List[int] = [1, 1, 2, 2],
+        stages_widths: List[int] = [128, 160, 192, 224],
+        activation: nn.Module = ReLUInPlace,
+        block: nn.Module = VoVNetBlock,
+        stem: nn.Module = VoVNetStem,
+        **kwargs
+    ):
         super().__init__()
         self.widths = widths
         self.start_features = start_features
@@ -59,8 +85,8 @@ class VoVEncoder(Encoder):
                 VoVNetLayer(
                     start_features,
                     widths[0],
+                    stage_features=stages_widths[0],
                     depth=depths[0],
-                    activation=activation,
                     block=block,
                     **kwargs,
                 ),
@@ -68,13 +94,13 @@ class VoVEncoder(Encoder):
                     VoVNetLayer(
                         in_features,
                         out_features,
-                        depth=n,
-                        activation=activation,
+                        stage_features=stage_features,
+                        depth=depth,
                         block=block,
                         **kwargs,
                     )
-                    for (in_features, out_features), n in zip(
-                        self.in_out_widths, depths[1:]
+                    for (in_features, out_features), depth, stage_features in zip(
+                        self.in_out_widths, depths[1:], stages_widths[1:]
                     )
                 ],
             ]
@@ -95,9 +121,64 @@ class VoVEncoder(Encoder):
         return [self.start_features, *self.widths[:-1]]
 
 
+class MyHead(nn.Sequential):
+    """
+    This class represents the tail of ResNet. It performs a global pooling and maps the output to the
+    correct class by using a fully connected layer.
+    """
+
+    def __init__(self, in_features: int, n_classes: int):
+        super().__init__()
+        self.pool = (nn.AvgPool2d(kernel_size=7, stride=1, padding=0),)
+        self.flat = nn.Flatten()
+        self.fc = nn.Linear(in_features, n_classes)
+
+
 class VoVNet(ResNet):
     """Implementation of VoVNet, popular backbone also used in object-detection
-    `An Energy and GPU-Computation Efficient Backbone Network for Real-Time Object Detection
- <https://arxiv.org/abs/1904.09730>`_
-    The models with the channel se are labelab with prefix `c`
+       `An Energy and GPU-Computation Efficient Backbone Network for Real-Time Object Detection
+    <https://arxiv.org/abs/1904.09730>`_
+
     """
+
+    def __init__(self, encoder: nn.Module = VoVEncoder, **kwargs):
+        super().__init__(encoder, head=MyHead, **kwargs)
+
+    @classmethod
+    def vovnet27s(cls, *args, **kwargs) -> VoVNet:
+        """Creates a vovnet 27 model
+
+        Returns:
+            VoVNet: A vovnet 27 model
+        """
+        model = cls(
+            *args,
+            widths=[128, 256, 384, 512],
+            stages_widths=[64, 80, 96, 112],
+            depths=[1, 1, 1, 1],
+            **kwargs,
+        )
+
+        return model
+
+    @classmethod
+    def vovnet39(cls, *args, **kwargs) -> VoVNet:
+        """Creates a vovnet39 model
+
+        Returns:
+            VoVNet: A vovnet39 model
+        """
+        model = cls(*args, **kwargs)
+
+        return model
+
+    @classmethod
+    def vovnet57(cls, *args, **kwargs) -> VoVNet:
+        """Creates a vovnet57 model
+
+        Returns:
+            VoVNet: A vovnet57 model
+        """
+        model = cls(*args, depths=[1, 1, 4, 3], **kwargs)
+
+        return model
