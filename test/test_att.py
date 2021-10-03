@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from glasses.nn import ChannelSE, ECA, SpatialChannelSE, SpatialSE
+from glasses.nn.att import ChannelSE, ECA, SpatialChannelSE, SpatialSE, EffectiveSE
 
 
 def test_att():
@@ -28,4 +28,9 @@ def test_att():
     eca = ECA(x.shape[1])
 
     res = eca(x)
+    assert res.shape == x.shape
+
+    ese = EffectiveSE(x.shape[1])
+    res = ese(x)
+
     assert res.shape == x.shape

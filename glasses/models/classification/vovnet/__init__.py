@@ -8,6 +8,8 @@ from ..resnet import ReLUInPlace, ResNet, ResNetEncoder, ResNetStem3x3
 from glasses.nn.blocks import Conv3x3BnAct, ConvBnAct
 from typing import List
 from functools import partial
+from glasses.nn.blocks.residuals import ResidualAdd
+from glasses.nn.att import EffectiveSE
 
 
 class VoVNetBlock(nn.Module):
@@ -38,6 +40,17 @@ class VoVNetBlock(nn.Module):
         return x
 
 
+class VoVNetV2Block(nn.Sequential):
+    def __init__(self, in_features: int, out_features: int, *args, **kwargs):
+
+        super().__init__(
+            ResidualAdd(
+                VoVNetBlock(in_features, out_features, *args, **kwargs),
+                EffectiveSE(out_features),
+            )
+        )
+
+
 class VoVNetLayer(nn.Sequential):
     def __init__(
         self,
@@ -54,7 +67,7 @@ class VoVNetLayer(nn.Sequential):
                 block(out_features, out_features, use_residual=True, **kwargs)
                 for _ in range(depth - 1)
             ],
-            pool(kernel_size=3, stride=2, padding=1),
+            pool(kernel_size=3, stride=2),
         )
 
 
@@ -121,28 +134,15 @@ class VoVEncoder(Encoder):
         return [self.start_features, *self.widths[:-1]]
 
 
-class MyHead(nn.Sequential):
-    """
-    This class represents the tail of ResNet. It performs a global pooling and maps the output to the
-    correct class by using a fully connected layer.
-    """
-
-    def __init__(self, in_features: int, n_classes: int):
-        super().__init__()
-        self.pool = (nn.AvgPool2d(kernel_size=7, stride=1, padding=0),)
-        self.flat = nn.Flatten()
-        self.fc = nn.Linear(in_features, n_classes)
-
-
 class VoVNet(ResNet):
-    """Implementation of VoVNet, popular backbone also used in object-detection
+    """VoVNet proposed in
        `An Energy and GPU-Computation Efficient Backbone Network for Real-Time Object Detection
     <https://arxiv.org/abs/1904.09730>`_
 
     """
 
     def __init__(self, encoder: nn.Module = VoVEncoder, **kwargs):
-        super().__init__(encoder, head=MyHead, **kwargs)
+        super().__init__(encoder, **kwargs)
 
     @classmethod
     def vovnet27s(cls, *args, **kwargs) -> VoVNet:

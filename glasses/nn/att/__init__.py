@@ -1,4 +1,5 @@
 import math
+from pytorchcv.models.sinet import SEBlock
 from torch import nn
 from torch import Tensor
 from collections import OrderedDict
@@ -88,12 +89,12 @@ class SpatialSE(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         b, c, _, _ = x.size()
-        y = self.avg_pool(x).view(b, c)
+        y = self.avg_pool(x).squeeze()
         # y has shape [B, C]
         y = self.att(y)
         # resphape to [B, C, 1, 1]  to match the space dims of x
         y = y.view(b, c, 1, 1)
-        return x * y.expand_as(x)
+        return x * y
 
 
 class ChannelSE(SpatialSE):
@@ -241,6 +242,28 @@ class ECA(nn.Module):
             Reduce("b c h w -> b 1 c", reduction="mean"),
             nn.Conv1d(1, 1, kernel_size=k, padding=k // 2, bias=False),
             Rearrange("b 1 c -> b c 1 1"),
+            nn.Sigmoid(),
+        )
+
+    def forward(self, x: Tensor) -> Tensor:
+        y = self.att(x)
+        return x * y
+
+
+class EffectiveSE(nn.Module):
+    """Effective Squeeze-Excitation proposed in
+    From `CenterMask : Real-Time Anchor-Free Instance Segmentation <https://arxiv.org/abs/1911.06667>_`
+    """
+
+    def __init__(
+        self,
+        features: int,
+    ):
+        super().__init__()
+
+        self.att = nn.Sequential(
+            nn.AdaptiveAvgPool2d(1),
+            nn.Conv2d(features, features, kernel_size=1, bias=False),
             nn.Sigmoid(),
         )
 
