@@ -1,4 +1,5 @@
 import math
+import torch
 from torch import nn
 from torch import Tensor
 from collections import OrderedDict
@@ -247,6 +248,54 @@ class ECA(nn.Module):
     def forward(self, x: Tensor) -> Tensor:
         y = self.att(x)
         return x * y
+
+
+class CBAM(nn.Module):
+    def __init__(
+        self, 
+        features: int, 
+        reduction: int = 16,
+        kernel_size: int = 7, 
+        reduced_features: int = None,
+        activation: nn.Module = ReLUInPlace,
+    ):
+        super().__init__()
+        self.reduced_features=(
+            features // reduction if reduced_features is None else reduced_features
+        )
+
+        self.channel_att = nn.Sequential(
+            OrderedDict(
+                {
+                    "fc1": nn.Conv2d(features, self.reduced_features, kernel_size=1, bias=False),
+                    "act1": activation(),
+                    "fc2": nn.Conv2d(self.reduced_features, features, kernel_size=1, bias=False),
+                }
+            )
+        )
+        self.spatial_att = nn.Sequential(
+            OrderedDict(
+                {
+                    "conv": nn.Conv2d(2, 1, kernel_size=kernel_size, padding=kernel_size//2, bias=False),
+                }
+            )
+        )
+        self.gate = nn.Sigmoid()
+    
+    def forward(self, x):
+        # channel attention
+        channel_avg_out = self.channel_att(x.mean((2, 3), keepdim=True))
+        channel_max_out = self.channel_att(x.amax((2, 3), keepdim=True))
+        channel_att_out = self.gate(channel_avg_out + channel_max_out)
+        x = x * channel_att_out
+        # spatial attention
+        spatial_avg_out = x.mean(dim=1 ,keepdim=True)
+        spatial_max_out = x.amax(dim=1, keepdim=True)
+        concat_feature = torch.cat([spatial_avg_out, spatial_max_out], dim=1)
+        spatial_att_out = self.gate(self.spatial_att(concat_feature))
+        x = x * spatial_att_out
+        return x
+
 
 
 class WithAtt:
