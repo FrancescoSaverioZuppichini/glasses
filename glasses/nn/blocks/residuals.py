@@ -19,9 +19,10 @@ class ResidualAdd(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         res = x
+        x = self.block(x)
         res = self.shortcut(res)
         if self.in_place:
-            res += self.block(x)
+            x += res
         else:
-            res = res + self.block(x)
+            x = x + res
         return res

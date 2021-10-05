@@ -199,3 +199,6 @@ class BnActConv(nn.Sequential):
 ConvBn = partial(ConvBnAct, activation=None)
 ConvAct = partial(ConvBnAct, normalization=None, bias=True)
 Conv3x3BnAct = partial(ConvBnAct, kernel_size=3)
+
+
+# class DepthWiseConv

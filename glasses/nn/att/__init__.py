@@ -263,7 +263,7 @@ class EffectiveSE(nn.Module):
 
         self.att = nn.Sequential(
             nn.AdaptiveAvgPool2d(1),
-            nn.Conv2d(features, features, kernel_size=1, bias=False),
+            nn.Conv2d(features, features, kernel_size=1, bias=True),
             nn.Sigmoid(),
         )
 

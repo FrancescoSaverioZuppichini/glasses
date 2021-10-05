@@ -10,6 +10,7 @@ from typing import List
 from functools import partial
 from glasses.nn.blocks.residuals import ResidualAdd
 from glasses.nn.att import EffectiveSE
+from glasses.nn.blocks import Lambda
 
 
 class VoVNetBlock(nn.Module):
@@ -24,7 +25,8 @@ class VoVNetBlock(nn.Module):
         super().__init__()
         self.blocks = nn.Sequential(
             block(in_features, stage_features),
-            *[block(stage_features, stage_features) for _ in range(repeat - 1)],
+            *[block(stage_features, stage_features)
+              for _ in range(repeat - 1)],
         )
         self.aggregate = ConvBnAct(
             in_features + (stage_features * repeat), out_features, kernel_size=1
@@ -41,13 +43,12 @@ class VoVNetBlock(nn.Module):
 
 
 class VoVNetV2Block(nn.Sequential):
-    def __init__(self, in_features: int, out_features: int, *args, **kwargs):
-
-        super().__init__(
-            ResidualAdd(
-                VoVNetBlock(in_features, out_features, *args, **kwargs),
-                EffectiveSE(out_features),
-            )
+    def __init__(self, in_features: int, out_features: int,  *args, **kwargs):
+        residual = ResidualAdd if in_features == out_features else nn.Sequential
+        super().__init__(residual(
+            VoVNetBlock(in_features, out_features, *args, **kwargs),
+            EffectiveSE(out_features),
+        )
         )
 
 
@@ -64,7 +65,7 @@ class VoVNetLayer(nn.Sequential):
         super().__init__(
             block(in_features, out_features, **kwargs),
             *[
-                block(out_features, out_features, use_residual=True, **kwargs)
+                block(out_features, out_features, **kwargs)
                 for _ in range(depth - 1)
             ],
             pool(kernel_size=3, stride=2),

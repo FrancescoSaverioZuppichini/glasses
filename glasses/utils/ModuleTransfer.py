@@ -49,6 +49,10 @@ class ModuleTransfer:
         dest_traced = list(filter(lambda x: type(x) not in self.dest_skip, dest_traced))
 
         if len(dest_traced) != len(src_traced):
+            if self.verbose:
+                pprint(dest_traced)
+                print('--------')
+                pprint(src_traced)
             raise Exception(
                 f"Numbers of operations are different. Source module has {len(src_traced)} operations while destination module has {len(dest_traced)}."
             )
