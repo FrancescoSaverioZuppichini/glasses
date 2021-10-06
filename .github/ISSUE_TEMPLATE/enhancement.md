@@ -7,5 +7,5 @@ assignees: ''
 
 ---
 
-### Enhancement
+## Enhancement ✨
 Add or change a features
