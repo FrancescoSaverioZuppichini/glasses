@@ -1,6 +1,41 @@
 glasses.nn.att package
 ======================
 
+Submodules
+----------
+
+glasses.nn.att.CBAM module
+--------------------------
+
+.. automodule:: glasses.nn.att.CBAM
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+glasses.nn.att.ECA module
+-------------------------
+
+.. automodule:: glasses.nn.att.ECA
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+glasses.nn.att.se module
+------------------------
+
+.. automodule:: glasses.nn.att.se
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+glasses.nn.att.utils module
+---------------------------
+
+.. automodule:: glasses.nn.att.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
