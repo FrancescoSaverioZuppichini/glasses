@@ -56,6 +56,24 @@ class CBAMSpatialAtt(nn.Module):
 
 
 class CBAM(nn.Module):
+    """Implementation of Convolutional Block Attention Module proposed in `CBAM: Convolutional Block Attention Module <https://arxiv.org/abs/1807.06521>`_
+
+    .. image:: 
+
+    Examples:
+
+        >>> # create cbamresnet50
+        >>> from glasses.models.classification.resnet import ResNet, ResNetBottleneckBlock
+        >>> from glasses.nn.att import CBAM, WithAtt
+        >>> cbam_resnet50 = ResNet.resnet50(block=WithAtt(ResNetBottleneckBlock, att=CBAM))
+        >>> cbam_resnet50.summary()
+
+    Args:
+        features (int, optional): Number of features features. Defaults to None.
+        reduction (int, optional): Reduction ratio used to downsample the input. Defaults to 16.
+        reduced_features:  If passed, use it instead of calculating the reduced features using `reduction`. Defaults to None.
+        kernel_size (int, optional): kernel_size of the Conv2d to produce the 2D spatial attention map. Defaults to 7.
+    """
     def __init__(
         self,
         features: int,

@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
+from glasses.models.classification.resnet import ResNet, ResNetBottleneckBlock
 from glasses.nn import ChannelSE, ECA, SpatialChannelSE, SpatialSE, CBAM
+from glasses.nn.att import WithAtt
 
 
 def test_att():
@@ -34,6 +36,7 @@ def test_att():
 
     res = cbam(x)
     assert res.shape == x.shape
+    
 
 if __name__ == "__main__":
     test_att()
