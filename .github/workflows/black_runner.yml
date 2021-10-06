@@ -2,8 +2,7 @@
 name: Formatter
 
 on:
-  push:
-    branches: [ develop ]
+  pull_request:
 
 jobs:
   build:
@@ -14,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: develop
+        ref: ${{ github.ref }}
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
