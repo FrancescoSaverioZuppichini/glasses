@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/home/zuppif/anaconda3/envs/dl/bin/python"
+  "python.pythonPath": "/home/zuppif/anaconda3/envs/dl/bin/python",
+  "python.linting.enabled": true
 }
