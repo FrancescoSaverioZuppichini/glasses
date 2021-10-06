@@ -1,0 +1,35 @@
+
+name: Formatter
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: develop
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install black
+
+    - name: Format
+      run: |
+        black ./glasses
+      
+    - name: Commit
+      run: |
+        git config --global user.name 'FrancescoSaverioZuppichini'
+        git config --global user.email 'francesco.zuppichini@gmail.com'
+        git commit -am "reformatted ✨"
