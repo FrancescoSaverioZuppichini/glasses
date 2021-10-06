@@ -24,8 +24,6 @@ class CBAMChannelAtt(nn.Module):
         )
         self.gate = nn.Sigmoid()
 
-        self.gate = nn.Sigmoid()
-
     def forward(self, x: Tensor) -> Tensor:
         y_avg = self.att(self.avg_pool(x))
         y_max = self.att(self.max_pool(x))
@@ -53,7 +51,6 @@ class CBAMSpatialAtt(nn.Module):
         y_avg = self.avg_pool(x)
         y_max = self.max_pool(x)
         y = torch.cat([y_avg, y_max], dim=1)
-        print(y.shape)
         y = self.gate(self.att(y))
         return x * y
 
