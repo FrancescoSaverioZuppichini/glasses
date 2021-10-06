@@ -34,6 +34,3 @@ def test_att():
     res = cbam(x)
     assert res.shape == x.shape
     
-
-if __name__ == "__main__":
-    test_att()
