@@ -1,5 +1,5 @@
 import torch.nn as nn
-from .se_layer import SpatialSE
+from .se import SpatialSE
 
 
 class WithAtt:
