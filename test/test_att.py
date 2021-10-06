@@ -1,8 +1,5 @@
 import torch
-import torch.nn as nn
-from glasses.models.classification.resnet import ResNet, ResNetBottleneckBlock
-from glasses.nn import ChannelSE, ECA, SpatialChannelSE, SpatialSE, CBAM
-from glasses.nn.att import WithAtt
+from glasses.nn.att import ChannelSE, ECA, SpatialChannelSE, SpatialSE, CBAM
 
 
 def test_att():
