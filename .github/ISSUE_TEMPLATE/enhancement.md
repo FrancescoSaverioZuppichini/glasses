@@ -1,5 +1,5 @@
 ---
-name: Enhancement 🪄
+name: Enhancement
 about: Add or change a features
 title: "[Enhancement]"
 labels: enhancement
@@ -7,5 +7,5 @@ assignees: ''
 
 ---
 
-### Enhancement
+## Enhancement ✨
 Add or change a features
