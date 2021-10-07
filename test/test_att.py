@@ -1,5 +1,5 @@
 import torch
-from glasses.nn.att import ChannelSE, ECA, SpatialChannelSE, SpatialSE, CBAM
+from glasses.nn.att import ChannelSE, ECA, SpatialChannelSE, SpatialSE, CBAM, SelectiveKernel
 
 
 def test_att():
@@ -32,5 +32,10 @@ def test_att():
     cbam = CBAM(x.shape[1])
 
     res = cbam(x)
+    assert res.shape == x.shape
+
+    sk = SelectiveKernel(x.shape[1], kernel_size=[3, 5])
+    
+    res = sk(x)
     assert res.shape == x.shape
     
