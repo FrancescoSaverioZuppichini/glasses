@@ -3,7 +3,7 @@ from glasses.nn.att import ChannelSE, ECA, SpatialChannelSE, SpatialSE, CBAM, Se
 
 
 def test_att():
-    x = torch.rand(1, 48, 8, 8)
+    x = torch.rand(2, 48, 8, 8)
 
     se = SpatialSE(x.shape[1])
     res = se(x)
