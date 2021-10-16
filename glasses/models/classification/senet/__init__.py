@@ -8,7 +8,6 @@ SENetBasicBlock = WithAtt(ResNetBasicBlock, att=SpatialSE)
 SENetBottleneckBlock = WithAtt(ResNetBottleneckBlock, att=SpatialSE)
 
 
-
 class SEResNet(ResNet):
     """Implementation of Squeeze and Excitation ResNet using booth the original spatial se
     and the channel se proposed in
@@ -60,5 +59,3 @@ class SEResNet(ResNet):
             SEResNet: [description]
         """
         return ResNet.resnet152(*args, block=SENetBottleneckBlock, **kwargs)
-
-
