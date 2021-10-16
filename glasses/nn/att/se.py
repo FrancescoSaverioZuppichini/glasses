@@ -8,6 +8,43 @@ ReLUInPlace = partial(nn.ReLU, inplace=True)
 
 
 class SpatialSE(nn.Module):
+    """Modernized Implementation of Squeeze and Excitation Module proposed in `Squeeze-and-Excitation Networks <https://arxiv.org/abs/1709.01507>`_ with single kernel convolution instead of fully connected layers. 
+
+    See `LegacySpatialSE` for usage.
+    """
+
+    def __init__(
+        self,
+        features: int,
+        reduction: int = 16,
+        reduced_features: int = None,
+        activation: nn.Module = ReLUInPlace,
+    ):
+        super().__init__()
+        self.reduced_features = (
+            features // reduction if reduced_features is None else reduced_features
+        )
+
+        self.pool = Reduce("b c h w -> b c 1 1", reduction="mean")
+        self.att = nn.Sequential(
+            OrderedDict(
+                {
+                    "fc1": nn.Conv2d(features, self.reduced_features, kernel_size=1, bias=False),
+                    "act1": activation(),
+                    "fc2": nn.Conv2d(self.reduced_features, features, kernel_size=1, bias=False),
+                    "act2": nn.Sigmoid(),
+                    "proj": nn.Identity(),
+                }
+            )
+        )
+
+    def forward(self, x: Tensor) -> Tensor:
+        y = self.pool(x)
+        y = self.att(y)
+        return x * y
+
+
+class LegacySpatialSE(SpatialSE):
     """Implementation of Squeeze and Excitation Module proposed in `Squeeze-and-Excitation Networks <https://arxiv.org/abs/1709.01507>`_
 
     The idea is to apply a learned weight to rescale the channels.
@@ -65,15 +102,12 @@ class SpatialSE(nn.Module):
     def __init__(
         self,
         features: int,
-        reduction: int = 16,
-        reduced_features: int = None,
+        *args,
         activation: nn.Module = ReLUInPlace,
+        **kwargs,
     ):
-        super().__init__()
-        self.reduced_features = (
-            features // reduction if reduced_features is None else reduced_features
-        )
 
+        super().__init__(features, *args, **kwargs)
         self.pool = Reduce("b c h w -> b c", reduction="mean")
         self.att = nn.Sequential(
             OrderedDict(
@@ -86,11 +120,6 @@ class SpatialSE(nn.Module):
                 }
             )
         )
-
-    def forward(self, x: Tensor) -> Tensor:
-        y = self.pool(x)
-        y = self.att(y)
-        return x * y
 
 
 class ChannelSE(SpatialSE):
@@ -148,12 +177,6 @@ class ChannelSE(SpatialSE):
                 }
             )
         )
-
-    def forward(self, x: Tensor) -> Tensor:
-        y = self.pool(x)
-        y = self.att(y)
-
-        return x * y
 
 
 class SpatialChannelSE(nn.Module):
