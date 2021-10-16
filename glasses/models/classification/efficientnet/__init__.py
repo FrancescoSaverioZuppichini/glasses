@@ -7,7 +7,7 @@ from collections import OrderedDict
 from typing import List
 from functools import partial
 from glasses.nn.blocks import ConvBnAct
-from glasses.nn.att import ChannelSE
+from glasses.nn.att import SpatialSE
 from ....models.utils.scaler import CompoundScaler
 from ....models.base import Encoder
 from ..resnet import ResNetLayer
@@ -72,7 +72,7 @@ class InvertedResidualBlock(nn.Module):
                         **kwargs,
                     ),
                     # apply se after depth-wise
-                    "att": ChannelSE(
+                    "att": SpatialSE(
                         expanded_features,
                         reduced_features=in_features // 4,
                         activation=activation,
