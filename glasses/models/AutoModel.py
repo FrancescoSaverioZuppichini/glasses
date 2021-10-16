@@ -53,11 +53,6 @@ class AutoModel:
             "se_resnet50": SEResNet.se_resnet50,
             "se_resnet101": SEResNet.se_resnet101,
             "se_resnet152": SEResNet.se_resnet152,
-            "cse_resnet18": SEResNet.cse_resnet18,
-            "cse_resnet34": SEResNet.cse_resnet34,
-            "cse_resnet50": SEResNet.cse_resnet50,
-            "cse_resnet101": SEResNet.cse_resnet101,
-            "cse_resnet152": SEResNet.cse_resnet152,
             "eca_resnet18t": partial(
                 ResNet.resnet18,
                 stem=ResNetStemT,
