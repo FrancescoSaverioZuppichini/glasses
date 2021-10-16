@@ -8,7 +8,7 @@ ReLUInPlace = partial(nn.ReLU, inplace=True)
 
 
 class SpatialSE(nn.Module):
-    """Modernized Implementation of Squeeze and Excitation Module proposed in `Squeeze-and-Excitation Networks <https://arxiv.org/abs/1709.01507>`_ with single kernel convolution instead of fully connected layers. 
+    """Modernized Implementation of Squeeze and Excitation Module proposed in `Squeeze-and-Excitation Networks <https://arxiv.org/abs/1709.01507>`_ with single kernel convolution instead of fully connected layers.
 
     See `LegacySpatialSE` for usage.
     """
@@ -29,9 +29,13 @@ class SpatialSE(nn.Module):
         self.att = nn.Sequential(
             OrderedDict(
                 {
-                    "fc1": nn.Conv2d(features, self.reduced_features, kernel_size=1, bias=False),
+                    "fc1": nn.Conv2d(
+                        features, self.reduced_features, kernel_size=1, bias=False
+                    ),
                     "act1": activation(),
-                    "fc2": nn.Conv2d(self.reduced_features, features, kernel_size=1, bias=False),
+                    "fc2": nn.Conv2d(
+                        self.reduced_features, features, kernel_size=1, bias=False
+                    ),
                     "act2": nn.Sigmoid(),
                     "proj": nn.Identity(),
                 }
