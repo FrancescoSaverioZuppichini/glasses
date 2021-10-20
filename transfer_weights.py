@@ -8,12 +8,8 @@ from io import BytesIO
 from pathlib import Path
 from typing import Dict
 from glasses.utils.weights.storage import LocalStorage, HuggingFaceStorage
-from glasses.utils.weights.PretrainedWeightsProvider import (
-    PretrainedWeightsProvider,
-    pretrained,
-)
 
-import boto3
+
 import pretrainedmodels
 import timm
 import torch
@@ -44,8 +40,6 @@ from glasses.models import *
 from glasses.utils.ModuleTransfer import ModuleTransfer
 from glasses.models.classification.vit import ViTTokens
 from glasses.models.classification.deit import DeiTTokens
-
-provider = PretrainedWeightsProvider()
 
 
 def vit_clone(key: str):
