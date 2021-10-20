@@ -1,16 +1,15 @@
 from re import L
 from typing import Any, List
 from abc import ABC, abstractmethod
-from glasses.types import StateDict
 
 
 class Storage(ABC):
     @abstractmethod
-    def __setitem__(self, key: str, weights: StateDict):
+    def put(self, *args: Any, **kwargs: Any):
         pass
 
     @abstractmethod
-    def __getitem__(self, key: str) -> Any:
+    def get(self, key: str, **kwargs: Any) -> Any:
         pass
 
     @property
