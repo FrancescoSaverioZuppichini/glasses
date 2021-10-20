@@ -12,7 +12,8 @@ from tqdm.autonotebook import tqdm
 from glasses.models import *
 from glasses.models.AutoModel import AutoModel
 from glasses.models.AutoTransform import AutoTransform
-from glasses.utils.weights.PretrainedWeightsProvider import PretrainedWeightsProvider
+
+WeightsProvider
 
 models = PretrainedWeightsProvider.weights_zoo
 

@@ -11,7 +11,7 @@ from glasses.nn.att import SpatialSE
 from ....models.utils.scaler import CompoundScaler
 from ....models.base import Encoder
 from ..resnet import ResNetLayer
-from glasses.utils.weights.PretrainedWeightsProvider import pretrained
+
 from ..base import ClassificationModule
 from glasses.nn import StochasticDepth
 
@@ -350,27 +350,22 @@ class EfficientNet(ClassificationModule):
         )
 
     @classmethod
-    @pretrained()
     def efficientnet_b0(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, "efficientnet_b0", *args, **kwargs)
 
     @classmethod
-    @pretrained()
     def efficientnet_b1(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, "efficientnet_b1", *args, **kwargs)
 
     @classmethod
-    @pretrained()
     def efficientnet_b2(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, "efficientnet_b2", *args, **kwargs)
 
     @classmethod
-    @pretrained()
     def efficientnet_b3(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, "efficientnet_b3", *args, **kwargs)
 
     @classmethod
-    @pretrained()
     def efficientnet_b4(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, "efficientnet_b4", *args, **kwargs)
 

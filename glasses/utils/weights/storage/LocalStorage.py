@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from glasses.types import StateDict
 from pathlib import Path
 from torch import nn
+from typing import List
 
 
 @dataclass
@@ -26,5 +27,6 @@ class LocalStorage(Storage):
         state_dict = torch.load(save_path)
         return state_dict
 
-    def __contains__(self, key: str) -> bool:
-        return key in [file.stem for file in self.models_files]
+    @property
+    def models(self) -> List[str]:
+        return [file.stem for file in self.models_files]

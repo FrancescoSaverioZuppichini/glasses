@@ -18,9 +18,10 @@ model = Dummy()
 def test_storage_api():
     class MyStorage(Storage):
         pass
-    
+
     with pytest.raises(TypeError):
         MyStorage()
+
 
 def test_hf_storage():
     storage = HuggingFaceStorage()
@@ -33,5 +34,3 @@ def test_local_storage():
     storage.put(key, model)
     state_dict = storage.get(key)
     model.load_state_dict(state_dict)
-
-    # assert key in storage
