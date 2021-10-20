@@ -34,3 +34,7 @@ def test_local_storage():
     storage.put(key, model)
     state_dict = storage.get(key)
     model.load_state_dict(state_dict)
+
+    assert key in storage
+    assert len(storage.models) == 1
+    assert key in storage.models
