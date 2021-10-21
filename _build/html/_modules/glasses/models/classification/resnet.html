@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <meta name="generator" content="sphinx-4.2.0, furo 2021.09.22"/>
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>glasses.models.classification.resnet - Glasses documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=150e365fa939648e89c22f6d7d13c72a1657915a" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     
     
@@ -312,7 +312,7 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">glasses.utils.weights.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">pretrained</span>
+
 <span class="kn">from</span> <span class="nn">....models.base</span> <span class="kn">import</span> <span class="n">Encoder</span>
 <span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">ClassificationModule</span>
 
@@ -837,7 +837,6 @@
                 <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ResNet.resnet18"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNet.resnet18">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet18</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">"""Creates a resnet18 model</span>
 
@@ -851,7 +850,6 @@
         <span class="k">return</span> <span class="n">model</span></div>
 
 <div class="viewcode-block" id="ResNet.resnet26"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNet.resnet26">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet26</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">"""Creates a resnet26 model</span>
 
@@ -869,7 +867,6 @@
         <span class="k">return</span> <span class="n">model</span></div>
 
 <div class="viewcode-block" id="ResNet.resnet26d"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNet.resnet26d">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet26d</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">"""Creates a resnet26d model</span>
 
@@ -888,7 +885,6 @@
         <span class="k">return</span> <span class="n">model</span></div>
 
 <div class="viewcode-block" id="ResNet.resnet34"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNet.resnet34">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet34</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">"""Creates a resnet34 model</span>
 
@@ -900,7 +896,6 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="ResNet.resnet34d"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNet.resnet34d">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet34d</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">"""Creates a resnet34 model</span>
 
@@ -919,7 +914,6 @@
         <span class="k">return</span> <span class="n">model</span></div>
 
 <div class="viewcode-block" id="ResNet.resnet50"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNet.resnet50">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet50</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">"""Creates a resnet50 model</span>
 
@@ -937,7 +931,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ResNet.resnet50d"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNet.resnet50d">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet50d</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">"""Creates a resnet50d model</span>
 
@@ -956,7 +949,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ResNet.resnet101"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNet.resnet101">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet101</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">"""Creates a resnet101 model</span>
 
@@ -974,7 +966,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ResNet.resnet152"><a class="viewcode-back" href="../../../../glasses.models.classification.resnet.html#glasses.models.ResNet.resnet152">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">resnet152</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
         <span class="sd">"""Creates a resnet152 model</span>
 

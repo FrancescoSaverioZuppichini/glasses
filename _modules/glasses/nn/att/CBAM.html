@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <meta name="generator" content="sphinx-4.2.0, furo 2021.09.22"/>
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>glasses.nn.att.CBAM - Glasses documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=150e365fa939648e89c22f6d7d13c72a1657915a" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     
     
@@ -310,6 +310,7 @@
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
 <span class="kn">from</span> <span class="nn">einops.layers.torch</span> <span class="kn">import</span> <span class="n">Rearrange</span><span class="p">,</span> <span class="n">Reduce</span>
 
+
 <div class="viewcode-block" id="CBAMChannelAtt"><a class="viewcode-back" href="../../../../glasses.nn.att.html#glasses.nn.att.CBAM.CBAMChannelAtt">[docs]</a><span class="k">class</span> <span class="nc">CBAMChannelAtt</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -365,7 +366,7 @@
 <div class="viewcode-block" id="CBAM"><a class="viewcode-back" href="../../../../glasses.nn.att.html#glasses.nn.att.CBAM.CBAM">[docs]</a><span class="k">class</span> <span class="nc">CBAM</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">"""Implementation of Convolutional Block Attention Module proposed in `CBAM: Convolutional Block Attention Module &lt;https://arxiv.org/abs/1807.06521&gt;`_</span>
 
-<span class="sd">    .. image:: </span>
+<span class="sd">    .. image::</span>
 
 <span class="sd">    Examples:</span>
 
@@ -381,6 +382,7 @@
 <span class="sd">        reduced_features:  If passed, use it instead of calculating the reduced features using `reduction`. Defaults to None.</span>
 <span class="sd">        kernel_size (int, optional): kernel_size of the Conv2d to produce the 2D spatial attention map. Defaults to 7.</span>
 <span class="sd">    """</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>

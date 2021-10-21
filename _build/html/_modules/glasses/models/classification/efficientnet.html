@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <meta name="generator" content="sphinx-4.2.0, furo 2021.09.22"/>
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>glasses.models.classification.efficientnet - Glasses documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=150e365fa939648e89c22f6d7d13c72a1657915a" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     
     
@@ -314,11 +314,11 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">glasses.nn.blocks</span> <span class="kn">import</span> <span class="n">ConvBnAct</span>
-<span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">ChannelSE</span>
+<span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">SpatialSE</span>
 <span class="kn">from</span> <span class="nn">....models.utils.scaler</span> <span class="kn">import</span> <span class="n">CompoundScaler</span>
 <span class="kn">from</span> <span class="nn">....models.base</span> <span class="kn">import</span> <span class="n">Encoder</span>
 <span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ResNetLayer</span>
-<span class="kn">from</span> <span class="nn">glasses.utils.weights.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">pretrained</span>
+
 <span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">ClassificationModule</span>
 <span class="kn">from</span> <span class="nn">glasses.nn</span> <span class="kn">import</span> <span class="n">StochasticDepth</span>
 
@@ -379,7 +379,7 @@
                         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="c1"># apply se after depth-wise</span>
-                    <span class="s2">"att"</span><span class="p">:</span> <span class="n">ChannelSE</span><span class="p">(</span>
+                    <span class="s2">"att"</span><span class="p">:</span> <span class="n">SpatialSE</span><span class="p">(</span>
                         <span class="n">expanded_features</span><span class="p">,</span>
                         <span class="n">reduced_features</span><span class="o">=</span><span class="n">in_features</span> <span class="o">//</span> <span class="mi">4</span><span class="p">,</span>
                         <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
@@ -657,27 +657,22 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="EfficientNet.efficientnet_b0"><a class="viewcode-back" href="../../../../glasses.models.classification.efficientnet.html#glasses.models.EfficientNet.efficientnet_b0">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">efficientnet_b0</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EfficientNet</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">,</span> <span class="s2">"efficientnet_b0"</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EfficientNet.efficientnet_b1"><a class="viewcode-back" href="../../../../glasses.models.classification.efficientnet.html#glasses.models.EfficientNet.efficientnet_b1">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">efficientnet_b1</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EfficientNet</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">,</span> <span class="s2">"efficientnet_b1"</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EfficientNet.efficientnet_b2"><a class="viewcode-back" href="../../../../glasses.models.classification.efficientnet.html#glasses.models.EfficientNet.efficientnet_b2">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">efficientnet_b2</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EfficientNet</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">,</span> <span class="s2">"efficientnet_b2"</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EfficientNet.efficientnet_b3"><a class="viewcode-back" href="../../../../glasses.models.classification.efficientnet.html#glasses.models.EfficientNet.efficientnet_b3">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">efficientnet_b3</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EfficientNet</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">,</span> <span class="s2">"efficientnet_b3"</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EfficientNet.efficientnet_b4"><a class="viewcode-back" href="../../../../glasses.models.classification.efficientnet.html#glasses.models.EfficientNet.efficientnet_b4">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">efficientnet_b4</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EfficientNet</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">,</span> <span class="s2">"efficientnet_b4"</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 

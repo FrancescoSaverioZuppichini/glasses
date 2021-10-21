@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <meta name="generator" content="sphinx-4.2.0, furo 2021.09.22"/>
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>glasses.models.AutoModel - Glasses documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=150e365fa939648e89c22f6d7d13c72a1657915a" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     
     
@@ -306,9 +306,9 @@
         <article role="main">
           <h1>Source code for glasses.models.AutoModel</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">difflib</span>
+<span class="kn">from</span> <span class="nn">glasses.utils.weights.storage</span> <span class="kn">import</span> <span class="n">HuggingFaceStorage</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">glasses.utils.weights</span> <span class="kn">import</span> <span class="n">PretrainedWeightsProvider</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
 <span class="kn">from</span> <span class="nn">.classification</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.segmentation</span> <span class="kn">import</span> <span class="o">*</span>
@@ -321,8 +321,8 @@
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">..nn.att</span> <span class="kn">import</span> <span class="n">ECA</span><span class="p">,</span> <span class="n">WithAtt</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">..utils.weights.storage</span> <span class="kn">import</span> <span class="n">Storage</span>
+<span class="kn">from</span> <span class="nn">glasses.logger</span> <span class="kn">import</span> <span class="n">logger</span>
 
 
 <div class="viewcode-block" id="AutoModel"><a class="viewcode-back" href="../../../glasses.models.html#glasses.models.AutoModel.AutoModel">[docs]</a><span class="k">class</span> <span class="nc">AutoModel</span><span class="p">:</span>
@@ -341,8 +341,6 @@
 
 <span class="sd">    """</span>
 
-    <span class="n">provider</span> <span class="o">=</span> <span class="n">PretrainedWeightsProvider</span><span class="p">()</span>
-
     <span class="n">zoo</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span>
         <span class="p">{</span>
             <span class="s2">"resnet18"</span><span class="p">:</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">,</span>
@@ -360,11 +358,6 @@
             <span class="s2">"se_resnet50"</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">se_resnet50</span><span class="p">,</span>
             <span class="s2">"se_resnet101"</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">se_resnet101</span><span class="p">,</span>
             <span class="s2">"se_resnet152"</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">se_resnet152</span><span class="p">,</span>
-            <span class="s2">"cse_resnet18"</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet18</span><span class="p">,</span>
-            <span class="s2">"cse_resnet34"</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet34</span><span class="p">,</span>
-            <span class="s2">"cse_resnet50"</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet50</span><span class="p">,</span>
-            <span class="s2">"cse_resnet101"</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet101</span><span class="p">,</span>
-            <span class="s2">"cse_resnet152"</span><span class="p">:</span> <span class="n">SEResNet</span><span class="o">.</span><span class="n">cse_resnet152</span><span class="p">,</span>
             <span class="s2">"eca_resnet18t"</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span>
                 <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">,</span>
                 <span class="n">stem</span><span class="o">=</span><span class="n">ResNetStemT</span><span class="p">,</span>
@@ -521,7 +514,9 @@
         <span class="k">return</span> <span class="n">model</span></div>
 
 <div class="viewcode-block" id="AutoModel.from_pretrained"><a class="viewcode-back" href="../../../glasses.models.html#glasses.models.AutoModel.AutoModel.from_pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">from_pretrained</span><span class="p">(</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">storage</span><span class="p">:</span> <span class="n">Storage</span> <span class="o">=</span> <span class="n">HuggingFaceStorage</span><span class="p">(),</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
         <span class="sd">"""Instantiates one of the pretrained model classes of the library.</span>
 
 <span class="sd">        Examples:</span>
@@ -537,10 +532,10 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            nn.Module: A fully instantiated pretrained model</span>
 <span class="sd">        """</span>
-        <span class="n">weights</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">provider</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loaded pretrained weights for </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">state_dict</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loaded pretrained weights for </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">model</span></div>
 
 <div class="viewcode-block" id="AutoModel.models"><a class="viewcode-back" href="../../../glasses.models.html#glasses.models.AutoModel.AutoModel.models">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -553,27 +548,36 @@
         <span class="k">return</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">zoo</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="AutoModel.pretrained_models"><a class="viewcode-back" href="../../../glasses.models.html#glasses.models.AutoModel.AutoModel.pretrained_models">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">pretrained_models</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">pretrained_models</span><span class="p">(</span>
+        <span class="n">storage</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Storage</span><span class="p">]</span> <span class="o">=</span> <span class="n">HuggingFaceStorage</span><span class="p">(),</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">"""List the available pretrained models name</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            storage (Storage, optional): The storage from which get the pretrained weights. Defaults to HuggingFaceStorage().</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            List[str]: [description]</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">provider</span><span class="o">.</span><span class="n">weights_zoo</span></div>
+
+        <span class="k">return</span> <span class="n">storage</span><span class="o">.</span><span class="n">models</span></div>
 
 <div class="viewcode-block" id="AutoModel.models_table"><a class="viewcode-back" href="../../../glasses.models.html#glasses.models.AutoModel.AutoModel.models_table">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">models_table</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">models_table</span><span class="p">(</span><span class="n">storage</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Storage</span><span class="p">]</span> <span class="o">=</span> <span class="n">HuggingFaceStorage</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
         <span class="sd">"""Show a nice formated table with all the models available</span>
 
+<span class="sd">        Args:</span>
+<span class="sd">            storage (Storage, optional): The storage from which get the pretrained weights. Defaults to HuggingFaceStorage().</span>
+
 <span class="sd">        Returns:</span>
-<span class="sd">            List[str]: [description]</span>
+<span class="sd">            Table: [description]</span>
 <span class="sd">        """</span>
         <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Models"</span><span class="p">)</span>
         <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">"Name"</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">no_wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">"Pretrained"</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">no_wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="p">[</span>
-            <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="s2">"true"</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">provider</span><span class="o">.</span><span class="n">weights_zoo</span> <span class="k">else</span> <span class="s2">"false"</span><span class="p">)</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="s2">"true"</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">storage</span><span class="o">.</span><span class="n">models</span> <span class="k">else</span> <span class="s2">"false"</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">zoo</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
         <span class="p">]</span>
 

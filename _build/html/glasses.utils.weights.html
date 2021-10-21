@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="glasses.utils.weights.storage package" href="glasses.utils.weights.storage.html" /><link rel="prev" title="glasses.utils package" href="glasses.utils.html" />
 
-    <meta name="generator" content="sphinx-4.2.0, furo 2021.09.22"/>
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>glasses.utils.weights package - Glasses documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=150e365fa939648e89c22f6d7d13c72a1657915a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     
     
@@ -315,68 +315,6 @@
 </ul>
 </div>
 </section>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</section>
-<section id="module-glasses.utils.weights.PretrainedWeightsProvider">
-<span id="glasses-utils-weights-pretrainedweightsprovider-module"></span><h2>glasses.utils.weights.PretrainedWeightsProvider module<a class="headerlink" href="#module-glasses.utils.weights.PretrainedWeightsProvider" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="glasses.utils.weights.PretrainedWeightsProvider.PretrainedWeightsProvider">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.utils.weights.PretrainedWeightsProvider.</span></span><span class="sig-name descname"><span class="pre">PretrainedWeightsProvider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="glasses.utils.weights.storage.html#glasses.utils.weights.storage.Storage.Storage" title="glasses.utils.weights.storage.Storage.Storage"><span class="pre">glasses.utils.weights.storage.Storage.Storage</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">HuggingFaceStorage(root=PosixPath('/tmp'))</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/weights/PretrainedWeightsProvider.html#PretrainedWeightsProvider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.PretrainedWeightsProvider" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This class allows to retrieve pretrained models weights (state dict).</p>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">provider</span> <span class="o">=</span> <span class="n">PretrainedWeightsProvider</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">provider</span><span class="p">[</span><span class="s1">'resnet18'</span><span class="p">]</span> <span class="c1"># get a pre-trained resnet18 model</span>
-<span class="go"># see all the outputs</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">provider</span> <span class="o">=</span> <span class="n">PretrainedWeightsProvider</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="go"># change save dir</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">provider</span> <span class="o">=</span> <span class="n">PretrainedWeightsProvider</span><span class="p">(</span><span class="n">save_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s1">'./awesome/'</span><span class="p">))</span>
-<span class="go"># override model even if already downloaded</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">provider</span> <span class="o">=</span> <span class="n">PretrainedWeightsProvider</span><span class="p">(</span><span class="n">override</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="glasses.utils.weights.PretrainedWeightsProvider.PretrainedWeightsProvider.weights_zoo">
-<span class="sig-name descname"><span class="pre">weights_zoo</span></span><em class="property"> <span class="pre">=</span> <span class="pre">['resnet18',</span> <span class="pre">'resnet26',</span> <span class="pre">'resnet26d',</span> <span class="pre">'resnet34',</span> <span class="pre">'resnet34d',</span> <span class="pre">'resnet50',</span> <span class="pre">'resnet50d',</span> <span class="pre">'resnet101',</span> <span class="pre">'resnet152',</span> <span class="pre">'cse_resnet50',</span> <span class="pre">'resnext50_32x4d',</span> <span class="pre">'resnext101_32x8d',</span> <span class="pre">'wide_resnet50_2',</span> <span class="pre">'wide_resnet101_2',</span> <span class="pre">'eca_resnet26t',</span> <span class="pre">'eca_resnet50t',</span> <span class="pre">'eca_resnet50d',</span> <span class="pre">'eca_resnet101d',</span> <span class="pre">'regnetx_002',</span> <span class="pre">'regnetx_004',</span> <span class="pre">'regnetx_006',</span> <span class="pre">'regnetx_008',</span> <span class="pre">'regnetx_016',</span> <span class="pre">'regnetx_032',</span> <span class="pre">'regnetx_040',</span> <span class="pre">'regnetx_064',</span> <span class="pre">'regnety_002',</span> <span class="pre">'regnety_004',</span> <span class="pre">'regnety_006',</span> <span class="pre">'regnety_008',</span> <span class="pre">'regnety_016',</span> <span class="pre">'regnety_032',</span> <span class="pre">'regnety_040',</span> <span class="pre">'regnety_064',</span> <span class="pre">'densenet121',</span> <span class="pre">'densenet169',</span> <span class="pre">'densenet201',</span> <span class="pre">'densenet161',</span> <span class="pre">'vgg11',</span> <span class="pre">'vgg13',</span> <span class="pre">'vgg16',</span> <span class="pre">'vgg19',</span> <span class="pre">'vgg11_bn',</span> <span class="pre">'vgg13_bn',</span> <span class="pre">'vgg16_bn',</span> <span class="pre">'vgg19_bn',</span> <span class="pre">'efficientnet_b0',</span> <span class="pre">'efficientnet_b1',</span> <span class="pre">'efficientnet_b2',</span> <span class="pre">'efficientnet_b3',</span> <span class="pre">'efficientnet_lite0',</span> <span class="pre">'vit_base_patch16_224',</span> <span class="pre">'vit_base_patch16_384',</span> <span class="pre">'vit_base_patch32_384',</span> <span class="pre">'vit_huge_patch16_224',</span> <span class="pre">'vit_huge_patch32_384',</span> <span class="pre">'vit_large_patch16_224',</span> <span class="pre">'vit_large_patch16_384',</span> <span class="pre">'vit_large_patch32_384',</span> <span class="pre">'deit_tiny_patch16_224',</span> <span class="pre">'deit_small_patch16_224',</span> <span class="pre">'deit_base_patch16_224',</span> <span class="pre">'deit_base_patch16_384']</span></em><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.PretrainedWeightsProvider.weights_zoo" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="glasses.utils.weights.PretrainedWeightsProvider.load_pretrained_model">
-<span class="sig-prename descclassname"><span class="pre">glasses.utils.weights.PretrainedWeightsProvider.</span></span><span class="sig-name descname"><span class="pre">load_pretrained_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluding</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">torch.nn.modules.module.Module</span></span></span><a class="reference internal" href="_modules/glasses/utils/weights/PretrainedWeightsProvider.html#load_pretrained_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.load_pretrained_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load the pretrained weights to the model. Optionally, you can exclude some sub-module.</p>
-<dl>
-<dt>Usage:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">load_pretrained_model</span><span class="p">(</span><span class="n">your_model</span><span class="p">,</span> <span class="n">pretrained_state_dict</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1">#load the pretrained weights but not in `model.head`</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">load_pretrained_model</span><span class="p">(</span><span class="n">your_model</span><span class="p">,</span> <span class="n">pretrained_state_dict</span><span class="p">,</span> <span class="n">excluding</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">model</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">head</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>nn.Module</em>) – A PyTorch Module</p></li>
-<li><p><strong>state_dict</strong> (<em>Dict</em><em>[</em><em>AnyStr</em><em>, </em><em>Tensor</em><em>]</em>) – The state dict you want to use</p></li>
-<li><p><strong>excluding</strong> (<em>Callable</em><em>[</em><em>[</em><em>nn.Module</em><em>]</em><em>, </em><em>nn.Module</em><em>]</em><em>, </em><em>optional</em>) – [description]. A function telling which sub-module you want to exclude</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>AttributeError</strong> – Raising if you return a wrong sub-module from <cite>excluding</cite></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The model with the new state dict</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>nn.Module</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="glasses.utils.weights.PretrainedWeightsProvider.pretrained">
-<span class="sig-prename descclassname"><span class="pre">glasses.utils.weights.PretrainedWeightsProvider.</span></span><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="reference internal" href="_modules/glasses/utils/weights/PretrainedWeightsProvider.html#pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.weights.PretrainedWeightsProvider.pretrained" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-</section>
 <section id="module-glasses.utils.weights">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-glasses.utils.weights" title="Permalink to this headline">¶</a></h2>
 </section>
@@ -437,8 +375,6 @@
             <ul>
 <li><a class="reference internal" href="#">glasses.utils.weights package</a><ul>
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-glasses.utils.weights.PretrainedWeightsProvider">glasses.utils.weights.PretrainedWeightsProvider module</a></li>
 <li><a class="reference internal" href="#module-glasses.utils.weights">Module contents</a></li>
 </ul>
 </li>

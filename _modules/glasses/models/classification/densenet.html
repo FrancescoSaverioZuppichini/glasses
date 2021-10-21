@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <meta name="generator" content="sphinx-4.2.0, furo 2021.09.22"/>
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>glasses.models.classification.densenet - Glasses documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=150e365fa939648e89c22f6d7d13c72a1657915a" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     
     
@@ -316,8 +316,6 @@
 <span class="kn">from</span> <span class="nn">glasses.nn.blocks</span> <span class="kn">import</span> <span class="n">Conv2dPad</span>
 <span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">ClassificationModule</span>
 
-<span class="kn">from</span> <span class="nn">glasses.utils.weights.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">pretrained</span>
-
 
 <div class="viewcode-block" id="DenseNetBasicBlock"><a class="viewcode-back" href="../../../../glasses.models.classification.densenet.html#glasses.models.DenseNetBasicBlock">[docs]</a><span class="k">class</span> <span class="nc">DenseNetBasicBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="sd">"""Basic DenseNet block composed by one 3x3 convs with residual connection.</span>
@@ -594,7 +592,6 @@
         <span class="k">return</span> <span class="n">x</span></div>
 
 <div class="viewcode-block" id="DenseNet.densenet121"><a class="viewcode-back" href="../../../../glasses.models.classification.densenet.html#glasses.models.DenseNet.densenet121">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">densenet121</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DenseNet</span><span class="p">:</span>
         <span class="sd">"""Creates a densenet121 model. *Grow rate* is set to 32</span>
 
@@ -606,7 +603,6 @@
         <span class="k">return</span> <span class="n">DenseNet</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">grow_rate</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">16</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DenseNet.densenet161"><a class="viewcode-back" href="../../../../glasses.models.classification.densenet.html#glasses.models.DenseNet.densenet161">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">densenet161</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DenseNet</span><span class="p">:</span>
         <span class="sd">"""Creates a densenet161 model. *Grow rate* is set to 48</span>
 
@@ -620,7 +616,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="DenseNet.densenet169"><a class="viewcode-back" href="../../../../glasses.models.classification.densenet.html#glasses.models.DenseNet.densenet169">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">densenet169</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DenseNet</span><span class="p">:</span>
         <span class="sd">"""Creates a densenet169 model. *Grow rate* is set to 32</span>
 
@@ -632,7 +627,6 @@
         <span class="k">return</span> <span class="n">DenseNet</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">grow_rate</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">depths</span><span class="o">=</span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DenseNet.densenet201"><a class="viewcode-back" href="../../../../glasses.models.classification.densenet.html#glasses.models.DenseNet.densenet201">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">densenet201</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DenseNet</span><span class="p">:</span>
         <span class="sd">"""Creates a densenet201 model. *Grow rate* is set to 32</span>
 

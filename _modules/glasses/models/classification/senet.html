@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <meta name="generator" content="sphinx-4.2.0, furo 2021.09.22"/>
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>glasses.models.classification.senet - Glasses documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=150e365fa939648e89c22f6d7d13c72a1657915a" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     
     
@@ -309,20 +309,17 @@
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
 <span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">ResNet</span>
 <span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">SpatialSE</span><span class="p">,</span> <span class="n">ChannelSE</span><span class="p">,</span> <span class="n">WithAtt</span>
-<span class="kn">from</span> <span class="nn">glasses.utils.weights.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">pretrained</span>
+
 
 <span class="n">SENetBasicBlock</span> <span class="o">=</span> <span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">SpatialSE</span><span class="p">)</span>
 <span class="n">SENetBottleneckBlock</span> <span class="o">=</span> <span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">SpatialSE</span><span class="p">)</span>
-
-<span class="n">CSENetBasicBlock</span> <span class="o">=</span> <span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBasicBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">ChannelSE</span><span class="p">)</span>
-<span class="n">CSENetBottleneckBlock</span> <span class="o">=</span> <span class="n">WithAtt</span><span class="p">(</span><span class="n">ResNetBottleneckBlock</span><span class="p">,</span> <span class="n">att</span><span class="o">=</span><span class="n">ChannelSE</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="SEResNet"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet">[docs]</a><span class="k">class</span> <span class="nc">SEResNet</span><span class="p">(</span><span class="n">ResNet</span><span class="p">):</span>
     <span class="sd">"""Implementation of Squeeze and Excitation ResNet using booth the original spatial se</span>
 <span class="sd">    and the channel se proposed in</span>
 <span class="sd">    `Concurrent Spatial and Channel ‘Squeeze &amp; Excitation’ in Fully Convolutional Networks &lt;https://arxiv.org/abs/1803.02579&gt;`_</span>
-<span class="sd">    The models with the channel se are labelab with prefix `c`</span>
+<span class="sd">    The models with the channel se are labeldb with prefix `c`</span>
 <span class="sd">    """</span>
 
 <div class="viewcode-block" id="SEResNet.se_resnet18"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet.se_resnet18">[docs]</a>    <span class="nd">@classmethod</span>
@@ -368,53 +365,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            SEResNet: [description]</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet152</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">SENetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="SEResNet.cse_resnet18"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet.cse_resnet18">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">cse_resnet18</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SEResNet</span><span class="p">:</span>
-        <span class="sd">"""SE resnet18 with Channel Squeeze and Excitation</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            SEResNet: [description]</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet18</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">CSENetBasicBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="SEResNet.cse_resnet34"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet.cse_resnet34">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">cse_resnet34</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SEResNet</span><span class="p">:</span>
-        <span class="sd">"""SE resnet34 with Channel Squeeze and Excitation</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            SEResNet: [description]</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet34</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">CSENetBasicBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="SEResNet.cse_resnet50"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet.cse_resnet50">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">cse_resnet50</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SEResNet</span><span class="p">:</span>
-        <span class="sd">"""SE resnet50 with Channel Squeeze and Excitation</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            SEResNet: [description]</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">CSENetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="SEResNet.cse_resnet101"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet.cse_resnet101">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">cse_resnet101</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SEResNet</span><span class="p">:</span>
-        <span class="sd">"""SE resnet101 with Channel Squeeze and Excitation</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            SEResNet: [description]</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet101</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">CSENetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="SEResNet.cse_resnet152"><a class="viewcode-back" href="../../../../glasses.models.classification.senet.html#glasses.models.SEResNet.cse_resnet152">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">cse_resnet152</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SEResNet</span><span class="p">:</span>
-        <span class="sd">"""SE resnet152 with Channel Squeeze and Excitation</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            SEResNet: [description]</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet152</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">CSENetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">ResNet</span><span class="o">.</span><span class="n">resnet152</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">SENetBottleneckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
 </pre></div>
         </article>
       </div>

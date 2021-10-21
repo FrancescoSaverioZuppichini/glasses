@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <meta name="generator" content="sphinx-4.2.0, furo 2021.09.22"/>
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>glasses.utils.weights.storage.HuggingFaceStorage - Glasses documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?digest=150e365fa939648e89c22f6d7d13c72a1657915a" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     
     
@@ -307,6 +307,7 @@
           <h1>Source code for glasses.utils.weights.storage.HuggingFaceStorage</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
 <span class="kn">from</span> <span class="nn">.hubs</span> <span class="kn">import</span> <span class="n">HFModelHub</span>
 <span class="kn">from</span> <span class="nn">.Storage</span> <span class="kn">import</span> <span class="n">Storage</span>
@@ -316,7 +317,7 @@
 <div class="viewcode-block" id="HuggingFaceStorage"><a class="viewcode-back" href="../../../../../glasses.utils.weights.storage.html#glasses.utils.weights.storage.HuggingFaceStorage.HuggingFaceStorage">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">HuggingFaceStorage</span><span class="p">(</span><span class="n">Storage</span><span class="p">):</span>
 
-    <span class="n">ORGANIZATION</span> <span class="o">=</span> <span class="s2">"glasses"</span>
+    <span class="n">ORGANIZATION</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"glasses"</span>
     <span class="n">root</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"/tmp/"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="HuggingFaceStorage.put"><a class="viewcode-back" href="../../../../../glasses.utils.weights.storage.html#glasses.utils.weights.storage.HuggingFaceStorage.HuggingFaceStorage.put">[docs]</a>    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -333,8 +334,74 @@
         <span class="n">state_dict</span> <span class="o">=</span> <span class="n">HFModelHub</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ORGANIZATION</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">state_dict</span></div>
 
-    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span></div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s2">"dummy"</span><span class="p">,</span>
+            <span class="s2">"resnet18"</span><span class="p">,</span>
+            <span class="s2">"resnet26"</span><span class="p">,</span>
+            <span class="s2">"resnet26d"</span><span class="p">,</span>
+            <span class="s2">"resnet34"</span><span class="p">,</span>
+            <span class="s2">"resnet34d"</span><span class="p">,</span>
+            <span class="s2">"resnet50"</span><span class="p">,</span>
+            <span class="s2">"resnet50d"</span><span class="p">,</span>
+            <span class="s2">"resnet101"</span><span class="p">,</span>
+            <span class="s2">"resnet152"</span><span class="p">,</span>
+            <span class="s2">"cse_resnet50"</span><span class="p">,</span>
+            <span class="s2">"resnext50_32x4d"</span><span class="p">,</span>
+            <span class="s2">"resnext101_32x8d"</span><span class="p">,</span>
+            <span class="s2">"wide_resnet50_2"</span><span class="p">,</span>
+            <span class="s2">"wide_resnet101_2"</span><span class="p">,</span>
+            <span class="s2">"eca_resnet26t"</span><span class="p">,</span>
+            <span class="s2">"eca_resnet50t"</span><span class="p">,</span>
+            <span class="s2">"eca_resnet50d"</span><span class="p">,</span>
+            <span class="s2">"eca_resnet101d"</span><span class="p">,</span>
+            <span class="s2">"regnetx_002"</span><span class="p">,</span>
+            <span class="s2">"regnetx_004"</span><span class="p">,</span>
+            <span class="s2">"regnetx_006"</span><span class="p">,</span>
+            <span class="s2">"regnetx_008"</span><span class="p">,</span>
+            <span class="s2">"regnetx_016"</span><span class="p">,</span>
+            <span class="s2">"regnetx_032"</span><span class="p">,</span>
+            <span class="s2">"regnetx_040"</span><span class="p">,</span>
+            <span class="s2">"regnetx_064"</span><span class="p">,</span>
+            <span class="s2">"regnety_002"</span><span class="p">,</span>
+            <span class="s2">"regnety_004"</span><span class="p">,</span>
+            <span class="s2">"regnety_006"</span><span class="p">,</span>
+            <span class="s2">"regnety_008"</span><span class="p">,</span>
+            <span class="s2">"regnety_016"</span><span class="p">,</span>
+            <span class="s2">"regnety_032"</span><span class="p">,</span>
+            <span class="s2">"regnety_040"</span><span class="p">,</span>
+            <span class="s2">"regnety_064"</span><span class="p">,</span>
+            <span class="s2">"densenet121"</span><span class="p">,</span>
+            <span class="s2">"densenet169"</span><span class="p">,</span>
+            <span class="s2">"densenet201"</span><span class="p">,</span>
+            <span class="s2">"densenet161"</span><span class="p">,</span>
+            <span class="s2">"vgg11"</span><span class="p">,</span>
+            <span class="s2">"vgg13"</span><span class="p">,</span>
+            <span class="s2">"vgg16"</span><span class="p">,</span>
+            <span class="s2">"vgg19"</span><span class="p">,</span>
+            <span class="s2">"vgg11_bn"</span><span class="p">,</span>
+            <span class="s2">"vgg13_bn"</span><span class="p">,</span>
+            <span class="s2">"vgg16_bn"</span><span class="p">,</span>
+            <span class="s2">"vgg19_bn"</span><span class="p">,</span>
+            <span class="s2">"efficientnet_b0"</span><span class="p">,</span>
+            <span class="s2">"efficientnet_b1"</span><span class="p">,</span>
+            <span class="s2">"efficientnet_b2"</span><span class="p">,</span>
+            <span class="s2">"efficientnet_b3"</span><span class="p">,</span>
+            <span class="s2">"efficientnet_lite0"</span><span class="p">,</span>
+            <span class="s2">"vit_base_patch16_224"</span><span class="p">,</span>
+            <span class="s2">"vit_base_patch16_384"</span><span class="p">,</span>
+            <span class="s2">"vit_base_patch32_384"</span><span class="p">,</span>
+            <span class="s2">"vit_huge_patch16_224"</span><span class="p">,</span>
+            <span class="s2">"vit_huge_patch32_384"</span><span class="p">,</span>
+            <span class="s2">"vit_large_patch16_224"</span><span class="p">,</span>
+            <span class="s2">"vit_large_patch16_384"</span><span class="p">,</span>
+            <span class="s2">"vit_large_patch32_384"</span><span class="p">,</span>
+            <span class="s2">"deit_tiny_patch16_224"</span><span class="p">,</span>
+            <span class="s2">"deit_small_patch16_224"</span><span class="p">,</span>
+            <span class="s2">"deit_base_patch16_224"</span><span class="p">,</span>
+            <span class="s2">"deit_base_patch16_384"</span><span class="p">,</span>
+        <span class="p">]</span></div>
 </pre></div>
         </article>
       </div>

@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <meta name="generator" content="sphinx-4.2.0, furo 2021.09.22"/>
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>glasses.models.classification.regnet - Glasses documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=150e365fa939648e89c22f6d7d13c72a1657915a" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     
     
@@ -310,7 +310,7 @@
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
 <span class="kn">from</span> <span class="nn">glasses.nn.blocks</span> <span class="kn">import</span> <span class="n">ConvBnAct</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">glasses.utils.weights.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">pretrained</span>
+
 <span class="kn">from</span> <span class="nn">....models.base</span> <span class="kn">import</span> <span class="n">Encoder</span>
 <span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetEncoder</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
 <span class="kn">from</span> <span class="nn">glasses.nn.att</span> <span class="kn">import</span> <span class="n">ChannelSE</span>
@@ -506,7 +506,6 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">encoder</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RegNet.regnetx_002"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnetx_002">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnetx_002</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnetx_002"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -514,7 +513,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnetx_004"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnetx_004">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnetx_004</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnetx_004"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -522,7 +520,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnetx_006"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnetx_006">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnetx_006</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnetx_006"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -530,7 +527,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnetx_008"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnetx_008">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnetx_008</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnetx_008"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -538,7 +534,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnetx_016"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnetx_016">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnetx_016</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnetx_016"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -546,7 +541,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnetx_032"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnetx_032">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnetx_032</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnetx_032"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -554,7 +548,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnetx_040"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnetx_040">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnetx_040</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnetx_040"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -562,7 +555,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnetx_064"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnetx_064">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnetx_064</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnetx_064"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -570,7 +562,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnetx_080"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnetx_080">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnetx_080</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnetx_080"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -578,7 +569,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnetx_120"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnetx_120">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnetx_120</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnetx_120"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -586,7 +576,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnetx_160"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnetx_160">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnetx_160</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnetx_160"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -594,7 +583,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnetx_320"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnetx_320">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnetx_320</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnetx_320"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -602,7 +590,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnety_002"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnety_002">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnety_002</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnety_002"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -615,7 +602,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnety_004"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnety_004">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnety_004</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnety_004"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -628,7 +614,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnety_006"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnety_006">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnety_006</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnety_006"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -641,7 +626,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnety_008"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnety_008">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnety_008</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnety_008"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -654,7 +638,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnety_016"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnety_016">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnety_016</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnety_016"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -667,7 +650,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnety_032"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnety_032">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnety_032</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnety_032"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -680,7 +662,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnety_040"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnety_040">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnety_040</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnety_040"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -693,7 +674,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnety_064"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnety_064">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnety_064</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnety_064"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -706,7 +686,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnety_080"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnety_080">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnety_080</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnety_080"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -719,7 +698,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnety_120"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnety_120">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnety_120</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnety_120"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -732,7 +710,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnety_160"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnety_160">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnety_160</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnety_160"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -745,7 +722,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegNet.regnety_320"><a class="viewcode-back" href="../../../../glasses.models.classification.regnet.html#glasses.models.classification.RegNet.regnety_320">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">regnety_320</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">depths</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">groups_width</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">models_config</span><span class="p">[</span><span class="s2">"regnety_320"</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>

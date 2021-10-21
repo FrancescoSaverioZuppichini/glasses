@@ -16,6 +16,14 @@ Subpackages
 Submodules
 ----------
 
+glasses.logger module
+---------------------
+
+.. automodule:: glasses.logger
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 glasses.types module
 --------------------
 

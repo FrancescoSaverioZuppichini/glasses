@@ -9,17 +9,6 @@ Subpackages
 
    glasses.utils.weights.storage
 
-Submodules
-----------
-
-glasses.utils.weights.PretrainedWeightsProvider module
-------------------------------------------------------
-
-.. automodule:: glasses.utils.weights.PretrainedWeightsProvider
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 

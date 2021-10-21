@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
 
-    <meta name="generator" content="sphinx-4.2.0, furo 2021.09.22"/>
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>transfer_weights - Glasses documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=150e365fa939648e89c22f6d7d13c72a1657915a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     
     
@@ -315,12 +315,8 @@
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">glasses.utils.weights.storage</span> <span class="kn">import</span> <span class="n">LocalStorage</span><span class="p">,</span> <span class="n">HuggingFaceStorage</span>
-<span class="kn">from</span> <span class="nn">glasses.utils.weights.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">PretrainedWeightsProvider</span><span class="p">,</span>
-    <span class="n">pretrained</span><span class="p">,</span>
-<span class="p">)</span>
 
-<span class="kn">import</span> <span class="nn">boto3</span>
+
 <span class="kn">import</span> <span class="nn">pretrainedmodels</span>
 <span class="kn">import</span> <span class="nn">timm</span>
 <span class="kn">import</span> <span class="nn">torch</span>
@@ -351,8 +347,6 @@
 <span class="kn">from</span> <span class="nn">glasses.utils.ModuleTransfer</span> <span class="kn">import</span> <span class="n">ModuleTransfer</span>
 <span class="kn">from</span> <span class="nn">glasses.models.classification.vit</span> <span class="kn">import</span> <span class="n">ViTTokens</span>
 <span class="kn">from</span> <span class="nn">glasses.models.classification.deit</span> <span class="kn">import</span> <span class="n">DeiTTokens</span>
-
-<span class="n">provider</span> <span class="o">=</span> <span class="n">PretrainedWeightsProvider</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="vit_clone"><a class="viewcode-back" href="../transfer_weights.html#transfer_weights.vit_clone">[docs]</a><span class="k">def</span> <span class="nf">vit_clone</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -407,7 +401,7 @@
     <span class="s2">"resnet50d"</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">,</span> <span class="s2">"resnet50d"</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="s2">"resnet101"</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">resnet101</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="s2">"resnet152"</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">resnet152</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-    <span class="s2">"cse_resnet50"</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">,</span> <span class="s2">"seresnet50"</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="s2">"se_resnet50"</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">,</span> <span class="s2">"seresnet50"</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="s2">"resnext50_32x4d"</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">resnext50_32x4d</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="s2">"resnext101_32x8d"</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">resnext101_32x8d</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
     <span class="s2">"wide_resnet50_2"</span><span class="p">:</span> <span class="n">partial</span><span class="p">(</span><span class="n">wide_resnet50_2</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>

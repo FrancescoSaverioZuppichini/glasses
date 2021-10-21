@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <meta name="generator" content="sphinx-4.2.0, furo 2021.09.22"/>
+    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
         <title>glasses.models.classification.resnetxt - Glasses documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=150e365fa939648e89c22f6d7d13c72a1657915a" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
     
     
@@ -309,7 +309,7 @@
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">..resnet</span> <span class="kn">import</span> <span class="n">ResNet</span><span class="p">,</span> <span class="n">ResNetBottleneckBlock</span>
-<span class="kn">from</span> <span class="nn">glasses.utils.weights.PretrainedWeightsProvider</span> <span class="kn">import</span> <span class="n">pretrained</span>
+
 
 <span class="n">ReLUInPlace</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -385,7 +385,6 @@
 <span class="sd">    """</span>
 
 <div class="viewcode-block" id="ResNetXt.resnext50_32x4d"><a class="viewcode-back" href="../../../../glasses.models.classification.resnetxt.html#glasses.models.ResNetXt.resnext50_32x4d">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">(</span><span class="s2">"resnext50_32x4d"</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">resnext50_32x4d</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNetXt</span><span class="p">:</span>
         <span class="sd">"""Creates a resnext50_32x4d model</span>
 
@@ -395,7 +394,6 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">ResNetXtBottleNeckBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ResNetXt.resnext101_32x8d"><a class="viewcode-back" href="../../../../glasses.models.classification.resnetxt.html#glasses.models.ResNetXt.resnext101_32x8d">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@pretrained</span><span class="p">(</span><span class="s2">"resnext101_32x8d"</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">resnext101_32x8d</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNetXt</span><span class="p">:</span>
         <span class="sd">"""Creates a resnext101_32x8d model</span>
 
@@ -407,7 +405,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ResNetXt.resnext101_32x16d"><a class="viewcode-back" href="../../../../glasses.models.classification.resnetxt.html#glasses.models.ResNetXt.resnext101_32x16d">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="c1"># @pretrained('resnext101_32x16d')</span>
     <span class="k">def</span> <span class="nf">resnext101_32x16d</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNetXt</span><span class="p">:</span>
         <span class="sd">"""Creates a resnext101_32x16d model</span>
 
@@ -419,7 +416,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ResNetXt.resnext101_32x32d"><a class="viewcode-back" href="../../../../glasses.models.classification.resnetxt.html#glasses.models.ResNetXt.resnext101_32x32d">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="c1"># @pretrained('resnext101_32x32d')</span>
     <span class="k">def</span> <span class="nf">resnext101_32x32d</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNetXt</span><span class="p">:</span>
         <span class="sd">"""Creates a resnext101_32x32d model</span>
 
@@ -431,7 +427,6 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ResNetXt.resnext101_32x48d"><a class="viewcode-back" href="../../../../glasses.models.classification.resnetxt.html#glasses.models.ResNetXt.resnext101_32x48d">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="c1"># @pretrained('resnext101_32x48d')</span>
     <span class="k">def</span> <span class="nf">resnext101_32x48d</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNetXt</span><span class="p">:</span>
         <span class="sd">"""Creates a resnext101_32x48d model</span>
 
