@@ -11,22 +11,22 @@ from typing import List
 class LocalStorage(Storage):
     root: Path = Path("/tmp/glasses")
     override: bool = False
+    fmt: str = "pth"
 
     def __post_init__(self):
         self.root.mkdir(exist_ok=True)
-        self.models_files = list(self.root.glob("*.pth"))
 
     def put(self, key: str, model: nn.Module):
-        save_path = self.root / Path(f"{key}.pth")
+        save_path = self.root / Path(f"{key}.{self.fmt}")
         if key not in self or self.override:
             torch.save(model.state_dict(), save_path)
             assert save_path.exists()
 
     def get(self, key: str) -> StateDict:
-        save_path = self.root / Path(f"{key}.pth")
+        save_path = self.root / Path(f"{key}.{self.fmt}")
         state_dict = torch.load(save_path)
         return state_dict
 
     @property
     def models(self) -> List[str]:
-        return [file.stem for file in self.models_files]
+        return [file.stem for file in self.root.glob(f"*.{self.fmt}")]
