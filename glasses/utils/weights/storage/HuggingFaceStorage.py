@@ -30,6 +30,7 @@ class HuggingFaceStorage(Storage):
     @property
     def models(self) -> List[str]:
         return [
+            "dummy",
             "resnet18",
             "resnet26",
             "resnet26d",
