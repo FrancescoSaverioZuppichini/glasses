@@ -16,7 +16,7 @@ deep learning computer vision library
 
 Doc is [here](https://francescosaveriozuppichini.github.io/glasses/index.html)
 
-## TL;TR
+## TL;DR
 
 This library has
 
