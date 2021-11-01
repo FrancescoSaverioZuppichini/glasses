@@ -81,7 +81,7 @@ class ResNeStBottleneckBlock(ResNetXtBottleNeckBlock):
 
         DropBlock is added after every convolution operation.
 
-        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNeStBlock.jpg?raw=true
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNeStBlock.JPG?raw=true
 
         Args:
             in_features (int): [description]
