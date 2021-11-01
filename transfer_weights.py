@@ -8,12 +8,8 @@ from io import BytesIO
 from pathlib import Path
 from typing import Dict
 from glasses.utils.weights.storage import LocalStorage, HuggingFaceStorage
-from glasses.utils.weights.PretrainedWeightsProvider import (
-    PretrainedWeightsProvider,
-    pretrained,
-)
 
-import boto3
+
 import pretrainedmodels
 import timm
 import torch
@@ -44,8 +40,6 @@ from glasses.models import *
 from glasses.utils.ModuleTransfer import ModuleTransfer
 from glasses.models.classification.vit import ViTTokens
 from glasses.models.classification.deit import DeiTTokens
-
-provider = PretrainedWeightsProvider()
 
 
 def vit_clone(key: str):
@@ -100,7 +94,7 @@ zoo_source = {
     "resnet50d": partial(timm.create_model, "resnet50d", pretrained=True),
     "resnet101": partial(resnet101, pretrained=True),
     "resnet152": partial(resnet152, pretrained=True),
-    "cse_resnet50": partial(timm.create_model, "seresnet50", pretrained=True),
+    "se_resnet50": partial(timm.create_model, "seresnet50", pretrained=True),
     "resnext50_32x4d": partial(resnext50_32x4d, pretrained=True),
     "resnext101_32x8d": partial(resnext101_32x8d, pretrained=True),
     "wide_resnet50_2": partial(wide_resnet50_2, pretrained=True),
