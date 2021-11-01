@@ -1,3 +1,4 @@
+from .SK import SKAtt
 from .se import SpatialSE, LegacySpatialSE, ChannelSE, SpatialChannelSE
 from .ECA import ECA
 from .CBAM import CBAM
@@ -9,6 +10,8 @@ __all__ = [
     "SpatialChannelSE",
     "SpatialSE",
     "CBAM",
+    "SKAtt",
     "WithAtt",
+    "ChannelSE",
     "LegacySpatialSE",
 ]
