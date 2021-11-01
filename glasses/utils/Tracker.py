@@ -1,8 +1,8 @@
+from __future__ import annotations
 import torch.nn as nn
 from torch import Tensor
 from dataclasses import dataclass, field
 from typing import List
-from __future__ import annotations
 
 
 @dataclass
