@@ -1,8 +1,8 @@
 import torch.nn as nn
-from functools import partial
-from typing import Callable, Union
-from torch import Tensor
 import math
+from functools import partial
+from typing import Callable, Tuple, Optional
+from torch import Tensor
 from torch.nn import functional as F
 from ..regularization import DropBlock
 
@@ -47,7 +47,7 @@ class Conv2dPad(nn.Conv2d):
                 else (self.kernel_size[0] // 2, self.kernel_size[1] // 2)
             )
 
-    def _get_padding(self, padding: int) -> Union[int]:
+    def _get_padding(self, padding: int) -> Tuple[int, int]:
         return (padding, padding)
 
     def forward(self, x: Tensor) -> Tensor:
@@ -117,9 +117,9 @@ class ConvBnAct(nn.Sequential):
         self,
         in_features: int,
         out_features: int,
-        activation: nn.Module = nn.ReLU,
         conv: nn.Module = Conv2dPad,
-        normalization: nn.Module = nn.BatchNorm2d,
+        activation: Optional[nn.Module] = nn.ReLU,
+        normalization: Optional[nn.Module] = nn.BatchNorm2d,
         bias: bool = False,
         **kwargs
     ):
@@ -148,10 +148,10 @@ class ConvBnDropAct(nn.Sequential):
         self,
         in_features: int,
         out_features: int,
-        activation: nn.Module = nn.ReLU,
         conv: nn.Module = Conv2dPad,
-        normalization: nn.Module = nn.BatchNorm2d,
-        regularization: nn.Module = DropBlock,
+        activation: Optional[nn.Module] = nn.ReLU,
+        normalization: Optional[nn.Module] = nn.BatchNorm2d,
+        regularization: Optional[nn.Module] = DropBlock,
         p: float = 0.2,
         bias: bool = False,
         **kwargs
@@ -159,7 +159,7 @@ class ConvBnDropAct(nn.Sequential):
         super().__init__()
         self.add_module("conv", conv(in_features, out_features, **kwargs, bias=bias))
         if normalization:
-            self.add_module("bn", normalization(out_features))
+            self.add_module("norm", normalization(out_features))
         if regularization:
             self.add_module("reg", regularization(p=p))
         if activation:
@@ -185,14 +185,16 @@ class BnActConv(nn.Sequential):
         in_features: int,
         out_features: int,
         conv: nn.Module = Conv2dPad,
-        normalization: nn.Module = nn.BatchNorm2d,
-        activation: nn.Module = ReLUInPlace,
+        normalization: Optional[nn.Module] = nn.BatchNorm2d,
+        activation: Optional[nn.Module] = ReLUInPlace,
         *args,
         **kwargs
     ):
         super().__init__()
-        self.add_module("bn", normalization(in_features))
-        self.add_module("act", activation())
+        if normalization:
+            self.add_module("norm", normalization(in_features))
+        if activation:
+            self.add_module("act", activation())
         self.add_module("conv", conv(in_features, out_features, *args, **kwargs))
 
 

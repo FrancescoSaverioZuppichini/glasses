@@ -258,7 +258,7 @@ class AutoTransform:
         )
 
     @staticmethod
-    def from_name(name: str) -> ImageNetTransform:
+    def from_name(name: str) -> Transform:
         """Returns a ImageNetTransformuration from a given model name.
         If the name is not found, it returns a default one.
 
