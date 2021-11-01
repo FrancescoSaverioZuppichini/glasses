@@ -78,7 +78,7 @@ class ResNetXt(ResNet):
     """
 
     @classmethod
-    def resnext50_32x4d(cls, *args, **kwargs) -> ResNetXt:
+    def resnext50_32x4d(cls, *args, **kwargs) -> ResNet:
         """Creates a resnext50_32x4d model
 
         Returns:
@@ -87,7 +87,7 @@ class ResNetXt(ResNet):
         return cls.resnet50(*args, block=ResNetXtBottleNeckBlock, **kwargs)
 
     @classmethod
-    def resnext101_32x8d(cls, *args, **kwargs) -> ResNetXt:
+    def resnext101_32x8d(cls, *args, **kwargs) -> ResNet:
         """Creates a resnext101_32x8d model
 
         Returns:
@@ -98,7 +98,7 @@ class ResNetXt(ResNet):
         )
 
     @classmethod
-    def resnext101_32x16d(cls, *args, **kwargs) -> ResNetXt:
+    def resnext101_32x16d(cls, *args, **kwargs) -> ResNet:
         """Creates a resnext101_32x16d model
 
         Returns:
@@ -109,7 +109,7 @@ class ResNetXt(ResNet):
         )
 
     @classmethod
-    def resnext101_32x32d(cls, *args, **kwargs) -> ResNetXt:
+    def resnext101_32x32d(cls, *args, **kwargs) -> ResNet:
         """Creates a resnext101_32x32d model
 
         Returns:
@@ -120,7 +120,7 @@ class ResNetXt(ResNet):
         )
 
     @classmethod
-    def resnext101_32x48d(cls, *args, **kwargs) -> ResNetXt:
+    def resnext101_32x48d(cls, *args, **kwargs) -> ResNet:
         """Creates a resnext101_32x48d model
 
         Returns:
