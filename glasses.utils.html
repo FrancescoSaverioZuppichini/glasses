@@ -5,11 +5,11 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="glasses.utils.weights package" href="glasses.utils.weights.html" /><link rel="prev" title="glasses.nn.regularization package" href="glasses.nn.regularization.html" />
 
-    <meta name="generator" content="sphinx-4.2.0, furo 2021.10.09"/>
+    <meta name="generator" content="sphinx-4.3.1, furo 2021.11.23"/>
         <title>glasses.utils package - Glasses documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=0254c309f5cadf746f1a613e7677379ac9c8cdcd" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=7f0192ddeb2adecfbaa87ffbcf67d16358b30bc1" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=0af69da206d614734f649b27d4cdc2dd6c31f41d" />
     
     
 
@@ -322,7 +322,7 @@
 <span id="glasses-utils-moduletransfer-module"></span><h2>glasses.utils.ModuleTransfer module<a class="headerlink" href="#module-glasses.utils.ModuleTransfer" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="glasses.utils.ModuleTransfer.ModuleTransfer">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.utils.ModuleTransfer.</span></span><span class="sig-name descname"><span class="pre">ModuleTransfer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">src:</span> <span class="pre">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="pre">dest:</span> <span class="pre">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="pre">verbose:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></em>, <em class="sig-param"><span class="pre">src_skip:</span> <span class="pre">List</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em>, <em class="sig-param"><span class="pre">dest_skip:</span> <span class="pre">List</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/ModuleTransfer.html#ModuleTransfer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glasses.utils.ModuleTransfer.</span></span><span class="sig-name descname"><span class="pre">ModuleTransfer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src:</span> <span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest:</span> <span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src_skip:</span> <span class="pre">List</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_skip:</span> <span class="pre">List</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/ModuleTransfer.html#ModuleTransfer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>This class transfers the weight from one module to another assuming
 they have the same set of operations but they were defined in a different way.</p>
@@ -346,7 +346,7 @@ they have the same set of operations but they were defined in a different way.</
 </div></blockquote>
 <dl class="py method">
 <dt class="sig sig-object py" id="glasses.utils.ModuleTransfer.ModuleTransfer.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/ModuleTransfer.html#ModuleTransfer.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.__call__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/ModuleTransfer.html#ModuleTransfer.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transfer the weights of <cite>self.src</cite> to <cite>self.dest</cite> by performing a forward pass using <cite>x</cite> as input.
 Under the hood we tracked all the operations in booth modules.
 :param x: [The input to the modules]
@@ -354,23 +354,23 @@ Under the hood we tracked all the operations in booth modules.
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="glasses.utils.ModuleTransfer.ModuleTransfer.dest">
-<span class="sig-name descname"><span class="pre">dest</span></span><em class="property"><span class="pre">:</span> <span class="pre">torch.nn.modules.module.Module</span></em><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.dest" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dest</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">torch.nn.modules.module.Module</span></em><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.dest" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="glasses.utils.ModuleTransfer.ModuleTransfer.dest_skip">
-<span class="sig-name descname"><span class="pre">dest_skip</span></span><em class="property"><span class="pre">:</span> <span class="pre">List</span></em><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.dest_skip" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dest_skip</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span></em><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.dest_skip" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="glasses.utils.ModuleTransfer.ModuleTransfer.src">
-<span class="sig-name descname"><span class="pre">src</span></span><em class="property"><span class="pre">:</span> <span class="pre">torch.nn.modules.module.Module</span></em><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.src" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">src</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">torch.nn.modules.module.Module</span></em><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.src" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="glasses.utils.ModuleTransfer.ModuleTransfer.src_skip">
-<span class="sig-name descname"><span class="pre">src_skip</span></span><em class="property"><span class="pre">:</span> <span class="pre">List</span></em><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.src_skip" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">src_skip</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span></em><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.src_skip" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="glasses.utils.ModuleTransfer.ModuleTransfer.verbose">
-<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.verbose" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#glasses.utils.ModuleTransfer.ModuleTransfer.verbose" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </dd></dl>
 </section>
@@ -378,17 +378,17 @@ Under the hood we tracked all the operations in booth modules.
 <span id="glasses-utils-storage-module"></span><h2>glasses.utils.Storage module<a class="headerlink" href="#module-glasses.utils.Storage" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="glasses.utils.Storage.BackwardModuleStorage">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.utils.Storage.</span></span><span class="sig-name descname"><span class="pre">BackwardModuleStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Storage.html#BackwardModuleStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.Storage.BackwardModuleStorage" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glasses.utils.Storage.</span></span><span class="sig-name descname"><span class="pre">BackwardModuleStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Storage.html#BackwardModuleStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.Storage.BackwardModuleStorage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#glasses.utils.Storage.ModuleStorage" title="glasses.utils.Storage.ModuleStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.utils.Storage.ModuleStorage</span></code></a></p>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="glasses.utils.Storage.ForwardModuleStorage">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.utils.Storage.</span></span><span class="sig-name descname"><span class="pre">ForwardModuleStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Storage.html#ForwardModuleStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.Storage.ForwardModuleStorage" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glasses.utils.Storage.</span></span><span class="sig-name descname"><span class="pre">ForwardModuleStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Storage.html#ForwardModuleStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.Storage.ForwardModuleStorage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#glasses.utils.Storage.ModuleStorage" title="glasses.utils.Storage.ModuleStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">glasses.utils.Storage.ModuleStorage</span></code></a></p>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="glasses.utils.Storage.ModuleStorage">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.utils.Storage.</span></span><span class="sig-name descname"><span class="pre">ModuleStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">where2layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Storage.html#ModuleStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.Storage.ModuleStorage" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glasses.utils.Storage.</span></span><span class="sig-name descname"><span class="pre">ModuleStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">where2layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Storage.html#ModuleStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.Storage.ModuleStorage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="glasses.utils.Storage.ModuleStorage.clear">
@@ -404,12 +404,12 @@ Under the hood we tracked all the operations in booth modules.
 <dd></dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="glasses.utils.Storage.ModuleStorage.layers">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">layers</span></span><a class="headerlink" href="#glasses.utils.Storage.ModuleStorage.layers" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">layers</span></span><a class="headerlink" href="#glasses.utils.Storage.ModuleStorage.layers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flat all the layers in the same array</p>
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="glasses.utils.Storage.ModuleStorage.names">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">names</span></span><a class="headerlink" href="#glasses.utils.Storage.ModuleStorage.names" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">names</span></span><a class="headerlink" href="#glasses.utils.Storage.ModuleStorage.names" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="glasses.utils.Storage.ModuleStorage.register_hooks">
@@ -420,7 +420,7 @@ performance.</p>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="glasses.utils.Storage.MutipleKeysDict">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.utils.Storage.</span></span><span class="sig-name descname"><span class="pre">MutipleKeysDict</span></span><a class="reference internal" href="_modules/glasses/utils/Storage.html#MutipleKeysDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.Storage.MutipleKeysDict" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glasses.utils.Storage.</span></span><span class="sig-name descname"><span class="pre">MutipleKeysDict</span></span><a class="reference internal" href="_modules/glasses/utils/Storage.html#MutipleKeysDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.Storage.MutipleKeysDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.OrderedDict</span></code></p>
 <p>Allow to get values from multiple keys. Example:</p>
 <p><code class="docutils literal notranslate"><span class="pre">`python</span>
@@ -434,7 +434,7 @@ performance.</p>
 <span id="glasses-utils-tracker-module"></span><h2>glasses.utils.Tracker module<a class="headerlink" href="#module-glasses.utils.Tracker" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="glasses.utils.Tracker.Tracker">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">glasses.utils.Tracker.</span></span><span class="sig-name descname"><span class="pre">Tracker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">module:</span> <span class="pre">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="pre">traced:</span> <span class="pre">List[torch.nn.modules.module.Module]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em>, <em class="sig-param"><span class="pre">handles:</span> <span class="pre">list</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Tracker.html#Tracker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.Tracker.Tracker" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">glasses.utils.Tracker.</span></span><span class="sig-name descname"><span class="pre">Tracker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module:</span> <span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">traced:</span> <span class="pre">List[torch.nn.modules.module.Module]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">handles:</span> <span class="pre">list</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/glasses/utils/Tracker.html#Tracker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#glasses.utils.Tracker.Tracker" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>This class tracks all the operations of a given module by performing a forward pass.</p>
 <p class="rubric">Example</p>
@@ -459,19 +459,19 @@ performance.</p>
 <span class="pre">Linear(in_features=64,</span> <span class="pre">out_features=10,</span> <span class="pre">bias=True)]</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="glasses.utils.Tracker.Tracker.handles">
-<span class="sig-name descname"><span class="pre">handles</span></span><em class="property"><span class="pre">:</span> <span class="pre">list</span></em><a class="headerlink" href="#glasses.utils.Tracker.Tracker.handles" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">handles</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><a class="headerlink" href="#glasses.utils.Tracker.Tracker.handles" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="glasses.utils.Tracker.Tracker.module">
-<span class="sig-name descname"><span class="pre">module</span></span><em class="property"><span class="pre">:</span> <span class="pre">torch.nn.modules.module.Module</span></em><a class="headerlink" href="#glasses.utils.Tracker.Tracker.module" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">module</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">torch.nn.modules.module.Module</span></em><a class="headerlink" href="#glasses.utils.Tracker.Tracker.module" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="glasses.utils.Tracker.Tracker.parametrized">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">parametrized</span></span><a class="headerlink" href="#glasses.utils.Tracker.Tracker.parametrized" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parametrized</span></span><a class="headerlink" href="#glasses.utils.Tracker.Tracker.parametrized" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="glasses.utils.Tracker.Tracker.traced">
-<span class="sig-name descname"><span class="pre">traced</span></span><em class="property"><span class="pre">:</span> <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#glasses.utils.Tracker.Tracker.traced" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">traced</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.module.Module</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#glasses.utils.Tracker.Tracker.traced" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </dd></dl>
 </section>
@@ -509,11 +509,9 @@ performance.</p>
 
         <div class="related-information">
               Copyright &#169; 2020, Francesco Saverio Zuppichini &amp; Francesco Cicala |
-            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
-              and
-              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-              <a href="https://github.com/pradyunsg/furo">Furo theme</a>. |
-            <a class="muted-link" href="_sources/glasses.utils.rst.txt"
+          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+          <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            | <a class="muted-link" href="_sources/glasses.utils.rst.txt"
                rel="nofollow">
               Show Source
             </a>
@@ -555,6 +553,6 @@ performance.</p>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/scripts/main.js"></script>
+    <script src="_static/scripts/furo.js"></script>
     </body>
 </html>
