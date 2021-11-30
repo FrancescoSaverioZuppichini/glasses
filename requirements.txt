@@ -1,10 +1,1 @@
-pytest==5.4.3
-tqdm
-torchvision
-torch
-requests
-torchinfo
-opencv-python
-matplotlib
-einops
-types-requests
+.

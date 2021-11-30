@@ -11,9 +11,10 @@ from glasses.nn.att import SpatialSE
 from ....models.utils.scaler import CompoundScaler
 from ....models.base import Encoder
 from ..resnet import ResNetLayer
-
+from torchvision.ops import StochasticDepth
 from ..base import ClassificationModule
-from glasses.nn import StochasticDepth
+
+# from glasses.nn import StochasticDepth
 
 
 class InvertedResidualBlock(nn.Module):
@@ -87,7 +88,7 @@ class InvertedResidualBlock(nn.Module):
                             activation=None,
                         )
                     ),
-                    "drop": StochasticDepth(drop_rate)
+                    "drop": StochasticDepth(drop_rate, mode="batch")
                     if self.should_apply_residual and drop_rate > 0
                     else nn.Identity(),
                 }

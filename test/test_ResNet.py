@@ -4,7 +4,9 @@ import torch
 from glasses.models.classification.resnet import *
 from glasses.models.classification.resnetxt import ResNetXt
 from glasses.models.classification.wide_resnet import (
-    WideResNet, WideResNetBottleNeckBlock)
+    WideResNet,
+    WideResNetBottleNeckBlock,
+)
 
 
 def test_resnet():
@@ -18,12 +20,14 @@ def test_resnet():
         model = ResNet.resnet18(stem=ResNetStemC)
         pred = model(x)
         assert pred.shape[-1] == 1000
-        model = ResNet.resnet18(block=partial(ResNetBasicBlock, shortcut=ResNetShorcutD))
+        model = ResNet.resnet18(
+            block=partial(ResNetBasicBlock, shortcut=ResNetShorcutD)
+        )
         pred = model(x)
         assert pred.shape[-1] == 1000
         pred = model(x)
         assert pred.shape[-1] == 1000
-        
+
         model = ResNet.resnet26().eval()
         model.encoder.features
         pred = model(x)
@@ -61,7 +65,6 @@ def test_resnet():
         pred = model(x)
         assert pred.shape[-1] == 1000
 
-
         model = ResNet.resnet34(block=ResNetBasicPreActBlock).eval()
         pred = model(x)
         assert pred.shape[-1] == 1000
@@ -69,6 +72,7 @@ def test_resnet():
         model = ResNet.resnet34(block=ResNetBottleneckPreActBlock).eval()
         pred = model(x)
         assert pred.shape[-1] == 1000
+
 
 def test_resnetxt():
     x = torch.rand(1, 3, 224, 224)
@@ -93,6 +97,7 @@ def test_resnetxt():
     # pred = model(x)
     # assert pred.shape[-1] == 1000
 
+
 def test_wide_resnet():
     x = torch.rand(1, 3, 224, 224)
     model = WideResNet.wide_resnet50_2().eval()
@@ -103,10 +108,10 @@ def test_wide_resnet():
     pred = model(x)
     assert pred.shape[-1] == 1000
 
-
     block = WideResNetBottleNeckBlock(32, 256, width_factor=2)
 
-    assert block.block[1].conv.in_channels ==  128
+    assert block.block[1].conv.in_channels == 128
+
 
 def test_resnet_pretrain():
     pass

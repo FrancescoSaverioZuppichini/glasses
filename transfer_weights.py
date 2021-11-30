@@ -7,7 +7,7 @@ from functools import partial
 from io import BytesIO
 from pathlib import Path
 from typing import Dict
-from glasses.utils.weights.storage import LocalStorage, HuggingFaceStorage
+from glasses.utils.storage import LocalStorage, HuggingFaceStorage
 
 
 import pretrainedmodels
@@ -85,18 +85,18 @@ def deit_clone(key: str):
 
 
 zoo_source = {
-    "resnet18": partial(resnet18, pretrained=True),
-    "resnet26": partial(timm.create_model, "resnet26", pretrained=True),
-    "resnet26d": partial(timm.create_model, "resnet26d", pretrained=True),
-    "resnet34": partial(timm.create_model, "resnet34", pretrained=True),
-    "resnet34d": partial(timm.create_model, "resnet34d", pretrained=True),
-    "resnet50": partial(resnet50, pretrained=True),
-    "resnet50d": partial(timm.create_model, "resnet50d", pretrained=True),
-    "resnet101": partial(resnet101, pretrained=True),
-    "resnet152": partial(resnet152, pretrained=True),
-    "se_resnet50": partial(timm.create_model, "seresnet50", pretrained=True),
-    "resnext50_32x4d": partial(resnext50_32x4d, pretrained=True),
-    "resnext101_32x8d": partial(resnext101_32x8d, pretrained=True),
+    # "resnet18": partial(resnet18, pretrained=True),
+    # "resnet26": partial(timm.create_model, "resnet26", pretrained=True),
+    # "resnet26d": partial(timm.create_model, "resnet26d", pretrained=True),
+    # "resnet34": partial(timm.create_model, "resnet34", pretrained=True),
+    # "resnet34d": partial(timm.create_model, "resnet34d", pretrained=True),
+    # "resnet50": partial(resnet50, pretrained=True),
+    # "resnet50d": partial(timm.create_model, "resnet50d", pretrained=True),
+    # "resnet101": partial(resnet101, pretrained=True),
+    # "resnet152": partial(resnet152, pretrained=True),
+    # # "se_resnet50": partial(timm.create_model, "seresnet50", pretrained=True),
+    # "resnext50_32x4d": partial(resnext50_32x4d, pretrained=True),
+    # "resnext101_32x8d": partial(resnext101_32x8d, pretrained=True),
     "wide_resnet50_2": partial(wide_resnet50_2, pretrained=True),
     "wide_resnet101_2": partial(wide_resnet101_2, pretrained=True),
     "eca_resnet26t": partial(timm.create_model, "ecaresnet26t", pretrained=True),
@@ -190,7 +190,7 @@ if __name__ == "__main__":
     if args.storage == "local":
         logging.info(f"Store root={storage.root}")
 
-    override = False
+    override = True
 
     bar = tqdm(zoo_source.items())
     uploading_bar = tqdm()
@@ -207,4 +207,7 @@ if __name__ == "__main__":
             else:
                 src, dst = src_def(), AutoModel.from_name(key)
                 cloned = clone_model(src, dst)
-            storage.put(key, cloned)
+            try:
+                storage.put(key, cloned)
+            except Exception as e:
+                print(e)

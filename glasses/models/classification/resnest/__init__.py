@@ -15,7 +15,7 @@ class SplitAtt(nn.Module):
 
         Grouped convolution have been proved to be impirically better (ResNetXt). The main idea is to apply an attention group-wise.
 
-        Einops is used to improve the readibility of this module
+        `Einops <https://github.com/arogozhnikov/einops>`_ is used to improve the readibility of this module
 
         Args:
             in_features (int): number of input features

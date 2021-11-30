@@ -202,14 +202,13 @@ class HFModelHub:
         token = HfFolder.get_token()
         if repo_url is None:
             repo_url = HfApi().create_repo(
-                token,
                 model_id,
+                token=token,
                 organization=organization,
                 private=private,
                 repo_type=None,
                 exist_ok=True,
             )
-
         repo = Repository(save_directory, clone_from=repo_url, use_auth_token=token)
 
         return repo.push_to_hub(commit_message=commit_message)
