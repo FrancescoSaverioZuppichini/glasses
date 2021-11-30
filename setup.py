@@ -29,6 +29,6 @@ setup(
         "einops",
         "rich",
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     extras_require={"dev": ["timm", "pretrainedmodels", "pytest"]},
 )
