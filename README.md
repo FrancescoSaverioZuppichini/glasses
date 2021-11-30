@@ -1,7 +1,4 @@
-```python
-%load_ext autoreload
-%autoreload 2
-```
+**Guys I have a couple of problems with the pretrained weights, some of them needs to be updated, I will try to fix it asap**
 
 # Glasses 😎
 
