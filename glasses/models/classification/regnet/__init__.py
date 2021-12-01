@@ -6,7 +6,7 @@ from functools import partial
 
 from ....models.base import Encoder
 from ..resnet import ResNet, ResNetEncoder, ResNetBottleneckBlock
-from glasses.nn.att import ChannelSE
+from glasses.nn.att import SpatialSE
 
 """Implementation of RegNet proposed in `Designing Network Design Spaces <https://arxiv.org/abs/2003.13678>_`
 """
@@ -79,7 +79,7 @@ class RegNetYBotteneckBlock(RegNetXBotteneckBlock):
         super().__init__(in_features, out_features, **kwargs)
         # se is added after the 3x3 conv
         self.block[2] = nn.Sequential(
-            ChannelSE(self.features, reduced_features=in_features // reduction),
+            SpatialSE(self.features, reduced_features=in_features // reduction),
             self.block[2],
         )
 

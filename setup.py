@@ -30,5 +30,7 @@ setup(
         "rich",
     ],
     python_requires=">=3.8",
-    extras_require={"dev": ["timm", "pretrainedmodels", "pytest"]},
+    extras_require={
+        "dev": ["timm", "pretrainedmodels", "pytest", "sotabencheval", "pandas"]
+    },
 )

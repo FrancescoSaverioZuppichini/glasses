@@ -13,14 +13,12 @@ from glasses.models import *
 from glasses.models.AutoModel import AutoModel
 from glasses.models.AutoTransform import AutoTransform
 
-WeightsProvider
 
-models = PretrainedWeightsProvider.weights_zoo
+models = AutoModel.pretrained_models
 
 batch_sizes = {"efficientnet_b0": 256, "efficientnet_b1": 128, "efficientnet_b5": 8}
 
 
-provider = PretrainedWeightsProvider()
 # code stolen from https://github.com/ansleliu/EfficientNet.PyTorch/blob/master/eval.py
 # if you are using it, show some love an star his repo!``
 

@@ -30,11 +30,15 @@ class SpatialSE(nn.Module):
             OrderedDict(
                 {
                     "fc1": nn.Conv2d(
-                        features, self.reduced_features, kernel_size=1, bias=False
+                        features,
+                        self.reduced_features,
+                        kernel_size=1,
                     ),
                     "act1": activation(),
                     "fc2": nn.Conv2d(
-                        self.reduced_features, features, kernel_size=1, bias=False
+                        self.reduced_features,
+                        features,
+                        kernel_size=1,
                     ),
                     "act2": nn.Sigmoid(),
                     "proj": nn.Identity(),
@@ -116,9 +120,9 @@ class LegacySpatialSE(SpatialSE):
         self.att = nn.Sequential(
             OrderedDict(
                 {
-                    "fc1": nn.Linear(features, self.reduced_features, bias=False),
+                    "fc1": nn.Linear(features, self.reduced_features),
                     "act1": activation(),
-                    "fc2": nn.Linear(self.reduced_features, features, bias=False),
+                    "fc2": nn.Linear(self.reduced_features, features),
                     "act2": nn.Sigmoid(),
                     "proj": Rearrange("b c -> b c 1 1"),
                 }

@@ -24,6 +24,7 @@ class Transform(T.Compose):
         interpolation: str = "bilinear",
         transforms: List[Callable] = list(),
     ):
+        self.input_size: int = input_size
         base_transforms = [
             T.Resize(resize, Transform.interpolations[interpolation]),
             T.CenterCrop(input_size),
