@@ -1,5 +1,5 @@
 import pytest
-from glasses.models import AutoTransform, AutoModel, ResNet
+from glasses.models import AutoTransform, AutoModel
 from glasses.models.AutoTransform import Transform
 from torch import nn
 

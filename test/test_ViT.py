@@ -28,37 +28,39 @@ def test_features():
 
 
 def test_vit():
-    x = torch.rand((1, 3, 224, 224))
-    model = ViT.vit_small_patch16_224().eval()
-    pred = model(x)
-    assert pred.shape[-1] == 1000
+    with torch.no_grad():
 
-    model = ViT.vit_base_patch16_224(n_classes=100).eval()
-    pred = model(x)
-    assert pred.shape[-1] == 100
+        x = torch.rand((1, 3, 224, 224))
+        model = ViT.vit_small_patch16_224().eval()
+        pred = model(x)
+        assert pred.shape[-1] == 1000
 
-    x = torch.rand((1, 3, 384, 384))
-    model = ViT.vit_base_patch16_384().eval()
-    pred = model(x)
-    assert pred.shape[-1] == 1000
+        model = ViT.vit_base_patch16_224(n_classes=100).eval()
+        pred = model(x)
+        assert pred.shape[-1] == 100
 
-    x = torch.rand((1, 3, 384, 384))
-    model = ViT.vit_base_patch32_384().eval()
-    pred = model(x)
-    assert pred.shape[-1] == 1000
+        x = torch.rand((1, 3, 384, 384))
+        model = ViT.vit_base_patch16_384().eval()
+        pred = model(x)
+        assert pred.shape[-1] == 1000
 
-    x = torch.rand((1, 3, 224, 224))
-    model = ViT.vit_large_patch16_224().eval()
-    pred = model(x)
-    assert pred.shape[-1] == 1000
+        x = torch.rand((1, 3, 384, 384))
+        model = ViT.vit_base_patch32_384().eval()
+        pred = model(x)
+        assert pred.shape[-1] == 1000
 
-    x = torch.rand((1, 3, 384, 384))
-    model = ViT.vit_large_patch16_384().eval()
-    pred = model(x)
-    assert pred.shape[-1] == 1000
+        x = torch.rand((1, 3, 224, 224))
+        model = ViT.vit_large_patch16_224().eval()
+        pred = model(x)
+        assert pred.shape[-1] == 1000
 
-    x = torch.rand((1, 3, 384, 384))
-    model = ViT.vit_large_patch32_384().eval()
-    pred = model(x)
-    assert pred.shape[-1] == 1000
-    # cannot test huge models, too big
+        x = torch.rand((1, 3, 384, 384))
+        model = ViT.vit_large_patch16_384().eval()
+        pred = model(x)
+        assert pred.shape[-1] == 1000
+
+        x = torch.rand((1, 3, 384, 384))
+        model = ViT.vit_large_patch32_384().eval()
+        pred = model(x)
+        assert pred.shape[-1] == 1000
+        # cannot test huge models, too big
