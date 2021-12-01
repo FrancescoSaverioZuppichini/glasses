@@ -1,5 +1,4 @@
 import pytest
-from glasses.models import AutoModel, AutoTransform
 from pathlib import Path
 from glasses.utils.storage import HuggingFaceStorage, LocalStorage, Storage
 from torch import nn

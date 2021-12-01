@@ -34,6 +34,8 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
+        mkdir ~/.huggingface/
+        echo ${HUGGING_FACE_TOKEN} > ~/.huggingface/token
         coverage run --source=. -m py.test
     - name: Upload coverage
       uses: codecov/codecov-action@v1
