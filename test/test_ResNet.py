@@ -75,42 +75,46 @@ def test_resnet():
 
 
 def test_resnetxt():
-    x = torch.rand(1, 3, 224, 224)
-    model = ResNetXt.resnext50_32x4d().eval()
-    pred = model(x)
-    assert pred.shape[-1] == 1000
+    with torch.no_grad():
 
-    model = ResNetXt.resnext101_32x8d().eval()
-    pred = model(x)
-    assert pred.shape[-1] == 1000
+        x = torch.rand(1, 3, 224, 224)
+        model = ResNetXt.resnext50_32x4d().eval()
+        pred = model(x)
+        assert pred.shape[-1] == 1000
 
-    model = ResNetXt.resnext101_32x16d().eval()
-    pred = model(x)
-    assert pred.shape[-1] == 1000
-    # too big
-    # model = ResNetXt.resnext101_32x32d().eval()
-    # pred = model(x)
-    # assert pred.shape[-1] == 1000
+        model = ResNetXt.resnext101_32x8d().eval()
+        pred = model(x)
+        assert pred.shape[-1] == 1000
 
-    # too big
-    # model = ResNetXt.resnext101_32x48d().eval()
-    # pred = model(x)
-    # assert pred.shape[-1] == 1000
+        model = ResNetXt.resnext101_32x16d().eval()
+        pred = model(x)
+        assert pred.shape[-1] == 1000
+        # too big
+        # model = ResNetXt.resnext101_32x32d().eval()
+        # pred = model(x)
+        # assert pred.shape[-1] == 1000
+
+        # too big
+        # model = ResNetXt.resnext101_32x48d().eval()
+        # pred = model(x)
+        # assert pred.shape[-1] == 1000
 
 
 def test_wide_resnet():
-    x = torch.rand(1, 3, 224, 224)
-    model = WideResNet.wide_resnet50_2().eval()
-    pred = model(x)
-    assert pred.shape[-1] == 1000
+    with torch.no_grad():
 
-    model = WideResNet.wide_resnet101_2().eval()
-    pred = model(x)
-    assert pred.shape[-1] == 1000
+        x = torch.rand(1, 3, 224, 224)
+        model = WideResNet.wide_resnet50_2().eval()
+        pred = model(x)
+        assert pred.shape[-1] == 1000
 
-    block = WideResNetBottleNeckBlock(32, 256, width_factor=2)
+        model = WideResNet.wide_resnet101_2().eval()
+        pred = model(x)
+        assert pred.shape[-1] == 1000
 
-    assert block.block[1].conv.in_channels == 128
+        block = WideResNetBottleNeckBlock(32, 256, width_factor=2)
+
+        assert block.block[1].conv.in_channels == 128
 
 
 def test_resnet_pretrain():

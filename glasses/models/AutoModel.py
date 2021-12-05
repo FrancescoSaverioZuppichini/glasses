@@ -1,10 +1,19 @@
 import difflib
-from typing import List, OrderedDict
-from glasses.utils.weights import PretrainedWeightsProvider
+from glasses.utils.storage import HuggingFaceStorage
+from typing import List, Optional, OrderedDict
 from torch import nn
 from .classification import *
 from .segmentation import *
 from rich.table import Table
+from .classification.resnet import (
+    ResNet,
+    ResNetBottleneckBlockD,
+    ResNetStemT,
+    ResNetStemC,
+)
+from ..nn.att import ECA, WithAtt
+from functools import partial
+from ..utils.storage import Storage
 from glasses.logger import logger
 
 
@@ -24,8 +33,6 @@ class AutoModel:
 
     """
 
-    provider = PretrainedWeightsProvider()
-
     zoo = OrderedDict(
         {
             "resnet18": ResNet.resnet18,
@@ -43,11 +50,46 @@ class AutoModel:
             "se_resnet50": SEResNet.se_resnet50,
             "se_resnet101": SEResNet.se_resnet101,
             "se_resnet152": SEResNet.se_resnet152,
-            "cse_resnet18": SEResNet.cse_resnet18,
-            "cse_resnet34": SEResNet.cse_resnet34,
-            "cse_resnet50": SEResNet.cse_resnet50,
-            "cse_resnet101": SEResNet.cse_resnet101,
-            "cse_resnet152": SEResNet.cse_resnet152,
+            "eca_resnet18t": partial(
+                ResNet.resnet18,
+                stem=ResNetStemT,
+                block=WithAtt(ResNetBottleneckBlockD, att=ECA),
+            ),
+            "eca_resnet26t": partial(
+                ResNet.resnet26,
+                stem=ResNetStemT,
+                block=WithAtt(ResNetBottleneckBlockD, att=ECA),
+            ),
+            "eca_resnet50t": partial(
+                ResNet.resnet50,
+                stem=ResNetStemT,
+                block=WithAtt(ResNetBottleneckBlockD, att=ECA),
+            ),
+            "eca_resnet101t": partial(
+                ResNet.resnet101,
+                stem=ResNetStemT,
+                block=WithAtt(ResNetBottleneckBlockD, att=ECA),
+            ),
+            "eca_resnet18d": partial(
+                ResNet.resnet26,
+                stem=ResNetStemC,
+                block=WithAtt(ResNetBottleneckBlockD, att=ECA),
+            ),
+            "eca_resnet26d": partial(
+                ResNet.resnet26,
+                stem=ResNetStemC,
+                block=WithAtt(ResNetBottleneckBlockD, att=ECA),
+            ),
+            "eca_resnet50d": partial(
+                ResNet.resnet50,
+                stem=ResNetStemC,
+                block=WithAtt(ResNetBottleneckBlockD, att=ECA),
+            ),
+            "eca_resnet101d": partial(
+                ResNet.resnet101,
+                stem=ResNetStemC,
+                block=WithAtt(ResNetBottleneckBlockD, att=ECA),
+            ),
             "resnext50_32x4d": ResNetXt.resnext50_32x4d,
             "resnext101_32x8d": ResNetXt.resnext101_32x8d,
             "resnext101_32x16d": ResNetXt.resnext101_32x16d,
@@ -59,12 +101,18 @@ class AutoModel:
             "regnetx_008": RegNet.regnetx_008,
             "regnetx_016": RegNet.regnetx_016,
             "regnetx_032": RegNet.regnetx_032,
+            "regnetx_040": RegNet.regnetx_040,
+            "regnetx_064": RegNet.regnetx_064,
+            "regnetx_080": RegNet.regnetx_080,
             "regnety_002": RegNet.regnety_002,
             "regnety_004": RegNet.regnety_004,
             "regnety_006": RegNet.regnety_006,
             "regnety_008": RegNet.regnety_008,
             "regnety_016": RegNet.regnety_016,
             "regnety_032": RegNet.regnety_032,
+            "regnety_040": RegNet.regnety_040,
+            "regnety_064": RegNet.regnety_064,
+            "regnety_080": RegNet.regnety_080,
             "resnest14d": ResNeSt.resnest14d,
             "resnest26d": ResNeSt.resnest26d,
             "resnest50d": ResNeSt.resnest50d,
@@ -117,7 +165,7 @@ class AutoModel:
             "deit_small_patch16_224": DeiT.deit_small_patch16_224,
             "deit_base_patch16_224": DeiT.deit_base_patch16_224,
             "deit_base_patch16_384": DeiT.deit_base_patch16_384,
-            "mobilenetv2": MobileNet.mobilenet_v2,
+            "mobilenet_v2": MobileNet.mobilenet_v2,
             "unet": UNet,
         }
     )
@@ -133,7 +181,7 @@ class AutoModel:
         """Instantiates one of the model classes of the library.
 
         Examples:
-            >>> AutoModel.models() # odict_keys(['resnet18', 'resnet26', .... ])
+            >>> AutoModel.models() # dict_keys(['resnet18', 'resnet26', .... ])
             >>> AutoModel.from_name('resnet18')
             >>> AutoModel.from_name('resnet18', activation=nn.SELU)
 
@@ -158,7 +206,9 @@ class AutoModel:
         return model
 
     @staticmethod
-    def from_pretrained(name: str, *args, **kwargs) -> nn.Module:
+    def from_pretrained(
+        name: str, *args, storage: Storage = HuggingFaceStorage(), **kwargs
+    ) -> nn.Module:
         """Instantiates one of the pretrained model classes of the library.
 
         Examples:
@@ -174,9 +224,9 @@ class AutoModel:
         Returns:
             nn.Module: A fully instantiated pretrained model
         """
-        weights = AutoModel.provider[name]
         model = AutoModel.from_name(name, *args, **kwargs)
-        model.load_state_dict(weights)
+        state_dict = storage.get(name)
+        model.load_state_dict(state_dict)
         logger.info(f"Loaded pretrained weights for {name}")
         return model
 
@@ -190,27 +240,36 @@ class AutoModel:
         return AutoModel.zoo.keys()
 
     @staticmethod
-    def pretrained_models() -> List[str]:
+    def pretrained_models(
+        storage: Optional[Storage] = HuggingFaceStorage(),
+    ) -> List[str]:
         """List the available pretrained models name
+
+        Args:
+            storage (Storage, optional): The storage from which get the pretrained weights. Defaults to HuggingFaceStorage().
 
         Returns:
             List[str]: [description]
         """
-        return AutoModel.provider.weights_zoo
+
+        return storage.models
 
     @staticmethod
-    def models_table() -> Table:
+    def models_table(storage: Optional[Storage] = HuggingFaceStorage()) -> Table:
         """Show a nice formated table with all the models available
 
+        Args:
+            storage (Storage, optional): The storage from which get the pretrained weights. Defaults to HuggingFaceStorage().
+
         Returns:
-            List[str]: [description]
+            Table: [description]
         """
         table = Table(title="Models")
         table.add_column("Name", justify="left", no_wrap=True)
         table.add_column("Pretrained", justify="left", no_wrap=True)
 
         [
-            table.add_row(k, "true" if k in AutoModel.provider.weights_zoo else "false")
+            table.add_row(k, "true" if k in storage.models else "false")
             for k in AutoModel.zoo.keys()
         ]
 
