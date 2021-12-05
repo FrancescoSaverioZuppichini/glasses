@@ -36,7 +36,6 @@ jobs:
       run: |
         mkdir ~/.huggingface/
         echo ${HUGGING_FACE_TOKEN} > ~/.huggingface/token
-        cat ~/.huggingface/token
         coverage run --source=. -m py.test
     - name: Upload coverage
       uses: codecov/codecov-action@v1

@@ -2,7 +2,7 @@ import os
 import time
 from glasses.models import AutoModel
 from huggingface_hub import Repository, HfFolder
-from .weights.storage.hubs.HFModelHub import HFModelHub
+from .HuggingFaceStorage import HuggingFaceStorage
 from pathlib import Path
 from torch import nn
 
@@ -21,9 +21,10 @@ class ModelCardProducer:
     def __init__(self):
         self.root = Path("/tmp/models/")
         self.root.mkdir(exist_ok=True)
+        self.storage: HuggingFaceStorage = HuggingFaceStorage()
 
     def __call__(self):
-        for key in AutoModel.zoo.keys():
+        for key in self.storage.models:
             self.make_model_card(key)
 
     def make_model_card(self, key: str):

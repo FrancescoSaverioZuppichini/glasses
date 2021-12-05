@@ -2,7 +2,7 @@ from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Optional, Set
 from torch import nn
-from .hubs import HFModelHub
+from . import HFModelHub
 from huggingface_hub import HfApi, Repository
 from huggingface_hub.hf_api import RepoObj
 from ..Storage import Storage
