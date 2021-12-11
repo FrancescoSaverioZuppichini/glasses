@@ -1,6 +1,7 @@
 from pathlib import Path
 from dataclasses import dataclass
-from typing import List, Optional, Set
+from typing import Dict, List, Optional, Set
+from requests.models import Response
 from torch import nn
 from . import HFModelHub
 from huggingface_hub import HfApi, Repository
@@ -8,6 +9,7 @@ from huggingface_hub.hf_api import RepoObj
 from ..Storage import Storage
 from glasses.types import StateDict
 from glasses.logger import logger
+import requests
 
 
 @dataclass
@@ -21,15 +23,17 @@ class HuggingFaceStorage(Storage):
         self._api: HfApi = HfApi()
 
     def get_models(self) -> List[str]:
-        objs: List[RepoObj] = self._api.list_repos_objs(organization=self.ORGANIZATION)
-        models: Set[str] = set()
-        for obj in objs:
-            filename: str = obj.filename
-            # filename has the following form: <ORGANIZATION>/<REPO_NAME>/<FILE_NAME>
-            repo_name: str = filename.split("/")[1]
-            models.add(repo_name)
+        endpoint: str = self._api.endpoint
+        res: Response = requests.get(
+            f"{endpoint}/api/models", params={"author": self.ORGANIZATION}
+        )
+        res.raise_for_status()
+        models: List[Dict] = res.json()
 
-        return list(models)
+        # modelId has the following form: <ORGANIZATION>/<REPO_NAME>/<FILE_NAME>
+        names: List[str] = [e["modelId"].split("/")[1] for e in models]
+
+        return names
 
     def put(self, key: str, model: nn.Module):
         save_directory: str = self.root / key
