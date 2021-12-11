@@ -1,9 +1,10 @@
 import pytest
-from glasses.models import AutoModel, AutoTransform
+import os
 from pathlib import Path
-from glasses.utils.weights.storage import HuggingFaceStorage, LocalStorage, Storage
+from glasses.utils.storage import HuggingFaceStorage, LocalStorage, Storage
 from torch import nn
 from fixtures import glasses_path
+from huggingface_hub import HfFolder
 
 key = "dummy"
 
@@ -25,7 +26,16 @@ def test_storage_api():
 
 
 def test_hf_storage():
+
+    key = "dummy"
+
     storage = HuggingFaceStorage()
+
+    has_token = HfFolder().get_token()
+    if not has_token:
+        token = os.environ["HUGGING_FACE_TOKEN"]
+        HfFolder().save_token(token)
+
     state_dict = storage.get(key)
     model.load_state_dict(state_dict)
 

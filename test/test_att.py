@@ -1,5 +1,12 @@
 import torch
-from glasses.nn.att import ChannelSE, ECA, SpatialChannelSE, SpatialSE, CBAM, LegacySpatialSE
+from glasses.nn.att import (
+    ChannelSE,
+    ECA,
+    SpatialChannelSE,
+    SpatialSE,
+    CBAM,
+    LegacySpatialSE,
+)
 
 
 def test_att():
@@ -40,4 +47,3 @@ def test_att():
 
     res = cbam(x)
     assert res.shape == x.shape
-    

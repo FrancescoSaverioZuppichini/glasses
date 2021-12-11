@@ -1,5 +1,5 @@
 import math
-from typing import List, Union
+from typing import List, Tuple
 
 
 class CompoundScaler:
@@ -32,7 +32,7 @@ class CompoundScaler:
         depth_factor: float,
         widths: List[int],
         depths: List[int],
-    ) -> Union[List[int], List[int]]:
+    ) -> Tuple[List[int], List[int]]:
         """Scale up `widhts` and `depths` using `width_factor` and `depth_factor`
 
         Args:

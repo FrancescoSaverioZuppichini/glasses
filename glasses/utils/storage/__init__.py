@@ -1,3 +1,3 @@
 from .LocalStorage import LocalStorage
-from .HuggingFaceStorage import HuggingFaceStorage
+from .hugging_face import HuggingFaceStorage
 from .Storage import Storage

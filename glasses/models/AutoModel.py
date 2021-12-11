@@ -1,6 +1,5 @@
 import difflib
-from glasses.utils.weights.storage import HuggingFaceStorage
-import logging
+from glasses.utils.storage import HuggingFaceStorage
 from typing import List, Optional, OrderedDict
 from torch import nn
 from .classification import *
@@ -14,7 +13,7 @@ from .classification.resnet import (
 )
 from ..nn.att import ECA, WithAtt
 from functools import partial
-from ..utils.weights.storage import Storage
+from ..utils.storage import Storage
 from glasses.logger import logger
 
 

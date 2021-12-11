@@ -1,7 +1,7 @@
 from __future__ import annotations
 from torch import nn
 from ..resnet import ResNetBasicBlock, ResNetBottleneckBlock, ResNet
-from glasses.nn.att import SpatialSE, ChannelSE, WithAtt
+from glasses.nn.att import SpatialSE, WithAtt
 
 
 SENetBasicBlock = WithAtt(ResNetBasicBlock, att=SpatialSE)
@@ -16,7 +16,7 @@ class SEResNet(ResNet):
     """
 
     @classmethod
-    def se_resnet18(cls, *args, **kwargs) -> SEResNet:
+    def se_resnet18(cls, *args, **kwargs) -> ResNet:
         """Original SE resnet18 with Spatial Squeeze and Excitation
 
         Returns:
@@ -25,7 +25,7 @@ class SEResNet(ResNet):
         return ResNet.resnet18(*args, block=SENetBasicBlock, **kwargs)
 
     @classmethod
-    def se_resnet34(cls, *args, **kwargs) -> SEResNet:
+    def se_resnet34(cls, *args, **kwargs) -> ResNet:
         """Original SE resnet34 with Spatial Squeeze and Excitation
 
         Returns:
@@ -34,7 +34,7 @@ class SEResNet(ResNet):
         return ResNet.resnet34(*args, block=SENetBasicBlock, **kwargs)
 
     @classmethod
-    def se_resnet50(cls, *args, **kwargs) -> SEResNet:
+    def se_resnet50(cls, *args, **kwargs) -> ResNet:
         """Original SE resnet50 with Spatial Squeeze and Excitation
 
         Returns:
@@ -43,7 +43,7 @@ class SEResNet(ResNet):
         return ResNet.resnet50(*args, block=SENetBottleneckBlock, **kwargs)
 
     @classmethod
-    def se_resnet101(cls, *args, **kwargs) -> SEResNet:
+    def se_resnet101(cls, *args, **kwargs) -> ResNet:
         """Original SE resnet101 with Spatial Squeeze and Excitation
 
         Returns:
@@ -52,7 +52,7 @@ class SEResNet(ResNet):
         return ResNet.resnet101(*args, block=SENetBottleneckBlock, **kwargs)
 
     @classmethod
-    def se_resnet152(cls, *args, **kwargs) -> SEResNet:
+    def se_resnet152(cls, *args, **kwargs) -> ResNet:
         """Original SE resnet152 with Spatial Squeeze and Excitation
 
         Returns:

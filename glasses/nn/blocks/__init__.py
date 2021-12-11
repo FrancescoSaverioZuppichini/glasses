@@ -1,10 +1,12 @@
 import torch.nn as nn
-from functools import partial
-from typing import Callable, Union
-from torch import Tensor
 import math
+from functools import partial
+from typing import Callable, Tuple, Optional
+from torch import Tensor
 from torch.nn import functional as F
-from ..regularization import DropBlock
+from torchvision.ops import StochasticDepth
+
+from glasses.nn import regularization
 
 
 class Lambda(nn.Module):
@@ -47,7 +49,7 @@ class Conv2dPad(nn.Conv2d):
                 else (self.kernel_size[0] // 2, self.kernel_size[1] // 2)
             )
 
-    def _get_padding(self, padding: int) -> Union[int]:
+    def _get_padding(self, padding: int) -> Tuple[int, int]:
         return (padding, padding)
 
     def forward(self, x: Tensor) -> Tensor:
@@ -55,7 +57,7 @@ class Conv2dPad(nn.Conv2d):
             ih, iw = x.size()[-2:]
             kh, kw = self.weight.size()[-2:]
             sh, sw = self.stride
-            # change the output size according to stride ! ! !
+            # change the output size according to stride
             oh, ow = math.ceil(ih / sh), math.ceil(iw / sw)
             pad_h = max(
                 (oh - 1) * self.stride[0] + (kh - 1) * self.dilation[0] + 1 - ih, 0
@@ -81,27 +83,27 @@ class Conv2dPad(nn.Conv2d):
             return super().forward(x)
 
 
-class ConvBnAct(nn.Sequential):
+class ConvNormAct(nn.Sequential):
     """Utility module that stacks one convolution layer, a normalization layer and an activation function.
 
     Example:
-        >>> ConvBnAct(32, 64, kernel_size=3)
-            ConvBnAct(
+        >>> ConvNormAct(32, 64, kernel_size=3)
+            ConvNormAct(
                 (conv): Conv2dPad(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
                 (act): ReLU()
             )
 
-        >>> ConvBnAct(32, 64, kernel_size=3, normalization = None )
-            ConvBnAct(
+        >>> ConvNormAct(32, 64, kernel_size=3, normalization = None )
+            ConvNormAct(
                 (conv): Conv2dPad(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
                 (act): ReLU()
             )
 
-        >>> ConvBnAct(32, 64, kernel_size=3, activation = None )
-            ConvBnAct(
+        >>> ConvNormAct(32, 64, kernel_size=3, activation = None )
+            ConvNormAct(
                 (conv): Conv2dPad(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
 
     We also provide additional modules built on top of this one: `ConvBn`, `ConvAct`, `Conv3x3BnAct`
@@ -117,29 +119,29 @@ class ConvBnAct(nn.Sequential):
         self,
         in_features: int,
         out_features: int,
-        activation: nn.Module = nn.ReLU,
         conv: nn.Module = Conv2dPad,
-        normalization: nn.Module = nn.BatchNorm2d,
+        activation: Optional[nn.Module] = nn.ReLU,
+        normalization: Optional[nn.Module] = nn.BatchNorm2d,
         bias: bool = False,
         **kwargs
     ):
         super().__init__()
         self.add_module("conv", conv(in_features, out_features, **kwargs, bias=bias))
         if normalization:
-            self.add_module("bn", normalization(out_features))
+            self.add_module("norm", normalization(out_features))
         if activation:
             self.add_module("act", activation())
 
 
-class ConvBnDropAct(nn.Sequential):
+class ConvNormRegAct(nn.Sequential):
     """Utility module that stacks one convolution layer, a normalization layer, a regularization layer and an activation function.
 
     Example:
-        >>> ConvBnDropAct(32, 64, kernel_size=3)
-            ConvBnAct(
+        >>> ConvNormDropAct(32, 64, kernel_size=3)
+            ConvNormDropAct(
                 (conv): Conv2dPad(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (reg): DropBlock(p=0.2)
+                (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (reg): StochasticDepth(p=0.2)
                 (act): ReLU()
             )
     """
@@ -148,10 +150,10 @@ class ConvBnDropAct(nn.Sequential):
         self,
         in_features: int,
         out_features: int,
-        activation: nn.Module = nn.ReLU,
         conv: nn.Module = Conv2dPad,
-        normalization: nn.Module = nn.BatchNorm2d,
-        regularization: nn.Module = DropBlock,
+        activation: Optional[nn.Module] = nn.ReLU,
+        normalization: Optional[nn.Module] = nn.BatchNorm2d,
+        regularization: Optional[nn.Module] = partial(StochasticDepth, mode="batch"),
         p: float = 0.2,
         bias: bool = False,
         **kwargs
@@ -159,7 +161,7 @@ class ConvBnDropAct(nn.Sequential):
         super().__init__()
         self.add_module("conv", conv(in_features, out_features, **kwargs, bias=bias))
         if normalization:
-            self.add_module("bn", normalization(out_features))
+            self.add_module("norm", normalization(out_features))
         if regularization:
             self.add_module("reg", regularization(p=p))
         if activation:
@@ -169,7 +171,7 @@ class ConvBnDropAct(nn.Sequential):
 ReLUInPlace = partial(nn.ReLU, inplace=True)
 
 
-class BnActConv(nn.Sequential):
+class NormActConv(nn.Sequential):
     """A Sequential layer composed by a normalization, an activation and a convolution layer. This is usually known as a 'Preactivation Block'
 
     Args:
@@ -185,17 +187,24 @@ class BnActConv(nn.Sequential):
         in_features: int,
         out_features: int,
         conv: nn.Module = Conv2dPad,
-        normalization: nn.Module = nn.BatchNorm2d,
-        activation: nn.Module = ReLUInPlace,
+        normalization: Optional[nn.Module] = nn.BatchNorm2d,
+        activation: Optional[nn.Module] = ReLUInPlace,
         *args,
         **kwargs
     ):
         super().__init__()
-        self.add_module("bn", normalization(in_features))
-        self.add_module("act", activation())
+        if normalization:
+            self.add_module("norm", normalization(in_features))
+        if activation:
+            self.add_module("act", activation())
         self.add_module("conv", conv(in_features, out_features, *args, **kwargs))
 
 
+ConvBnAct = partial(ConvNormAct, normalization=nn.BatchNorm2d)
 ConvBn = partial(ConvBnAct, activation=None)
 ConvAct = partial(ConvBnAct, normalization=None, bias=True)
 Conv3x3BnAct = partial(ConvBnAct, kernel_size=3)
+BnActConv = partial(NormActConv, normalization=nn.BatchNorm2d)
+ConvBnDropAct = partial(
+    ConvNormRegAct, normalization=nn.BatchNorm2d, regularization=nn.Dropout2d
+)

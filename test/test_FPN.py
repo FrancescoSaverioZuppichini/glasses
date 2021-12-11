@@ -15,17 +15,22 @@ def test_FPN():
     out = model(x)
     assert len(out) == 4
     # change encoder
-    fpn = FPN(encoder=lambda *args, **
-              kwargs: ResNet.resnet26(*args, **kwargs).encoder,)
-    fpn = FPN(encoder=lambda *args, **
-              kwargs: EfficientNet.efficientnet_b0(*args, **kwargs).encoder,)
+    fpn = FPN(
+        encoder=lambda *args, **kwargs: ResNet.resnet26(*args, **kwargs).encoder,
+    )
+    fpn = FPN(
+        encoder=lambda *args, **kwargs: EfficientNet.efficientnet_b0(
+            *args, **kwargs
+        ).encoder,
+    )
     # change decoder
     FPN(decoder=partial(FPNDecoder, pyramid_width=64, prediction_width=32))
     # pass a different block to decoder
     FPN(encoder=partial(ResNetEncoder, block=SENetBasicBlock))
     # all *Decoder class can be directly used
-    fpn = FPN(encoder=partial(ResNetEncoder,
-                              block=ResNetBottleneckBlock, depths=[2, 2, 2, 2]))
+    fpn = FPN(
+        encoder=partial(ResNetEncoder, block=ResNetBottleneckBlock, depths=[2, 2, 2, 2])
+    )
 
 
 def test_PFPN():
@@ -40,19 +45,23 @@ def test_PFPN():
     out = model(x)
     assert out.shape[1] == 3
     # change encoder
-    model = PFPN(encoder=lambda *args, **
-                 kwargs: ResNet.resnet26(*args, **kwargs).encoder,)
+    model = PFPN(
+        encoder=lambda *args, **kwargs: ResNet.resnet26(*args, **kwargs).encoder,
+    )
     out = model(x)
     assert out.shape[1] == 2
     assert out.shape[2] == out.shape[3] == 224
 
-    model = PFPN(encoder=lambda *args, **kwargs: EfficientNet.efficientnet_b0(*args, **kwargs).encoder,)
+    model = PFPN(
+        encoder=lambda *args, **kwargs: EfficientNet.efficientnet_b0(
+            *args, **kwargs
+        ).encoder,
+    )
     out = model(x)
     assert out.shape[1] == 2
     assert out.shape[2] == out.shape[3] == 224
     # change decoder
-    model = PFPN(decoder=partial(
-        PFPNDecoder, pyramid_width=64, prediction_width=32))
+    model = PFPN(decoder=partial(PFPNDecoder, pyramid_width=64, prediction_width=32))
     out = model(x)
     assert out.shape[1] == 2
     assert out.shape[2] == out.shape[3] == 224
@@ -62,8 +71,9 @@ def test_PFPN():
     assert out.shape[1] == 2
     assert out.shape[2] == out.shape[3] == 224
     # all *Decoder class can be directly used
-    model = PFPN(encoder=partial(
-        ResNetEncoder, block=ResNetBottleneckBlock, depths=[2, 2, 2, 2]))
+    model = PFPN(
+        encoder=partial(ResNetEncoder, block=ResNetBottleneckBlock, depths=[2, 2, 2, 2])
+    )
     out = model(x)
     assert out.shape[1] == 2
     assert out.shape[2] == out.shape[3] == 224
