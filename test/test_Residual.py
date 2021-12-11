@@ -3,7 +3,6 @@ import torch.nn as nn
 from glasses.nn.blocks.residuals import ResidualAdd, ResidualCat, Cat
 from glasses.nn.blocks import Lambda
 
-
 def test_add():
     x = torch.tensor(1)
     add_one = lambda x: x + 1
@@ -14,7 +13,6 @@ def test_add():
     adder = ResidualAdd(nn.Identity(), shortcut=add_one)
     # 1 + 1 + 1
     assert adder(x) == 3
-
 
 def test_concat():
     x = torch.tensor([1])

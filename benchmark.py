@@ -12,13 +12,14 @@ from tqdm.autonotebook import tqdm
 from glasses.models import *
 from glasses.models.AutoModel import AutoModel
 from glasses.models.AutoTransform import AutoTransform
+from glasses.utils.weights.PretrainedWeightsProvider import PretrainedWeightsProvider
 
-
-models = AutoModel.pretrained_models
+models = PretrainedWeightsProvider.weights_zoo
 
 batch_sizes = {"efficientnet_b0": 256, "efficientnet_b1": 128, "efficientnet_b5": 8}
 
 
+provider = PretrainedWeightsProvider()
 # code stolen from https://github.com/ansleliu/EfficientNet.PyTorch/blob/master/eval.py
 # if you are using it, show some love an star his repo!``
 

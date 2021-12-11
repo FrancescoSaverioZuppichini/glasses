@@ -6,7 +6,7 @@ from torch import Tensor
 from glasses.nn.blocks.residuals import ResidualAdd
 from glasses.nn.blocks import Lambda
 from collections import OrderedDict
-
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 from ....models.base import Encoder, VisionModule
 from einops import rearrange, reduce, repeat
 from einops.layers.torch import Rearrange, Reduce

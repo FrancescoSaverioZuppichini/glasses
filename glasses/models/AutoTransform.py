@@ -24,7 +24,6 @@ class Transform(T.Compose):
         interpolation: str = "bilinear",
         transforms: List[Callable] = list(),
     ):
-        self.input_size: int = input_size
         base_transforms = [
             T.Resize(resize, Transform.interpolations[interpolation]),
             T.CenterCrop(input_size),
@@ -259,7 +258,7 @@ class AutoTransform:
         )
 
     @staticmethod
-    def from_name(name: str) -> Transform:
+    def from_name(name: str) -> ImageNetTransform:
         """Returns a ImageNetTransformuration from a given model name.
         If the name is not found, it returns a default one.
 

@@ -2,8 +2,9 @@ from __future__ import annotations
 import torch
 from torch import nn
 from torch import Tensor
-
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 from ..vit import ViT, ViTTokens
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 
 
 class DeiTTokens(ViTTokens):
@@ -74,6 +75,7 @@ class DeiT(ViT):
         super().__init__(*args, head=head, tokens=tokens, **kwargs)
 
     @classmethod
+    @pretrained()
     def deit_tiny_patch16_224(cls, **kwargs):
         model = cls(
             patch_size=16, emb_size=192, depth=12, num_heads=3, qkv_bias=True, **kwargs
@@ -82,6 +84,7 @@ class DeiT(ViT):
         return model
 
     @classmethod
+    @pretrained()
     def deit_small_patch16_224(cls, **kwargs):
         model = cls(
             patch_size=16, emb_size=384, depth=12, num_heads=6, qkv_bias=True, **kwargs

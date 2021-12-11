@@ -2,60 +2,13 @@ from torch import nn
 from torch import Tensor
 from collections import OrderedDict
 from functools import partial
-from einops.layers.torch import Reduce, Rearrange
 
 ReLUInPlace = partial(nn.ReLU, inplace=True)
 
 
 class SpatialSE(nn.Module):
-    """Modernized Implementation of Squeeze and Excitation Module proposed in `Squeeze-and-Excitation Networks <https://arxiv.org/abs/1709.01507>`_ with single kernel convolution instead of fully connected layers.
-
-    See `LegacySpatialSE` for usage.
-    """
-
-    def __init__(
-        self,
-        features: int,
-        reduction: int = 16,
-        reduced_features: int = None,
-        activation: nn.Module = ReLUInPlace,
-    ):
-        super().__init__()
-        self.reduced_features = (
-            features // reduction if reduced_features is None else reduced_features
-        )
-
-        self.pool = Reduce("b c h w -> b c 1 1", reduction="mean")
-        self.att = nn.Sequential(
-            OrderedDict(
-                {
-                    "fc1": nn.Conv2d(
-                        features,
-                        self.reduced_features,
-                        kernel_size=1,
-                    ),
-                    "act1": activation(),
-                    "fc2": nn.Conv2d(
-                        self.reduced_features,
-                        features,
-                        kernel_size=1,
-                    ),
-                    "act2": nn.Sigmoid(),
-                    "proj": nn.Identity(),
-                }
-            )
-        )
-
-    def forward(self, x: Tensor) -> Tensor:
-        y = self.pool(x)
-        y = self.att(y)
-        return x * y
-
-
-class LegacySpatialSE(SpatialSE):
     """Implementation of Squeeze and Excitation Module proposed in `Squeeze-and-Excitation Networks <https://arxiv.org/abs/1709.01507>`_
-
-    The idea is to apply a learned weight to rescale the channels.
+    The idea is to apply a learned an channel-wise attention.
 
     It squeezes spatially and excitates channel-wise.
 
@@ -110,24 +63,35 @@ class LegacySpatialSE(SpatialSE):
     def __init__(
         self,
         features: int,
-        *args,
+        reduction: int = 16,
+        reduced_features: int = None,
         activation: nn.Module = ReLUInPlace,
-        **kwargs,
     ):
+        super().__init__()
+        self.reduced_features = (
+            features // reduction if reduced_features is None else reduced_features
+        )
 
-        super().__init__(features, *args, **kwargs)
-        self.pool = Reduce("b c h w -> b c", reduction="mean")
+        self.avg_pool = nn.AdaptiveAvgPool2d(1)
         self.att = nn.Sequential(
             OrderedDict(
                 {
-                    "fc1": nn.Linear(features, self.reduced_features),
+                    "fc1": nn.Linear(features, self.reduced_features, bias=False),
                     "act1": activation(),
-                    "fc2": nn.Linear(self.reduced_features, features),
+                    "fc2": nn.Linear(self.reduced_features, features, bias=False),
                     "act2": nn.Sigmoid(),
-                    "proj": Rearrange("b c -> b c 1 1"),
                 }
             )
         )
+
+    def forward(self, x: Tensor) -> Tensor:
+        b, c, _, _ = x.size()
+        y = self.avg_pool(x).view(b, c)
+        # y has shape [B, C]
+        y = self.att(y)
+        # resphape to [B, C, 1, 1]  to match the space dims of x
+        y = y.view(b, c, 1, 1)
+        return x * y.expand_as(x)
 
 
 class ChannelSE(SpatialSE):
@@ -173,18 +137,22 @@ class ChannelSE(SpatialSE):
         self, features: int, *args, activation: nn.Module = ReLUInPlace, **kwargs
     ):
         super().__init__(features, *args, activation=activation, **kwargs)
-        self.pool = Reduce("b c h w -> b 1 h w", reduction="mean")
         self.att = nn.Sequential(
             OrderedDict(
                 {
-                    "conv1": nn.Conv2d(1, self.reduced_features, kernel_size=1),
+                    "conv1": nn.Conv2d(features, self.reduced_features, kernel_size=1),
                     "act1": activation(),
-                    "conv2": nn.Conv2d(self.reduced_features, 1, kernel_size=1),
+                    "conv2": nn.Conv2d(self.reduced_features, features, kernel_size=1),
                     "act2": nn.Sigmoid(),
-                    "proj": nn.Identity(),
                 }
             )
         )
+
+    def forward(self, x: Tensor) -> Tensor:
+        y = self.avg_pool(x)
+        y = self.att(y)
+
+        return x * y
 
 
 class SpatialChannelSE(nn.Module):

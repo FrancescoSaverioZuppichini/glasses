@@ -10,7 +10,7 @@ class DropBlock(nn.Module):
 
         Similar to dropout but it maskes clusters of close pixels. The following image shows the approach (from the paper)
 
-        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlock.JPG?raw=true
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/DropBlock.png?raw=true
 
         The following picture shows the effect of DropBlock on an input image
 
@@ -73,10 +73,6 @@ class StochasticDepth(nn.Module):
     """Implementation of Stochastic Depth proposed in `Deep Networks with Stochastic Depth <https://arxiv.org/abs/1603.09382>`_.
 
     The main idea is to skip one layer completely.
-
-    .. warning::
-        This function is deprecated in favor of the official `torchvision one <https://pytorch.org/vision/master/_modules/torchvision/ops/stochastic_depth.html>`_
-
     """
 
     def __init__(self, p: float = 0.5):

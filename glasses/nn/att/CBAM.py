@@ -3,7 +3,6 @@ import torch.nn as nn
 from torch import Tensor
 from einops.layers.torch import Rearrange, Reduce
 
-
 class CBAMChannelAtt(nn.Module):
     def __init__(
         self,
@@ -59,7 +58,7 @@ class CBAMSpatialAtt(nn.Module):
 class CBAM(nn.Module):
     """Implementation of Convolutional Block Attention Module proposed in `CBAM: Convolutional Block Attention Module <https://arxiv.org/abs/1807.06521>`_
 
-    .. image::
+    .. image:: 
 
     Examples:
 
@@ -75,7 +74,6 @@ class CBAM(nn.Module):
         reduced_features:  If passed, use it instead of calculating the reduced features using `reduction`. Defaults to None.
         kernel_size (int, optional): kernel_size of the Conv2d to produce the 2D spatial attention map. Defaults to 7.
     """
-
     def __init__(
         self,
         features: int,

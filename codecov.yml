@@ -4,4 +4,3 @@ ignore:
   - "benchmark.py"  # ignore benchmark script
   - "temp.py" 
   - "setup.py"
-  - "glasses.logger"

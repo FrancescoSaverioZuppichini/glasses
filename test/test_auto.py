@@ -1,6 +1,10 @@
 import pytest
 from glasses.models import AutoTransform, AutoModel, ResNet
 from glasses.models.AutoTransform import Transform
+from glasses.utils.weights.PretrainedWeightsProvider import (
+    PretrainedWeightsProvider,
+    pretrained,
+)
 from torch import nn
 
 from torchinfo.torchinfo import ModelStatistics
@@ -11,6 +15,7 @@ class Dummy(nn.Sequential):
         super().__init__(nn.Conv2d(3, 32, kernel_size=3))
 
     @classmethod
+    @pretrained()
     def dummy(cls, *args, **kwargs):
         return cls()
 

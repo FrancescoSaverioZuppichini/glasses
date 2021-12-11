@@ -15,7 +15,7 @@ class SplitAtt(nn.Module):
 
         Grouped convolution have been proved to be impirically better (ResNetXt). The main idea is to apply an attention group-wise.
 
-        `Einops <https://github.com/arogozhnikov/einops>`_ is used to improve the readibility of this module
+        Einops is used to improve the readibility of this module
 
         Args:
             in_features (int): number of input features
@@ -81,7 +81,7 @@ class ResNeStBottleneckBlock(ResNetXtBottleNeckBlock):
 
         DropBlock is added after every convolution operation.
 
-        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNeStBlock.JPG?raw=true
+        .. image:: https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/resnet/ResNeStBlock.jpg?raw=true
 
         Args:
             in_features (int): [description]
