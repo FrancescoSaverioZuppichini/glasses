@@ -2,7 +2,7 @@ from __future__ import annotations
 from torch import nn
 from functools import partial
 from ..resnet import ResNet, ResNetBottleneckBlock
-from glasses.utils.weights.PretrainedWeightsProvider import pretrained
+
 
 ReLUInPlace = partial(nn.ReLU, inplace=True)
 
@@ -78,8 +78,7 @@ class ResNetXt(ResNet):
     """
 
     @classmethod
-    @pretrained("resnext50_32x4d")
-    def resnext50_32x4d(cls, *args, **kwargs) -> ResNetXt:
+    def resnext50_32x4d(cls, *args, **kwargs) -> ResNet:
         """Creates a resnext50_32x4d model
 
         Returns:
@@ -88,8 +87,7 @@ class ResNetXt(ResNet):
         return cls.resnet50(*args, block=ResNetXtBottleNeckBlock, **kwargs)
 
     @classmethod
-    @pretrained("resnext101_32x8d")
-    def resnext101_32x8d(cls, *args, **kwargs) -> ResNetXt:
+    def resnext101_32x8d(cls, *args, **kwargs) -> ResNet:
         """Creates a resnext101_32x8d model
 
         Returns:
@@ -100,8 +98,7 @@ class ResNetXt(ResNet):
         )
 
     @classmethod
-    # @pretrained('resnext101_32x16d')
-    def resnext101_32x16d(cls, *args, **kwargs) -> ResNetXt:
+    def resnext101_32x16d(cls, *args, **kwargs) -> ResNet:
         """Creates a resnext101_32x16d model
 
         Returns:
@@ -112,8 +109,7 @@ class ResNetXt(ResNet):
         )
 
     @classmethod
-    # @pretrained('resnext101_32x32d')
-    def resnext101_32x32d(cls, *args, **kwargs) -> ResNetXt:
+    def resnext101_32x32d(cls, *args, **kwargs) -> ResNet:
         """Creates a resnext101_32x32d model
 
         Returns:
@@ -124,8 +120,7 @@ class ResNetXt(ResNet):
         )
 
     @classmethod
-    # @pretrained('resnext101_32x48d')
-    def resnext101_32x48d(cls, *args, **kwargs) -> ResNetXt:
+    def resnext101_32x48d(cls, *args, **kwargs) -> ResNet:
         """Creates a resnext101_32x48d model
 
         Returns:

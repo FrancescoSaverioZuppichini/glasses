@@ -1,3 +1,4 @@
+from __future__ import annotations
 import torch.nn as nn
 from torch import Tensor
 from dataclasses import dataclass, field
@@ -44,7 +45,7 @@ class Tracker:
         if has_not_submodules:
             self.traced.append(m)
 
-    def __call__(self, x: Tensor) -> Tensor:
+    def __call__(self, x: Tensor) -> Tracker:
         for m in self.module.modules():
             self.handles.append(m.register_forward_hook(self._forward_hook))
         self.module(x)

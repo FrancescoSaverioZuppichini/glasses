@@ -39,5 +39,3 @@ def test_resnest():
         # model = ResNetSt.resnest269e().eval()
         # pred = model(x)
         # assert pred.shape[-1] == 1000
- 
-

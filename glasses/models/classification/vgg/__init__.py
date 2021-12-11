@@ -5,7 +5,7 @@ from typing import List
 from functools import partial
 from ..resnet import ReLUInPlace
 from glasses.nn.blocks import ConvAct, ConvBnAct
-from glasses.utils.weights.PretrainedWeightsProvider import pretrained
+
 from ....models.base import Encoder
 from ..base import ClassificationModule
 
@@ -178,7 +178,6 @@ class VGG(ClassificationModule):
                     nn.init.constant_(m.bias, 0)
 
     @classmethod
-    @pretrained()
     def vgg11(cls, *args, **kwargs) -> VGG:
         """Creates a vgg11 model
 
@@ -190,7 +189,6 @@ class VGG(ClassificationModule):
         return VGG(*args, **kwargs)
 
     @classmethod
-    @pretrained()
     def vgg13(cls, *args, **kwargs) -> VGG:
         """Creates a vgg13 model
 
@@ -202,7 +200,6 @@ class VGG(ClassificationModule):
         return VGG(*args, depths=[2, 2, 2, 2, 2], **kwargs)
 
     @classmethod
-    @pretrained()
     def vgg16(cls, *args, **kwargs) -> VGG:
         """Creates a vgg16 model
 
@@ -214,7 +211,6 @@ class VGG(ClassificationModule):
         return VGG(*args, depths=[2, 2, 3, 3, 3], **kwargs)
 
     @classmethod
-    @pretrained()
     def vgg19(cls, *args, **kwargs) -> VGG:
         """Creates a vgg19 model
 
@@ -226,7 +222,6 @@ class VGG(ClassificationModule):
         return VGG(*args, depths=[2, 2, 4, 4, 4], **kwargs)
 
     @classmethod
-    @pretrained()
     def vgg11_bn(cls, *args, **kwargs) -> VGG:
         """Creates a vgg11 model with batchnorm
 
@@ -238,7 +233,6 @@ class VGG(ClassificationModule):
         return VGG(*args, block=ConvBnAct, kernel_size=3, bias=True, **kwargs)
 
     @classmethod
-    @pretrained()
     def vgg13_bn(cls, *args, **kwargs) -> VGG:
         """Creates a vgg13 model with batchnorm
 
@@ -257,7 +251,6 @@ class VGG(ClassificationModule):
         )
 
     @classmethod
-    @pretrained()
     def vgg16_bn(cls, *args, **kwargs) -> VGG:
         """Creates a vgg16 model with batchnorm
 
@@ -276,7 +269,6 @@ class VGG(ClassificationModule):
         )
 
     @classmethod
-    @pretrained()
     def vgg19_bn(cls, *args, **kwargs) -> VGG:
         """Creates a vgg19 model with batchnorm
 

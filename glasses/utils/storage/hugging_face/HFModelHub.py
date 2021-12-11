@@ -13,7 +13,6 @@ from huggingface_hub.constants import CONFIG_NAME, PYTORCH_WEIGHTS_NAME
 from huggingface_hub.file_download import (
     cached_download,
     hf_hub_url,
-    is_torch_available,
 )
 from huggingface_hub.hf_api import HfApi, HfFolder
 from huggingface_hub.repository import Repository
@@ -202,14 +201,13 @@ class HFModelHub:
         token = HfFolder.get_token()
         if repo_url is None:
             repo_url = HfApi().create_repo(
-                token,
                 model_id,
+                token=token,
                 organization=organization,
                 private=private,
                 repo_type=None,
                 exist_ok=True,
             )
-
         repo = Repository(save_directory, clone_from=repo_url, use_auth_token=token)
 
         return repo.push_to_hub(commit_message=commit_message)
