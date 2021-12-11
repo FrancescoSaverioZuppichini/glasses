@@ -1,11 +1,10 @@
 from pathlib import Path
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Set
+from typing import Dict, List, Optional
 from requests.models import Response
 from torch import nn
-from . import HFModelHub
+from .HFModelHub import HFModelHub
 from huggingface_hub import HfApi, Repository
-from huggingface_hub.hf_api import RepoObj
 from ..Storage import Storage
 from glasses.types import StateDict
 from glasses.logger import logger
