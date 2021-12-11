@@ -13,7 +13,6 @@ from huggingface_hub.constants import CONFIG_NAME, PYTORCH_WEIGHTS_NAME
 from huggingface_hub.file_download import (
     cached_download,
     hf_hub_url,
-    is_torch_available,
 )
 from huggingface_hub.hf_api import HfApi, HfFolder
 from huggingface_hub.repository import Repository

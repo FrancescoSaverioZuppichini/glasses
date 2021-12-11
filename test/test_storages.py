@@ -27,7 +27,7 @@ def test_storage_api():
 
 def test_hf_storage():
 
-    key = "resnet18"
+    key = "dummy"
 
     storage = HuggingFaceStorage()
 
