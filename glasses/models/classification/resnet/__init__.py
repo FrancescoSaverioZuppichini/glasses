@@ -5,7 +5,7 @@ from glasses.nn.blocks import Conv2dPad, BnActConv, ConvBnAct
 from collections import OrderedDict
 from typing import List
 from functools import partial
-from glasses.utils.weights.PretrainedWeightsProvider import pretrained
+
 from ....models.base import Encoder
 from ..base import ClassificationModule
 
@@ -530,7 +530,6 @@ class ResNet(ClassificationModule):
                 nn.init.constant_(m.bias, 0)
 
     @classmethod
-    @pretrained()
     def resnet18(cls, *args, block=ResNetBasicBlock, **kwargs) -> ResNet:
         """Creates a resnet18 model
 
@@ -544,7 +543,6 @@ class ResNet(ClassificationModule):
         return model
 
     @classmethod
-    @pretrained()
     def resnet26(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
         """Creates a resnet26 model
 
@@ -562,7 +560,6 @@ class ResNet(ClassificationModule):
         return model
 
     @classmethod
-    @pretrained()
     def resnet26d(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
         """Creates a resnet26d model
 
@@ -581,7 +578,6 @@ class ResNet(ClassificationModule):
         return model
 
     @classmethod
-    @pretrained()
     def resnet34(cls, *args, block=ResNetBasicBlock, **kwargs) -> ResNet:
         """Creates a resnet34 model
 
@@ -593,7 +589,6 @@ class ResNet(ClassificationModule):
         return cls(*args, **kwargs, block=block, depths=[3, 4, 6, 3])
 
     @classmethod
-    @pretrained()
     def resnet34d(cls, *args, block=ResNetBasicBlock, **kwargs) -> ResNet:
         """Creates a resnet34 model
 
@@ -612,7 +607,6 @@ class ResNet(ClassificationModule):
         return model
 
     @classmethod
-    @pretrained()
     def resnet50(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
         """Creates a resnet50 model
 
@@ -630,7 +624,6 @@ class ResNet(ClassificationModule):
         )
 
     @classmethod
-    @pretrained()
     def resnet50d(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
         """Creates a resnet50d model
 
@@ -649,7 +642,6 @@ class ResNet(ClassificationModule):
         )
 
     @classmethod
-    @pretrained()
     def resnet101(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
         """Creates a resnet101 model
 
@@ -667,7 +659,6 @@ class ResNet(ClassificationModule):
         )
 
     @classmethod
-    @pretrained()
     def resnet152(cls, *args, block=ResNetBottleneckBlock, **kwargs) -> ResNet:
         """Creates a resnet152 model
 

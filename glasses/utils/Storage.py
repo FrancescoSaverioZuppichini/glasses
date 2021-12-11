@@ -8,6 +8,7 @@ from collections import OrderedDict
     This is why typing is missing here.
 """
 
+
 class MutipleKeysDict(OrderedDict):
     """
     Allow to get values from multiple keys. Example:

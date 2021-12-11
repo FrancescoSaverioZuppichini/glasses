@@ -30,7 +30,7 @@ class Residual(nn.Module):
     def __init__(
         self,
         block: nn.Module,
-        res_func: Callable[[Tensor], Tensor] = None,
+        res_func: Callable[[Tensor, Tensor], Tensor] = None,
         shortcut: nn.Module = None,
         *args,
         **kwargs
