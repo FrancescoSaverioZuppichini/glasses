@@ -1,10 +1,11 @@
+
 from setuptools import setup, find_packages
 
 with open("./README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="glasses",
+    name="glasses", 
     version="0.0.6",
     author="Francesco Saverio Zuppichini & Francesco Cicala",
     author_email="francesco.zuppichini@gmail.com",
@@ -18,19 +19,5 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    install_requires=[
-        "tqdm",
-        "torchvision",
-        "torch",
-        "requests",
-        "torchinfo",
-        "opencv-python",
-        "matplotlib",
-        "einops",
-        "rich",
-    ],
-    python_requires=">=3.8",
-    extras_require={
-        "dev": ["timm", "pretrainedmodels", "pytest", "sotabencheval", "pandas"]
-    },
+    python_requires='>=3.7',
 )

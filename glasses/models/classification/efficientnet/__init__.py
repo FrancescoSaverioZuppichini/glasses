@@ -7,14 +7,13 @@ from collections import OrderedDict
 from typing import List
 from functools import partial
 from glasses.nn.blocks import ConvBnAct
-from glasses.nn.att import SpatialSE
+from glasses.nn.att import ChannelSE
 from ....models.utils.scaler import CompoundScaler
 from ....models.base import Encoder
 from ..resnet import ResNetLayer
-from torchvision.ops import StochasticDepth
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 from ..base import ClassificationModule
-
-# from glasses.nn import StochasticDepth
+from glasses.nn import StochasticDepth
 
 
 class InvertedResidualBlock(nn.Module):
@@ -73,7 +72,7 @@ class InvertedResidualBlock(nn.Module):
                         **kwargs,
                     ),
                     # apply se after depth-wise
-                    "att": SpatialSE(
+                    "att": ChannelSE(
                         expanded_features,
                         reduced_features=in_features // 4,
                         activation=activation,
@@ -88,7 +87,7 @@ class InvertedResidualBlock(nn.Module):
                             activation=None,
                         )
                     ),
-                    "drop": StochasticDepth(drop_rate, mode="batch")
+                    "drop": StochasticDepth(drop_rate)
                     if self.should_apply_residual and drop_rate > 0
                     else nn.Identity(),
                 }
@@ -351,22 +350,27 @@ class EfficientNet(ClassificationModule):
         )
 
     @classmethod
+    @pretrained()
     def efficientnet_b0(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, "efficientnet_b0", *args, **kwargs)
 
     @classmethod
+    @pretrained()
     def efficientnet_b1(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, "efficientnet_b1", *args, **kwargs)
 
     @classmethod
+    @pretrained()
     def efficientnet_b2(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, "efficientnet_b2", *args, **kwargs)
 
     @classmethod
+    @pretrained()
     def efficientnet_b3(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, "efficientnet_b3", *args, **kwargs)
 
     @classmethod
+    @pretrained()
     def efficientnet_b4(cls, *args, **kwargs) -> EfficientNet:
         return cls.from_config(cls.models_config, "efficientnet_b4", *args, **kwargs)
 

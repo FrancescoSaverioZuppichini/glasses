@@ -137,7 +137,7 @@ ResNet.resnet18(activation = nn.SELU)
 # change number of classes
 ResNet.resnet18(n_classes=100)
 # freeze only the convolution weights
-model = AutoModel.from_pretrained('resnet18')
+model = AutoModel.from_pretrained('resnet18') # or also ResNet.resnet18(pretrained=True) 
 model.freeze(who=model.encoder)
 ```
 
@@ -187,7 +187,7 @@ unet
 
 ```python
 # change the decoder part
-model = AutoModel.from_pretrained('resnet18')
+model = ResNet.resnet18(pretrained=True)
 my_head = nn.Sequential(
     nn.AdaptiveAvgPool2d((1,1)),
     nn.Flatten(),

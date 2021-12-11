@@ -9,6 +9,8 @@ from ..resnet import ReLUInPlace
 from glasses.nn.blocks import Conv2dPad
 from ..base import ClassificationModule
 
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
+
 
 class DenseNetBasicBlock(nn.Module):
     """Basic DenseNet block composed by one 3x3 convs with residual connection.
@@ -285,6 +287,7 @@ class DenseNet(ClassificationModule):
         return x
 
     @classmethod
+    @pretrained()
     def densenet121(cls, *args, **kwargs) -> DenseNet:
         """Creates a densenet121 model. *Grow rate* is set to 32
 
@@ -296,6 +299,7 @@ class DenseNet(ClassificationModule):
         return DenseNet(*args, grow_rate=32, depths=[6, 12, 24, 16], **kwargs)
 
     @classmethod
+    @pretrained()
     def densenet161(cls, *args, **kwargs) -> DenseNet:
         """Creates a densenet161 model. *Grow rate* is set to 48
 
@@ -309,6 +313,7 @@ class DenseNet(ClassificationModule):
         )
 
     @classmethod
+    @pretrained()
     def densenet169(cls, *args, **kwargs) -> DenseNet:
         """Creates a densenet169 model. *Grow rate* is set to 32
 
@@ -320,6 +325,7 @@ class DenseNet(ClassificationModule):
         return DenseNet(*args, grow_rate=32, depths=[6, 12, 32, 32], **kwargs)
 
     @classmethod
+    @pretrained()
     def densenet201(cls, *args, **kwargs) -> DenseNet:
         """Creates a densenet201 model. *Grow rate* is set to 32
 

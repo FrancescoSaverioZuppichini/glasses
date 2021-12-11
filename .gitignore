@@ -1,8 +1,7 @@
 docs/_build/*
 __pycache__/
 .ipynb_checkpoints/
-playground.py
-
+temp.py
 # IDEs
 .vscode/
 .idea/

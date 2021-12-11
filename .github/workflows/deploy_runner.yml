@@ -2,17 +2,17 @@ name: Publish
 on:
   push:
     branches: 
-      - master 
+      - develop 
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: Prepare repo
         uses: actions/checkout@master
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.8'
+          python-version: '3.7'
       - name: Upload
         uses: onichandame/pip-upload-action@master
         with:

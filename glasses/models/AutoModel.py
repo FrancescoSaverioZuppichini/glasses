@@ -1,6 +1,7 @@
 import difflib
-from glasses.utils.storage import HuggingFaceStorage
-from typing import List, Optional, OrderedDict
+import logging
+from typing import List, OrderedDict
+from glasses.utils.weights import PretrainedWeightsProvider
 from torch import nn
 from .classification import *
 from .segmentation import *
@@ -13,8 +14,8 @@ from .classification.resnet import (
 )
 from ..nn.att import ECA, WithAtt
 from functools import partial
-from ..utils.storage import Storage
-from glasses.logger import logger
+
+logger = logging.getLogger(__name__)
 
 
 class AutoModel:
@@ -33,6 +34,8 @@ class AutoModel:
 
     """
 
+    provider = PretrainedWeightsProvider()
+
     zoo = OrderedDict(
         {
             "resnet18": ResNet.resnet18,
@@ -50,6 +53,11 @@ class AutoModel:
             "se_resnet50": SEResNet.se_resnet50,
             "se_resnet101": SEResNet.se_resnet101,
             "se_resnet152": SEResNet.se_resnet152,
+            "cse_resnet18": SEResNet.cse_resnet18,
+            "cse_resnet34": SEResNet.cse_resnet34,
+            "cse_resnet50": SEResNet.cse_resnet50,
+            "cse_resnet101": SEResNet.cse_resnet101,
+            "cse_resnet152": SEResNet.cse_resnet152,
             "eca_resnet18t": partial(
                 ResNet.resnet18,
                 stem=ResNetStemT,
@@ -206,9 +214,7 @@ class AutoModel:
         return model
 
     @staticmethod
-    def from_pretrained(
-        name: str, *args, storage: Storage = HuggingFaceStorage(), **kwargs
-    ) -> nn.Module:
+    def from_pretrained(name: str, *args, **kwargs) -> nn.Module:
         """Instantiates one of the pretrained model classes of the library.
 
         Examples:
@@ -224,10 +230,10 @@ class AutoModel:
         Returns:
             nn.Module: A fully instantiated pretrained model
         """
+        weights = AutoModel.provider[name]
         model = AutoModel.from_name(name, *args, **kwargs)
-        state_dict = storage.get(name)
-        model.load_state_dict(state_dict)
-        logger.info(f"Loaded pretrained weights for {name}")
+        model.load_state_dict(weights)
+        logging.info(f"Loaded pretrained weights for {name}")
         return model
 
     @staticmethod
@@ -240,36 +246,27 @@ class AutoModel:
         return AutoModel.zoo.keys()
 
     @staticmethod
-    def pretrained_models(
-        storage: Optional[Storage] = HuggingFaceStorage(),
-    ) -> List[str]:
+    def pretrained_models() -> List[str]:
         """List the available pretrained models name
-
-        Args:
-            storage (Storage, optional): The storage from which get the pretrained weights. Defaults to HuggingFaceStorage().
 
         Returns:
             List[str]: [description]
         """
-
-        return storage.models
+        return AutoModel.provider.weights_zoo
 
     @staticmethod
-    def models_table(storage: Optional[Storage] = HuggingFaceStorage()) -> Table:
+    def models_table() -> Table:
         """Show a nice formated table with all the models available
 
-        Args:
-            storage (Storage, optional): The storage from which get the pretrained weights. Defaults to HuggingFaceStorage().
-
         Returns:
-            Table: [description]
+            List[str]: [description]
         """
         table = Table(title="Models")
         table.add_column("Name", justify="left", no_wrap=True)
         table.add_column("Pretrained", justify="left", no_wrap=True)
 
         [
-            table.add_row(k, "true" if k in storage.models else "false")
+            table.add_row(k, "true" if k in AutoModel.provider.weights_zoo else "false")
             for k in AutoModel.zoo.keys()
         ]
 

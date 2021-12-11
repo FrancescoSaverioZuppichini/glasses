@@ -1,5 +1,4 @@
-from re import L
-from typing import Any, List
+from typing import Any
 from abc import ABC, abstractmethod
 
 
@@ -12,10 +11,6 @@ class Storage(ABC):
     def get(self, key: str, **kwargs: Any) -> Any:
         pass
 
-    @property
     @abstractmethod
-    def models(self) -> List[str]:
-        pass
-
     def __contains__(self, key: str) -> bool:
-        return key in self.models
+        pass

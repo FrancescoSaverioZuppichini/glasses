@@ -1,5 +1,6 @@
 import torch
 from glasses.models.classification import VGG
+from glasses.utils.weights.PretrainedWeightsProvider import PretrainedWeightsProvider
 
 
 def test_vgg():

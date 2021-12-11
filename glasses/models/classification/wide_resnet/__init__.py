@@ -2,7 +2,7 @@ from __future__ import annotations
 from torch import nn
 from functools import partial
 from ..resnet import ResNet, ResNetBottleneckBlock
-
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 
 ReLUInPlace = partial(nn.ReLU, inplace=True)
 
@@ -72,6 +72,7 @@ class WideResNet(ResNet):
     """
 
     @classmethod
+    @pretrained("wide_resnet50_2")
     def wide_resnet50_2(cls, *args, **kwargs) -> WideResNet:
         """Creates a wide_resnet50_2 model
 
@@ -81,6 +82,7 @@ class WideResNet(ResNet):
         return cls.resnet50(*args, **kwargs, block=WideResNetBottleNeckBlock)
 
     @classmethod
+    @pretrained("wide_resnet101_2")
     def wide_resnet101_2(cls, *args, **kwargs) -> WideResNet:
         """Creates a wide_resnet50_2 model
 

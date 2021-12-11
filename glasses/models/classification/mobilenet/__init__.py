@@ -1,6 +1,7 @@
 from __future__ import annotations
 from torch import nn
 from ..efficientnet import EfficientNet
+from glasses.utils.weights.PretrainedWeightsProvider import pretrained
 
 
 class MobileNet(EfficientNet):

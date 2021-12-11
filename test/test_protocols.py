@@ -7,14 +7,9 @@ from glasses.models.base import Freezable, Interpretable
 def test_Freezable():
     class MyModel(nn.Sequential, Freezable, Interpretable):
         def __init__(self):
-            super().__init__(
-                nn.Conv2d(3, 32, kernel_size=3, bias=False),
-                nn.BatchNorm2d(32),
-                nn.ReLU(),
-                nn.AdaptiveAvgPool2d((1, 1)),
-                nn.Flatten(),
-                nn.Linear(32, 10),
-            )
+            super().__init__(nn.Conv2d(3, 32, kernel_size=3, bias=False), nn.BatchNorm2d(32), nn.ReLU(),
+                             nn.AdaptiveAvgPool2d((1, 1)),
+                             nn.Flatten(), nn.Linear(32, 10))
 
     model = MyModel()
 
