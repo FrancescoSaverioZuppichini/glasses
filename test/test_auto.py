@@ -1,3 +1,4 @@
+from types import new_class
 import pytest
 from glasses.models import AutoTransform, AutoModel, ResNet
 from glasses.models.AutoTransform import Transform
@@ -40,6 +41,12 @@ def test_AutoModel():
     assert len(list(AutoModel.models_table().columns[0].cells)) > 0
 
     assert type(AutoModel.from_name("resnet18").summary()) == ModelStatistics
+
+def test_AutoModel_from_pretrained(caplog):
+    AutoModel.from_pretrained('resnet18')
+    AutoModel.from_pretrained('resnet18', n_classes=2)
+
+    assert "Error(s) in loading state_dict for ResNet:" in caplog.records[1].msg
 
 
 def test_AutoTransform():

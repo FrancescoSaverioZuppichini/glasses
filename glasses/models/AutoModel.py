@@ -214,6 +214,8 @@ class AutoModel:
         Examples:
             >>> AutoModel.pretrained_models() # odict_keys(['resnet18', 'resnet26', .... ])
             >>> AutoModel.from_pretrained('resnet18')
+            >>> # load parameters only when they match
+            >>> AutoModel.from_pretrained('resnet18', n_classes=2)
 
         Args:
             name (str): Name of the model, e.g. 'resnet18'
@@ -226,7 +228,10 @@ class AutoModel:
         """
         model = AutoModel.from_name(name, *args, **kwargs)
         state_dict = storage.get(name)
-        model.load_state_dict(state_dict)
+        try:
+            model.load_state_dict(state_dict)
+        except RuntimeError as e:
+            logger.warning(str(e))
         logger.info(f"Loaded pretrained weights for {name}")
         return model
 
