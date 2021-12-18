@@ -1,7 +1,4 @@
-```python
-%load_ext autoreload
-%autoreload 2
-```
+🔥🔥**Guys I have a couple of problems with the pretrained weights, some of them needs to be updated, I will try to fix it asap**🔥🔥
 
 # Glasses 😎
 
@@ -16,7 +13,7 @@ deep learning computer vision library
 
 Doc is [here](https://francescosaveriozuppichini.github.io/glasses/index.html)
 
-## TL;TR
+## TL;DR
 
 This library has
 
