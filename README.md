@@ -1,5 +1,3 @@
-🔥🔥**Guys I have a couple of problems with the pretrained weights, some of them needs to be updated, I will try to fix it asap**🔥🔥
-
 # Glasses 😎
 
 ![alt](https://github.com/FrancescoSaverioZuppichini/glasses/blob/develop/docs/_static/images/background.png?raw=true)
