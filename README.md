@@ -24,7 +24,7 @@ This library has
 
 Stuff implemented so far:
 
-- [Training data-efficient image transformers & distillation through attention](https://arxiv.org/pdf/2010.11929.pdf)
+- [Training data-efficient image transformers & distillation through attention](https://arxiv.org/pdf/2012.12877.pdf)
 - [Vision Transformer -  An Image Is Worth 16x16 Words: Transformers For Image Recognition At Scale](https://arxiv.org/pdf/2010.11929.pdf)
 - [ResNeSt: Split-Attention Networks](https://arxiv.org/abs/2004.08955) 
 - [AlexNet-  ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf)
