@@ -1,3 +1,4 @@
+from typing import Tuple
 import torch
 import torch.nn.functional as F
 from torch import nn
@@ -23,7 +24,7 @@ class DropBlock(nn.Module):
             decreasing `keep_prob` over time from 1 to the target value is more robust and adds improvement for
             the most values of `keep_prob`. In our experiments, we use a linear scheme of decreasing the value of
             `keep_prob`, which tends to work well across many hyperparameter settings. This linear scheme is
-            similar to ScheduledDropPath.
+            similar to ScheduledStochasticDepth.
 
             `keep_prob` is `p` in our implementation.
 
@@ -69,8 +70,22 @@ class DropBlock(nn.Module):
         return f"{self.__class__.__name__}(p={self.p})"
 
 
-class StochasticDepth(nn.Module):
-    """Implementation of Stochastic Depth proposed in `Deep Networks with Stochastic Depth <https://arxiv.org/abs/1603.09382>`_.
+def drop_path(x: Tensor, keep_prob: float = 1.0, inplace: bool = False) -> Tensor:
+    mask_shape: Tuple[int] = (x.shape[0],) + (1,) * (x.ndim - 1)
+    # remember tuples have the * operator -> (1,) * 3 = (1,1,1)
+    mask: Tensor = x.new_empty(mask_shape).bernoulli_(keep_prob)
+    # we divide to scale the input activations
+    # https://wandb.ai/wandb_fc/pytorch-image-models/reports/Revisiting-ResNets-Improved-Training-and-Scaling-Strategies--Vmlldzo2NDE3NTM
+    mask.div_(keep_prob)
+    if inplace:
+        x.mul_(mask)
+    else:
+        x = x * mask
+    return x
+
+
+class DropPath(nn.Module):
+    """Implementation of Drop Path / Stochastic Depth proposed in `Deep Networks with Stochastic Depth <https://arxiv.org/abs/1603.09382>`_.
 
     The main idea is to skip one layer completely.
 
@@ -79,17 +94,17 @@ class StochasticDepth(nn.Module):
 
     """
 
-    def __init__(self, p: float = 0.5):
+    def __init__(self, p: float = 0.5, inplace: bool = False):
         super().__init__()
         self.p = p
+        self.inplace = inplace
 
     def forward(self, x: Tensor) -> Tensor:
         if self.training and self.p > 0:
-            probs = torch.rand(x.shape[0], 1, 1, 1, device=x.device) < self.p
-            # we divide to scale the input activations
-            # https://wandb.ai/wandb_fc/pytorch-image-models/reports/Revisiting-ResNets-Improved-Training-and-Scaling-Strategies--Vmlldzo2NDE3NTM
-            x = x.div_(self.p).mul_(probs)
+            x = drop_path(x, self.p, self.inplace)
         return x
 
     def __repr__(self):
         return f"{self.__class__.__name__}(p={self.p})"
+
+
