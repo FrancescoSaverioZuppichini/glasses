@@ -1,5 +1,5 @@
 import torch
-from glasses.nn.regularization import DropBlock, StochasticDepth
+from glasses.nn.regularization import DropBlock, DropPath
 
 
 def test_drop_block():
@@ -18,16 +18,16 @@ def test_drop_block():
     assert drop.__repr__() == "DropBlock(p=0.5)"
 
 
-def test_stocastic_depth():
-    stoc = StochasticDepth()
-    assert stoc.__repr__() == "StochasticDepth(p=0.5)"
+def test_drop_path():
+    stoc = DropPath()
+    assert stoc.__repr__() == "DropPath(p=0.5)"
 
     x = torch.ones((2, 3, 28, 28))
-    stoc = StochasticDepth(p=1)
+    stoc = DropPath(p=1)
     out = stoc(x)
 
     assert out.sum() > 0
 
-    stoc = StochasticDepth(p=10e-6)
+    stoc = DropPath(p=10e-6)
     out = stoc(x)
     assert out.sum() == 0
