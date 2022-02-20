@@ -44,7 +44,7 @@ class InvertedResidualBlock(nn.Module):
         drop_rate: float = 0.2,
         se: bool = True,
         kernel_size: int = 3,
-        **kwargs
+        **kwargs,
     ):
         super().__init__()
 
@@ -138,7 +138,7 @@ class EfficientNetEncoder(Encoder):
         drop_rate: float = 0.2,
         stem: nn.Module = EfficientNetStem,
         activation: nn.Module = partial(nn.SiLU, inplace=True),
-        **kwargs
+        **kwargs,
     ):
         super().__init__()
 
@@ -314,7 +314,7 @@ class EfficientNet(ClassificationModule):
         encoder: nn.Module = EfficientNetEncoder,
         head: nn.Module = EfficientNetHead,
         *args,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             encoder, partial(head, drop_rate=kwargs["drop_rate"]), *args, **kwargs

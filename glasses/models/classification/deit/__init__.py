@@ -69,7 +69,7 @@ class DeiT(ViT):
         *args,
         head: nn.Module = DeiTClassificationHead,
         tokens: nn.Module = DeiTTokens,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(*args, head=head, tokens=tokens, **kwargs)
 
@@ -105,6 +105,6 @@ class DeiT(ViT):
             depth=12,
             num_heads=12,
             qkv_bias=True,
-            **kwargs
+            **kwargs,
         )
         return model

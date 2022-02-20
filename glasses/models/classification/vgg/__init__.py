@@ -34,7 +34,7 @@ class VGGLayer(nn.Sequential):
         block: nn.Module = VGGBasicBlock,
         pool: nn.Module = nn.MaxPool2d,
         depth: int = 1,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             block(in_features, out_features, **kwargs),
@@ -60,7 +60,7 @@ class VGGEncoder(Encoder):
         widths: List[int] = [64, 128, 256, 512, 512],
         depths: List[int] = [1, 1, 2, 2, 2],
         block: nn.Module = VGGBasicBlock,
-        **kwargs
+        **kwargs,
     ):
 
         super().__init__()

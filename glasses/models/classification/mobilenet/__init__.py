@@ -29,5 +29,5 @@ class MobileNet(EfficientNet):
             drop_rate=0,
             activation=nn.ReLU6,
             *args,
-            **kwargs
+            **kwargs,
         )

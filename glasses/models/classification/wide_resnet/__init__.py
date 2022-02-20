@@ -21,7 +21,7 @@ class WideResNetBottleNeckBlock(ResNetBottleneckBlock):
         out_features: int,
         width_factor: int = 2,
         reduction: int = 4,
-        **kwargs
+        **kwargs,
     ):
         features = int(out_features * width_factor // reduction)
 

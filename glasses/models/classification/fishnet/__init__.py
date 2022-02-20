@@ -65,7 +65,7 @@ class FishNetBodyBlock(nn.Module):
         depth: int = 1,
         trans_depth: int = 1,
         *args,
-        **kwargs
+        **kwargs,
     ):
         super().__init__()
 
@@ -79,13 +79,13 @@ class FishNetBodyBlock(nn.Module):
                 out_features,
                 shortcut=FishNetChannelReductionShortcut,
                 *args,
-                **kwargs
+                **kwargs,
             ),
             *[
                 block(out_features, out_features, *args, **kwargs)
                 for _ in range(depth - 1)
             ],
-            nn.Upsample(scale_factor=2)
+            nn.Upsample(scale_factor=2),
         )
 
     def forward(self, x: Tensor, res: Tensor) -> Tensor:
@@ -115,7 +115,7 @@ class FishNetHeadBlock(FishNetBodyBlock):
         block: nn.Module = FishNetBottleNeck,
         depth: int = 1,
         trans_depth: int = 1,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             in_features,
@@ -124,13 +124,13 @@ class FishNetHeadBlock(FishNetBodyBlock):
             block,
             depth,
             trans_depth,
-            **kwargs
+            **kwargs,
         )
 
         self.block = nn.Sequential(
             block(in_features, out_features, shortcut=ResNetShorcut, **kwargs),
             *[block(out_features, out_features, **kwargs) for _ in range(depth - 1)],
-            nn.MaxPool2d(kernel_size=2, stride=2)
+            nn.MaxPool2d(kernel_size=2, stride=2),
         )
 
 
@@ -170,7 +170,7 @@ class FishNetBrigde(nn.Module):
             *[
                 FishNetBottleNeck(out_features, out_features, activation=activation)
                 for _ in range(depth - 1)
-            ]
+            ],
         )
         # very wrong SE implementation and application -> I have contacted the authors and he confirmed they got it wrong.
         self.att = nn.Sequential(
@@ -208,12 +208,12 @@ class FishNetTail(nn.Sequential):
         depth: int = 1,
         block: nn.Module = FishNetBottleNeck,
         *args,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             block(in_features, out_features, **kwargs),
             *[block(out_features, out_features, **kwargs) for _ in range(depth - 1)],
-            nn.MaxPool2d(kernel_size=2, stride=2)
+            nn.MaxPool2d(kernel_size=2, stride=2),
         )
 
 
@@ -251,7 +251,7 @@ class FishNetEncoder(nn.Module):
         block: nn.Module = FishNetBottleNeck,
         stem: nn.Module = ResNetStemC,
         activation: nn.Module = ReLUInPlace,
-        **kwargs
+        **kwargs,
     ):
         super().__init__()
 
@@ -269,7 +269,7 @@ class FishNetEncoder(nn.Module):
                     depth=depth,
                     block=block,
                     activation=activation,
-                    **kwargs
+                    **kwargs,
                 )
                 for (in_features, out_features), depth in zip(
                     self.tail_widths, tail_depths
@@ -301,8 +301,8 @@ class FishNetEncoder(nn.Module):
                     trans_depth=trans_depth,
                     block=block,
                     activation=activation,
-                    dilation=2 ** i,
-                    padding=2 ** i,
+                    dilation=2**i,
+                    padding=2**i,
                 )
             )
 
@@ -444,7 +444,7 @@ class FishNet(ClassificationModule):
         encoder: nn.Module = FishNetEncoder,
         head: nn.Module = FishNetHead,
         *args,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(encoder, head, *args, **kwargs)
 
@@ -483,7 +483,7 @@ class FishNet(ClassificationModule):
             body_trans_depths=body_trans_depths,
             head_depths=head_depths,
             head_trans_depths=head_trans_depths,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -513,5 +513,5 @@ class FishNet(ClassificationModule):
             body_trans_depths=body_trans_depths,
             head_depths=head_depths,
             head_trans_depths=head_trans_depths,
-            **kwargs
+            **kwargs,
         )

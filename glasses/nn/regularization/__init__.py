@@ -48,7 +48,7 @@ class DropBlock(nn.Module):
         return (
             self.p
             * x.shape[-1] ** 2
-            / (self.block_size ** 2 * (x.shape[-1] - self.block_size + 1) ** 2)
+            / (self.block_size**2 * (x.shape[-1] - self.block_size + 1) ** 2)
         )
 
     def forward(self, x: Tensor) -> Tensor:
@@ -106,5 +106,3 @@ class DropPath(nn.Module):
 
     def __repr__(self):
         return f"{self.__class__.__name__}(p={self.p})"
-
-

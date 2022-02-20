@@ -72,7 +72,7 @@ class ResNeStBottleneckBlock(ResNetXtBottleNeckBlock):
         reduction: int = 4,
         activation: nn.Module = ReLUInPlace,
         drop_block_p: float = 0,
-        **kwargs
+        **kwargs,
     ):
         """Implementation of ResNeSt Bottleneck Block proposed in proposed in `"ResNeSt: Split-Attention Networks" <https://arxiv.org/abs/2004.08955>`_.
         It subclasses `ResNetXtBottleNeckBlock` to use the inner features calculation based on the reduction and groups widths.
@@ -100,7 +100,7 @@ class ResNeStBottleneckBlock(ResNetXtBottleNeckBlock):
             activation=activation,
             stride=stride,
             groups=groups,
-            **kwargs
+            **kwargs,
         )
         att_features = max(self.features * radix // reduction, 32)
         pool = (
@@ -149,7 +149,7 @@ class ResNeStEncoder(ResNetEncoder):
         block: nn.Module = ResNeStBottleneckBlock,
         downsample_first: bool = False,
         drop_block_p: float = 0.2,
-        **kwargs
+        **kwargs,
     ):
 
         super().__init__(
@@ -161,7 +161,7 @@ class ResNeStEncoder(ResNetEncoder):
             activation=activation,
             block=block,
             downsample_first=downsample_first,
-            **kwargs
+            **kwargs,
         )
 
         self.layers = nn.ModuleList(
@@ -173,7 +173,7 @@ class ResNeStEncoder(ResNetEncoder):
                     activation=activation,
                     block=block,
                     stride=2 if downsample_first else 1,
-                    **kwargs
+                    **kwargs,
                 ),
                 *[
                     ResNetLayer(
@@ -184,7 +184,7 @@ class ResNeStEncoder(ResNetEncoder):
                         block=block,
                         # add drop block in the last two stages
                         drop_block_p=0 if i < 1 else drop_block_p,
-                        **kwargs
+                        **kwargs,
                     )
                     for i, ((in_features, out_features), n) in enumerate(
                         zip(self.in_out_widths, depths[1:])
@@ -252,7 +252,7 @@ class ResNeSt(ResNet):
             widths=[256, 512, 1024, 2048],
             depths=[1, 1, 1, 1],
             base_width=64,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -281,7 +281,7 @@ class ResNeSt(ResNet):
             radix=1,
             groups=4,
             base_width=24,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -292,7 +292,7 @@ class ResNeSt(ResNet):
             radix=4,
             groups=2,
             base_width=40,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -303,7 +303,7 @@ class ResNeSt(ResNet):
             start_features=128,
             block=ResNeStBottleneckBlock,
             base_width=64,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -314,7 +314,7 @@ class ResNeSt(ResNet):
             start_features=128,
             block=ResNeStBottleneckBlock,
             base_width=64,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -326,5 +326,5 @@ class ResNeSt(ResNet):
             block=ResNeStBottleneckBlock,
             depths=[3, 30, 48, 8],
             base_width=64,
-            **kwargs
+            **kwargs,
         )
