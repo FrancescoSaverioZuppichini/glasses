@@ -29,7 +29,7 @@ class DenseNetBasicBlock(nn.Module):
         out_features: int,
         activation: nn.Module = ReLUInPlace,
         *args,
-        **kwargs
+        **kwargs,
     ):
         super().__init__()
         self.block = nn.Sequential(
@@ -72,7 +72,7 @@ class DenseBottleNeckBlock(DenseNetBasicBlock):
         out_features: int,
         activation: nn.Module = ReLUInPlace,
         expansion: int = 4,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(in_features, out_features, activation, **kwargs)
         self.expansion = expansion
@@ -88,7 +88,7 @@ class DenseBottleNeckBlock(DenseNetBasicBlock):
                         self.expanded_features,
                         kernel_size=1,
                         bias=False,
-                        **kwargs
+                        **kwargs,
                     ),
                     "bn2": nn.BatchNorm2d(self.expanded_features),
                     "act2": activation(),
@@ -97,7 +97,7 @@ class DenseBottleNeckBlock(DenseNetBasicBlock):
                         out_features,
                         kernel_size=3,
                         bias=False,
-                        **kwargs
+                        **kwargs,
                     ),
                 }
             )
@@ -154,7 +154,7 @@ class DenseNetLayer(nn.Sequential):
         block: nn.Module = DenseBottleNeckBlock,
         transition_block: nn.Module = TransitionBlock,
         *args,
-        **kwargs
+        **kwargs,
     ):
         self.out_features = grow_rate * n + in_features
         super().__init__(
@@ -166,7 +166,7 @@ class DenseNetLayer(nn.Sequential):
             # reduce the output features by a factor of 2
             transition_block(self.out_features, *args, **kwargs)
             if transition_block
-            else nn.Identity()
+            else nn.Identity(),
         )
 
 
@@ -191,7 +191,7 @@ class DenseNetEncoder(ResNetEncoder):
         activation: nn.Module = ReLUInPlace,
         block: nn.Module = DenseBottleNeckBlock,
         *args,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(in_channels)
         self.layers = nn.ModuleList([])
@@ -223,7 +223,7 @@ class DenseNetEncoder(ResNetEncoder):
                 transition_block=lambda x: nn.Sequential(
                     nn.BatchNorm2d(self.widths[-1]), activation()
                 ),
-                **kwargs
+                **kwargs,
             )
         )
 
@@ -275,7 +275,7 @@ class DenseNet(ClassificationModule):
         encoder: nn.Module = DenseNetEncoder,
         head: nn.Module = ResNetHead,
         *args,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(encoder, head, *args, **kwargs)
 

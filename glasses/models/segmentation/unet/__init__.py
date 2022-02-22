@@ -18,7 +18,7 @@ class UNetBasicBlock(nn.Sequential):
         out_features: int,
         activation: nn.Module = partial(nn.ReLU, inplace=True),
         *args,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             ConvBnAct(
@@ -27,7 +27,7 @@ class UNetBasicBlock(nn.Sequential):
                 kernel_size=3,
                 activation=activation,
                 *args,
-                **kwargs
+                **kwargs,
             ),
             ConvBnAct(
                 out_features,
@@ -35,7 +35,7 @@ class UNetBasicBlock(nn.Sequential):
                 kernel_size=3,
                 activation=activation,
                 *args,
-                **kwargs
+                **kwargs,
             ),
         )
 
@@ -62,7 +62,7 @@ class DownLayer(nn.Module):
         donwsample: bool = True,
         block: nn.Module = DownBlock,
         *args,
-        **kwargs
+        **kwargs,
     ):
         super().__init__()
 
@@ -93,7 +93,7 @@ class UpLayer(nn.Module):
         lateral_features: int = None,
         block: nn.Module = UpBlock,
         *args,
-        **kwargs
+        **kwargs,
     ):
         super().__init__()
         lateral_features = (
@@ -122,7 +122,7 @@ class UNetEncoder(Encoder):
         in_channels: int,
         widths: List[int] = [64, 128, 256, 512, 1024],
         *args,
-        **kwargs
+        **kwargs,
     ):
         super().__init__()
         self.in_out_widths = list(zip(widths, widths[1:]))
@@ -157,7 +157,7 @@ class UNetDecoder(nn.Module):
         widths: List[int] = [256, 128, 64, 32],
         lateral_widths: List[int] = None,
         *args,
-        **kwargs
+        **kwargs,
     ):
         super().__init__()
         widths = [start_features, *widths]
@@ -223,7 +223,7 @@ class UNet(SegmentationModule):
         n_classes: int = 2,
         encoder: Encoder = UNetEncoder,
         decoder: nn.Module = UNetDecoder,
-        **kwargs
+        **kwargs,
     ):
 
         super().__init__(in_channels, n_classes, encoder, decoder, **kwargs)

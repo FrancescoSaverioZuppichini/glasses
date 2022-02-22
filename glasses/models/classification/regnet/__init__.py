@@ -61,7 +61,7 @@ class RegNetXBotteneckBlock(ResNetBottleneckBlock):
             out_features,
             reduction=1,
             groups=out_features // groups_width,
-            **kwargs
+            **kwargs,
         )
 
 
@@ -291,7 +291,7 @@ class RegNet(ResNet):
             widths=widths,
             block=RegNetYBotteneckBlock,
             groups_width=groups_width,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -303,7 +303,7 @@ class RegNet(ResNet):
             widths=widths,
             block=RegNetYBotteneckBlock,
             groups_width=groups_width,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -315,7 +315,7 @@ class RegNet(ResNet):
             widths=widths,
             block=RegNetYBotteneckBlock,
             groups_width=groups_width,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -327,7 +327,7 @@ class RegNet(ResNet):
             widths=widths,
             block=RegNetYBotteneckBlock,
             groups_width=groups_width,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -339,7 +339,7 @@ class RegNet(ResNet):
             widths=widths,
             block=RegNetYBotteneckBlock,
             groups_width=groups_width,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -351,7 +351,7 @@ class RegNet(ResNet):
             widths=widths,
             block=RegNetYBotteneckBlock,
             groups_width=groups_width,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -363,7 +363,7 @@ class RegNet(ResNet):
             widths=widths,
             block=RegNetYBotteneckBlock,
             groups_width=groups_width,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -375,7 +375,7 @@ class RegNet(ResNet):
             widths=widths,
             block=RegNetYBotteneckBlock,
             groups_width=groups_width,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -387,7 +387,7 @@ class RegNet(ResNet):
             widths=widths,
             block=RegNetYBotteneckBlock,
             groups_width=groups_width,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -399,7 +399,7 @@ class RegNet(ResNet):
             widths=widths,
             block=RegNetYBotteneckBlock,
             groups_width=groups_width,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -411,7 +411,7 @@ class RegNet(ResNet):
             widths=widths,
             block=RegNetYBotteneckBlock,
             groups_width=groups_width,
-            **kwargs
+            **kwargs,
         )
 
     @classmethod
@@ -423,5 +423,5 @@ class RegNet(ResNet):
             widths=widths,
             block=RegNetYBotteneckBlock,
             groups_width=groups_width,
-            **kwargs
+            **kwargs,
         )

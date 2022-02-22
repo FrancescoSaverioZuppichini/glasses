@@ -49,6 +49,13 @@ def test_AutoModel_from_pretrained(caplog):
     assert "Error(s) in loading state_dict for ResNet:" in caplog.records[1].msg
 
 
+def test_AutoModel_from_pretrained(caplog):
+    AutoModel.from_pretrained("resnet18")
+    AutoModel.from_pretrained("resnet18", n_classes=2)
+
+    assert "Error(s) in loading state_dict for ResNet:" in caplog.records[1].msg
+
+
 def test_AutoTransform():
     cfg = AutoTransform.from_name("resnet18")
     assert isinstance(cfg, Transform)

@@ -15,7 +15,7 @@ class ResNetXtBottleNeckBlock(ResNetBottleneckBlock):
         groups: int = 32,
         base_width: int = 4,
         reduction: int = 4,
-        **kwargs
+        **kwargs,
     ):
         """Basic ResNetXt block build on top of ResNetBottleneckBlock.
         It uses `base_width` to compute the inner features of the 3x3 conv.
@@ -33,7 +33,7 @@ class ResNetXtBottleNeckBlock(ResNetBottleneckBlock):
             features=self.features,
             groups=groups,
             reduction=reduction,
-            **kwargs
+            **kwargs,
         )
 
 
