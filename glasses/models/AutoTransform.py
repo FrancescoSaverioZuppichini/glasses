@@ -1,9 +1,10 @@
 import torch
 import torchvision.transforms as T
-from glasses.models import *
 from typing import Tuple, List, Callable
 from torchvision.transforms import InterpolationMode
 from functools import partial
+
+# from glasses.models import *
 
 IMAGENET_DEFAULT_MEAN = torch.Tensor([0.485, 0.456, 0.406])
 IMAGENET_DEFAULT_STD = torch.Tensor([0.229, 0.224, 0.225])
@@ -22,8 +23,10 @@ class Transform(T.Compose):
         std: Tuple[float],
         mean: Tuple[float],
         interpolation: str = "bilinear",
-        transforms: List[Callable] = list(),
+        transforms: List[Callable] = None,
     ):
+        if transforms is None:
+            transforms = []
         self.input_size: int = input_size
         base_transforms = [
             T.Resize(resize, Transform.interpolations[interpolation]),
@@ -53,9 +56,6 @@ class AutoTransform:
         "resnet26": ImageNetTransform(interpolation="bicubic"),
         "resnet26d": ImageNetTransform(interpolation="bicubic"),
         "resnet50d": ImageNetTransform(interpolation="bicubic"),
-        "eca_resnet26t": ImageNetTransform(
-            resize=320, input_size=320, interpolation="bicubic"
-        ),
         "eca_resnet26t": ImageNetTransform(
             resize=320, input_size=320, interpolation="bicubic"
         ),

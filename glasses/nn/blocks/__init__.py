@@ -1,25 +1,24 @@
-import torch.nn as nn
 import math
-from functools import partial
 from typing import Callable, Tuple, Optional
-from torch import Tensor
+from functools import partial
+from torch import nn, Tensor
 from torch.nn import functional as F
 from torchvision.ops import StochasticDepth
 
-from glasses.nn import regularization
-
 
 class Lambda(nn.Module):
+    """An utility Module, it allows custom function to be passed
+
+    Args:
+        lambd (Callable[Tensor]): A function that does something on a tensor
+
+    Examples:
+        >>> add_two = Lambda(lambd x: x + 2)
+        >>> add_two(Tensor([0])) // 2
+    """
+
     def __init__(self, lambd: Callable[[Tensor], Tensor]):
-        """An utility Module, it allows custom function to be passed
 
-        Args:
-            lambd (Callable[Tensor]): A function that does something on a tensor
-
-        Examples:
-            >>> add_two = Lambda(lambd x: x + 2)
-            >>> add_two(Tensor([0])) // 2
-        """
         super().__init__()
         self.lambd = lambd
 

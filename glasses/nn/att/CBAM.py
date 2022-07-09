@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torch import Tensor
-from einops.layers.torch import Rearrange, Reduce
+from einops.layers.torch import Reduce
 
 
 class CBAMChannelAtt(nn.Module):
