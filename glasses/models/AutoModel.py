@@ -2,8 +2,23 @@ import difflib
 from glasses.utils.storage import HuggingFaceStorage
 from typing import List, Optional, OrderedDict
 from torch import nn
-from .classification import *
-from .segmentation import *
+
+from .classification import (
+    ResNetXt,
+    WideResNet,
+    DenseNet,
+    SEResNet,
+    RegNet,
+    ResNeSt,
+    VGG,
+    MobileNet,
+    EfficientNet,
+    EfficientNetLite,
+    FishNet,
+    ViT,
+    DeiT,
+)
+from .segmentation import UNet
 from rich.table import Table
 from .classification.resnet import (
     ResNet,
@@ -273,9 +288,7 @@ class AutoModel:
         table.add_column("Name", justify="left", no_wrap=True)
         table.add_column("Pretrained", justify="left", no_wrap=True)
 
-        [
+        for k in AutoModel.zoo.keys():
             table.add_row(k, "true" if k in storage.models else "false")
-            for k in AutoModel.zoo.keys()
-        ]
 
         return table

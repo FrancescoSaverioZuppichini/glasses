@@ -24,9 +24,12 @@ class SpatialPyramidPool(nn.Module):
     """
 
     def __init__(
-        self, num_pools: List[int] = [1, 4, 16], pool: nn.Module = nn.AdaptiveMaxPool2d
+        self, num_pools: List[int] = None, pool: nn.Module = nn.AdaptiveMaxPool2d
     ):
         super().__init__()
+
+        if num_pools is None:
+            num_pools = [1, 4, 16]
 
         self.pools = nn.ModuleList([])
         for p in num_pools:

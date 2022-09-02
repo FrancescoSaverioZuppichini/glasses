@@ -28,6 +28,7 @@ setup(
         "matplotlib",
         "einops",
         "rich",
+        "huggingface-hub",
     ],
     python_requires=">=3.8",
     extras_require={
